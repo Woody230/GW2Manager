@@ -3,6 +3,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { setUrl("https://jitpack.io") }
+
+        // TODO temporary
+        mavenLocal()
     }
 }
 rootProject.name = "GW2Manager"

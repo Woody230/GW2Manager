@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager
+package com.bselzer.gw2.manager.ui.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

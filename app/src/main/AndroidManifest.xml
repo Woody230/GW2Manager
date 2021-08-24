@@ -3,6 +3,7 @@
     package="com.bselzer.gw2.manager">
 
     <application
+        android:name=".ui.activity.AppInitializer"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GW2Manager">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.GW2Manager.NoActionBar">

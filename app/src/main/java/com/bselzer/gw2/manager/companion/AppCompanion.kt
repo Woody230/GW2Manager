@@ -5,8 +5,16 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import coil.ImageLoader
 import com.bselzer.gw2.manager.BuildConfig
-import com.bselzer.gw2.manager.companion.PreferenceCompanion.DEFAULT_PREFERENCES
+import com.bselzer.gw2.manager.companion.PreferenceCompanion.API_KEY
+import com.bselzer.gw2.manager.companion.PreferenceCompanion.DATASTORE
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 object AppCompanion
@@ -23,16 +31,21 @@ object AppCompanion
     /**
      * Initialize objects that rely on the application being created.
      */
-    fun initialize(application: Application)
-    {
+    fun initialize(application: Application) {
         APPLICATION = application
 
-        PREF = application.DEFAULT_PREFERENCES
+        DATASTORE = application.DATASTORE
 
         // TODO custom disk cache? https://coil-kt.github.io/coil/image_loaders/#caching
         IMAGE_LOADER = ImageLoader.Builder(application).build()
 
-        GW2 = Gw2Client()
+        CoroutineScope(Dispatchers.IO).launch {
+            // Keep the token in the client updated as it is changed using a StateFlow.
+            DATASTORE.data.stateIn(this).map { pref -> pref[API_KEY] }.filter { key -> !key.isNullOrBlank() }.collect { key ->
+                GW2 = GW2.config { copy(token = key) }
+                Timber.d("Set client token to $key")
+            }
+        }
     }
 
     /**
@@ -43,7 +56,7 @@ object AppCompanion
     /**
      * The common preferences.
      */
-    lateinit var PREF: DataStore<Preferences>
+    lateinit var DATASTORE: DataStore<Preferences>
 
     /**
      * The image loader.
@@ -53,5 +66,5 @@ object AppCompanion
     /**
      * The GW2 API wrapper.
      */
-    lateinit var GW2: Gw2Client
+    var GW2: Gw2Client = Gw2Client()
 }

@@ -9,6 +9,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,12 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.datastore.preferences.core.edit
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.PreferenceCompanion.BUILD_NUMBER
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.kotlin.extension.function.core.hasInternet
+import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -84,30 +86,43 @@ class MainActivity : ComponentActivity()
 
     @Composable
     private fun MainMenu() = Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .clickable { startActivity(Intent(this@MainActivity, SettingsActivity::class.java)) },
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.gw2_ice),
-                contentDescription = null,
-                modifier = Modifier.size(150.dp, 75.dp),
-                contentScale = ContentScale.FillBounds
-            )
-            Text(
-                text = "Settings",
-                color = Color.Black,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.wrapContentSize()
-            )
+        MenuButton(name = stringResource(id = R.string.activity_wvw)) {
+            startActivity(Intent(this@MainActivity, WvwActivity::class.java))
         }
+        Spacer(Modifier.size(20.dp))
+        MenuButton(name = stringResource(id = R.string.activity_settings)) {
+            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+        }
+    }
+
+    @Composable
+    private fun MenuButton(name: String, onClick: () -> Unit) = Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .wrapContentSize()
+            .clickable(onClick = onClick)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.gw2_ice),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(75.dp),
+            contentScale = ContentScale.FillBounds
+        )
+        Text(
+            text = name,
+            color = Color.Black,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.wrapContentSize()
+        )
     }
 
     @Composable
@@ -159,9 +174,7 @@ class MainActivity : ComponentActivity()
                 }
 
                 val id = AppCompanion.GW2.build.buildId()
-                AppCompanion.PREF.edit { pref ->
-                    pref[BUILD_NUMBER] = id
-                }
+                AppCompanion.DATASTORE.update(BUILD_NUMBER, id, this)
             }.invokeOnCompletion { setDownloading(false) }
         }
     }

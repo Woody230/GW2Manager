@@ -27,7 +27,10 @@ import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.PreferenceCompanion.API_KEY
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.model.extension.token.ApiKey
-import com.bselzer.library.kotlin.extension.preference.rememberNullString
+import com.bselzer.library.kotlin.extension.preference.clear
+import com.bselzer.library.kotlin.extension.preference.safeLatest
+import com.bselzer.library.kotlin.extension.preference.update
+import kotlinx.coroutines.Dispatchers
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,11 +87,14 @@ class SettingsActivity : AppCompatActivity() {
             )
             Spacer(modifier = Modifier.size(10.dp))
 
-            var keyText by remember { mutableStateOf("") }
-            var apiKey by AppCompanion.PREF.rememberNullString(key = API_KEY.name)
+            // When the api key exists it must be valid so set it as the initial value.
+            val initialKey = AppCompanion.DATASTORE.safeLatest(API_KEY)
+            var keyText by remember { mutableStateOf(initialKey) }
+            val saveScope = rememberCoroutineScope { Dispatchers.IO }
 
             TextField(
                 label = { TitleText(text = "API Key") },
+                value = keyText,
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
                 textStyle = TextStyle(color = Color.Black, fontSize = 20.sp),
@@ -99,21 +105,18 @@ class SettingsActivity : AppCompatActivity() {
 
                     // Allow the user to clear stored keys with whitespace.
                     if (formatted.isBlank()) {
-                        apiKey = null
+                        AppCompanion.DATASTORE.clear(API_KEY, saveScope)
                     } else if (ApiKey.isValid(formatted)) {
-                        apiKey = formatted
+                        AppCompanion.DATASTORE.update(API_KEY, formatted, saveScope)
                     }
                 },
 
                 // Using a password type to limit to letters/numbers.
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
 
-                // When the api key exists it must be valid so display it (necessary for initialization).
-                value = if (apiKey.isNullOrBlank()) keyText else apiKey.orEmpty(),
-
                 // Only display an error for partial or invalid characters.
                 // TODO error text?
-                isError = keyText.isNotBlank() && !ApiKey.isValid(keyText),
+                isError = !ApiKey.isValid(keyText),
             )
         }
 

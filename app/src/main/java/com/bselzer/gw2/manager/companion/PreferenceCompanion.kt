@@ -11,7 +11,7 @@ object PreferenceCompanion {
     /**
      * Singleton common preferences.
      */
-    val Context.DEFAULT_PREFERENCES: DataStore<Preferences> by preferencesDataStore("default")
+    val Context.DATASTORE: DataStore<Preferences> by preferencesDataStore("default")
 
     /**
      * The build number preference key.

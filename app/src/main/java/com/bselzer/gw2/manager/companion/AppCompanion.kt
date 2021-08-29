@@ -27,7 +27,7 @@ object AppCompanion
     {
         APPLICATION = application
 
-        DEFAULT_PREFERENCES = application.DEFAULT_PREFERENCES
+        PREF = application.DEFAULT_PREFERENCES
 
         // TODO custom disk cache? https://coil-kt.github.io/coil/image_loaders/#caching
         IMAGE_LOADER = ImageLoader.Builder(application).build()
@@ -43,7 +43,7 @@ object AppCompanion
     /**
      * The common preferences.
      */
-    lateinit var DEFAULT_PREFERENCES: DataStore<Preferences>
+    lateinit var PREF: DataStore<Preferences>
 
     /**
      * The image loader.

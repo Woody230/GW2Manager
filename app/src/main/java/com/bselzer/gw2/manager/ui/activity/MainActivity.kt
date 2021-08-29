@@ -159,7 +159,7 @@ class MainActivity : ComponentActivity()
                 }
 
                 val id = AppCompanion.GW2.build.buildId()
-                AppCompanion.DEFAULT_PREFERENCES.edit { pref ->
+                AppCompanion.PREF.edit { pref ->
                     pref[BUILD_NUMBER] = id
                 }
             }.invokeOnCompletion { setDownloading(false) }

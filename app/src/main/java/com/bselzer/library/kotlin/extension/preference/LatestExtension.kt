@@ -8,26 +8,16 @@ import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.runBlocking
 
 /**
- * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
- *
- * The use of this method should be limited because it uses runBlocking.
- * @return the latest value associated with the [key]
- */
-@OptIn(ExperimentalCoroutinesApi::class)
-private inline fun <reified TNullSafe> DataStore<Preferences>.latest(key: Preferences.Key<TNullSafe>, defaultValue: TNullSafe): TNullSafe = runBlocking {
-    data.mapLatest { pref -> pref[key] ?: defaultValue }.firstOrNull() ?: defaultValue
-}
-
-/**
  * Gets the latest preference value for [key].
  *
  * The use of this method should be limited because it uses runBlocking.
  * @return the latest value associated with the [key]
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-private inline fun <reified TNullable, reified TNullSafe : TNullable> DataStore<Preferences>.latest(key: Preferences.Key<TNullSafe>): TNullable = runBlocking {
-    data.mapLatest { pref -> pref[key] }.firstOrNull() as TNullable
-}
+private inline fun <reified TNullable, reified TNullSafe : TNullable> DataStore<Preferences>.latest(key: Preferences.Key<TNullSafe>, defaultValue: TNullable): TNullable =
+    runBlocking {
+        data.mapLatest { pref -> pref[key] ?: defaultValue }.firstOrNull() as TNullable ?: defaultValue
+    }
 
 /**
  * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
@@ -38,12 +28,12 @@ private inline fun <reified TNullable, reified TNullSafe : TNullable> DataStore<
 fun DataStore<Preferences>.safeLatest(key: Preferences.Key<Int>, defaultValue: Int = 0): Int = latest(key, defaultValue)
 
 /**
- * Gets the latest preference value for [key].
+ * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
  *
  * The use of this method should be limited because it uses runBlocking.
  * @return the latest value associated with the [key]
  */
-fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Int>): Int? = latest<Int?, Int>(key)
+fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Int>, defaultValue: Int? = null): Int? = latest(key, defaultValue)
 
 
 /**
@@ -57,10 +47,10 @@ fun DataStore<Preferences>.safeLatest(key: Preferences.Key<Double>, defaultValue
 /**
  * Gets the latest preference value for [key].
  *
- * The use of this method should be limited because it uses runBlocking.
+ * The use of this method should be limited because it uses runBlocking. If the key does not exist or the value is null then the [defaultValue] is used.
  * @return the latest value associated with the [key]
  */
-fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Double>): Double? = latest<Double?, Double>(key)
+fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Double>, defaultValue: Double? = null): Double? = latest(key, defaultValue)
 
 /**
  * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
@@ -71,12 +61,12 @@ fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Double>): Double? = l
 fun DataStore<Preferences>.safeLatest(key: Preferences.Key<String>, defaultValue: String = ""): String = latest(key, defaultValue)
 
 /**
- * Gets the latest preference value for [key].
+ * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
  *
  * The use of this method should be limited because it uses runBlocking.
  * @return the latest value associated with the [key]
  */
-fun DataStore<Preferences>.nullLatest(key: Preferences.Key<String>): String? = latest<String?, String>(key)
+fun DataStore<Preferences>.nullLatest(key: Preferences.Key<String>, defaultValue: String? = null): String? = latest(key, defaultValue)
 
 /**
  * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
@@ -87,12 +77,12 @@ fun DataStore<Preferences>.nullLatest(key: Preferences.Key<String>): String? = l
 fun DataStore<Preferences>.safeLatest(key: Preferences.Key<Boolean>, defaultValue: Boolean = false): Boolean = latest(key, defaultValue)
 
 /**
- * Gets the latest preference value for [key].
+ * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
  *
  * The use of this method should be limited because it uses runBlocking.
  * @return the latest value associated with the [key]
  */
-fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Boolean>): Boolean? = latest<Boolean?, Boolean>(key)
+fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Boolean>, defaultValue: Boolean? = null): Boolean? = latest<Boolean?, Boolean>(key, defaultValue)
 
 /**
  * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
@@ -103,12 +93,12 @@ fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Boolean>): Boolean? =
 fun DataStore<Preferences>.safeLatest(key: Preferences.Key<Float>, defaultValue: Float = 0f): Float = latest(key, defaultValue)
 
 /**
- * Gets the latest preference value for [key].
+ * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
  *
  * The use of this method should be limited because it uses runBlocking.
  * @return the latest value associated with the [key]
  */
-fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Float>): Float? = latest<Float?, Float>(key)
+fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Float>, defaultValue: Float? = null): Float? = latest(key, defaultValue)
 
 /**
  * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
@@ -119,12 +109,12 @@ fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Float>): Float? = lat
 fun DataStore<Preferences>.safeLatest(key: Preferences.Key<Long>, defaultValue: Long = 0): Long = latest(key, defaultValue)
 
 /**
- * Gets the latest preference value for [key].
+ * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
  *
  * The use of this method should be limited because it uses runBlocking.
  * @return the latest value associated with the [key]
  */
-fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Long>): Long? = latest<Long?, Long>(key)
+fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Long>, defaultValue: Long? = null): Long? = latest(key, null)
 
 /**
  * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
@@ -135,9 +125,9 @@ fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Long>): Long? = lates
 fun DataStore<Preferences>.safeLatest(key: Preferences.Key<Set<String>>, defaultValue: Set<String> = emptySet()): Set<String> = latest(key, defaultValue)
 
 /**
- * Gets the latest preference value for [key].
+ * Gets the latest preference value for [key]. If the key does not exist or the value is null then the [defaultValue] is used.
  *
  * The use of this method should be limited because it uses runBlocking.
  * @return the latest value associated with the [key]
  */
-fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Set<String>>): Set<String>? = latest<Set<String>?, Set<String>>(key)
+fun DataStore<Preferences>.nullLatest(key: Preferences.Key<Set<String>>, defaultValue: Set<String>? = null): Set<String>? = latest(key, defaultValue)

@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.ui.activity
+package com.bselzer.gw2.manager.ui.activity.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.PreferenceCompanion.BUILD_NUMBER
+import com.bselzer.gw2.manager.ui.activity.setting.SettingsActivity
+import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.kotlin.extension.function.core.hasInternet
 import com.bselzer.library.kotlin.extension.preference.update

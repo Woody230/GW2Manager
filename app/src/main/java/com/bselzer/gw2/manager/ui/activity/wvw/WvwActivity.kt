@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.ui.activity
+package com.bselzer.gw2.manager.ui.activity.wvw
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -18,12 +18,11 @@ import com.bselzer.library.kotlin.extension.function.collection.addTo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import java.util.*
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
 class WvwActivity : AppCompatActivity() {
-    private val jobs: Deque<Job> = ArrayDeque()
+    private val jobs: ArrayDeque<Job> = ArrayDeque()
     private val matches = mutableStateOf(emptyList<WvwMatch>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +43,8 @@ class WvwActivity : AppCompatActivity() {
         // TODO configurable delay
         CoroutineScope(Dispatchers.IO).repeat(Duration.minutes(5)) {
             matches.value = AppCompanion.GW2.wvw.matches()
+
+            // TODO other data
         }.addTo(jobs)
     }
 

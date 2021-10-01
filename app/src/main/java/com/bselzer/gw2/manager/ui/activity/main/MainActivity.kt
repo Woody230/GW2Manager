@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.AppCompanion
-import com.bselzer.gw2.manager.companion.PreferenceCompanion.BUILD_NUMBER
+import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.BUILD_NUMBER
 import com.bselzer.gw2.manager.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme

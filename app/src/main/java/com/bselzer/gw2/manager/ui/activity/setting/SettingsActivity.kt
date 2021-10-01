@@ -31,7 +31,13 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> {
-            finish()
+            if (supportFragmentManager.backStackEntryCount != 0) {
+                // Pop nested preference screen.
+                supportFragmentManager.popBackStack()
+            } else {
+                // On the main preference screen so return to the previous activity.
+                finish()
+            }
             true
         }
         else -> super.onOptionsItemSelected(item)

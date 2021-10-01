@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.companion
+package com.bselzer.gw2.manager.companion.preference
 
 import android.content.Context
 import androidx.datastore.core.DataStore

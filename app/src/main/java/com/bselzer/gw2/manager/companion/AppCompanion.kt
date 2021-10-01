@@ -5,10 +5,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import coil.ImageLoader
 import com.bselzer.gw2.manager.BuildConfig
-import com.bselzer.gw2.manager.companion.PreferenceCompanion.DATASTORE
-import com.bselzer.gw2.manager.companion.PreferenceCompanion.TOKEN
+import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.DATASTORE
+import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.TOKEN
+import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
 import com.bselzer.library.kotlin.extension.preference.nullLatest
+import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,6 +40,11 @@ object AppCompanion
         IMAGE_LOADER = ImageLoader.Builder(application).build()
 
         CoroutineScope(Dispatchers.IO).launch {
+            // Default preferences.
+            if (DATASTORE.nullLatest(WvwPreferenceCompanion.REFRESH_INTERVAL) == null) {
+                DATASTORE.update(WvwPreferenceCompanion.REFRESH_INTERVAL, 5, this)
+            }
+
             // Initialize the client with the token if it exists.
             val token = DATASTORE.nullLatest(TOKEN) ?: return@launch
             GW2 = GW2.config { copy(token = token) }

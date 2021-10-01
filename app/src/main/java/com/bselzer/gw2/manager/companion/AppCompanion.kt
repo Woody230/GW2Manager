@@ -5,16 +5,14 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import coil.ImageLoader
 import com.bselzer.gw2.manager.BuildConfig
-import com.bselzer.gw2.manager.companion.PreferenceCompanion.API_KEY
 import com.bselzer.gw2.manager.companion.PreferenceCompanion.DATASTORE
+import com.bselzer.gw2.manager.companion.PreferenceCompanion.TOKEN
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
+import com.bselzer.library.kotlin.extension.preference.nullLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import timber.log.Timber
 
 object AppCompanion
@@ -40,11 +38,10 @@ object AppCompanion
         IMAGE_LOADER = ImageLoader.Builder(application).build()
 
         CoroutineScope(Dispatchers.IO).launch {
-            // Keep the token in the client updated as it is changed using a StateFlow.
-            DATASTORE.data.stateIn(this).map { pref -> pref[API_KEY] }.filter { key -> !key.isNullOrBlank() }.collect { key ->
-                GW2 = GW2.config { copy(token = key) }
-                Timber.d("Set client token to $key")
-            }
+            // Initialize the client with the token if it exists.
+            val token = DATASTORE.nullLatest(TOKEN) ?: return@launch
+            GW2 = GW2.config { copy(token = token) }
+            Timber.d("Set client token to $token")
         }
     }
 

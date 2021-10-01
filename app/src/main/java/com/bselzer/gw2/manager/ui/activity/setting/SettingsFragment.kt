@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -51,7 +52,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         }
 
                         datastore.update(PreferenceCompanion.TOKEN, token, this)
+                        AppCompanion.GW2 = AppCompanion.GW2.config { copy(token = token) }
                         text = token
+                        Timber.d("Set client token to $token")
                     } catch (ex: ClientRequestException) {
                         showToast(context, "Unable to save token: ${ex.response.readText()}", Toast.LENGTH_LONG)
                     }

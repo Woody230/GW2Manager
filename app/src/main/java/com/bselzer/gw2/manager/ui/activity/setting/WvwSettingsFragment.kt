@@ -48,21 +48,24 @@ class WvwSettingsFragment : PreferenceFragmentCompat() {
      * TODO be able to pick multiple DateTime components
      */
     private fun delayPreference(datastore: DataStore<Preferences>) = NumberPickerPreferenceCompat(context).apply {
+        fun Int.summary(): String = "$this minutes"
+
         key = WvwPreferenceCompanion.REFRESH_INTERVAL.name
         title = "Refresh Interval"
-        summary = datastore.safeLatest(WvwPreferenceCompanion.REFRESH_INTERVAL, 5).toString()
+        summary = datastore.safeLatest(WvwPreferenceCompanion.REFRESH_INTERVAL, 5).summary()
         setIcon(R.drawable.gw2_concentration)
         dialogTitle = "Delay in minutes"
         setDialogIcon(R.drawable.gw2_concentration)
         minValue = 1
-        maxValue = 3600
+        maxValue = 60
         onPreferenceChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
             if (newValue is Int) {
-                summary = newValue.toString()
+                summary = newValue.summary()
                 true
             } else {
                 false
             }
         }
+
     }
 }

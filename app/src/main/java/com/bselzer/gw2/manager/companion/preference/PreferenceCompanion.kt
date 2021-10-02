@@ -19,7 +19,7 @@ object PreferenceCompanion {
     val BUILD_NUMBER = intPreferencesKey("BuildNumber")
 
     /**
-     * The api key preference key.
+     * The token preference key.
      */
-    val API_KEY = stringPreferencesKey("ApiKey")
+    val TOKEN = stringPreferencesKey("Token")
 }

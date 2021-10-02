@@ -9,8 +9,8 @@ import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.DATASTOR
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.TOKEN
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
+import com.bselzer.library.kotlin.extension.preference.initialize
 import com.bselzer.library.kotlin.extension.preference.nullLatest
-import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,9 +41,7 @@ object AppCompanion
 
         CoroutineScope(Dispatchers.IO).launch {
             // Default preferences.
-            if (DATASTORE.nullLatest(WvwPreferenceCompanion.REFRESH_INTERVAL) == null) {
-                DATASTORE.update(WvwPreferenceCompanion.REFRESH_INTERVAL, 5, this)
-            }
+            DATASTORE.initialize(WvwPreferenceCompanion.REFRESH_INTERVAL, 5)
 
             // Initialize the client with the token if it exists.
             val token = DATASTORE.nullLatest(TOKEN) ?: return@launch

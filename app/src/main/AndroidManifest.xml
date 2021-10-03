@@ -12,6 +12,7 @@
         android:theme="@style/Theme.GW2Manager">
         <activity
             android:name=".ui.activity.wvw.WvwActivity"
+            android:theme="@style/Theme.GW2Manager.NoActionBar"
             android:exported="true" />
         <activity
             android:name=".ui.activity.setting.SettingsActivity"

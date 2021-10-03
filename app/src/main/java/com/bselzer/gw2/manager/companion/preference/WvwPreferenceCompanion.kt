@@ -9,4 +9,9 @@ object WvwPreferenceCompanion {
      * The WvW refresh interval preference key.
      */
     val REFRESH_INTERVAL = intPreferencesKey("$WVW.RefreshInterval")
+
+    /**
+     * The id of the selected world.
+     */
+    val SELECTED_WORLD = intPreferencesKey("$WVW.SelectedWorld")
 }

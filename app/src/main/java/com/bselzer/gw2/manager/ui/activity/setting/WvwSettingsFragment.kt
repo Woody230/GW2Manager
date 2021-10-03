@@ -66,6 +66,5 @@ class WvwSettingsFragment : PreferenceFragmentCompat() {
                 false
             }
         }
-
     }
 }

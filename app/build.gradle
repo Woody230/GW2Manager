@@ -68,6 +68,8 @@ dependencies {
     implementation("com.bselzer.library.gw2:v2-client:$wrapper_version")
     implementation("com.bselzer.library.gw2:v2-model:$wrapper_version")
     implementation("com.bselzer.library.gw2:v2-model-extension:$wrapper_version")
+    implementation("com.bselzer.library.gw2:v2-model-enumeration:$wrapper_version")
+    implementation("com.bselzer.library.gw2:v2-scope:$wrapper_version")
     implementation("io.ktor:ktor-client-android:$ktor_version")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version")
 

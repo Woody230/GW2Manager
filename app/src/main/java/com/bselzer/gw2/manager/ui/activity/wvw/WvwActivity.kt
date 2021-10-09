@@ -7,7 +7,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -31,7 +33,6 @@ import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.ui.theme.AppTheme
-import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapType
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
@@ -49,7 +50,7 @@ import kotlin.time.ExperimentalTime
 class WvwActivity : AppCompatActivity() {
     private val jobs: ArrayDeque<Job> = ArrayDeque()
     private val worlds = mutableStateOf(emptyList<World>())
-    private val matches = mutableStateOf(emptyList<WvwMatch>())
+    private val match = mutableStateOf<WvwMatch?>(null)
     private val objectives = mutableStateOf(emptyList<WvwObjective>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,57 +92,79 @@ class WvwActivity : AppCompatActivity() {
         }
 
         // Set up or update data that will change.
-        val wvw = AppCompanion.GW2.wvw
-        matches.value = wvw.matches() // TODO is this needed or can other endpoint(s) be used to reduce data
-        objectives.value = wvw.objectives()
-
-        // TODO other data
+        val selectedWorld = AppCompanion.DATASTORE.nullLatest(SELECTED_WORLD)
+        if (selectedWorld == null) {
+            showSelectWorldDialog()
+        } else {
+            val wvw = AppCompanion.GW2.wvw
+            val match = wvw.match(selectedWorld)
+            val objectives = wvw.objectives(match.maps.flatMap { map -> map.objectives.map { objective -> objective.id } })
+            this.match.value = match
+            this.objectives.value = objectives
+        }
     }
 
     @Preview
     @Composable
     private fun Content() = AppTheme {
         // Focus the initial scroll position on the Eternal Battlegrounds.
-        val component = MapComponent(MapType.ETERNAL_BATTLEGROUNDS)
-        val initialHorizontal = component.position.x
-        val initialVertical = component.position.y
+
+        // TODO use config
+        val initialHorizontal = 1448
+        val initialVertical = 1768
 
         // TODO zooming in and out
-        // TODO mapping objective id (excluding realm prefix and dash) to location
-        Image(
-            painter = painterResource(id = R.drawable.gw2_wvw_map),
-            contentDescription = "WvW Map",
-            contentScale = ContentScale.None,
+        // TODO mapping objective id (excluding map prefix and dash) to location
+        Box(
             modifier = Modifier
+                .fillMaxSize()
                 .horizontalScroll(rememberScrollState(initialHorizontal))
                 .verticalScroll(rememberScrollState(initialVertical))
-        )
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.gw2_wvw_map),
+                contentDescription = "WvW Map",
+                contentScale = ContentScale.None
+            )
+
+            /*
+            val objectives = remember { objectives }
+            objectives.value.firstOrNull { objective -> objective.type() == ObjectiveType.CAMP }?.let { camp ->
+                var bitmap = BitmapFactory.decodeResource(resources, R.drawable.gw2_wvw_camp_gray)
+                bitmap = bitmap.changeColor(Color.RED)
+                Image(
+                    painter = BitmapPainter(bitmap.asImageBitmap()),
+                    contentDescription = camp.name,
+                    contentScale = ContentScale.None,
+                    modifier = Modifier.offset(100.dp, 100.dp)
+                )
+            }
+             */
+        }
     }
 
     @Composable
-    private fun Toolbar() {
-        TopAppBar(
-            title = { Text(text = stringResource(id = R.string.activity_wvw), fontWeight = FontWeight.Bold) },
-            navigationIcon = {
-                IconButton(onClick = { finish() }) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                }
-            },
-            actions = {
-                IconButton(onClick = { selectWorld() }) {
-                    Icon(Icons.Filled.List, contentDescription = "World")
-                }
-                IconButton(onClick = { CoroutineScope(Dispatchers.IO).launch { refreshData() } }) {
-                    Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
-                }
+    private fun Toolbar() = TopAppBar(
+        title = { Text(text = stringResource(id = R.string.activity_wvw), fontWeight = FontWeight.Bold) },
+        navigationIcon = {
+            IconButton(onClick = { finish() }) {
+                Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
             }
-        )
-    }
+        },
+        actions = {
+            IconButton(onClick = { showSelectWorldDialog() }) {
+                Icon(Icons.Filled.List, contentDescription = "World")
+            }
+            IconButton(onClick = { CoroutineScope(Dispatchers.IO).launch { refreshData() } }) {
+                Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
+            }
+        }
+    )
 
     /**
      * Create a dialog for the user to select the world.
      */
-    private fun selectWorld() {
+    private fun showSelectWorldDialog() {
         val worlds = this.worlds.value.sortedBy { world -> world.name }
         if (worlds.isEmpty()) {
             Toast.makeText(this, "Awaiting the download of worlds.", Toast.LENGTH_SHORT).show()

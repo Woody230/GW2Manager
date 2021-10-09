@@ -70,9 +70,16 @@ dependencies {
     implementation("com.bselzer.library.gw2:v2-model-extension:$wrapper_version")
     implementation("com.bselzer.library.gw2:v2-model-enumeration:$wrapper_version")
     implementation("com.bselzer.library.gw2:v2-scope:$wrapper_version")
-    implementation("io.ktor:ktor-client-android:$ktor_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version")
 
+    // HTTP Client
+    implementation("io.ktor:ktor-client-android:$ktor_version")
+
+    // Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
+    implementation("io.github.pdvrieze.xmlutil:serialization-android:0.82.0")
+
+    // Extensions
     implementation("com.github.Woody230.KotlinExtensions:compose:$extension_version")
     implementation("com.github.Woody230.KotlinExtensions:function:$extension_version")
 

@@ -7,6 +7,7 @@ buildscript {
         extension_version = "2.0.0"
         ktor_version = "1.6.2"
         serialization_version = "1.2.2"
+        datetime_version = "0.2.1"
     }
     repositories {
         google()

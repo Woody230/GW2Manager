@@ -8,13 +8,14 @@ import com.bselzer.gw2.manager.BuildConfig
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.DATASTORE
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.TOKEN
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion
+import com.bselzer.gw2.manager.configuration.Configuration
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
 import com.bselzer.library.kotlin.extension.preference.initialize
 import com.bselzer.library.kotlin.extension.preference.nullLatest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
+import nl.adaptivity.xmlutil.serialization.XML
 import timber.log.Timber
 
 object AppCompanion
@@ -33,6 +34,10 @@ object AppCompanion
      */
     fun initialize(application: Application) {
         APPLICATION = application
+
+        // TODO attempt to get config from online location and default to bundled config if that fails
+        val config = APPLICATION.assets.open("Configuration.xml").bufferedReader(Charsets.UTF_8).use { reader -> reader.readText() }
+        CONFIG = XML.decodeFromString(Configuration.serializer(), config)
 
         DATASTORE = application.DATASTORE
 
@@ -54,6 +59,11 @@ object AppCompanion
      * The application.
      */
     lateinit var APPLICATION: Application
+
+    /**
+     * The configuration.
+     */
+    lateinit var CONFIG: Configuration
 
     /**
      * The common preferences.

@@ -7,10 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -26,11 +23,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
@@ -142,14 +139,15 @@ class WvwActivity : AppCompatActivity() {
                 val mapType = objective.mapType() ?: return@forEach
                 val config = AppCompanion.CONFIG.wvw.map(mapType).objectives.firstOrNull { config -> config.id == objective.objectiveId() } ?: return@forEach
 
-                Timber.d("Rendering objective ${objective.id}")
-
                 // Overlay the objective image onto the map image.
+                val density = LocalDensity.current
                 Image(
                     painter = config.ownedPainter(owner, resources),
                     contentDescription = objective.name,
                     contentScale = ContentScale.None,
-                    modifier = Modifier.offset(config.x.dp, config.y.dp)
+
+                    // Offset needs to be done with DP so conversion must be done from pixels.
+                    modifier = Modifier.absoluteOffset(density.run { config.x.toDp() }, density.run { config.y.toDp() })
                 )
             }
         }

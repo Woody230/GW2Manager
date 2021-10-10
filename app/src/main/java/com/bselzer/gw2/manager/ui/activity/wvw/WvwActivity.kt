@@ -33,6 +33,7 @@ import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.ui.theme.AppTheme
+import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapType
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
@@ -108,10 +109,9 @@ class WvwActivity : AppCompatActivity() {
     @Composable
     private fun Content() = AppTheme {
         // Focus the initial scroll position on the Eternal Battlegrounds.
-
-        // TODO use config
-        val initialHorizontal = 1448
-        val initialVertical = 1768
+        val ebg = AppCompanion.CONFIG.wvw.map(MapType.ETERNAL_BATTLEGROUNDS)
+        val initialHorizontal = ebg.x
+        val initialVertical = ebg.y
 
         // TODO zooming in and out
         // TODO mapping objective id (excluding map prefix and dash) to location

@@ -35,21 +35,38 @@ object AppCompanion
     fun initialize(application: Application) {
         APPLICATION = application
 
+        CONFIG = application.getConfiguration()
+        IMAGE_LOADER = application.getImageLoader()
+        DATASTORE = application.DATASTORE.apply {
+            setupDatastore()
+        }
+    }
+
+    /**
+     * @return the configuration
+     */
+    private fun Application.getConfiguration(): Configuration {
         // TODO attempt to get config from online location and default to bundled config if that fails
-        val config = APPLICATION.assets.open("Configuration.xml").bufferedReader(Charsets.UTF_8).use { reader -> reader.readText() }
-        CONFIG = XML.decodeFromString(Configuration.serializer(), config)
+        val config = assets.open("Configuration.xml").bufferedReader(Charsets.UTF_8).use { reader -> reader.readText() }
+        return XML.decodeFromString(Configuration.serializer(), config)
+    }
 
-        DATASTORE = application.DATASTORE
+    /**
+     * @return the Coil image loader
+     */
+    // TODO custom disk cache? https://coil-kt.github.io/coil/image_loaders/#caching
+    private fun Application.getImageLoader(): ImageLoader = ImageLoader.Builder(this).build()
 
-        // TODO custom disk cache? https://coil-kt.github.io/coil/image_loaders/#caching
-        IMAGE_LOADER = ImageLoader.Builder(application).build()
-
+    /**
+     * Sets up the datastore and information relying on the datastore.
+     */
+    private fun DataStore<Preferences>.setupDatastore() {
         CoroutineScope(Dispatchers.IO).launch {
             // Default preferences.
-            DATASTORE.initialize(WvwPreferenceCompanion.REFRESH_INTERVAL, 5)
+            initialize(WvwPreferenceCompanion.REFRESH_INTERVAL, 5)
 
             // Initialize the client with the token if it exists.
-            val token = DATASTORE.nullLatest(TOKEN) ?: return@launch
+            val token = nullLatest(TOKEN) ?: return@launch
             GW2 = GW2.config { copy(token = token) }
             Timber.d("Set client token to $token")
         }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
@@ -22,18 +23,24 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.ui.theme.AppTheme
+import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.mapType
+import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.owner
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapType
+import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
+import com.bselzer.library.gw2.v2.model.extension.wvw.objectiveId
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
@@ -114,7 +121,6 @@ class WvwActivity : AppCompatActivity() {
         val initialVertical = ebg.y
 
         // TODO zooming in and out
-        // TODO mapping objective id (excluding map prefix and dash) to location
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -127,19 +133,25 @@ class WvwActivity : AppCompatActivity() {
                 contentScale = ContentScale.None
             )
 
-            /*
-            val objectives = remember { objectives }
-            objectives.value.firstOrNull { objective -> objective.type() == ObjectiveType.CAMP }?.let { camp ->
-                var bitmap = BitmapFactory.decodeResource(resources, R.drawable.gw2_wvw_camp_gray)
-                bitmap = bitmap.changeColor(Color.RED)
+            remember { objectives }.value.forEach { objective ->
+                // Find the objective through the match in order to find out who the owner is.
+                val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
+                val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
+
+                // Find the objective through the config in order to get info related to displaying the image.
+                val mapType = objective.mapType() ?: return@forEach
+                val config = AppCompanion.CONFIG.wvw.map(mapType).objectives.firstOrNull { config -> config.id == objective.objectiveId() } ?: return@forEach
+
+                Timber.d("Rendering objective ${objective.id}")
+
+                // Overlay the objective image onto the map image.
                 Image(
-                    painter = BitmapPainter(bitmap.asImageBitmap()),
-                    contentDescription = camp.name,
+                    painter = config.ownedPainter(owner, resources),
+                    contentDescription = objective.name,
                     contentScale = ContentScale.None,
-                    modifier = Modifier.offset(100.dp, 100.dp)
+                    modifier = Modifier.offset(config.x.dp, config.y.dp)
                 )
             }
-             */
         }
     }
 

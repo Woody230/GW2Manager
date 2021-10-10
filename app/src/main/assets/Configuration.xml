@@ -2,6 +2,7 @@
 <Configuration>
     <WorldVsWorld>
         <!-- TODO include spawns, mercs, etc? -->
+        <!-- TODO update objective x/y -->
 
         <!-- Eternal Battlegrounds -->
         <Map height="1152" type="Center" width="1204" x="1448" y="1768">

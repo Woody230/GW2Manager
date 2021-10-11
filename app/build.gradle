@@ -78,10 +78,11 @@ dependencies {
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
-    implementation("io.github.pdvrieze.xmlutil:serialization-android:0.82.0")
+    implementation('io.github.pdvrieze.xmlutil:serialization-android:0.83.0')
 
     // Extensions
     // TODO jitpack
+    implementation("com.bselzer.library.kotlin.extension:function:$extension_version")
     implementation("com.bselzer.library.kotlin.extension:preference:$extension_version")
 
     // Test

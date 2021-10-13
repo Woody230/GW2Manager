@@ -71,6 +71,7 @@ dependencies {
     implementation("com.bselzer.library.gw2:v2-model-extension:$wrapper_version")
     implementation("com.bselzer.library.gw2:v2-model-enumeration:$wrapper_version")
     implementation("com.bselzer.library.gw2:v2-scope:$wrapper_version")
+    implementation("com.bselzer.library.gw2:v2-tile:$wrapper_version")
 
     // HTTP Client
     implementation("io.ktor:ktor-client-android:$ktor_version")

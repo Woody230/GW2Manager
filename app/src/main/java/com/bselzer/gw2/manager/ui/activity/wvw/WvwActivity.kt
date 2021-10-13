@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.ui.activity.wvw
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -18,10 +19,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -33,14 +34,16 @@ import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.ui.theme.AppTheme
+import com.bselzer.library.gw2.v2.model.continent.Continent
+import com.bselzer.library.gw2.v2.model.continent.ContinentFloor
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.mapType
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.owner
-import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapType
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.library.gw2.v2.model.extension.wvw.objectiveId
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
+import com.bselzer.library.gw2.v2.tile.model.TileGrid
 import com.bselzer.library.kotlin.extension.coroutine.cancel
 import com.bselzer.library.kotlin.extension.coroutine.repeat
 import com.bselzer.library.kotlin.extension.function.collection.addTo
@@ -57,6 +60,9 @@ class WvwActivity : AppCompatActivity() {
     private val worlds = mutableStateOf(emptyList<World>())
     private val match = mutableStateOf<WvwMatch?>(null)
     private val objectives = mutableStateOf(emptyList<WvwObjective>())
+    private val continent = mutableStateOf<Continent?>(null)
+    private val floor = mutableStateOf<ContinentFloor?>(null)
+    private val grid = mutableStateOf<TileGrid?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,49 +112,119 @@ class WvwActivity : AppCompatActivity() {
             val objectives = wvw.objectives(match.maps.flatMap { map -> map.objectives.map { objective -> objective.id } })
             this.match.value = match
             this.objectives.value = objectives
+            refreshMapData(match)
+            refreshGridData()
+        }
+    }
+
+    /**
+     * Refreshes the WvW map data.
+     */
+    private suspend fun refreshMapData(match: WvwMatch) {
+        // This data should not be changing so only initialize it.
+        if (continent.value != null) {
+            return
+        }
+
+        Timber.d("Refreshing WvW map data.")
+
+        // Assume that all WvW maps are within the same continent and floor.
+        val mapId = match.maps.firstOrNull()?.id ?: return
+        val map = AppCompanion.GW2.map.map(mapId)
+        val continent = AppCompanion.GW2.continent.continent(map.continentId)
+        floor.value = AppCompanion.GW2.continent.floor(map.continentId, map.defaultFloorId)
+        this.continent.value = continent
+    }
+
+    /**
+     * Refreshes the WvW map tiling grid.
+     */
+    private suspend fun refreshGridData() {
+        val grid = this.grid.value
+
+        // Verify the grid does not exist yet.
+        if (grid == null || grid.tiles.isEmpty()) {
+            val continent = this.continent.value
+            val floor = this.floor.value
+
+            // Verify that the related data exists.
+            if (continent != null && floor != null) {
+                // TODO configurable zoom
+                Timber.d("Refreshing WvW tile grid data.")
+                this.grid.value = AppCompanion.TILE.grid(continent, floor, 5)
+            }
         }
     }
 
     @Preview
     @Composable
     private fun Content() = AppTheme {
-        // Focus the initial scroll position on the Eternal Battlegrounds.
-        val ebg = AppCompanion.CONFIG.wvw.map(MapType.ETERNAL_BATTLEGROUNDS)
-        val initialHorizontal = ebg.x
-        val initialVertical = ebg.y
+        // TODO Focus the initial scroll position on the Eternal Battlegrounds.
+        val density = LocalDensity.current
 
-        // TODO zooming in and out
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .horizontalScroll(rememberScrollState(initialHorizontal))
-                .verticalScroll(rememberScrollState(initialVertical))
+                .horizontalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState())
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.gw2_wvw_map),
-                contentDescription = "WvW Map",
-                contentScale = ContentScale.None
-            )
+            val grid = remember { grid }.value
 
-            remember { objectives }.value.forEach { objective ->
-                // Find the objective through the match in order to find out who the owner is.
-                val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
-                val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
-
-                // Find the objective through the config in order to get info related to displaying the image.
-                val mapType = objective.mapType() ?: return@forEach
-                val config = AppCompanion.CONFIG.wvw.map(mapType).objectives.firstOrNull { config -> config.id == objective.objectiveId() } ?: return@forEach
-
-                // Overlay the objective image onto the map image.
-                val density = LocalDensity.current
+            // TODO delegate to other methods to reduce nesting
+            // Until a selection is made so that tiling can be done, display the drawable map so that something is displayed.
+            if (grid == null || grid.tiles.isEmpty()) {
+                // TODO replace with progress bar
                 Image(
-                    painter = config.ownedPainter(owner, resources),
-                    contentDescription = objective.name,
-                    contentScale = ContentScale.None,
-
-                    // Offset needs to be done with DP so conversion must be done from pixels.
-                    modifier = Modifier.absoluteOffset(density.run { config.x.toDp() }, density.run { config.y.toDp() })
+                    painter = painterResource(id = R.drawable.gw2_wvw_map),
+                    contentDescription = "WvW Map",
+                    contentScale = ContentScale.None
                 )
+
+                // Attempt to rectify the missing data.
+                SideEffect {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        refreshGridData()
+                    }
+                }
+            } else {
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Timber.d("Displaying grid with tile size ${grid.tileWidth} x ${grid.tileHeight}.")
+                    for (row in grid.tiles) {
+                        Row {
+                            for (tile in row) {
+                                Timber.d("Tile [${tile.x},${tile.y}]")
+                                val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size) ?: continue
+                                Image(
+                                    painter = BitmapPainter(bitmap.asImageBitmap()),
+                                    contentDescription = "WvW Map",
+                                    modifier = Modifier.size(density.run { grid.tileWidth.toDp() }, density.run { grid.tileHeight.toDp() })
+                                )
+                            }
+                        }
+                    }
+                }
+
+                remember { objectives }.value.forEach { objective ->
+                    // Find the objective through the match in order to find out who the owner is.
+                    val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
+                    val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
+
+                    // Find the objective through the config in order to get info related to displaying the image.
+                    val mapType = objective.mapType() ?: return@forEach
+                    val config = AppCompanion.CONFIG.wvw.map(mapType).objectives.firstOrNull { config -> config.id == objective.objectiveId() } ?: return@forEach
+
+                    // Overlay the objective image onto the map image.
+                    Image(
+                        painter = config.ownedPainter(owner, resources),
+                        contentDescription = objective.name,
+                        contentScale = ContentScale.None,
+
+                        // Offset needs to be done with DP so conversion must be done from pixels.
+                        modifier = Modifier.absoluteOffset(density.run { config.x.toDp() }, density.run { config.y.toDp() })
+                    )
+                }
             }
         }
     }

@@ -37,20 +37,9 @@ data class WvwMapObjective(
      */
     @XmlSerialName("type", "", "")
     @XmlElement(false)
-    val type: ObjectiveType,
-
-    /**
-     * The horizontal position within the image.
-     */
-    @XmlSerialName("x", "", "")
-    val x: Int,
-
-    /**
-     * The vertical position within the image.
-     */
-    @XmlSerialName("y", "", "")
-    val y: Int
+    val type: ObjectiveType
 ) {
+    // TODO move this stuff out of here
     /**
      * The drawable id representing the neutral image of this objective.
      */

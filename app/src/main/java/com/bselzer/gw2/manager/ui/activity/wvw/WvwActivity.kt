@@ -256,7 +256,6 @@ class WvwActivity : AppCompatActivity() {
     private fun ShowObjectives() = remember { objectives }.value.forEach { objective ->
         val density = LocalDensity.current
 
-        // TODO set actual objective positions
         // Find the objective through the match in order to find out who the owner is.
         val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
         val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
@@ -272,7 +271,8 @@ class WvwActivity : AppCompatActivity() {
             contentScale = ContentScale.None,
 
             // Offset needs to be done with DP so conversion must be done from pixels.
-            modifier = Modifier.absoluteOffset(density.run { config.x.toDp() }, density.run { config.y.toDp() })
+            // TODO set actual objective positions
+            modifier = Modifier.absoluteOffset(density.run { 0.toDp() }, density.run { 0.toDp() })
         )
     }
 

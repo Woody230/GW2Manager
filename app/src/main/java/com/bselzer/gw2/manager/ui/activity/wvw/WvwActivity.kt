@@ -11,15 +11,13 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -105,7 +103,8 @@ class WvwActivity : AppCompatActivity() {
         // Set up or update data that will change.
         val selectedWorld = AppCompanion.DATASTORE.nullLatest(SELECTED_WORLD)
         if (selectedWorld == null) {
-            showSelectWorldDialog()
+            // Selection is required so do not allow cancellation.
+            showSelectWorldDialog(cancellable = false)
         } else {
             val wvw = AppCompanion.GW2.wvw
             val match = wvw.match(selectedWorld)
@@ -159,74 +158,122 @@ class WvwActivity : AppCompatActivity() {
     @Preview
     @Composable
     private fun Content() = AppTheme {
-        // TODO Focus the initial scroll position on the Eternal Battlegrounds.
-        val density = LocalDensity.current
+        val grid = remember { grid }.value
 
+        // Until a selection is made so that tiling can be done, display a progress bar.
+        // TODO transition between missing vs shown
+        if (grid == null || grid.tiles.isEmpty()) {
+            ShowMissingGridData()
+        } else {
+            ShowGridData(grid)
+        }
+    }
+
+    /**
+     * Displays content related to the grid data not being populated.
+     */
+    @Composable
+    private fun ShowMissingGridData() {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Background()
+
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("Loading the WvW map.", fontWeight = FontWeight.Bold)
+                CircularProgressIndicator(modifier = Modifier.fillMaxSize(0.25f))
+            }
+        }
+
+        // Attempt to rectify the missing data.
+        SideEffect {
+            CoroutineScope(Dispatchers.IO).launch {
+                refreshGridData()
+            }
+        }
+    }
+
+    @Composable
+    private fun Background() = Image(
+        painter = painterResource(id = R.drawable.gw2_ice),
+        contentDescription = null,
+        modifier = Modifier.fillMaxSize(),
+        contentScale = ContentScale.Crop
+    )
+
+    /**
+     * Displays the grid content.
+     */
+    @Composable
+    private fun ShowGridData(grid: TileGrid) {
+        // TODO Focus the initial scroll position on the Eternal Battlegrounds.
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .horizontalScroll(rememberScrollState())
                 .verticalScroll(rememberScrollState())
         ) {
-            val grid = remember { grid }.value
+            ShowMap(grid)
+            ShowObjectives()
+        }
+    }
 
-            // TODO delegate to other methods to reduce nesting
-            // Until a selection is made so that tiling can be done, display the drawable map so that something is displayed.
-            if (grid == null || grid.tiles.isEmpty()) {
-                // TODO replace with progress bar
-                Image(
-                    painter = painterResource(id = R.drawable.gw2_wvw_map),
-                    contentDescription = "WvW Map",
-                    contentScale = ContentScale.None
-                )
+    /**
+     * Displays the map represented by a tiled grid.
+     */
+    @Composable
+    private fun ShowMap(grid: TileGrid) = Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        val density = LocalDensity.current
 
-                // Attempt to rectify the missing data.
-                SideEffect {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        refreshGridData()
-                    }
-                }
-            } else {
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Timber.d("Displaying grid with tile size ${grid.tileWidth} x ${grid.tileHeight}.")
-                    for (row in grid.tiles) {
-                        Row {
-                            for (tile in row) {
-                                Timber.d("Tile [${tile.x},${tile.y}]")
-                                val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size) ?: continue
-                                Image(
-                                    painter = BitmapPainter(bitmap.asImageBitmap()),
-                                    contentDescription = "WvW Map",
-                                    modifier = Modifier.size(density.run { grid.tileWidth.toDp() }, density.run { grid.tileHeight.toDp() })
-                                )
-                            }
-                        }
-                    }
-                }
+        Timber.d("Displaying grid with tile size ${grid.tileWidth} x ${grid.tileHeight}.")
+        for (row in grid.tiles) {
+            Row {
+                for (tile in row) {
+                    Timber.d("Tile [${tile.x},${tile.y}]")
 
-                remember { objectives }.value.forEach { objective ->
-                    // Find the objective through the match in order to find out who the owner is.
-                    val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
-                    val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
-
-                    // Find the objective through the config in order to get info related to displaying the image.
-                    val mapType = objective.mapType() ?: return@forEach
-                    val config = AppCompanion.CONFIG.wvw.map(mapType).objectives.firstOrNull { config -> config.id == objective.objectiveId() } ?: return@forEach
-
-                    // Overlay the objective image onto the map image.
+                    // TODO use coil to cache bitmaps
+                    val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size) ?: continue
                     Image(
-                        painter = config.ownedPainter(owner, resources),
-                        contentDescription = objective.name,
-                        contentScale = ContentScale.None,
-
-                        // Offset needs to be done with DP so conversion must be done from pixels.
-                        modifier = Modifier.absoluteOffset(density.run { config.x.toDp() }, density.run { config.y.toDp() })
+                        painter = BitmapPainter(bitmap.asImageBitmap()),
+                        contentDescription = "WvW Map",
+                        modifier = Modifier.size(density.run { grid.tileWidth.toDp() }, density.run { grid.tileHeight.toDp() })
                     )
                 }
             }
         }
+    }
+
+    /**
+     * Displays the objectives on the map.
+     */
+    @Composable
+    private fun ShowObjectives() = remember { objectives }.value.forEach { objective ->
+        val density = LocalDensity.current
+
+        // TODO set actual objective positions
+        // Find the objective through the match in order to find out who the owner is.
+        val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
+        val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
+
+        // Find the objective through the config in order to get info related to displaying the image.
+        val mapType = objective.mapType() ?: return@forEach
+        val config = AppCompanion.CONFIG.wvw.map(mapType).objectives.firstOrNull { config -> config.id == objective.objectiveId() } ?: return@forEach
+
+        // Overlay the objective image onto the map image.
+        Image(
+            painter = config.ownedPainter(owner, resources),
+            contentDescription = objective.name,
+            contentScale = ContentScale.None,
+
+            // Offset needs to be done with DP so conversion must be done from pixels.
+            modifier = Modifier.absoluteOffset(density.run { config.x.toDp() }, density.run { config.y.toDp() })
+        )
     }
 
     @Composable
@@ -250,7 +297,7 @@ class WvwActivity : AppCompatActivity() {
     /**
      * Create a dialog for the user to select the world.
      */
-    private fun showSelectWorldDialog() {
+    private fun showSelectWorldDialog(cancellable: Boolean = true) {
         val worlds = this.worlds.value.sortedBy { world -> world.name }
         if (worlds.isEmpty()) {
             Toast.makeText(this, "Awaiting the download of worlds.", Toast.LENGTH_SHORT).show()
@@ -271,6 +318,7 @@ class WvwActivity : AppCompatActivity() {
                         AppCompanion.DATASTORE.update(SELECTED_WORLD, worlds[which].id, CoroutineScope(Dispatchers.IO))
                         dialog.dismiss()
                     }
+                    .setCancelable(cancellable)
                     .show()
             }
         }

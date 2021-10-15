@@ -13,23 +13,19 @@ import com.bselzer.library.gw2.v2.client.client.Gw2Client
 import com.bselzer.library.gw2.v2.tile.client.TileClient
 import com.bselzer.library.kotlin.extension.preference.initialize
 import com.bselzer.library.kotlin.extension.preference.nullLatest
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.okhttp.*
+import io.ktor.client.features.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import nl.adaptivity.xmlutil.serialization.XML
+import okhttp3.OkHttpClient
 import timber.log.Timber
 
 object AppCompanion
 {
-    init
-    {
-        // Only enable logging for debug mode.
-        if (BuildConfig.DEBUG)
-        {
-            Timber.plant(Timber.DebugTree())
-        }
-    }
-
     /**
      * Initialize objects that rely on the application being created.
      */
@@ -56,7 +52,7 @@ object AppCompanion
      * @return the Coil image loader
      */
     // TODO custom disk cache? https://coil-kt.github.io/coil/image_loaders/#caching
-    private fun Application.getImageLoader(): ImageLoader = ImageLoader.Builder(this).build()
+    private fun Application.getImageLoader(): ImageLoader = ImageLoader.Builder(this).okHttpClient(HTTP_CLIENT).build()
 
     /**
      * Sets up the datastore and information relying on the datastore.
@@ -94,12 +90,38 @@ object AppCompanion
     lateinit var IMAGE_LOADER: ImageLoader
 
     /**
+     * The HTTP client to share across all instances.
+     */
+    val HTTP_CLIENT: OkHttpClient
+
+    /**
      * The GW2 API wrapper.
      */
-    var GW2: Gw2Client = Gw2Client()
+    var GW2: Gw2Client
 
     /**
      * The Gw2 tile client.
      */
-    var TILE: TileClient = TileClient()
+    val TILE: TileClient
+
+    init {
+        // Only enable logging for debug mode.
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+
+        HTTP_CLIENT = OkHttpClient()
+        val httpClient = HttpClient(OkHttp) {
+            engine {
+                preconfigured = HTTP_CLIENT
+            }
+
+            HttpResponseValidator {
+                handleResponseException { ex -> Timber.e(ex) }
+            }
+        }
+
+        GW2 = Gw2Client(httpClient = httpClient)
+        TILE = TileClient(httpClient = httpClient)
+    }
 }

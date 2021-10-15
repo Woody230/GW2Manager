@@ -20,7 +20,7 @@ data class Wvw(
         val map = maps.firstOrNull { map -> map.type == type }
         return if (map == null) {
             Timber.e("Missing WvW map type $type.")
-            WvwMap(type = type, x = 0, y = 0)
+            WvwMap(type = type)
         } else {
             map
         }

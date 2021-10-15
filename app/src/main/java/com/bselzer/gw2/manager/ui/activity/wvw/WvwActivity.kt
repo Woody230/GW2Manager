@@ -41,7 +41,7 @@ import com.bselzer.library.gw2.v2.model.extension.wvw.objectiveId
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
-import com.bselzer.library.gw2.v2.tile.model.TileGrid
+import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.library.kotlin.extension.coroutine.cancel
 import com.bselzer.library.kotlin.extension.coroutine.repeat
 import com.bselzer.library.kotlin.extension.function.collection.addTo
@@ -162,6 +162,7 @@ class WvwActivity : AppCompatActivity() {
 
         // Until a selection is made so that tiling can be done, display a progress bar.
         // TODO transition between missing vs shown
+        // TODO partial loading as tiles get downloaded or retrieved from cache
         if (grid == null || grid.tiles.isEmpty()) {
             ShowMissingGridData()
         } else {
@@ -185,7 +186,7 @@ class WvwActivity : AppCompatActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text("Loading the WvW map.", fontWeight = FontWeight.Bold)
-                CircularProgressIndicator(modifier = Modifier.fillMaxSize(0.25f))
+                CircularProgressIndicator()
             }
         }
 
@@ -232,7 +233,7 @@ class WvwActivity : AppCompatActivity() {
         val density = LocalDensity.current
 
         Timber.d("Displaying grid with tile size ${grid.tileWidth} x ${grid.tileHeight}.")
-        for (row in grid.tiles) {
+        for (row in grid.grid) {
             Row {
                 for (tile in row) {
                     Timber.d("Tile [${tile.x},${tile.y}]")

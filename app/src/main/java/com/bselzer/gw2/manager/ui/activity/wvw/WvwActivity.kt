@@ -236,8 +236,6 @@ class WvwActivity : AppCompatActivity() {
         for (row in grid.grid) {
             Row {
                 for (tile in row) {
-                    Timber.d("Tile [${tile.x},${tile.y}]")
-
                     // TODO use coil to cache bitmaps
                     val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size) ?: continue
                     Image(

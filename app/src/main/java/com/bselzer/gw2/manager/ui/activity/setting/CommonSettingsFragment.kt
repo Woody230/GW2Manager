@@ -66,10 +66,8 @@ class CommonSettingsFragment : PreferenceFragmentCompat() {
                     text = token
                 } catch (ex: ClientRequestException) {
                     showToast(context, "Unable to save the token: ${ex.response.readText()}", Toast.LENGTH_LONG)
-                    Timber.e(ex)
                 } catch (ex: Exception) {
                     showToast(context, "Unable to save the token.", Toast.LENGTH_SHORT)
-                    Timber.e(ex)
                 }
             }
             return@OnPreferenceChangeListener false

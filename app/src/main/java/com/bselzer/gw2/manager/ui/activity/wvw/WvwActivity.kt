@@ -64,12 +64,7 @@ class WvwActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            Column {
-                Toolbar()
-                Content()
-            }
-        }
+        setContent { Content() }
     }
 
     @OptIn(ExperimentalTime::class)
@@ -158,15 +153,19 @@ class WvwActivity : AppCompatActivity() {
     @Preview
     @Composable
     private fun Content() = AppTheme {
-        val grid = remember { grid }.value
+        Column {
+            Toolbar()
 
-        // Until a selection is made so that tiling can be done, display a progress bar.
-        // TODO transition between missing vs shown
-        // TODO partial loading as tiles get downloaded or retrieved from cache
-        if (grid == null || grid.tiles.isEmpty()) {
-            ShowMissingGridData()
-        } else {
-            ShowGridData(grid)
+            val grid = remember { grid }.value
+
+            // Until a selection is made so that tiling can be done, display a progress bar.
+            // TODO transition between missing vs shown
+            // TODO partial loading as tiles get downloaded or retrieved from cache
+            if (grid == null || grid.tiles.isEmpty()) {
+                ShowMissingGridData()
+            } else {
+                ShowGridData(grid)
+            }
         }
     }
 

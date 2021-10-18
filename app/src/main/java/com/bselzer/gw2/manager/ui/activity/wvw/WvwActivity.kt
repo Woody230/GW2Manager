@@ -58,7 +58,6 @@ import com.bselzer.library.kotlin.extension.preference.nullLatest
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
-import kotlinx.coroutines.sync.Mutex
 import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
@@ -71,6 +70,7 @@ class WvwActivity : AppCompatActivity() {
     private val continent = mutableStateOf<Continent?>(null)
     private val floor = mutableStateOf<ContinentFloor?>(null)
     private val grid = mutableStateOf(TileGrid())
+    private val zoom = 4 // TODO configurable zoom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,32 +147,28 @@ class WvwActivity : AppCompatActivity() {
         val continent = this.continent.value
         val floor = this.floor.value
 
-        // Verify the grid is not populated yet.
         // Verify that the related data exists.
-        if (this.grid.value.tiles.isNotEmpty() || continent == null || floor == null) {
+        if (continent == null || floor == null) {
             return
         }
 
-        // TODO configurable zoom
-        Timber.d("Refreshing WvW tile grid data.")
-        val gridRequest = AppCompanion.TILE.requestGrid(continent, floor, 5)
-        val mutex = Mutex()
+        val zoom = this.zoom
+        Timber.d("Refreshing WvW tile grid data for zoom level $zoom.")
+
+        // Cut off unneeded space that the clamped view specifies.
+        val gridRequest = AppCompanion.TILE.requestGrid(continent, floor, zoom).bounded(startX = 5, startY = 8, endX = 14, endY = 15)
+
+        // Set up the bitmaps for the requests that have not been cached yet.
+        val cacheMisses = gridRequest.tileRequests.filter { tileRequest -> AppCompanion.IMAGE_LOADER.memoryCache[tileRequest.memoryKey(zoom)] == null }
 
         // MUST defer all calls first before awaiting for parallelism.
-        // Committing in batches so that the map can be partially generated as opposed to instantly generated.
-        for (batch in gridRequest.tileRequests.map { tileRequest -> AppCompanion.TILE.tileAsync(tileRequest) }.chunked(gridRequest.endY - gridRequest.startY)) {
-            val tiles = batch.map { deferred ->
-                val tile = deferred.await()
-                val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
-                AppCompanion.IMAGE_LOADER.memoryCache[tile.memoryKey()] = bitmap
-                return@map tile
-            }
-
-            // Commit the tiles.
-            mutex.lock()
-            this.grid.value = TileGrid(gridRequest, this.grid.value.tiles.plus(tiles))
-            mutex.unlock()
+        for (tile in cacheMisses.map { tileRequest -> AppCompanion.TILE.tileAsync(tileRequest) }.map { deferred -> deferred.await() }) {
+            val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
+            AppCompanion.IMAGE_LOADER.memoryCache[tile.memoryKey(zoom)] = bitmap
         }
+
+        // Set up the grid without content in the tiles.
+        this.grid.value = TileGrid(gridRequest, gridRequest.tileRequests.map { tileRequest -> Tile(tileRequest) })
     }
 
     @Preview
@@ -185,7 +181,6 @@ class WvwActivity : AppCompatActivity() {
 
             // Until a selection is made so that tiling can be done, display a progress bar.
             // TODO transition between missing vs shown
-            // TODO partial loading as tiles get downloaded or retrieved from cache
             if (grid.tiles.isEmpty()) {
                 ShowMissingGridData()
             } else {
@@ -233,12 +228,12 @@ class WvwActivity : AppCompatActivity() {
     /**
      * @return the Coil memory cache key associated with a tile
      */
-    private fun TileRequest.memoryKey(): MemoryCache.Key = MemoryCache.Key("WvwMapTile${x}x${y}")
+    private fun TileRequest.memoryKey(zoom: Int): MemoryCache.Key = MemoryCache.Key("WvwMapTile${x}x${y}x${zoom}")
 
     /**
      * @return the Coil memory cache key associated with a tile
      */
-    private fun Tile.memoryKey(): MemoryCache.Key = MemoryCache.Key("WvwMapTile${x}x${y}")
+    private fun Tile.memoryKey(zoom: Int): MemoryCache.Key = MemoryCache.Key("WvwMapTile${x}x${y}x${zoom}")
 
     /**
      * Displays the grid content.
@@ -266,10 +261,11 @@ class WvwActivity : AppCompatActivity() {
     ) {
         val density = LocalDensity.current
         val grid = remember { grid }.value
+        val zoom = this@WvwActivity.zoom
         for (row in grid.grid) {
             Row {
                 for (tile in row) {
-                    val bitmap = AppCompanion.IMAGE_LOADER.memoryCache[tile.memoryKey()] ?: continue
+                    val bitmap = AppCompanion.IMAGE_LOADER.memoryCache[tile.memoryKey(zoom)] ?: continue
                     Timber.d("Displaying tile [${tile.x},${tile.y}].")
                     Image(
                         painter = BitmapPainter(bitmap.asImageBitmap()),
@@ -294,8 +290,8 @@ class WvwActivity : AppCompatActivity() {
 
         val request = ImageRequest.Builder(this@WvwActivity)
             .data(objective.iconLink)
-            .size(256, 256) // TODO size
-            .placeholder(R.drawable.gw2_lock)
+            .size(100, 100) // TODO size
+            //.placeholder(R.drawable.gw2_lock) // TODO placeholder scaling
             .transformations(object : Transformation {
                 override fun key(): String = owner.toString()
 

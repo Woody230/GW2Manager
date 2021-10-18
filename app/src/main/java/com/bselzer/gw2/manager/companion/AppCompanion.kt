@@ -34,6 +34,8 @@ object AppCompanion
         APPLICATION = application
 
         val okHttpClient = OkHttpClient.Builder().cache(CoilUtils.createDefaultCache(application)).build()
+
+        // TODO no internet connectivity will throw exception on initialization: java.net.UnknownHostException: Unable to resolve host "api.guildwars2.com": No address associated with hostname
         val httpClient = HttpClient(OkHttp) {
             engine {
                 preconfigured = okHttpClient

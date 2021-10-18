@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import coil.ImageLoader
+import coil.util.CoilUtils
 import com.bselzer.gw2.manager.BuildConfig
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.DATASTORE
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.TOKEN
@@ -32,8 +33,21 @@ object AppCompanion
     fun initialize(application: Application) {
         APPLICATION = application
 
+        val okHttpClient = OkHttpClient.Builder().cache(CoilUtils.createDefaultCache(application)).build()
+        val httpClient = HttpClient(OkHttp) {
+            engine {
+                preconfigured = okHttpClient
+            }
+
+            HttpResponseValidator {
+                handleResponseException { ex -> Timber.e(ex) }
+            }
+        }
+
+        GW2 = Gw2Client(httpClient = httpClient)
+        TILE = TileClient(httpClient = httpClient)
         CONFIG = application.getConfiguration()
-        IMAGE_LOADER = application.getImageLoader()
+        IMAGE_LOADER = application.getImageLoader(okHttpClient)
         DATASTORE = application.DATASTORE.apply {
             setupDatastore()
         }
@@ -42,17 +56,20 @@ object AppCompanion
     /**
      * @return the configuration
      */
-    private fun Application.getConfiguration(): Configuration {
+    private fun Application.getConfiguration(): Configuration = try {
         // TODO attempt to get config from online location and default to bundled config if that fails
         val config = assets.open("Configuration.xml").bufferedReader(Charsets.UTF_8).use { reader -> reader.readText() }
-        return XML.decodeFromString(Configuration.serializer(), config)
+        XML.decodeFromString(Configuration.serializer(), config)
+    } catch (ex: Exception) {
+        Timber.e("Unable to create the configuration.", ex)
+        Configuration()
     }
 
     /**
      * @return the Coil image loader
      */
     // TODO custom disk cache? https://coil-kt.github.io/coil/image_loaders/#caching
-    private fun Application.getImageLoader(): ImageLoader = ImageLoader.Builder(this).okHttpClient(HTTP_CLIENT).build()
+    private fun Application.getImageLoader(okHttpClient: OkHttpClient): ImageLoader = ImageLoader.Builder(this).okHttpClient(okHttpClient).build()
 
     /**
      * Sets up the datastore and information relying on the datastore.
@@ -90,38 +107,19 @@ object AppCompanion
     lateinit var IMAGE_LOADER: ImageLoader
 
     /**
-     * The HTTP client to share across all instances.
-     */
-    val HTTP_CLIENT: OkHttpClient
-
-    /**
      * The GW2 API wrapper.
      */
-    var GW2: Gw2Client
+    lateinit var GW2: Gw2Client
 
     /**
-     * The Gw2 tile client.
+     * The GW2 tile client.
      */
-    val TILE: TileClient
+    lateinit var TILE: TileClient
 
     init {
         // Only enable logging for debug mode.
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-
-        HTTP_CLIENT = OkHttpClient()
-        val httpClient = HttpClient(OkHttp) {
-            engine {
-                preconfigured = HTTP_CLIENT
-            }
-
-            HttpResponseValidator {
-                handleResponseException { ex -> Timber.e(ex) }
-            }
-        }
-
-        GW2 = Gw2Client(httpClient = httpClient)
-        TILE = TileClient(httpClient = httpClient)
     }
 }

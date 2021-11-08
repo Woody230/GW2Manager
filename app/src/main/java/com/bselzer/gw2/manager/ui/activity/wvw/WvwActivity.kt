@@ -378,7 +378,10 @@ class WvwActivity : AppCompatActivity() {
                 AlertDialog.Builder(this@WvwActivity)
                     .setTitle("Worlds")
                     .setSingleChoiceItems(worlds.map { world -> world.name }.toTypedArray(), selectedWorld) { dialog, which ->
-                        AppCompanion.DATASTORE.update(SELECTED_WORLD, worlds[which].id, CoroutineScope(Dispatchers.IO))
+                        CoroutineScope(Dispatchers.IO).launch {
+                            AppCompanion.DATASTORE.update(SELECTED_WORLD, worlds[which].id)
+                            refreshData()
+                        }
                         dialog.dismiss()
                     }
                     .setCancelable(cancellable)

@@ -85,6 +85,7 @@ dependencies {
     // TODO jitpack
     implementation("com.bselzer.library.kotlin.extension:function:$extension_version")
     implementation("com.bselzer.library.kotlin.extension:preference:$extension_version")
+    implementation("com.bselzer.library.kotlin.extension:geometry:$extension_version")
 
     // Test
     testImplementation("junit:junit:4.13.2")

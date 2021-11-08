@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import coil.bitmap.BitmapPool
 import coil.compose.rememberImagePainter
 import coil.memory.MemoryCache
@@ -47,6 +48,7 @@ import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
+import com.bselzer.library.gw2.v2.tile.extension.scale
 import com.bselzer.library.gw2.v2.tile.model.request.TileRequest
 import com.bselzer.library.gw2.v2.tile.model.response.Tile
 import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
@@ -54,11 +56,13 @@ import com.bselzer.library.kotlin.extension.coroutine.cancel
 import com.bselzer.library.kotlin.extension.coroutine.repeat
 import com.bselzer.library.kotlin.extension.function.collection.addTo
 import com.bselzer.library.kotlin.extension.function.ui.changeColor
+import com.bselzer.library.kotlin.extension.geometry.dimension.bi.position.Point
 import com.bselzer.library.kotlin.extension.preference.nullLatest
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
 import timber.log.Timber
+import kotlin.math.pow
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
@@ -156,6 +160,7 @@ class WvwActivity : AppCompatActivity() {
         Timber.d("Refreshing WvW tile grid data for zoom level $zoom.")
 
         // Cut off unneeded space that the clamped view specifies.
+        // TODO bound management per zoom level
         val gridRequest = AppCompanion.TILE.requestGrid(continent, floor, zoom).bounded(startX = 5, startY = 8, endX = 14, endY = 15)
 
         // Set up the bitmaps for the requests that have not been cached yet.
@@ -282,8 +287,6 @@ class WvwActivity : AppCompatActivity() {
      */
     @Composable
     private fun ShowObjectives() = remember { objectives }.value.forEach { objective ->
-        val density = LocalDensity.current
-
         // Find the objective through the match in order to find out who the owner is.
         val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
         val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
@@ -305,19 +308,34 @@ class WvwActivity : AppCompatActivity() {
 
                     return input.changeColor(color)
                 }
-
             })
             .build()
+
+        val grid = this.grid.value
+        val continent = this.continent.value ?: return@forEach
+
+        val imageSize = 64
+
+        // Scale the objective coordinates to the zoom level and remove excluded bounds.
+        val scaled = Point(objective.coordinates.x, objective.coordinates.y).scale(grid, continent, zoom).run {
+            // Displace the coordinates so that it aligns with the center of the image.
+            // TODO size management per objective type image
+            copy(x = x - imageSize / 2, y = y - imageSize / 2)
+        }
+
+        // Offset needs to be done with DP so conversion must be done from pixels.
+        val density = LocalDensity.current
+        val xDp = density.run { scaled.x.toInt().toDp() }
+        val yDp = density.run { scaled.y.toInt().toDp() }
 
         // Overlay the objective image onto the map image.
         Image(
             painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
             contentDescription = objective.name,
-            contentScale = ContentScale.None,
-
-            // Offset needs to be done with DP so conversion must be done from pixels.
-            // TODO set actual objective positions
-            modifier = Modifier.absoluteOffset(density.run { 0.toDp() }, density.run { 0.toDp() })
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .absoluteOffset(xDp, yDp)
+                .size(density.run { imageSize.toDp() }, density.run { imageSize.toDp() }) // TODO size management
         )
     }
 

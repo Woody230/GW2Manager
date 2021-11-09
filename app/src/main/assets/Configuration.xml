@@ -9,6 +9,10 @@
             <Color owner="Blue" type="#0000FF" />
             <Color owner="Green" type="#00FF00" />
             <Color owner="Neutral" type="#888888" />
+
+            <!-- Objectives -->
+            <Objective type="Spawn" icon="https://render.guildwars2.com/file/32633AF8ADEA696A1EF56D3AE32D617B10D3AC57/157353.png" />
+            <Objective type="Mercenary" icon="https://assets.gw2dat.com/102682.png" />
         </Objectives>
         <Map bounded="true" region="World vs. World">
             <Scroll enabled="true" map="Eternal Battlegrounds" />

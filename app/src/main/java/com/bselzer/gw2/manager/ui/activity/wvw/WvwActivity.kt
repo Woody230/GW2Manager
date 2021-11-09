@@ -41,7 +41,9 @@ import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.model.continent.Continent
 import com.bselzer.library.gw2.v2.model.continent.ContinentFloor
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.owner
+import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.type
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
+import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
@@ -335,17 +337,22 @@ class WvwActivity : AppCompatActivity() {
         val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
         val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
 
-        // TODO spawn won't have image
+        val configObjective = config.objectives.objectives.firstOrNull { configObjective -> configObjective.type == objective.type()}
 
-        val width = config.objectives.defaultSize.width
-        val height = config.objectives.defaultSize.height
+        // Get the size from the configured objective if it is defined, otherwise use the default.
+        val width = configObjective?.size?.width ?: config.objectives.defaultSize.width
+        val height = configObjective?.size?.height ?: config.objectives.defaultSize.height
+
+        // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
+        val link = if (objective.iconLink.isNotBlank()) objective.iconLink else configObjective?.defaultIconLink
         val request = ImageRequest.Builder(this@WvwActivity)
-            .data(objective.iconLink)
+            .data(link)
             .size(width, height)
             //.placeholder(R.drawable.gw2_lock) // TODO placeholder scaling
             .transformations(object : Transformation {
                 override fun key(): String = owner.toString()
                 override suspend fun transform(pool: BitmapPool, input: Bitmap, size: Size): Bitmap {
+                    // Change the image color to match the associated owner.
                     val hex = config.objectives.colors.firstOrNull { color -> color.owner == owner }?.type
                     val color = if (hex.isNullOrBlank()) Color.GRAY else Color.parseColor(hex)
                     return input.changeColor(color)
@@ -356,8 +363,11 @@ class WvwActivity : AppCompatActivity() {
         val grid = this.grid.value
         val continent = this.continent.value ?: return@forEach
 
+        // Use the explicit coordinates if they exist, otherwise default to the label coordinates. This is needed for atypical types such as Spawn/Mercenary.
+        val coordinates = if (objective.coordinates.x != 0.0 && objective.coordinates.y != 0.0) Point(objective.coordinates.x, objective.coordinates.y) else objective.labelCoordinates
+
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        val scaled = Point(objective.coordinates.x, objective.coordinates.y).scale(grid, continent, zoom).run {
+        val scaled = coordinates.scale(grid, continent, zoom).run {
             // Displace the coordinates so that it aligns with the center of the image.
             copy(x = x - width / 2, y = y - height / 2)
         }

@@ -9,5 +9,8 @@ class WvwObjectives(
     val defaultSize: WvwSize = WvwSize(),
 
     @XmlSerialName(value = "Color", namespace = "", prefix = "")
-    val colors: List<WvwColor> = emptyList()
+    val colors: List<WvwColor> = emptyList(),
+
+    @XmlSerialName(value = "Objective", namespace = "", prefix = "")
+    val objectives: List<WvwObjective> = emptyList()
 )

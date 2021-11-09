@@ -10,5 +10,6 @@ data class Configuration(
     /**
      * World vs. World
      */
+    @XmlSerialName(value = "WorldVsWorld", namespace = "", prefix = "")
     val wvw: Wvw = Wvw()
 )

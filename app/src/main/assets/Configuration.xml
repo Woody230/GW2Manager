@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
+<Configuration> <!-- TODO versioning -->
     <WorldVsWorld>
+        <Objectives>
+            <Size width="64" height="64" />
+
+            <!-- Colors -->
+            <Color owner="Red" type="#FF0000" />
+            <Color owner="Blue" type="#0000FF" />
+            <Color owner="Green" type="#00FF00" />
+            <Color owner="Neutral" type="#888888" />
+        </Objectives>
     </WorldVsWorld>
 </Configuration>

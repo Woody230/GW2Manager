@@ -291,21 +291,18 @@ class WvwActivity : AppCompatActivity() {
         val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
         val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
 
+        val config = AppCompanion.CONFIG.wvw
+        val width = config.objectives.defaultSize.width
+        val height = config.objectives.defaultSize.height
         val request = ImageRequest.Builder(this@WvwActivity)
             .data(objective.iconLink)
-            .size(100, 100) // TODO size
+            .size(width, height)
             //.placeholder(R.drawable.gw2_lock) // TODO placeholder scaling
             .transformations(object : Transformation {
                 override fun key(): String = owner.toString()
-
                 override suspend fun transform(pool: BitmapPool, input: Bitmap, size: Size): Bitmap {
-                    val color = when (owner) {
-                        ObjectiveOwner.RED -> Color.RED
-                        ObjectiveOwner.BLUE -> Color.BLUE
-                        ObjectiveOwner.GREEN -> Color.GREEN
-                        else -> Color.GRAY
-                    }
-
+                    val hex = config.objectives.colors.firstOrNull { color -> color.owner == owner }?.type
+                    val color = if (hex.isNullOrBlank()) Color.GRAY else Color.parseColor(hex)
                     return input.changeColor(color)
                 }
             })
@@ -314,19 +311,18 @@ class WvwActivity : AppCompatActivity() {
         val grid = this.grid.value
         val continent = this.continent.value ?: return@forEach
 
-        val imageSize = 64
-
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
         val scaled = Point(objective.coordinates.x, objective.coordinates.y).scale(grid, continent, zoom).run {
             // Displace the coordinates so that it aligns with the center of the image.
-            // TODO size management per objective type image
-            copy(x = x - imageSize / 2, y = y - imageSize / 2)
+            copy(x = x - width / 2, y = y - height / 2)
         }
 
-        // Offset needs to be done with DP so conversion must be done from pixels.
+        // Measurements are done with DP so conversion must be done from pixels.
         val density = LocalDensity.current
         val xDp = density.run { scaled.x.toInt().toDp() }
         val yDp = density.run { scaled.y.toInt().toDp() }
+        val widthDp = density.run { width.toDp() }
+        val heightDp = density.run { height.toDp() }
 
         // Overlay the objective image onto the map image.
         Image(
@@ -335,7 +331,7 @@ class WvwActivity : AppCompatActivity() {
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .absoluteOffset(xDp, yDp)
-                .size(density.run { imageSize.toDp() }, density.run { imageSize.toDp() }) // TODO size management
+                .size(widthDp, heightDp)
         )
     }
 

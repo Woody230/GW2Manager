@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
-@XmlSerialName(value = "WorldVsWorld", namespace = "", prefix = "")
 class Wvw(
-
+    @XmlSerialName(value = "Objectives", namespace = "", prefix = "")
+    val objectives: WvwObjectives = WvwObjectives()
 )

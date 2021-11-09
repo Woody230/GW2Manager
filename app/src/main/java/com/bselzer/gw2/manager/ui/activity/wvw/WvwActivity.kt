@@ -8,11 +8,8 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -67,6 +64,7 @@ import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
 class WvwActivity : AppCompatActivity() {
+    private val config = AppCompanion.CONFIG.wvw
     private val jobs: ArrayDeque<Job> = ArrayDeque()
     private val worlds = mutableStateOf(emptyList<World>())
     private val match = mutableStateOf<WvwMatch?>(null)
@@ -74,7 +72,7 @@ class WvwActivity : AppCompatActivity() {
     private val continent = mutableStateOf<Continent?>(null)
     private val floor = mutableStateOf<ContinentFloor?>(null)
     private val grid = mutableStateOf(TileGrid())
-    private val zoom = 4 // TODO configurable zoom
+    private val zoom = config.map.defaultZoom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,9 +157,23 @@ class WvwActivity : AppCompatActivity() {
         val zoom = this.zoom
         Timber.d("Refreshing WvW tile grid data for zoom level $zoom.")
 
-        // Cut off unneeded space that the clamped view specifies.
-        // TODO bound management per zoom level
-        val gridRequest = AppCompanion.TILE.requestGrid(continent, floor, zoom).bounded(startX = 5, startY = 8, endX = 14, endY = 15)
+        val gridRequest = AppCompanion.TILE.requestGrid(continent, floor, zoom).let { request ->
+            if (config.map.isBounded)
+            {
+                // Cut off unneeded space that the clamped view specifies.
+                val bound = config.map.levels.firstOrNull { level -> level.zoom == zoom }?.bound
+                if (bound != null)
+                {
+                    return@let request.bounded(startX = bound.startX, startY = bound.startY, endX = bound.endX, endY = bound.endY)
+                }
+                else
+                {
+                    Timber.w("Unable to create a bounded request for zoom level $zoom.")
+                }
+            }
+
+            return@let request
+        }
 
         // Set up the bitmaps for the requests that have not been cached yet.
         val cacheMisses = gridRequest.tileRequests.filter { tileRequest -> AppCompanion.IMAGE_LOADER.memoryCache[tileRequest.memoryKey(zoom)] == null }
@@ -258,6 +270,15 @@ class WvwActivity : AppCompatActivity() {
             ShowObjectives()
         }
 
+        if (config.map.scroll.enabled)
+        {
+            InitialMapScroll(horizontal, vertical)
+        }
+    }
+
+    @Composable
+    private fun InitialMapScroll(horizontal: ScrollState, vertical: ScrollState)
+    {
         // Can't scale without knowing the continent dimensions and floor regions/maps.
         val floor = remember { floor }.value
         val continent = remember { continent }.value
@@ -265,10 +286,10 @@ class WvwActivity : AppCompatActivity() {
         if (continent != null && floor != null && grid.tiles.isNotEmpty())
         {
             // Get the WvW region. It should be the only one that exists within this floor.
-            val region = floor.regions.values.firstOrNull { region -> region.name == "World vs. World" }
+            val region = floor.regions.values.firstOrNull { region -> region.name == config.map.regionName }
 
-            // Scroll over to the Eternal Battlegrounds.
-            region?.maps?.values?.firstOrNull { map -> map.name == "Eternal Battlegrounds" }?.let { eb ->
+            // Scroll over to the configured map.
+            region?.maps?.values?.firstOrNull { map -> map.name == config.map.scroll.mapName }?.let { eb ->
                 val topLeft = eb.continentRectangle.point1.scale(grid, continent, zoom)
                 rememberCoroutineScope().launch {
                     horizontal.animateScrollTo(topLeft.x.toInt())
@@ -312,7 +333,6 @@ class WvwActivity : AppCompatActivity() {
         val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
         val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
 
-        val config = AppCompanion.CONFIG.wvw
         val width = config.objectives.defaultSize.width
         val height = config.objectives.defaultSize.height
         val request = ImageRequest.Builder(this@WvwActivity)

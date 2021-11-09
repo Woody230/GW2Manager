@@ -63,7 +63,7 @@ object AppCompanion
         val config = assets.open("Configuration.xml").bufferedReader(Charsets.UTF_8).use { reader -> reader.readText() }
         XML.decodeFromString(Configuration.serializer(), config)
     } catch (ex: Exception) {
-        Timber.e("Unable to create the configuration.", ex)
+        Timber.e(ex, "Unable to create the configuration.")
         Configuration()
     }
 

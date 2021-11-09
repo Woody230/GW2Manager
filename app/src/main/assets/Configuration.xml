@@ -10,5 +10,11 @@
             <Color owner="Green" type="#00FF00" />
             <Color owner="Neutral" type="#888888" />
         </Objectives>
+        <Map bounded="true" region="World vs. World">
+            <Scroll enabled="true" map="Eternal Battlegrounds" />
+            <Level zoom="4">
+                <Bound startX="5" startY="8" endX="14" endY="15" />
+            </Level>
+        </Map>
     </WorldVsWorld>
 </Configuration>

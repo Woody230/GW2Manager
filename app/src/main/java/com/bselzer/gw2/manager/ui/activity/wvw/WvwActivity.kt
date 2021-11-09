@@ -245,15 +245,36 @@ class WvwActivity : AppCompatActivity() {
      */
     @Composable
     private fun ShowGridData() {
-        // TODO Focus the initial scroll position on the Eternal Battlegrounds.
+        val horizontal = rememberScrollState()
+        val vertical = rememberScrollState()
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .horizontalScroll(rememberScrollState())
-                .verticalScroll(rememberScrollState())
+                .horizontalScroll(horizontal)
+                .verticalScroll(vertical)
         ) {
             ShowMap()
             ShowObjectives()
+        }
+
+        // Can't scale without knowing the continent dimensions and floor regions/maps.
+        val floor = remember { floor }.value
+        val continent = remember { continent }.value
+        val grid = remember { grid }.value
+        if (continent != null && floor != null && grid.tiles.isNotEmpty())
+        {
+            // Get the WvW region. It should be the only one that exists within this floor.
+            val region = floor.regions.values.firstOrNull { region -> region.name == "World vs. World" }
+
+            // Scroll over to the Eternal Battlegrounds.
+            region?.maps?.values?.firstOrNull { map -> map.name == "Eternal Battlegrounds" }?.let { eb ->
+                val topLeft = eb.continentRectangle.point1.scale(grid, continent, zoom)
+                rememberCoroutineScope().launch {
+                    horizontal.animateScrollTo(topLeft.x.toInt())
+                    vertical.animateScrollTo(topLeft.y.toInt())
+                }
+            }
         }
     }
 

@@ -160,7 +160,7 @@ class WvwActivity : AppCompatActivity() {
         val gridRequest = AppCompanion.TILE.requestGrid(continent, floor, zoom).let { request ->
             if (config.map.isBounded)
             {
-                // Cut off unneeded space that the clamped view specifies.
+                // Cut off unneeded tiles.
                 val bound = config.map.levels.firstOrNull { level -> level.zoom == zoom }?.bound
                 if (bound != null)
                 {
@@ -267,6 +267,8 @@ class WvwActivity : AppCompatActivity() {
                 .verticalScroll(vertical)
         ) {
             ShowMap()
+
+            // TODO bloodlust icon?
             ShowObjectives()
         }
 
@@ -332,6 +334,8 @@ class WvwActivity : AppCompatActivity() {
         // Find the objective through the match in order to find out who the owner is.
         val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
         val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
+
+        // TODO spawn won't have image
 
         val width = config.objectives.defaultSize.width
         val height = config.objectives.defaultSize.height

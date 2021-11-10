@@ -1,10 +1,10 @@
-package com.bselzer.gw2.manager.configuration.wvw
+package com.bselzer.gw2.manager.configuration.common
 
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
-class WvwMapLevelBound(
+class Bound(
     @XmlSerialName(value = "startX", namespace = "", prefix = "")
     val startX: Int = 0,
 

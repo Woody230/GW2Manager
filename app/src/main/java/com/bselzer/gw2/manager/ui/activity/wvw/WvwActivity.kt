@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -43,8 +44,8 @@ import com.bselzer.library.gw2.v2.model.continent.ContinentFloor
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.owner
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.type
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
-import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
 import com.bselzer.library.gw2.v2.model.world.World
+import com.bselzer.library.gw2.v2.model.wvw.match.WvwMapObjective
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.library.gw2.v2.tile.extension.scale
@@ -55,13 +56,13 @@ import com.bselzer.library.kotlin.extension.coroutine.cancel
 import com.bselzer.library.kotlin.extension.coroutine.repeat
 import com.bselzer.library.kotlin.extension.function.collection.addTo
 import com.bselzer.library.kotlin.extension.function.ui.changeColor
+import com.bselzer.library.kotlin.extension.geometry.dimension.bi.Dimension
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.position.Point
 import com.bselzer.library.kotlin.extension.preference.nullLatest
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
 import timber.log.Timber
-import kotlin.math.pow
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
@@ -75,6 +76,7 @@ class WvwActivity : AppCompatActivity() {
     private val floor = mutableStateOf<ContinentFloor?>(null)
     private val grid = mutableStateOf(TileGrid())
     private val zoom = config.map.defaultZoom
+    private val selectedObjective = mutableStateOf<WvwObjective?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -272,6 +274,7 @@ class WvwActivity : AppCompatActivity() {
 
             // TODO bloodlust icon?
             ShowObjectives()
+            ShowSelectedObjective()
         }
 
         if (config.map.scroll.enabled)
@@ -317,11 +320,19 @@ class WvwActivity : AppCompatActivity() {
             Row {
                 for (tile in row) {
                     val bitmap = AppCompanion.IMAGE_LOADER.memoryCache[tile.memoryKey(zoom)] ?: continue
-                    Timber.d("Displaying tile [${tile.x},${tile.y}].")
                     Image(
                         painter = BitmapPainter(bitmap.asImageBitmap()),
                         contentDescription = "WvW Map",
-                        modifier = Modifier.size(density.run { grid.tileWidth.toDp() }, density.run { grid.tileHeight.toDp() })
+                        modifier = Modifier
+                            .size(density.run { grid.tileWidth.toDp() }, density.run { grid.tileHeight.toDp() })
+                            .clickable(
+                                // Disable the ripple so that the illusion of a contiguous map is not broken.
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) {
+                                // Clear the objective pop-up.
+                                selectedObjective.value = null
+                            }
                     )
                 }
             }
@@ -331,23 +342,22 @@ class WvwActivity : AppCompatActivity() {
     /**
      * Displays the objectives on the map.
      */
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun ShowObjectives() = remember { objectives }.value.forEach { objective ->
         // Find the objective through the match in order to find out who the owner is.
-        val match = match.value?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id } ?: return@forEach
-        val owner = match.owner() ?: ObjectiveOwner.NEUTRAL
+        val matchObjective = match.value.objective(objective) ?: return@forEach
+        val owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL
 
-        val configObjective = config.objectives.objectives.firstOrNull { configObjective -> configObjective.type == objective.type()}
-
-        // Get the size from the configured objective if it is defined, otherwise use the default.
-        val width = configObjective?.size?.width ?: config.objectives.defaultSize.width
-        val height = configObjective?.size?.height ?: config.objectives.defaultSize.height
+        val configObjective = configObjective(objective)
+        val coordinates = scaledCoordinates(objective) ?: return
+        val size = objectiveSize(objective)
 
         // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
         val link = if (objective.iconLink.isNotBlank()) objective.iconLink else configObjective?.defaultIconLink
         val request = ImageRequest.Builder(this@WvwActivity)
             .data(link)
-            .size(width, height)
+            .size(size.width.toInt(), size.height.toInt())
             //.placeholder(R.drawable.gw2_lock) // TODO placeholder scaling
             .transformations(object : Transformation {
                 override fun key(): String = owner.toString()
@@ -360,24 +370,13 @@ class WvwActivity : AppCompatActivity() {
             })
             .build()
 
-        val grid = this.grid.value
-        val continent = this.continent.value ?: return@forEach
-
-        // Use the explicit coordinates if they exist, otherwise default to the label coordinates. This is needed for atypical types such as Spawn/Mercenary.
-        val coordinates = if (objective.coordinates.x != 0.0 && objective.coordinates.y != 0.0) Point(objective.coordinates.x, objective.coordinates.y) else objective.labelCoordinates
-
-        // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        val scaled = coordinates.scale(grid, continent, zoom).run {
-            // Displace the coordinates so that it aligns with the center of the image.
-            copy(x = x - width / 2, y = y - height / 2)
-        }
 
         // Measurements are done with DP so conversion must be done from pixels.
         val density = LocalDensity.current
-        val xDp = density.run { scaled.x.toInt().toDp() }
-        val yDp = density.run { scaled.y.toInt().toDp() }
-        val widthDp = density.run { width.toDp() }
-        val heightDp = density.run { height.toDp() }
+        val xDp = density.run { coordinates.x.toInt().toDp() }
+        val yDp = density.run { coordinates.y.toInt().toDp() }
+        val widthDp = density.run { size.width.toInt().toDp() }
+        val heightDp = density.run { size.height.toInt().toDp() }
 
         // Overlay the objective image onto the map image.
         Image(
@@ -387,7 +386,103 @@ class WvwActivity : AppCompatActivity() {
             modifier = Modifier
                 .absoluteOffset(xDp, yDp)
                 .size(widthDp, heightDp)
+                .combinedClickable(onLongClick = {
+                    //TODO show specifics: claimed by, upgrades/tactics/improvements, etc
+                }) {
+                    selectedObjective.value = objective
+                }
         )
+    }
+
+    /**
+     * Displays general information about the objective the user clicked on in a pop-up label.
+     */
+    @Composable
+    private fun ShowSelectedObjective()
+    {
+        val selected = remember { selectedObjective }.value ?: return
+        val coordinates = scaledCoordinates(selected) ?: return
+
+        // Measurements are done with DP so conversion must be done from pixels.
+        val density = LocalDensity.current
+        val xDp = density.run { coordinates.x.toInt().toDp() }
+        val yDp = density.run { coordinates.y.toInt().toDp() }
+
+        val match = remember { match }.value
+        val matchObjective = match.objective(selected)
+
+        // Treat the configured offset as DP instead of pixels.
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .absoluteOffset(xDp, yDp - 50.dp),
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.gw2_ice),
+                contentDescription = null,
+                modifier = Modifier.matchParentSize(),
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.Center
+            )
+            Column(
+                modifier = Modifier.wrapContentSize()
+            ) {
+                Text(text = selected.name, fontWeight = FontWeight.Bold, modifier = Modifier.wrapContentSize())
+                matchObjective?.let { matchObjective ->
+                    matchObjective.lastFlippedAt?.let { lastFlippedAt ->
+                        // TODO formatting the date from ISO to more readable format
+                        Text(text = "Flipped at $lastFlippedAt")
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @return the objective from the match endpoint that matches the objective from the objectives endpoint
+     */
+    // TODO can move to extensions
+    private fun WvwMatch?.objective(objective: WvwObjective): WvwMapObjective? = this?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id }
+
+    /**
+     * @return the objective from the configuration that matches the objective from the objectives endpoint
+     */
+    private fun configObjective(objective: WvwObjective): com.bselzer.gw2.manager.configuration.wvw.WvwObjective?
+    {
+        val type = objective.type()
+        return config.objectives.objectives.firstOrNull { configObjective -> configObjective.type == type }
+    }
+
+    /**
+     * @return the size of the image associated with an objective
+     */
+    private fun objectiveSize(objective: WvwObjective): Dimension
+    {
+        val configObjective = configObjective(objective)
+
+        // Get the size from the configured objective if it is defined, otherwise use the default.
+        val width = configObjective?.size?.width ?: config.objectives.defaultSize.width
+        val height = configObjective?.size?.height ?: config.objectives.defaultSize.height
+        return Dimension(width.toDouble(), height.toDouble())
+    }
+
+    /**
+     * @return the scaled coordinates of the image associated with an objective
+     */
+    private fun scaledCoordinates(objective: WvwObjective): Point?
+    {
+        val continent = this.continent.value ?: return null
+
+        val size = objectiveSize(objective)
+
+        // Use the explicit coordinates if they exist, otherwise default to the label coordinates. This is needed for atypical types such as Spawn/Mercenary.
+        val coordinates = if (objective.coordinates.x != 0.0 && objective.coordinates.y != 0.0) Point(objective.coordinates.x, objective.coordinates.y) else objective.labelCoordinates
+
+        // Scale the objective coordinates to the zoom level and remove excluded bounds.
+        return coordinates.scale(this.grid.value, continent, zoom).run {
+            // Displace the coordinates so that it aligns with the center of the image.
+            copy(x = x - size.width / 2, y = y - size.height / 2)
+        }
     }
 
     @Composable

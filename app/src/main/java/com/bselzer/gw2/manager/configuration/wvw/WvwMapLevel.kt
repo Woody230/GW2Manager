@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.configuration.wvw
 
+import com.bselzer.gw2.manager.configuration.common.Bound
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
@@ -9,5 +10,5 @@ class WvwMapLevel(
     val zoom: Int = -1,
 
     @XmlSerialName(value = "Bound", namespace = "", prefix = "")
-    val bound: WvwMapLevelBound = WvwMapLevelBound()
+    val bound: Bound = Bound()
 )

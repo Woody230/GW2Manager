@@ -93,9 +93,10 @@ class WvwActivity : AppCompatActivity() {
     // TODO mutable zoom
     // TODO immunity timers (5 min after capture -- make configurable)
     // TODO match details: scores, ppt, etc
-    // TODO claimed/upgrade indications
+    // TODO claimed/upgrade level/waypoint indications
     // TODO waypoint/bloodlust icons: partial color change
     // TODO track last flip owner? would need to be observed from refreshes since its not provided
+    // TODO guild acronym?
 
     private companion object
     {
@@ -452,7 +453,7 @@ class WvwActivity : AppCompatActivity() {
             Column(
                 modifier = Modifier.wrapContentSize()
             ) {
-                Text(text = selected.name, fontWeight = FontWeight.Bold, modifier = Modifier.wrapContentSize())
+                Text(text = "${selected.name} (${selected.type})", fontWeight = FontWeight.Bold, modifier = Modifier.wrapContentSize())
                 matchObjective?.let { matchObjective ->
                     matchObjective.lastFlippedAt?.let { lastFlippedAt ->
                         // TODO kotlinx.datetime please support formatting
@@ -503,8 +504,8 @@ class WvwActivity : AppCompatActivity() {
                 .build()
 
             // Scale the position before using it.
-            val x = objectiveRuins.sumOf { ruin -> ruin.coordinates.x } / matchRuins.count()
-            val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / matchRuins.count()
+            val x = objectiveRuins.sumOf { ruin -> ruin.coordinates.x } / objectiveRuins.count()
+            val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / objectiveRuins.count()
             val coordinates = Point(x, y).scaledCoordinates(this.grid.value, continent, zoom, Dimension(width.toDouble(), height.toDouble()))
 
             // Measurements are done with DP so conversion must be done from pixels.

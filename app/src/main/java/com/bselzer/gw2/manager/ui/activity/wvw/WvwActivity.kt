@@ -78,6 +78,14 @@ class WvwActivity : AppCompatActivity() {
     private val zoom = config.map.defaultZoom
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
 
+    // TODO partial grid rending
+    // TODO investigate (initial) tile download time
+    // TODO mutable zoom
+    // TODO immunity timers (5 min after capture -- make configurable)
+    // TODO match details: scores, ppt, etc
+    // TODO bloodlust indication
+    // TODO claimed/upgrade indications
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent { Content() }
@@ -205,7 +213,14 @@ class WvwActivity : AppCompatActivity() {
             if (grid.tiles.isEmpty()) {
                 ShowMissingGridData()
             } else {
-                ShowGridData()
+                Box(
+                    contentAlignment = Alignment.BottomStart
+                ) {
+                    ShowGridData()
+
+                    // Overlay the selected objective over everything else on the map.
+                    ShowSelectedObjective()
+                }
             }
         }
     }
@@ -271,10 +286,7 @@ class WvwActivity : AppCompatActivity() {
                 .verticalScroll(vertical)
         ) {
             ShowMap()
-
-            // TODO bloodlust icon?
             ShowObjectives()
-            ShowSelectedObjective()
         }
 
         if (config.map.scroll.enabled)
@@ -358,7 +370,6 @@ class WvwActivity : AppCompatActivity() {
         val request = ImageRequest.Builder(this@WvwActivity)
             .data(link)
             .size(size.width.toInt(), size.height.toInt())
-            //.placeholder(R.drawable.gw2_lock) // TODO placeholder scaling
             .transformations(object : Transformation {
                 override fun key(): String = owner.toString()
                 override suspend fun transform(pool: BitmapPool, input: Bitmap, size: Size): Bitmap {
@@ -401,21 +412,11 @@ class WvwActivity : AppCompatActivity() {
     private fun ShowSelectedObjective()
     {
         val selected = remember { selectedObjective }.value ?: return
-        val coordinates = scaledCoordinates(selected) ?: return
-
-        // Measurements are done with DP so conversion must be done from pixels.
-        val density = LocalDensity.current
-        val xDp = density.run { coordinates.x.toInt().toDp() }
-        val yDp = density.run { coordinates.y.toInt().toDp() }
-
         val match = remember { match }.value
         val matchObjective = match.objective(selected)
 
-        // Treat the configured offset as DP instead of pixels.
         Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .absoluteOffset(xDp, yDp - 50.dp),
+            modifier = Modifier.wrapContentSize()
         ) {
             Image(
                 painter = painterResource(id = R.drawable.gw2_ice),

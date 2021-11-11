@@ -94,6 +94,7 @@ class MainActivity : ComponentActivity()
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // TODO account activity => WvW rank/ability/currency info
         MenuButton(name = stringResource(id = R.string.activity_wvw)) {
             startActivity(Intent(this@MainActivity, WvwActivity::class.java))
         }

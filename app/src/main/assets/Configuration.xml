@@ -5,9 +5,9 @@
             <Size width="64" height="64" />
 
             <!-- Colors -->
-            <Color owner="Red" type="#FF0000" />
-            <Color owner="Blue" type="#0000FF" />
-            <Color owner="Green" type="#00FF00" />
+            <Color owner="Red" type="#ff4d4d" />
+            <Color owner="Blue" type="#00ffff" />
+            <Color owner="Green" type="#4dff4d" />
             <Color owner="Neutral" type="#888888" />
 
             <!-- Objectives -->

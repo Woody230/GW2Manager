@@ -20,5 +20,8 @@
                 <Bound startX="5" startY="8" endX="14" endY="15" />
             </Level>
         </Map>
+        <Bloodlust enabled="true" icon="https://assets.gw2dat.com/638740.png">
+            <Size width="64" height="64" />
+        </Bloodlust>
     </WorldVsWorld>
 </Configuration>

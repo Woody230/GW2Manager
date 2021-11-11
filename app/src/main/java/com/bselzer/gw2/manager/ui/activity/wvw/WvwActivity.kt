@@ -37,12 +37,17 @@ import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
+import com.bselzer.gw2.manager.configuration.wvw.Wvw
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.model.continent.Continent
 import com.bselzer.library.gw2.v2.model.continent.ContinentFloor
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.owner
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.type
+import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapBonusType
+import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapType
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
+import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
+import com.bselzer.library.gw2.v2.model.extension.wvw.objective
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMapObjective
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
@@ -54,6 +59,7 @@ import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.library.kotlin.extension.coroutine.cancel
 import com.bselzer.library.kotlin.extension.coroutine.repeat
 import com.bselzer.library.kotlin.extension.function.collection.addTo
+import com.bselzer.library.kotlin.extension.function.collection.isOneOf
 import com.bselzer.library.kotlin.extension.function.ui.changeColor
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.Dimension
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.position.Point
@@ -87,8 +93,26 @@ class WvwActivity : AppCompatActivity() {
     // TODO mutable zoom
     // TODO immunity timers (5 min after capture -- make configurable)
     // TODO match details: scores, ppt, etc
-    // TODO bloodlust indication
     // TODO claimed/upgrade indications
+    // TODO waypoint/bloodlust icons: partial color change
+    // TODO track last flip owner? would need to be observed from refreshes since its not provided
+
+    private companion object
+    {
+        /**
+         * Transforms the objective image into the owner's color.
+         */
+        class ObjectiveColorTransformation(private val config: Wvw, private val owner: ObjectiveOwner): Transformation
+        {
+            override fun key(): String = owner.toString()
+            override suspend fun transform(pool: BitmapPool, input: Bitmap, size: Size): Bitmap {
+                // Change the image color to match the associated owner.
+                val hex = config.objectives.colors.firstOrNull { color -> color.owner == owner }?.type
+                val color = if (hex.isNullOrBlank()) Color.GRAY else Color.parseColor(hex)
+                return input.changeColor(color)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -291,6 +315,11 @@ class WvwActivity : AppCompatActivity() {
         ) {
             ShowMap()
             ShowObjectives()
+
+            if (config.bloodlust.enabled)
+            {
+                ShowBloodlust()
+            }
         }
 
         if (config.map.scroll.enabled)
@@ -374,17 +403,8 @@ class WvwActivity : AppCompatActivity() {
         val request = ImageRequest.Builder(this@WvwActivity)
             .data(link)
             .size(size.width.toInt(), size.height.toInt())
-            .transformations(object : Transformation {
-                override fun key(): String = owner.toString()
-                override suspend fun transform(pool: BitmapPool, input: Bitmap, size: Size): Bitmap {
-                    // Change the image color to match the associated owner.
-                    val hex = config.objectives.colors.firstOrNull { color -> color.owner == owner }?.type
-                    val color = if (hex.isNullOrBlank()) Color.GRAY else Color.parseColor(hex)
-                    return input.changeColor(color)
-                }
-            })
+            .transformations(ObjectiveColorTransformation(config, owner))
             .build()
-
 
         // Measurements are done with DP so conversion must be done from pixels.
         val density = LocalDensity.current
@@ -445,10 +465,65 @@ class WvwActivity : AppCompatActivity() {
     }
 
     /**
-     * @return the objective from the match endpoint that matches the objective from the objectives endpoint
+     * Displays the bloodlust icon within each borderland.
      */
-    // TODO can move to extensions
-    private fun WvwMatch?.objective(objective: WvwObjective): WvwMapObjective? = this?.maps?.firstOrNull { map -> map.id == objective.mapId }?.objectives?.firstOrNull { match -> match.id == objective.id }
+    @Composable
+    private fun ShowBloodlust()
+    {
+        val match = remember { match }.value ?: return
+        val continent = remember { continent }.value ?: return
+        val objectives = remember { objectives }.value
+
+        val width = config.bloodlust.size.width
+        val height = config.bloodlust.size.height
+
+        val borderlands = match.maps.filter { map -> map.type().isOneOf(MapType.BLUE_BORDERLANDS, MapType.RED_BORDERLANDS, MapType.GREEN_BORDERLANDS) } ?: return
+        for(borderland in borderlands)
+        {
+            // Use the center of all of the ruins as the position of the bloodlust icon.
+            val matchRuins = borderland.objectives.filter { objective -> objective.type() == ObjectiveType.RUINS }
+            if (matchRuins.isEmpty())
+            {
+                Timber.w("Unable to create the bloodlust icon when there are no ruins on map ${borderland.id}.")
+                continue
+            }
+
+            val objectiveRuins = matchRuins.mapNotNull { ruin -> objectives.firstOrNull { objective -> objective.id == ruin.id } }
+            if (objectiveRuins.count() != matchRuins.count())
+            {
+                Timber.w("Mismatch between the number of ruins in the match and objectives.")
+                continue
+            }
+
+            val owner = borderland.bonuses.firstOrNull { bonus -> bonus.type() == MapBonusType.BLOODLUST }?.owner() ?: ObjectiveOwner.NEUTRAL
+            val request = ImageRequest.Builder(this@WvwActivity)
+                .data(config.bloodlust.iconLink)
+                .size(width, height)
+                .transformations(ObjectiveColorTransformation(config, owner))
+                .build()
+
+            // Scale the position before using it.
+            val x = objectiveRuins.sumOf { ruin -> ruin.coordinates.x } / matchRuins.count()
+            val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / matchRuins.count()
+            val coordinates = Point(x, y).scaledCoordinates(this.grid.value, continent, zoom, Dimension(width.toDouble(), height.toDouble()))
+
+            // Measurements are done with DP so conversion must be done from pixels.
+            val density = LocalDensity.current
+            val xDp = density.run { coordinates.x.toInt().toDp() }
+            val yDp = density.run { coordinates.y.toInt().toDp() }
+            val widthDp = density.run { width.toDp() }
+            val heightDp = density.run { height.toDp() }
+
+            Image(
+                painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
+                contentDescription = "Bloodlust",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .absoluteOffset(xDp, yDp)
+                    .size(widthDp, heightDp)
+            )
+        }
+    }
 
     /**
      * @return the objective from the configuration that matches the objective from the objectives endpoint
@@ -479,17 +554,22 @@ class WvwActivity : AppCompatActivity() {
     {
         val continent = this.continent.value ?: return null
 
-        val size = objectiveSize(objective)
-
         // Use the explicit coordinates if they exist, otherwise default to the label coordinates. This is needed for atypical types such as Spawn/Mercenary.
         val coordinates = if (objective.coordinates.x != 0.0 && objective.coordinates.y != 0.0) Point(objective.coordinates.x, objective.coordinates.y) else objective.labelCoordinates
 
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        return coordinates.scale(this.grid.value, continent, zoom).run {
+        return coordinates.scaledCoordinates(this.grid.value, continent, zoom, objectiveSize(objective))
+    }
+
+    /**
+     * @return the scaled coordinates of the image
+     */
+    private fun Point.scaledCoordinates(grid: TileGrid, continent: Continent, zoom: Int, size: Dimension): Point =
+        // Scale the objective coordinates to the zoom level and remove excluded bounds.
+        scale(grid, continent, zoom).run {
             // Displace the coordinates so that it aligns with the center of the image.
             copy(x = x - size.width / 2, y = y - size.height / 2)
         }
-    }
 
     @Composable
     private fun Toolbar() = TopAppBar(

@@ -12,5 +12,8 @@ class Wvw(
     val objectives: WvwObjectives = WvwObjectives(),
 
     @XmlSerialName(value = "Map", namespace = "", prefix = "")
-    val map: WvwMap = WvwMap()
+    val map: WvwMap = WvwMap(),
+
+    @XmlSerialName(value = "Bloodlust", namespace = "", prefix = "")
+    val bloodlust: WvwBloodlust = WvwBloodlust()
 )

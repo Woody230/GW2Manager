@@ -1,20 +1,17 @@
 package com.bselzer.gw2.manager.configuration.wvw
 
 import com.bselzer.gw2.manager.configuration.common.Size
-import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
 import kotlinx.serialization.Serializable
-import nl.adaptivity.xmlutil.serialization.XmlElement
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
-class WvwObjective(
-    @XmlSerialName(value = "type", namespace = "", prefix = "")
-    @XmlElement(false)
-    val type: ObjectiveType = ObjectiveType.GENERIC,
+class WvwBloodlust(
+    @XmlSerialName(value = "enabled", namespace = "", prefix = "")
+    val enabled: Boolean = false,
 
     @XmlSerialName(value = "icon", namespace = "", prefix = "")
-    val defaultIconLink: String? = null,
+    val iconLink: String = "",
 
     @XmlSerialName(value = "Size", namespace = "", prefix = "")
-    val size: Size? = null
+    val size: Size = Size()
 )

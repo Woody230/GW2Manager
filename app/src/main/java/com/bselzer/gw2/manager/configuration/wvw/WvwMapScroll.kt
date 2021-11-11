@@ -5,9 +5,6 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
 class WvwMapScroll(
-    /**
-     * The name of the map to scroll to.
-     */
     @XmlSerialName(value = "enabled", namespace = "", prefix = "")
     val enabled: Boolean = false,
 

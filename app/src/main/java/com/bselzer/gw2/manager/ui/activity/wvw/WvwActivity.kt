@@ -27,6 +27,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import coil.bitmap.BitmapPool
 import coil.compose.rememberImagePainter
 import coil.memory.MemoryCache
@@ -49,7 +53,6 @@ import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
 import com.bselzer.library.gw2.v2.model.extension.wvw.objective
 import com.bselzer.library.gw2.v2.model.world.World
-import com.bselzer.library.gw2.v2.model.wvw.match.WvwMapObjective
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.library.gw2.v2.tile.extension.scale
@@ -67,9 +70,7 @@ import com.bselzer.library.kotlin.extension.preference.nullLatest
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.*
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import kotlin.time.Duration
@@ -388,7 +389,7 @@ class WvwActivity : AppCompatActivity() {
     /**
      * Displays the objectives on the map.
      */
-    @OptIn(ExperimentalFoundationApi::class)
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalTime::class)
     @Composable
     private fun ShowObjectives() = remember { objectives }.value.forEach { objective ->
         // Find the objective through the match in order to find out who the owner is.
@@ -415,18 +416,66 @@ class WvwActivity : AppCompatActivity() {
         val heightDp = density.run { size.height.toInt().toDp() }
 
         // Overlay the objective image onto the map image.
-        Image(
-            painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
-            contentDescription = objective.name,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .absoluteOffset(xDp, yDp)
-                .size(widthDp, heightDp)
-                .combinedClickable(onLongClick = {
-                    //TODO show specifics: claimed by, upgrades/tactics/improvements, etc
-                }) {
-                    selectedObjective.value = objective
+        ConstraintLayout(
+            modifier = Modifier.absoluteOffset(xDp, yDp).wrapContentSize()
+        ) {
+            val (icon, timer) = createRefs()
+            Image(
+                painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
+                contentDescription = objective.name,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .constrainAs(icon) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                    }
+                    .size(widthDp, heightDp)
+                    .combinedClickable(onLongClick = {
+                        //TODO show specifics: claimed by, upgrades/tactics/improvements, etc
+                    }) {
+                        selectedObjective.value = objective
+                    }
+            )
+
+            if (config.objectives.immunity.enabled)
+            {
+                val immunity = configObjective?.immunity ?: config.objectives.immunity.defaultDuration
+                val flippedAt = matchObjective.lastFlippedAt
+                if (immunity != null && flippedAt != null)
+                {
+                    // Need to do the constraining within the scope of the ConstraintLayout.
+                    ShowImmunityTimer(immunity, flippedAt, Modifier.constrainAs(timer) {
+                        top.linkTo(icon.bottom)
+                        start.linkTo(icon.start)
+                        end.linkTo(icon.end)
+                    })
                 }
+            }
+        }
+    }
+
+    /**
+     * Displays the immunity timer for a recently captured objective.
+     */
+    @OptIn(ExperimentalTime::class)
+    @Composable
+    private fun ShowImmunityTimer(immunity: Duration, flippedAt: Instant, modifier: Modifier)
+    {
+        val remaining = immunity - Clock.System.now().minus(flippedAt)
+        if (remaining.isNegative()) return
+
+        val totalSeconds = remaining.inWholeSeconds
+        val seconds: Int = (totalSeconds % 60).toInt()
+        val minutes: Int = (totalSeconds / 60).toInt()
+
+        // Formatting: https://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html
+        // TODO countdown
+        Text(
+            text = "%01d:%02d".format(minutes, seconds),
+            fontWeight = FontWeight.Bold,
+            fontSize = config.objectives.immunity.textSize.sp,
+            color = androidx.compose.ui.graphics.Color.White,
+            modifier = modifier.wrapContentSize()
         )
     }
 

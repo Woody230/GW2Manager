@@ -3,6 +3,7 @@
     <WorldVsWorld dateFormat="hh:mm a 'on' EEEE">
         <Objectives>
             <Size width="64" height="64" />
+            <Immunity enabled="true" textSize="10" />
 
             <!-- Colors -->
             <Color owner="Red" type="#ff4d4d" />
@@ -11,6 +12,10 @@
             <Color owner="Neutral" type="#888888" />
 
             <!-- Objectives -->
+            <Objective type="Camp" immunity="5m" />
+            <Objective type="Tower" immunity="5m" />
+            <Objective type="Keep" immunity="5m" />
+            <Objective type="Castle" immunity="5m" />
             <Objective type="Spawn" icon="https://render.guildwars2.com/file/32633AF8ADEA696A1EF56D3AE32D617B10D3AC57/157353.png" />
             <Objective type="Mercenary" icon="https://assets.gw2dat.com/102682.png" />
         </Objectives>

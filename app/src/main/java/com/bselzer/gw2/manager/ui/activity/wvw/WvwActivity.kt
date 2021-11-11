@@ -27,8 +27,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.bitmap.BitmapPool
@@ -42,6 +40,7 @@ import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.configuration.wvw.Wvw
+import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.model.continent.Continent
 import com.bselzer.library.gw2.v2.model.continent.ContinentFloor
@@ -55,6 +54,7 @@ import com.bselzer.library.gw2.v2.model.extension.wvw.objective
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
+import com.bselzer.library.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.library.gw2.v2.tile.extension.scale
 import com.bselzer.library.gw2.v2.tile.model.request.TileRequest
 import com.bselzer.library.gw2.v2.tile.model.response.Tile
@@ -82,6 +82,7 @@ class WvwActivity : AppCompatActivity() {
     private val worlds = mutableStateOf(emptyList<World>())
     private val match = mutableStateOf<WvwMatch?>(null)
     private val objectives = mutableStateOf(emptyList<WvwObjective>())
+    private val upgrades = mutableStateOf(emptyList<WvwUpgrade>())
     private val continent = mutableStateOf<Continent?>(null)
     private val floor = mutableStateOf<ContinentFloor?>(null)
     private val grid = mutableStateOf(TileGrid())
@@ -92,9 +93,8 @@ class WvwActivity : AppCompatActivity() {
     // TODO partial grid rending
     // TODO investigate (initial) tile download time
     // TODO mutable zoom
-    // TODO immunity timers (5 min after capture -- make configurable)
     // TODO match details: scores, ppt, etc
-    // TODO claimed/upgrade level/waypoint indications
+    // TODO claimed/waypoint indications
     // TODO waypoint/bloodlust icons: partial color change
     // TODO track last flip owner? would need to be observed from refreshes since its not provided
     // TODO guild acronym?
@@ -158,8 +158,10 @@ class WvwActivity : AppCompatActivity() {
             val wvw = AppCompanion.GW2.wvw
             val match = wvw.match(selectedWorld)
             val objectives = wvw.objectives(match.maps.flatMap { map -> map.objectives.map { objective -> objective.id } })
+            val upgrades = wvw.upgrades(objectives.map { objective -> objective.upgradeId }.toHashSet())
             this.match.value = match
             this.objectives.value = objectives
+            this.upgrades.value = upgrades
             refreshMapData(match)
             refreshGridData()
         }
@@ -421,7 +423,7 @@ class WvwActivity : AppCompatActivity() {
                 .absoluteOffset(xDp, yDp)
                 .wrapContentSize()
         ) {
-            val (icon, timer) = createRefs()
+            val (icon, timer, upgradeIndicator) = createRefs()
             Image(
                 painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
                 contentDescription = objective.name,
@@ -439,6 +441,20 @@ class WvwActivity : AppCompatActivity() {
                     }
             )
 
+            if (config.objectives.upgrades.enabled)
+            {
+                val progression = getProgression(objective.upgradeId, matchObjective.yaksDelivered)
+                progression?.iconLink?.let { iconLink ->
+                    val upgradeSize = progression.size ?: config.objectives.upgrades.defaultSize
+                    ShowUpgradeIndicator(iconLink, upgradeSize, Modifier.constrainAs(upgradeIndicator) {
+                        // Display the indicator in the center of the objective icon.
+                        top.linkTo(icon.top)
+                        start.linkTo(icon.start)
+                        end.linkTo(icon.end)
+                    })
+                }
+            }
+
             if (config.objectives.immunity.enabled)
             {
                 val immunity = configObjective?.immunity ?: config.objectives.immunity.defaultDuration
@@ -454,6 +470,42 @@ class WvwActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    /**
+     * @return the progression level associated with an upgrade with id [upgradeId]
+     */
+    @Composable
+    private fun getProgression(upgradeId: Int, yaksDelivered: Int): WvwUpgradeProgression?
+    {
+        val upgrades = remember { upgrades.value }
+        val upgrade = upgrades.firstOrNull { upgrade -> upgrade.id == upgradeId } ?: return null
+        val level = upgrade.tiers.count { tier -> yaksDelivered >= tier.yaksRequired }
+        return config.objectives.upgrades.progression.getOrNull(level - 1)
+    }
+
+    /**
+     * Displays the indicator for the upgrade progression level.
+     */
+    @Composable
+    private fun ShowUpgradeIndicator(iconLink: String, size: com.bselzer.gw2.manager.configuration.common.Size, modifier: Modifier)
+    {
+        val request = ImageRequest.Builder(this@WvwActivity)
+            .data(iconLink)
+            .size(size.width, size.height)
+            .build()
+
+        // Measurements are done with DP so conversion must be done from pixels.
+        val density = LocalDensity.current
+        val widthDp = density.run { size.width.toDp() }
+        val heightDp = density.run { size.height.toDp() }
+
+        Image(
+            painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
+            contentDescription = "Upgrade",
+            contentScale = ContentScale.Fit,
+            modifier = modifier.size(widthDp, heightDp)
+        )
     }
 
     /**

@@ -13,7 +13,7 @@ import kotlin.time.ExperimentalTime
 @Serializable
 class WvwObjectives(
     @XmlSerialName(value = "Size", namespace = "", prefix = "")
-    val defaultSize: Size = Size(),
+    val defaultSize: Size = Size(64, 64),
 
     @XmlSerialName(value = "Color", namespace = "", prefix = "")
     val colors: List<WvwColor> = listOf(
@@ -27,5 +27,8 @@ class WvwObjectives(
     val objectives: List<WvwObjective> = emptyList(),
 
     @XmlSerialName(value = "Immunity", namespace = "", prefix = "")
-    val immunity: WvwObjectivesImmunity = WvwObjectivesImmunity()
+    val immunity: WvwObjectivesImmunity = WvwObjectivesImmunity(),
+
+    @XmlSerialName(value = "Upgrades", namespace = "", prefix = "")
+    val upgrades: WvwUpgrades = WvwUpgrades()
 )

@@ -18,8 +18,18 @@
             <Objective type="Tower" immunity="5m" />
             <Objective type="Keep" immunity="5m" />
             <Objective type="Castle" immunity="5m" />
-            <Objective type="Spawn" icon="https://render.guildwars2.com/file/32633AF8ADEA696A1EF56D3AE32D617B10D3AC57/157353.png" />
+            <Objective type="Spawn" icon="https://assets.gw2dat.com/157353.png" />
             <Objective type="Mercenary" icon="https://assets.gw2dat.com/102682.png" />
+
+            <!-- Upgrades -->
+            <Upgrades enabled="true">
+                <Size width="32" height="32" />
+
+                <!-- Progressions -->
+                <Progression icon="https://assets.gw2dat.com/1324349.png" />
+                <Progression icon="https://assets.gw2dat.com/1324350.png" />
+                <Progression icon="https://assets.gw2dat.com/1324351.png" />
+            </Upgrades>
         </Objectives>
         <Map bounded="true" region="World vs. World">
             <Scroll enabled="true" map="Eternal Battlegrounds" />

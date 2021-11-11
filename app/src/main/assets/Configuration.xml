@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration> <!-- TODO versioning -->
-    <WorldVsWorld>
+    <WorldVsWorld dateFormat="hh:mm a 'on' EEEE">
         <Objectives>
             <Size width="64" height="64" />
 

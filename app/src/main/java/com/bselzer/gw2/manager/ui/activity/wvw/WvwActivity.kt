@@ -27,7 +27,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import coil.bitmap.BitmapPool
 import coil.compose.rememberImagePainter
 import coil.memory.MemoryCache
@@ -62,7 +61,11 @@ import com.bselzer.library.kotlin.extension.preference.nullLatest
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
 import timber.log.Timber
+import java.time.format.DateTimeFormatter
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
@@ -77,6 +80,7 @@ class WvwActivity : AppCompatActivity() {
     private val grid = mutableStateOf(TileGrid())
     private val zoom = config.map.defaultZoom
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
+    private val dateFormatter = DateTimeFormatter.ofPattern(config.dateFormat)
 
     // TODO partial grid rending
     // TODO investigate (initial) tile download time
@@ -431,8 +435,9 @@ class WvwActivity : AppCompatActivity() {
                 Text(text = selected.name, fontWeight = FontWeight.Bold, modifier = Modifier.wrapContentSize())
                 matchObjective?.let { matchObjective ->
                     matchObjective.lastFlippedAt?.let { lastFlippedAt ->
-                        // TODO formatting the date from ISO to more readable format
-                        Text(text = "Flipped at $lastFlippedAt")
+                        // TODO kotlinx.datetime please support formatting
+                        val localDate = lastFlippedAt.toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+                        Text(text = "Flipped at ${dateFormatter.format(localDate)}")
                     }
                 }
             }

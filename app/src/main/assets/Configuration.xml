@@ -3,7 +3,9 @@
     <WorldVsWorld dateFormat="hh:mm a 'on' EEEE">
         <Objectives>
             <Size width="64" height="64" />
-            <Immunity enabled="true" textSize="10" />
+
+            <!-- Delay of less than a second to attempt to account for other processing. -->
+            <Immunity enabled="true" textSize="12" delay="995" />
 
             <!-- Colors -->
             <Color owner="Red" type="#ff4d4d" />

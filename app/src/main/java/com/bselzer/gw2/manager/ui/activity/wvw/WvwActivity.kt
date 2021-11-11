@@ -417,7 +417,9 @@ class WvwActivity : AppCompatActivity() {
 
         // Overlay the objective image onto the map image.
         ConstraintLayout(
-            modifier = Modifier.absoluteOffset(xDp, yDp).wrapContentSize()
+            modifier = Modifier
+                .absoluteOffset(xDp, yDp)
+                .wrapContentSize()
         ) {
             val (icon, timer) = createRefs()
             Image(
@@ -464,12 +466,11 @@ class WvwActivity : AppCompatActivity() {
         val remaining = immunity - Clock.System.now().minus(flippedAt)
         if (remaining.isNegative()) return
 
-        val totalSeconds = remaining.inWholeSeconds
-        val seconds: Int = (totalSeconds % 60).toInt()
-        val minutes: Int = (totalSeconds / 60).toInt()
+        var countdown by remember { mutableStateOf(remaining.inWholeSeconds) }
+        val seconds: Int = (countdown % 60).toInt()
+        val minutes: Int = (countdown / 60).toInt()
 
         // Formatting: https://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html
-        // TODO countdown
         Text(
             text = "%01d:%02d".format(minutes, seconds),
             fontWeight = FontWeight.Bold,
@@ -477,6 +478,12 @@ class WvwActivity : AppCompatActivity() {
             color = androidx.compose.ui.graphics.Color.White,
             modifier = modifier.wrapContentSize()
         )
+
+        LaunchedEffect(key1 = countdown) {
+            // Advance the countdown.
+            delay(Duration.milliseconds(config.objectives.immunity.delay))
+            countdown -= 1
+        }
     }
 
     /**

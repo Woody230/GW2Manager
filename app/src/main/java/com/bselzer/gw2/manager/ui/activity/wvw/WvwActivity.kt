@@ -42,6 +42,7 @@ import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRE
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.configuration.wvw.Wvw
 import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
+import com.bselzer.gw2.manager.ui.coil.HexColorTransformation
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.model.continent.Continent
 import com.bselzer.library.gw2.v2.model.continent.ContinentFloor
@@ -102,37 +103,8 @@ class WvwActivity : AppCompatActivity() {
     // TODO mutable zoom
     // TODO match details: scores, ppt, etc
     // TODO spawn/bloodlust icons: partial color change
-
-    private companion object
-    {
-        /**
-         * Transforms the image into the owner's color.
-         */
-        class OwnedColorTransformation(config: Wvw, private val owner: ObjectiveOwner): HexColorTransformation(owner.hex(config))
-        {
-            private companion object
-            {
-                /**
-                 * @return the hex associated with the owner
-                 */
-                fun ObjectiveOwner.hex(config: Wvw) = config.objectives.colors.firstOrNull { color -> color.owner == this }?.type ?: "#888888"
-            }
-
-            override fun key(): String = owner.toString()
-        }
-
-        /**
-         * Transform the image into the given hex color.
-         */
-        open class HexColorTransformation(private val hex: String): Transformation
-        {
-            override fun key(): String = hex
-            override suspend fun transform(pool: BitmapPool, input: Bitmap, size: Size): Bitmap {
-                val color = if (hex.isBlank()) Color.GRAY else Color.parseColor(hex)
-                return input.changeColor(color)
-            }
-        }
-    }
+    // TODO create DB to store static/mostly static info: upgrades/objectives/continents/floors/tiles
+    // TODO DB clearing
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

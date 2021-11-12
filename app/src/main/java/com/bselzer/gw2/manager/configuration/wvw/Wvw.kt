@@ -5,9 +5,6 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
 class Wvw(
-    @XmlSerialName(value = "dateFormat", namespace = "", prefix = "")
-    val dateFormat: String = "hh:mm a",
-
     @XmlSerialName(value = "Objectives", namespace = "", prefix = "")
     val objectives: WvwObjectives = WvwObjectives(),
 

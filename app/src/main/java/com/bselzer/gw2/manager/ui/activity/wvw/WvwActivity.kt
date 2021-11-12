@@ -89,7 +89,7 @@ class WvwActivity : AppCompatActivity() {
     private val grid = mutableStateOf(TileGrid())
     private val zoom = config.map.defaultZoom
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
-    private val dateFormatter = DateTimeFormatter.ofPattern(config.dateFormat)
+    private val selectedDateFormatter = DateTimeFormatter.ofPattern(config.objectives.selected.dateFormat)
     private val waypointRegex = Regex(config.objectives.waypoint.upgradeNameRegex)
 
     // TODO partial grid rending
@@ -607,12 +607,13 @@ class WvwActivity : AppCompatActivity() {
             Column(
                 modifier = Modifier.wrapContentSize()
             ) {
-                Text(text = title, fontWeight = FontWeight.Bold, modifier = Modifier.wrapContentSize())
+                val textSize = config.objectives.selected.textSize.sp
+                Text(text = title, fontSize = textSize, fontWeight = FontWeight.Bold)
                 matchObjective?.let { matchObjective ->
                     matchObjective.lastFlippedAt?.let { lastFlippedAt ->
                         // TODO kotlinx.datetime please support formatting
                         val localDate = lastFlippedAt.toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
-                        Text(text = "Flipped at ${dateFormatter.format(localDate)}")
+                        Text(text = "Flipped at ${selectedDateFormatter.format(localDate)}", fontSize = textSize)
                     }
                 }
             }

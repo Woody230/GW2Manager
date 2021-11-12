@@ -33,6 +33,12 @@ class WvwObjectives(
     val objectives: List<WvwObjective> = emptyList(),
 
     /**
+     * Information related to the objective selected by the user.
+     */
+    @XmlSerialName(value = "Selected", namespace = "", prefix = "")
+    val selected: WvwSelectedObjective = WvwSelectedObjective(),
+
+    /**
      * Information related to objective lords being immune to damage and preventing capture.
      */
     @XmlSerialName(value = "Immunity", namespace = "", prefix = "")

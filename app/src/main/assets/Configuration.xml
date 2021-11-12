@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration> <!-- TODO versioning -->
-    <WorldVsWorld dateFormat="hh:mm a 'on' EEEE">
+    <WorldVsWorld>
         <Objectives>
             <Size width="64" height="64" />
 
@@ -20,6 +20,8 @@
             <Objective type="Castle" immunity="5m" />
             <Objective type="Spawn" icon="https://assets.gw2dat.com/157353.png" />
             <Objective type="Mercenary" icon="https://assets.gw2dat.com/102682.png" />
+
+            <Selected textSize="16" dateFormat="hh:mm a 'on' EEEE" />
 
             <!-- Upgrades -->
             <Upgrades enabled="true">

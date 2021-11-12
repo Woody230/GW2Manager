@@ -11,6 +11,7 @@ import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.TOKEN
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion
 import com.bselzer.gw2.manager.configuration.Configuration
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
+import com.bselzer.library.gw2.v2.client.serialization.Modules
 import com.bselzer.library.gw2.v2.tile.client.TileClient
 import com.bselzer.library.kotlin.extension.preference.initialize
 import com.bselzer.library.kotlin.extension.preference.nullLatest
@@ -21,6 +22,10 @@ import io.ktor.client.features.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.contextual
+import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
+import nl.adaptivity.xmlutil.serialization.UnknownChildHandler
 import nl.adaptivity.xmlutil.serialization.XML
 import okhttp3.OkHttpClient
 import timber.log.Timber
@@ -58,10 +63,16 @@ object AppCompanion
     /**
      * @return the configuration
      */
+    @OptIn(ExperimentalXmlUtilApi::class)
     private fun Application.getConfiguration(): Configuration = try {
         // TODO attempt to get config from online location and default to bundled config if that fails
         val config = assets.open("Configuration.xml").bufferedReader(Charsets.UTF_8).use { reader -> reader.readText() }
-        XML.decodeFromString(Configuration.serializer(), config)
+        XML(serializersModule = SerializersModule {}) {
+            this.unknownChildHandler = UnknownChildHandler { input, inputKind, descriptor, name, candidates ->
+                Timber.w("Unable to deserialize an unknown child of $name as $inputKind")
+                emptyList()
+            }
+        }.decodeFromString(Configuration.serializer(), config)
     } catch (ex: Exception) {
         Timber.e(ex, "Unable to create the configuration.")
         Configuration()

@@ -63,6 +63,7 @@ import com.bselzer.library.kotlin.extension.coroutine.cancel
 import com.bselzer.library.kotlin.extension.coroutine.repeat
 import com.bselzer.library.kotlin.extension.function.collection.addTo
 import com.bselzer.library.kotlin.extension.function.collection.isOneOf
+import com.bselzer.library.kotlin.extension.function.objects.userFriendly
 import com.bselzer.library.kotlin.extension.function.ui.changeColor
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.Dimension
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.position.Point
@@ -411,6 +412,7 @@ class WvwActivity : AppCompatActivity() {
             .build()
 
         // Measurements are done with DP so conversion must be done from pixels.
+        // TODO extension(s)
         val density = LocalDensity.current
         val xDp = density.run { coordinates.x.toInt().toDp() }
         val yDp = density.run { coordinates.y.toInt().toDp() }
@@ -548,6 +550,8 @@ class WvwActivity : AppCompatActivity() {
         val selected = remember { selectedObjective }.value ?: return
         val match = remember { match }.value
         val matchObjective = match.objective(selected)
+        val owner = matchObjective?.owner() ?: ObjectiveOwner.NEUTRAL
+        val title = "${selected.name} (${owner.userFriendly()} ${selected.type})"
 
         Box(
             modifier = Modifier.wrapContentSize()
@@ -562,7 +566,7 @@ class WvwActivity : AppCompatActivity() {
             Column(
                 modifier = Modifier.wrapContentSize()
             ) {
-                Text(text = "${selected.name} (${selected.type})", fontWeight = FontWeight.Bold, modifier = Modifier.wrapContentSize())
+                Text(text = title, fontWeight = FontWeight.Bold, modifier = Modifier.wrapContentSize())
                 matchObjective?.let { matchObjective ->
                     matchObjective.lastFlippedAt?.let { lastFlippedAt ->
                         // TODO kotlinx.datetime please support formatting

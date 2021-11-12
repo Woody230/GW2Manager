@@ -90,6 +90,7 @@ class WvwActivity : AppCompatActivity() {
     private val zoom = config.map.defaultZoom
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
     private val dateFormatter = DateTimeFormatter.ofPattern(config.dateFormat)
+    private val waypointRegex = Regex(config.objectives.waypoint.upgradeNameRegex)
 
     // TODO partial grid rending
     // TODO investigate (initial) tile download time
@@ -425,7 +426,7 @@ class WvwActivity : AppCompatActivity() {
                 .absoluteOffset(xDp, yDp)
                 .wrapContentSize()
         ) {
-            val (icon, timer, upgradeIndicator) = createRefs()
+            val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
             Image(
                 painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
                 contentDescription = objective.name,
@@ -443,18 +444,39 @@ class WvwActivity : AppCompatActivity() {
                     }
             )
 
-            if (config.objectives.upgrades.enabled)
+            // Need to do the constraining within the scope of the ConstraintLayout.
+            if (config.objectives.progressions.enabled)
             {
                 val progression = getProgression(objective.upgradeId, matchObjective.yaksDelivered)
                 progression?.iconLink?.let { iconLink ->
-                    val upgradeSize = progression.size ?: config.objectives.upgrades.defaultSize
-                    ShowUpgradeIndicator(iconLink, upgradeSize, Modifier.constrainAs(upgradeIndicator) {
-                        // Display the indicator in the center of the objective icon.
+                    val upgradeSize = progression.size ?: config.objectives.progressions.defaultSize
+                    ShowIndicator(iconLink, upgradeSize, "Upgraded", Modifier.constrainAs(upgradeIndicator) {
+                        // Display the indicator in the top center of the objective icon.
                         top.linkTo(icon.top)
                         start.linkTo(icon.start)
                         end.linkTo(icon.end)
                     })
                 }
+            }
+
+            if (config.objectives.claim.enabled && !matchObjective.claimedBy.isNullOrBlank())
+            {
+                config.objectives.claim.iconLink?.let { iconLink ->
+                    ShowIndicator(iconLink, config.objectives.claim.size, "Guild Claimed", Modifier.constrainAs(claimIndicator) {
+                        // Display the indicator in the bottom right of the objective icon.
+                        bottom.linkTo(icon.bottom)
+                        end.linkTo(icon.end)
+                    })
+                }
+            }
+
+            if (config.objectives.waypoint.enabled)
+            {
+                ShowWaypointIndicator(objective.upgradeId, matchObjective.yaksDelivered, Modifier.constrainAs(waypointIndicator) {
+                    // Display the indicator in the bottom left of the objective icon.
+                    bottom.linkTo(icon.bottom)
+                    start.linkTo(icon.start)
+                })
             }
 
             if (config.objectives.immunity.enabled)
@@ -463,7 +485,7 @@ class WvwActivity : AppCompatActivity() {
                 val flippedAt = matchObjective.lastFlippedAt
                 if (immunity != null && flippedAt != null)
                 {
-                    // Need to do the constraining within the scope of the ConstraintLayout.
+                    // Display the timer underneath the objective icon.
                     ShowImmunityTimer(immunity, flippedAt, Modifier.constrainAs(timer) {
                         top.linkTo(icon.bottom)
                         start.linkTo(icon.start)
@@ -483,14 +505,14 @@ class WvwActivity : AppCompatActivity() {
         val upgrades = remember { upgrades.value }
         val upgrade = upgrades.firstOrNull { upgrade -> upgrade.id == upgradeId } ?: return null
         val level = upgrade.tiers.count { tier -> yaksDelivered >= tier.yaksRequired }
-        return config.objectives.upgrades.progression.getOrNull(level - 1)
+        return config.objectives.progressions.progression.getOrNull(level - 1)
     }
 
     /**
-     * Displays the indicator for the upgrade progression level.
+     * Displays an indicator.
      */
     @Composable
-    private fun ShowUpgradeIndicator(iconLink: String, size: com.bselzer.gw2.manager.configuration.common.Size, modifier: Modifier)
+    private fun ShowIndicator(iconLink: String, size: com.bselzer.gw2.manager.configuration.common.Size, contentDescription: String, modifier: Modifier)
     {
         val request = ImageRequest.Builder(this@WvwActivity)
             .data(iconLink)
@@ -504,10 +526,29 @@ class WvwActivity : AppCompatActivity() {
 
         Image(
             painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
-            contentDescription = "Upgrade",
+            contentDescription = contentDescription,
             contentScale = ContentScale.Fit,
             modifier = modifier.size(widthDp, heightDp)
         )
+    }
+
+    /**
+     * Displays an indicator for an objective that has a waypoint upgrade.
+     */
+    @Composable
+    private fun ShowWaypointIndicator(upgradeId: Int, yaksDelivered: Int, modifier: Modifier)
+    {
+        val upgrades = remember { upgrades }.value
+        val upgrade = upgrades.firstOrNull { upgrade -> upgrade.id == upgradeId } ?: return
+
+        // TODO emergency waypoint guild upgrade? use gray and then mix if both exist?
+        // Verify that the objective has been upgraded to a tier that has the waypoint upgrade.
+        val tierUpgrades = upgrade.tiers.filter { tier -> yaksDelivered >= tier.yaksRequired }.flatMap { tier -> tier.upgrades }
+        if (!tierUpgrades.any { tierUpgrade -> waypointRegex.matches(tierUpgrade.name) }) return
+
+        config.objectives.waypoint.iconLink?.let { iconLink ->
+            ShowIndicator(iconLink, size = config.objectives.waypoint.size, contentDescription = "Waypoint", modifier = modifier)
+        }
     }
 
     /**

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
-class WvwUpgrades(
+class WvwUpgradeProgressions(
     @XmlSerialName(value = "enabled", namespace = "", prefix = "")
     val enabled: Boolean = false,
 

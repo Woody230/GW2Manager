@@ -30,6 +30,19 @@
                 <Progression icon="https://assets.gw2dat.com/1324350.png" />
                 <Progression icon="https://assets.gw2dat.com/1324351.png" />
             </Upgrades>
+
+            <!-- Waypoint Upgrade -->
+            <!-- https://api.guildwars2.com/v2/wvw/upgrades/24 -->
+            <!-- https://api.guildwars2.com/v2/wvw/upgrades/30 -->
+            <!-- https://api.guildwars2.com/v2/guild/upgrades/178 -->
+            <Waypoint enabled="true" upgrade="^Build Waypoint$" icon="https://assets.gw2dat.com/157353.png">
+                <Size width="32" height="32" />
+            </Waypoint>
+
+            <!-- Guild Claim -->
+            <Claim enabled="true" icon="https://assets.gw2dat.com/1304078.png">
+                <Size width="32" height="32" />
+            </Claim>
         </Objectives>
         <Map bounded="true" region="World vs. World">
             <Scroll enabled="true" map="Eternal Battlegrounds" />

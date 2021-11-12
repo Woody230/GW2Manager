@@ -19,5 +19,5 @@ class WvwColor(
      * The color content as hex.
      */
     @XmlSerialName(value = "type", namespace = "", prefix = "")
-    val type: String = ""
+    val type: String = "#000000"
 )

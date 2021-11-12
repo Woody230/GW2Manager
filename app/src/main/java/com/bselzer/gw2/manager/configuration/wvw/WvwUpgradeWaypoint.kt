@@ -17,4 +17,7 @@ class WvwUpgradeWaypoint(
 
     @XmlSerialName(value = "upgrade", namespace = "", prefix = "")
     val upgradeNameRegex: String = "^Build Waypoint$",
+
+    @XmlSerialName(value = "Guild", namespace = "", prefix = "")
+    val guild: WvwGuildUpgradeWaypoint = WvwGuildUpgradeWaypoint()
 )

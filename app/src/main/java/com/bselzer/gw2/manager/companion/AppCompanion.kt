@@ -47,6 +47,7 @@ object AppCompanion
             }
 
             HttpResponseValidator {
+                // TODO need to try/catch wrap each use to avoid crashes
                 handleResponseException { ex -> Timber.e(ex) }
             }
         }
@@ -99,6 +100,7 @@ object AppCompanion
         }
     }
 
+    // TODO dependency injection
     /**
      * The application.
      */
@@ -107,7 +109,7 @@ object AppCompanion
     /**
      * The configuration.
      */
-    lateinit var CONFIG: Configuration
+    var CONFIG: Configuration = Configuration()
 
     /**
      * The common preferences.

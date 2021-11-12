@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import coil.ImageLoader
 import coil.bitmap.BitmapPool
 import coil.compose.rememberImagePainter
 import coil.memory.MemoryCache
@@ -39,6 +41,7 @@ import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
+import com.bselzer.gw2.manager.configuration.Configuration
 import com.bselzer.gw2.manager.configuration.wvw.Wvw
 import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
 import com.bselzer.gw2.manager.ui.theme.AppTheme
@@ -51,7 +54,10 @@ import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapType
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
 import com.bselzer.library.gw2.v2.model.extension.wvw.objective
+import com.bselzer.library.gw2.v2.model.guild.upgrade.ClaimableUpgrade
+import com.bselzer.library.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.library.gw2.v2.model.world.World
+import com.bselzer.library.gw2.v2.model.wvw.match.WvwMapObjective
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.library.gw2.v2.model.wvw.upgrade.WvwUpgrade
@@ -71,6 +77,8 @@ import com.bselzer.library.kotlin.extension.preference.nullLatest
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.*
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
@@ -83,14 +91,17 @@ class WvwActivity : AppCompatActivity() {
     private val worlds = mutableStateOf(emptyList<World>())
     private val match = mutableStateOf<WvwMatch?>(null)
     private val objectives = mutableStateOf(emptyList<WvwObjective>())
-    private val upgrades = mutableStateOf(emptyList<WvwUpgrade>())
+    private val upgrades = mutableStateMapOf<Int, WvwUpgrade>()
+    private val guildUpgrades = mutableStateMapOf<Int, GuildUpgrade>()
     private val continent = mutableStateOf<Continent?>(null)
     private val floor = mutableStateOf<ContinentFloor?>(null)
     private val grid = mutableStateOf(TileGrid())
     private val zoom = config.map.defaultZoom
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
     private val selectedDateFormatter = DateTimeFormatter.ofPattern(config.objectives.selected.dateFormat)
-    private val waypointRegex = Regex(config.objectives.waypoint.upgradeNameRegex)
+    private val waypointUpgradeRegex = Regex(config.objectives.waypoint.upgradeNameRegex)
+    private val waypointTacticRegex = Regex(config.objectives.waypoint.guild.upgradeNameRegex)
+    private val refreshLock = Mutex()
 
     // TODO partial grid rending
     // TODO investigate (initial) tile download time
@@ -104,15 +115,29 @@ class WvwActivity : AppCompatActivity() {
     private companion object
     {
         /**
-         * Transforms the objective image into the owner's color.
+         * Transforms the image into the owner's color.
          */
-        class ObjectiveColorTransformation(private val config: Wvw, private val owner: ObjectiveOwner): Transformation
+        class OwnedColorTransformation(config: Wvw, private val owner: ObjectiveOwner): HexColorTransformation(owner.hex(config))
         {
+            private companion object
+            {
+                /**
+                 * @return the hex associated with the owner
+                 */
+                fun ObjectiveOwner.hex(config: Wvw) = config.objectives.colors.firstOrNull { color -> color.owner == this }?.type ?: "#888888"
+            }
+
             override fun key(): String = owner.toString()
+        }
+
+        /**
+         * Transform the image into the given hex color.
+         */
+        open class HexColorTransformation(private val hex: String): Transformation
+        {
+            override fun key(): String = hex
             override suspend fun transform(pool: BitmapPool, input: Bitmap, size: Size): Bitmap {
-                // Change the image color to match the associated owner.
-                val hex = config.objectives.colors.firstOrNull { color -> color.owner == owner }?.type
-                val color = if (hex.isNullOrBlank()) Color.GRAY else Color.parseColor(hex)
+                val color = if (hex.isBlank()) Color.GRAY else Color.parseColor(hex)
                 return input.changeColor(color)
             }
         }
@@ -156,17 +181,52 @@ class WvwActivity : AppCompatActivity() {
         if (selectedWorld == null) {
             // Selection is required so do not allow cancellation.
             showSelectWorldDialog(cancellable = false)
-        } else {
+            return
+        }
+
+        refreshLock.withLock {
             val wvw = AppCompanion.GW2.wvw
             val match = wvw.match(selectedWorld)
             val objectives = wvw.objectives(match.maps.flatMap { map -> map.objectives.map { objective -> objective.id } })
-            val upgrades = wvw.upgrades(objectives.map { objective -> objective.upgradeId }.toHashSet())
             this.match.value = match
+            populateMissingUpgrades(objectives)
+            populateMissingGuildUpgrades(match)
             this.objectives.value = objectives
-            this.upgrades.value = upgrades
             refreshMapData(match)
             refreshGridData()
         }
+    }
+
+    /**
+     * Gets the upgrades that are missing from the cache and adds them to [upgrades].
+     */
+    private suspend fun populateMissingUpgrades(objectives: List<WvwObjective>)
+    {
+        val upgrades = this.upgrades
+
+        // Upgrade data should not be changing so only request for new ids.
+        val ids = objectives.map { objective -> objective.upgradeId }.toHashSet().filter { id -> !upgrades.keys.contains(id) }
+        val newUpgrades = AppCompanion.GW2.wvw.upgrades(ids).associateBy({ upgrade -> upgrade.id }, { upgrade -> upgrade })
+
+        // Some ids may not exist and must be handled so that there aren't repeated calls and an error when all the ids are bad.
+        val missingUpgrades = ids.minus(newUpgrades.keys).map { id -> Pair(id, WvwUpgrade()) }
+        upgrades.plusAssign(newUpgrades.plus(missingUpgrades))
+    }
+
+    /**
+     * Gets the guild upgrades that are missing from the cache and adds them to [guildUpgrades].
+     */
+    private suspend fun populateMissingGuildUpgrades(match: WvwMatch)
+    {
+        val guildUpgrades = this.guildUpgrades
+
+        // Upgrade data should not be changing so only request for new ids.
+        val ids = match.maps.flatMap { map -> map.objectives.flatMap { objective -> objective.guildUpgradeIds } }.toHashSet().filter { id -> !guildUpgrades.keys.contains(id) }
+        val newUpgrades = AppCompanion.GW2.guild.upgrades(ids).associateBy({ upgrade -> upgrade.id }, { upgrade -> upgrade })
+
+        // Some ids may not exist and must be handled so that there aren't repeated calls and an error when all the ids are bad.
+        val missingUpgrades = ids.minus(newUpgrades.keys).map { id -> Pair(id, ClaimableUpgrade()) }
+        guildUpgrades.plusAssign(newUpgrades.plus(missingUpgrades))
     }
 
     /**
@@ -282,7 +342,9 @@ class WvwActivity : AppCompatActivity() {
         // Attempt to rectify the missing data.
         SideEffect {
             CoroutineScope(Dispatchers.IO).launch {
-                refreshGridData()
+                refreshLock.withLock {
+                    refreshGridData()
+                }
             }
         }
     }
@@ -406,10 +468,10 @@ class WvwActivity : AppCompatActivity() {
 
         // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
         val link = if (objective.iconLink.isNotBlank()) objective.iconLink else configObjective?.defaultIconLink
-        val request = ImageRequest.Builder(this@WvwActivity)
+        val request = ImageRequest.Builder(LocalContext.current)
             .data(link)
             .size(size.width.toInt(), size.height.toInt())
-            .transformations(ObjectiveColorTransformation(config, owner))
+            .transformations(OwnedColorTransformation(config, owner))
             .build()
 
         // Measurements are done with DP so conversion must be done from pixels.
@@ -472,7 +534,7 @@ class WvwActivity : AppCompatActivity() {
 
             if (config.objectives.waypoint.enabled)
             {
-                ShowWaypointIndicator(objective.upgradeId, matchObjective.yaksDelivered, Modifier.constrainAs(waypointIndicator) {
+                ShowWaypointIndicator(objective, matchObjective, Modifier.constrainAs(waypointIndicator) {
                     // Display the indicator in the bottom left of the objective icon.
                     bottom.linkTo(icon.bottom)
                     start.linkTo(icon.start)
@@ -502,7 +564,7 @@ class WvwActivity : AppCompatActivity() {
     @Composable
     private fun getProgression(upgradeId: Int, yaksDelivered: Int): WvwUpgradeProgression?
     {
-        val upgrades = remember { upgrades.value }
+        val upgrades = remember { upgrades }.values
         val upgrade = upgrades.firstOrNull { upgrade -> upgrade.id == upgradeId } ?: return null
         val level = upgrade.tiers.count { tier -> yaksDelivered >= tier.yaksRequired }
         return config.objectives.progressions.progression.getOrNull(level - 1)
@@ -512,11 +574,12 @@ class WvwActivity : AppCompatActivity() {
      * Displays an indicator.
      */
     @Composable
-    private fun ShowIndicator(iconLink: String, size: com.bselzer.gw2.manager.configuration.common.Size, contentDescription: String, modifier: Modifier)
+    private fun ShowIndicator(iconLink: String, size: com.bselzer.gw2.manager.configuration.common.Size, contentDescription: String, modifier: Modifier, transformations: List<Transformation> = emptyList())
     {
-        val request = ImageRequest.Builder(this@WvwActivity)
+        val request = ImageRequest.Builder(LocalContext.current)
             .data(iconLink)
             .size(size.width, size.height)
+            .transformations(transformations)
             .build()
 
         // Measurements are done with DP so conversion must be done from pixels.
@@ -536,19 +599,30 @@ class WvwActivity : AppCompatActivity() {
      * Displays an indicator for an objective that has a waypoint upgrade.
      */
     @Composable
-    private fun ShowWaypointIndicator(upgradeId: Int, yaksDelivered: Int, modifier: Modifier)
+    private fun ShowWaypointIndicator(objective: WvwObjective, matchObjective: WvwMapObjective, modifier: Modifier)
     {
-        val upgrades = remember { upgrades }.value
-        val upgrade = upgrades.firstOrNull { upgrade -> upgrade.id == upgradeId } ?: return
+        val iconLink = config.objectives.waypoint.iconLink ?: return
+        val upgrades = remember { upgrades }
+        val guildUpgrades = remember { guildUpgrades }
+        val transformations = mutableListOf<Transformation>()
 
-        // TODO emergency waypoint guild upgrade? use gray and then mix if both exist?
         // Verify that the objective has been upgraded to a tier that has the waypoint upgrade.
-        val tierUpgrades = upgrade.tiers.filter { tier -> yaksDelivered >= tier.yaksRequired }.flatMap { tier -> tier.upgrades }
-        if (!tierUpgrades.any { tierUpgrade -> waypointRegex.matches(tierUpgrade.name) }) return
+        val upgrade = upgrades[objective.upgradeId]
+        val tierUpgrades = upgrade?.tiers?.filter { tier -> matchObjective.yaksDelivered >= tier.yaksRequired }?.flatMap { tier -> tier.upgrades } ?: emptyList()
+        if (!tierUpgrades.any { tierUpgrade -> waypointUpgradeRegex.matches(tierUpgrade.name) })
+        {
+            // Fallback to trying to find the tactic.
+            if (!config.objectives.waypoint.guild.enabled || !matchObjective.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }.any { tactic -> waypointTacticRegex.matches(tactic.name) })
+            {
+                // No upgrade or tactic waypoint so do not display anything.
+                return
+            }
 
-        config.objectives.waypoint.iconLink?.let { iconLink ->
-            ShowIndicator(iconLink, size = config.objectives.waypoint.size, contentDescription = "Waypoint", modifier = modifier)
+            // Change the color of the waypoint to indicate that the tactic is available for use (and thus not permanent which the upgrade is).
+            transformations.add(HexColorTransformation(config.objectives.waypoint.guild.color))
         }
+
+        ShowIndicator(iconLink, size = config.objectives.waypoint.size, contentDescription = "Waypoint", modifier = modifier, transformations = transformations)
     }
 
     /**
@@ -652,10 +726,10 @@ class WvwActivity : AppCompatActivity() {
             }
 
             val owner = borderland.bonuses.firstOrNull { bonus -> bonus.type() == MapBonusType.BLOODLUST }?.owner() ?: ObjectiveOwner.NEUTRAL
-            val request = ImageRequest.Builder(this@WvwActivity)
+            val request = ImageRequest.Builder(LocalContext.current)
                 .data(config.bloodlust.iconLink)
                 .size(width, height)
-                .transformations(ObjectiveColorTransformation(config, owner))
+                .transformations(OwnedColorTransformation(config, owner))
                 .build()
 
             // Scale the position before using it.

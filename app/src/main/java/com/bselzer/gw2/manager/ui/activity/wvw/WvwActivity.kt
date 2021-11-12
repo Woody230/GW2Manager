@@ -30,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import coil.ImageLoader
 import coil.bitmap.BitmapPool
 import coil.compose.rememberImagePainter
 import coil.memory.MemoryCache
@@ -41,7 +40,6 @@ import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
-import com.bselzer.gw2.manager.configuration.Configuration
 import com.bselzer.gw2.manager.configuration.wvw.Wvw
 import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
 import com.bselzer.gw2.manager.ui.theme.AppTheme
@@ -81,7 +79,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.*
 import timber.log.Timber
-import java.time.format.DateTimeFormatter
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
@@ -98,19 +95,13 @@ class WvwActivity : AppCompatActivity() {
     private val grid = mutableStateOf(TileGrid())
     private val zoom = config.map.defaultZoom
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
-    private val selectedDateFormatter = DateTimeFormatter.ofPattern(config.objectives.selected.dateFormat)
-    private val waypointUpgradeRegex = Regex(config.objectives.waypoint.upgradeNameRegex)
-    private val waypointTacticRegex = Regex(config.objectives.waypoint.guild.upgradeNameRegex)
     private val refreshLock = Mutex()
 
     // TODO partial grid rending
     // TODO investigate (initial) tile download time
     // TODO mutable zoom
     // TODO match details: scores, ppt, etc
-    // TODO claimed/waypoint indications
-    // TODO waypoint/bloodlust icons: partial color change
-    // TODO track last flip owner? would need to be observed from refreshes since its not provided
-    // TODO guild acronym?
+    // TODO spawn/bloodlust icons: partial color change
 
     private companion object
     {
@@ -601,7 +592,8 @@ class WvwActivity : AppCompatActivity() {
     @Composable
     private fun ShowWaypointIndicator(objective: WvwObjective, matchObjective: WvwMapObjective, modifier: Modifier)
     {
-        val iconLink = config.objectives.waypoint.iconLink ?: return
+        val waypoint = config.objectives.waypoint
+        val iconLink = waypoint.iconLink ?: return
         val upgrades = remember { upgrades }
         val guildUpgrades = remember { guildUpgrades }
         val transformations = mutableListOf<Transformation>()
@@ -609,10 +601,10 @@ class WvwActivity : AppCompatActivity() {
         // Verify that the objective has been upgraded to a tier that has the waypoint upgrade.
         val upgrade = upgrades[objective.upgradeId]
         val tierUpgrades = upgrade?.tiers?.filter { tier -> matchObjective.yaksDelivered >= tier.yaksRequired }?.flatMap { tier -> tier.upgrades } ?: emptyList()
-        if (!tierUpgrades.any { tierUpgrade -> waypointUpgradeRegex.matches(tierUpgrade.name) })
+        if (!tierUpgrades.any { tierUpgrade -> waypoint.upgradeNameRegex.matches(tierUpgrade.name) })
         {
             // Fallback to trying to find the tactic.
-            if (!config.objectives.waypoint.guild.enabled || !matchObjective.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }.any { tactic -> waypointTacticRegex.matches(tactic.name) })
+            if (!waypoint.guild.enabled || !matchObjective.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }.any { tactic -> waypoint.guild.upgradeNameRegex.matches(tactic.name) })
             {
                 // No upgrade or tactic waypoint so do not display anything.
                 return
@@ -662,11 +654,12 @@ class WvwActivity : AppCompatActivity() {
     @Composable
     private fun ShowSelectedObjective()
     {
-        val selected = remember { selectedObjective }.value ?: return
+        val selected = config.objectives.selected
+        val selectedObjective = remember { selectedObjective }.value ?: return
         val match = remember { match }.value
-        val matchObjective = match.objective(selected)
+        val matchObjective = match.objective(selectedObjective)
         val owner = matchObjective?.owner() ?: ObjectiveOwner.NEUTRAL
-        val title = "${selected.name} (${owner.userFriendly()} ${selected.type})"
+        val title = "${selectedObjective.name} (${owner.userFriendly()} ${selectedObjective.type})"
 
         Box(
             modifier = Modifier.wrapContentSize()
@@ -681,13 +674,13 @@ class WvwActivity : AppCompatActivity() {
             Column(
                 modifier = Modifier.wrapContentSize()
             ) {
-                val textSize = config.objectives.selected.textSize.sp
+                val textSize = selected.textSize.sp
                 Text(text = title, fontSize = textSize, fontWeight = FontWeight.Bold)
                 matchObjective?.let { matchObjective ->
                     matchObjective.lastFlippedAt?.let { lastFlippedAt ->
                         // TODO kotlinx.datetime please support formatting
                         val localDate = lastFlippedAt.toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
-                        Text(text = "Flipped at ${selectedDateFormatter.format(localDate)}", fontSize = textSize)
+                        Text(text = "Flipped at ${selected.dateFormatter.format(localDate)}", fontSize = textSize)
                     }
                 }
             }
@@ -700,12 +693,13 @@ class WvwActivity : AppCompatActivity() {
     @Composable
     private fun ShowBloodlust()
     {
+        val bloodlust = config.bloodlust
         val match = remember { match }.value ?: return
         val continent = remember { continent }.value ?: return
         val objectives = remember { objectives }.value
 
-        val width = config.bloodlust.size.width
-        val height = config.bloodlust.size.height
+        val width = bloodlust.size.width
+        val height = bloodlust.size.height
 
         val borderlands = match.maps.filter { map -> map.type().isOneOf(MapType.BLUE_BORDERLANDS, MapType.RED_BORDERLANDS, MapType.GREEN_BORDERLANDS) } ?: return
         for(borderland in borderlands)
@@ -727,7 +721,7 @@ class WvwActivity : AppCompatActivity() {
 
             val owner = borderland.bonuses.firstOrNull { bonus -> bonus.type() == MapBonusType.BLOODLUST }?.owner() ?: ObjectiveOwner.NEUTRAL
             val request = ImageRequest.Builder(LocalContext.current)
-                .data(config.bloodlust.iconLink)
+                .data(bloodlust.iconLink)
                 .size(width, height)
                 .transformations(OwnedColorTransformation(config, owner))
                 .build()

@@ -1,8 +1,6 @@
 package com.bselzer.gw2.manager.ui.activity.wvw
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
@@ -30,17 +28,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import coil.bitmap.BitmapPool
 import coil.compose.rememberImagePainter
 import coil.memory.MemoryCache
 import coil.request.ImageRequest
-import coil.size.Size
 import coil.transform.Transformation
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
-import com.bselzer.gw2.manager.configuration.wvw.Wvw
 import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
 import com.bselzer.gw2.manager.ui.coil.HexColorTransformation
 import com.bselzer.gw2.manager.ui.theme.AppTheme
@@ -69,7 +64,6 @@ import com.bselzer.library.kotlin.extension.coroutine.repeat
 import com.bselzer.library.kotlin.extension.function.collection.addTo
 import com.bselzer.library.kotlin.extension.function.collection.isOneOf
 import com.bselzer.library.kotlin.extension.function.objects.userFriendly
-import com.bselzer.library.kotlin.extension.function.ui.changeColor
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.Dimension
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.position.Point
 import com.bselzer.library.kotlin.extension.preference.nullLatest
@@ -163,8 +157,7 @@ class WvwActivity : AppCompatActivity() {
     /**
      * Gets the upgrades that are missing from the cache and adds them to [upgrades].
      */
-    private suspend fun populateMissingUpgrades(objectives: List<WvwObjective>)
-    {
+    private suspend fun populateMissingUpgrades(objectives: List<WvwObjective>) {
         val upgrades = this.upgrades
 
         // Upgrade data should not be changing so only request for new ids.
@@ -179,8 +172,7 @@ class WvwActivity : AppCompatActivity() {
     /**
      * Gets the guild upgrades that are missing from the cache and adds them to [guildUpgrades].
      */
-    private suspend fun populateMissingGuildUpgrades(match: WvwMatch)
-    {
+    private suspend fun populateMissingGuildUpgrades(match: WvwMatch) {
         val guildUpgrades = this.guildUpgrades
 
         // Upgrade data should not be changing so only request for new ids.
@@ -227,16 +219,12 @@ class WvwActivity : AppCompatActivity() {
         Timber.d("Refreshing WvW tile grid data for zoom level $zoom.")
 
         val gridRequest = AppCompanion.TILE.requestGrid(continent, floor, zoom).let { request ->
-            if (config.map.isBounded)
-            {
+            if (config.map.isBounded) {
                 // Cut off unneeded tiles.
                 val bound = config.map.levels.firstOrNull { level -> level.zoom == zoom }?.bound
-                if (bound != null)
-                {
+                if (bound != null) {
                     return@let request.bounded(startX = bound.startX, startY = bound.startY, endX = bound.endX, endY = bound.endY)
-                }
-                else
-                {
+                } else {
                     Timber.w("Unable to create a bounded request for zoom level $zoom.")
                 }
             }
@@ -347,27 +335,23 @@ class WvwActivity : AppCompatActivity() {
             ShowMap()
             ShowObjectives()
 
-            if (config.bloodlust.enabled)
-            {
+            if (config.bloodlust.enabled) {
                 ShowBloodlust()
             }
         }
 
-        if (config.map.scroll.enabled)
-        {
+        if (config.map.scroll.enabled) {
             InitialMapScroll(horizontal, vertical)
         }
     }
 
     @Composable
-    private fun InitialMapScroll(horizontal: ScrollState, vertical: ScrollState)
-    {
+    private fun InitialMapScroll(horizontal: ScrollState, vertical: ScrollState) {
         // Can't scale without knowing the continent dimensions and floor regions/maps.
         val floor = remember { floor }.value
         val continent = remember { continent }.value
         val grid = remember { grid }.value
-        if (continent != null && floor != null && grid.tiles.isNotEmpty())
-        {
+        if (continent != null && floor != null && grid.tiles.isNotEmpty()) {
             // Get the WvW region. It should be the only one that exists within this floor.
             val region = floor.regions.values.firstOrNull { region -> region.name == config.map.regionName }
 
@@ -470,8 +454,7 @@ class WvwActivity : AppCompatActivity() {
             )
 
             // Need to do the constraining within the scope of the ConstraintLayout.
-            if (config.objectives.progressions.enabled)
-            {
+            if (config.objectives.progressions.enabled) {
                 val progression = getProgression(objective.upgradeId, matchObjective.yaksDelivered)
                 progression?.iconLink?.let { iconLink ->
                     val upgradeSize = progression.size ?: config.objectives.progressions.defaultSize
@@ -484,8 +467,7 @@ class WvwActivity : AppCompatActivity() {
                 }
             }
 
-            if (config.objectives.claim.enabled && !matchObjective.claimedBy.isNullOrBlank())
-            {
+            if (config.objectives.claim.enabled && !matchObjective.claimedBy.isNullOrBlank()) {
                 config.objectives.claim.iconLink?.let { iconLink ->
                     ShowIndicator(iconLink, config.objectives.claim.size, "Guild Claimed", Modifier.constrainAs(claimIndicator) {
                         // Display the indicator in the bottom right of the objective icon.
@@ -495,8 +477,7 @@ class WvwActivity : AppCompatActivity() {
                 }
             }
 
-            if (config.objectives.waypoint.enabled)
-            {
+            if (config.objectives.waypoint.enabled) {
                 ShowWaypointIndicator(objective, matchObjective, Modifier.constrainAs(waypointIndicator) {
                     // Display the indicator in the bottom left of the objective icon.
                     bottom.linkTo(icon.bottom)
@@ -504,12 +485,10 @@ class WvwActivity : AppCompatActivity() {
                 })
             }
 
-            if (config.objectives.immunity.enabled)
-            {
+            if (config.objectives.immunity.enabled) {
                 val immunity = configObjective?.immunity ?: config.objectives.immunity.defaultDuration
                 val flippedAt = matchObjective.lastFlippedAt
-                if (immunity != null && flippedAt != null)
-                {
+                if (immunity != null && flippedAt != null) {
                     // Display the timer underneath the objective icon.
                     ShowImmunityTimer(immunity, flippedAt, Modifier.constrainAs(timer) {
                         top.linkTo(icon.bottom)
@@ -525,8 +504,7 @@ class WvwActivity : AppCompatActivity() {
      * @return the progression level associated with an upgrade with id [upgradeId]
      */
     @Composable
-    private fun getProgression(upgradeId: Int, yaksDelivered: Int): WvwUpgradeProgression?
-    {
+    private fun getProgression(upgradeId: Int, yaksDelivered: Int): WvwUpgradeProgression? {
         val upgrades = remember { upgrades }.values
         val upgrade = upgrades.firstOrNull { upgrade -> upgrade.id == upgradeId } ?: return null
         val level = upgrade.tiers.count { tier -> yaksDelivered >= tier.yaksRequired }
@@ -537,8 +515,13 @@ class WvwActivity : AppCompatActivity() {
      * Displays an indicator.
      */
     @Composable
-    private fun ShowIndicator(iconLink: String, size: com.bselzer.gw2.manager.configuration.common.Size, contentDescription: String, modifier: Modifier, transformations: List<Transformation> = emptyList())
-    {
+    private fun ShowIndicator(
+        iconLink: String,
+        size: com.bselzer.gw2.manager.configuration.common.Size,
+        contentDescription: String,
+        modifier: Modifier,
+        transformations: List<Transformation> = emptyList()
+    ) {
         val request = ImageRequest.Builder(LocalContext.current)
             .data(iconLink)
             .size(size.width, size.height)
@@ -562,8 +545,7 @@ class WvwActivity : AppCompatActivity() {
      * Displays an indicator for an objective that has a waypoint upgrade.
      */
     @Composable
-    private fun ShowWaypointIndicator(objective: WvwObjective, matchObjective: WvwMapObjective, modifier: Modifier)
-    {
+    private fun ShowWaypointIndicator(objective: WvwObjective, matchObjective: WvwMapObjective, modifier: Modifier) {
         val waypoint = config.objectives.waypoint
         val iconLink = waypoint.iconLink ?: return
         val upgrades = remember { upgrades }
@@ -573,11 +555,9 @@ class WvwActivity : AppCompatActivity() {
         // Verify that the objective has been upgraded to a tier that has the waypoint upgrade.
         val upgrade = upgrades[objective.upgradeId]
         val tierUpgrades = upgrade?.tiers?.filter { tier -> matchObjective.yaksDelivered >= tier.yaksRequired }?.flatMap { tier -> tier.upgrades } ?: emptyList()
-        if (!tierUpgrades.any { tierUpgrade -> waypoint.upgradeNameRegex.matches(tierUpgrade.name) })
-        {
+        if (!tierUpgrades.any { tierUpgrade -> waypoint.upgradeNameRegex.matches(tierUpgrade.name) }) {
             // Fallback to trying to find the tactic.
-            if (!waypoint.guild.enabled || !matchObjective.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }.any { tactic -> waypoint.guild.upgradeNameRegex.matches(tactic.name) })
-            {
+            if (!waypoint.guild.enabled || !matchObjective.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }.any { tactic -> waypoint.guild.upgradeNameRegex.matches(tactic.name) }) {
                 // No upgrade or tactic waypoint so do not display anything.
                 return
             }
@@ -594,8 +574,7 @@ class WvwActivity : AppCompatActivity() {
      */
     @OptIn(ExperimentalTime::class)
     @Composable
-    private fun ShowImmunityTimer(immunity: Duration, flippedAt: Instant, modifier: Modifier)
-    {
+    private fun ShowImmunityTimer(immunity: Duration, flippedAt: Instant, modifier: Modifier) {
         val remaining = immunity - Clock.System.now().minus(flippedAt)
         if (remaining.isNegative()) return
 
@@ -624,8 +603,7 @@ class WvwActivity : AppCompatActivity() {
      * Displays general information about the objective the user clicked on in a pop-up label.
      */
     @Composable
-    private fun ShowSelectedObjective()
-    {
+    private fun ShowSelectedObjective() {
         val selected = config.objectives.selected
         val selectedObjective = remember { selectedObjective }.value ?: return
         val match = remember { match }.value
@@ -663,8 +641,7 @@ class WvwActivity : AppCompatActivity() {
      * Displays the bloodlust icon within each borderland.
      */
     @Composable
-    private fun ShowBloodlust()
-    {
+    private fun ShowBloodlust() {
         val bloodlust = config.bloodlust
         val match = remember { match }.value ?: return
         val continent = remember { continent }.value ?: return
@@ -674,19 +651,16 @@ class WvwActivity : AppCompatActivity() {
         val height = bloodlust.size.height
 
         val borderlands = match.maps.filter { map -> map.type().isOneOf(MapType.BLUE_BORDERLANDS, MapType.RED_BORDERLANDS, MapType.GREEN_BORDERLANDS) } ?: return
-        for(borderland in borderlands)
-        {
+        for (borderland in borderlands) {
             // Use the center of all of the ruins as the position of the bloodlust icon.
             val matchRuins = borderland.objectives.filter { objective -> objective.type() == ObjectiveType.RUINS }
-            if (matchRuins.isEmpty())
-            {
+            if (matchRuins.isEmpty()) {
                 Timber.w("Unable to create the bloodlust icon when there are no ruins on map ${borderland.id}.")
                 continue
             }
 
             val objectiveRuins = matchRuins.mapNotNull { ruin -> objectives.firstOrNull { objective -> objective.id == ruin.id } }
-            if (objectiveRuins.count() != matchRuins.count())
-            {
+            if (objectiveRuins.count() != matchRuins.count()) {
                 Timber.w("Mismatch between the number of ruins in the match and objectives.")
                 continue
             }
@@ -724,8 +698,7 @@ class WvwActivity : AppCompatActivity() {
     /**
      * @return the objective from the configuration that matches the objective from the objectives endpoint
      */
-    private fun configObjective(objective: WvwObjective): com.bselzer.gw2.manager.configuration.wvw.WvwObjective?
-    {
+    private fun configObjective(objective: WvwObjective): com.bselzer.gw2.manager.configuration.wvw.WvwObjective? {
         val type = objective.type()
         return config.objectives.objectives.firstOrNull { configObjective -> configObjective.type == type }
     }
@@ -733,8 +706,7 @@ class WvwActivity : AppCompatActivity() {
     /**
      * @return the size of the image associated with an objective
      */
-    private fun objectiveSize(objective: WvwObjective): Dimension
-    {
+    private fun objectiveSize(objective: WvwObjective): Dimension {
         val configObjective = configObjective(objective)
 
         // Get the size from the configured objective if it is defined, otherwise use the default.
@@ -746,8 +718,7 @@ class WvwActivity : AppCompatActivity() {
     /**
      * @return the scaled coordinates of the image associated with an objective
      */
-    private fun scaledCoordinates(objective: WvwObjective): Point?
-    {
+    private fun scaledCoordinates(objective: WvwObjective): Point? {
         val continent = this.continent.value ?: return null
 
         // Use the explicit coordinates if they exist, otherwise default to the label coordinates. This is needed for atypical types such as Spawn/Mercenary.

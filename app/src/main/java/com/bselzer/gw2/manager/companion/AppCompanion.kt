@@ -11,7 +11,6 @@ import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.TOKEN
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion
 import com.bselzer.gw2.manager.configuration.Configuration
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
-import com.bselzer.library.gw2.v2.client.serialization.Modules
 import com.bselzer.library.gw2.v2.tile.client.TileClient
 import com.bselzer.library.kotlin.extension.preference.initialize
 import com.bselzer.library.kotlin.extension.preference.nullLatest
@@ -23,15 +22,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.contextual
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.UnknownChildHandler
 import nl.adaptivity.xmlutil.serialization.XML
 import okhttp3.OkHttpClient
 import timber.log.Timber
 
-object AppCompanion
-{
+object AppCompanion {
     /**
      * Initialize objects that rely on the application being created.
      */

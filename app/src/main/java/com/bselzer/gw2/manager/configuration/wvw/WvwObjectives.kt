@@ -53,12 +53,12 @@ class WvwObjectives(
     /**
      * Information related to the waypoint upgrade/tactic.
      */
-    @XmlSerialName(value = "Waypoint", namespace = "", prefix="")
+    @XmlSerialName(value = "Waypoint", namespace = "", prefix = "")
     val waypoint: WvwUpgradeWaypoint = WvwUpgradeWaypoint(),
 
     /**
      * Information related to guilds claiming objectives.
      */
-    @XmlSerialName(value = "Claim", namespace = "", prefix="")
+    @XmlSerialName(value = "Claim", namespace = "", prefix = "")
     val claim: WvwGuildClaim = WvwGuildClaim(),
 )

@@ -40,10 +40,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class MainActivity : ComponentActivity()
-{
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val (download, setDownloading) = remember { mutableStateOf(true) }
@@ -61,8 +59,7 @@ class MainActivity : ComponentActivity()
             Download(description)
         }
 
-        if (!download)
-        {
+        if (!download) {
             Background()
             MainMenu()
         }
@@ -171,8 +168,7 @@ class MainActivity : ComponentActivity()
             launch(exceptionHandler) {
                 setDescription("Pre-Processing")
 
-                if (!AppCompanion.APPLICATION.hasInternet())
-                {
+                if (!AppCompanion.APPLICATION.hasInternet()) {
                     return@launch
                 }
 

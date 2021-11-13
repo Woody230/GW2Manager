@@ -7,10 +7,8 @@ import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 /**
  * Transforms the image into the owner's color.
  */
-class OwnedColorTransformation(config: Wvw, private val owner: ObjectiveOwner): HexColorTransformation(owner.hex(config))
-{
-    private companion object
-    {
+class OwnedColorTransformation(config: Wvw, private val owner: ObjectiveOwner) : HexColorTransformation(owner.hex(config)) {
+    private companion object {
         /**
          * @return the hex associated with the owner
          */

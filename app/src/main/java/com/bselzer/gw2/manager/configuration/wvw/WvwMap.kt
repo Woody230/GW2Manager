@@ -1,7 +1,6 @@
 package com.bselzer.gw2.manager.configuration.wvw
 
 import kotlinx.serialization.Serializable
-import nl.adaptivity.xmlutil.serialization.XmlDefault
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable

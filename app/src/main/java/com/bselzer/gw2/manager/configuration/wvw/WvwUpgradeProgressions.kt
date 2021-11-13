@@ -12,6 +12,6 @@ class WvwUpgradeProgressions(
     @XmlSerialName(value = "Size", namespace = "", prefix = "")
     val defaultSize: Size = Size(32, 32),
 
-    @XmlSerialName(value = "Progression", namespace = "", prefix="")
+    @XmlSerialName(value = "Progression", namespace = "", prefix = "")
     val progression: List<WvwUpgradeProgression> = emptyList()
 )

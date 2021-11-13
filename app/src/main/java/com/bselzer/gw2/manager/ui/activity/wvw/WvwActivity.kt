@@ -64,8 +64,8 @@ import com.bselzer.library.kotlin.extension.coroutine.repeat
 import com.bselzer.library.kotlin.extension.function.collection.addTo
 import com.bselzer.library.kotlin.extension.function.collection.isOneOf
 import com.bselzer.library.kotlin.extension.function.objects.userFriendly
-import com.bselzer.library.kotlin.extension.geometry.dimension.bi.Dimension
-import com.bselzer.library.kotlin.extension.geometry.dimension.bi.position.Point
+import com.bselzer.library.kotlin.extension.geometry.dimension.bi.Dimension2D
+import com.bselzer.library.kotlin.extension.geometry.dimension.bi.position.Point2D
 import com.bselzer.library.kotlin.extension.preference.nullLatest
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
@@ -675,7 +675,7 @@ class WvwActivity : AppCompatActivity() {
             // Scale the position before using it.
             val x = objectiveRuins.sumOf { ruin -> ruin.coordinates.x } / objectiveRuins.count()
             val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / objectiveRuins.count()
-            val coordinates = Point(x, y).scaledCoordinates(this.grid.value, continent, zoom, Dimension(width.toDouble(), height.toDouble()))
+            val coordinates = Point2D(x, y).scaledCoordinates(this.grid.value, continent, zoom, Dimension2D(width.toDouble(), height.toDouble()))
 
             // Measurements are done with DP so conversion must be done from pixels.
             val density = LocalDensity.current
@@ -706,23 +706,23 @@ class WvwActivity : AppCompatActivity() {
     /**
      * @return the size of the image associated with an objective
      */
-    private fun objectiveSize(objective: WvwObjective): Dimension {
+    private fun objectiveSize(objective: WvwObjective): Dimension2D {
         val configObjective = configObjective(objective)
 
         // Get the size from the configured objective if it is defined, otherwise use the default.
         val width = configObjective?.size?.width ?: config.objectives.defaultSize.width
         val height = configObjective?.size?.height ?: config.objectives.defaultSize.height
-        return Dimension(width.toDouble(), height.toDouble())
+        return Dimension2D(width.toDouble(), height.toDouble())
     }
 
     /**
      * @return the scaled coordinates of the image associated with an objective
      */
-    private fun scaledCoordinates(objective: WvwObjective): Point? {
+    private fun scaledCoordinates(objective: WvwObjective): Point2D? {
         val continent = this.continent.value ?: return null
 
         // Use the explicit coordinates if they exist, otherwise default to the label coordinates. This is needed for atypical types such as Spawn/Mercenary.
-        val coordinates = if (objective.coordinates.x != 0.0 && objective.coordinates.y != 0.0) Point(objective.coordinates.x, objective.coordinates.y) else objective.labelCoordinates
+        val coordinates = if (objective.coordinates.x != 0.0 && objective.coordinates.y != 0.0) Point2D(objective.coordinates.x, objective.coordinates.y) else objective.labelCoordinates
 
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
         return coordinates.scaledCoordinates(this.grid.value, continent, zoom, objectiveSize(objective))
@@ -731,7 +731,7 @@ class WvwActivity : AppCompatActivity() {
     /**
      * @return the scaled coordinates of the image
      */
-    private fun Point.scaledCoordinates(grid: TileGrid, continent: Continent, zoom: Int, size: Dimension): Point =
+    private fun Point2D.scaledCoordinates(grid: TileGrid, continent: Continent, zoom: Int, size: Dimension2D): Point2D =
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
         scale(grid, continent, zoom).run {
             // Displace the coordinates so that it aligns with the center of the image.

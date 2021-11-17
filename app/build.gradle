@@ -76,20 +76,23 @@ dependencies {
     implementation("com.bselzer.library.gw2:v2-scope:$wrapper_version")
     implementation("com.bselzer.library.gw2:v2-tile:$wrapper_version")
 
+    // GW2 Database
+    // TODO jitpack
+    implementation("com.bselzer.library.gw2:v2-cache:$wrapper_version")
+    implementation("com.bselzer.library.gw2:v2-tile-cache:$wrapper_version")
+    implementation("org.kodein.db:kodein-db:$kodein_database_version")
+    implementation("org.kodein.db:kodein-db-serializer-kotlinx:$kodein_database_version")
+
     // HTTP Client
     implementation("io.ktor:ktor-client-okhttp:$ktor_version") // Using OkHttp because Coil relies on it.
 
     // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:$datetime_version")
     implementation('io.github.pdvrieze.xmlutil:serialization-android:0.83.0')
 
     // Extensions
     // TODO jitpack
-    implementation("com.bselzer.library.kotlin.extension:datetime:$extension_version")
-    implementation("com.bselzer.library.kotlin.extension:function:$extension_version")
     implementation("com.bselzer.library.kotlin.extension:preference:$extension_version")
-    implementation("com.bselzer.library.kotlin.extension:geometry:$extension_version")
 
     // Test
     testImplementation("junit:junit:4.13.2")

@@ -10,8 +10,17 @@ import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.DATASTOR
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.TOKEN
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion
 import com.bselzer.gw2.manager.configuration.Configuration
+import com.bselzer.library.gw2.v2.cache.metadata.IdentifiableMetadataExtractor
+import com.bselzer.library.gw2.v2.cache.provider.Gw2CacheProvider
+import com.bselzer.library.gw2.v2.cache.type.gw2
+import com.bselzer.library.gw2.v2.client.client.ExceptionRecoveryMode
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
+import com.bselzer.library.gw2.v2.client.client.Gw2ClientConfiguration
+import com.bselzer.library.gw2.v2.model.serialization.Modules
+import com.bselzer.library.gw2.v2.tile.cache.instance.TileCache
+import com.bselzer.library.gw2.v2.tile.cache.metadata.TileMetadataExtractor
 import com.bselzer.library.gw2.v2.tile.client.TileClient
+import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransactionProvider
 import com.bselzer.library.kotlin.extension.preference.initialize
 import com.bselzer.library.kotlin.extension.preference.nullLatest
 import io.ktor.client.*
@@ -26,6 +35,10 @@ import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.UnknownChildHandler
 import nl.adaptivity.xmlutil.serialization.XML
 import okhttp3.OkHttpClient
+import org.kodein.db.DB
+import org.kodein.db.TypeTable
+import org.kodein.db.impl.inDir
+import org.kodein.db.orm.kotlinx.KotlinxSerializer
 import timber.log.Timber
 
 object AppCompanion {
@@ -44,19 +57,33 @@ object AppCompanion {
             }
 
             HttpResponseValidator {
-                // TODO need to try/catch wrap each use to avoid crashes
                 handleResponseException { ex -> Timber.e(ex) }
             }
         }
 
-        GW2 = Gw2Client(httpClient = httpClient)
-        TILE = TileClient(httpClient = httpClient)
+        DATABASE = application.openDatabase()
+        val transactionProvider = DBTransactionProvider(DATABASE)
+        GW2 = Gw2Client(httpClient, configuration = Gw2ClientConfiguration(exceptionRecoveryMode = ExceptionRecoveryMode.DEFAULT))
+        GW2_CACHE = Gw2CacheProvider(transactionProvider, transactionProvider).apply { inject(GW2) }
+        TILE = TileClient(httpClient)
+        TILE_CACHE = TileCache(transactionProvider, TILE)
         CONFIG = application.getConfiguration()
         IMAGE_LOADER = application.getImageLoader(okHttpClient)
         DATASTORE = application.DATASTORE.apply {
             setupDatastore()
         }
     }
+
+    /**
+     * @return the database instance
+     */
+    private fun Application.openDatabase(): DB = DB.inDir(filesDir.absolutePath).open(
+        "Gw2Database",
+        KotlinxSerializer(Modules.ALL),
+        IdentifiableMetadataExtractor(),
+        TileMetadataExtractor(),
+        TypeTable { gw2() }
+    )
 
     /**
      * @return the configuration
@@ -124,9 +151,24 @@ object AppCompanion {
     lateinit var GW2: Gw2Client
 
     /**
+     * The caching provider for the [Gw2Client].
+     */
+    lateinit var GW2_CACHE: Gw2CacheProvider
+
+    /**
      * The GW2 tile client.
      */
     lateinit var TILE: TileClient
+
+    /**
+     * The caching provider for the [TileClient].
+     */
+    lateinit var TILE_CACHE: TileCache
+
+    /**
+     * The GW2 database.
+     */
+    lateinit var DATABASE: DB
 
     init {
         // Only enable logging for debug mode.

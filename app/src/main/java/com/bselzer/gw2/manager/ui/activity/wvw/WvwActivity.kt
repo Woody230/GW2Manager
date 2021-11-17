@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.ui.activity.wvw
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
@@ -29,7 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberImagePainter
-import coil.memory.MemoryCache
 import coil.request.ImageRequest
 import coil.transform.Transformation
 import com.bselzer.gw2.manager.R
@@ -39,6 +39,10 @@ import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELEC
 import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
 import com.bselzer.gw2.manager.ui.coil.HexColorTransformation
 import com.bselzer.gw2.manager.ui.theme.AppTheme
+import com.bselzer.library.gw2.v2.cache.instance.ContinentCache
+import com.bselzer.library.gw2.v2.cache.instance.WorldCache
+import com.bselzer.library.gw2.v2.cache.instance.WvwCache
+import com.bselzer.library.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.library.gw2.v2.model.continent.Continent
 import com.bselzer.library.gw2.v2.model.continent.ContinentFloor
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.owner
@@ -48,15 +52,14 @@ import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapType
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
 import com.bselzer.library.gw2.v2.model.extension.wvw.objective
-import com.bselzer.library.gw2.v2.model.guild.upgrade.ClaimableUpgrade
 import com.bselzer.library.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMapObjective
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.library.gw2.v2.model.wvw.upgrade.WvwUpgrade
+import com.bselzer.library.gw2.v2.tile.cache.metadata.id
 import com.bselzer.library.gw2.v2.tile.extension.scale
-import com.bselzer.library.gw2.v2.tile.model.request.TileRequest
 import com.bselzer.library.gw2.v2.tile.model.response.Tile
 import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.library.kotlin.extension.coroutine.cancel
@@ -70,9 +73,8 @@ import com.bselzer.library.kotlin.extension.preference.nullLatest
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.*
+import org.kodein.db.Value
 import timber.log.Timber
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
@@ -80,24 +82,23 @@ import kotlin.time.ExperimentalTime
 class WvwActivity : AppCompatActivity() {
     private val config = AppCompanion.CONFIG.wvw
     private val jobs: ArrayDeque<Job> = ArrayDeque()
-    private val worlds = mutableStateOf(emptyList<World>())
+    private val worlds = mutableStateOf<Collection<World>>(emptyList())
     private val match = mutableStateOf<WvwMatch?>(null)
-    private val objectives = mutableStateOf(emptyList<WvwObjective>())
-    private val upgrades = mutableStateMapOf<Int, WvwUpgrade>()
-    private val guildUpgrades = mutableStateMapOf<Int, GuildUpgrade>()
+    private val objectives = mutableStateOf<Collection<WvwObjective>>(emptyList())
+    private val upgrades = mutableStateOf(emptyMap<Int, WvwUpgrade>())
+    private val guildUpgrades = mutableStateOf(emptyMap<Int, GuildUpgrade>())
     private val continent = mutableStateOf<Continent?>(null)
     private val floor = mutableStateOf<ContinentFloor?>(null)
     private val grid = mutableStateOf(TileGrid())
     private val zoom = config.map.defaultZoom
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
-    private val refreshLock = Mutex()
+    private val tileContent = mutableStateMapOf<Value, Bitmap>()
 
     // TODO partial grid rending
     // TODO investigate (initial) tile download time
     // TODO mutable zoom
     // TODO match details: scores, ppt, etc
     // TODO spawn/bloodlust icons: partial color change
-    // TODO create DB to store static/mostly static info: upgrades/objectives/continents/floors/tiles
     // TODO DB clearing
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,9 +129,8 @@ class WvwActivity : AppCompatActivity() {
     private suspend fun refreshData() {
         Timber.d("Refreshing WvW data.")
 
-        // Set up data that should not be changing.
-        if (worlds.value.isEmpty()) {
-            worlds.value = AppCompanion.GW2.world.worlds()
+        AppCompanion.GW2_CACHE.lockedTransaction {
+            worlds.value = get<WorldCache>().findWorlds()
         }
 
         // Set up or update data that will change.
@@ -141,81 +141,52 @@ class WvwActivity : AppCompatActivity() {
             return
         }
 
-        refreshLock.withLock {
-            val wvw = AppCompanion.GW2.wvw
-            val match = wvw.match(selectedWorld)
-            val objectives = wvw.objectives(match.maps.flatMap { map -> map.objectives.map { objective -> objective.id } })
-            this.match.value = match
-            populateMissingUpgrades(objectives)
-            populateMissingGuildUpgrades(match)
-            this.objectives.value = objectives
-            refreshMapData(match)
-            refreshGridData()
+        AppCompanion.GW2_CACHE.lockedTransaction {
+            val cache = get<WvwCache>()
+            val match = AppCompanion.GW2.wvw.match(selectedWorld)
+            cache.putMatch(match)
+            val objectives = cache.findObjectives(match)
+            this@WvwActivity.match.value = match
+            this@WvwActivity.objectives.value = objectives
+            this@WvwActivity.upgrades.value = cache.findUpgrades(objectives).associateBy { it.id }
+            refreshMapData(this, match)
+            refreshGridData(this)
         }
-    }
-
-    /**
-     * Gets the upgrades that are missing from the cache and adds them to [upgrades].
-     */
-    private suspend fun populateMissingUpgrades(objectives: List<WvwObjective>) {
-        val upgrades = this.upgrades
-
-        // Upgrade data should not be changing so only request for new ids.
-        val ids = objectives.map { objective -> objective.upgradeId }.toHashSet().filter { id -> !upgrades.keys.contains(id) }
-        val newUpgrades = AppCompanion.GW2.wvw.upgrades(ids).associateBy({ upgrade -> upgrade.id }, { upgrade -> upgrade })
-
-        // Some ids may not exist and must be handled so that there aren't repeated calls and an error when all the ids are bad.
-        val missingUpgrades = ids.minus(newUpgrades.keys).map { id -> Pair(id, WvwUpgrade()) }
-        upgrades.plusAssign(newUpgrades.plus(missingUpgrades))
-    }
-
-    /**
-     * Gets the guild upgrades that are missing from the cache and adds them to [guildUpgrades].
-     */
-    private suspend fun populateMissingGuildUpgrades(match: WvwMatch) {
-        val guildUpgrades = this.guildUpgrades
-
-        // Upgrade data should not be changing so only request for new ids.
-        val ids = match.maps.flatMap { map -> map.objectives.flatMap { objective -> objective.guildUpgradeIds } }.toHashSet().filter { id -> !guildUpgrades.keys.contains(id) }
-        val newUpgrades = AppCompanion.GW2.guild.upgrades(ids).associateBy({ upgrade -> upgrade.id }, { upgrade -> upgrade })
-
-        // Some ids may not exist and must be handled so that there aren't repeated calls and an error when all the ids are bad.
-        val missingUpgrades = ids.minus(newUpgrades.keys).map { id -> Pair(id, ClaimableUpgrade()) }
-        guildUpgrades.plusAssign(newUpgrades.plus(missingUpgrades))
     }
 
     /**
      * Refreshes the WvW map data.
      */
-    private suspend fun refreshMapData(match: WvwMatch) {
+    private suspend fun refreshMapData(cacheProvider: Gw2CacheProvider, match: WvwMatch) = cacheProvider.apply {
         // This data should not be changing so only initialize it.
         if (continent.value != null) {
-            return
+            return@apply
         }
 
         Timber.d("Refreshing WvW map data.")
 
         // Assume that all WvW maps are within the same continent and floor.
-        val mapId = match.maps.firstOrNull()?.id ?: return
-        val map = AppCompanion.GW2.map.map(mapId)
-        val continent = AppCompanion.GW2.continent.continent(map.continentId)
-        floor.value = AppCompanion.GW2.continent.floor(map.continentId, map.defaultFloorId)
-        this.continent.value = continent
+        val mapId = match.maps.firstOrNull()?.id ?: return@apply
+        val cache = get<ContinentCache>()
+        val map = cache.getMap(mapId)
+        val continent = cache.getContinent(map)
+        this@WvwActivity.floor.value = cache.getContinentFloor(map)
+        this@WvwActivity.continent.value = continent
     }
 
     /**
      * Refreshes the WvW map tiling grid.
      */
-    private suspend fun refreshGridData() {
-        val continent = this.continent.value
-        val floor = this.floor.value
+    private suspend fun refreshGridData(cacheProvider: Gw2CacheProvider) = cacheProvider.apply {
+        val continent = continent.value
+        val floor = floor.value
 
         // Verify that the related data exists.
         if (continent == null || floor == null) {
-            return
+            return@apply
         }
 
-        val zoom = this.zoom
+        val zoom = zoom
         Timber.d("Refreshing WvW tile grid data for zoom level $zoom.")
 
         val gridRequest = AppCompanion.TILE.requestGrid(continent, floor, zoom).let { request ->
@@ -232,17 +203,15 @@ class WvwActivity : AppCompatActivity() {
             return@let request
         }
 
-        // Set up the bitmaps for the requests that have not been cached yet.
-        val cacheMisses = gridRequest.tileRequests.filter { tileRequest -> AppCompanion.IMAGE_LOADER.memoryCache[tileRequest.memoryKey(zoom)] == null }
-
-        // MUST defer all calls first before awaiting for parallelism.
-        for (tile in cacheMisses.map { tileRequest -> AppCompanion.TILE.tileAsync(tileRequest) }.map { deferred -> deferred.await() }) {
-            val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
-            AppCompanion.IMAGE_LOADER.memoryCache[tile.memoryKey(zoom)] = bitmap
-        }
-
         // Set up the grid without content in the tiles.
-        this.grid.value = TileGrid(gridRequest, gridRequest.tileRequests.map { tileRequest -> Tile(tileRequest) })
+        grid.value = TileGrid(gridRequest, gridRequest.tileRequests.map { tileRequest -> Tile(tileRequest) })
+
+        for (tileRequest in gridRequest.tileRequests) {
+            // Get the tile content and update the state.
+            val tile = AppCompanion.TILE_CACHE.getTile(tileRequest)
+            val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
+            tileContent[tile.id()] = bitmap
+        }
     }
 
     @Preview
@@ -293,8 +262,8 @@ class WvwActivity : AppCompatActivity() {
         // Attempt to rectify the missing data.
         SideEffect {
             CoroutineScope(Dispatchers.IO).launch {
-                refreshLock.withLock {
-                    refreshGridData()
+                AppCompanion.GW2_CACHE.transaction {
+                    refreshGridData(AppCompanion.GW2_CACHE)
                 }
             }
         }
@@ -307,16 +276,6 @@ class WvwActivity : AppCompatActivity() {
         modifier = Modifier.fillMaxSize(),
         contentScale = ContentScale.Crop
     )
-
-    /**
-     * @return the Coil memory cache key associated with a tile
-     */
-    private fun TileRequest.memoryKey(zoom: Int): MemoryCache.Key = MemoryCache.Key("WvwMapTile${x}x${y}x${zoom}")
-
-    /**
-     * @return the Coil memory cache key associated with a tile
-     */
-    private fun Tile.memoryKey(zoom: Int): MemoryCache.Key = MemoryCache.Key("WvwMapTile${x}x${y}x${zoom}")
 
     /**
      * Displays the grid content.
@@ -375,11 +334,12 @@ class WvwActivity : AppCompatActivity() {
     ) {
         val density = LocalDensity.current
         val grid = remember { grid }.value
-        val zoom = this@WvwActivity.zoom
+        val tileContent = remember { tileContent }
         for (row in grid.grid) {
             Row {
                 for (tile in row) {
-                    val bitmap = AppCompanion.IMAGE_LOADER.memoryCache[tile.memoryKey(zoom)] ?: continue
+                    // Need to specify non-zero width/height on the default bitmap.
+                    val bitmap = tileContent[tile.id()] ?: Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
                     Image(
                         painter = BitmapPainter(bitmap.asImageBitmap()),
                         contentDescription = "WvW Map",
@@ -501,12 +461,12 @@ class WvwActivity : AppCompatActivity() {
     }
 
     /**
-     * @return the progression level associated with an upgrade with id [upgradeId]
+     * @return the progression level associated with the upgrade associated with the objective
      */
     @Composable
     private fun getProgression(upgradeId: Int, yaksDelivered: Int): WvwUpgradeProgression? {
-        val upgrades = remember { upgrades }.values
-        val upgrade = upgrades.firstOrNull { upgrade -> upgrade.id == upgradeId } ?: return null
+        val upgrades = remember { upgrades }.value
+        val upgrade = upgrades[upgradeId] ?: return null
         val level = upgrade.tiers.count { tier -> yaksDelivered >= tier.yaksRequired }
         return config.objectives.progressions.progression.getOrNull(level - 1)
     }
@@ -548,8 +508,8 @@ class WvwActivity : AppCompatActivity() {
     private fun ShowWaypointIndicator(objective: WvwObjective, matchObjective: WvwMapObjective, modifier: Modifier) {
         val waypoint = config.objectives.waypoint
         val iconLink = waypoint.iconLink ?: return
-        val upgrades = remember { upgrades }
-        val guildUpgrades = remember { guildUpgrades }
+        val upgrades = remember { upgrades }.value
+        val guildUpgrades = remember { guildUpgrades }.value
         val transformations = mutableListOf<Transformation>()
 
         // Verify that the objective has been upgraded to a tier that has the waypoint upgrade.
@@ -760,9 +720,9 @@ class WvwActivity : AppCompatActivity() {
      * Create a dialog for the user to select the world.
      */
     private fun showSelectWorldDialog(cancellable: Boolean = true) {
-        val worlds = this.worlds.value.sortedBy { world -> world.name }
+        val worlds = this.worlds.value.sortedBy { world -> world.name }.toList()
         if (worlds.isEmpty()) {
-            Toast.makeText(this, "Awaiting the download of worlds.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Waiting for the worlds to be downloaded.", Toast.LENGTH_SHORT).show()
             return
         }
 

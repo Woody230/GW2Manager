@@ -33,6 +33,7 @@ import com.bselzer.gw2.manager.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.kotlin.extension.function.core.hasInternet
+import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -172,8 +173,11 @@ class MainActivity : ComponentActivity() {
                     return@launch
                 }
 
-                val id = AppCompanion.GW2.build.buildId()
-                AppCompanion.DATASTORE.update(BUILD_NUMBER, id, this)
+                val newId = AppCompanion.GW2.build.buildId()
+                val existingId = AppCompanion.DATASTORE.safeLatest(BUILD_NUMBER)
+                if (newId > existingId) {
+                    AppCompanion.DATASTORE.update(BUILD_NUMBER, newId, this)
+                }
             }.invokeOnCompletion { setDownloading(false) }
         }
     }

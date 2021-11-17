@@ -129,23 +129,28 @@ class WvwActivity : AppCompatActivity() {
     private suspend fun refreshData() {
         Timber.d("Refreshing WvW data.")
 
+        val selectedWorld = AppCompanion.DATASTORE.nullLatest(SELECTED_WORLD)
         AppCompanion.GW2_CACHE.lockedTransaction {
             worlds.value = get<WorldCache>().findWorlds()
-        }
 
-        // Set up or update data that will change.
-        val selectedWorld = AppCompanion.DATASTORE.nullLatest(SELECTED_WORLD)
-        if (selectedWorld == null) {
-            // Selection is required so do not allow cancellation.
-            showSelectWorldDialog(cancellable = false)
-            return
-        }
+            // Need the world to be able to get the associated match.
+            if (selectedWorld == null) {
+                // Selection is required so do not allow cancellation.
+                showSelectWorldDialog(cancellable = false)
 
-        AppCompanion.GW2_CACHE.lockedTransaction {
+                // Use the config ids to try to populate the map/grid data before the selection is made.
+                refreshMapData(this)
+                refreshGridData(this)
+                return@lockedTransaction
+            }
+
             val cache = get<WvwCache>()
             val match = AppCompanion.GW2.wvw.match(selectedWorld)
-            cache.putMatch(match)
+
+            // TODO Need to end the transaction so that the initial api call gets committed.
+            transaction { cache.putMatch(match) }
             val objectives = cache.findObjectives(match)
+
             this@WvwActivity.match.value = match
             this@WvwActivity.objectives.value = objectives
             this@WvwActivity.upgrades.value = cache.findUpgrades(objectives).associateBy { it.id }
@@ -155,7 +160,25 @@ class WvwActivity : AppCompatActivity() {
     }
 
     /**
-     * Refreshes the WvW map data.
+     * Refreshes the WvW map data using the configuration ids.
+     */
+    private suspend fun refreshMapData(cacheProvider: Gw2CacheProvider) = cacheProvider.apply {
+        // This data should not be changing so only initialize it.
+        if (continent.value != null) {
+            return@apply
+        }
+
+        Timber.d("Refreshing WvW map data.")
+
+        // Assume that all WvW maps are within the same continent and floor.
+        val cache = get<ContinentCache>()
+        val continent = cache.getContinent(config.map.continentId)
+        this@WvwActivity.floor.value = cache.getContinentFloor(config.map.continentId, config.map.floorId)
+        this@WvwActivity.continent.value = continent
+    }
+
+    /**
+     * Refreshes the WvW map data using a map found from the match.
      */
     private suspend fun refreshMapData(cacheProvider: Gw2CacheProvider, match: WvwMatch) = cacheProvider.apply {
         // This data should not be changing so only initialize it.
@@ -262,7 +285,7 @@ class WvwActivity : AppCompatActivity() {
         // Attempt to rectify the missing data.
         SideEffect {
             CoroutineScope(Dispatchers.IO).launch {
-                AppCompanion.GW2_CACHE.transaction {
+                AppCompanion.GW2_CACHE.lockedTransaction {
                     refreshGridData(AppCompanion.GW2_CACHE)
                 }
             }
@@ -364,97 +387,100 @@ class WvwActivity : AppCompatActivity() {
      */
     @OptIn(ExperimentalFoundationApi::class, ExperimentalTime::class)
     @Composable
-    private fun ShowObjectives() = remember { objectives }.value.forEach { objective ->
-        // Find the objective through the match in order to find out who the owner is.
-        val matchObjective = match.value.objective(objective) ?: return@forEach
-        val owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL
+    private fun ShowObjectives() {
+        val match = remember { match }.value
+        remember { objectives }.value.forEach { objective ->
+            // Find the objective through the match in order to find out who the owner is.
+            val matchObjective = match.objective(objective) ?: return@forEach
+            val owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL
 
-        val configObjective = configObjective(objective)
-        val coordinates = scaledCoordinates(objective) ?: return
-        val size = objectiveSize(objective)
+            val configObjective = configObjective(objective)
+            val coordinates = scaledCoordinates(objective) ?: return
+            val size = objectiveSize(objective)
 
-        // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
-        val link = if (objective.iconLink.isNotBlank()) objective.iconLink else configObjective?.defaultIconLink
-        val request = ImageRequest.Builder(LocalContext.current)
-            .data(link)
-            .size(size.width.toInt(), size.height.toInt())
-            .transformations(OwnedColorTransformation(config, owner))
-            .build()
+            // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
+            val link = if (objective.iconLink.isNotBlank()) objective.iconLink else configObjective?.defaultIconLink
+            val request = ImageRequest.Builder(LocalContext.current)
+                .data(link)
+                .size(size.width.toInt(), size.height.toInt())
+                .transformations(OwnedColorTransformation(config, owner))
+                .build()
 
-        // Measurements are done with DP so conversion must be done from pixels.
-        // TODO extension(s)
-        val density = LocalDensity.current
-        val xDp = density.run { coordinates.x.toInt().toDp() }
-        val yDp = density.run { coordinates.y.toInt().toDp() }
-        val widthDp = density.run { size.width.toInt().toDp() }
-        val heightDp = density.run { size.height.toInt().toDp() }
+            // Measurements are done with DP so conversion must be done from pixels.
+            // TODO extension(s)
+            val density = LocalDensity.current
+            val xDp = density.run { coordinates.x.toInt().toDp() }
+            val yDp = density.run { coordinates.y.toInt().toDp() }
+            val widthDp = density.run { size.width.toInt().toDp() }
+            val heightDp = density.run { size.height.toInt().toDp() }
 
-        // Overlay the objective image onto the map image.
-        ConstraintLayout(
-            modifier = Modifier
-                .absoluteOffset(xDp, yDp)
-                .wrapContentSize()
-        ) {
-            val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
-            Image(
-                painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
-                contentDescription = objective.name,
-                contentScale = ContentScale.Fit,
+            // Overlay the objective image onto the map image.
+            ConstraintLayout(
                 modifier = Modifier
-                    .constrainAs(icon) {
-                        top.linkTo(parent.top)
-                        start.linkTo(parent.start)
-                    }
-                    .size(widthDp, heightDp)
-                    .combinedClickable(onLongClick = {
-                        //TODO show specifics: claimed by, upgrades/tactics/improvements, etc
-                    }) {
-                        selectedObjective.value = objective
-                    }
-            )
+                    .absoluteOffset(xDp, yDp)
+                    .wrapContentSize()
+            ) {
+                val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
+                Image(
+                    painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
+                    contentDescription = objective.name,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .constrainAs(icon) {
+                            top.linkTo(parent.top)
+                            start.linkTo(parent.start)
+                        }
+                        .size(widthDp, heightDp)
+                        .combinedClickable(onLongClick = {
+                            //TODO show specifics: claimed by, upgrades/tactics/improvements, etc
+                        }) {
+                            selectedObjective.value = objective
+                        }
+                )
 
-            // Need to do the constraining within the scope of the ConstraintLayout.
-            if (config.objectives.progressions.enabled) {
-                val progression = getProgression(objective.upgradeId, matchObjective.yaksDelivered)
-                progression?.iconLink?.let { iconLink ->
-                    val upgradeSize = progression.size ?: config.objectives.progressions.defaultSize
-                    ShowIndicator(iconLink, upgradeSize, "Upgraded", Modifier.constrainAs(upgradeIndicator) {
-                        // Display the indicator in the top center of the objective icon.
-                        top.linkTo(icon.top)
-                        start.linkTo(icon.start)
-                        end.linkTo(icon.end)
-                    })
+                // Need to do the constraining within the scope of the ConstraintLayout.
+                if (config.objectives.progressions.enabled) {
+                    val progression = getProgression(objective.upgradeId, matchObjective.yaksDelivered)
+                    progression?.iconLink?.let { iconLink ->
+                        val upgradeSize = progression.size ?: config.objectives.progressions.defaultSize
+                        ShowIndicator(iconLink, upgradeSize, "Upgraded", Modifier.constrainAs(upgradeIndicator) {
+                            // Display the indicator in the top center of the objective icon.
+                            top.linkTo(icon.top)
+                            start.linkTo(icon.start)
+                            end.linkTo(icon.end)
+                        })
+                    }
                 }
-            }
 
-            if (config.objectives.claim.enabled && !matchObjective.claimedBy.isNullOrBlank()) {
-                config.objectives.claim.iconLink?.let { iconLink ->
-                    ShowIndicator(iconLink, config.objectives.claim.size, "Guild Claimed", Modifier.constrainAs(claimIndicator) {
-                        // Display the indicator in the bottom right of the objective icon.
+                if (config.objectives.claim.enabled && !matchObjective.claimedBy.isNullOrBlank()) {
+                    config.objectives.claim.iconLink?.let { iconLink ->
+                        ShowIndicator(iconLink, config.objectives.claim.size, "Guild Claimed", Modifier.constrainAs(claimIndicator) {
+                            // Display the indicator in the bottom right of the objective icon.
+                            bottom.linkTo(icon.bottom)
+                            end.linkTo(icon.end)
+                        })
+                    }
+                }
+
+                if (config.objectives.waypoint.enabled) {
+                    ShowWaypointIndicator(objective, matchObjective, Modifier.constrainAs(waypointIndicator) {
+                        // Display the indicator in the bottom left of the objective icon.
                         bottom.linkTo(icon.bottom)
-                        end.linkTo(icon.end)
+                        start.linkTo(icon.start)
                     })
                 }
-            }
 
-            if (config.objectives.waypoint.enabled) {
-                ShowWaypointIndicator(objective, matchObjective, Modifier.constrainAs(waypointIndicator) {
-                    // Display the indicator in the bottom left of the objective icon.
-                    bottom.linkTo(icon.bottom)
-                    start.linkTo(icon.start)
-                })
-            }
-
-            if (config.objectives.immunity.enabled) {
-                val immunity = configObjective?.immunity ?: config.objectives.immunity.defaultDuration
-                val flippedAt = matchObjective.lastFlippedAt
-                if (immunity != null && flippedAt != null) {
-                    // Display the timer underneath the objective icon.
-                    ShowImmunityTimer(immunity, flippedAt, Modifier.constrainAs(timer) {
-                        top.linkTo(icon.bottom)
-                        start.linkTo(icon.start)
-                        end.linkTo(icon.end)
-                    })
+                if (config.objectives.immunity.enabled) {
+                    val immunity = configObjective?.immunity ?: config.objectives.immunity.defaultDuration
+                    val flippedAt = matchObjective.lastFlippedAt
+                    if (immunity != null && flippedAt != null) {
+                        // Display the timer underneath the objective icon.
+                        ShowImmunityTimer(immunity, flippedAt, Modifier.constrainAs(timer) {
+                            top.linkTo(icon.bottom)
+                            start.linkTo(icon.start)
+                            end.linkTo(icon.end)
+                        })
+                    }
                 }
             }
         }

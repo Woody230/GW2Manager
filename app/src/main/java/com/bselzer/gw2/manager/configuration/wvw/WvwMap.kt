@@ -18,6 +18,18 @@ class WvwMap(
     val defaultZoom: Int = 4,
 
     /**
+     * The id of the continent.
+     */
+    @XmlSerialName(value = "continentId", namespace = "", prefix = "")
+    val continentId: Int = 2,
+
+    /**
+     * The id of the floor.
+     */
+    @XmlSerialName(value = "floorId", namespace = "", prefix = "")
+    val floorId: Int = 3,
+
+    /**
      * The name of the region.
      */
     @XmlSerialName(value = "region", namespace = "", prefix = "")

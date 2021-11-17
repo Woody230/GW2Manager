@@ -49,7 +49,7 @@
                 <Size width="32" height="32" />
             </Claim>
         </Objectives>
-        <Map bounded="true" region="World vs. World">
+        <Map bounded="true" continentId="2" floorId="3" region="World vs. World">
             <Scroll enabled="true" map="Eternal Battlegrounds" />
             <Level zoom="4">
                 <Bound startX="5" startY="8" endX="14" endY="15" />

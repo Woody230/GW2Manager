@@ -4,7 +4,8 @@ buildscript {
         compose_version = "1.0.3"
         kotlin_version = "1.5.30"
         wrapper_version = "1.0.0"
-        kodein_database_version = "0.9.0-beta"
+        kodein_db_version = "0.9.0-beta"
+        kodein_di_version = "7.9.0"
         extension_version = "2.1.0"
         ktor_version = '1.6.4'
         serialization_version = '1.3.0'

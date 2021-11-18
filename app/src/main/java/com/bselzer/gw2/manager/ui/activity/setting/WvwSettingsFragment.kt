@@ -4,21 +4,19 @@ import android.os.Bundle
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import com.bselzer.gw2.manager.R
-import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion
+import com.bselzer.gw2.manager.ui.activity.DIAwarePreferenceFragment
 import com.bselzer.library.kotlin.extension.preference.DataStoreWrapper
 import com.bselzer.library.kotlin.extension.preference.addTo
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.h6ah4i.android.preference.NumberPickerPreferenceCompat
 import com.h6ah4i.android.preference.NumberPickerPreferenceDialogFragmentCompat
 
-class WvwSettingsFragment : PreferenceFragmentCompat() {
+class WvwSettingsFragment : DIAwarePreferenceFragment() {
     private val TAG = this::class.qualifiedName!!
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val datastore = AppCompanion.DATASTORE
         preferenceManager.preferenceDataStore = DataStoreWrapper(datastore)
         preferenceScreen = preferenceManager.createPreferenceScreen(context).apply {
             delayPreference(datastore).addTo(this)

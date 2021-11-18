@@ -80,8 +80,12 @@ dependencies {
     // TODO jitpack
     implementation("com.bselzer.library.gw2:v2-cache:$wrapper_version")
     implementation("com.bselzer.library.gw2:v2-tile-cache:$wrapper_version")
-    implementation("org.kodein.db:kodein-db:$kodein_database_version")
-    implementation("org.kodein.db:kodein-db-serializer-kotlinx:$kodein_database_version")
+    implementation("org.kodein.db:kodein-db:$kodein_db_version")
+    implementation("org.kodein.db:kodein-db-serializer-kotlinx:$kodein_db_version")
+
+    // Dependency Injection
+    implementation("org.kodein.di:kodein-di:$kodein_di_version")
+    implementation("org.kodein.di:kodein-di-framework-android-core:$kodein_di_version")
 
     // HTTP Client
     implementation("io.ktor:ktor-client-okhttp:$ktor_version") // Using OkHttp because Coil relies on it.

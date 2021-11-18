@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -33,10 +32,10 @@ import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import coil.transform.Transformation
 import com.bselzer.gw2.manager.R
-import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
+import com.bselzer.gw2.manager.ui.activity.DIAwareActivity
 import com.bselzer.gw2.manager.ui.coil.HexColorTransformation
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.cache.instance.ContinentCache
@@ -76,11 +75,11 @@ import kotlinx.coroutines.*
 import kotlinx.datetime.*
 import org.kodein.db.Value
 import timber.log.Timber
+import kotlin.properties.Delegates
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
-class WvwActivity : AppCompatActivity() {
-    private val config = AppCompanion.CONFIG.wvw
+class WvwActivity : DIAwareActivity() {
     private val jobs: ArrayDeque<Job> = ArrayDeque()
     private val worlds = mutableStateOf<Collection<World>>(emptyList())
     private val match = mutableStateOf<WvwMatch?>(null)
@@ -90,9 +89,9 @@ class WvwActivity : AppCompatActivity() {
     private val continent = mutableStateOf<Continent?>(null)
     private val floor = mutableStateOf<ContinentFloor?>(null)
     private val grid = mutableStateOf(TileGrid())
-    private val zoom = config.map.defaultZoom
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
     private val tileContent = mutableStateMapOf<Value, Bitmap>()
+    private var zoom by Delegates.notNull<Int>()
 
     // TODO partial grid rending
     // TODO investigate (initial) tile download time
@@ -103,6 +102,7 @@ class WvwActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        zoom = configuration.wvw.map.defaultZoom
         setContent { Content() }
     }
 
@@ -111,7 +111,7 @@ class WvwActivity : AppCompatActivity() {
         super.onResume()
 
         CoroutineScope(Dispatchers.IO).launch {
-            val interval = AppCompanion.DATASTORE.safeLatest(REFRESH_INTERVAL, 5)
+            val interval = datastore.safeLatest(REFRESH_INTERVAL, 5)
             repeat(Duration.minutes(interval)) {
                 refreshData()
             }
@@ -129,8 +129,8 @@ class WvwActivity : AppCompatActivity() {
     private suspend fun refreshData() {
         Timber.d("Refreshing WvW data.")
 
-        val selectedWorld = AppCompanion.DATASTORE.nullLatest(SELECTED_WORLD)
-        AppCompanion.GW2_CACHE.lockedTransaction {
+        val selectedWorld = datastore.nullLatest(SELECTED_WORLD)
+        gw2Cache.lockedTransaction {
             worlds.value = get<WorldCache>().findWorlds()
 
             // Need the world to be able to get the associated match.
@@ -145,7 +145,7 @@ class WvwActivity : AppCompatActivity() {
             }
 
             val cache = get<WvwCache>()
-            val match = AppCompanion.GW2.wvw.match(selectedWorld)
+            val match = gw2Client.wvw.match(selectedWorld)
 
             // TODO Need to end the transaction so that the initial api call gets committed.
             transaction { cache.putMatch(match) }
@@ -172,8 +172,8 @@ class WvwActivity : AppCompatActivity() {
 
         // Assume that all WvW maps are within the same continent and floor.
         val cache = get<ContinentCache>()
-        val continent = cache.getContinent(config.map.continentId)
-        this@WvwActivity.floor.value = cache.getContinentFloor(config.map.continentId, config.map.floorId)
+        val continent = cache.getContinent(configuration.wvw.map.continentId)
+        this@WvwActivity.floor.value = cache.getContinentFloor(configuration.wvw.map.continentId, configuration.wvw.map.floorId)
         this@WvwActivity.continent.value = continent
     }
 
@@ -212,10 +212,10 @@ class WvwActivity : AppCompatActivity() {
         val zoom = zoom
         Timber.d("Refreshing WvW tile grid data for zoom level $zoom.")
 
-        val gridRequest = AppCompanion.TILE.requestGrid(continent, floor, zoom).let { request ->
-            if (config.map.isBounded) {
+        val gridRequest = tileClient.requestGrid(continent, floor, zoom).let { request ->
+            if (configuration.wvw.map.isBounded) {
                 // Cut off unneeded tiles.
-                val bound = config.map.levels.firstOrNull { level -> level.zoom == zoom }?.bound
+                val bound = configuration.wvw.map.levels.firstOrNull { level -> level.zoom == zoom }?.bound
                 if (bound != null) {
                     return@let request.bounded(startX = bound.startX, startY = bound.startY, endX = bound.endX, endY = bound.endY)
                 } else {
@@ -231,7 +231,7 @@ class WvwActivity : AppCompatActivity() {
 
         for (tileRequest in gridRequest.tileRequests) {
             // Get the tile content and update the state.
-            val tile = AppCompanion.TILE_CACHE.getTile(tileRequest)
+            val tile = tileCache.getTile(tileRequest)
             val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
             tileContent[tile.id()] = bitmap
         }
@@ -285,8 +285,8 @@ class WvwActivity : AppCompatActivity() {
         // Attempt to rectify the missing data.
         SideEffect {
             CoroutineScope(Dispatchers.IO).launch {
-                AppCompanion.GW2_CACHE.lockedTransaction {
-                    refreshGridData(AppCompanion.GW2_CACHE)
+                gw2Cache.lockedTransaction {
+                    refreshGridData(this)
                 }
             }
         }
@@ -317,12 +317,12 @@ class WvwActivity : AppCompatActivity() {
             ShowMap()
             ShowObjectives()
 
-            if (config.bloodlust.enabled) {
+            if (configuration.wvw.bloodlust.enabled) {
                 ShowBloodlust()
             }
         }
 
-        if (config.map.scroll.enabled) {
+        if (configuration.wvw.map.scroll.enabled) {
             InitialMapScroll(horizontal, vertical)
         }
     }
@@ -335,10 +335,10 @@ class WvwActivity : AppCompatActivity() {
         val grid = remember { grid }.value
         if (continent != null && floor != null && grid.tiles.isNotEmpty()) {
             // Get the WvW region. It should be the only one that exists within this floor.
-            val region = floor.regions.values.firstOrNull { region -> region.name == config.map.regionName }
+            val region = floor.regions.values.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
 
             // Scroll over to the configured map.
-            region?.maps?.values?.firstOrNull { map -> map.name == config.map.scroll.mapName }?.let { eb ->
+            region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scroll.mapName }?.let { eb ->
                 val topLeft = eb.continentRectangle.point1.scale(grid, continent, zoom)
                 rememberCoroutineScope().launch {
                     horizontal.animateScrollTo(topLeft.x.toInt())
@@ -403,7 +403,7 @@ class WvwActivity : AppCompatActivity() {
             val request = ImageRequest.Builder(LocalContext.current)
                 .data(link)
                 .size(size.width.toInt(), size.height.toInt())
-                .transformations(OwnedColorTransformation(config, owner))
+                .transformations(OwnedColorTransformation(configuration.wvw, owner))
                 .build()
 
             // Measurements are done with DP so conversion must be done from pixels.
@@ -422,7 +422,7 @@ class WvwActivity : AppCompatActivity() {
             ) {
                 val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
                 Image(
-                    painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
+                    painter = rememberImagePainter(request, imageLoader),
                     contentDescription = objective.name,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
@@ -439,10 +439,10 @@ class WvwActivity : AppCompatActivity() {
                 )
 
                 // Need to do the constraining within the scope of the ConstraintLayout.
-                if (config.objectives.progressions.enabled) {
+                if (configuration.wvw.objectives.progressions.enabled) {
                     val progression = getProgression(objective.upgradeId, matchObjective.yaksDelivered)
                     progression?.iconLink?.let { iconLink ->
-                        val upgradeSize = progression.size ?: config.objectives.progressions.defaultSize
+                        val upgradeSize = progression.size ?: configuration.wvw.objectives.progressions.defaultSize
                         ShowIndicator(iconLink, upgradeSize, "Upgraded", Modifier.constrainAs(upgradeIndicator) {
                             // Display the indicator in the top center of the objective icon.
                             top.linkTo(icon.top)
@@ -452,9 +452,9 @@ class WvwActivity : AppCompatActivity() {
                     }
                 }
 
-                if (config.objectives.claim.enabled && !matchObjective.claimedBy.isNullOrBlank()) {
-                    config.objectives.claim.iconLink?.let { iconLink ->
-                        ShowIndicator(iconLink, config.objectives.claim.size, "Guild Claimed", Modifier.constrainAs(claimIndicator) {
+                if (configuration.wvw.objectives.claim.enabled && !matchObjective.claimedBy.isNullOrBlank()) {
+                    configuration.wvw.objectives.claim.iconLink?.let { iconLink ->
+                        ShowIndicator(iconLink, configuration.wvw.objectives.claim.size, "Guild Claimed", Modifier.constrainAs(claimIndicator) {
                             // Display the indicator in the bottom right of the objective icon.
                             bottom.linkTo(icon.bottom)
                             end.linkTo(icon.end)
@@ -462,7 +462,7 @@ class WvwActivity : AppCompatActivity() {
                     }
                 }
 
-                if (config.objectives.waypoint.enabled) {
+                if (configuration.wvw.objectives.waypoint.enabled) {
                     ShowWaypointIndicator(objective, matchObjective, Modifier.constrainAs(waypointIndicator) {
                         // Display the indicator in the bottom left of the objective icon.
                         bottom.linkTo(icon.bottom)
@@ -470,8 +470,8 @@ class WvwActivity : AppCompatActivity() {
                     })
                 }
 
-                if (config.objectives.immunity.enabled) {
-                    val immunity = configObjective?.immunity ?: config.objectives.immunity.defaultDuration
+                if (configuration.wvw.objectives.immunity.enabled) {
+                    val immunity = configObjective?.immunity ?: configuration.wvw.objectives.immunity.defaultDuration
                     val flippedAt = matchObjective.lastFlippedAt
                     if (immunity != null && flippedAt != null) {
                         // Display the timer underneath the objective icon.
@@ -494,7 +494,7 @@ class WvwActivity : AppCompatActivity() {
         val upgrades = remember { upgrades }.value
         val upgrade = upgrades[upgradeId] ?: return null
         val level = upgrade.tiers.count { tier -> yaksDelivered >= tier.yaksRequired }
-        return config.objectives.progressions.progression.getOrNull(level - 1)
+        return configuration.wvw.objectives.progressions.progression.getOrNull(level - 1)
     }
 
     /**
@@ -520,7 +520,7 @@ class WvwActivity : AppCompatActivity() {
         val heightDp = density.run { size.height.toDp() }
 
         Image(
-            painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
+            painter = rememberImagePainter(request, imageLoader),
             contentDescription = contentDescription,
             contentScale = ContentScale.Fit,
             modifier = modifier.size(widthDp, heightDp)
@@ -532,7 +532,7 @@ class WvwActivity : AppCompatActivity() {
      */
     @Composable
     private fun ShowWaypointIndicator(objective: WvwObjective, matchObjective: WvwMapObjective, modifier: Modifier) {
-        val waypoint = config.objectives.waypoint
+        val waypoint = configuration.wvw.objectives.waypoint
         val iconLink = waypoint.iconLink ?: return
         val upgrades = remember { upgrades }.value
         val guildUpgrades = remember { guildUpgrades }.value
@@ -549,10 +549,10 @@ class WvwActivity : AppCompatActivity() {
             }
 
             // Change the color of the waypoint to indicate that the tactic is available for use (and thus not permanent which the upgrade is).
-            transformations.add(HexColorTransformation(config.objectives.waypoint.guild.color))
+            transformations.add(HexColorTransformation(configuration.wvw.objectives.waypoint.guild.color))
         }
 
-        ShowIndicator(iconLink, size = config.objectives.waypoint.size, contentDescription = "Waypoint", modifier = modifier, transformations = transformations)
+        ShowIndicator(iconLink, size = configuration.wvw.objectives.waypoint.size, contentDescription = "Waypoint", modifier = modifier, transformations = transformations)
     }
 
     /**
@@ -573,14 +573,14 @@ class WvwActivity : AppCompatActivity() {
         Text(
             text = "%01d:%02d".format(minutes, seconds),
             fontWeight = FontWeight.Bold,
-            fontSize = config.objectives.immunity.textSize.sp,
+            fontSize = configuration.wvw.objectives.immunity.textSize.sp,
             color = androidx.compose.ui.graphics.Color.White,
             modifier = modifier.wrapContentSize()
         )
 
         LaunchedEffect(key1 = countdown) {
             // Advance the countdown.
-            delay(Duration.milliseconds(config.objectives.immunity.delay))
+            delay(Duration.milliseconds(configuration.wvw.objectives.immunity.delay))
             countdown += 1
         }
     }
@@ -590,7 +590,7 @@ class WvwActivity : AppCompatActivity() {
      */
     @Composable
     private fun ShowSelectedObjective() {
-        val selected = config.objectives.selected
+        val selected = configuration.wvw.objectives.selected
         val selectedObjective = remember { selectedObjective }.value ?: return
         val match = remember { match }.value
         val matchObjective = match.objective(selectedObjective)
@@ -628,7 +628,7 @@ class WvwActivity : AppCompatActivity() {
      */
     @Composable
     private fun ShowBloodlust() {
-        val bloodlust = config.bloodlust
+        val bloodlust = configuration.wvw.bloodlust
         val match = remember { match }.value ?: return
         val continent = remember { continent }.value ?: return
         val objectives = remember { objectives }.value
@@ -655,7 +655,7 @@ class WvwActivity : AppCompatActivity() {
             val request = ImageRequest.Builder(LocalContext.current)
                 .data(bloodlust.iconLink)
                 .size(width, height)
-                .transformations(OwnedColorTransformation(config, owner))
+                .transformations(OwnedColorTransformation(configuration.wvw, owner))
                 .build()
 
             // Scale the position before using it.
@@ -671,7 +671,7 @@ class WvwActivity : AppCompatActivity() {
             val heightDp = density.run { height.toDp() }
 
             Image(
-                painter = rememberImagePainter(request, AppCompanion.IMAGE_LOADER),
+                painter = rememberImagePainter(request, imageLoader),
                 contentDescription = "Bloodlust",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -686,7 +686,7 @@ class WvwActivity : AppCompatActivity() {
      */
     private fun configObjective(objective: WvwObjective): com.bselzer.gw2.manager.configuration.wvw.WvwObjective? {
         val type = objective.type()
-        return config.objectives.objectives.firstOrNull { configObjective -> configObjective.type == type }
+        return configuration.wvw.objectives.objectives.firstOrNull { configObjective -> configObjective.type == type }
     }
 
     /**
@@ -696,8 +696,8 @@ class WvwActivity : AppCompatActivity() {
         val configObjective = configObjective(objective)
 
         // Get the size from the configured objective if it is defined, otherwise use the default.
-        val width = configObjective?.size?.width ?: config.objectives.defaultSize.width
-        val height = configObjective?.size?.height ?: config.objectives.defaultSize.height
+        val width = configObjective?.size?.width ?: configuration.wvw.objectives.defaultSize.width
+        val height = configObjective?.size?.height ?: configuration.wvw.objectives.defaultSize.height
         return Dimension2D(width.toDouble(), height.toDouble())
     }
 
@@ -753,7 +753,7 @@ class WvwActivity : AppCompatActivity() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val selectedId = AppCompanion.DATASTORE.nullLatest(SELECTED_WORLD)
+            val selectedId = datastore.nullLatest(SELECTED_WORLD)
             Timber.d("Selected world id: $selectedId")
 
             // If there is no matching world then the resulting -1 will specify no selection.
@@ -764,7 +764,7 @@ class WvwActivity : AppCompatActivity() {
                     .setTitle("Worlds")
                     .setSingleChoiceItems(worlds.map { world -> world.name }.toTypedArray(), selectedWorld) { dialog, which ->
                         CoroutineScope(Dispatchers.IO).launch {
-                            AppCompanion.DATASTORE.update(SELECTED_WORLD, worlds[which].id)
+                            datastore.update(SELECTED_WORLD, worlds[which].id)
                             refreshData()
                         }
                         dialog.dismiss()

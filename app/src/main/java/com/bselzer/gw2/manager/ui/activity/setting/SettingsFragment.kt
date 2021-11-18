@@ -1,16 +1,14 @@
 package com.bselzer.gw2.manager.ui.activity.setting
 
 import android.os.Bundle
-import androidx.preference.PreferenceFragmentCompat
 import com.bselzer.gw2.manager.R
-import com.bselzer.gw2.manager.companion.AppCompanion
+import com.bselzer.gw2.manager.ui.activity.DIAwarePreferenceFragment
 import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity
 import com.bselzer.library.kotlin.extension.preference.DataStoreWrapper
 import com.bselzer.library.kotlin.extension.preference.addTo
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsFragment : DIAwarePreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val datastore = AppCompanion.DATASTORE
         preferenceManager.preferenceDataStore = DataStoreWrapper(datastore)
         preferenceScreen = preferenceManager.createPreferenceScreen(context).apply {
             commonScreen().addTo(this)

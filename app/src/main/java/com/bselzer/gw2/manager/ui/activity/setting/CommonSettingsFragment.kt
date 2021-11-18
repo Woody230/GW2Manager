@@ -6,11 +6,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
 import com.bselzer.gw2.manager.R
-import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
+import com.bselzer.gw2.manager.ui.activity.DIAwarePreferenceFragment
 import com.bselzer.library.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.library.gw2.v2.model.enumeration.extension.account.permissions
 import com.bselzer.library.gw2.v2.scope.core.Permission
@@ -25,9 +24,8 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import kotlin.time.ExperimentalTime
 
-class CommonSettingsFragment : PreferenceFragmentCompat() {
+class CommonSettingsFragment : DIAwarePreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val datastore = AppCompanion.DATASTORE
         preferenceManager.preferenceDataStore = DataStoreWrapper(datastore)
         preferenceScreen = preferenceManager.createPreferenceScreen(context).apply {
             tokenPreference(datastore).addTo(this)
@@ -56,10 +54,10 @@ class CommonSettingsFragment : PreferenceFragmentCompat() {
 
                 try {
                     withContext(Dispatchers.IO) {
-                        val tokenInfo = AppCompanion.GW2.token.information(token = token)
+                        val tokenInfo = gw2Client.token.information(token = token)
                         initializePreferences(tokenInfo)
                         datastore.update(PreferenceCompanion.TOKEN, token)
-                        AppCompanion.GW2 = AppCompanion.GW2.config { copy(token = token) }
+                        gw2Client.config { copy(token = token) }
                         Timber.d("Set client token to $token")
                     }
 
@@ -84,12 +82,10 @@ class CommonSettingsFragment : PreferenceFragmentCompat() {
             Timber.d("Token permissions: $permissions")
 
             val token = tokenInfo.id
-            val client = AppCompanion.GW2
-            val datastore = AppCompanion.DATASTORE
 
             // TODO scope processor to automatically verify permissions
             if (permissions.contains(Permission.ACCOUNT)) {
-                val account = client.account.account(token)
+                val account = gw2Client.account.account(token)
                 datastore.initialize(SELECTED_WORLD, account.world)
             }
         } catch (ex: Exception) {

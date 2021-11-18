@@ -2,7 +2,6 @@ package com.bselzer.gw2.manager.ui.activity.main
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -27,8 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.R
-import com.bselzer.gw2.manager.companion.AppCompanion
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.BUILD_NUMBER
+import com.bselzer.gw2.manager.ui.activity.DIAwareActivity
 import com.bselzer.gw2.manager.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme
@@ -41,7 +40,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class MainActivity : ComponentActivity() {
+class MainActivity : DIAwareActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -169,14 +168,14 @@ class MainActivity : ComponentActivity() {
             launch(exceptionHandler) {
                 setDescription("Pre-Processing")
 
-                if (!AppCompanion.APPLICATION.hasInternet()) {
+                if (!application.hasInternet()) {
                     return@launch
                 }
 
-                val newId = AppCompanion.GW2.build.buildId()
-                val existingId = AppCompanion.DATASTORE.safeLatest(BUILD_NUMBER)
+                val newId = gw2Client.build.buildId()
+                val existingId = datastore.safeLatest(BUILD_NUMBER)
                 if (newId > existingId) {
-                    AppCompanion.DATASTORE.update(BUILD_NUMBER, newId, this)
+                    datastore.update(BUILD_NUMBER, newId, this)
                 }
             }.invokeOnCompletion { setDownloading(false) }
         }

@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.preference.Preference
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion
-import com.bselzer.gw2.manager.ui.activity.DIAwarePreferenceFragment
+import com.bselzer.gw2.manager.ui.kodein.DIAwarePreferenceFragment
 import com.bselzer.library.kotlin.extension.preference.DataStoreWrapper
 import com.bselzer.library.kotlin.extension.preference.addTo
 import com.bselzer.library.kotlin.extension.preference.safeLatest

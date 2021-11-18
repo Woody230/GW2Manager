@@ -11,7 +11,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.bselzer.gw2.manager.R
-import com.bselzer.gw2.manager.ui.activity.DIAwareActivity
+import com.bselzer.gw2.manager.ui.kodein.DIAwareActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 
 class SettingsActivity : DIAwareActivity() {

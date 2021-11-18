@@ -1,8 +1,8 @@
-package com.bselzer.gw2.manager.ui.activity
+package com.bselzer.gw2.manager.ui.kodein
 
-import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.preference.PreferenceFragmentCompat
 import coil.ImageLoader
 import com.bselzer.gw2.manager.configuration.Configuration
 import com.bselzer.library.gw2.v2.cache.provider.Gw2CacheProvider
@@ -15,10 +15,10 @@ import org.kodein.di.android.closestDI
 import org.kodein.di.instance
 
 /**
- * An activity with the DI dependencies provided.
+ * A preference fragment with the DI dependencies provided.
  */
-abstract class DIAwareActivity : AppCompatActivity(), DIAware {
-    override val di: DI by closestDI()
+abstract class DIAwarePreferenceFragment : PreferenceFragmentCompat(), DIAware {
+    override val di: DI by closestDI { requireContext() }
     val gw2Client by instance<Gw2Client>()
     val gw2Cache by instance<Gw2CacheProvider>()
     val tileClient by instance<TileClient>()

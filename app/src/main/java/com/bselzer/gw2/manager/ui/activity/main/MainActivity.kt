@@ -27,9 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.BUILD_NUMBER
-import com.bselzer.gw2.manager.ui.activity.DIAwareActivity
 import com.bselzer.gw2.manager.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity
+import com.bselzer.gw2.manager.ui.kodein.DIAwareActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.kotlin.extension.function.core.hasInternet
 import com.bselzer.library.kotlin.extension.preference.safeLatest

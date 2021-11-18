@@ -9,7 +9,7 @@ import androidx.preference.Preference
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
-import com.bselzer.gw2.manager.ui.activity.DIAwarePreferenceFragment
+import com.bselzer.gw2.manager.ui.kodein.DIAwarePreferenceFragment
 import com.bselzer.library.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.library.gw2.v2.model.enumeration.extension.account.permissions
 import com.bselzer.library.gw2.v2.scope.core.Permission

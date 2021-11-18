@@ -2,8 +2,8 @@ package com.bselzer.gw2.manager.ui.activity.setting
 
 import android.os.Bundle
 import com.bselzer.gw2.manager.R
-import com.bselzer.gw2.manager.ui.activity.DIAwarePreferenceFragment
 import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity
+import com.bselzer.gw2.manager.ui.kodein.DIAwarePreferenceFragment
 import com.bselzer.library.kotlin.extension.preference.DataStoreWrapper
 import com.bselzer.library.kotlin.extension.preference.addTo
 

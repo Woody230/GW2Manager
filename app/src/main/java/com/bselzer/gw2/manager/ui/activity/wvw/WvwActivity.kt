@@ -35,8 +35,8 @@ import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
-import com.bselzer.gw2.manager.ui.activity.DIAwareActivity
 import com.bselzer.gw2.manager.ui.coil.HexColorTransformation
+import com.bselzer.gw2.manager.ui.kodein.DIAwareActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.library.gw2.v2.cache.instance.WorldCache

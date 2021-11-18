@@ -14,7 +14,7 @@ import com.h6ah4i.android.preference.NumberPickerPreferenceCompat
 import com.h6ah4i.android.preference.NumberPickerPreferenceDialogFragmentCompat
 
 class WvwSettingsFragment : DIAwarePreferenceFragment() {
-    private val TAG = this::class.qualifiedName!!
+    private val fragmentTag = this::class.qualifiedName!!
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         preferenceManager.preferenceDataStore = DataStoreWrapper(datastore)
@@ -24,7 +24,7 @@ class WvwSettingsFragment : DIAwarePreferenceFragment() {
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference?) {
-        if (parentFragmentManager.findFragmentByTag(TAG) != null) {
+        if (parentFragmentManager.findFragmentByTag(fragmentTag) != null) {
             // Already displaying the dialog so do nothing.
             return
         }
@@ -33,7 +33,7 @@ class WvwSettingsFragment : DIAwarePreferenceFragment() {
         if (preference is NumberPickerPreferenceCompat) {
             val fragment = NumberPickerPreferenceDialogFragmentCompat.newInstance(preference.key)
             fragment.setTargetFragment(this, 0)
-            fragment.show(parentFragmentManager, TAG)
+            fragment.show(parentFragmentManager, fragmentTag)
         } else {
             // Delegate non-custom preferences to the parent.
             super.onDisplayPreferenceDialog(preference)

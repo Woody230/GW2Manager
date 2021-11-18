@@ -636,7 +636,7 @@ class WvwActivity : DIAwareActivity() {
         val width = bloodlust.size.width
         val height = bloodlust.size.height
 
-        val borderlands = match.maps.filter { map -> map.type().isOneOf(MapType.BLUE_BORDERLANDS, MapType.RED_BORDERLANDS, MapType.GREEN_BORDERLANDS) } ?: return
+        val borderlands = match.maps.filter { map -> map.type().isOneOf(MapType.BLUE_BORDERLANDS, MapType.RED_BORDERLANDS, MapType.GREEN_BORDERLANDS) }
         for (borderland in borderlands) {
             // Use the center of all of the ruins as the position of the bloodlust icon.
             val matchRuins = borderland.objectives.filter { objective -> objective.type() == ObjectiveType.RUINS }

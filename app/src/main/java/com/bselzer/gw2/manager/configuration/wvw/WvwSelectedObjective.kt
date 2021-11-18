@@ -17,5 +17,5 @@ class WvwSelectedObjective(
     val textSize: Float = 16f,
 ) {
     @Transient
-    val dateFormatter = DateTimeFormatter.ofPattern(dateFormat)
+    val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern(dateFormat)
 }

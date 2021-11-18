@@ -166,12 +166,11 @@ class MainActivity : DIAwareActivity() {
         {
             val exceptionHandler = CoroutineExceptionHandler { _, throwable -> Timber.e(throwable) }
             launch(exceptionHandler) {
-                setDescription("Pre-Processing")
-
                 if (!application.hasInternet()) {
                     return@launch
                 }
 
+                setDescription("Build Number")
                 val newId = gw2Client.build.buildId()
                 val existingId = datastore.safeLatest(BUILD_NUMBER)
                 if (newId > existingId) {

@@ -15,6 +15,7 @@ import com.bselzer.gw2.manager.ui.kodein.DIAwareActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 
 class SettingsActivity : DIAwareActivity() {
+    // TODO DB clearing
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

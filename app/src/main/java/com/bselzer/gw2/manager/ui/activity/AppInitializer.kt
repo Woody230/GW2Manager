@@ -25,8 +25,10 @@ import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransactionP
 import com.bselzer.library.kotlin.extension.preference.initialize
 import com.bselzer.library.kotlin.extension.preference.nullLatest
 import io.ktor.client.*
+import io.ktor.client.engine.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.features.*
+import io.ktor.http.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -62,7 +64,12 @@ class AppInitializer : Application(), DIAware {
         /**
          * The default preferences datastore.
          */
-        private val Context.DATASTORE: DataStore<Preferences> by preferencesDataStore("default")
+        val Context.DATASTORE: DataStore<Preferences> by preferencesDataStore("default")
+
+        /**
+         * The name of the Ktor user agent.
+         */
+        const val KTOR_USER_AGENT: String = "ktor"
     }
 
     override fun onCreate() {
@@ -94,12 +101,30 @@ class AppInitializer : Application(), DIAware {
      * Binds the HTTP client for Ktor and Coil.
      */
     private fun DI.MainBuilder.bindHttpClient() {
-        bindSingleton { OkHttpClient.Builder().cache(CoilUtils.createDefaultCache(this@AppInitializer)).build() }
+        bindSingleton {
+            OkHttpClient.Builder()
+                .cache(CoilUtils.createDefaultCache(this@AppInitializer))
+                .addInterceptor { chain ->
+                    val request = chain.request()
+                    val originalResponse = chain.proceed(request)
+                    val isKtorRequest = request.headers[HttpHeaders.UserAgent] == KTOR_USER_AGENT
+
+                    Timber.d("Intercepted ${request.url}")
+
+                    // Do not cache anything coming from the GW2/Tile clients. That should only be left to Kodein-DB.
+                    if (!isKtorRequest) originalResponse else originalResponse.newBuilder().header("Cache-Control", "no-store").build()
+                }
+                .build()
+        }
         bindSingleton {
             HttpClient(OkHttp) {
                 engine {
                     // Set the bound OkHttpClient.
                     preconfigured = instance()
+                }
+
+                install(UserAgent) {
+                    agent = KTOR_USER_AGENT
                 }
 
                 HttpResponseValidator {

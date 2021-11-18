@@ -93,12 +93,9 @@ class WvwActivity : DIAwareActivity() {
     private val tileContent = mutableStateMapOf<Value, Bitmap>()
     private var zoom by Delegates.notNull<Int>()
 
-    // TODO partial grid rending
     // TODO investigate (initial) tile download time
     // TODO mutable zoom
     // TODO match details: scores, ppt, etc
-    // TODO spawn/bloodlust icons: partial color change
-    // TODO DB clearing
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -246,7 +243,6 @@ class WvwActivity : DIAwareActivity() {
             val grid = remember { grid }.value
 
             // Until a selection is made so that tiling can be done, display a progress bar.
-            // TODO transition between missing vs shown
             if (grid.tiles.isEmpty()) {
                 ShowMissingGridData()
             } else {

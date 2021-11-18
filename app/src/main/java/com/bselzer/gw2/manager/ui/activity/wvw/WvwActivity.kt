@@ -57,7 +57,6 @@ import com.bselzer.library.gw2.v2.model.wvw.match.WvwMapObjective
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.library.gw2.v2.model.wvw.upgrade.WvwUpgrade
-import com.bselzer.library.gw2.v2.tile.cache.metadata.id
 import com.bselzer.library.gw2.v2.tile.extension.scale
 import com.bselzer.library.gw2.v2.tile.model.response.Tile
 import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
@@ -73,7 +72,6 @@ import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
 import kotlinx.datetime.*
-import org.kodein.db.Value
 import timber.log.Timber
 import kotlin.properties.Delegates
 import kotlin.time.Duration
@@ -90,7 +88,7 @@ class WvwActivity : DIAwareActivity() {
     private val floor = mutableStateOf<ContinentFloor?>(null)
     private val grid = mutableStateOf(TileGrid())
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
-    private val tileContent = mutableStateMapOf<Value, Bitmap>()
+    private val tileContent = mutableStateMapOf<Tile, Bitmap>()
     private var zoom by Delegates.notNull<Int>()
 
     // TODO investigate (initial) tile download time
@@ -224,56 +222,54 @@ class WvwActivity : DIAwareActivity() {
         // Set up the grid without content in the tiles.
         grid.value = TileGrid(gridRequest, gridRequest.tileRequests.map { tileRequest -> Tile(tileRequest) })
 
-        for (tileRequest in gridRequest.tileRequests) {
-            // Get the tile content and update the state.
-            val tile = tileCache.getTile(tileRequest)
+        // Defer the content and populate it when its ready.
+        for (deferred in tileCache.findTilesAsync(gridRequest.tileRequests)) {
+            val tile = deferred.await()
             val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
-            tileContent[tile.id()] = bitmap
+            tileContent[tile] = bitmap
         }
     }
 
-    @Preview
     @Composable
     private fun Content() = AppTheme {
+        val grid = remember { grid }.value
+        val tileContent = remember { tileContent }
+
+        // Display a progress bar until tiling is finished.
+        val contentSize = tileContent.filterKeys { key -> key.zoom == zoom }.size
+        val isAwaitingTiles = grid.tiles.isEmpty() || grid.tiles.size < contentSize
+        if (isAwaitingTiles) {
+            Background()
+        }
+
         Column {
             Toolbar()
+            Box(
+                contentAlignment = Alignment.BottomStart
+            ) {
+                ShowGridData()
 
-            val grid = remember { grid }.value
-
-            // Until a selection is made so that tiling can be done, display a progress bar.
-            if (grid.tiles.isEmpty()) {
-                ShowMissingGridData()
-            } else {
-                Box(
-                    contentAlignment = Alignment.BottomStart
-                ) {
-                    ShowGridData()
-
-                    // Overlay the selected objective over everything else on the map.
-                    ShowSelectedObjective()
-                }
+                // Overlay the selected objective over everything else on the map.
+                ShowSelectedObjective()
             }
+        }
+
+        if (isAwaitingTiles) {
+            ShowMissingGridData()
         }
     }
 
     /**
      * Displays content related to the grid data not being populated.
      */
+    @Preview
     @Composable
     private fun ShowMissingGridData() {
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            Background()
-
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text("Loading the WvW map.", fontWeight = FontWeight.Bold)
-                CircularProgressIndicator()
-            }
+            CircularProgressIndicator()
         }
 
         // Attempt to rectify the missing data.
@@ -356,7 +352,7 @@ class WvwActivity : DIAwareActivity() {
             Row {
                 for (tile in row) {
                     // Need to specify non-zero width/height on the default bitmap.
-                    val bitmap = tileContent[tile.id()] ?: Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+                    val bitmap = tileContent[tile] ?: Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
                     Image(
                         painter = BitmapPainter(bitmap.asImageBitmap()),
                         contentDescription = "WvW Map",

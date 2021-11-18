@@ -21,7 +21,6 @@ import com.bselzer.library.gw2.v2.model.serialization.Modules
 import com.bselzer.library.gw2.v2.tile.cache.instance.TileCache
 import com.bselzer.library.gw2.v2.tile.cache.metadata.TileMetadataExtractor
 import com.bselzer.library.gw2.v2.tile.client.TileClient
-import com.bselzer.library.kotlin.extension.kodein.db.transaction.DBTransactionProvider
 import com.bselzer.library.kotlin.extension.preference.initialize
 import com.bselzer.library.kotlin.extension.preference.nullLatest
 import io.ktor.client.*
@@ -90,7 +89,6 @@ class AppInitializer : Application(), DIAware {
     override val di: DI by DI.lazy {
         bindHttpClient()
         bindDatabase()
-        bindTransactionProvider()
         bindGw2()
         bindConfiguration()
         bindImageLoader()
@@ -145,14 +143,6 @@ class AppInitializer : Application(), DIAware {
             TileMetadataExtractor(),
             TypeTable { gw2() }
         )
-    }
-
-    /**
-     * Binds the Kodein database transaction provider.
-     */
-    private fun DI.MainBuilder.bindTransactionProvider() = bindSingleton {
-        // Use the bound database.
-        DBTransactionProvider(instance())
     }
 
     /**

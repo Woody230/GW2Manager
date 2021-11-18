@@ -127,7 +127,7 @@ class WvwActivity : DIAwareActivity() {
         Timber.d("Refreshing WvW data.")
 
         val selectedWorld = datastore.nullLatest(SELECTED_WORLD)
-        gw2Cache.lockedTransaction {
+        gw2Cache.lockedInstance {
             worlds.value = get<WorldCache>().findWorlds()
 
             // Need the world to be able to get the associated match.
@@ -138,14 +138,12 @@ class WvwActivity : DIAwareActivity() {
                 // Use the config ids to try to populate the map/grid data before the selection is made.
                 refreshMapData(this)
                 refreshGridData(this)
-                return@lockedTransaction
+                return@lockedInstance
             }
 
             val cache = get<WvwCache>()
             val match = gw2Client.wvw.match(selectedWorld)
-
-            // TODO Need to end the transaction so that the initial api call gets committed.
-            transaction { cache.putMatch(match) }
+            cache.putMatch(match)
             val objectives = cache.findObjectives(match)
 
             this@WvwActivity.match.value = match
@@ -281,7 +279,7 @@ class WvwActivity : DIAwareActivity() {
         // Attempt to rectify the missing data.
         SideEffect {
             CoroutineScope(Dispatchers.IO).launch {
-                gw2Cache.lockedTransaction {
+                gw2Cache.lockedInstance {
                     refreshGridData(this)
                 }
             }

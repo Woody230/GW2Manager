@@ -160,7 +160,7 @@ class AppInitializer : Application(), DIAware {
      */
     private fun DI.MainBuilder.bindGw2() {
         bindSingleton { Gw2Client(instance(), configuration = Gw2ClientConfiguration(exceptionRecoveryMode = ExceptionRecoveryMode.DEFAULT)) }
-        bindSingleton { Gw2CacheProvider(instance(), instance()).apply { inject(instance()) } }
+        bindSingleton { Gw2CacheProvider(instance()).apply { inject(instance()) } }
         bindSingleton { TileClient(instance()) }
         bindSingleton { TileCache(instance(), instance()) }
     }

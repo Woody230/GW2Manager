@@ -36,6 +36,9 @@ import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.UnknownChildHandler
 import nl.adaptivity.xmlutil.serialization.XML
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
+import okhttp3.Request
+import okhttp3.Response
 import org.kodein.db.DB
 import org.kodein.db.TypeTable
 import org.kodein.db.impl.inDir
@@ -103,14 +106,23 @@ class AppInitializer : Application(), DIAware {
             OkHttpClient.Builder()
                 .cache(CoilUtils.createDefaultCache(this@AppInitializer))
                 .addInterceptor { chain ->
-                    val request = chain.request()
-                    val originalResponse = chain.proceed(request)
-                    val isKtorRequest = request.headers[HttpHeaders.UserAgent] == KTOR_USER_AGENT
+                    var request: Request? = null
+                    try {
+                        request = chain.request()
+                        Timber.d("Intercepted ${request.url}")
 
-                    Timber.d("Intercepted ${request.url}")
+                        val originalResponse = chain.proceed(request)
+                        val isKtorRequest = request.headers[HttpHeaders.UserAgent] == KTOR_USER_AGENT
 
-                    // Do not cache anything coming from the GW2/Tile clients. That should only be left to Kodein-DB.
-                    if (!isKtorRequest) originalResponse else originalResponse.newBuilder().header("Cache-Control", "no-store").build()
+                        // Do not cache anything coming from the GW2/Tile clients. That should only be left to Kodein-DB.
+                        if (!isKtorRequest) originalResponse else originalResponse.newBuilder().header("Cache-Control", "no-store").build()
+                    } catch (exception: Exception) {
+                        Timber.e(exception)
+
+                        // Fake the response as needed.
+                        request = request ?: Request.Builder().url("").build()
+                        Response.Builder().code(0).protocol(Protocol.HTTP_2).request(request).message(exception.message ?: "").build()
+                    }
                 }
                 .build()
         }

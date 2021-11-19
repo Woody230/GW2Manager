@@ -51,8 +51,12 @@
         </Objectives>
         <Map bounded="true" continentId="2" floorId="3" region="World vs. World">
             <Scroll enabled="true" map="Eternal Battlegrounds" />
+            <Zoom default="4" max="5" min="4" />
             <Level zoom="4">
                 <Bound startX="5" startY="8" endX="14" endY="15" />
+            </Level>
+            <Level zoom="5">
+                <Bound endX="29" endY="30" startX="11" startY="17" />
             </Level>
         </Map>
         <Bloodlust enabled="true" icon="https://assets.gw2dat.com/638740.png">

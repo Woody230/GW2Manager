@@ -12,10 +12,10 @@ class WvwMap(
     val isBounded: Boolean = false,
 
     /**
-     * The default zoom level.
+     * The zoom information.
      */
-    @XmlSerialName(value = "zoom", namespace = "", prefix = "")
-    val defaultZoom: Int = 4,
+    @XmlSerialName(value = "Zoom", namespace = "", prefix = "")
+    val zoom: WvwMapZoom = WvwMapZoom(),
 
     /**
      * The id of the continent.

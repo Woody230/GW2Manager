@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -71,9 +73,11 @@ import com.bselzer.library.kotlin.extension.preference.nullLatest
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import kotlinx.datetime.*
 import timber.log.Timber
-import kotlin.properties.Delegates
+import java.lang.Integer.max
+import java.lang.Integer.min
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
@@ -89,15 +93,13 @@ class WvwActivity : DIAwareActivity() {
     private val grid = mutableStateOf(TileGrid())
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
     private val tileContent = mutableStateMapOf<Tile, Bitmap>()
-    private var zoom by Delegates.notNull<Int>()
+    private val zoom = MutableStateFlow(0)
 
-    // TODO investigate (initial) tile download time
-    // TODO mutable zoom
     // TODO match details: scores, ppt, etc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        zoom = configuration.wvw.map.defaultZoom
+        zoom.value = configuration.wvw.map.zoom.default
         setContent { Content() }
     }
 
@@ -110,6 +112,15 @@ class WvwActivity : DIAwareActivity() {
             repeat(Duration.minutes(interval)) {
                 refreshData()
             }
+        }.addTo(jobs)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            // Zoom has changed so notify that the grid needs to be refreshed.
+            zoom.onCompletion {
+                gw2Cache.lockedInstance {
+                    refreshGridData(this)
+                }
+            }.collect()
         }.addTo(jobs)
     }
 
@@ -202,7 +213,7 @@ class WvwActivity : DIAwareActivity() {
             return@apply
         }
 
-        val zoom = zoom
+        val zoom = zoom.value
         Timber.d("Refreshing WvW tile grid data for zoom level $zoom.")
 
         val gridRequest = tileClient.requestGrid(continent, floor, zoom).let { request ->
@@ -234,18 +245,28 @@ class WvwActivity : DIAwareActivity() {
     private fun Content() = AppTheme {
         val grid = remember { grid }.value
         val tileContent = remember { tileContent }
+        val zoom by zoom.collectAsState()
 
-        // Display a progress bar until tiling is finished.
+        // Display the background until tiling occurs.
         val contentSize = tileContent.filterKeys { key -> key.zoom == zoom }.size
-        val isAwaitingTiles = grid.tiles.isEmpty() || grid.tiles.size < contentSize
-        if (isAwaitingTiles) {
+        if (grid.tiles.isEmpty() || contentSize == 0) {
             Background()
         }
 
         Column {
             Toolbar()
+
+            val transformable = rememberTransformableState { zoomChange, _, _ ->
+                // Allow the user to change the zoom by pinching the map.
+                val min = configuration.wvw.map.zoom.min
+                val max = configuration.wvw.map.zoom.max
+                val change = if (zoomChange > 0) 1 else -1
+                this@WvwActivity.zoom.value = max(min, min(max, zoom + change))
+            }
+
             Box(
-                contentAlignment = Alignment.BottomStart
+                contentAlignment = Alignment.BottomStart,
+                modifier = Modifier.transformable(transformable)
             ) {
                 ShowGridData()
 
@@ -254,7 +275,8 @@ class WvwActivity : DIAwareActivity() {
             }
         }
 
-        if (isAwaitingTiles) {
+        // Display a progress bar until tiling is finished.
+        if (grid.tiles.isEmpty() || grid.tiles.size < contentSize) {
             ShowMissingGridData()
         }
     }
@@ -319,6 +341,9 @@ class WvwActivity : DIAwareActivity() {
 
     @Composable
     private fun InitialMapScroll(horizontal: ScrollState, vertical: ScrollState) {
+        val initial = remember { mutableStateOf(true) }
+        if (!initial.value) return
+
         // Can't scale without knowing the continent dimensions and floor regions/maps.
         val floor = remember { floor }.value
         val continent = remember { continent }.value
@@ -328,11 +353,13 @@ class WvwActivity : DIAwareActivity() {
             val region = floor.regions.values.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
 
             // Scroll over to the configured map.
+            val zoom by zoom.collectAsState()
             region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scroll.mapName }?.let { eb ->
                 val topLeft = eb.continentRectangle.point1.scale(grid, continent, zoom)
                 rememberCoroutineScope().launch {
                     horizontal.animateScrollTo(topLeft.x.toInt())
                     vertical.animateScrollTo(topLeft.y.toInt())
+                    initial.value = false
                 }
             }
         }
@@ -622,6 +649,7 @@ class WvwActivity : DIAwareActivity() {
         val match = remember { match }.value ?: return
         val continent = remember { continent }.value ?: return
         val objectives = remember { objectives }.value
+        val zoom by zoom.collectAsState()
 
         val width = bloodlust.size.width
         val height = bloodlust.size.height
@@ -694,6 +722,7 @@ class WvwActivity : DIAwareActivity() {
     /**
      * @return the scaled coordinates of the image associated with an objective
      */
+    @Composable
     private fun scaledCoordinates(objective: WvwObjective): Point2D? {
         val continent = this.continent.value ?: return null
 
@@ -701,6 +730,7 @@ class WvwActivity : DIAwareActivity() {
         val coordinates = if (objective.coordinates.x != 0.0 && objective.coordinates.y != 0.0) Point2D(objective.coordinates.x, objective.coordinates.y) else objective.labelCoordinates
 
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
+        val zoom by zoom.collectAsState()
         return coordinates.scaledCoordinates(this.grid.value, continent, zoom, objectiveSize(objective))
     }
 

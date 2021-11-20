@@ -43,7 +43,6 @@ import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.library.gw2.v2.cache.instance.WorldCache
 import com.bselzer.library.gw2.v2.cache.instance.WvwCache
-import com.bselzer.library.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.library.gw2.v2.model.continent.Continent
 import com.bselzer.library.gw2.v2.model.continent.ContinentFloor
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.owner
@@ -118,7 +117,7 @@ class WvwActivity : DIAwareActivity() {
             // Zoom has changed so notify that the grid needs to be refreshed.
             zoom.onCompletion {
                 gw2Cache.lockedInstance {
-                    refreshGridData(this)
+                    refreshGridData()
                 }
             }.collect()
         }.addTo(jobs)
@@ -145,8 +144,8 @@ class WvwActivity : DIAwareActivity() {
                 showSelectWorldDialog(cancellable = false)
 
                 // Use the config ids to try to populate the map/grid data before the selection is made.
-                refreshMapData(this)
-                refreshGridData(this)
+                refreshMapData()
+                refreshGridData()
                 return@lockedInstance
             }
 
@@ -158,18 +157,18 @@ class WvwActivity : DIAwareActivity() {
             this@WvwActivity.match.value = match
             this@WvwActivity.objectives.value = objectives
             this@WvwActivity.upgrades.value = cache.findUpgrades(objectives).associateBy { it.id }
-            refreshMapData(this, match)
-            refreshGridData(this)
+            refreshMapData(match)
+            refreshGridData()
         }
     }
 
     /**
      * Refreshes the WvW map data using the configuration ids.
      */
-    private suspend fun refreshMapData(cacheProvider: Gw2CacheProvider) = cacheProvider.apply {
+    private suspend fun refreshMapData() = gw2Cache.instance {
         // This data should not be changing so only initialize it.
         if (continent.value != null) {
-            return@apply
+            return@instance
         }
 
         Timber.d("Refreshing WvW map data.")
@@ -184,16 +183,16 @@ class WvwActivity : DIAwareActivity() {
     /**
      * Refreshes the WvW map data using a map found from the match.
      */
-    private suspend fun refreshMapData(cacheProvider: Gw2CacheProvider, match: WvwMatch) = cacheProvider.apply {
+    private suspend fun refreshMapData(match: WvwMatch) = gw2Cache.instance {
         // This data should not be changing so only initialize it.
         if (continent.value != null) {
-            return@apply
+            return@instance
         }
 
         Timber.d("Refreshing WvW map data.")
 
         // Assume that all WvW maps are within the same continent and floor.
-        val mapId = match.maps.firstOrNull()?.id ?: return@apply
+        val mapId = match.maps.firstOrNull()?.id ?: return@instance
         val cache = get<ContinentCache>()
         val map = cache.getMap(mapId)
         val continent = cache.getContinent(map)
@@ -204,13 +203,13 @@ class WvwActivity : DIAwareActivity() {
     /**
      * Refreshes the WvW map tiling grid.
      */
-    private suspend fun refreshGridData(cacheProvider: Gw2CacheProvider) = cacheProvider.apply {
+    private suspend fun refreshGridData() = gw2Cache.instance {
         val continent = continent.value
         val floor = floor.value
 
         // Verify that the related data exists.
         if (continent == null || floor == null) {
-            return@apply
+            return@instance
         }
 
         val zoom = zoom.value
@@ -233,7 +232,7 @@ class WvwActivity : DIAwareActivity() {
         // Set up the grid without content in the tiles.
         grid.value = TileGrid(gridRequest, gridRequest.tileRequests.map { tileRequest -> Tile(tileRequest) })
 
-        // Defer the content and populate it when its ready.
+        // Defer the content for parallelism and populate it when its ready.
         for (deferred in tileCache.findTilesAsync(gridRequest.tileRequests)) {
             val tile = deferred.await()
             val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
@@ -298,7 +297,7 @@ class WvwActivity : DIAwareActivity() {
         SideEffect {
             CoroutineScope(Dispatchers.IO).launch {
                 gw2Cache.lockedInstance {
-                    refreshGridData(this)
+                    refreshGridData()
                 }
             }
         }

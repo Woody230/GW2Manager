@@ -52,6 +52,7 @@ import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapBonusType
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapType
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
+import com.bselzer.library.gw2.v2.model.extension.wvw.coordinates
 import com.bselzer.library.gw2.v2.model.extension.wvw.objective
 import com.bselzer.library.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.library.gw2.v2.model.world.World
@@ -59,7 +60,6 @@ import com.bselzer.library.gw2.v2.model.wvw.match.WvwMapObjective
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.library.gw2.v2.model.wvw.upgrade.WvwUpgrade
-import com.bselzer.library.gw2.v2.tile.extension.scale
 import com.bselzer.library.gw2.v2.tile.model.response.Tile
 import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.library.kotlin.extension.coroutine.cancel
@@ -353,12 +353,12 @@ class WvwActivity : DIAwareActivity() {
             val region = floor.regions.values.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
 
             // Scroll over to the configured map.
-            val zoom by zoom.collectAsState()
             region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scroll.mapName }?.let { eb ->
-                val topLeft = eb.continentRectangle.point1.scale(grid, continent, zoom)
+                val topLeft = eb.continentRectangle.point1
+                val scaled = grid.scale(topLeft.x.toInt(), topLeft.y.toInt())
                 rememberCoroutineScope().launch {
-                    horizontal.animateScrollTo(topLeft.x.toInt())
-                    vertical.animateScrollTo(topLeft.y.toInt())
+                    horizontal.animateScrollTo(scaled.first)
+                    vertical.animateScrollTo(scaled.second)
                     initial.value = false
                 }
             }
@@ -412,7 +412,7 @@ class WvwActivity : DIAwareActivity() {
             val owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL
 
             val configObjective = configObjective(objective)
-            val coordinates = scaledCoordinates(objective) ?: return
+            val coordinates = scaledCoordinates(objective)
             val size = objectiveSize(objective)
 
             // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
@@ -647,9 +647,7 @@ class WvwActivity : DIAwareActivity() {
     private fun ShowBloodlust() {
         val bloodlust = configuration.wvw.bloodlust
         val match = remember { match }.value ?: return
-        val continent = remember { continent }.value ?: return
         val objectives = remember { objectives }.value
-        val zoom by zoom.collectAsState()
 
         val width = bloodlust.size.width
         val height = bloodlust.size.height
@@ -679,7 +677,7 @@ class WvwActivity : DIAwareActivity() {
             // Scale the position before using it.
             val x = objectiveRuins.sumOf { ruin -> ruin.coordinates.x } / objectiveRuins.count()
             val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / objectiveRuins.count()
-            val coordinates = Point2D(x, y).scaledCoordinates(this.grid.value, continent, zoom, Dimension2D(width.toDouble(), height.toDouble()))
+            val coordinates = Point2D(x, y).scaledCoordinates(this.grid.value, Dimension2D(width.toDouble(), height.toDouble()))
 
             // Measurements are done with DP so conversion must be done from pixels.
             val density = LocalDensity.current
@@ -723,25 +721,24 @@ class WvwActivity : DIAwareActivity() {
      * @return the scaled coordinates of the image associated with an objective
      */
     @Composable
-    private fun scaledCoordinates(objective: WvwObjective): Point2D? {
-        val continent = this.continent.value ?: return null
+    private fun scaledCoordinates(objective: WvwObjective): Point2D {
+        val grid = remember { grid }.value
 
         // Use the explicit coordinates if they exist, otherwise default to the label coordinates. This is needed for atypical types such as Spawn/Mercenary.
-        val coordinates = if (objective.coordinates.x != 0.0 && objective.coordinates.y != 0.0) Point2D(objective.coordinates.x, objective.coordinates.y) else objective.labelCoordinates
+        val coordinates = objective.coordinates()
 
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        val zoom by zoom.collectAsState()
-        return coordinates.scaledCoordinates(this.grid.value, continent, zoom, objectiveSize(objective))
+        return coordinates.scaledCoordinates(grid, objectiveSize(objective))
     }
 
     /**
      * @return the scaled coordinates of the image
      */
-    private fun Point2D.scaledCoordinates(grid: TileGrid, continent: Continent, zoom: Int, size: Dimension2D): Point2D =
+    private fun Point2D.scaledCoordinates(grid: TileGrid, size: Dimension2D): Point2D =
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        scale(grid, continent, zoom).run {
+        grid.scale(x.toInt(), y.toInt()).run {
             // Displace the coordinates so that it aligns with the center of the image.
-            copy(x = x - size.width / 2, y = y - size.height / 2)
+            copy(x = first - size.width / 2, y = second - size.height / 2)
         }
 
     @Composable

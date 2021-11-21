@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.bselzer.gw2.manager"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0.0"
 
@@ -44,17 +44,17 @@ android {
 dependencies {
     // Android
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-    implementation("androidx.core:core-ktx:1.6.0")
-    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.4.0")
     implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
 
     // Compose
     implementation("androidx.compose.ui:ui:$compose_version")
     implementation("androidx.compose.material:material:$compose_version")
     implementation("androidx.compose.ui:ui-tooling:$compose_version")
-    implementation("androidx.activity:activity-compose:1.3.1")
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc01"
+    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.0-rc02")
 
     // Preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")

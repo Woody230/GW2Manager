@@ -35,10 +35,9 @@ import kotlinx.serialization.modules.SerializersModule
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.UnknownChildHandler
 import nl.adaptivity.xmlutil.serialization.XML
-import okhttp3.OkHttpClient
-import okhttp3.Protocol
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
+import okhttp3.internal.http.RealResponseBody
+import okio.Buffer
 import org.kodein.db.DB
 import org.kodein.db.TypeTable
 import org.kodein.db.impl.inDir
@@ -121,7 +120,7 @@ class AppInitializer : Application(), DIAware {
 
                         // Fake the response as needed.
                         request = request ?: Request.Builder().url("").build()
-                        Response.Builder().code(0).protocol(Protocol.HTTP_2).request(request).message(exception.message ?: "").build()
+                        Response.Builder().code(0).protocol(Protocol.HTTP_2).body(RealResponseBody("text/plain", 0, Buffer())).request(request).message(exception.message ?: "").build()
                     }
                 }
                 .build()

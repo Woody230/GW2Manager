@@ -493,8 +493,8 @@ class WvwActivity : DIAwareActivity() {
                         // Display the timer underneath the objective icon.
                         ShowImmunityTimer(immunity, flippedAt, Modifier.constrainAs(timer) {
                             top.linkTo(icon.bottom)
-                            start.linkTo(icon.start)
-                            end.linkTo(icon.end)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
                         })
                     }
                 }

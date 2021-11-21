@@ -51,7 +51,7 @@
         </Objectives>
         <Map bounded="true" continentId="2" floorId="3" region="World vs. World">
             <Scroll enabled="true" map="Eternal Battlegrounds" />
-            <Zoom default="4" max="5" min="4" />
+            <Zoom default="4" max="5" min="3" />
             <Level zoom="4">
                 <Bound startX="5" startY="8" endX="14" endY="15" />
             </Level>

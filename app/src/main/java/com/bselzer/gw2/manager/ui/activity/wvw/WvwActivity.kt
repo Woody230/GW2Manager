@@ -115,7 +115,7 @@ class WvwActivity : DIAwareActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             // Zoom has changed so notify that the grid needs to be refreshed.
-            zoom.onCompletion {
+            zoom.shareIn(this, SharingStarted.Lazily).onEach {
                 gw2Cache.lockedInstance {
                     refreshGridData()
                 }
@@ -257,12 +257,11 @@ class WvwActivity : DIAwareActivity() {
 
             val transformable = rememberTransformableState { zoomChange, _, _ ->
                 // Allow the user to change the zoom by pinching the map.
-                val min = configuration.wvw.map.zoom.min
-                val max = configuration.wvw.map.zoom.max
-                val change = if (zoomChange > 0) 1 else -1
-                this@WvwActivity.zoom.value = max(min, min(max, zoom + change))
+                val change = if (zoomChange > 1) 1 else -1
+                changeZoom(change)
             }
 
+            // TODO use ConstraintLayout
             Box(
                 contentAlignment = Alignment.BottomStart,
                 modifier = Modifier.transformable(transformable)
@@ -741,22 +740,48 @@ class WvwActivity : DIAwareActivity() {
         }
 
     @Composable
-    private fun Toolbar() = TopAppBar(
-        title = { Text(text = stringResource(id = R.string.activity_wvw), fontWeight = FontWeight.Bold) },
-        navigationIcon = {
-            IconButton(onClick = { finish() }) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+    private fun Toolbar() {
+        val scope = rememberCoroutineScope()
+        TopAppBar(
+            title = { Text(text = stringResource(id = R.string.activity_wvw), fontWeight = FontWeight.Bold) },
+            navigationIcon = {
+                IconButton(onClick = { finish() }) {
+                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                }
+            },
+            actions = {
+                IconButton(onClick = { showSelectWorldDialog() }) {
+                    Icon(Icons.Filled.List, contentDescription = "World")
+                }
+                IconButton(onClick = { scope.launch { refreshData() } }) {
+                    Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
+                }
+
+                // Only enable zoom in/zoom out buttons when they can be used.
+                val zoom = remember { zoom }.value
+                val min = configuration.wvw.map.zoom.min
+                val max = configuration.wvw.map.zoom.max
+
+                IconButton(enabled = zoom < max, onClick = { changeZoom(increment = 1) }) {
+                    Icon(painter = painterResource(id = R.drawable.ic_zoom_in), contentDescription = "Zoom In")
+                }
+
+                IconButton(enabled = zoom > min, onClick = { changeZoom(increment = -1) }) {
+                    Icon(painter = painterResource(id = R.drawable.ic_zoom_out), contentDescription = "Zoom Out")
+                }
             }
-        },
-        actions = {
-            IconButton(onClick = { showSelectWorldDialog() }) {
-                Icon(Icons.Filled.List, contentDescription = "World")
-            }
-            IconButton(onClick = { CoroutineScope(Dispatchers.IO).launch { refreshData() } }) {
-                Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
-            }
-        }
-    )
+        )
+    }
+
+    /**
+     * Updates the zoom to be within the configured range.
+     */
+    private fun changeZoom(increment: Int) {
+        val currentZoom = this.zoom.value
+        val min = configuration.wvw.map.zoom.min
+        val max = configuration.wvw.map.zoom.max
+        this.zoom.value = max(min, min(max, currentZoom + increment))
+    }
 
     /**
      * Create a dialog for the user to select the world.

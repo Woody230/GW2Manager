@@ -256,21 +256,28 @@ class WvwActivity : DIAwareActivity() {
         Column {
             Toolbar()
 
-            val transformable = rememberTransformableState { zoomChange, _, _ ->
+            val pinchToZoom = rememberTransformableState { zoomChange, _, _ ->
                 // Allow the user to change the zoom by pinching the map.
                 val change = if (zoomChange > 1) 1 else -1
                 changeZoom(change)
             }
 
-            // TODO use ConstraintLayout
-            Box(
-                contentAlignment = Alignment.BottomStart,
-                modifier = Modifier.transformable(transformable)
+            ConstraintLayout(
+                modifier = Modifier.transformable(pinchToZoom)
             ) {
-                ShowGridData()
+                val (map, selectedObjective) = createRefs()
+                ShowGridData(Modifier.constrainAs(map) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                })
 
                 // Overlay the selected objective over everything else on the map.
-                ShowSelectedObjective()
+                ShowSelectedObjective(Modifier.constrainAs(selectedObjective) {
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                })
             }
         }
 
@@ -315,12 +322,12 @@ class WvwActivity : DIAwareActivity() {
      * Displays the grid content.
      */
     @Composable
-    private fun ShowGridData() {
+    private fun ShowGridData(modifier: Modifier) {
         val horizontal = rememberScrollState()
         val vertical = rememberScrollState()
 
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .horizontalScroll(horizontal)
                 .verticalScroll(vertical)
@@ -608,7 +615,7 @@ class WvwActivity : DIAwareActivity() {
      * Displays general information about the objective the user clicked on in a pop-up label.
      */
     @Composable
-    private fun ShowSelectedObjective() {
+    private fun ShowSelectedObjective(modifier: Modifier) {
         val selected = configuration.wvw.objectives.selected
         val selectedObjective = remember { selectedObjective }.value ?: return
         val match = remember { match }.value
@@ -617,7 +624,7 @@ class WvwActivity : DIAwareActivity() {
         val title = "${selectedObjective.name} (${owner.userFriendly()} ${selectedObjective.type})"
 
         Box(
-            modifier = Modifier.wrapContentSize()
+            modifier = modifier.wrapContentSize()
         ) {
             Image(
                 painter = painterResource(id = R.drawable.gw2_ice),

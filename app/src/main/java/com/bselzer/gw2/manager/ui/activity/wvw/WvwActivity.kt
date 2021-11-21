@@ -15,6 +15,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -404,7 +405,10 @@ class WvwActivity : DIAwareActivity() {
     @Composable
     private fun ShowObjectives() {
         val match = remember { match }.value
-        remember { objectives }.value.forEach { objective ->
+
+        // Render from bottom right to top left.
+        val comparator = compareByDescending<WvwObjective> { objective -> objective.coordinates().y }.thenByDescending { objective -> objective.coordinates().x }
+        remember { objectives }.value.sortedWith(comparator).forEach { objective ->
             // Find the objective through the match in order to find out who the owner is.
             val matchObjective = match.objective(objective) ?: return@forEach
             val owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL
@@ -750,24 +754,39 @@ class WvwActivity : DIAwareActivity() {
                 }
             },
             actions = {
-                IconButton(onClick = { showSelectWorldDialog() }) {
-                    Icon(Icons.Filled.List, contentDescription = "World")
-                }
                 IconButton(onClick = { scope.launch { refreshData() } }) {
                     Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
                 }
 
-                // Only enable zoom in/zoom out buttons when they can be used.
-                val zoom = remember { zoom }.value
-                val min = configuration.wvw.map.zoom.min
-                val max = configuration.wvw.map.zoom.max
+                Box {
+                    var isExpanded by remember { mutableStateOf(false) }
+                    IconButton(onClick = { isExpanded = true }) {
+                        Icon(Icons.Filled.MoreVert, contentDescription = "More Options")
+                    }
 
-                IconButton(enabled = zoom < max, onClick = { changeZoom(increment = 1) }) {
-                    Icon(painter = painterResource(id = R.drawable.ic_zoom_in), contentDescription = "Zoom In")
-                }
+                    DropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
+                        // Only enable zoom in/zoom out buttons when they can be used.
+                        val zoom = remember { zoom }.value
+                        val min = configuration.wvw.map.zoom.min
+                        val max = configuration.wvw.map.zoom.max
 
-                IconButton(enabled = zoom > min, onClick = { changeZoom(increment = -1) }) {
-                    Icon(painter = painterResource(id = R.drawable.ic_zoom_out), contentDescription = "Zoom Out")
+                        IconButton(enabled = zoom < max, onClick = {
+                            changeZoom(increment = 1)
+                            isExpanded = false
+                        }) {
+                            Icon(painter = painterResource(id = R.drawable.ic_zoom_in), contentDescription = "Zoom In")
+                        }
+
+                        IconButton(enabled = zoom > min, onClick = {
+                            changeZoom(increment = -1)
+                            isExpanded = false
+                        }) {
+                            Icon(painter = painterResource(id = R.drawable.ic_zoom_out), contentDescription = "Zoom Out")
+                        }
+                        IconButton(onClick = { showSelectWorldDialog() }) {
+                            Icon(Icons.Filled.List, contentDescription = "World")
+                        }
+                    }
                 }
             }
         )

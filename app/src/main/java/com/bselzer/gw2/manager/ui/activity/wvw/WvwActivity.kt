@@ -378,135 +378,152 @@ class WvwActivity : DIAwareActivity() {
     private fun ShowMap() = Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        val density = LocalDensity.current
         val grid = remember { grid }.value
-        val tileContent = remember { tileContent }
-        for (row in grid.grid) {
+        for (row in grid.rows) {
             Row {
                 for (tile in row) {
-                    // Need to specify non-zero width/height on the default bitmap.
-                    val bitmap = tileContent[tile] ?: Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
-                    Image(
-                        painter = BitmapPainter(bitmap.asImageBitmap()),
-                        contentDescription = "WvW Map",
-                        modifier = Modifier
-                            .size(density.run { grid.tileWidth.toDp() }, density.run { grid.tileHeight.toDp() })
-                            .clickable(
-                                // Disable the ripple so that the illusion of a contiguous map is not broken.
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = null
-                            ) {
-                                // Clear the objective pop-up.
-                                selectedObjective.value = null
-                            }
-                    )
+                    ShowTile(tile, grid)
                 }
             }
         }
     }
 
     /**
+     * Displays an individual tile.
+     */
+    @Composable
+    private fun ShowTile(tile: Tile, grid: TileGrid) {
+        val density = LocalDensity.current
+        val tileContent = remember { tileContent }
+
+        // Need to specify non-zero width/height on the default bitmap.
+        val bitmap = tileContent[tile] ?: Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+        Image(
+            painter = BitmapPainter(bitmap.asImageBitmap()),
+            contentDescription = "WvW Map",
+            modifier = Modifier
+                .size(density.run { grid.tileWidth.toDp() }, density.run { grid.tileHeight.toDp() })
+                .clickable(
+                    // Disable the ripple so that the illusion of a contiguous map is not broken.
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) {
+                    // Clear the objective pop-up.
+                    selectedObjective.value = null
+                }
+        )
+    }
+
+    /**
      * Displays the objectives on the map.
      */
-    @OptIn(ExperimentalFoundationApi::class, ExperimentalTime::class)
     @Composable
     private fun ShowObjectives() {
-        val match = remember { match }.value
-
         // Render from bottom right to top left.
         val comparator = compareByDescending<WvwObjective> { objective -> objective.coordinates().y }.thenByDescending { objective -> objective.coordinates().x }
         remember { objectives }.value.sortedWith(comparator).forEach { objective ->
-            // Find the objective through the match in order to find out who the owner is.
-            val matchObjective = match.objective(objective) ?: return@forEach
-            val owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL
+            ShowObjective(objective)
+        }
+    }
 
-            val configObjective = configObjective(objective)
-            val coordinates = scaledCoordinates(objective)
-            val size = objectiveSize(objective)
+    /**
+     * Displays the individual objective.
+     */
+    @OptIn(ExperimentalFoundationApi::class, ExperimentalTime::class)
+    @Composable
+    private fun ShowObjective(objective: WvwObjective) {
+        val match = remember { match }.value
 
-            // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
-            val link = if (objective.iconLink.isNotBlank()) objective.iconLink else configObjective?.defaultIconLink
-            val request = ImageRequest.Builder(LocalContext.current)
-                .data(link)
-                .size(size.width.toInt(), size.height.toInt())
-                .transformations(OwnedColorTransformation(configuration.wvw, owner))
-                .build()
+        // Find the objective through the match in order to find out who the owner is.
+        val matchObjective = match.objective(objective) ?: return
+        val owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL
 
-            // Measurements are done with DP so conversion must be done from pixels.
-            // TODO extension(s)
-            val density = LocalDensity.current
-            val xDp = density.run { coordinates.x.toInt().toDp() }
-            val yDp = density.run { coordinates.y.toInt().toDp() }
-            val widthDp = density.run { size.width.toInt().toDp() }
-            val heightDp = density.run { size.height.toInt().toDp() }
+        val configObjective = configObjective(objective)
+        val coordinates = scaledCoordinates(objective)
+        val size = objectiveSize(objective)
 
-            // Overlay the objective image onto the map image.
-            ConstraintLayout(
+        // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
+        val link = if (objective.iconLink.isNotBlank()) objective.iconLink else configObjective?.defaultIconLink
+        val request = ImageRequest.Builder(LocalContext.current)
+            .data(link)
+            .size(size.width.toInt(), size.height.toInt())
+            .transformations(OwnedColorTransformation(configuration.wvw, owner))
+            .build()
+
+        // Measurements are done with DP so conversion must be done from pixels.
+        // TODO extension(s)
+        val density = LocalDensity.current
+        val xDp = density.run { coordinates.x.toInt().toDp() }
+        val yDp = density.run { coordinates.y.toInt().toDp() }
+        val widthDp = density.run { size.width.toInt().toDp() }
+        val heightDp = density.run { size.height.toInt().toDp() }
+
+        // Overlay the objective image onto the map image.
+        ConstraintLayout(
+            modifier = Modifier
+                .absoluteOffset(xDp, yDp)
+                .wrapContentSize()
+        ) {
+            val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
+            Image(
+                painter = rememberImagePainter(request, imageLoader),
+                contentDescription = objective.name,
+                contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .absoluteOffset(xDp, yDp)
-                    .wrapContentSize()
-            ) {
-                val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
-                Image(
-                    painter = rememberImagePainter(request, imageLoader),
-                    contentDescription = objective.name,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .constrainAs(icon) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                        }
-                        .size(widthDp, heightDp)
-                        .combinedClickable(onLongClick = {
-                            //TODO show specifics: claimed by, upgrades/tactics/improvements, etc
-                        }) {
-                            selectedObjective.value = objective
-                        }
-                )
-
-                // Need to do the constraining within the scope of the ConstraintLayout.
-                if (configuration.wvw.objectives.progressions.enabled) {
-                    val progression = getProgression(objective.upgradeId, matchObjective.yaksDelivered)
-                    progression?.iconLink?.let { iconLink ->
-                        val upgradeSize = progression.size ?: configuration.wvw.objectives.progressions.defaultSize
-                        ShowIndicator(iconLink, upgradeSize, "Upgraded", Modifier.constrainAs(upgradeIndicator) {
-                            // Display the indicator in the top center of the objective icon.
-                            top.linkTo(icon.top)
-                            start.linkTo(icon.start)
-                            end.linkTo(icon.end)
-                        })
+                    .constrainAs(icon) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
                     }
-                }
-
-                if (configuration.wvw.objectives.claim.enabled && !matchObjective.claimedBy.isNullOrBlank()) {
-                    configuration.wvw.objectives.claim.iconLink?.let { iconLink ->
-                        ShowIndicator(iconLink, configuration.wvw.objectives.claim.size, "Guild Claimed", Modifier.constrainAs(claimIndicator) {
-                            // Display the indicator in the bottom right of the objective icon.
-                            bottom.linkTo(icon.bottom)
-                            end.linkTo(icon.end)
-                        })
+                    .size(widthDp, heightDp)
+                    .combinedClickable(onLongClick = {
+                        //TODO show specifics: claimed by, upgrades/tactics/improvements, etc
+                    }) {
+                        selectedObjective.value = objective
                     }
-                }
+            )
 
-                if (configuration.wvw.objectives.waypoint.enabled) {
-                    ShowWaypointIndicator(objective, matchObjective, Modifier.constrainAs(waypointIndicator) {
-                        // Display the indicator in the bottom left of the objective icon.
-                        bottom.linkTo(icon.bottom)
+            // Need to do the constraining within the scope of the ConstraintLayout.
+            if (configuration.wvw.objectives.progressions.enabled) {
+                val progression = getProgression(objective.upgradeId, matchObjective.yaksDelivered)
+                progression?.iconLink?.let { iconLink ->
+                    val upgradeSize = progression.size ?: configuration.wvw.objectives.progressions.defaultSize
+                    ShowIndicator(iconLink, upgradeSize, "Upgraded", Modifier.constrainAs(upgradeIndicator) {
+                        // Display the indicator in the top center of the objective icon.
+                        top.linkTo(icon.top)
                         start.linkTo(icon.start)
+                        end.linkTo(icon.end)
                     })
                 }
+            }
 
-                if (configuration.wvw.objectives.immunity.enabled) {
-                    val immunity = configObjective?.immunity ?: configuration.wvw.objectives.immunity.defaultDuration
-                    val flippedAt = matchObjective.lastFlippedAt
-                    if (immunity != null && flippedAt != null) {
-                        // Display the timer underneath the objective icon.
-                        ShowImmunityTimer(immunity, flippedAt, Modifier.constrainAs(timer) {
-                            top.linkTo(icon.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        })
-                    }
+            if (configuration.wvw.objectives.claim.enabled && !matchObjective.claimedBy.isNullOrBlank()) {
+                configuration.wvw.objectives.claim.iconLink?.let { iconLink ->
+                    ShowIndicator(iconLink, configuration.wvw.objectives.claim.size, "Guild Claimed", Modifier.constrainAs(claimIndicator) {
+                        // Display the indicator in the bottom right of the objective icon.
+                        bottom.linkTo(icon.bottom)
+                        end.linkTo(icon.end)
+                    })
+                }
+            }
+
+            if (configuration.wvw.objectives.waypoint.enabled) {
+                ShowWaypointIndicator(objective, matchObjective, Modifier.constrainAs(waypointIndicator) {
+                    // Display the indicator in the bottom left of the objective icon.
+                    bottom.linkTo(icon.bottom)
+                    start.linkTo(icon.start)
+                })
+            }
+
+            if (configuration.wvw.objectives.immunity.enabled) {
+                val immunity = configObjective?.immunity ?: configuration.wvw.objectives.immunity.defaultDuration
+                val flippedAt = matchObjective.lastFlippedAt
+                if (immunity != null && flippedAt != null) {
+                    // Display the timer underneath the objective icon.
+                    ShowImmunityTimer(immunity, flippedAt, Modifier.constrainAs(timer) {
+                        top.linkTo(icon.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    })
                 }
             }
         }

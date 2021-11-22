@@ -52,8 +52,10 @@ import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapBonusType
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapType
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
+import com.bselzer.library.gw2.v2.model.extension.continent.continentRectangle
 import com.bselzer.library.gw2.v2.model.extension.wvw.coordinates
 import com.bselzer.library.gw2.v2.model.extension.wvw.objective
+import com.bselzer.library.gw2.v2.model.extension.wvw.position
 import com.bselzer.library.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMapObjective
@@ -355,7 +357,7 @@ class WvwActivity : BaseActivity() {
 
             // Scroll over to the configured map.
             region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scroll.mapName }?.let { eb ->
-                val topLeft = eb.continentRectangle.point1
+                val topLeft = eb.continentRectangle().point1
                 val scaled = grid.scale(topLeft.x.toInt(), topLeft.y.toInt())
                 rememberCoroutineScope().launch {
                     horizontal.animateScrollTo(scaled.first)
@@ -685,8 +687,8 @@ class WvwActivity : BaseActivity() {
                 .build()
 
             // Scale the position before using it.
-            val x = objectiveRuins.sumOf { ruin -> ruin.coordinates.x } / objectiveRuins.count()
-            val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / objectiveRuins.count()
+            val x = objectiveRuins.sumOf { ruin -> ruin.coordinates().x } / objectiveRuins.count()
+            val y = objectiveRuins.sumOf { ruin -> ruin.coordinates().y } / objectiveRuins.count()
             val coordinates = Point2D(x, y).scaledCoordinates(this.grid.value, Dimension2D(width.toDouble(), height.toDouble()))
 
             // Measurements are done with DP so conversion must be done from pixels.
@@ -809,7 +811,7 @@ class WvwActivity : BaseActivity() {
         val grid = remember { grid }.value
 
         // Use the explicit coordinates if they exist, otherwise default to the label coordinates. This is needed for atypical types such as Spawn/Mercenary.
-        val coordinates = objective.coordinates()
+        val coordinates = objective.position()
 
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
         return coordinates.scaledCoordinates(grid, objectiveSize(objective))

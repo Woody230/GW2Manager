@@ -38,8 +38,8 @@ import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
+import com.bselzer.gw2.manager.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.ui.coil.HexColorTransformation
-import com.bselzer.gw2.manager.ui.kodein.DIAwareActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.library.gw2.v2.cache.instance.WorldCache
@@ -81,7 +81,7 @@ import java.lang.Integer.min
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
-class WvwActivity : DIAwareActivity() {
+class WvwActivity : BaseActivity() {
     private val jobs: ArrayDeque<Job> = ArrayDeque()
     private val worlds = mutableStateOf<Collection<World>>(emptyList())
     private val match = mutableStateOf<WvwMatch?>(null)
@@ -129,6 +129,7 @@ class WvwActivity : DIAwareActivity() {
         jobs.cancel()
     }
 
+    // region Refresh
     /**
      * Refreshes the WvW data.
      */
@@ -240,6 +241,7 @@ class WvwActivity : DIAwareActivity() {
             tileContent[tile] = bitmap
         }
     }
+    //endregion Refresh
 
     @Composable
     private fun Content() = AppTheme {
@@ -250,7 +252,7 @@ class WvwActivity : DIAwareActivity() {
         // Display the background until tiling occurs.
         val contentSize = tileContent.filterKeys { key -> key.zoom == zoom }.size
         if (grid.tiles.isEmpty() || contentSize == 0) {
-            Background()
+            ShowBackground(drawableId = R.drawable.gw2_ice)
         }
 
         Column {
@@ -287,6 +289,7 @@ class WvwActivity : DIAwareActivity() {
         }
     }
 
+    // region ShowMap
     /**
      * Displays content related to the grid data not being populated.
      */
@@ -309,14 +312,6 @@ class WvwActivity : DIAwareActivity() {
             }
         }
     }
-
-    @Composable
-    private fun Background() = Image(
-        painter = painterResource(id = R.drawable.gw2_ice),
-        contentDescription = null,
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop
-    )
 
     /**
      * Displays the grid content.
@@ -530,17 +525,6 @@ class WvwActivity : DIAwareActivity() {
     }
 
     /**
-     * @return the progression level associated with the upgrade associated with the objective
-     */
-    @Composable
-    private fun getProgression(upgradeId: Int, yaksDelivered: Int): WvwUpgradeProgression? {
-        val upgrades = remember { upgrades }.value
-        val upgrade = upgrades[upgradeId] ?: return null
-        val level = upgrade.tiers.count { tier -> yaksDelivered >= tier.yaksRequired }
-        return configuration.wvw.objectives.progressions.progression.getOrNull(level - 1)
-    }
-
-    /**
      * Displays an indicator.
      */
     @Composable
@@ -723,50 +707,6 @@ class WvwActivity : DIAwareActivity() {
         }
     }
 
-    /**
-     * @return the objective from the configuration that matches the objective from the objectives endpoint
-     */
-    private fun configObjective(objective: WvwObjective): com.bselzer.gw2.manager.configuration.wvw.WvwObjective? {
-        val type = objective.type()
-        return configuration.wvw.objectives.objectives.firstOrNull { configObjective -> configObjective.type == type }
-    }
-
-    /**
-     * @return the size of the image associated with an objective
-     */
-    private fun objectiveSize(objective: WvwObjective): Dimension2D {
-        val configObjective = configObjective(objective)
-
-        // Get the size from the configured objective if it is defined, otherwise use the default.
-        val width = configObjective?.size?.width ?: configuration.wvw.objectives.defaultSize.width
-        val height = configObjective?.size?.height ?: configuration.wvw.objectives.defaultSize.height
-        return Dimension2D(width.toDouble(), height.toDouble())
-    }
-
-    /**
-     * @return the scaled coordinates of the image associated with an objective
-     */
-    @Composable
-    private fun scaledCoordinates(objective: WvwObjective): Point2D {
-        val grid = remember { grid }.value
-
-        // Use the explicit coordinates if they exist, otherwise default to the label coordinates. This is needed for atypical types such as Spawn/Mercenary.
-        val coordinates = objective.coordinates()
-
-        // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        return coordinates.scaledCoordinates(grid, objectiveSize(objective))
-    }
-
-    /**
-     * @return the scaled coordinates of the image
-     */
-    private fun Point2D.scaledCoordinates(grid: TileGrid, size: Dimension2D): Point2D =
-        // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        grid.scale(x.toInt(), y.toInt()).run {
-            // Displace the coordinates so that it aligns with the center of the image.
-            copy(x = first - size.width / 2, y = second - size.height / 2)
-        }
-
     @Composable
     private fun Toolbar() {
         val scope = rememberCoroutineScope()
@@ -826,6 +766,68 @@ class WvwActivity : DIAwareActivity() {
         this.zoom.value = max(min, min(max, currentZoom + increment))
     }
 
+    // endregion ShowMap
+
+    // region Objective Helpers
+    /**
+     * @return the progression level associated with the upgrade associated with the objective
+     */
+    @Composable
+    private fun getProgression(upgradeId: Int, yaksDelivered: Int): WvwUpgradeProgression? {
+        val upgrades = remember { upgrades }.value
+        val upgrade = upgrades[upgradeId] ?: return null
+        val level = upgrade.tiers.count { tier -> yaksDelivered >= tier.yaksRequired }
+        return configuration.wvw.objectives.progressions.progression.getOrNull(level - 1)
+    }
+
+
+    /**
+     * @return the objective from the configuration that matches the objective from the objectives endpoint
+     */
+    private fun configObjective(objective: WvwObjective): com.bselzer.gw2.manager.configuration.wvw.WvwObjective? {
+        val type = objective.type()
+        return configuration.wvw.objectives.objectives.firstOrNull { configObjective -> configObjective.type == type }
+    }
+
+    /**
+     * @return the size of the image associated with an objective
+     */
+    private fun objectiveSize(objective: WvwObjective): Dimension2D {
+        val configObjective = configObjective(objective)
+
+        // Get the size from the configured objective if it is defined, otherwise use the default.
+        val width = configObjective?.size?.width ?: configuration.wvw.objectives.defaultSize.width
+        val height = configObjective?.size?.height ?: configuration.wvw.objectives.defaultSize.height
+        return Dimension2D(width.toDouble(), height.toDouble())
+    }
+
+    /**
+     * @return the scaled coordinates of the image associated with an objective
+     */
+    @Composable
+    private fun scaledCoordinates(objective: WvwObjective): Point2D {
+        val grid = remember { grid }.value
+
+        // Use the explicit coordinates if they exist, otherwise default to the label coordinates. This is needed for atypical types such as Spawn/Mercenary.
+        val coordinates = objective.coordinates()
+
+        // Scale the objective coordinates to the zoom level and remove excluded bounds.
+        return coordinates.scaledCoordinates(grid, objectiveSize(objective))
+    }
+
+    /**
+     * @return the scaled coordinates of the image
+     */
+    private fun Point2D.scaledCoordinates(grid: TileGrid, size: Dimension2D): Point2D =
+        // Scale the objective coordinates to the zoom level and remove excluded bounds.
+        grid.scale(x.toInt(), y.toInt()).run {
+            // Displace the coordinates so that it aligns with the center of the image.
+            copy(x = first - size.width / 2, y = second - size.height / 2)
+        }
+
+    // endregion Objective Helpers
+
+    // region ShowCommon
     /**
      * Create a dialog for the user to select the world.
      */
@@ -858,4 +860,6 @@ class WvwActivity : DIAwareActivity() {
             }
         }
     }
+
+    // endregion ShowCommon
 }

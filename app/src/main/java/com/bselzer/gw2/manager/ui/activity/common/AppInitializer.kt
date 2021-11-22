@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.ui.activity
+package com.bselzer.gw2.manager.ui.activity.common
 
 import android.app.Application
 import android.content.Context

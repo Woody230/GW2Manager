@@ -27,9 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.BUILD_NUMBER
+import com.bselzer.gw2.manager.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity
-import com.bselzer.gw2.manager.ui.kodein.DIAwareActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.kotlin.extension.function.core.hasInternet
 import com.bselzer.library.kotlin.extension.preference.safeLatest
@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class MainActivity : DIAwareActivity() {
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -56,35 +56,33 @@ class MainActivity : DIAwareActivity() {
     private fun Content(download: Boolean, description: String) = AppTheme {
         // TODO transition time?
         AnimatedVisibility(visible = download) {
-            Download(description)
+            ShowDownloading(description)
         }
 
         if (!download) {
-            Background()
-            MainMenu()
+            ShowBackground(R.drawable.gw2_two_sylvari)
+            ShowMainMenu()
         }
-        Toolbar()
+        ShowAppBar()
     }
 
     @Preview
     @Composable
-    private fun MainContent() = Content(false, "")
+    private fun PreviewMenu() = Content(false, "")
 
+    /**
+     * Displays the top app bar.
+     */
     @Composable
-    private fun Background() = Image(
-        painter = painterResource(id = R.drawable.gw2_two_sylvari),
-        contentDescription = null,
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop
-    )
-
-    @Composable
-    private fun Toolbar() = TopAppBar(
+    private fun ShowAppBar() = TopAppBar(
         title = { Text(text = stringResource(id = R.string.app_name)) },
     )
 
+    /**
+     * Displays all of the buttons within the main menu.
+     */
     @Composable
-    private fun MainMenu() = Column(
+    private fun ShowMainMenu() = Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
@@ -92,17 +90,20 @@ class MainActivity : DIAwareActivity() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // TODO account activity => WvW rank/ability/currency info
-        MenuButton(name = stringResource(id = R.string.activity_wvw)) {
+        ShowMenuButton(name = stringResource(id = R.string.activity_wvw)) {
             startActivity(Intent(this@MainActivity, WvwActivity::class.java))
         }
         Spacer(Modifier.size(20.dp))
-        MenuButton(name = stringResource(id = R.string.activity_settings)) {
+        ShowMenuButton(name = stringResource(id = R.string.activity_settings)) {
             startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
         }
     }
 
+    /**
+     * Displays a single main menu button.
+     */
     @Composable
-    private fun MenuButton(name: String, onClick: () -> Unit) = Box(
+    private fun ShowMenuButton(name: String, onClick: () -> Unit) = Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .wrapContentSize()
@@ -125,8 +126,11 @@ class MainActivity : DIAwareActivity() {
         )
     }
 
+    /**
+     * Displays the download splash screen.
+     */
     @Composable
-    private fun Download(description: String) = Box(
+    private fun ShowDownloading(description: String) = Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -155,7 +159,7 @@ class MainActivity : DIAwareActivity() {
 
     @Preview
     @Composable
-    private fun PreviewDownload() = Download(description = "Pre-Processing")
+    private fun PreviewDownload() = ShowDownloading(description = "Pre-Processing")
 
     /**
      * Load initial data from the API.

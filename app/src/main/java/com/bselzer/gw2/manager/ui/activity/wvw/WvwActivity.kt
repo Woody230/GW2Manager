@@ -263,7 +263,7 @@ class WvwActivity : BaseActivity() {
         when (remember { selectedPage }.value) {
             MAP -> ShowMapPage()
             MATCH -> ShowMatchPage()
-            DETAILED_SELECTED_OBJECTIVE -> ShowDetailedSelectedObjectivePage()
+            DETAILED_SELECTED_OBJECTIVE -> ShowSelectedObjectivePage()
             null -> ShowMenu()
         }
     }
@@ -336,7 +336,7 @@ class WvwActivity : BaseActivity() {
                 })
 
                 // Overlay the selected objective over everything else on the map.
-                ShowSelectedObjective(Modifier.constrainAs(selectedObjective) {
+                ShowSelectedObjectiveLabel(Modifier.constrainAs(selectedObjective) {
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
                 })
@@ -661,7 +661,7 @@ class WvwActivity : BaseActivity() {
      * Displays general information about the objective the user clicked on in a pop-up label.
      */
     @Composable
-    private fun ShowSelectedObjective(modifier: Modifier) {
+    private fun ShowSelectedObjectiveLabel(modifier: Modifier) {
         val selected = configuration.wvw.objectives.selected
         val selectedObjective = remember { selectedObjective }.value ?: return
         val match = remember { match }.value
@@ -918,66 +918,99 @@ class WvwActivity : BaseActivity() {
      * Displays the page related to detailed objective information.
      */
     @Composable
-    private fun ShowDetailedSelectedObjectivePage() = Column(
+    private fun ShowSelectedObjectivePage() = Column(
         modifier = Modifier.fillMaxSize()
     ) {
         ShowObjectiveAppBar()
 
+        // TODO wrapper for background
         Box(modifier = Modifier.fillMaxSize()) {
             ShowBackground(drawableId = R.drawable.gw2_ice)
 
             // TODO pager: main = details, left = upgrades, right = guild upgrades
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                // These have to exist for the user to be sent to this page so there shouldn't be concerns about returning without handling invalid state.
-                val objective = remember { selectedObjective }.value ?: return
-                val match = remember { match }.value ?: return
-                val matchObjective = match.objective(objective) ?: return
+            ShowDetailedSelectedObjective()
+        }
+    }
 
-                Image(
-                    painter = objectiveImagePainter(objective, owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL),
-                    contentDescription = objective.name,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(64.dp, 64.dp)
-                )
+    /**
+     * Displays the detailed selected objective information.
+     */
+    @Composable
+    private fun ShowDetailedSelectedObjective() = Column(
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        ShowSelectedObjectiveImage()
+        ShowSelectedObjectiveCard { ShowSelectedObjectiveOverview() }
+    }
 
-                val border = 3.dp
-                Card(
-                    elevation = 10.dp,
-                    modifier = Modifier
-                        .fillMaxWidth(.80f)
-                        .wrapContentHeight()
-                        .border(width = border, color = Color.Black)
-                        .padding(all = border)
-                ) {
-                    Box {
-                        ShowBackground(drawableId = R.drawable.gw2_duststorm_sky)
+    /**
+     * Displays the image for the detailed selected objective.
+     */
+    @Composable
+    private fun ShowSelectedObjectiveImage() {
+        val objective = remember { selectedObjective }.value ?: return
+        val match = remember { match }.value ?: return
+        val matchObjective = match.objective(objective) ?: return
 
-                        Column {
-                            Text(text = "${objective.name} (${objective.type})")
+        Image(
+            painter = objectiveImagePainter(objective, owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL),
+            contentDescription = objective.name,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.size(64.dp, 64.dp)
+        )
+    }
 
-                            objective.mapType()?.let { mapType ->
-                                Text(text = mapType.userFriendly())
-                            }
+    /**
+     * Displays a card wrapping the underlying selected objective [content].
+     */
+    @Composable
+    private fun ShowSelectedObjectiveCard(content: @Composable () -> Unit) {
+        val border = 3.dp
+        Card(
+            elevation = 10.dp,
+            modifier = Modifier
+                .fillMaxWidth(.80f)
+                .wrapContentHeight()
+                .border(width = border, color = Color.Black)
+                .padding(all = border)
+        ) {
+            Box {
+                ShowBackground(drawableId = R.drawable.gw2_duststorm_sky)
 
-                            val worlds = remember { worlds }.value
-                            val linkedWorlds = match.linkedWorlds(objective).mapNotNull { worldId -> worlds.firstOrNull { world -> world.id == worldId }?.name }
-                            if (linkedWorlds.isNotEmpty()) {
-                                // Make sure that the main world is first.
-                                val mainWorld = match.mainWorld(objective)?.run { worlds.firstOrNull { world -> world.id == this }?.name }
-                                val sortedWorlds = if (mainWorld == null) linkedWorlds else linkedWorlds.toMutableList().apply { remove(mainWorld); add(0, mainWorld) }
-                                Text(text = sortedWorlds.joinToString(separator = "/"))
-                            }
-                        }
-                    }
-                }
-
-                // TODO remaining cards
+                content()
             }
         }
+    }
+
+    /**
+     * Displays the detailed overview information related to the selected objective.
+     */
+    @Composable
+    private fun ShowSelectedObjectiveOverview() = Column {
+        // TODO images alongside the text?
+
+        val objective = remember { selectedObjective }.value ?: return
+        val match = remember { match }.value ?: return
+
+        Text(text = "${objective.name} (${objective.type})")
+
+        objective.mapType()?.let { mapType ->
+            Text(text = mapType.userFriendly())
+        }
+
+        val worlds = remember { worlds }.value
+        val linkedWorlds = match.linkedWorlds(objective).mapNotNull { worldId -> worlds.firstOrNull { world -> world.id == worldId }?.name }
+        if (linkedWorlds.isNotEmpty()) {
+            // Make sure that the main world is first.
+            val mainWorld = match.mainWorld(objective)?.run { worlds.firstOrNull { world -> world.id == this }?.name }
+            val sortedWorlds = if (mainWorld == null) linkedWorlds else linkedWorlds.toMutableList().apply { remove(mainWorld); add(0, mainWorld) }
+            Text(text = sortedWorlds.joinToString(separator = "/"))
+        }
+
+        // TODO owned by: [color] ([team])
+        // TODO flipped at: [date/time]
     }
 
     /**

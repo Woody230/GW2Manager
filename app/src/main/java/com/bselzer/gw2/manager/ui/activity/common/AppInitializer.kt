@@ -2,6 +2,7 @@ package com.bselzer.gw2.manager.ui.activity.common
 
 import android.app.Application
 import android.content.Context
+import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -95,6 +96,7 @@ class AppInitializer : Application(), DIAware {
         bindConfiguration()
         bindImageLoader()
         bindSingleton { DATASTORE }
+        bindSingleton(tag = "InitialDataPopulation") { mutableStateOf(false) }
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.ui.activity.wvw
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -13,7 +14,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
@@ -39,6 +39,8 @@ import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRE
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
 import com.bselzer.gw2.manager.ui.activity.common.BaseActivity
+import com.bselzer.gw2.manager.ui.activity.main.MainActivity
+import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity.Page.*
 import com.bselzer.gw2.manager.ui.coil.HexColorTransformation
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.cache.instance.ContinentCache
@@ -96,8 +98,13 @@ class WvwActivity : BaseActivity() {
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
     private val tileContent = mutableStateMapOf<Tile, Bitmap>()
     private val zoom = MutableStateFlow(0)
+    private val selectedPage = mutableStateOf<Page?>(null)
 
-    // TODO match details: scores, ppt, etc
+    private enum class Page {
+        MAP,
+        MATCH,
+        DETAILED_SELECTED_OBJECTIVE
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -243,10 +250,54 @@ class WvwActivity : BaseActivity() {
             tileContent[tile] = bitmap
         }
     }
-    //endregion Refresh
+    // endregion Refresh
+
+    // region ShowMenu
 
     @Composable
     private fun Content() = AppTheme {
+        when (remember { selectedPage }.value) {
+            MAP -> ShowMapPage()
+            MATCH -> ShowMatchPage()
+            DETAILED_SELECTED_OBJECTIVE -> ShowDetailedSelectedObjectivePage()
+            null -> ShowMenu()
+        }
+    }
+
+    /**
+     * Displays the World vs. World menu.
+     */
+    @Composable
+    private fun ShowMenu() = Column {
+        // Provide the illusion that we haven't swapped screens from the MainActivity.
+        ShowMenuAppBar()
+        Box {
+            ShowBackground(drawableId = R.drawable.gw2_two_sylvari)
+
+            ShowMenu(background = R.drawable.gw2_ice, "Map" to { selectedPage.value = MAP }, "Match" to { selectedPage.value = MATCH })
+        }
+    }
+
+    /**
+     * Displays the app bar for when there is no [selectedPage].
+     */
+    @Composable
+    private fun ShowMenuAppBar() = TopAppBar(
+        title = { Text(text = stringResource(id = R.string.activity_wvw)) },
+        navigationIcon = {
+            // Disable the animation to give the illusion that we haven't swapped screens.
+            val intent = Intent(this@WvwActivity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+            UpNavigationIcon(intent)
+        },
+    )
+
+    // endregion ShowMenu
+
+    // region ShowMap
+
+    @Composable
+    private fun ShowMapPage() {
         val grid = remember { grid }.value
         val tileContent = remember { tileContent }
         val zoom by zoom.collectAsState()
@@ -258,7 +309,7 @@ class WvwActivity : BaseActivity() {
         }
 
         Column {
-            Toolbar()
+            ShowMapAppBar()
 
             val pinchToZoom = rememberTransformableState { zoomChange, _, _ ->
                 // Allow the user to change the zoom by pinching the map.
@@ -291,7 +342,6 @@ class WvwActivity : BaseActivity() {
         }
     }
 
-    // region ShowMap
     /**
      * Displays content related to the grid data not being populated.
      */
@@ -302,7 +352,7 @@ class WvwActivity : BaseActivity() {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator()
+            ProgressIndicator()
         }
 
         // Attempt to rectify the missing data.
@@ -342,6 +392,9 @@ class WvwActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Scrolls the map to the configured WvW map within the grid.
+     */
     @Composable
     private fun InitialMapScroll(horizontal: ScrollState, vertical: ScrollState) {
         val initial = remember { mutableStateOf(true) }
@@ -473,7 +526,9 @@ class WvwActivity : BaseActivity() {
                     }
                     .size(widthDp, heightDp)
                     .combinedClickable(onLongClick = {
-                        //TODO show specifics: claimed by, upgrades/tactics/improvements, etc
+                        // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.
+                        selectedObjective.value = objective
+                        selectedPage.value = DETAILED_SELECTED_OBJECTIVE
                     }) {
                         selectedObjective.value = objective
                     }
@@ -709,15 +764,16 @@ class WvwActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Displays the app bar for the [Page.MAP].
+     */
     @Composable
-    private fun Toolbar() {
+    private fun ShowMapAppBar() {
         val scope = rememberCoroutineScope()
         TopAppBar(
             title = { Text(text = stringResource(id = R.string.activity_wvw), fontWeight = FontWeight.Bold) },
             navigationIcon = {
-                IconButton(onClick = { finish() }) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                }
+                UpNavigationIcon(Intent(this@WvwActivity, MainActivity::class.java))
             },
             actions = {
                 IconButton(onClick = { scope.launch { refreshData() } }) {
@@ -829,6 +885,32 @@ class WvwActivity : BaseActivity() {
 
     // endregion Objective Helpers
 
+    // region ShowMatch
+
+    /**
+     * Displays the page related to match details.
+     */
+    @Composable
+    private fun ShowMatchPage() {
+        // TODO match details: scores, ppt, etc
+        ShowBackground(drawableId = R.drawable.gw2_ice)
+    }
+
+    // endregion ShowMatch
+
+    // region ShowDetailedSelectedObjective
+
+    /**
+     * Displays the page related to detailed objective information.
+     */
+    @Composable
+    private fun ShowDetailedSelectedObjectivePage() {
+        // TODO show specifics: claimed by, upgrades/tactics/improvements, etc
+        ShowBackground(drawableId = R.drawable.gw2_ice)
+    }
+
+    // endregion ShowDetailedSelectedObjective
+
     // region ShowCommon
     /**
      * Create a dialog for the user to select the world.
@@ -860,6 +942,19 @@ class WvwActivity : BaseActivity() {
                     .setCancelable(cancellable)
                     .show()
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        when (selectedPage.value) {
+            MAP -> selectedPage.value = null // Go back to the menu.
+            MATCH -> selectedPage.value = null // Go back to the menu.
+            DETAILED_SELECTED_OBJECTIVE -> {
+                // Go back to the map page with the objective cleared so that the pop-up is not displayed.
+                selectedPage.value = MAP
+                selectedObjective.value = null
+            }
+            null -> finish()
         }
     }
 

@@ -3,27 +3,16 @@ package com.bselzer.gw2.manager.ui.activity.main
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.BUILD_NUMBER
@@ -34,36 +23,40 @@ import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.kotlin.extension.function.core.hasInternet
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import timber.log.Timber
+import kotlinx.coroutines.*
+import org.kodein.di.instance
 
 class MainActivity : BaseActivity() {
+    private val initializedData by instance<MutableState<Boolean>>(tag = "InitialDataPopulation")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val (download, setDownloading) = remember { mutableStateOf(true) }
+            val (download, setDownloading) = remember { mutableStateOf(!initializedData.value) }
             val (description, setDescription) = remember { mutableStateOf("") }
             Content(download, description)
-            RetrieveData(setDownloading, setDescription)
+            RetrieveData(download, setDownloading, setDescription)
         }
     }
 
     @OptIn(ExperimentalAnimationApi::class)
     @Composable
     private fun Content(download: Boolean, description: String) = AppTheme {
-        // TODO transition time?
-        AnimatedVisibility(visible = download) {
-            ShowDownloading(description)
-        }
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            ShowAppBar()
 
-        if (!download) {
-            ShowBackground(R.drawable.gw2_two_sylvari)
-            ShowMainMenu()
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                ShowBackground(R.drawable.gw2_two_sylvari)
+
+                if (download) {
+                    ShowDownloading(description)
+                } else {
+                    ShowMainMenu()
+                }
+            }
         }
-        ShowAppBar()
     }
 
     @Preview
@@ -82,78 +75,41 @@ class MainActivity : BaseActivity() {
      * Displays all of the buttons within the main menu.
      */
     @Composable
-    private fun ShowMainMenu() = Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // TODO account activity => WvW rank/ability/currency info
-        ShowMenuButton(name = stringResource(id = R.string.activity_wvw)) {
-            startActivity(Intent(this@MainActivity, WvwActivity::class.java))
-        }
-        Spacer(Modifier.size(20.dp))
-        ShowMenuButton(name = stringResource(id = R.string.activity_settings)) {
+    private fun ShowMainMenu() = ShowMenu(background = R.drawable.gw2_ice,
+        stringResource(id = R.string.activity_wvw) to {
+            // Disable the animation to give the illusion that we haven't swapped screens.
+            val intent = Intent(this@MainActivity, WvwActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+            startActivity(intent)
+        },
+        stringResource(id = R.string.activity_settings) to {
             startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
         }
-    }
+    )
 
     /**
-     * Displays a single main menu button.
-     */
-    @Composable
-    private fun ShowMenuButton(name: String, onClick: () -> Unit) = Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .wrapContentSize()
-            .clickable(onClick = onClick)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.gw2_ice),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(75.dp),
-            contentScale = ContentScale.FillBounds
-        )
-        Text(
-            text = name,
-            color = Color.Black,
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.wrapContentSize()
-        )
-    }
-
-    /**
-     * Displays the download splash screen.
+     * Displays the download indicator.
      */
     @Composable
     private fun ShowDownloading(description: String) = Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(.25f),
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.gw2_two_asura),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
+        ShowBackground(drawableId = R.drawable.gw2_ice)
+
         Column(
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = description,
-                color = Color.White,
+                color = Color.Black,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.wrapContentSize()
             )
-            CircularProgressIndicator(
-                modifier = Modifier.fillMaxSize(0.15f),
-                color = Color.Yellow
-            )
+            ProgressIndicator()
         }
     }
 
@@ -165,22 +121,24 @@ class MainActivity : BaseActivity() {
      * Load initial data from the API.
      */
     @Composable
-    private fun RetrieveData(setDownloading: (Boolean) -> Unit, setDescription: (String) -> Unit) = LaunchedEffect(true) {
-        withContext(Dispatchers.IO)
-        {
-            val exceptionHandler = CoroutineExceptionHandler { _, throwable -> Timber.e(throwable) }
-            launch(exceptionHandler) {
-                if (!application.hasInternet()) {
-                    return@launch
-                }
-
-                setDescription("Build Number")
-                val newId = gw2Client.build.buildId()
-                val existingId = datastore.safeLatest(BUILD_NUMBER)
-                if (newId > existingId) {
-                    datastore.update(BUILD_NUMBER, newId, this)
-                }
-            }.invokeOnCompletion { setDownloading(false) }
+    private fun RetrieveData(download: Boolean, setDownloading: (Boolean) -> Unit, setDescription: (String) -> Unit) = LaunchedEffect(download) {
+        fun finishedDownloading() {
+            setDownloading(false)
+            initializedData.value = true
         }
+
+        if (!download || !application.hasInternet()) {
+            finishedDownloading()
+            return@LaunchedEffect
+        }
+
+        setDescription("Build Number")
+        val newId = gw2Client.build.buildId()
+        val existingId = datastore.safeLatest(BUILD_NUMBER)
+        if (newId > existingId) {
+            datastore.update(BUILD_NUMBER, newId, this)
+        }
+
+        finishedDownloading()
     }
 }

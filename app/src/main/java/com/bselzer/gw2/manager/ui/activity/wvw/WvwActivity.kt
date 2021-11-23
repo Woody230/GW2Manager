@@ -928,6 +928,7 @@ class WvwActivity : BaseActivity() {
         ShowObjectiveAppBar()
 
         // TODO wrapper for background
+        // TODO dark mode handling
         Box(modifier = Modifier.fillMaxSize()) {
             ShowBackground(drawableId = R.drawable.gw2_ice)
 
@@ -1033,17 +1034,17 @@ class WvwActivity : BaseActivity() {
     private fun ShowSelectedObjectivePoints() = Column {
         val objective = remember { selectedObjective }.value ?: return
         val matchObjective = remember { match }.value.objective(objective) ?: return
-        Text(text = "Points per tick: ${matchObjective.pointsPerTick}")
-        Text(text = "Points per capture: ${matchObjective.pointsPerCapture}")
 
+        ShowCenteredRow(startValue = "Points per tick:", endValue = "${matchObjective.pointsPerTick}")
+        ShowCenteredRow(startValue = "Points per capture:", endValue = "${matchObjective.pointsPerCapture}")
         remember { upgrades }.value[objective.upgradeId]?.let { upgrade ->
             val yaksDelivered = matchObjective.yaksDelivered
             val ratio = upgrade.yakRatio(yaksDelivered)
-            Text(text = "Yaks: ${ratio.first}/${ratio.second}")
+            ShowCenteredRow(startValue = "Yaks delivered:", endValue = "${ratio.first}/${ratio.second}")
 
             val level = upgrade.level(yaksDelivered)
             val tier = upgrade.tier(yaksDelivered)?.name ?: "Not Upgraded"
-            Text(text = "Tier: $tier ($level/${upgrade.tiers.size})")
+            ShowCenteredRow(startValue = "Upgrade tier:", endValue = "$tier ($level/${upgrade.tiers.size})")
         }
     }
 

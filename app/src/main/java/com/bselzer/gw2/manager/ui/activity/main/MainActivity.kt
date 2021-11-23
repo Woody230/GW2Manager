@@ -92,22 +92,22 @@ class MainActivity : BaseActivity() {
      */
     @Composable
     private fun ShowDownloading(description: String) = Box(
+        contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(.25f),
+            .wrapContentHeight(),
     ) {
         ShowBackground(drawableId = R.drawable.gw2_ice)
 
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.wrapContentSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = description,
                 color = Color.Black,
                 fontSize = 30.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.wrapContentSize()
+                fontWeight = FontWeight.Bold
             )
             ProgressIndicator()
         }

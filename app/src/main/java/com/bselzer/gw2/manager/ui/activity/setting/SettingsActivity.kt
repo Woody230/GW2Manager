@@ -18,6 +18,7 @@ class SettingsActivity : BaseActivity() {
                 it.setDisplayHomeAsUpEnabled(true)
             }
             AppTheme {
+                // TODO dark mode handling
                 ShowBackground(drawableId = R.drawable.gw2_ice)
             }
         }

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
@@ -29,8 +30,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import coil.transform.Transformation
@@ -48,6 +51,7 @@ import com.bselzer.library.gw2.v2.cache.instance.WorldCache
 import com.bselzer.library.gw2.v2.cache.instance.WvwCache
 import com.bselzer.library.gw2.v2.model.continent.Continent
 import com.bselzer.library.gw2.v2.model.continent.ContinentFloor
+import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.mapType
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.owner
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.type
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapBonusType
@@ -55,9 +59,7 @@ import com.bselzer.library.gw2.v2.model.enumeration.wvw.MapType
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
 import com.bselzer.library.gw2.v2.model.extension.continent.continentRectangle
-import com.bselzer.library.gw2.v2.model.extension.wvw.coordinates
-import com.bselzer.library.gw2.v2.model.extension.wvw.objective
-import com.bselzer.library.gw2.v2.model.extension.wvw.position
+import com.bselzer.library.gw2.v2.model.extension.wvw.*
 import com.bselzer.library.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMapObjective
@@ -66,6 +68,7 @@ import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.library.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.library.gw2.v2.tile.model.response.Tile
 import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
+import com.bselzer.library.kotlin.extension.compose.toDp
 import com.bselzer.library.kotlin.extension.coroutine.cancel
 import com.bselzer.library.kotlin.extension.coroutine.repeat
 import com.bselzer.library.kotlin.extension.function.collection.addTo
@@ -119,6 +122,7 @@ class WvwActivity : BaseActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val interval = datastore.safeLatest(REFRESH_INTERVAL, 5)
             repeat(Duration.minutes(interval)) {
+                // TODO how to handle user not being on the map page
                 refreshData()
             }
         }.addTo(jobs)
@@ -269,12 +273,15 @@ class WvwActivity : BaseActivity() {
      */
     @Composable
     private fun ShowMenu() = Column {
-        // Provide the illusion that we haven't swapped screens from the MainActivity.
+        // Match the same way that the MainActivity is displayed.
         ShowMenuAppBar()
         Box {
             ShowBackground(drawableId = R.drawable.gw2_two_sylvari)
-
-            ShowMenu(background = R.drawable.gw2_ice, "Map" to { selectedPage.value = MAP }, "Match" to { selectedPage.value = MATCH })
+            ShowMenu(
+                background = R.drawable.gw2_ice,
+                stringResource(id = R.string.wvw_map) to { selectedPage.value = MAP },
+                stringResource(id = R.string.wvw_match) to { selectedPage.value = MATCH }
+            )
         }
     }
 
@@ -333,6 +340,8 @@ class WvwActivity : BaseActivity() {
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
                 })
+
+                // TODO show map names (borderlands preferably with team names)
             }
         }
 
@@ -469,7 +478,7 @@ class WvwActivity : BaseActivity() {
      */
     @Composable
     private fun ShowObjectives() {
-        // Render from bottom right to top left.
+        // Render from bottom right to top left so that overlap is consistent.
         val comparator = compareByDescending<WvwObjective> { objective -> objective.coordinates().y }.thenByDescending { objective -> objective.coordinates().x }
         remember { objectives }.value.sortedWith(comparator).forEach { objective ->
             ShowObjective(objective)
@@ -492,31 +501,15 @@ class WvwActivity : BaseActivity() {
         val coordinates = scaledCoordinates(objective)
         val size = objectiveSize(objective)
 
-        // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
-        val link = if (objective.iconLink.isNotBlank()) objective.iconLink else configObjective?.defaultIconLink
-        val request = ImageRequest.Builder(LocalContext.current)
-            .data(link)
-            .size(size.width.toInt(), size.height.toInt())
-            .transformations(OwnedColorTransformation(configuration.wvw, owner))
-            .build()
-
-        // Measurements are done with DP so conversion must be done from pixels.
-        // TODO extension(s)
-        val density = LocalDensity.current
-        val xDp = density.run { coordinates.x.toInt().toDp() }
-        val yDp = density.run { coordinates.y.toInt().toDp() }
-        val widthDp = density.run { size.width.toInt().toDp() }
-        val heightDp = density.run { size.height.toInt().toDp() }
-
         // Overlay the objective image onto the map image.
         ConstraintLayout(
             modifier = Modifier
-                .absoluteOffset(xDp, yDp)
+                .absoluteOffset(coordinates.x.toDp(), coordinates.y.toDp())
                 .wrapContentSize()
         ) {
             val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
             Image(
-                painter = rememberImagePainter(request, imageLoader),
+                painter = objectiveImagePainter(objective, owner),
                 contentDescription = objective.name,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -524,7 +517,7 @@ class WvwActivity : BaseActivity() {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
                     }
-                    .size(widthDp, heightDp)
+                    .size(size.width.toDp(), size.height.toDp())
                     .combinedClickable(onLongClick = {
                         // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.
                         selectedObjective.value = objective
@@ -598,16 +591,11 @@ class WvwActivity : BaseActivity() {
             .transformations(transformations)
             .build()
 
-        // Measurements are done with DP so conversion must be done from pixels.
-        val density = LocalDensity.current
-        val widthDp = density.run { size.width.toDp() }
-        val heightDp = density.run { size.height.toDp() }
-
         Image(
             painter = rememberImagePainter(request, imageLoader),
             contentDescription = contentDescription,
             contentScale = ContentScale.Fit,
-            modifier = modifier.size(widthDp, heightDp)
+            modifier = modifier.size(size.width.toDp(), size.height.toDp())
         )
     }
 
@@ -746,20 +734,13 @@ class WvwActivity : BaseActivity() {
             val y = objectiveRuins.sumOf { ruin -> ruin.coordinates().y } / objectiveRuins.count()
             val coordinates = Point2D(x, y).scaledCoordinates(this.grid.value, Dimension2D(width.toDouble(), height.toDouble()))
 
-            // Measurements are done with DP so conversion must be done from pixels.
-            val density = LocalDensity.current
-            val xDp = density.run { coordinates.x.toInt().toDp() }
-            val yDp = density.run { coordinates.y.toInt().toDp() }
-            val widthDp = density.run { width.toDp() }
-            val heightDp = density.run { height.toDp() }
-
             Image(
                 painter = rememberImagePainter(request, imageLoader),
                 contentDescription = "Bloodlust",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .absoluteOffset(xDp, yDp)
-                    .size(widthDp, heightDp)
+                    .absoluteOffset(coordinates.x.toDp(), coordinates.y.toDp())
+                    .size(width.toDp(), height.toDp())
             )
         }
     }
@@ -834,10 +815,8 @@ class WvwActivity : BaseActivity() {
     private fun getProgression(upgradeId: Int, yaksDelivered: Int): WvwUpgradeProgression? {
         val upgrades = remember { upgrades }.value
         val upgrade = upgrades[upgradeId] ?: return null
-        val level = upgrade.tiers.count { tier -> yaksDelivered >= tier.yaksRequired }
-        return configuration.wvw.objectives.progressions.progression.getOrNull(level - 1)
+        return configuration.wvw.objectives.progressions.progression.getOrNull(upgrade.level(yaksDelivered))
     }
-
 
     /**
      * @return the objective from the configuration that matches the objective from the objectives endpoint
@@ -883,6 +862,25 @@ class WvwActivity : BaseActivity() {
             copy(x = first - size.width / 2, y = second - size.height / 2)
         }
 
+    /**
+     * Remembers the image painter associated with the [objective].
+     */
+    @Composable
+    private fun objectiveImagePainter(objective: WvwObjective, owner: ObjectiveOwner): ImagePainter {
+        val size = objectiveSize(objective)
+        val configObjective = configObjective(objective)
+
+        // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
+        val link = if (objective.iconLink.isNotBlank()) objective.iconLink else configObjective?.defaultIconLink
+        val request = ImageRequest.Builder(LocalContext.current)
+            .data(link)
+            .size(size.width.toInt(), size.height.toInt())
+            .transformations(OwnedColorTransformation(configuration.wvw, owner))
+            .build()
+
+        return rememberImagePainter(request, imageLoader)
+    }
+
     // endregion Objective Helpers
 
     // region ShowMatch
@@ -891,10 +889,26 @@ class WvwActivity : BaseActivity() {
      * Displays the page related to match details.
      */
     @Composable
-    private fun ShowMatchPage() {
-        // TODO match details: scores, ppt, etc
-        ShowBackground(drawableId = R.drawable.gw2_ice)
+    private fun ShowMatchPage() = Column(modifier = Modifier.fillMaxSize()) {
+        ShowMatchAppBar()
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            ShowBackground(drawableId = R.drawable.gw2_ice)
+
+            // TODO match details: scores, ppt, etc
+        }
     }
+
+    /**
+     * Displays the match app bar.
+     */
+    @Composable
+    private fun ShowMatchAppBar() = TopAppBar(
+        title = { Text(text = stringResource(id = R.string.wvw_match), fontWeight = FontWeight.Bold) },
+        navigationIcon = {
+            UpNavigationIcon(Intent(this@WvwActivity, MainActivity::class.java))
+        },
+    )
 
     // endregion ShowMatch
 
@@ -904,10 +918,78 @@ class WvwActivity : BaseActivity() {
      * Displays the page related to detailed objective information.
      */
     @Composable
-    private fun ShowDetailedSelectedObjectivePage() {
-        // TODO show specifics: claimed by, upgrades/tactics/improvements, etc
-        ShowBackground(drawableId = R.drawable.gw2_ice)
+    private fun ShowDetailedSelectedObjectivePage() = Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        ShowObjectiveAppBar()
+
+        Box(modifier = Modifier.fillMaxSize()) {
+            ShowBackground(drawableId = R.drawable.gw2_ice)
+
+            // TODO pager: main = details, left = upgrades, right = guild upgrades
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                // These have to exist for the user to be sent to this page so there shouldn't be concerns about returning without handling invalid state.
+                val objective = remember { selectedObjective }.value ?: return
+                val match = remember { match }.value ?: return
+                val matchObjective = match.objective(objective) ?: return
+
+                Image(
+                    painter = objectiveImagePainter(objective, owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL),
+                    contentDescription = objective.name,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.size(64.dp, 64.dp)
+                )
+
+                val border = 3.dp
+                Card(
+                    elevation = 10.dp,
+                    modifier = Modifier
+                        .fillMaxWidth(.80f)
+                        .wrapContentHeight()
+                        .border(width = border, color = Color.Black)
+                        .padding(all = border)
+                ) {
+                    Box {
+                        ShowBackground(drawableId = R.drawable.gw2_duststorm_sky)
+
+                        Column {
+                            Text(text = "${objective.name} (${objective.type})")
+
+                            objective.mapType()?.let { mapType ->
+                                Text(text = mapType.userFriendly())
+                            }
+
+                            val worlds = remember { worlds }.value
+                            val linkedWorlds = match.linkedWorlds(objective).mapNotNull { worldId -> worlds.firstOrNull { world -> world.id == worldId }?.name }
+                            if (linkedWorlds.isNotEmpty()) {
+                                // Make sure that the main world is first.
+                                val mainWorld = match.mainWorld(objective)?.run { worlds.firstOrNull { world -> world.id == this }?.name }
+                                val sortedWorlds = if (mainWorld == null) linkedWorlds else linkedWorlds.toMutableList().apply { remove(mainWorld); add(0, mainWorld) }
+                                Text(text = sortedWorlds.joinToString(separator = "/"))
+                            }
+                        }
+                    }
+                }
+
+                // TODO remaining cards
+            }
+        }
     }
+
+    /**
+     * Displays the detailed selected objective app bar.
+     */
+    @Composable
+    private fun ShowObjectiveAppBar() = TopAppBar(
+        title = { Text(text = stringResource(id = R.string.wvw_detailed_selected_objective), fontWeight = FontWeight.Bold) },
+        navigationIcon = {
+            UpNavigationIcon(Intent(this@WvwActivity, MainActivity::class.java))
+        },
+    )
 
     // endregion ShowDetailedSelectedObjective
 

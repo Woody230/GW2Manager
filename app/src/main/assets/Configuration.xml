@@ -29,6 +29,7 @@
                 <Size width="32" height="32" />
 
                 <!-- Progressions -->
+                <Progression /> <!-- Display nothing for level 0. -->
                 <Progression icon="https://assets.gw2dat.com/1324349.png" />
                 <Progression icon="https://assets.gw2dat.com/1324350.png" />
                 <Progression icon="https://assets.gw2dat.com/1324351.png" />

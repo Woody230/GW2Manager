@@ -25,11 +25,27 @@ abstract class BaseActivity : DIAwareActivity() {
      * Displays the background across the entirety of the parent.
      */
     @Composable
-    protected fun ShowBackground(@DrawableRes drawableId: Int) = Image(
+    protected fun ShowBackground(@DrawableRes drawableId: Int, alignment: Alignment = Alignment.Center) =
+        ShowBackground(drawableId = drawableId, modifier = Modifier.fillMaxSize(), alignment = alignment)
+
+    /**
+     * Displays the background across the entirety of the parent.
+     */
+    // Need to use matchParentSize() so that the image does not participate in sizing and can just fill the resulting size.
+    @Composable
+    protected fun BoxScope.ShowBackground(@DrawableRes drawableId: Int, alignment: Alignment = Alignment.Center) =
+        ShowBackground(drawableId = drawableId, modifier = Modifier.matchParentSize(), alignment = alignment)
+
+    /**
+     * Displays the background.
+     */
+    @Composable
+    private fun ShowBackground(@DrawableRes drawableId: Int, modifier: Modifier, alignment: Alignment = Alignment.Center) = Image(
         painter = painterResource(id = drawableId),
         contentDescription = null,
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop
+        modifier = modifier,
+        contentScale = ContentScale.Crop,
+        alignment = alignment
     )
 
     /**

@@ -354,7 +354,6 @@ class WvwActivity : BaseActivity() {
     /**
      * Displays content related to the grid data not being populated.
      */
-    @Preview
     @Composable
     private fun ShowMissingGridData() {
         Box(
@@ -684,12 +683,8 @@ class WvwActivity : BaseActivity() {
             ) {
                 val textSize = selected.textSize.sp
                 Text(text = title, fontSize = textSize, fontWeight = FontWeight.Bold)
-                matchObjective?.let { matchObjective ->
-                    matchObjective.lastFlippedAt?.let { lastFlippedAt ->
-                        // TODO kotlinx.datetime please support formatting
-                        val localDate = lastFlippedAt.toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
-                        Text(text = "Flipped at ${selected.dateFormatter.format(localDate)}", fontSize = textSize)
-                    }
+                matchObjective?.lastFlippedAt?.let { lastFlippedAt ->
+                    Text(text = "Flipped at ${lastFlippedAtFormatted(lastFlippedAt)}", fontSize = textSize)
                 }
             }
         }
@@ -881,6 +876,15 @@ class WvwActivity : BaseActivity() {
         return rememberImagePainter(request, imageLoader)
     }
 
+    /**
+     * @return the [lastFlippedAt] date/time instant to a displayable formatted string
+     */
+    private fun lastFlippedAtFormatted(lastFlippedAt: Instant): String {
+        // TODO kotlinx.datetime please support formatting
+        val localDate = lastFlippedAt.toLocalDateTime(TimeZone.currentSystemDefault()).toJavaLocalDateTime()
+        return configuration.wvw.objectives.selected.dateFormatter.format(localDate)
+    }
+
     // endregion Objective Helpers
 
     // region ShowMatch
@@ -941,8 +945,13 @@ class WvwActivity : BaseActivity() {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
+        val margin = 10.dp
         ShowSelectedObjectiveImage()
+        Spacer(modifier = Modifier.height(margin))
         ShowSelectedObjectiveCard { ShowSelectedObjectiveOverview() }
+        Spacer(modifier = Modifier.height(margin))
+        ShowSelectedObjectiveCard { ShowSelectedObjectivePoints() }
+        Spacer(modifier = Modifier.height(margin))
     }
 
     /**
@@ -977,12 +986,15 @@ class WvwActivity : BaseActivity() {
                 .padding(all = border)
         ) {
             Box {
-                ShowBackground(drawableId = R.drawable.gw2_duststorm_sky)
-
+                ShowBackground(drawableId = R.drawable.gw2_duststorm_sky, Alignment.CenterStart)
                 content()
             }
         }
     }
+
+    @Preview
+    @Composable
+    private fun PreviewShowSelectedObjectiveCard() = ShowSelectedObjectiveCard { }
 
     /**
      * Displays the detailed overview information related to the selected objective.
@@ -1009,8 +1021,30 @@ class WvwActivity : BaseActivity() {
             Text(text = sortedWorlds.joinToString(separator = "/"))
         }
 
-        // TODO owned by: [color] ([team])
-        // TODO flipped at: [date/time]
+        match.objective(objective)?.lastFlippedAt?.let { lastFlippedAt ->
+            Text(text = "Flipped at ${lastFlippedAtFormatted(lastFlippedAt)}")
+        }
+    }
+
+    /**
+     * Displays the point information related to the selected objective.
+     */
+    @Composable
+    private fun ShowSelectedObjectivePoints() = Column {
+        val objective = remember { selectedObjective }.value ?: return
+        val matchObjective = remember { match }.value.objective(objective) ?: return
+        Text(text = "Points per tick: ${matchObjective.pointsPerTick}")
+        Text(text = "Points per capture: ${matchObjective.pointsPerCapture}")
+
+        remember { upgrades }.value[objective.upgradeId]?.let { upgrade ->
+            val yaksDelivered = matchObjective.yaksDelivered
+            val ratio = upgrade.yakRatio(yaksDelivered)
+            Text(text = "Yaks: ${ratio.first}/${ratio.second}")
+
+            val level = upgrade.level(yaksDelivered)
+            val tier = upgrade.tier(yaksDelivered)?.name ?: "Not Upgraded"
+            Text(text = "Tier: $tier ($level/${upgrade.tiers.size})")
+        }
     }
 
     /**

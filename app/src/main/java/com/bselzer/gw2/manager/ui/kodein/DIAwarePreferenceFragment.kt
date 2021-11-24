@@ -7,6 +7,7 @@ import coil.ImageLoader
 import com.bselzer.gw2.manager.configuration.Configuration
 import com.bselzer.library.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
+import com.bselzer.library.gw2.v2.emblem.client.EmblemClient
 import com.bselzer.library.gw2.v2.tile.cache.instance.TileCache
 import com.bselzer.library.gw2.v2.tile.client.TileClient
 import org.kodein.di.DI
@@ -23,6 +24,7 @@ abstract class DIAwarePreferenceFragment : PreferenceFragmentCompat(), DIAware {
     val gw2Cache by instance<Gw2CacheProvider>()
     val tileClient by instance<TileClient>()
     val tileCache by instance<TileCache>()
+    val emblemClient by instance<EmblemClient>()
     val datastore by instance<DataStore<Preferences>>()
     val configuration by instance<Configuration>()
     val imageLoader by instance<ImageLoader>()

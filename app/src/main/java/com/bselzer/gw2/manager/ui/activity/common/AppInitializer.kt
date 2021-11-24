@@ -18,6 +18,7 @@ import com.bselzer.library.gw2.v2.cache.type.gw2
 import com.bselzer.library.gw2.v2.client.client.ExceptionRecoveryMode
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
 import com.bselzer.library.gw2.v2.client.client.Gw2ClientConfiguration
+import com.bselzer.library.gw2.v2.emblem.client.EmblemClient
 import com.bselzer.library.gw2.v2.model.serialization.Modules
 import com.bselzer.library.gw2.v2.tile.cache.instance.TileCache
 import com.bselzer.library.gw2.v2.tile.cache.metadata.TileMetadataExtractor
@@ -71,9 +72,14 @@ class AppInitializer : Application(), DIAware {
         val Context.DATASTORE: DataStore<Preferences> by preferencesDataStore("default")
 
         /**
-         * The name of the Ktor user agent.
+         * The name of the GW2 user agent.
          */
-        const val KTOR_USER_AGENT: String = "ktor"
+        const val GW2_USER_AGENT: String = "gw2"
+
+        /**
+         * The name of the GW2 emblem user agent.
+         */
+        const val EMBLEM_USER_AGENT: String = "gw2-emblem"
     }
 
     override fun onCreate() {
@@ -115,10 +121,10 @@ class AppInitializer : Application(), DIAware {
                         Timber.d("Intercepted ${request.url}")
 
                         val originalResponse = chain.proceed(request)
-                        val isKtorRequest = request.headers[HttpHeaders.UserAgent] == KTOR_USER_AGENT
+                        val isCacheableRequest = request.headers[HttpHeaders.UserAgent] != GW2_USER_AGENT
 
                         // Do not cache anything coming from the GW2/Tile clients. That should only be left to Kodein-DB.
-                        if (!isKtorRequest) originalResponse else originalResponse.newBuilder().header("Cache-Control", "no-store").build()
+                        if (isCacheableRequest) originalResponse else originalResponse.newBuilder().header("Cache-Control", "no-store").build()
                     } catch (exception: Exception) {
                         Timber.e(exception)
 
@@ -137,7 +143,7 @@ class AppInitializer : Application(), DIAware {
                 }
 
                 install(UserAgent) {
-                    agent = KTOR_USER_AGENT
+                    agent = GW2_USER_AGENT
                 }
 
                 HttpResponseValidator {
@@ -168,6 +174,13 @@ class AppInitializer : Application(), DIAware {
         bindSingleton { Gw2CacheProvider(instance()).apply { inject(instance()) } }
         bindSingleton { TileClient(instance()) }
         bindSingleton { TileCache(instance(), instance()) }
+        bindSingleton {
+            EmblemClient(instance<HttpClient>().config {
+                install(UserAgent) {
+                    agent = EMBLEM_USER_AGENT
+                }
+            })
+        }
     }
 
     /**

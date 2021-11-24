@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,6 +51,7 @@ import com.bselzer.library.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.library.gw2.v2.cache.instance.GuildCache
 import com.bselzer.library.gw2.v2.cache.instance.WorldCache
 import com.bselzer.library.gw2.v2.cache.instance.WvwCache
+import com.bselzer.library.gw2.v2.emblem.request.EmblemRequestOptions
 import com.bselzer.library.gw2.v2.model.continent.Continent
 import com.bselzer.library.gw2.v2.model.continent.ContinentFloor
 import com.bselzer.library.gw2.v2.model.enumeration.extension.wvw.mapType
@@ -1034,10 +1036,10 @@ class WvwActivity : BaseActivity() {
         val objective = remember { selectedObjective }.value ?: return
         val match = remember { match }.value ?: return
 
-        Text(text = "${objective.name} (${objective.type})")
+        Text(text = "${objective.name} (${objective.type})", textAlign = TextAlign.Center)
 
         objective.mapType()?.let { mapType ->
-            Text(text = mapType.userFriendly())
+            Text(text = mapType.userFriendly(), textAlign = TextAlign.Center)
         }
 
         val worlds = remember { worlds }.value
@@ -1046,11 +1048,11 @@ class WvwActivity : BaseActivity() {
             // Make sure that the main world is first.
             val mainWorld = match.mainWorld(objective)?.run { worlds.firstOrNull { world -> world.id == this }?.name }
             val sortedWorlds = if (mainWorld == null) linkedWorlds else linkedWorlds.toMutableList().apply { remove(mainWorld); add(0, mainWorld) }
-            Text(text = sortedWorlds.joinToString(separator = "/"))
+            Text(text = sortedWorlds.joinToString(separator = "/"), textAlign = TextAlign.Center)
         }
 
         match.objective(objective)?.lastFlippedAt?.let { lastFlippedAt ->
-            Text(text = "Flipped at ${lastFlippedAtFormatted(lastFlippedAt)}")
+            Text(text = "Flipped at ${lastFlippedAtFormatted(lastFlippedAt)}", textAlign = TextAlign.Center)
         }
     }
 
@@ -1085,8 +1087,8 @@ class WvwActivity : BaseActivity() {
         val claimedAt = matchObjective.claimedAt ?: return
 
         // Note that claimedBy is the id, so it is necessary to look up the name from the guild model.
-        val claimedBy = matchObjective.claimedBy ?: return
-        val name = remember { guilds }[claimedBy]?.name
+        val guildId = matchObjective.claimedBy ?: return
+        val name = remember { guilds }[guildId]?.name
         if (name.isNullOrBlank()) return
 
         // Don't show the card at all if the related data doesn't exist.
@@ -1097,11 +1099,32 @@ class WvwActivity : BaseActivity() {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 // TODO separate formatter even if its the same as last flipped for now
-                Text(text = "Claimed at ${lastFlippedAtFormatted(claimedAt)}")
-                Text(text = "Claimed by $name")
-                // TODO guild emblem
+                Text(text = "Claimed at ${lastFlippedAtFormatted(claimedAt)}", textAlign = TextAlign.Center)
+                Text(text = "Claimed by $name", textAlign = TextAlign.Center)
+                ShowGuildEmblem(guildId = guildId)
             }
         }
+    }
+
+    /**
+     * Displays the guild emblem image.
+     */
+    @Composable
+    private fun ShowGuildEmblem(guildId: String) {
+        // Using max alpha on the background because they are too transparent without it.
+        val size = 256
+        val emblemRequest = emblemClient.requestEmblem(guildId = guildId, size = size, EmblemRequestOptions.MAXIMIZE_BACKGROUND_ALPHA)
+
+        val coilRequest = ImageRequest.Builder(LocalContext.current)
+            .data(emblemClient.emblemUrl(emblemRequest))
+            .size(size = size)
+            .build()
+
+        Image(
+            painter = rememberImagePainter(coilRequest, imageLoader),
+            contentDescription = "Guild Emblem",
+            modifier = Modifier.size(size = size.toDp())
+        )
     }
 
     /**

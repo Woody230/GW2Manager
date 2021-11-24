@@ -76,6 +76,7 @@ dependencies {
     implementation("com.bselzer.library.gw2:v2-model-enumeration:$wrapper_version")
     implementation("com.bselzer.library.gw2:v2-scope:$wrapper_version")
     implementation("com.bselzer.library.gw2:v2-tile:$wrapper_version")
+    implementation("com.bselzer.library.gw2:v2-emblem:$wrapper_version")
 
     // GW2 Database
     // TODO jitpack

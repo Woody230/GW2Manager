@@ -9,8 +9,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion
-import com.bselzer.gw2.manager.ui.kodein.DIAwareActivity
+import com.bselzer.gw2.manager.ui.activity.common.BaseActivity
 import com.bselzer.library.kotlin.extension.compose.preference.safeRemember
+import com.bselzer.library.kotlin.extension.preference.safeLatest
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -53,8 +54,10 @@ enum class Theme {
  * @return the current app theme type, defaulting to [Theme.DARK]
  */
 @Composable
-fun DIAwareActivity.appThemeType(): Theme {
-    val theme by datastore.safeRemember(key = PreferenceCompanion.THEME, Json.encodeToString(Theme.DARK))
+fun BaseActivity.appThemeType(): Theme {
+    // The theme changing to what it is supposed to be is noticeable so the safeLatest() call must be made as the default to avoid this.
+    val current = datastore.safeLatest(key = PreferenceCompanion.THEME, defaultValue = Json.encodeToString(Theme.DARK))
+    val theme by datastore.safeRemember(key = PreferenceCompanion.THEME, defaultValue = current)
     return try {
         Json.decodeFromString(theme)
     } catch (exception: Exception) {
@@ -64,7 +67,7 @@ fun DIAwareActivity.appThemeType(): Theme {
 }
 
 @Composable
-fun DIAwareActivity.AppTheme(content: @Composable () -> Unit) {
+fun BaseActivity.AppTheme(content: @Composable () -> Unit) {
     val colors = if (appThemeType() == Theme.DARK) {
         DarkColorPalette
     } else {

@@ -915,7 +915,21 @@ class WvwActivity : BaseActivity() {
             ShowAbsoluteBackground()
 
             // TODO match details: scores, ppt, etc
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.verticalScroll(rememberScrollState())
+            ) {
+                ShowMatchScoreChart()
+            }
         }
+    }
+
+    /**
+     * Shows the pie chart of match scores.
+     */
+    @Composable
+    private fun ShowMatchScoreChart() = Box {
+        // TODO match score chart
     }
 
     /**

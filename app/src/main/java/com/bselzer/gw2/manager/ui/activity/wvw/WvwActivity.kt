@@ -47,6 +47,7 @@ import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity.Page.*
 import com.bselzer.gw2.manager.ui.coil.HexColorTransformation
 import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.gw2.v2.cache.instance.ContinentCache
+import com.bselzer.library.gw2.v2.cache.instance.GuildCache
 import com.bselzer.library.gw2.v2.cache.instance.WorldCache
 import com.bselzer.library.gw2.v2.cache.instance.WvwCache
 import com.bselzer.library.gw2.v2.model.continent.Continent
@@ -60,6 +61,7 @@ import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
 import com.bselzer.library.gw2.v2.model.extension.continent.continentRectangle
 import com.bselzer.library.gw2.v2.model.extension.wvw.*
+import com.bselzer.library.gw2.v2.model.guild.Guild
 import com.bselzer.library.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.library.gw2.v2.model.world.World
 import com.bselzer.library.gw2.v2.model.wvw.match.WvwMapObjective
@@ -97,6 +99,7 @@ class WvwActivity : BaseActivity() {
     private val objectives = mutableStateOf<Collection<WvwObjective>>(emptyList())
     private val upgrades = mutableStateOf(emptyMap<Int, WvwUpgrade>())
     private val guildUpgrades = mutableStateOf(emptyMap<Int, GuildUpgrade>())
+    private val guilds = mutableStateMapOf<String, Guild>()
     private val continent = mutableStateOf<Continent?>(null)
     private val floor = mutableStateOf<ContinentFloor?>(null)
     private val grid = mutableStateOf(TileGrid())
@@ -255,6 +258,20 @@ class WvwActivity : BaseActivity() {
             val tile = deferred.await()
             val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
             tileContent[tile] = bitmap
+        }
+    }
+
+    /**
+     * Refreshes the guild data for the [id].
+     */
+    private suspend fun refreshGuild(id: String?) {
+        if (id.isNullOrBlank()) {
+            // Skip refreshing bad ids.
+            return
+        }
+
+        guilds[id] = gw2Cache.instance {
+            get<GuildCache>().getGuild(id)
         }
     }
     // endregion Refresh
@@ -930,6 +947,14 @@ class WvwActivity : BaseActivity() {
             // TODO pager: main = details, left = upgrades, right = guild upgrades
             ShowDetailedSelectedObjective()
         }
+
+        remember { selectedObjective }.value?.let { objective ->
+            remember { match }.value.objective(objective)?.let { matchObjective ->
+                LaunchedEffect(matchObjective.claimedBy) {
+                    refreshGuild(matchObjective.claimedBy)
+                }
+            }
+        }
     }
 
     /**
@@ -947,6 +972,8 @@ class WvwActivity : BaseActivity() {
         ShowSelectedObjectiveCard { ShowSelectedObjectiveOverview() }
         Spacer(modifier = Modifier.height(margin))
         ShowSelectedObjectiveCard { ShowSelectedObjectivePoints() }
+        Spacer(modifier = Modifier.height(margin))
+        ShowSelectedObjectiveClaimCard()
         Spacer(modifier = Modifier.height(margin))
     }
 
@@ -1045,6 +1072,35 @@ class WvwActivity : BaseActivity() {
             val level = upgrade.level(yaksDelivered)
             val tier = upgrade.tier(yaksDelivered)?.name ?: "Not Upgraded"
             ShowCenteredRow(startValue = "Upgrade tier:", endValue = "$tier ($level/${upgrade.tiers.size})")
+        }
+    }
+
+    /**
+     * Displays the guild claim information related to the selected objective.
+     */
+    @Composable
+    private fun ShowSelectedObjectiveClaimCard() {
+        val objective = remember { selectedObjective }.value ?: return
+        val matchObjective = remember { match }.value.objective(objective) ?: return
+        val claimedAt = matchObjective.claimedAt ?: return
+
+        // Note that claimedBy is the id, so it is necessary to look up the name from the guild model.
+        val claimedBy = matchObjective.claimedBy ?: return
+        val name = remember { guilds }[claimedBy]?.name
+        if (name.isNullOrBlank()) return
+
+        // Don't show the card at all if the related data doesn't exist.
+        // Need to avoid having no children because an exception will get thrown because of recomposition trying to size nothing.
+        ShowSelectedObjectiveCard {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                // TODO separate formatter even if its the same as last flipped for now
+                Text(text = "Claimed at ${lastFlippedAtFormatted(claimedAt)}")
+                Text(text = "Claimed by $name")
+                // TODO guild emblem
+            }
         }
     }
 

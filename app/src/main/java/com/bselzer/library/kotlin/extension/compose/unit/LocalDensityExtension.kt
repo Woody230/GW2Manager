@@ -1,4 +1,4 @@
-package com.bselzer.library.kotlin.extension.compose
+package com.bselzer.library.kotlin.extension.compose.unit
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity

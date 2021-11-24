@@ -13,4 +13,9 @@ object PreferenceCompanion {
      * The token preference key.
      */
     val TOKEN = stringPreferencesKey("Token")
+
+    /**
+     * The UI theme preference key.
+     */
+    val THEME = stringPreferencesKey("Theme")
 }

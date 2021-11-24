@@ -62,6 +62,8 @@ class AppInitializer : Application(), DIAware {
         }
     }
 
+    // TODO try wrappers around cache/clients
+
     private companion object {
         /**
          * The default preferences datastore.

@@ -68,7 +68,10 @@ import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.library.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.library.gw2.v2.tile.model.response.Tile
 import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
-import com.bselzer.library.kotlin.extension.compose.toDp
+import com.bselzer.library.kotlin.extension.compose.ui.ShowAppBarTitle
+import com.bselzer.library.kotlin.extension.compose.ui.ShowBackground
+import com.bselzer.library.kotlin.extension.compose.ui.ShowCenteredRow
+import com.bselzer.library.kotlin.extension.compose.unit.toDp
 import com.bselzer.library.kotlin.extension.coroutine.cancel
 import com.bselzer.library.kotlin.extension.coroutine.repeat
 import com.bselzer.library.kotlin.extension.function.collection.addTo
@@ -172,6 +175,7 @@ class WvwActivity : BaseActivity() {
             this@WvwActivity.match.value = match
             this@WvwActivity.objectives.value = objectives
             this@WvwActivity.upgrades.value = cache.findUpgrades(objectives).associateBy { it.id }
+            this@WvwActivity.guildUpgrades.value = cache.findGuildUpgrades(objectives.mapNotNull { objective -> match.objective(objective) }).associateBy { it.id }
             refreshMapData(match)
             refreshGridData()
         }
@@ -278,7 +282,6 @@ class WvwActivity : BaseActivity() {
         Box {
             ShowBackground(drawableId = R.drawable.gw2_two_sylvari)
             ShowMenu(
-                background = R.drawable.gw2_ice,
                 stringResource(id = R.string.wvw_map) to { selectedPage.value = MAP },
                 stringResource(id = R.string.wvw_match) to { selectedPage.value = MATCH }
             )
@@ -290,7 +293,7 @@ class WvwActivity : BaseActivity() {
      */
     @Composable
     private fun ShowMenuAppBar() = TopAppBar(
-        title = { Text(text = stringResource(id = R.string.activity_wvw)) },
+        title = { ShowAppBarTitle(title = R.string.activity_wvw) },
         navigationIcon = {
             // Disable the animation to give the illusion that we haven't swapped screens.
             val intent = Intent(this@WvwActivity, MainActivity::class.java)
@@ -312,7 +315,7 @@ class WvwActivity : BaseActivity() {
         // Display the background until tiling occurs.
         val contentSize = tileContent.filterKeys { key -> key.zoom == zoom }.size
         if (grid.tiles.isEmpty() || contentSize == 0) {
-            ShowBackground(drawableId = R.drawable.gw2_ice)
+            ShowAbsoluteBackground()
         }
 
         Column {
@@ -671,13 +674,7 @@ class WvwActivity : BaseActivity() {
         Box(
             modifier = modifier.wrapContentSize()
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.gw2_ice),
-                contentDescription = null,
-                modifier = Modifier.matchParentSize(),
-                contentScale = ContentScale.Crop,
-                alignment = Alignment.Center
-            )
+            ShowRelativeBackground()
             Column(
                 modifier = Modifier.wrapContentSize()
             ) {
@@ -747,7 +744,7 @@ class WvwActivity : BaseActivity() {
     private fun ShowMapAppBar() {
         val scope = rememberCoroutineScope()
         TopAppBar(
-            title = { Text(text = stringResource(id = R.string.activity_wvw), fontWeight = FontWeight.Bold) },
+            title = { ShowAppBarTitle(title = R.string.wvw_map) },
             navigationIcon = {
                 UpNavigationIcon(Intent(this@WvwActivity, MainActivity::class.java))
             },
@@ -897,7 +894,7 @@ class WvwActivity : BaseActivity() {
         ShowMatchAppBar()
 
         Box(modifier = Modifier.fillMaxSize()) {
-            ShowBackground(drawableId = R.drawable.gw2_ice)
+            ShowAbsoluteBackground()
 
             // TODO match details: scores, ppt, etc
         }
@@ -908,7 +905,7 @@ class WvwActivity : BaseActivity() {
      */
     @Composable
     private fun ShowMatchAppBar() = TopAppBar(
-        title = { Text(text = stringResource(id = R.string.wvw_match), fontWeight = FontWeight.Bold) },
+        title = { ShowAppBarTitle(title = R.string.wvw_match) },
         navigationIcon = {
             UpNavigationIcon(Intent(this@WvwActivity, MainActivity::class.java))
         },
@@ -928,9 +925,8 @@ class WvwActivity : BaseActivity() {
         ShowObjectiveAppBar()
 
         // TODO wrapper for background
-        // TODO dark mode handling
         Box(modifier = Modifier.fillMaxSize()) {
-            ShowBackground(drawableId = R.drawable.gw2_ice)
+            ShowAbsoluteBackground()
 
             // TODO pager: main = details, left = upgrades, right = guild upgrades
             ShowDetailedSelectedObjective()
@@ -968,6 +964,8 @@ class WvwActivity : BaseActivity() {
             painter = objectiveImagePainter(objective, owner = matchObjective.owner() ?: ObjectiveOwner.NEUTRAL),
             contentDescription = objective.name,
             contentScale = ContentScale.Fit,
+
+            // TODO objective images are mostly 32x32 and look awful as result of being scaled like this
             modifier = Modifier.size(64.dp, 64.dp)
         )
     }
@@ -987,7 +985,7 @@ class WvwActivity : BaseActivity() {
                 .padding(all = border)
         ) {
             Box {
-                ShowBackground(drawableId = R.drawable.gw2_duststorm_sky, Alignment.CenterStart)
+                ShowRelativeBackground()
                 content()
             }
         }
@@ -1053,7 +1051,7 @@ class WvwActivity : BaseActivity() {
      */
     @Composable
     private fun ShowObjectiveAppBar() = TopAppBar(
-        title = { Text(text = stringResource(id = R.string.wvw_detailed_selected_objective), fontWeight = FontWeight.Bold) },
+        title = { ShowAppBarTitle(title = R.string.wvw_detailed_selected_objective) },
         navigationIcon = {
             UpNavigationIcon(Intent(this@WvwActivity, MainActivity::class.java))
         },

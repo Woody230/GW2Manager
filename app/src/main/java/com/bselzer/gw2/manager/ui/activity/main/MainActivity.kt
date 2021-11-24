@@ -9,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,6 +19,8 @@ import com.bselzer.gw2.manager.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity
 import com.bselzer.gw2.manager.ui.theme.AppTheme
+import com.bselzer.library.kotlin.extension.compose.ui.ShowAppBarTitle
+import com.bselzer.library.kotlin.extension.compose.ui.ShowBackground
 import com.bselzer.library.kotlin.extension.function.core.hasInternet
 import com.bselzer.library.kotlin.extension.preference.safeLatest
 import com.bselzer.library.kotlin.extension.preference.update
@@ -48,7 +49,7 @@ class MainActivity : BaseActivity() {
             ShowAppBar()
 
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                ShowBackground(R.drawable.gw2_two_sylvari)
+                ShowBackground(drawableId = R.drawable.gw2_two_sylvari)
 
                 if (download) {
                     ShowDownloading(description)
@@ -68,14 +69,14 @@ class MainActivity : BaseActivity() {
      */
     @Composable
     private fun ShowAppBar() = TopAppBar(
-        title = { Text(text = stringResource(id = R.string.app_name)) },
+        title = { ShowAppBarTitle(title = R.string.app_name) },
     )
 
     /**
      * Displays all of the buttons within the main menu.
      */
     @Composable
-    private fun ShowMainMenu() = ShowMenu(background = R.drawable.gw2_ice,
+    private fun ShowMainMenu() = ShowMenu(
         stringResource(id = R.string.activity_wvw) to {
             // Disable the animation to give the illusion that we haven't swapped screens.
             val intent = Intent(this@MainActivity, WvwActivity::class.java)
@@ -97,7 +98,7 @@ class MainActivity : BaseActivity() {
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
-        ShowBackground(drawableId = R.drawable.gw2_ice)
+        ShowRelativeBackground()
 
         Column(
             modifier = Modifier.wrapContentSize(),
@@ -105,7 +106,6 @@ class MainActivity : BaseActivity() {
         ) {
             Text(
                 text = description,
-                color = Color.Black,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold
             )

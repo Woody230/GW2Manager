@@ -4,16 +4,17 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.preference.EditTextPreference
-import androidx.preference.Preference
+import androidx.preference.*
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion
 import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.ui.kodein.DIAwarePreferenceFragment
+import com.bselzer.gw2.manager.ui.theme.Theme
 import com.bselzer.library.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.library.gw2.v2.model.enumeration.extension.account.permissions
 import com.bselzer.library.gw2.v2.scope.core.Permission
 import com.bselzer.library.kotlin.extension.coroutine.showToast
+import com.bselzer.library.kotlin.extension.function.objects.userFriendly
 import com.bselzer.library.kotlin.extension.preference.*
 import io.ktor.client.features.*
 import io.ktor.client.statement.*
@@ -21,6 +22,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import timber.log.Timber
 import kotlin.time.ExperimentalTime
 
@@ -29,6 +32,7 @@ class CommonSettingsFragment : DIAwarePreferenceFragment() {
         preferenceManager.preferenceDataStore = DataStoreWrapper(datastore)
         preferenceScreen = preferenceManager.createPreferenceScreen(context).apply {
             tokenPreference(datastore).addTo(this)
+            themePreference(datastore).addTo(this)
         }
     }
 
@@ -91,5 +95,18 @@ class CommonSettingsFragment : DIAwarePreferenceFragment() {
         } catch (ex: Exception) {
             Timber.e("Unable to initialize preferences.", ex)
         }
+    }
+
+    /**
+     * Creates the UI theme preference.
+     */
+    private fun themePreference(datastore: DataStore<Preferences>) = ListPreference(context).apply {
+        key = PreferenceCompanion.THEME.name
+        summaryProvider = ListPreference.SimpleSummaryProvider.getInstance()
+        title = "Theme"
+        // TODO icon/dialog icon
+        dialogTitle = "Theme"
+        entries = Theme.values().map { theme -> theme.userFriendly() }.toTypedArray()
+        entryValues = Theme.values().map { theme -> Json.encodeToString(theme) }.toTypedArray()
     }
 }

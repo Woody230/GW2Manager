@@ -70,7 +70,6 @@ import com.bselzer.library.gw2.v2.tile.model.response.Tile
 import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.library.kotlin.extension.compose.ui.ShowAppBarTitle
 import com.bselzer.library.kotlin.extension.compose.ui.ShowBackground
-import com.bselzer.library.kotlin.extension.compose.ui.ShowCenteredRow
 import com.bselzer.library.kotlin.extension.compose.unit.toDp
 import com.bselzer.library.kotlin.extension.coroutine.cancel
 import com.bselzer.library.kotlin.extension.coroutine.repeat
@@ -999,7 +998,10 @@ class WvwActivity : BaseActivity() {
      * Displays the detailed overview information related to the selected objective.
      */
     @Composable
-    private fun ShowSelectedObjectiveOverview() = Column {
+    private fun ShowSelectedObjectiveOverview() = Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth()
+    ) {
         // TODO images alongside the text?
 
         val objective = remember { selectedObjective }.value ?: return

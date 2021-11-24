@@ -4,10 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +50,10 @@ abstract class BaseActivity : DIAwareActivity() {
 
     @Composable
     private fun absoluteBackgroundDrawableId() = R.drawable.gw2_two_sylvari
+
+    @Composable
+    protected fun ShowCenteredRow(startValue: String, endValue: String): Unit =
+        com.bselzer.library.kotlin.extension.compose.ui.ShowCenteredRow(startValue = startValue, endValue = endValue, startTextStyle = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold))
 
     /**
      * Displays a card for each of the [items].

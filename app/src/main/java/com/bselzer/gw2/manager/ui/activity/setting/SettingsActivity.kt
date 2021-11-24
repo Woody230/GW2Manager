@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.ui.activity.setting
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.res.stringResource
 import com.bselzer.gw2.manager.R
 import com.bselzer.gw2.manager.ui.activity.common.BaseActivity
@@ -19,8 +20,8 @@ class SettingsActivity : BaseActivity() {
                 it.setDisplayHomeAsUpEnabled(true)
             }
             AppTheme {
-                // TODO Since the preference components are not composable, use the dark theme drawable id.
-                ShowBackground(drawableId = R.drawable.gw2_bloodstone_night)
+                // TODO Since the preference components are not composable, determine based on system light/dark.
+                ShowBackground(drawableId = if (isSystemInDarkTheme()) R.drawable.gw2_bloodstone_night else R.drawable.gw2_ice)
             }
         }
         supportFragmentManager.beginTransaction().replace(android.R.id.content, SettingsFragment()).commit()

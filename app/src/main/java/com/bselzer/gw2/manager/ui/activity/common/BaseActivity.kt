@@ -25,7 +25,7 @@ abstract class BaseActivity : DIAwareActivity() {
      * Displays an image suitable for a relative background based on the current theme. This is typically used for backgrounds that are covered by text.
      */
     @Composable
-    protected fun ShowRelativeBackground() = ShowBackground(drawableId = relativeBackgroundDrawableId())
+    protected fun ShowRelativeBackground() = ShowBackground(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment())
 
     /**
      * Displays an image suitable for the absolute background based on the current theme. This is typically used for backgrounds that are not covered by text.
@@ -37,7 +37,7 @@ abstract class BaseActivity : DIAwareActivity() {
      * Displays an image suitable for a relative background based on the current theme. This is typically used for backgrounds that are covered by text.
      */
     @Composable
-    protected fun BoxScope.ShowRelativeBackground() = ShowBackground(drawableId = relativeBackgroundDrawableId())
+    protected fun BoxScope.ShowRelativeBackground() = ShowBackground(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment())
 
     /**
      * Displays an image suitable for the absolute background based on the current theme. This is typically used for backgrounds that are not covered by text.
@@ -47,6 +47,9 @@ abstract class BaseActivity : DIAwareActivity() {
 
     @Composable
     private fun relativeBackgroundDrawableId() = if (appThemeType() == Theme.DARK) R.drawable.gw2_bloodstone_night else R.drawable.gw2_ice
+
+    @Composable
+    private fun relativeBackgroundAlignment() = if (appThemeType() == Theme.DARK) Alignment.TopCenter else Alignment.Center
 
     @Composable
     private fun absoluteBackgroundDrawableId() = R.drawable.gw2_two_sylvari

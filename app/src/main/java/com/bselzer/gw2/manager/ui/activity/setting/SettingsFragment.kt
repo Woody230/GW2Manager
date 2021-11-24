@@ -22,7 +22,6 @@ class SettingsFragment : DIAwarePreferenceFragment() {
     private fun commonScreen() = preferenceManager.createPreferenceScreen(context).apply {
         fragment = CommonSettingsFragment::class.qualifiedName
         title = "Common"
-        summary = "Token"
 
         // TODO better icon
         setIcon(R.drawable.gw2_black_lion_key)

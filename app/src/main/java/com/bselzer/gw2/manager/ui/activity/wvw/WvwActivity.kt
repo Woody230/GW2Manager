@@ -932,41 +932,43 @@ class WvwActivity : BaseActivity() {
     private fun ShowMatchPage() = Column(modifier = Modifier.fillMaxSize()) {
         ShowMatchAppBar()
 
-        // TODO if too early (before match retrieval?) exception thrown due to trying to recompose an empty region
+        // TODO pager: main = total, then for each map (will need map name title on each page)
         Box(modifier = Modifier.fillMaxSize()) {
             ShowAbsoluteBackground()
 
-            // TODO match details: scores, ppt, etc
+            val match = remember { match }.value
+            if (match == null) {
+                // Need to avoid no children causing an exception during recomposition.
+                // TODO wrapper for background: include this spacer in case of no children
+                Spacer(modifier = Modifier.size(0.dp))
+                return
+            }
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                if (configuration.wvw.chart.enabled) {
-                    // TODO victory points, total score
-                    ShowMatchPointsPerTickChart()
-                }
+                val spacing = 5.dp
+                ShowMatchChart(match.pointsPerTick(), "Points Per Tick")
+                Spacer(modifier = Modifier.height(spacing))
+                ShowMatchChart(match.victoryPoints(), "Victory Points")
+                Spacer(modifier = Modifier.height(spacing))
+                ShowMatchChart(match.scores(), "Total Score")
+                Spacer(modifier = Modifier.height(spacing))
+                ShowMatchChart(match.kills(), "Total Kills")
+                Spacer(modifier = Modifier.height(spacing))
+                ShowMatchChart(match.deaths(), "Total Deaths")
             }
         }
-    }
-
-    /**
-     * Displays the pie chart of potential PPT.
-     */
-    @Composable
-    private fun ShowMatchPointsPerTickChart() {
-        val match = remember { match }.value ?: return
-        val ppt = match.potentialPointsPerTick()
-        Timber.d("${match.id} points per tick: $ppt")
-        ShowMatchChart(ppt, "Points Per Tick")
     }
 
     /**
      * Displays a pie chart for the [ObjectiveOwner.BLUE], [ObjectiveOwner.RED], and [ObjectiveOwner.GREEN].
      */
     @Composable
-    private fun ShowMatchChart(data: Map<ObjectiveOwner?, Int>, title: String) {
+    private fun ShowMatchChart(data: Map<out ObjectiveOwner?, Int>, title: String) {
         val chart = configuration.wvw.chart
         val owners = listOf(ObjectiveOwner.BLUE, ObjectiveOwner.GREEN, ObjectiveOwner.RED)
         val total = data.filterKeys { owner -> owners.contains(owner) }.values.sum().toFloat()
@@ -1018,7 +1020,7 @@ class WvwActivity : BaseActivity() {
     /**
      * @return the angle associated with the [owner]'s ratio of the [total]
      */
-    private fun Map<ObjectiveOwner?, Int>.calculateSliceAngle(total: Float, owner: ObjectiveOwner): Float {
+    private fun Map<out ObjectiveOwner?, Int>.calculateSliceAngle(total: Float, owner: ObjectiveOwner): Float {
         // Using float for total to avoid int division.
         return if (total <= 0) 120f else (this[owner] ?: 0) / total * 360f
     }
@@ -1120,7 +1122,6 @@ class WvwActivity : BaseActivity() {
     ) {
         ShowObjectiveAppBar()
 
-        // TODO wrapper for background
         Box(modifier = Modifier.fillMaxSize()) {
             ShowAbsoluteBackground()
 

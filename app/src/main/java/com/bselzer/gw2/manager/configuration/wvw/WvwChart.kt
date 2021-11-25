@@ -6,9 +6,6 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
 class WvwChart(
-    @XmlSerialName(value = "enabled", namespace = "", prefix = "")
-    val enabled: Boolean = false,
-
     @XmlSerialName(value = "background", namespace = "", prefix = "")
     val backgroundLink: String = "",
 

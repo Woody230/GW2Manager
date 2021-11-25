@@ -119,6 +119,14 @@ class WvwActivity : BaseActivity() {
         DETAILED_SELECTED_OBJECTIVE
     }
 
+    /**
+     * The number of tiles with content and the total number of tiles for the current zoom level.
+     */
+    private data class TileCount(val contentSize: Int, val gridSize: Int) {
+        val isEmpty: Boolean = gridSize == 0 || contentSize == 0
+        val hasAllContent: Boolean = contentSize >= gridSize
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         zoom.value = configuration.wvw.map.zoom.default
@@ -132,7 +140,6 @@ class WvwActivity : BaseActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val interval = datastore.safeLatest(REFRESH_INTERVAL, 5)
             repeat(Duration.minutes(interval)) {
-                // TODO how to handle user not being on the map page
                 refreshData()
             }
         }.addTo(jobs)
@@ -167,10 +174,6 @@ class WvwActivity : BaseActivity() {
             if (selectedWorld == null) {
                 // Selection is required so do not allow cancellation.
                 showSelectWorldDialog(cancellable = false)
-
-                // Use the config ids to try to populate the map/grid data before the selection is made.
-                refreshMapData()
-                refreshGridData()
                 return@lockedInstance
             }
 
@@ -183,8 +186,12 @@ class WvwActivity : BaseActivity() {
             this@WvwActivity.objectives.value = objectives
             this@WvwActivity.upgrades.value = cache.findUpgrades(objectives).associateBy { it.id }
             this@WvwActivity.guildUpgrades.value = cache.findGuildUpgrades(objectives.mapNotNull { objective -> match.objective(objective) }).associateBy { it.id }
-            refreshMapData(match)
-            refreshGridData()
+
+            // Map refresh is comparatively expensive so only do it when the user is on its page.
+            if (selectedPage.value == MAP) {
+                refreshMapData(match)
+                refreshGridData()
+            }
         }
     }
 
@@ -192,11 +199,6 @@ class WvwActivity : BaseActivity() {
      * Refreshes the WvW map data using the configuration ids.
      */
     private suspend fun refreshMapData() = gw2Cache.instance {
-        // This data should not be changing so only initialize it.
-        if (continent.value != null) {
-            return@instance
-        }
-
         Timber.d("Refreshing WvW map data.")
 
         // Assume that all WvW maps are within the same continent and floor.
@@ -210,11 +212,6 @@ class WvwActivity : BaseActivity() {
      * Refreshes the WvW map data using a map found from the match.
      */
     private suspend fun refreshMapData(match: WvwMatch) = gw2Cache.instance {
-        // This data should not be changing so only initialize it.
-        if (continent.value != null) {
-            return@instance
-        }
-
         Timber.d("Refreshing WvW map data.")
 
         // Assume that all WvW maps are within the same continent and floor.
@@ -285,11 +282,20 @@ class WvwActivity : BaseActivity() {
 
     @Composable
     private fun Content() = AppTheme {
-        when (rememberSaveable { selectedPage }.value) {
+        val selectedPage = rememberSaveable { selectedPage }.value
+        when (selectedPage) {
             MAP -> ShowMapPage()
             MATCH -> ShowMatchPage()
             DETAILED_SELECTED_OBJECTIVE -> ShowSelectedObjectivePage()
             null -> ShowMenu()
+        }
+
+        // Map refresh is comparatively expensive so only do it when the user is on its page.
+        LaunchedEffect(selectedPage) {
+            if (selectedPage == MAP) {
+                refreshMapData()
+                refreshGridData()
+            }
         }
     }
 
@@ -329,13 +335,9 @@ class WvwActivity : BaseActivity() {
 
     @Composable
     private fun ShowMapPage() {
-        val grid = remember { grid }.value
-        val tileContent = remember { tileContent }
-        val zoom by zoom.collectAsState()
-
         // Display the background until tiling occurs.
-        val contentSize = tileContent.filterKeys { key -> key.zoom == zoom }.size
-        if (grid.tiles.isEmpty() || contentSize == 0) {
+        val tileCount = tileCount()
+        if (tileCount.isEmpty) {
             ShowAbsoluteBackground()
         }
 
@@ -370,7 +372,7 @@ class WvwActivity : BaseActivity() {
         }
 
         // Display a progress bar until tiling is finished.
-        if (grid.tiles.isEmpty() || grid.tiles.size < contentSize) {
+        if (tileCount.isEmpty || !tileCount.hasAllContent) {
             ShowMissingGridData()
         }
     }
@@ -404,7 +406,7 @@ class WvwActivity : BaseActivity() {
     private fun ShowGridData(modifier: Modifier) {
         val horizontal = rememberScrollState()
         val vertical = rememberScrollState()
-
+        val tileCount = tileCount()
         Box(
             modifier = modifier
                 .fillMaxSize()
@@ -414,12 +416,12 @@ class WvwActivity : BaseActivity() {
             ShowMap()
             ShowObjectives()
 
-            if (configuration.wvw.bloodlust.enabled) {
+            if (configuration.wvw.bloodlust.enabled && tileCount.hasAllContent) {
                 ShowBloodlust()
             }
         }
 
-        if (configuration.wvw.map.scroll.enabled) {
+        if (configuration.wvw.map.scroll.enabled && !tileCount.isEmpty) {
             InitialMapScroll(horizontal, vertical)
         }
     }
@@ -436,7 +438,7 @@ class WvwActivity : BaseActivity() {
         val floor = remember { floor }.value
         val continent = remember { continent }.value
         val grid = remember { grid }.value
-        if (continent != null && floor != null && grid.tiles.isNotEmpty()) {
+        if (continent != null && floor != null) {
             // Get the WvW region. It should be the only one that exists within this floor.
             val region = floor.regions.values.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
 
@@ -819,6 +821,18 @@ class WvwActivity : BaseActivity() {
         val min = configuration.wvw.map.zoom.min
         val max = configuration.wvw.map.zoom.max
         this.zoom.value = max(min, min(max, currentZoom + increment))
+    }
+
+    /**
+     * @return the number of tiles with content mapped to the total number of tiles for the current zoom level
+     */
+    @Composable
+    private fun tileCount(): TileCount {
+        val grid = remember { grid }.value
+        val tileContent = remember { tileContent }
+        val zoom by zoom.collectAsState()
+        val contentSize = tileContent.filterKeys { key -> key.zoom == zoom }.size
+        return TileCount(contentSize = contentSize, gridSize = grid.tiles.size)
     }
 
     // endregion ShowMap

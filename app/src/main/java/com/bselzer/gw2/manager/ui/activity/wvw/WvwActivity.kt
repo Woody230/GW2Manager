@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.rememberTransformableState
@@ -163,7 +164,7 @@ class WvwActivity : BaseActivity() {
     /**
      * Refreshes the WvW data.
      */
-    private suspend fun refreshData() {
+    private suspend fun refreshData() = withContext(Dispatchers.IO) {
         Timber.d("Refreshing WvW data.")
 
         val selectedWorld = datastore.nullLatest(SELECTED_WORLD)
@@ -198,78 +199,84 @@ class WvwActivity : BaseActivity() {
     /**
      * Refreshes the WvW map data using the configuration ids.
      */
-    private suspend fun refreshMapData() = gw2Cache.instance {
-        Timber.d("Refreshing WvW map data.")
+    private suspend fun refreshMapData() = withContext(Dispatchers.IO) {
+        gw2Cache.instance {
+            Timber.d("Refreshing WvW map data.")
 
-        // Assume that all WvW maps are within the same continent and floor.
-        val cache = get<ContinentCache>()
-        val continent = cache.getContinent(configuration.wvw.map.continentId)
-        this@WvwActivity.floor.value = cache.getContinentFloor(configuration.wvw.map.continentId, configuration.wvw.map.floorId)
-        this@WvwActivity.continent.value = continent
+            // Assume that all WvW maps are within the same continent and floor.
+            val cache = get<ContinentCache>()
+            val continent = cache.getContinent(configuration.wvw.map.continentId)
+            this@WvwActivity.floor.value = cache.getContinentFloor(configuration.wvw.map.continentId, configuration.wvw.map.floorId)
+            this@WvwActivity.continent.value = continent
+        }
     }
 
     /**
      * Refreshes the WvW map data using a map found from the match.
      */
-    private suspend fun refreshMapData(match: WvwMatch) = gw2Cache.instance {
-        Timber.d("Refreshing WvW map data.")
+    private suspend fun refreshMapData(match: WvwMatch) = withContext(Dispatchers.IO) {
+        gw2Cache.instance {
+            Timber.d("Refreshing WvW map data.")
 
-        // Assume that all WvW maps are within the same continent and floor.
-        val mapId = match.maps.firstOrNull()?.id ?: return@instance
-        val cache = get<ContinentCache>()
-        val map = cache.getMap(mapId)
-        val continent = cache.getContinent(map)
-        this@WvwActivity.floor.value = cache.getContinentFloor(map)
-        this@WvwActivity.continent.value = continent
+            // Assume that all WvW maps are within the same continent and floor.
+            val mapId = match.maps.firstOrNull()?.id ?: return@instance
+            val cache = get<ContinentCache>()
+            val map = cache.getMap(mapId)
+            val continent = cache.getContinent(map)
+            this@WvwActivity.floor.value = cache.getContinentFloor(map)
+            this@WvwActivity.continent.value = continent
+        }
     }
 
     /**
      * Refreshes the WvW map tiling grid.
      */
-    private suspend fun refreshGridData() = gw2Cache.instance {
-        val continent = continent.value
-        val floor = floor.value
+    private suspend fun refreshGridData() = withContext(Dispatchers.IO) {
+        gw2Cache.instance {
+            val continent = continent.value
+            val floor = floor.value
 
-        // Verify that the related data exists.
-        if (continent == null || floor == null) {
-            return@instance
-        }
-
-        val zoom = zoom.value
-        Timber.d("Refreshing WvW tile grid data for zoom level $zoom.")
-
-        val gridRequest = tileClient.requestGrid(continent, floor, zoom).let { request ->
-            if (configuration.wvw.map.isBounded) {
-                // Cut off unneeded tiles.
-                val bound = configuration.wvw.map.levels.firstOrNull { level -> level.zoom == zoom }?.bound
-                if (bound != null) {
-                    return@let request.bounded(startX = bound.startX, startY = bound.startY, endX = bound.endX, endY = bound.endY)
-                } else {
-                    Timber.w("Unable to create a bounded request for zoom level $zoom.")
-                }
+            // Verify that the related data exists.
+            if (continent == null || floor == null) {
+                return@instance
             }
 
-            return@let request
-        }
+            val zoom = zoom.value
+            Timber.d("Refreshing WvW tile grid data for zoom level $zoom.")
 
-        // Set up the grid without content in the tiles.
-        grid.value = TileGrid(gridRequest, gridRequest.tileRequests.map { tileRequest -> Tile(tileRequest) })
+            val gridRequest = tileClient.requestGrid(continent, floor, zoom).let { request ->
+                if (configuration.wvw.map.isBounded) {
+                    // Cut off unneeded tiles.
+                    val bound = configuration.wvw.map.levels.firstOrNull { level -> level.zoom == zoom }?.bound
+                    if (bound != null) {
+                        return@let request.bounded(startX = bound.startX, startY = bound.startY, endX = bound.endX, endY = bound.endY)
+                    } else {
+                        Timber.w("Unable to create a bounded request for zoom level $zoom.")
+                    }
+                }
 
-        // Defer the content for parallelism and populate it when its ready.
-        for (deferred in tileCache.findTilesAsync(gridRequest.tileRequests)) {
-            val tile = deferred.await()
-            val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
-            tileContent[tile] = bitmap
+                return@let request
+            }
+
+            // Set up the grid without content in the tiles.
+            grid.value = TileGrid(gridRequest, gridRequest.tileRequests.map { tileRequest -> Tile(tileRequest) })
+
+            // Defer the content for parallelism and populate it when its ready.
+            for (deferred in tileCache.findTilesAsync(gridRequest.tileRequests)) {
+                val tile = deferred.await()
+                val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
+                tileContent[tile] = bitmap
+            }
         }
     }
 
     /**
      * Refreshes the guild data for the [id].
      */
-    private suspend fun refreshGuild(id: String?) {
+    private suspend fun refreshGuild(id: String?) = withContext(Dispatchers.IO) {
         if (id.isNullOrBlank()) {
             // Skip refreshing bad ids.
-            return
+            return@withContext
         }
 
         guilds[id] = gw2Cache.instance {
@@ -321,12 +328,7 @@ class WvwActivity : BaseActivity() {
     @Composable
     private fun ShowMenuAppBar() = TopAppBar(
         title = { ShowAppBarTitle(title = R.string.activity_wvw) },
-        navigationIcon = {
-            // Disable the animation to give the illusion that we haven't swapped screens.
-            val intent = Intent(this@WvwActivity, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
-            UpNavigationIcon(intent)
-        },
+        navigationIcon = upNavigationIcon { flags = Intent.FLAG_ACTIVITY_NO_ANIMATION }
     )
 
     // endregion ShowMenu
@@ -767,50 +769,34 @@ class WvwActivity : BaseActivity() {
      * Displays the app bar for the [Page.MAP].
      */
     @Composable
-    private fun ShowMapAppBar() {
-        val scope = rememberCoroutineScope()
-        TopAppBar(
-            title = { ShowAppBarTitle(title = R.string.wvw_map) },
-            navigationIcon = {
-                UpNavigationIcon(Intent(this@WvwActivity, MainActivity::class.java))
-            },
-            actions = {
-                IconButton(onClick = { scope.launch { refreshData() } }) {
-                    Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
+    private fun ShowMapAppBar() = ShowContentTopAppBar(title = R.string.wvw_map) {
+        Box {
+            var isExpanded by remember { mutableStateOf(false) }
+            IconButton(onClick = { isExpanded = true }) {
+                Icon(Icons.Filled.MoreVert, contentDescription = "More Options")
+            }
+
+            DropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
+                // Only enable zoom in/zoom out buttons when they can be used.
+                val zoom = remember { zoom }.value
+                val min = configuration.wvw.map.zoom.min
+                val max = configuration.wvw.map.zoom.max
+
+                IconButton(enabled = zoom < max, onClick = {
+                    changeZoom(increment = 1)
+                    isExpanded = false
+                }) {
+                    Icon(painter = painterResource(id = R.drawable.ic_zoom_in), contentDescription = "Zoom In")
                 }
 
-                Box {
-                    var isExpanded by remember { mutableStateOf(false) }
-                    IconButton(onClick = { isExpanded = true }) {
-                        Icon(Icons.Filled.MoreVert, contentDescription = "More Options")
-                    }
-
-                    DropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
-                        // Only enable zoom in/zoom out buttons when they can be used.
-                        val zoom = remember { zoom }.value
-                        val min = configuration.wvw.map.zoom.min
-                        val max = configuration.wvw.map.zoom.max
-
-                        IconButton(enabled = zoom < max, onClick = {
-                            changeZoom(increment = 1)
-                            isExpanded = false
-                        }) {
-                            Icon(painter = painterResource(id = R.drawable.ic_zoom_in), contentDescription = "Zoom In")
-                        }
-
-                        IconButton(enabled = zoom > min, onClick = {
-                            changeZoom(increment = -1)
-                            isExpanded = false
-                        }) {
-                            Icon(painter = painterResource(id = R.drawable.ic_zoom_out), contentDescription = "Zoom Out")
-                        }
-                        IconButton(onClick = { showSelectWorldDialog() }) {
-                            Icon(Icons.Filled.List, contentDescription = "World")
-                        }
-                    }
+                IconButton(enabled = zoom > min, onClick = {
+                    changeZoom(increment = -1)
+                    isExpanded = false
+                }) {
+                    Icon(painter = painterResource(id = R.drawable.ic_zoom_out), contentDescription = "Zoom Out")
                 }
             }
-        )
+        }
     }
 
     /**
@@ -944,7 +930,7 @@ class WvwActivity : BaseActivity() {
      */
     @Composable
     private fun ShowMatchPage() = Column(modifier = Modifier.fillMaxSize()) {
-        ShowMatchAppBar()
+        ShowContentTopAppBar(title = R.string.wvw_match)
 
         // TODO pager: main = total, then for each map (will need map name title on each page)
         Box(modifier = Modifier.fillMaxSize()) {
@@ -1112,17 +1098,6 @@ class WvwActivity : BaseActivity() {
         )
     }
 
-    /**
-     * Displays the match app bar.
-     */
-    @Composable
-    private fun ShowMatchAppBar() = TopAppBar(
-        title = { ShowAppBarTitle(title = R.string.wvw_match) },
-        navigationIcon = {
-            UpNavigationIcon(Intent(this@WvwActivity, MainActivity::class.java))
-        },
-    )
-
     // endregion ShowMatch
 
     // region ShowDetailedSelectedObjective
@@ -1134,7 +1109,7 @@ class WvwActivity : BaseActivity() {
     private fun ShowSelectedObjectivePage() = Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        ShowObjectiveAppBar()
+        ShowContentTopAppBar(title = R.string.wvw_detailed_selected_objective)
 
         Box(modifier = Modifier.fillMaxSize()) {
             ShowAbsoluteBackground()
@@ -1314,20 +1289,64 @@ class WvwActivity : BaseActivity() {
         )
     }
 
-    /**
-     * Displays the detailed selected objective app bar.
-     */
-    @Composable
-    private fun ShowObjectiveAppBar() = TopAppBar(
-        title = { ShowAppBarTitle(title = R.string.wvw_detailed_selected_objective) },
-        navigationIcon = {
-            UpNavigationIcon(Intent(this@WvwActivity, MainActivity::class.java))
-        },
-    )
-
     // endregion ShowDetailedSelectedObjective
 
     // region ShowCommon
+
+    /**
+     * Displays the top app bar used by the content pages.
+     *
+     * @param title the string resource id of the title
+     * @param actions the supplementary actions
+     */
+    @Composable
+    private fun ShowContentTopAppBar(@StringRes title: Int, actions: @Composable RowScope.() -> Unit = {}) = TopAppBar(
+        title = { ShowAppBarTitle(title = title) },
+        navigationIcon = upNavigationIcon(),
+        actions = appBarActions(actions)
+    )
+
+    /**
+     * Displays the up navigation icon that returns to the main activity.
+     *
+     * @param block the intent block
+     */
+    @Composable
+    private fun upNavigationIcon(block: Intent.() -> Unit = {}): @Composable () -> Unit = {
+        val intent = Intent(this@WvwActivity, MainActivity::class.java)
+        block(intent)
+        UpNavigationIcon(intent)
+    }
+
+    /**
+     * Displays the common [ShowContentTopAppBar] icons for this activity.
+     */
+    @Composable
+    private fun appBarActions(content: @Composable RowScope.() -> Unit = {}): @Composable RowScope.() -> Unit = {
+        RefreshIcon()
+        WorldIcon()
+        content()
+    }
+
+    /**
+     * Displays the icon that refreshes data.
+     */
+    @Composable
+    private fun RefreshIcon() {
+        val scope = rememberCoroutineScope()
+        IconButton(onClick = { scope.launch { refreshData() } }) {
+            Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
+        }
+    }
+
+    /**
+     * Displays the icon for selecting another world.
+     */
+    @Composable
+    private fun WorldIcon() = IconButton(onClick = { showSelectWorldDialog() }) {
+        Icon(Icons.Filled.List, contentDescription = "World")
+    }
+
     /**
      * Create a dialog for the user to select the world.
      */

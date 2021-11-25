@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -284,7 +285,7 @@ class WvwActivity : BaseActivity() {
 
     @Composable
     private fun Content() = AppTheme {
-        when (remember { selectedPage }.value) {
+        when (rememberSaveable { selectedPage }.value) {
             MAP -> ShowMapPage()
             MATCH -> ShowMatchPage()
             DETAILED_SELECTED_OBJECTIVE -> ShowSelectedObjectivePage()

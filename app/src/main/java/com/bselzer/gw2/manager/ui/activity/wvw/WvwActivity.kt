@@ -20,6 +20,8 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -30,7 +32,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -72,6 +73,7 @@ import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.library.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.library.gw2.v2.tile.model.response.Tile
 import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
+import com.bselzer.library.kotlin.extension.compose.ui.ArcShape
 import com.bselzer.library.kotlin.extension.compose.ui.ShowAppBarTitle
 import com.bselzer.library.kotlin.extension.compose.ui.ShowBackground
 import com.bselzer.library.kotlin.extension.compose.unit.toDp
@@ -917,19 +919,121 @@ class WvwActivity : BaseActivity() {
             // TODO match details: scores, ppt, etc
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.verticalScroll(rememberScrollState())
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
             ) {
-                ShowMatchScoreChart()
+                if (configuration.wvw.chart.enabled) {
+                    // TODO victory points, total score
+                    ShowMatchPointsPerTickChart()
+                }
             }
         }
     }
 
     /**
-     * Shows the pie chart of match scores.
+     * Displays the pie chart of potential PPT.
      */
     @Composable
-    private fun ShowMatchScoreChart() = Box {
-        // TODO match score chart
+    private fun ShowMatchPointsPerTickChart() = Box {
+        val scoreChart = configuration.wvw.chart
+        val match = remember { match }.value ?: return
+        val ppt = match.potentialPointsPerTick()
+        Timber.d("${match.id} points per tick: $ppt")
+
+        ShowMatchChartBackground()
+
+        val blueAngle = ppt.calculateSliceAngle(ObjectiveOwner.BLUE)
+        val redAngle = ppt.calculateSliceAngle(ObjectiveOwner.RED)
+        ShowMatchChartSlice(link = scoreChart.blueLink, startAngle = 0f, endAngle = blueAngle)
+        ShowMatchChartSlice(link = scoreChart.redLink, startAngle = blueAngle, endAngle = blueAngle + redAngle)
+        ShowMatchChartSlice(link = scoreChart.greenLink, startAngle = blueAngle + redAngle, endAngle = 360f)
+
+        ShowMatchChartDivider(angle = 0f)
+        ShowMatchChartDivider(angle = blueAngle)
+        ShowMatchChartDivider(angle = blueAngle + redAngle)
+    }
+
+    /**
+     * @return the angle associated with the owner's value in this map
+     */
+    private fun Map<ObjectiveOwner?, Int>.calculateSliceAngle(owner: ObjectiveOwner): Float {
+        // Need to avoid int division.
+        val total = values.sum().toFloat()
+        return if (total <= 0) 120f else (this[owner] ?: 0) / total * 360f
+    }
+
+    /**
+     * Displays the pie chart background.
+     */
+    @Composable
+    private fun ShowMatchChartBackground() {
+        val size = configuration.wvw.chart.size
+        val shadow = ImageRequest.Builder(LocalContext.current)
+            .data(configuration.wvw.chart.backgroundLink)
+            .size(size.width, size.height)
+            .build()
+
+        Image(
+            painter = rememberImagePainter(request = shadow),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.size(size.width.toDp(), size.height.toDp())
+        )
+
+        val neutral = ImageRequest.Builder(LocalContext.current)
+            .data(configuration.wvw.chart.neutralLink)
+            .size(size.width, size.height)
+            .build()
+
+        Image(
+            painter = rememberImagePainter(request = neutral),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier.size(size.width.toDp(), size.height.toDp())
+        )
+    }
+
+    /**
+     * Displays a slice of the pie chart.
+     */
+    @Composable
+    private fun ShowMatchChartSlice(link: String, startAngle: Float, endAngle: Float) {
+        val size = configuration.wvw.chart.size
+        val request = ImageRequest.Builder(LocalContext.current)
+            .data(link)
+            .size(size.width, size.height)
+            .build()
+
+        Image(
+            painter = rememberImagePainter(request = request),
+            contentDescription = "Chart Slice",
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .size(size.width.toDp(), size.height.toDp())
+                .clip(ArcShape(startAngle, endAngle))
+        )
+    }
+
+    /**
+     * Displays a divider along the given [angle] to split pie chart slices.
+     */
+    @Composable
+    private fun ShowMatchChartDivider(angle: Float) {
+        val size = configuration.wvw.chart.size
+        val request = ImageRequest.Builder(LocalContext.current)
+            .data(configuration.wvw.chart.dividerLink)
+            .size(size.width, size.height)
+            .build()
+
+        Image(
+            painter = rememberImagePainter(request = request),
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            modifier = Modifier
+                .size(size.width.toDp(), size.height.toDp())
+                .rotate(angle)
+        )
     }
 
     /**
@@ -1032,10 +1136,6 @@ class WvwActivity : BaseActivity() {
             }
         }
     }
-
-    @Preview
-    @Composable
-    private fun PreviewShowSelectedObjectiveCard() = ShowSelectedObjectiveCard { }
 
     /**
      * Displays the detailed overview information related to the selected objective.

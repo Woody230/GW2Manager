@@ -12,5 +12,8 @@ class Wvw(
     val map: WvwMap = WvwMap(),
 
     @XmlSerialName(value = "Bloodlust", namespace = "", prefix = "")
-    val bloodlust: WvwBloodlust = WvwBloodlust()
+    val bloodlust: WvwBloodlust = WvwBloodlust(),
+
+    @XmlSerialName(value = "Chart", namespace = "", prefix = "")
+    val chart: WvwChart = WvwChart()
 )

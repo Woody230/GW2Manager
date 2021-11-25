@@ -657,7 +657,10 @@ class WvwActivity : BaseActivity() {
     @Composable
     private fun ShowImmunityTimer(immunity: Duration, flippedAt: Instant, modifier: Modifier) {
         val remaining = immunity - Clock.System.now().minus(flippedAt)
-        if (remaining.isNegative()) return
+
+        // If the time has finished or the current time is incorrectly set and thus causing an inflated remaining time, do not display it.
+        // For the latter case, while the timers shown will be incorrect they will at the very least not be inflated.
+        if (remaining.isNegative() || remaining > immunity) return
 
         var countdown by remember { mutableStateOf(Int.MIN_VALUE) }
         val totalSeconds = remaining.inWholeSeconds
@@ -669,7 +672,7 @@ class WvwActivity : BaseActivity() {
             text = "%01d:%02d".format(minutes, seconds),
             fontWeight = FontWeight.Bold,
             fontSize = configuration.wvw.objectives.immunity.textSize.sp,
-            color = androidx.compose.ui.graphics.Color.White,
+            color = Color.White,
             modifier = modifier.wrapContentSize()
         )
 

@@ -61,4 +61,9 @@ class WvwObjectives(
      */
     @XmlSerialName(value = "Claim", namespace = "", prefix = "")
     val claim: WvwGuildClaim = WvwGuildClaim(),
-)
+) {
+    /**
+     * @return the color associated with the [owner], or the [default] if it does not exist
+     */
+    fun color(owner: ObjectiveOwner, default: String) = colors.firstOrNull { color -> color.owner == owner }?.type ?: default
+}

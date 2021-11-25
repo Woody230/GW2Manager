@@ -12,7 +12,7 @@ class OwnedColorTransformation(config: Wvw, private val owner: ObjectiveOwner) :
         /**
          * @return the hex associated with the owner
          */
-        fun ObjectiveOwner.hex(config: Wvw) = config.objectives.colors.firstOrNull { color -> color.owner == this }?.type ?: "#888888"
+        fun ObjectiveOwner.hex(config: Wvw) = config.objectives.color(this, "#888888")
     }
 
     override fun key(): String = owner.toString()

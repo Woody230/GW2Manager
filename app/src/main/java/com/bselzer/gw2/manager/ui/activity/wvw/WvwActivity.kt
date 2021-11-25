@@ -902,6 +902,21 @@ class WvwActivity : BaseActivity() {
         return configuration.wvw.objectives.selected.dateFormatter.format(localDate)
     }
 
+    /**
+     * @return the displayable names for the linked worlds associated with the objective [owner]
+     */
+    @Composable
+    private fun displayableLinkedWorlds(owner: ObjectiveOwner): String? {
+        val worlds = remember { worlds }.value
+        val match = remember { match }.value ?: return null
+        val linkedWorlds = match.linkedWorlds(owner).mapNotNull { worldId -> worlds.firstOrNull { world -> world.id == worldId }?.name }
+
+        // Make sure that the main world is first.
+        val mainWorld = match.mainWorld(owner)?.run { worlds.firstOrNull { world -> world.id == this }?.name }
+        val sortedWorlds = if (mainWorld == null) linkedWorlds else linkedWorlds.toMutableList().apply { remove(mainWorld); add(0, mainWorld) }
+        return sortedWorlds.joinToString(separator = "/")
+    }
+
     // endregion Objective Helpers
 
     // region ShowMatch
@@ -913,6 +928,7 @@ class WvwActivity : BaseActivity() {
     private fun ShowMatchPage() = Column(modifier = Modifier.fillMaxSize()) {
         ShowMatchAppBar()
 
+        // TODO if too early (before match retrieval?) exception thrown due to trying to recompose an empty region
         Box(modifier = Modifier.fillMaxSize()) {
             ShowAbsoluteBackground()
 
@@ -935,31 +951,66 @@ class WvwActivity : BaseActivity() {
      * Displays the pie chart of potential PPT.
      */
     @Composable
-    private fun ShowMatchPointsPerTickChart() = Box {
-        val scoreChart = configuration.wvw.chart
+    private fun ShowMatchPointsPerTickChart() {
         val match = remember { match }.value ?: return
         val ppt = match.potentialPointsPerTick()
         Timber.d("${match.id} points per tick: $ppt")
-
-        ShowMatchChartBackground()
-
-        val blueAngle = ppt.calculateSliceAngle(ObjectiveOwner.BLUE)
-        val redAngle = ppt.calculateSliceAngle(ObjectiveOwner.RED)
-        ShowMatchChartSlice(link = scoreChart.blueLink, startAngle = 0f, endAngle = blueAngle)
-        ShowMatchChartSlice(link = scoreChart.redLink, startAngle = blueAngle, endAngle = blueAngle + redAngle)
-        ShowMatchChartSlice(link = scoreChart.greenLink, startAngle = blueAngle + redAngle, endAngle = 360f)
-
-        ShowMatchChartDivider(angle = 0f)
-        ShowMatchChartDivider(angle = blueAngle)
-        ShowMatchChartDivider(angle = blueAngle + redAngle)
+        ShowMatchChart(ppt, "Points Per Tick")
     }
 
     /**
-     * @return the angle associated with the owner's value in this map
+     * Displays a pie chart for the [ObjectiveOwner.BLUE], [ObjectiveOwner.RED], and [ObjectiveOwner.GREEN].
      */
-    private fun Map<ObjectiveOwner?, Int>.calculateSliceAngle(owner: ObjectiveOwner): Float {
-        // Need to avoid int division.
-        val total = values.sum().toFloat()
+    @Composable
+    private fun ShowMatchChart(data: Map<ObjectiveOwner?, Int>, title: String) {
+        val chart = configuration.wvw.chart
+        val owners = listOf(ObjectiveOwner.BLUE, ObjectiveOwner.GREEN, ObjectiveOwner.RED)
+        val total = data.filterKeys { owner -> owners.contains(owner) }.values.sum().toFloat()
+
+        // Show the chart itself.
+        Box {
+            val blueAngle = data.calculateSliceAngle(total, ObjectiveOwner.BLUE)
+            val greenAngle = data.calculateSliceAngle(total, ObjectiveOwner.GREEN)
+            ShowMatchChartBackground()
+
+            ShowMatchChartSlice(link = chart.blueLink, startAngle = 0f, endAngle = blueAngle)
+            ShowMatchChartSlice(link = chart.greenLink, startAngle = blueAngle, endAngle = blueAngle + greenAngle)
+            ShowMatchChartSlice(link = chart.redLink, startAngle = blueAngle + greenAngle, endAngle = 360f)
+
+            ShowMatchChartDivider(angle = 0f)
+            ShowMatchChartDivider(angle = blueAngle)
+            ShowMatchChartDivider(angle = blueAngle + greenAngle)
+        }
+
+        Box {
+            ShowRelativeBackground()
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Show the title.
+                Text(text = title, fontWeight = FontWeight.Bold, fontSize = chart.title.textSize.sp)
+
+                // Show the associated data per owner.
+                for (owner in owners) {
+                    val color = configuration.wvw.objectives.color(owner, "#000000")
+                    val linkedWorlds = displayableLinkedWorlds(owner)
+                    com.bselzer.library.kotlin.extension.compose.ui.ShowCenteredRow(
+                        startValue = "${if (linkedWorlds.isNullOrBlank()) owner.userFriendly() else linkedWorlds}:",
+                        endValue = (data[owner] ?: 0).toString(),
+                        startTextStyle = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold, fontSize = chart.data.textSize.sp, color = Color(android.graphics.Color.parseColor(color))),
+                        endTextStyle = LocalTextStyle.current.copy(fontSize = chart.data.textSize.sp)
+                    )
+                }
+            }
+        }
+    }
+
+    /**
+     * @return the angle associated with the [owner]'s ratio of the [total]
+     */
+    private fun Map<ObjectiveOwner?, Int>.calculateSliceAngle(total: Float, owner: ObjectiveOwner): Float {
+        // Using float for total to avoid int division.
         return if (total <= 0) 120f else (this[owner] ?: 0) / total * 360f
     }
 
@@ -1156,13 +1207,11 @@ class WvwActivity : BaseActivity() {
             Text(text = mapType.userFriendly(), textAlign = TextAlign.Center)
         }
 
-        val worlds = remember { worlds }.value
-        val linkedWorlds = match.linkedWorlds(objective).mapNotNull { worldId -> worlds.firstOrNull { world -> world.id == worldId }?.name }
-        if (linkedWorlds.isNotEmpty()) {
-            // Make sure that the main world is first.
-            val mainWorld = match.mainWorld(objective)?.run { worlds.firstOrNull { world -> world.id == this }?.name }
-            val sortedWorlds = if (mainWorld == null) linkedWorlds else linkedWorlds.toMutableList().apply { remove(mainWorld); add(0, mainWorld) }
-            Text(text = sortedWorlds.joinToString(separator = "/"), textAlign = TextAlign.Center)
+        match.objective(objective)?.owner()?.let { owner ->
+            val linkedWorlds = displayableLinkedWorlds(owner)
+            if (!linkedWorlds.isNullOrBlank()) {
+                Text(text = linkedWorlds, textAlign = TextAlign.Center)
+            }
         }
 
         match.objective(objective)?.lastFlippedAt?.let { lastFlippedAt ->

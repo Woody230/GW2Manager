@@ -65,6 +65,8 @@
         </Bloodlust>
         <Chart background="https://assets.gw2dat.com/157384.png" blue="https://assets.gw2dat.com/157385.png" divider="https://assets.gw2dat.com/157386.png" enabled="true"
             green="https://assets.gw2dat.com/157387.png" neutral="https://assets.gw2dat.com/733278.png" red="https://assets.gw2dat.com/157388.png">
+            <Data textSize="16" />
+            <Title textSize="32" />
             <Size height="512" width="512" />
         </Chart>
     </WorldVsWorld>

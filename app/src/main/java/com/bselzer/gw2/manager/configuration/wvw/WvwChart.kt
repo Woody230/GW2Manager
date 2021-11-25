@@ -27,6 +27,12 @@ class WvwChart(
     @XmlSerialName(value = "neutral", namespace = "", prefix = "")
     val neutralLink: String = "",
 
+    @XmlSerialName(value = "Title", namespace = "", prefix = "")
+    val title: WvwChartTitle = WvwChartTitle(),
+
+    @XmlSerialName(value = "Data", namespace = "", prefix = "")
+    val data: WvwChartData = WvwChartData(),
+
     @XmlSerialName(value = "Size", namespace = "", prefix = "")
     val size: Size = Size()
 )

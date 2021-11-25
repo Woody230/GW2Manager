@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.R
@@ -52,8 +53,22 @@ abstract class BaseActivity : DIAwareActivity() {
     private fun absoluteBackgroundDrawableId() = R.drawable.gw2_two_sylvari
 
     @Composable
-    protected fun ShowCenteredRow(startValue: String, endValue: String): Unit =
-        com.bselzer.library.kotlin.extension.compose.ui.ShowCenteredRow(startValue = startValue, endValue = endValue, startTextStyle = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold))
+    protected fun ShowCenteredRow(startValue: String, endValue: String, textSize: TextUnit? = null) {
+        if (textSize == null) {
+            com.bselzer.library.kotlin.extension.compose.ui.ShowCenteredRow(
+                startValue = startValue,
+                endValue = endValue,
+                startTextStyle = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold)
+            )
+        } else {
+            com.bselzer.library.kotlin.extension.compose.ui.ShowCenteredRow(
+                startValue = startValue,
+                endValue = endValue,
+                startTextStyle = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold, fontSize = textSize),
+                endTextStyle = LocalTextStyle.current.copy(fontSize = textSize)
+            )
+        }
+    }
 
     /**
      * Displays a card for each of the [items].

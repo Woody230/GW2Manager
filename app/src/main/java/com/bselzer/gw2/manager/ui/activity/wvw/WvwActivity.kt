@@ -990,21 +990,26 @@ class WvwActivity : BaseActivity() {
             ShowRelativeBackground()
 
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 // Show the title.
-                Text(text = title, fontWeight = FontWeight.Bold, fontSize = chart.title.textSize.sp)
+                Text(text = title, fontWeight = FontWeight.Bold, fontSize = chart.title.textSize.sp, textAlign = TextAlign.Center)
 
                 // Show the associated data per owner.
                 for (owner in owners) {
-                    val color = configuration.wvw.objectives.color(owner, "#000000")
+                    val color = configuration.wvw.objectives.color(owner)
+                    val textSize = chart.data.textSize.sp
                     val linkedWorlds = displayableLinkedWorlds(owner)
-                    com.bselzer.library.kotlin.extension.compose.ui.ShowCenteredRow(
-                        startValue = "${if (linkedWorlds.isNullOrBlank()) owner.userFriendly() else linkedWorlds}:",
-                        endValue = (data[owner] ?: 0).toString(),
-                        startTextStyle = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold, fontSize = chart.data.textSize.sp, color = Color(android.graphics.Color.parseColor(color))),
-                        endTextStyle = LocalTextStyle.current.copy(fontSize = chart.data.textSize.sp)
+                    Text(
+                        text = if (linkedWorlds.isNullOrBlank()) owner.userFriendly() else linkedWorlds,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = textSize,
+                        color = color,
+                        textAlign = TextAlign.Center
                     )
+                    Text(text = (data[owner] ?: 0).toString(), fontSize = textSize, textAlign = TextAlign.Center)
+                    Spacer(modifier = Modifier.height(3.dp))
                 }
             }
         }
@@ -1208,13 +1213,13 @@ class WvwActivity : BaseActivity() {
         Text(text = "${objective.name} (${objective.type})", textAlign = TextAlign.Center)
 
         objective.mapType()?.let { mapType ->
-            Text(text = mapType.userFriendly(), textAlign = TextAlign.Center)
+            Text(text = mapType.userFriendly(), textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, color = configuration.wvw.objectives.color(mapType.owner()))
         }
 
         match.objective(objective)?.owner()?.let { owner ->
             val linkedWorlds = displayableLinkedWorlds(owner)
             if (!linkedWorlds.isNullOrBlank()) {
-                Text(text = linkedWorlds, textAlign = TextAlign.Center)
+                Text(text = linkedWorlds, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, color = configuration.wvw.objectives.color(owner))
             }
         }
 

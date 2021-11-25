@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.configuration.wvw
 
+import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.configuration.common.Size
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import kotlinx.serialization.Serializable
@@ -65,5 +66,21 @@ class WvwObjectives(
     /**
      * @return the color associated with the [owner], or the [default] if it does not exist
      */
-    fun color(owner: ObjectiveOwner, default: String) = colors.firstOrNull { color -> color.owner == owner }?.type ?: default
+    fun hex(owner: ObjectiveOwner, default: String): String = hex(owner) ?: default
+
+    /**
+     * @return the color associated with the [owner], or null if it does not exist
+     */
+    fun hex(owner: ObjectiveOwner): String? = colors.firstOrNull { color -> color.owner == owner }?.type
+
+    /**
+     * @return the color associated with the [owner], or the [default] if it does not exist, or [Color.Unspecified] if the [default] does not exist
+     */
+    fun color(owner: ObjectiveOwner, default: String? = null): Color = if (default != null) {
+        val hex = hex(owner, default)
+        Color(android.graphics.Color.parseColor(hex))
+    } else {
+        val hex = hex(owner)
+        if (hex == null) Color.Unspecified else Color(android.graphics.Color.parseColor(hex))
+    }
 }

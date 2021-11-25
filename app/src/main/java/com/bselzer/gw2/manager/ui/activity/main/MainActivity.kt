@@ -109,7 +109,7 @@ class MainActivity : BaseActivity() {
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold
             )
-            ProgressIndicator()
+            ShowProgressIndicator()
         }
     }
 

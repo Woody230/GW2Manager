@@ -17,7 +17,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -25,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
@@ -78,6 +78,7 @@ import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.library.kotlin.extension.compose.ui.ArcShape
 import com.bselzer.library.kotlin.extension.compose.ui.ShowAppBarTitle
 import com.bselzer.library.kotlin.extension.compose.ui.ShowBackground
+import com.bselzer.library.kotlin.extension.compose.ui.ShowRefreshIcon
 import com.bselzer.library.kotlin.extension.compose.unit.toDp
 import com.bselzer.library.kotlin.extension.coroutine.cancel
 import com.bselzer.library.kotlin.extension.coroutine.repeat
@@ -388,7 +389,7 @@ class WvwActivity : BaseActivity() {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            ProgressIndicator()
+            ShowProgressIndicator()
         }
 
         // Attempt to rectify the missing data.
@@ -1174,6 +1175,7 @@ class WvwActivity : BaseActivity() {
         val border = 3.dp
         Card(
             elevation = 10.dp,
+            shape = RectangleShape,
             modifier = Modifier
                 .fillMaxWidth(.80f)
                 .wrapContentHeight()
@@ -1315,7 +1317,7 @@ class WvwActivity : BaseActivity() {
     private fun upNavigationIcon(block: Intent.() -> Unit = {}): @Composable () -> Unit = {
         val intent = Intent(this@WvwActivity, MainActivity::class.java)
         block(intent)
-        UpNavigationIcon(intent)
+        ShowUpNavigationIcon(intent)
     }
 
     /**
@@ -1323,28 +1325,11 @@ class WvwActivity : BaseActivity() {
      */
     @Composable
     private fun appBarActions(content: @Composable RowScope.() -> Unit = {}): @Composable RowScope.() -> Unit = {
-        RefreshIcon()
-        WorldIcon()
-        content()
-    }
-
-    /**
-     * Displays the icon that refreshes data.
-     */
-    @Composable
-    private fun RefreshIcon() {
-        val scope = rememberCoroutineScope()
-        IconButton(onClick = { scope.launch { refreshData() } }) {
-            Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
+        ShowRefreshIcon { refreshData() }
+        IconButton(onClick = { showSelectWorldDialog() }) {
+            Icon(Icons.Filled.List, contentDescription = "World")
         }
-    }
-
-    /**
-     * Displays the icon for selecting another world.
-     */
-    @Composable
-    private fun WorldIcon() = IconButton(onClick = { showSelectWorldDialog() }) {
-        Icon(Icons.Filled.List, contentDescription = "World")
+        content()
     }
 
     /**

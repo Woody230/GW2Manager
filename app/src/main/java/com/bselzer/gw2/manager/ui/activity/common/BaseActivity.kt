@@ -105,7 +105,7 @@ abstract class BaseActivity : DIAwareActivity() {
      * Displays an up-navigation icon for an app bar that navigates up based on the [intent].
      */
     @Composable
-    protected fun UpNavigationIcon(intent: Intent) = com.bselzer.library.kotlin.extension.compose.ui.UpNavigationIcon {
+    protected fun ShowUpNavigationIcon(intent: Intent) = com.bselzer.library.kotlin.extension.compose.ui.ShowUpNavigationIcon {
         navigateUpTo(intent)
         overridePendingTransition(0, 0)
     }
@@ -114,7 +114,7 @@ abstract class BaseActivity : DIAwareActivity() {
      * Displays a circular progress indicator.
      */
     @Composable
-    protected fun ProgressIndicator() = CircularProgressIndicator(
+    protected fun ShowProgressIndicator() = CircularProgressIndicator(
         modifier = Modifier.fillMaxSize(0.15f)
     )
 }

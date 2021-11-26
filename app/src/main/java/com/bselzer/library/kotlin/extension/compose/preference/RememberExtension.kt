@@ -9,6 +9,11 @@ import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlin.time.Duration
+import kotlin.time.ExperimentalTime
 
 /**
  * Copyright 2020 Bruno Wieczorek
@@ -170,6 +175,89 @@ fun DataStore<Preferences>.nullRemember(
     key: Preferences.Key<Set<String>>,
     defaultValue: Set<String>? = null
 ): MutableState<Set<String>?> = remember(key, nullLatest(key, defaultValue))
+
+/**
+ * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
+ * @return the preference flow as a mutable state
+ */
+@Composable
+inline fun <reified E : Enum<E>> DataStore<Preferences>.safeRemember(
+    key: Preferences.Key<String>,
+    defaultValue: E
+): MutableState<E> {
+    var state by nullRemember(key)
+    val string = state
+    val enum = try {
+        if (string == null) defaultValue else Json.decodeFromString(string)
+    } catch (exception: Exception) {
+        defaultValue
+    }
+
+    return object : MutableState<E> {
+        override var value: E
+            get() = enum
+            set(value) {
+                state = Json.encodeToString(value)
+            }
+
+        override fun component1(): E = value
+        override fun component2(): (E) -> Unit = { value = it }
+    }
+}
+
+/**
+ * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
+ * @return the preference flow as a mutable state
+ */
+@Composable
+inline fun <reified E : Enum<E>> DataStore<Preferences>.nullRemember(
+    key: Preferences.Key<String>,
+    defaultValue: E? = null
+): MutableState<E?> {
+    var state by nullRemember(key)
+    val string = state
+    val enum = try {
+        if (string == null) defaultValue else Json.decodeFromString(string)
+    } catch (exception: Exception) {
+        defaultValue
+    }
+
+    return object : MutableState<E?> {
+        override var value: E?
+            get() = enum
+            set(value) {
+                state = if (value == null) null else Json.encodeToString(value)
+            }
+
+        override fun component1(): E? = value
+        override fun component2(): (E?) -> Unit = { value = it }
+    }
+}
+
+/**
+ * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
+ * @return the preference flow as a mutable state
+ */
+@OptIn(ExperimentalTime::class)
+@Composable
+fun DataStore<Preferences>.safeRemember(
+    key: Preferences.Key<String>,
+    defaultValue: Duration = Duration.ZERO
+): MutableState<Duration> {
+    var state by nullRemember(key)
+    val string = state
+    val duration = (if (string == null) null else Duration.parseOrNull(string)) ?: defaultValue
+    return object : MutableState<Duration> {
+        override var value: Duration
+            get() = duration
+            set(value) {
+                state = value.toIsoString()
+            }
+
+        override fun component1(): Duration = value
+        override fun component2(): (Duration) -> Unit = { value = it }
+    }
+}
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].

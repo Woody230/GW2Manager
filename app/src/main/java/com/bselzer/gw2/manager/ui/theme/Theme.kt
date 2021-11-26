@@ -6,17 +6,10 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
-import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion
 import com.bselzer.gw2.manager.ui.activity.common.BaseActivity
-import com.bselzer.library.kotlin.extension.compose.preference.safeRemember
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import timber.log.Timber
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -46,23 +39,14 @@ enum class Theme {
     LIGHT,
 
     @SerialName("Dark")
-    DARK;
+    DARK
 }
 
 /**
  * @return the current app theme type, defaulting to [Theme.DARK]
  */
 @Composable
-fun BaseActivity.appThemeType(): Theme {
-    // The theme changing to what it is supposed to be is noticeable so the safeLatest() call by the safeRemember must be made to avoid this.
-    val theme by datastore.safeRemember(key = PreferenceCompanion.THEME, defaultValue = Json.encodeToString(Theme.DARK))
-    return try {
-        Json.decodeFromString(theme)
-    } catch (exception: Exception) {
-        Timber.e(exception)
-        Theme.DARK
-    }
-}
+fun BaseActivity.appThemeType(): Theme = commonPref.rememberTheme().value
 
 @Composable
 fun BaseActivity.AppTheme(content: @Composable () -> Unit) {

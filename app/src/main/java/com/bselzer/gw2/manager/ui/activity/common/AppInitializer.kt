@@ -9,9 +9,9 @@ import androidx.datastore.preferences.preferencesDataStore
 import coil.ImageLoader
 import coil.util.CoilUtils
 import com.bselzer.gw2.manager.BuildConfig
-import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion
-import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion
 import com.bselzer.gw2.manager.configuration.Configuration
+import com.bselzer.gw2.manager.ui.activity.setting.preference.CommonPreference
+import com.bselzer.gw2.manager.ui.activity.setting.preference.WvwPreference
 import com.bselzer.library.gw2.v2.cache.metadata.IdentifiableMetadataExtractor
 import com.bselzer.library.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.library.gw2.v2.cache.type.gw2
@@ -23,16 +23,11 @@ import com.bselzer.library.gw2.v2.model.serialization.Modules
 import com.bselzer.library.gw2.v2.tile.cache.instance.TileCache
 import com.bselzer.library.gw2.v2.tile.cache.metadata.TileMetadataExtractor
 import com.bselzer.library.gw2.v2.tile.client.TileClient
-import com.bselzer.library.kotlin.extension.preference.initialize
-import com.bselzer.library.kotlin.extension.preference.nullLatest
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.features.*
 import io.ktor.http.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.serialization.modules.SerializersModule
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.UnknownChildHandler
@@ -82,29 +77,22 @@ class AppInitializer : Application(), DIAware {
         const val EMBLEM_USER_AGENT: String = "gw2-emblem"
     }
 
-    override fun onCreate() {
-        super.onCreate()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            // Default preferences.
-            DATASTORE.initialize(WvwPreferenceCompanion.REFRESH_INTERVAL, 5)
-
-            // Initialize the client with the token if it exists.
-            val token = DATASTORE.nullLatest(PreferenceCompanion.TOKEN) ?: return@launch
-            val client by di.instance<Gw2Client>()
-            client.config { copy(token = token) }
-            Timber.d("Set client token to $token")
-        }
-    }
-
     override val di: DI by DI.lazy {
         bindHttpClient()
         bindDatabase()
         bindGw2()
         bindConfiguration()
         bindImageLoader()
-        bindSingleton { DATASTORE }
         bindSingleton(tag = "InitialDataPopulation") { mutableStateOf(false) }
+        bindPreferences()
+    }
+
+    /**
+     * Binds the preference datastore wrappers.
+     */
+    private fun DI.MainBuilder.bindPreferences() {
+        bindSingleton { CommonPreference(DATASTORE) }
+        bindSingleton { WvwPreference(DATASTORE) }
     }
 
     /**

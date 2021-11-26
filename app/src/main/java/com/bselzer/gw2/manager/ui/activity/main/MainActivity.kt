@@ -14,7 +14,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.R
-import com.bselzer.gw2.manager.companion.preference.PreferenceCompanion.BUILD_NUMBER
 import com.bselzer.gw2.manager.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.ui.activity.wvw.WvwActivity
@@ -22,8 +21,6 @@ import com.bselzer.gw2.manager.ui.theme.AppTheme
 import com.bselzer.library.kotlin.extension.compose.ui.ShowAppBarTitle
 import com.bselzer.library.kotlin.extension.compose.ui.ShowBackground
 import com.bselzer.library.kotlin.extension.function.core.hasInternet
-import com.bselzer.library.kotlin.extension.preference.safeLatest
-import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
 import org.kodein.di.instance
 
@@ -33,6 +30,8 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            commonPref.InitializeTheme()
+
             val (download, setDownloading) = remember { mutableStateOf(!initializedData.value) }
             val (description, setDescription) = remember { mutableStateOf("") }
             Content(download, description)
@@ -134,9 +133,9 @@ class MainActivity : BaseActivity() {
 
         setDescription("Build Number")
         val newId = gw2Client.build.buildId()
-        val existingId = datastore.safeLatest(BUILD_NUMBER)
+        val existingId = commonPref.buildNumber
         if (newId > existingId) {
-            datastore.update(BUILD_NUMBER, newId, this)
+            commonPref.buildNumber = newId
         }
 
         finishedDownloading()

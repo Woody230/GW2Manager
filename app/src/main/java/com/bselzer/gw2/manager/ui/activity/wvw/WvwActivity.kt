@@ -42,8 +42,6 @@ import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import coil.transform.Transformation
 import com.bselzer.gw2.manager.R
-import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.REFRESH_INTERVAL
-import com.bselzer.gw2.manager.companion.preference.WvwPreferenceCompanion.SELECTED_WORLD
 import com.bselzer.gw2.manager.configuration.wvw.WvwUpgradeProgression
 import com.bselzer.gw2.manager.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.ui.activity.main.MainActivity
@@ -87,9 +85,6 @@ import com.bselzer.library.kotlin.extension.function.collection.isOneOf
 import com.bselzer.library.kotlin.extension.function.objects.userFriendly
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.Dimension2D
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.position.Point2D
-import com.bselzer.library.kotlin.extension.preference.nullLatest
-import com.bselzer.library.kotlin.extension.preference.safeLatest
-import com.bselzer.library.kotlin.extension.preference.update
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.*
@@ -140,9 +135,8 @@ class WvwActivity : BaseActivity() {
         super.onResume()
 
         CoroutineScope(Dispatchers.IO).launch {
-            val interval = datastore.safeLatest(REFRESH_INTERVAL, 5)
-            repeat(Duration.minutes(interval)) {
-                refreshData()
+            repeat(wvwPref.refreshInterval) {
+                refreshData(wvwPref.selectedWorld)
             }
         }.addTo(jobs)
 
@@ -165,15 +159,14 @@ class WvwActivity : BaseActivity() {
     /**
      * Refreshes the WvW data.
      */
-    private suspend fun refreshData() = withContext(Dispatchers.IO) {
-        Timber.d("Refreshing WvW data.")
+    private suspend fun refreshData(selectedWorld: Int) = withContext(Dispatchers.IO) {
+        Timber.d("Refreshing WvW data for world ${selectedWorld}.")
 
-        val selectedWorld = datastore.nullLatest(SELECTED_WORLD)
         gw2Cache.lockedInstance {
             worlds.value = get<WorldCache>().findWorlds()
 
             // Need the world to be able to get the associated match.
-            if (selectedWorld == null) {
+            if (selectedWorld <= 0) {
                 // Selection is required so do not allow cancellation.
                 showSelectWorldDialog(cancellable = false)
                 return@lockedInstance
@@ -384,22 +377,11 @@ class WvwActivity : BaseActivity() {
      * Displays content related to the grid data not being populated.
      */
     @Composable
-    private fun ShowMissingGridData() {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            ShowProgressIndicator()
-        }
-
-        // Attempt to rectify the missing data.
-        SideEffect {
-            CoroutineScope(Dispatchers.IO).launch {
-                gw2Cache.lockedInstance {
-                    refreshGridData()
-                }
-            }
-        }
+    private fun ShowMissingGridData() = Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        ShowProgressIndicator()
     }
 
     /**
@@ -1325,7 +1307,7 @@ class WvwActivity : BaseActivity() {
      */
     @Composable
     private fun appBarActions(content: @Composable RowScope.() -> Unit = {}): @Composable RowScope.() -> Unit = {
-        ShowRefreshIcon { refreshData() }
+        ShowRefreshIcon { refreshData(wvwPref.selectedWorld) }
         IconButton(onClick = { showSelectWorldDialog() }) {
             Icon(Icons.Filled.List, contentDescription = "World")
         }
@@ -1343,7 +1325,7 @@ class WvwActivity : BaseActivity() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val selectedId = datastore.nullLatest(SELECTED_WORLD)
+            val selectedId = wvwPref.selectedWorld
             Timber.d("Selected world id: $selectedId")
 
             // If there is no matching world then the resulting -1 will specify no selection.
@@ -1354,8 +1336,10 @@ class WvwActivity : BaseActivity() {
                     .setTitle("Worlds")
                     .setSingleChoiceItems(worlds.map { world -> world.name }.toTypedArray(), selectedWorld) { dialog, which ->
                         CoroutineScope(Dispatchers.IO).launch {
-                            datastore.update(SELECTED_WORLD, worlds[which].id)
-                            refreshData()
+                            // Update the id on the same thread as refreshData so that the dialog does not reappear when calling refreshData() because it was not saved yet.
+                            val newWorld = worlds[which].id
+                            wvwPref.selectedWorld = newWorld
+                            refreshData(newWorld)
                         }
                         dialog.dismiss()
                     }

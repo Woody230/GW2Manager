@@ -35,6 +35,7 @@ class CommonPreference(datastore: DataStore<Preferences>) : AppPreference(datast
         val THEME = stringPreferencesKey("${base}.Theme")
     }
 
+    // TODO better way to handle prefs, particularly with the datastore extensions
     /**
      * The GW2 build version.
      */

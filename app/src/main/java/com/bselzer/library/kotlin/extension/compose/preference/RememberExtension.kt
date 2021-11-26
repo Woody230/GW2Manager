@@ -184,26 +184,18 @@ fun DataStore<Preferences>.nullRemember(
 inline fun <reified E : Enum<E>> DataStore<Preferences>.safeRemember(
     key: Preferences.Key<String>,
     defaultValue: E
-): MutableState<E> {
-    var state by nullRemember(key)
-    val string = state
-    val enum = try {
-        if (string == null) defaultValue else Json.decodeFromString(string)
-    } catch (exception: Exception) {
-        defaultValue
-    }
-
-    return object : MutableState<E> {
-        override var value: E
-            get() = enum
-            set(value) {
-                state = Json.encodeToString(value)
-            }
-
-        override fun component1(): E = value
-        override fun component2(): (E) -> Unit = { value = it }
-    }
-}
+): MutableState<E> = rememberAsString(
+    key = key,
+    defaultValue = defaultValue,
+    toValue = {
+        try {
+            Json.decodeFromString(it)
+        } catch (exception: Exception) {
+            defaultValue
+        }
+    },
+    toString = { Json.encodeToString(it) }
+)
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -213,26 +205,18 @@ inline fun <reified E : Enum<E>> DataStore<Preferences>.safeRemember(
 inline fun <reified E : Enum<E>> DataStore<Preferences>.nullRemember(
     key: Preferences.Key<String>,
     defaultValue: E? = null
-): MutableState<E?> {
-    var state by nullRemember(key)
-    val string = state
-    val enum = try {
-        if (string == null) defaultValue else Json.decodeFromString(string)
-    } catch (exception: Exception) {
-        defaultValue
-    }
-
-    return object : MutableState<E?> {
-        override var value: E?
-            get() = enum
-            set(value) {
-                state = if (value == null) null else Json.encodeToString(value)
-            }
-
-        override fun component1(): E? = value
-        override fun component2(): (E?) -> Unit = { value = it }
-    }
-}
+): MutableState<E?> = rememberAsString(
+    key = key,
+    defaultValue = defaultValue,
+    toValue = {
+        try {
+            Json.decodeFromString(it)
+        } catch (exception: Exception) {
+            null
+        }
+    },
+    toString = { if (it == null) null else Json.encodeToString(it) }
+)
 
 /**
  * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
@@ -242,20 +226,43 @@ inline fun <reified E : Enum<E>> DataStore<Preferences>.nullRemember(
 @Composable
 fun DataStore<Preferences>.safeRemember(
     key: Preferences.Key<String>,
-    defaultValue: Duration = Duration.ZERO
-): MutableState<Duration> {
-    var state by nullRemember(key)
+    defaultValue: Duration
+): MutableState<Duration> = rememberAsString(key = key, defaultValue = defaultValue, toValue = { Duration.parse(it) }, toString = { it.toIsoString() })
+
+/**
+ * Remembers the preference value for [key] and collects it as a state, defaulting null values to the [defaultValue].
+ * @return the preference flow as a mutable state
+ */
+@OptIn(ExperimentalTime::class)
+@Composable
+fun DataStore<Preferences>.nullRemember(
+    key: Preferences.Key<String>,
+    defaultValue: Duration?
+): MutableState<Duration?> = rememberAsString(key = key, defaultValue = defaultValue, toValue = { Duration.parseOrNull(it) }, toString = { it?.toIsoString() })
+
+/**
+ * Remembers the preference value for [key] as a string and collects it as a state and converting it into [TNullSafe].
+ * @return the preference flow as a mutable state
+ */
+@Composable
+fun <TNullable, TNullSafe : TNullable> DataStore<Preferences>.rememberAsString(
+    key: Preferences.Key<String>,
+    defaultValue: TNullSafe,
+    toValue: (String) -> TNullSafe,
+    toString: (TNullable) -> String?
+): MutableState<TNullSafe> {
+    var state by nullRemember(key, toString(defaultValue))
     val string = state
-    val duration = (if (string == null) null else Duration.parseOrNull(string)) ?: defaultValue
-    return object : MutableState<Duration> {
-        override var value: Duration
-            get() = duration
+    val wrappedValue = if (string == null) defaultValue else toValue(string)
+    return object : MutableState<TNullSafe> {
+        override var value: TNullSafe
+            get() = wrappedValue
             set(value) {
-                state = value.toIsoString()
+                state = toString(value)
             }
 
-        override fun component1(): Duration = value
-        override fun component2(): (Duration) -> Unit = { value = it }
+        override fun component1(): TNullSafe = value
+        override fun component2(): (TNullSafe) -> Unit = { value = it }
     }
 }
 

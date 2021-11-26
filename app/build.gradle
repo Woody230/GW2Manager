@@ -59,7 +59,6 @@ dependencies {
     // Preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.preference:preference-ktx:1.1.1")
-    implementation("com.h6ah4i.android.preference:numberpickerprefcompat:1.2.2")
 
     // Image loading
     implementation("io.coil-kt:coil:$coil_version")

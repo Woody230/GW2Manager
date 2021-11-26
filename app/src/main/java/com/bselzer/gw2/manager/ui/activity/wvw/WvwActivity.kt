@@ -1318,6 +1318,7 @@ class WvwActivity : BaseActivity() {
      * Create a dialog for the user to select the world.
      */
     private fun showSelectWorldDialog(cancellable: Boolean = true) {
+        // TODO composable refresh so that this can be converted into compose dialog
         val worlds = this.worlds.value.sortedBy { world -> world.name }.toList()
         if (worlds.isEmpty()) {
             Toast.makeText(this, "Waiting for the worlds to be downloaded.", Toast.LENGTH_SHORT).show()

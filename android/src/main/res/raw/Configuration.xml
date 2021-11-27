@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration> <!-- TODO versioning -->
+    <!-- TODO cache clearing based on build number/app version -->
+    <WorldVsWorld>
+        <Objectives>
+            <Size
+                height="64"
+                width="64" />
+
+            <!-- Delay of less than a second to attempt to account for other processing. -->
+            <Immunity
+                delay="995"
+                enabled="true"
+                textSize="12" />
+
+            <!-- Colors -->
+            <Color
+                owner="Red"
+                type="#ff4d4d" />
+            <Color
+                owner="Blue"
+                type="#00ffff" />
+            <Color
+                owner="Green"
+                type="#4dff4d" />
+            <Color
+                owner="Neutral"
+                type="#888888" />
+
+            <!-- Objectives -->
+            <Objective
+                immunity="5m"
+                type="Camp" />
+            <Objective
+                immunity="5m"
+                type="Tower" />
+            <Objective
+                immunity="5m"
+                type="Keep" />
+            <Objective
+                immunity="5m"
+                type="Castle" />
+            <Objective
+                icon="https://assets.gw2dat.com/157353.png"
+                type="Spawn" />
+            <Objective
+                icon="https://assets.gw2dat.com/102682.png"
+                type="Mercenary" />
+
+            <Selected
+                dateFormat="hh:mm a 'on' EEEE"
+                textSize="16" />
+
+            <!-- Upgrades -->
+            <Upgrades enabled="true">
+                <Size
+                    height="32"
+                    width="32" />
+
+                <!-- Progressions -->
+                <Progression /> <!-- Display nothing for level 0. -->
+                <Progression icon="https://assets.gw2dat.com/1324349.png" />
+                <Progression icon="https://assets.gw2dat.com/1324350.png" />
+                <Progression icon="https://assets.gw2dat.com/1324351.png" />
+            </Upgrades>
+
+            <!-- Waypoint Upgrade -->
+            <!-- https://api.guildwars2.com/v2/wvw/upgrades/24 -->
+            <!-- https://api.guildwars2.com/v2/wvw/upgrades/30 -->
+            <Waypoint
+                enabled="true"
+                icon="https://assets.gw2dat.com/157353.png"
+                upgrade="^Build Waypoint$">
+                <Size
+                    height="32"
+                    width="32" />
+
+                <!-- https://api.guildwars2.com/v2/guild/upgrades/178 -->
+                <Guild
+                    color="#888888"
+                    enabled="true"
+                    upgrade="^Emergency Waypoint$" />
+            </Waypoint>
+
+            <!-- Guild Claim -->
+            <Claim
+                enabled="true"
+                icon="https://assets.gw2dat.com/1304078.png">
+                <Size
+                    height="32"
+                    width="32" />
+            </Claim>
+        </Objectives>
+        <Map
+            bounded="true"
+            continentId="2"
+            floorId="3"
+            region="World vs. World">
+            <Scroll
+                enabled="true"
+                map="Eternal Battlegrounds" />
+            <Zoom
+                default="4"
+                max="5"
+                min="3" />
+            <Level zoom="4">
+                <Bound
+                    endX="14"
+                    endY="15"
+                    startX="5"
+                    startY="8" />
+            </Level>
+            <Level zoom="5">
+                <Bound
+                    endX="29"
+                    endY="30"
+                    startX="11"
+                    startY="17" />
+            </Level>
+        </Map>
+        <Bloodlust
+            enabled="true"
+            icon="https://assets.gw2dat.com/638740.png">
+            <Size
+                height="64"
+                width="64" />
+        </Bloodlust>
+        <Chart
+            background="https://assets.gw2dat.com/157384.png"
+            blue="https://assets.gw2dat.com/157385.png"
+            divider="https://assets.gw2dat.com/157386.png"
+            enabled="true"
+            green="https://assets.gw2dat.com/157387.png"
+            neutral="https://assets.gw2dat.com/733278.png"
+            red="https://assets.gw2dat.com/157388.png">
+            <Data textSize="16" />
+            <Title textSize="32" />
+            <Size
+                height="512"
+                width="512" />
+        </Chart>
+    </WorldVsWorld>
+</Configuration>

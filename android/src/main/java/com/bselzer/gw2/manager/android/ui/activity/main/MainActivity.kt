@@ -19,7 +19,6 @@ import com.bselzer.gw2.manager.android.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwActivity
 import com.bselzer.gw2.manager.android.ui.theme.AppTheme
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBar
-import com.bselzer.library.kotlin.extension.compose.ui.background.BackgroundImage
 import com.bselzer.library.kotlin.extension.function.core.hasInternet
 import kotlinx.coroutines.*
 import org.kodein.di.instance
@@ -47,9 +46,7 @@ class MainActivity : BaseActivity() {
         ) {
             MaterialAppBar(title = stringResource(id = R.string.app_name))
 
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                BackgroundImage(drawableId = R.drawable.gw2_two_sylvari)
-
+            AbsoluteBackground(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 if (download) {
                     ShowDownloading(description)
                 } else {
@@ -83,25 +80,17 @@ class MainActivity : BaseActivity() {
      * Displays the download indicator.
      */
     @Composable
-    private fun ShowDownloading(description: String) = Box(
-        contentAlignment = Alignment.Center,
+    private fun ShowDownloading(description: String) = RelativeBackgroundColumn(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
     ) {
-        ShowRelativeBackground()
-
-        Column(
-            modifier = Modifier.wrapContentSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = description,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold
-            )
-            ShowProgressIndicator()
-        }
+        Text(
+            text = description,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Bold
+        )
+        ShowProgressIndicator()
     }
 
     @Preview

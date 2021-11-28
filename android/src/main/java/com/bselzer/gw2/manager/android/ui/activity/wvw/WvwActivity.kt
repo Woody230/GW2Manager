@@ -44,6 +44,7 @@ import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.configuration.common.Size
 import com.bselzer.gw2.manager.android.configuration.wvw.WvwUpgradeProgression
 import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
+import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwActivity.Page.*
 import com.bselzer.gw2.manager.android.ui.coil.HexColorTransformation
 import com.bselzer.gw2.manager.android.ui.theme.AppTheme
@@ -73,9 +74,8 @@ import com.bselzer.library.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.library.gw2.v2.tile.model.response.Tile
 import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBar
-import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBarTitle
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.RefreshIcon
-import com.bselzer.library.kotlin.extension.compose.ui.background.BackgroundImage
+import com.bselzer.library.kotlin.extension.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.library.kotlin.extension.compose.ui.geometry.ArcShape
 import com.bselzer.library.kotlin.extension.compose.ui.unit.toDp
 import com.bselzer.library.kotlin.extension.coroutine.cancel
@@ -306,21 +306,14 @@ class WvwActivity : BaseActivity() {
     @Composable
     private fun ShowMenu() = Column {
         // Match the same way that the MainActivity is displayed.
-        ShowMenuAppBar()
-        Box {
-            BackgroundImage(drawableId = R.drawable.gw2_two_sylvari)
+        MaterialAppBar(title = stringResource(R.string.activity_wvw), navigationIcon = { UpNavigationIcon(MainActivity::class.java) })
+        AbsoluteBackground {
             ShowMenu(
                 stringResource(id = R.string.wvw_map) to { selectedPage.value = MAP },
                 stringResource(id = R.string.wvw_match) to { selectedPage.value = MATCH }
             )
         }
     }
-
-    /**
-     * Displays the app bar for when there is no [selectedPage].
-     */
-    @Composable
-    private fun ShowMenuAppBar() = MaterialAppBar(title = stringResource(R.string.activity_wvw), navigationIcon = { ShowUpNavigationIcon() })
 
     // endregion ShowMenu
 
@@ -331,7 +324,7 @@ class WvwActivity : BaseActivity() {
         // Display the background until tiling occurs.
         val tileCount = tileCount()
         if (tileCount.isEmpty) {
-            ShowAbsoluteBackground()
+            AbsoluteBackground { }
         }
 
         Column {
@@ -344,7 +337,9 @@ class WvwActivity : BaseActivity() {
             }
 
             ConstraintLayout(
-                modifier = Modifier.transformable(pinchToZoom)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .transformable(pinchToZoom)
             ) {
                 val (map, selectedObjective) = createRefs()
                 ShowGridData(Modifier.constrainAs(map) {
@@ -680,18 +675,11 @@ class WvwActivity : BaseActivity() {
         val owner = matchObjective?.owner() ?: ObjectiveOwner.NEUTRAL
         val title = "${selectedObjective.name} (${owner.userFriendly()} ${selectedObjective.type})"
 
-        Box(
-            modifier = modifier.wrapContentSize()
-        ) {
-            ShowRelativeBackground()
-            Column(
-                modifier = Modifier.wrapContentSize()
-            ) {
-                val textSize = selected.textSize.sp
-                Text(text = title, fontSize = textSize, fontWeight = FontWeight.Bold)
-                matchObjective?.lastFlippedAt?.let { lastFlippedAt ->
-                    Text(text = "Flipped at ${lastFlippedAtFormatted(lastFlippedAt)}", fontSize = textSize)
-                }
+        RelativeBackgroundColumn(modifier = modifier) {
+            val textSize = selected.textSize.sp
+            Text(text = title, fontSize = textSize, fontWeight = FontWeight.Bold)
+            matchObjective?.lastFlippedAt?.let { lastFlippedAt ->
+                Text(text = "Flipped at ${lastFlippedAtFormatted(lastFlippedAt)}", fontSize = textSize)
             }
         }
     }
@@ -913,35 +901,23 @@ class WvwActivity : BaseActivity() {
     private fun ShowMatchPage() = Column(modifier = Modifier.fillMaxSize()) {
         ShowContentTopAppBar(title = R.string.wvw_match)
 
+        val match = remember { match }.value ?: return
+
         // TODO pager: main = total, then for each map (will need map name title on each page)
-        Box(modifier = Modifier.fillMaxSize()) {
-            ShowAbsoluteBackground()
-
-            val match = remember { match }.value
-            if (match == null) {
-                // Need to avoid no children causing an exception during recomposition.
-                // TODO wrapper for background: include this spacer in case of no children
-                Spacer(modifier = Modifier.size(0.dp))
-                return
-            }
-
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                val spacing = 5.dp
-                ShowMatchChart(match.pointsPerTick(), "Points Per Tick")
-                Spacer(modifier = Modifier.height(spacing))
-                ShowMatchChart(match.victoryPoints(), "Victory Points")
-                Spacer(modifier = Modifier.height(spacing))
-                ShowMatchChart(match.scores(), "Total Score")
-                Spacer(modifier = Modifier.height(spacing))
-                ShowMatchChart(match.kills(), "Total Kills")
-                Spacer(modifier = Modifier.height(spacing))
-                ShowMatchChart(match.deaths(), "Total Deaths")
-            }
+        AbsoluteBackgroundColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentModifier = Modifier.verticalScroll(rememberScrollState())
+        ) {
+            val spacing = 5.dp
+            ShowMatchChart(match.pointsPerTick(), "Points Per Tick")
+            Spacer(modifier = Modifier.height(spacing))
+            ShowMatchChart(match.victoryPoints(), "Victory Points")
+            Spacer(modifier = Modifier.height(spacing))
+            ShowMatchChart(match.scores(), "Total Score")
+            Spacer(modifier = Modifier.height(spacing))
+            ShowMatchChart(match.kills(), "Total Kills")
+            Spacer(modifier = Modifier.height(spacing))
+            ShowMatchChart(match.deaths(), "Total Deaths")
         }
     }
 
@@ -969,31 +945,24 @@ class WvwActivity : BaseActivity() {
             ShowMatchChartDivider(angle = blueAngle + greenAngle)
         }
 
-        Box {
-            ShowRelativeBackground()
+        RelativeBackgroundColumn(modifier = Modifier.fillMaxWidth()) {
+            // Show the title.
+            Text(text = title, fontWeight = FontWeight.Bold, fontSize = chart.title.textSize.sp, textAlign = TextAlign.Center)
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                // Show the title.
-                Text(text = title, fontWeight = FontWeight.Bold, fontSize = chart.title.textSize.sp, textAlign = TextAlign.Center)
-
-                // Show the associated data per owner.
-                for (owner in owners) {
-                    val color = configuration.wvw.objectives.color(owner)
-                    val textSize = chart.data.textSize.sp
-                    val linkedWorlds = displayableLinkedWorlds(owner)
-                    Text(
-                        text = if (linkedWorlds.isNullOrBlank()) owner.userFriendly() else linkedWorlds,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = textSize,
-                        color = color,
-                        textAlign = TextAlign.Center
-                    )
-                    Text(text = (data[owner] ?: 0).toString(), fontSize = textSize, textAlign = TextAlign.Center)
-                    Spacer(modifier = Modifier.height(3.dp))
-                }
+            // Show the associated data per owner.
+            for (owner in owners) {
+                val color = configuration.wvw.objectives.color(owner)
+                val textSize = chart.data.textSize.sp
+                val linkedWorlds = displayableLinkedWorlds(owner)
+                Text(
+                    text = if (linkedWorlds.isNullOrBlank()) owner.userFriendly() else linkedWorlds,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = textSize,
+                    color = color,
+                    textAlign = TextAlign.Center
+                )
+                Text(text = (data[owner] ?: 0).toString(), fontSize = textSize, textAlign = TextAlign.Center)
+                Spacer(modifier = Modifier.height(3.dp))
             }
         }
     }
@@ -1092,9 +1061,7 @@ class WvwActivity : BaseActivity() {
     ) {
         ShowContentTopAppBar(title = R.string.wvw_detailed_selected_objective)
 
-        Box(modifier = Modifier.fillMaxSize()) {
-            ShowAbsoluteBackground()
-
+        AbsoluteBackground(modifier = Modifier.fillMaxSize()) {
             // TODO pager: main = details, left = upgrades, right = guild upgrades
             ShowDetailedSelectedObjective()
         }
@@ -1151,7 +1118,7 @@ class WvwActivity : BaseActivity() {
      * Displays a card wrapping the underlying selected objective [content].
      */
     @Composable
-    private fun ShowSelectedObjectiveCard(content: @Composable () -> Unit) {
+    private fun ShowSelectedObjectiveCard(content: @Composable BoxScope.() -> Unit) {
         val border = 3.dp
         Card(
             elevation = 10.dp,
@@ -1162,10 +1129,7 @@ class WvwActivity : BaseActivity() {
                 .border(width = border, color = Color.Black)
                 .padding(all = border)
         ) {
-            Box {
-                ShowRelativeBackground()
-                content()
-            }
+            RelativeBackground(content = content)
         }
     }
 
@@ -1208,16 +1172,16 @@ class WvwActivity : BaseActivity() {
         val objective = remember { selectedObjective }.value ?: return
         val matchObjective = remember { match }.value.objective(objective) ?: return
 
-        ShowCenteredRow(startValue = "Points per tick:", endValue = "${matchObjective.pointsPerTick}")
-        ShowCenteredRow(startValue = "Points per capture:", endValue = "${matchObjective.pointsPerCapture}")
+        BoldCenteredRow(startValue = "Points per tick:", endValue = "${matchObjective.pointsPerTick}")
+        BoldCenteredRow(startValue = "Points per capture:", endValue = "${matchObjective.pointsPerCapture}")
         remember { upgrades }.value[objective.upgradeId]?.let { upgrade ->
             val yaksDelivered = matchObjective.yaksDelivered
             val ratio = upgrade.yakRatio(yaksDelivered)
-            ShowCenteredRow(startValue = "Yaks delivered:", endValue = "${ratio.first}/${ratio.second}")
+            BoldCenteredRow(startValue = "Yaks delivered:", endValue = "${ratio.first}/${ratio.second}")
 
             val level = upgrade.level(yaksDelivered)
             val tier = upgrade.tier(yaksDelivered)?.name ?: "Not Upgraded"
-            ShowCenteredRow(startValue = "Upgrade tier:", endValue = "$tier ($level/${upgrade.tiers.size})")
+            BoldCenteredRow(startValue = "Upgrade tier:", endValue = "$tier ($level/${upgrade.tiers.size})")
         }
     }
 
@@ -1282,9 +1246,9 @@ class WvwActivity : BaseActivity() {
      * @param actions the supplementary actions
      */
     @Composable
-    private fun ShowContentTopAppBar(@StringRes title: Int, actions: @Composable RowScope.() -> Unit = {}) = TopAppBar(
-        title = { MaterialAppBarTitle(title = title) },
-        navigationIcon = { ShowUpNavigationIcon() },
+    private fun ShowContentTopAppBar(@StringRes title: Int, actions: @Composable RowScope.() -> Unit = {}) = MaterialAppBar(
+        title = title,
+        navigationIcon = { UpNavigationIcon(MainActivity::class.java) },
         actions = appBarActions(actions)
     )
 

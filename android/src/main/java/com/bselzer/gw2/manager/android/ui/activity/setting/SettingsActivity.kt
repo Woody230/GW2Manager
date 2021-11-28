@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -28,12 +29,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
+import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
 import com.bselzer.gw2.manager.android.ui.theme.AppTheme
 import com.bselzer.gw2.manager.android.ui.theme.Theme
 import com.bselzer.library.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.library.gw2.v2.model.enumeration.extension.account.permissions
 import com.bselzer.library.gw2.v2.scope.core.Permission
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBar
+import com.bselzer.library.kotlin.extension.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.library.kotlin.extension.compose.ui.picker.NumberPicker
 import com.bselzer.library.kotlin.extension.compose.ui.picker.ValuePicker
 import com.bselzer.library.kotlin.extension.coroutine.showToast
@@ -61,35 +64,31 @@ class SettingsActivity : BaseActivity() {
     @Composable
     private fun Content() = AppTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
-            MaterialAppBar(title = stringResource(R.string.app_name), navigationIcon = { ShowUpNavigationIcon() })
+            MaterialAppBar(title = R.string.app_name, navigationIcon = { UpNavigationIcon(destination = MainActivity::class.java) })
 
-            Box(
-                modifier = Modifier.fillMaxSize()
+            RelativeBackgroundColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                contentModifier = Modifier.padding(25.dp),
+                alignment = Alignment.TopStart,
+                contentHorizontalAlignment = Alignment.Start,
             ) {
-                ShowRelativeBackground()
+                ShowThemePreference()
+                Spacer(modifier = Modifier.height(10.dp))
+                Divider(thickness = 5.dp)
+                Spacer(modifier = Modifier.height(10.dp))
+                ShowTokenPreference()
+                Spacer(modifier = Modifier.height(10.dp))
+                Divider(thickness = 5.dp)
+                Spacer(modifier = Modifier.height(10.dp))
 
-                Column(
-                    modifier = Modifier
-                        .padding(25.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    ShowThemePreference()
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Divider(thickness = 5.dp)
-                    Spacer(modifier = Modifier.height(10.dp))
-                    ShowTokenPreference()
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Divider(thickness = 5.dp)
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    // TODO icon
-                    Text(text = stringResource(R.string.activity_wvw), color = MaterialTheme.colors.primary, fontSize = 14.sp, modifier = Modifier.padding(start = 73.dp))
-                    Spacer(modifier = Modifier.height(10.dp))
-                    ShowRefreshIntervalPreference()
-                }
+                // TODO icon
+                Text(text = stringResource(R.string.activity_wvw), color = MaterialTheme.colors.primary, fontSize = 14.sp, modifier = Modifier.padding(start = 73.dp))
+                Spacer(modifier = Modifier.height(10.dp))
+                ShowRefreshIntervalPreference()
             }
         }
     }

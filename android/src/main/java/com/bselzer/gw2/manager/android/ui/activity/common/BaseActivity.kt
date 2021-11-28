@@ -1,6 +1,5 @@
 package com.bselzer.gw2.manager.android.ui.activity.common
 
-import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -9,42 +8,68 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
 import com.bselzer.gw2.manager.android.ui.kodein.DIAwareActivity
 import com.bselzer.gw2.manager.android.ui.theme.Theme
 import com.bselzer.gw2.manager.android.ui.theme.appThemeType
-import com.bselzer.library.kotlin.extension.compose.ui.appbar.UpNavigationIcon
+import com.bselzer.library.kotlin.extension.compose.ui.background.Background
+import com.bselzer.library.kotlin.extension.compose.ui.background.BackgroundColumn
 import com.bselzer.library.kotlin.extension.compose.ui.background.BackgroundImage
 import com.bselzer.library.kotlin.extension.compose.ui.column.CenteredRow
 
 abstract class BaseActivity : DIAwareActivity() {
-    /**
-     * Displays an image suitable for a relative background based on the current theme. This is typically used for backgrounds that are covered by text.
-     */
-    @Composable
-    protected fun ShowRelativeBackground() = BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment())
-
-    /**
-     * Displays an image suitable for the absolute background based on the current theme. This is typically used for backgrounds that are not covered by text.
-     */
-    @Composable
-    protected fun ShowAbsoluteBackground() = BackgroundImage(drawableId = absoluteBackgroundDrawableId())
+    private val relative: @Composable () -> Unit = { BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment()) }
+    private val absolute: @Composable () -> Unit = { BackgroundImage(drawableId = absoluteBackgroundDrawableId()) }
+    private val relativeBox: @Composable BoxScope.() -> Unit = { BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment()) }
+    private val absoluteBox: @Composable BoxScope.() -> Unit = { BackgroundImage(drawableId = absoluteBackgroundDrawableId()) }
 
     /**
      * Displays an image suitable for a relative background based on the current theme. This is typically used for backgrounds that are covered by text.
      */
     @Composable
-    protected fun BoxScope.ShowRelativeBackground() = BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment())
+    protected fun RelativeBackground(modifier: Modifier = Modifier, contentAlignment: Alignment = Alignment.TopStart, content: @Composable BoxScope.() -> Unit) =
+        Background(modifier = modifier, contentAlignment = contentAlignment, background = relativeBox, content = content)
 
     /**
      * Displays an image suitable for the absolute background based on the current theme. This is typically used for backgrounds that are not covered by text.
      */
     @Composable
-    protected fun BoxScope.ShowAbsoluteBackground() = BackgroundImage(drawableId = absoluteBackgroundDrawableId())
+    protected fun AbsoluteBackground(modifier: Modifier = Modifier, contentAlignment: Alignment = Alignment.TopStart, content: @Composable BoxScope.() -> Unit) =
+        Background(modifier = modifier, contentAlignment = contentAlignment, background = absoluteBox, content = content)
+
+    @Composable
+    fun RelativeBackgroundColumn(
+        modifier: Modifier = Modifier,
+        alignment: Alignment = Alignment.Center,
+        contentHorizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+        contentModifier: Modifier = Modifier,
+        content: @Composable ColumnScope.() -> Unit
+    ) = BackgroundColumn(
+        modifier = modifier,
+        background = relativeBox,
+        alignment = alignment,
+        contentModifier = contentModifier,
+        contentHorizontalAlignment = contentHorizontalAlignment,
+        content = content
+    )
+
+    @Composable
+    fun AbsoluteBackgroundColumn(
+        modifier: Modifier = Modifier,
+        alignment: Alignment = Alignment.Center,
+        contentModifier: Modifier = Modifier,
+        contentHorizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+        content: @Composable ColumnScope.() -> Unit
+    ) = BackgroundColumn(
+        modifier = modifier,
+        background = { absolute() },
+        alignment = alignment,
+        contentModifier = contentModifier,
+        contentHorizontalAlignment = contentHorizontalAlignment,
+        content = content
+    )
 
     @Composable
     private fun relativeBackgroundDrawableId() = if (appThemeType() == Theme.DARK) R.drawable.gw2_bloodstone_night else R.drawable.gw2_ice
@@ -56,22 +81,11 @@ abstract class BaseActivity : DIAwareActivity() {
     private fun absoluteBackgroundDrawableId() = R.drawable.gw2_two_sylvari
 
     @Composable
-    protected fun ShowCenteredRow(startValue: String, endValue: String, textSize: TextUnit? = null) {
-        if (textSize == null) {
-            CenteredRow(
-                startValue = startValue,
-                endValue = endValue,
-                startTextStyle = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold)
-            )
-        } else {
-            CenteredRow(
-                startValue = startValue,
-                endValue = endValue,
-                startTextStyle = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold, fontSize = textSize),
-                endTextStyle = LocalTextStyle.current.copy(fontSize = textSize)
-            )
-        }
-    }
+    protected fun BoldCenteredRow(startValue: String, endValue: String) = CenteredRow(
+        startValue = startValue,
+        endValue = endValue,
+        startTextStyle = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold)
+    )
 
     /**
      * Displays a card for each of the [items].
@@ -88,7 +102,7 @@ abstract class BaseActivity : DIAwareActivity() {
                         .fillMaxWidth()
                         .height(75.dp)
                 ) {
-                    ShowRelativeBackground()
+                    relative()
                     Text(
                         text = item.first,
                         fontSize = 30.sp,
@@ -103,15 +117,6 @@ abstract class BaseActivity : DIAwareActivity() {
                 }
             }
         }
-
-    /**
-     * Displays an up-navigation icon for an app bar..
-     */
-    @Composable
-    protected fun ShowUpNavigationIcon(destination: Class<out Activity> = MainActivity::class.java) = UpNavigationIcon(destination = destination) {
-        navigateUpTo(intent)
-        overridePendingTransition(0, 0)
-    }
 
     /**
      * Displays a circular progress indicator.

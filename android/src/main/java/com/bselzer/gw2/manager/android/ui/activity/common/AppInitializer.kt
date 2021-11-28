@@ -9,7 +9,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import coil.ImageLoader
 import coil.util.CoilUtils
 import com.bselzer.gw2.manager.android.BuildConfig
-import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.configuration.Configuration
 import com.bselzer.gw2.manager.android.ui.activity.setting.preference.CommonPreference
 import com.bselzer.gw2.manager.android.ui.activity.setting.preference.WvwPreference
@@ -180,7 +179,7 @@ class AppInitializer : Application(), DIAware {
     private fun DI.MainBuilder.bindConfiguration() = bindSingleton {
         try {
             // TODO attempt to get config from online location and default to bundled config if that fails
-            val config = resources.openRawResource(R.raw.Configuration).bufferedReader(Charsets.UTF_8).use { reader -> reader.readText() }
+            val config = assets.open("Configuration.xml").bufferedReader(Charsets.UTF_8).use { reader -> reader.readText() }
             XML(serializersModule = SerializersModule {}) {
                 this.unknownChildHandler = UnknownChildHandler { input, inputKind, descriptor, name, candidates ->
                     Timber.w("Unable to deserialize an unknown child of $name as $inputKind")

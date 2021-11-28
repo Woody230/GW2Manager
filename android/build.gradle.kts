@@ -59,7 +59,7 @@ dependencies {
 
     // Compose
     implementation("androidx.activity:activity-compose:1.4.0")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.0.5")
+    implementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
     // Preferences
     implementation("androidx.datastore:datastore-preferences:1.0.0")

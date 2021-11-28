@@ -14,12 +14,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
@@ -39,6 +37,7 @@ import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBar
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.library.kotlin.extension.compose.ui.picker.NumberPicker
 import com.bselzer.library.kotlin.extension.compose.ui.picker.ValuePicker
+import com.bselzer.library.kotlin.extension.compose.ui.style.hyperlink
 import com.bselzer.library.kotlin.extension.coroutine.showToast
 import com.bselzer.library.kotlin.extension.function.objects.userFriendly
 import io.ktor.client.features.*
@@ -239,11 +238,14 @@ class SettingsActivity : BaseActivity() {
             text = {
                 val tag = "applications"
                 val message = buildAnnotatedString {
-                    append("Your account ")
+                    val style = LocalTextStyle.current.toSpanStyle()
+                    withStyle(style = style.copy(color = MaterialTheme.colors.onPrimary)) {
+                        append("Your account ")
+                    }
 
                     // Append a link to where the user can go to look up their api key.
                     pushStringAnnotation(tag = tag, annotation = "https://account.arena.net/applications")
-                    withStyle(style = SpanStyle(color = Color.Blue)) {
+                    withStyle(style = style.hyperlink()) {
                         append("api key or token.")
                     }
                     pop()
@@ -324,7 +326,7 @@ class SettingsActivity : BaseActivity() {
         val duration = number.value.toDuration(component.value)
 
         // Adjust the current value as the component changes to make sure it meets the minimum.
-        val min = max(1, wvwPref.refreshIntervalDefault.toInt(component.value))
+        val min = max(1, Duration.seconds(30).toInt(component.value))
         number.value = max(min, number.value)
         AlertDialog(
             onDismissRequest = { setShowDialog(false) },

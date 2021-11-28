@@ -38,7 +38,7 @@ class WvwPreference(datastore: DataStore<Preferences>) : AppPreference(datastore
     /**
      * The default refresh interval.
      */
-    val refreshIntervalDefault: Duration = Duration.minutes(5)
+    val refreshIntervalDefault: Duration = Duration.minutes(10)
 
     /**
      * The default refresh interval unit.

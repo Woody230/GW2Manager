@@ -33,18 +33,13 @@ kotlin {
                 api(compose.material)
                 api(compose.preview)
 
-                // Settings
-                api("com.russhwolf:multiplatform-settings:$settingsVersion")
-
                 // Extensions
-                // TODO jitpack
                 api("com.bselzer.library.kotlin.extension:compose:$extensionVersion")
                 api("com.bselzer.library.kotlin.extension:function:$extensionVersion")
                 api("com.bselzer.library.kotlin.extension:logging:$extensionVersion")
                 api("com.bselzer.library.kotlin.extension:settings-compose:$extensionVersion")
 
                 // GW2 API Wrapper
-                // TODO jitpack
                 api("com.bselzer.library.gw2:v2-client:$wrapperVersion")
                 api("com.bselzer.library.gw2:v2-model:$wrapperVersion")
                 api("com.bselzer.library.gw2:v2-model-extension:$wrapperVersion")
@@ -61,7 +56,6 @@ kotlin {
                 api("org.kodein.di:kodein-di:$kodeinDiVersion")
 
                 // GW2 Database
-                // TODO jitpack
                 api("com.bselzer.library.gw2:v2-cache:$wrapperVersion")
                 api("com.bselzer.library.gw2:v2-tile-cache:$wrapperVersion")
                 api("org.kodein.db:kodein-db:$kodeinDbVersion")

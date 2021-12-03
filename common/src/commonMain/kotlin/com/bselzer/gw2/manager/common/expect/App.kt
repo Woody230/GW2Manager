@@ -21,6 +21,7 @@ import com.bselzer.library.kotlin.extension.settings.compose.safeState
 import com.russhwolf.settings.ExperimentalSettingsApi
 import io.ktor.client.*
 import io.ktor.client.features.*
+import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
@@ -86,7 +87,9 @@ abstract class App : DIAware {
      */
     @Composable
     fun theme(): Theme {
-        val theme by commonPref.theme.safeState()
+        // Using runBlocking to avoid the initial theme changing because it is noticeable.
+        val initial = runBlocking { commonPref.theme.get() }
+        val theme by commonPref.theme.observe().collectAsState(initial = initial)
         return theme
     }
 

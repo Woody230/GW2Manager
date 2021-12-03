@@ -41,13 +41,12 @@ import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import coil.transform.Transformation
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.android.configuration.common.Size
-import com.bselzer.gw2.manager.android.configuration.wvw.WvwUpgradeProgression
 import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwActivity.Page.*
 import com.bselzer.gw2.manager.android.ui.coil.HexColorTransformation
-import com.bselzer.gw2.manager.android.ui.theme.AppTheme
+import com.bselzer.gw2.manager.common.configuration.common.Size
+import com.bselzer.gw2.manager.common.configuration.wvw.WvwUpgradeProgression
 import com.bselzer.library.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.library.gw2.v2.cache.instance.GuildCache
 import com.bselzer.library.gw2.v2.cache.instance.WorldCache
@@ -85,10 +84,11 @@ import com.bselzer.library.kotlin.extension.function.collection.isOneOf
 import com.bselzer.library.kotlin.extension.function.objects.userFriendly
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.Dimension2D
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.position.Point2D
+import com.bselzer.library.kotlin.extension.logging.Logger
+import com.bselzer.library.kotlin.extension.settings.compose.safeState
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.*
-import timber.log.Timber
 import java.lang.Integer.max
 import java.lang.Integer.min
 import kotlin.time.Duration
@@ -135,8 +135,8 @@ class WvwActivity : BaseActivity() {
         super.onResume()
 
         CoroutineScope(Dispatchers.IO).launch {
-            repeat(wvwPref.refreshInterval) {
-                refreshData(wvwPref.selectedWorld)
+            repeat(wvwPref.refreshInterval.get()) {
+                refreshData(wvwPref.selectedWorld.get())
             }
         }.addTo(jobs)
 
@@ -160,7 +160,7 @@ class WvwActivity : BaseActivity() {
      * Refreshes the WvW data.
      */
     private suspend fun refreshData(selectedWorld: Int) = withContext(Dispatchers.IO) {
-        Timber.d("Refreshing WvW data for world ${selectedWorld}.")
+        Logger.d("Refreshing WvW data for world ${selectedWorld}.")
 
         gw2Cache.lockedInstance {
             worlds.value = get<WorldCache>().findWorlds()
@@ -195,7 +195,7 @@ class WvwActivity : BaseActivity() {
      */
     private suspend fun refreshMapData() = withContext(Dispatchers.IO) {
         gw2Cache.instance {
-            Timber.d("Refreshing WvW map data.")
+            Logger.d("Refreshing WvW map data.")
 
             // Assume that all WvW maps are within the same continent and floor.
             val cache = get<ContinentCache>()
@@ -210,7 +210,7 @@ class WvwActivity : BaseActivity() {
      */
     private suspend fun refreshMapData(match: WvwMatch) = withContext(Dispatchers.IO) {
         gw2Cache.instance {
-            Timber.d("Refreshing WvW map data.")
+            Logger.d("Refreshing WvW map data.")
 
             // Assume that all WvW maps are within the same continent and floor.
             val mapId = match.maps.firstOrNull()?.id ?: return@instance
@@ -236,7 +236,7 @@ class WvwActivity : BaseActivity() {
             }
 
             val zoom = zoom.value
-            Timber.d("Refreshing WvW tile grid data for zoom level $zoom.")
+            Logger.d("Refreshing WvW tile grid data for zoom level $zoom.")
 
             val gridRequest = tileClient.requestGrid(continent, floor, zoom).let { request ->
                 if (configuration.wvw.map.isBounded) {
@@ -245,7 +245,7 @@ class WvwActivity : BaseActivity() {
                     if (bound != null) {
                         return@let request.bounded(startX = bound.startX, startY = bound.startY, endX = bound.endX, endY = bound.endY)
                     } else {
-                        Timber.w("Unable to create a bounded request for zoom level $zoom.")
+                        Logger.w("Unable to create a bounded request for zoom level $zoom.")
                     }
                 }
 
@@ -282,7 +282,7 @@ class WvwActivity : BaseActivity() {
     // region ShowMenu
 
     @Composable
-    private fun Content() = AppTheme {
+    private fun Content() = app.Content {
         val selectedPage = rememberSaveable { selectedPage }.value
         when (selectedPage) {
             MAP -> ShowMapPage()
@@ -701,13 +701,13 @@ class WvwActivity : BaseActivity() {
             // Use the center of all of the ruins as the position of the bloodlust icon.
             val matchRuins = borderland.objectives.filter { objective -> objective.type() == ObjectiveType.RUINS }
             if (matchRuins.isEmpty()) {
-                Timber.w("Unable to create the bloodlust icon when there are no ruins on map ${borderland.id}.")
+                Logger.w("Unable to create the bloodlust icon when there are no ruins on map ${borderland.id}.")
                 continue
             }
 
             val objectiveRuins = matchRuins.mapNotNull { ruin -> objectives.firstOrNull { objective -> objective.id == ruin.id } }
             if (objectiveRuins.count() != matchRuins.count()) {
-                Timber.w("Mismatch between the number of ruins in the match and objectives.")
+                Logger.w("Mismatch between the number of ruins in the match and objectives.")
                 continue
             }
 
@@ -806,7 +806,7 @@ class WvwActivity : BaseActivity() {
     /**
      * @return the objective from the configuration that matches the objective from the objectives endpoint
      */
-    private fun configObjective(objective: WvwObjective): com.bselzer.gw2.manager.android.configuration.wvw.WvwObjective? {
+    private fun configObjective(objective: WvwObjective): com.bselzer.gw2.manager.common.configuration.wvw.WvwObjective? {
         val type = objective.type()
         return configuration.wvw.objectives.objectives.firstOrNull { configObjective -> configObjective.type == type }
     }
@@ -1257,7 +1257,8 @@ class WvwActivity : BaseActivity() {
      */
     @Composable
     private fun appBarActions(content: @Composable RowScope.() -> Unit = {}): @Composable RowScope.() -> Unit = {
-        RefreshIcon { refreshData(wvwPref.selectedWorld) }
+        val selectedId by wvwPref.selectedWorld.safeState()
+        RefreshIcon { refreshData(selectedId) }
         IconButton(onClick = { showSelectWorldDialog() }) {
             Icon(Icons.Filled.List, contentDescription = "World")
         }
@@ -1276,8 +1277,8 @@ class WvwActivity : BaseActivity() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val selectedId = wvwPref.selectedWorld
-            Timber.d("Selected world id: $selectedId")
+            val selectedId = wvwPref.selectedWorld.get()
+            Logger.d("Selected world id: $selectedId")
 
             // If there is no matching world then the resulting -1 will specify no selection.
             val selectedWorld = worlds.indexOfFirst { world -> world.id == selectedId }
@@ -1288,9 +1289,9 @@ class WvwActivity : BaseActivity() {
                     .setSingleChoiceItems(worlds.map { world -> world.name }.toTypedArray(), selectedWorld) { dialog, which ->
                         CoroutineScope(Dispatchers.IO).launch {
                             // Update the id on the same thread as refreshData so that the dialog does not reappear when calling refreshData() because it was not saved yet.
-                            val newWorld = worlds[which].id
-                            wvwPref.selectedWorld = newWorld
-                            refreshData(newWorld)
+                            val newWorldId = worlds[which].id
+                            wvwPref.selectedWorld.set(newWorldId)
+                            refreshData(newWorldId)
                         }
                         dialog.dismiss()
                     }

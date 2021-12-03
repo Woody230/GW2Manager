@@ -12,8 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.kodein.DIAwareActivity
-import com.bselzer.gw2.manager.android.ui.theme.Theme
-import com.bselzer.gw2.manager.android.ui.theme.appThemeType
+import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.library.kotlin.extension.compose.ui.background.Background
 import com.bselzer.library.kotlin.extension.compose.ui.background.BackgroundColumn
 import com.bselzer.library.kotlin.extension.compose.ui.background.BackgroundImage
@@ -72,10 +71,10 @@ abstract class BaseActivity : DIAwareActivity() {
     )
 
     @Composable
-    private fun relativeBackgroundDrawableId() = if (appThemeType() == Theme.DARK) R.drawable.gw2_bloodstone_night else R.drawable.gw2_ice
+    private fun relativeBackgroundDrawableId() = if (app.theme() == Theme.DARK) R.drawable.gw2_bloodstone_night else R.drawable.gw2_ice
 
     @Composable
-    private fun relativeBackgroundAlignment() = if (appThemeType() == Theme.DARK) Alignment.TopCenter else Alignment.Center
+    private fun relativeBackgroundAlignment() = if (app.theme() == Theme.DARK) Alignment.TopCenter else Alignment.Center
 
     @Composable
     private fun absoluteBackgroundDrawableId() = R.drawable.gw2_two_sylvari

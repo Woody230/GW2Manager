@@ -28,8 +28,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
-import com.bselzer.gw2.manager.android.ui.theme.AppTheme
-import com.bselzer.gw2.manager.android.ui.theme.Theme
+import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.library.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.library.gw2.v2.model.enumeration.extension.account.permissions
 import com.bselzer.library.gw2.v2.scope.core.Permission
@@ -40,13 +39,12 @@ import com.bselzer.library.kotlin.extension.compose.ui.picker.ValuePicker
 import com.bselzer.library.kotlin.extension.compose.ui.style.hyperlink
 import com.bselzer.library.kotlin.extension.coroutine.showToast
 import com.bselzer.library.kotlin.extension.function.objects.userFriendly
+import com.bselzer.library.kotlin.extension.logging.Logger
+import com.bselzer.library.kotlin.extension.settings.compose.nullState
+import com.bselzer.library.kotlin.extension.settings.compose.safeState
 import io.ktor.client.features.*
 import io.ktor.client.statement.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import timber.log.Timber
+import kotlinx.coroutines.*
 import kotlin.math.max
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
@@ -61,11 +59,11 @@ class SettingsActivity : BaseActivity() {
     }
 
     @Composable
-    private fun Content() = AppTheme {
+    private fun Content() = app.Content {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            MaterialAppBar(title = R.string.app_name, navigationIcon = { UpNavigationIcon(destination = MainActivity::class.java) })
+            MaterialAppBar(title = R.string.activity_settings, navigationIcon = { UpNavigationIcon(destination = MainActivity::class.java) })
 
             RelativeBackgroundColumn(
                 modifier = Modifier
@@ -97,7 +95,7 @@ class SettingsActivity : BaseActivity() {
      */
     @Composable
     private fun ShowThemePreference() {
-        var theme by commonPref.rememberTheme()
+        var theme by commonPref.theme.safeState()
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -142,7 +140,7 @@ class SettingsActivity : BaseActivity() {
      */
     @Composable
     private fun ShowTokenPreference() {
-        var token by commonPref.rememberToken()
+        var token by commonPref.token.nullState()
 
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth()
@@ -214,7 +212,7 @@ class SettingsActivity : BaseActivity() {
                                     database.put(tokenInfo)
                                     initializePreferences(token, tokenInfo)
                                     setToken(token)
-                                    Timber.d("Set client token to $token")
+                                    Logger.d("Set client token to $token")
                                 }
                             } catch (ex: ClientRequestException) {
                                 showToast(context, "Unable to save the token: ${ex.response.readText()}", Toast.LENGTH_LONG)
@@ -275,7 +273,7 @@ class SettingsActivity : BaseActivity() {
     @OptIn(ExperimentalTime::class)
     @Composable
     private fun ShowRefreshIntervalPreference() {
-        var refreshInterval by wvwPref.rememberRefreshInterval()
+        var refreshInterval by wvwPref.refreshInterval.safeState()
 
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth()
@@ -321,8 +319,10 @@ class SettingsActivity : BaseActivity() {
     @OptIn(ExperimentalTime::class)
     @Composable
     private fun ShowRefreshIntervalDialog(setShowDialog: (Boolean) -> Unit, setRefreshInterval: (Duration) -> Unit) {
-        val number = remember { mutableStateOf(wvwPref.refreshIntervalDefault.toInt(wvwPref.refreshIntervalDefaultUnit)) }
-        val component = remember { mutableStateOf(wvwPref.refreshIntervalDefaultUnit) }
+        // TODO duration unit getting aliased to TimeUnit and preventing use of toInt and toDuration
+        val defaultUnit = DurationUnit.MINUTES
+        val number = remember { mutableStateOf(wvwPref.refreshInterval.defaultValue.toInt(defaultUnit)) }
+        val component = remember { mutableStateOf(defaultUnit) }
         val duration = number.value.toDuration(component.value)
 
         // Adjust the current value as the component changes to make sure it meets the minimum.
@@ -374,15 +374,15 @@ class SettingsActivity : BaseActivity() {
     private suspend fun initializePreferences(token: String, tokenInfo: TokenInfo) {
         try {
             val permissions = tokenInfo.permissions()
-            Timber.d("Token permissions: $permissions")
+            Logger.d("Token permissions: $permissions")
 
             // TODO scope processor to automatically verify permissions
             if (permissions.contains(Permission.ACCOUNT)) {
                 val account = gw2Client.account.account(token)
-                wvwPref.initializeSelectedWorld(account.world)
+                wvwPref.selectedWorld.initialize(account.world)
             }
         } catch (ex: Exception) {
-            Timber.e("Unable to initialize preferences.", ex)
+            Logger.e(ex, "Unable to initialize preferences.")
         }
     }
 }

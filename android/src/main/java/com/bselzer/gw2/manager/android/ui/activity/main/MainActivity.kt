@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -17,20 +18,19 @@ import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.android.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwActivity
-import com.bselzer.gw2.manager.android.ui.theme.AppTheme
+import com.bselzer.gw2.manager.common.expect.App
+import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBar
 import com.bselzer.library.kotlin.extension.function.core.hasInternet
 import kotlinx.coroutines.*
 import org.kodein.di.instance
 
 class MainActivity : BaseActivity() {
-    private val initializedData by instance<MutableState<Boolean>>(tag = "InitialDataPopulation")
+    private val initializedData by instance<MutableState<Boolean>>(tag = App.INITIAL_DATA_POPULATION)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            commonPref.InitializeTheme()
-
             val (download, setDownloading) = remember { mutableStateOf(!initializedData.value) }
             val (description, setDescription) = remember { mutableStateOf("") }
             Content(download, description)
@@ -40,7 +40,7 @@ class MainActivity : BaseActivity() {
 
     @OptIn(ExperimentalAnimationApi::class)
     @Composable
-    private fun Content(download: Boolean, description: String) = AppTheme {
+    private fun Content(download: Boolean, description: String) = app.Content {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -101,24 +101,29 @@ class MainActivity : BaseActivity() {
      * Load initial data from the API.
      */
     @Composable
-    private fun RetrieveData(download: Boolean, setDownloading: (Boolean) -> Unit, setDescription: (String) -> Unit) = LaunchedEffect(download) {
-        fun finishedDownloading() {
-            setDownloading(false)
-            initializedData.value = true
-        }
+    private fun RetrieveData(download: Boolean, setDownloading: (Boolean) -> Unit, setDescription: (String) -> Unit) {
+        val initialTheme = if (isSystemInDarkTheme()) Theme.DARK else Theme.LIGHT
+        LaunchedEffect(download) {
+            fun finishedDownloading() {
+                setDownloading(false)
+                initializedData.value = true
+            }
 
-        if (!download || !application.hasInternet()) {
+            commonPref.theme.initialize(initialTheme)
+
+            if (!download || !application.hasInternet()) {
+                finishedDownloading()
+                return@LaunchedEffect
+            }
+
+            setDescription("Build Number")
+            val newId = gw2Client.build.buildId()
+            val buildNumber = commonPref.buildNumber
+            if (newId > buildNumber.get()) {
+                buildNumber.set(newId)
+            }
+
             finishedDownloading()
-            return@LaunchedEffect
         }
-
-        setDescription("Build Number")
-        val newId = gw2Client.build.buildId()
-        val existingId = commonPref.buildNumber
-        if (newId > existingId) {
-            commonPref.buildNumber = newId
-        }
-
-        finishedDownloading()
     }
 }

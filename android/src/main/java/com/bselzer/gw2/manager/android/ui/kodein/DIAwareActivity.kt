@@ -2,9 +2,10 @@ package com.bselzer.gw2.manager.android.ui.kodein
 
 import androidx.appcompat.app.AppCompatActivity
 import coil.ImageLoader
-import com.bselzer.gw2.manager.android.configuration.Configuration
-import com.bselzer.gw2.manager.android.ui.activity.setting.preference.CommonPreference
-import com.bselzer.gw2.manager.android.ui.activity.setting.preference.WvwPreference
+import com.bselzer.gw2.manager.common.configuration.Configuration
+import com.bselzer.gw2.manager.common.expect.AndroidApp
+import com.bselzer.gw2.manager.common.preference.CommonPreference
+import com.bselzer.gw2.manager.common.preference.WvwPreference
 import com.bselzer.library.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.library.gw2.v2.client.client.Gw2Client
 import com.bselzer.library.gw2.v2.emblem.client.EmblemClient
@@ -21,6 +22,7 @@ import org.kodein.di.instance
  */
 abstract class DIAwareActivity : AppCompatActivity(), DIAware {
     override val di: DI by closestDI()
+    val app by instance<AndroidApp>()
     val database by instance<DB>()
     val gw2Client by instance<Gw2Client>()
     val gw2Cache by instance<Gw2CacheProvider>()

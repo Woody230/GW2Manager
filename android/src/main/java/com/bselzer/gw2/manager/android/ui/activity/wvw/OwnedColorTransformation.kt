@@ -1,7 +1,7 @@
 package com.bselzer.gw2.manager.android.ui.activity.wvw
 
-import com.bselzer.gw2.manager.android.configuration.wvw.Wvw
 import com.bselzer.gw2.manager.android.ui.coil.HexColorTransformation
+import com.bselzer.gw2.manager.common.configuration.wvw.Wvw
 import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 
 /**

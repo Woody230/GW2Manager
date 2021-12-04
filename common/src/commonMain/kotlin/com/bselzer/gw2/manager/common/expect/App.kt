@@ -17,7 +17,6 @@ import com.bselzer.library.gw2.v2.tile.cache.instance.TileCache
 import com.bselzer.library.gw2.v2.tile.cache.metadata.TileMetadataExtractor
 import com.bselzer.library.gw2.v2.tile.client.TileClient
 import com.bselzer.library.kotlin.extension.logging.Logger
-import com.bselzer.library.kotlin.extension.settings.compose.safeState
 import com.russhwolf.settings.ExperimentalSettingsApi
 import io.ktor.client.*
 import io.ktor.client.features.*
@@ -38,15 +37,9 @@ import org.kodein.di.instance
 
 abstract class App : DIAware {
     final override val di: DI = DI.lazy { bindAll() }
-    val database by instance<DB>()
-    val gw2Client by instance<Gw2Client>()
-    val gw2Cache by instance<Gw2CacheProvider>()
-    val tileClient by instance<TileClient>()
-    val tileCache by instance<TileCache>()
-    val emblemClient by instance<com.bselzer.library.gw2.v2.emblem.client.EmblemClient>()
-    val configuration by instance<Configuration>()
-    val commonPref by instance<CommonPreference>()
-    val wvwPref by instance<WvwPreference>()
+    private val database by instance<DB>()
+    private val configuration by instance<Configuration>()
+    private val commonPref by instance<CommonPreference>()
 
     companion object {
         /**

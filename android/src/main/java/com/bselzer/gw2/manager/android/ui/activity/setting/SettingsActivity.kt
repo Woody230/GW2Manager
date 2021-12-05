@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -17,7 +16,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -34,7 +32,10 @@ import com.bselzer.library.kotlin.extension.compose.ui.picker.NumberPicker
 import com.bselzer.library.kotlin.extension.compose.ui.picker.ValuePicker
 import com.bselzer.library.kotlin.extension.compose.ui.preference.PreferenceColumn
 import com.bselzer.library.kotlin.extension.compose.ui.preference.PreferenceSection
+import com.bselzer.library.kotlin.extension.compose.ui.preference.SwitchPreference
+import com.bselzer.library.kotlin.extension.compose.ui.preference.TextFieldDialogPreference
 import com.bselzer.library.kotlin.extension.compose.ui.style.hyperlink
+import com.bselzer.library.kotlin.extension.compose.ui.style.withColor
 import com.bselzer.library.kotlin.extension.coroutine.showToast
 import com.bselzer.library.kotlin.extension.function.objects.userFriendly
 import com.bselzer.library.kotlin.extension.logging.Logger
@@ -65,7 +66,7 @@ class SettingsActivity : BaseActivity() {
                 { TokenPreference() },
                 {
                     PreferenceSection(
-                        //iconPainter = painterResource(R.drawable.gw2_rank_dolyak),
+                        iconPainter = painterResource(R.drawable.gw2_rank_dolyak),
                         title = stringResource(R.string.activity_wvw)
                     ) {
                         RefreshIntervalPreference()
@@ -81,43 +82,13 @@ class SettingsActivity : BaseActivity() {
     @Composable
     private fun ThemePreference() {
         var theme by commonPref.theme.safeState()
-        ConstraintLayout(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            val (icon, column, switch) = createRefs()
-            Image(
-                painter = painterResource(id = if (theme == Theme.LIGHT) R.drawable.gw2_eternity else R.drawable.gw2_sunrise),
-                contentDescription = "Theme",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .size(48.dp)
-                    .constrainAs(icon) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                    }
-            )
-
-            Column(modifier = Modifier.constrainAs(column) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(icon.end, 25.dp)
-                end.linkTo(switch.start, 25.dp)
-                width = Dimension.fillToConstraints
-            }) {
-                Text(text = "Theme", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                Text(text = theme.userFriendly(), fontSize = 14.sp)
-            }
-
-            Switch(
-                checked = theme == Theme.DARK,
-                onCheckedChange = { isDarkMode -> theme = if (isDarkMode) Theme.DARK else Theme.LIGHT },
-                modifier = Modifier.constrainAs(switch) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                })
-        }
+        SwitchPreference(
+            iconPainter = painterResource(if (theme == Theme.LIGHT) R.drawable.gw2_sunrise else R.drawable.gw2_twilight),
+            title = "Theme",
+            subtitle = theme.userFriendly(),
+            checked = theme != Theme.LIGHT,
+            onStateChanged = { theme = if (it) Theme.DARK else Theme.LIGHT }
+        )
     }
 
     /**
@@ -126,127 +97,47 @@ class SettingsActivity : BaseActivity() {
     @Composable
     private fun TokenPreference() {
         var token by commonPref.token.nullState()
-
-        ConstraintLayout(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            val (icon, column) = createRefs()
-            Image(
-                painter = painterResource(id = R.drawable.gw2_black_lion_key),
-                contentDescription = "Token",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .size(48.dp)
-                    .constrainAs(icon) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                    }
-            )
-
-            var showDialog by remember { mutableStateOf(false) }
-            Column(modifier = Modifier
-                .clickable { showDialog = true }
-                .constrainAs(column) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(icon.end, 25.dp)
-                    end.linkTo(parent.end)
-                    width = Dimension.fillToConstraints
-                }) {
-                Text(text = "Token", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-
-                val value = token
-                Text(text = if (value.isNullOrBlank()) "Not set" else value, fontSize = 14.sp)
-            }
-
-            if (showDialog) {
-                ShowTokenDialog({ showDialog = it }, { token = it })
-            }
-        }
-    }
-
-    /**
-     * Shows the dialog for setting the token.
-     */
-    @Composable
-    private fun ShowTokenDialog(setShowDialog: (Boolean) -> Unit, setToken: (String?) -> Unit) {
-        var editText by remember { mutableStateOf("") }
+        val value = token
         val context = LocalContext.current
+        val linkTag = "applications"
+        TextFieldDialogPreference(
+            iconPainter = painterResource(id = R.drawable.gw2_black_lion_key),
+            title = "Token",
+            subtitle = if (value.isNullOrBlank()) "Not set" else value,
+            dialogSubtitle = buildAnnotatedString {
+                withColor(text = "Your account ", color = MaterialTheme.colors.onPrimary)
 
-        // TODO delete button
-        AlertDialog(
-            onDismissRequest = { setShowDialog(false) },
-            title = {
-                Text("Token")
+                // Append a link to where the user can go to look up their api key.
+                hyperlink(text = "api key or token.", tag = linkTag, hyperlink = "https://account.arena.net/applications")
             },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            // Validate the new token before committing it.
-                            val token = editText.trim()
-                            if (token.isBlank()) {
-                                setToken(null)
-                                return@launch
-                            }
+            dialogSubtitleOnClick = { offset, text ->
+                text.getStringAnnotations(tag = linkTag, start = offset, end = offset).firstOrNull()?.let {
+                    // Open the link in the user's browser.
+                    val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://account.arena.net/applications"))
+                    startActivity(intent)
+                }
+            },
+            onStateChanged = { newValue ->
+                CoroutineScope(Dispatchers.Main).launch {
+                    // Validate the new token before committing it.
+                    if (newValue.isNullOrBlank()) {
+                        token = null
+                        return@launch
+                    }
 
-                            try {
-                                withContext(Dispatchers.IO) {
-                                    val tokenInfo = gw2Client.token.information(token = token)
-                                    database.put(tokenInfo)
-                                    initializePreferences(token, tokenInfo)
-                                    setToken(token)
-                                    Logger.d("Set client token to $token")
-                                }
-                            } catch (ex: ClientRequestException) {
-                                showToast(context, "Unable to save the token: ${ex.response.readText()}", Toast.LENGTH_LONG)
-                            } catch (ex: Exception) {
-                                showToast(context, "Unable to save the token.", Toast.LENGTH_SHORT)
-                            }
-                            setShowDialog(false)
+                    try {
+                        withContext(Dispatchers.IO) {
+                            val tokenInfo = gw2Client.token.information(token = newValue)
+                            database.put(tokenInfo)
+                            initializePreferences(newValue, tokenInfo)
+                            token = newValue
+                            Logger.d("Set client token to $token")
                         }
-                    },
-                ) {
-                    Text(text = stringResource(id = R.string.confirm))
-                }
-            },
-            dismissButton = {
-                Button(
-                    onClick = { setShowDialog(false) },
-                ) {
-                    Text(text = stringResource(id = R.string.dismiss))
-                }
-            },
-            text = {
-                val tag = "applications"
-                val message = buildAnnotatedString {
-                    val style = LocalTextStyle.current.toSpanStyle()
-                    withStyle(style = style.copy(color = MaterialTheme.colors.onPrimary)) {
-                        append("Your account ")
+                    } catch (ex: ClientRequestException) {
+                        showToast(context, "Unable to save the token: ${ex.response.readText()}", Toast.LENGTH_LONG)
+                    } catch (ex: Exception) {
+                        showToast(context, "Unable to save the token.", Toast.LENGTH_SHORT)
                     }
-
-                    // Append a link to where the user can go to look up their api key.
-                    pushStringAnnotation(tag = tag, annotation = "https://account.arena.net/applications")
-                    withStyle(style = style.hyperlink()) {
-                        append("api key or token.")
-                    }
-                    pop()
-                }
-
-                Column(
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    ClickableText(text = message) { offset ->
-                        message.getStringAnnotations(tag = tag, start = offset, end = offset).firstOrNull()?.let {
-                            // Open the link in the user's browser.
-                            val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://account.arena.net/applications"))
-                            startActivity(intent)
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(25.dp))
-                    TextField(value = editText, onValueChange = { editText = it })
                 }
             }
         )

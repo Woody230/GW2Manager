@@ -1,9 +1,7 @@
 package com.bselzer.gw2.manager.android.ui.activity.setting
 
 import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,7 +10,6 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -32,10 +29,11 @@ import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.library.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.library.gw2.v2.model.enumeration.extension.account.permissions
 import com.bselzer.library.gw2.v2.scope.core.Permission
-import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBar
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.library.kotlin.extension.compose.ui.picker.NumberPicker
 import com.bselzer.library.kotlin.extension.compose.ui.picker.ValuePicker
+import com.bselzer.library.kotlin.extension.compose.ui.preference.PreferenceColumn
+import com.bselzer.library.kotlin.extension.compose.ui.preference.PreferenceSection
 import com.bselzer.library.kotlin.extension.compose.ui.style.hyperlink
 import com.bselzer.library.kotlin.extension.coroutine.showToast
 import com.bselzer.library.kotlin.extension.function.objects.userFriendly
@@ -53,48 +51,35 @@ import kotlin.time.toDuration
 
 class SettingsActivity : BaseActivity() {
     // TODO DB clearing
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent { Content() }
-    }
 
     @Composable
-    private fun Content() = app.Content {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            MaterialAppBar(title = R.string.activity_settings, navigationIcon = { UpNavigationIcon(destination = MainActivity::class.java) })
-
-            RelativeBackgroundColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                contentModifier = Modifier.padding(25.dp),
-                alignment = Alignment.TopStart,
-                contentHorizontalAlignment = Alignment.Start,
-            ) {
-                ShowThemePreference()
-                Spacer(modifier = Modifier.height(10.dp))
-                Divider(thickness = 5.dp)
-                Spacer(modifier = Modifier.height(10.dp))
-                ShowTokenPreference()
-                Spacer(modifier = Modifier.height(10.dp))
-                Divider(thickness = 5.dp)
-                Spacer(modifier = Modifier.height(10.dp))
-
-                // TODO icon
-                Text(text = stringResource(R.string.activity_wvw), color = MaterialTheme.colors.primary, fontSize = 14.sp, modifier = Modifier.padding(start = 73.dp))
-                Spacer(modifier = Modifier.height(10.dp))
-                ShowRefreshIntervalPreference()
-            }
-        }
+    override fun Content() = RelativeBackgroundContent(
+        backgroundModifier = Modifier.verticalScroll(rememberScrollState()),
+        title = stringResource(R.string.activity_settings),
+        navigationIcon = { UpNavigationIcon(destination = MainActivity::class.java) },
+    ) {
+        PreferenceColumn(
+            modifier = Modifier.padding(25.dp),
+            contents = arrayOf(
+                { ThemePreference() },
+                { TokenPreference() },
+                {
+                    PreferenceSection(
+                        //iconPainter = painterResource(R.drawable.gw2_rank_dolyak),
+                        title = stringResource(R.string.activity_wvw)
+                    ) {
+                        RefreshIntervalPreference()
+                    }
+                }
+            )
+        )
     }
 
     /**
      * Displays the preference for selecting the theme.
      */
     @Composable
-    private fun ShowThemePreference() {
+    private fun ThemePreference() {
         var theme by commonPref.theme.safeState()
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth()
@@ -139,7 +124,7 @@ class SettingsActivity : BaseActivity() {
      * Displays the preference for setting the token/api key.
      */
     @Composable
-    private fun ShowTokenPreference() {
+    private fun TokenPreference() {
         var token by commonPref.token.nullState()
 
         ConstraintLayout(
@@ -260,7 +245,7 @@ class SettingsActivity : BaseActivity() {
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(5.dp))
+                    Spacer(modifier = Modifier.height(25.dp))
                     TextField(value = editText, onValueChange = { editText = it })
                 }
             }
@@ -272,7 +257,7 @@ class SettingsActivity : BaseActivity() {
      */
     @OptIn(ExperimentalTime::class)
     @Composable
-    private fun ShowRefreshIntervalPreference() {
+    private fun RefreshIntervalPreference() {
         var refreshInterval by wvwPref.refreshInterval.safeState()
 
         ConstraintLayout(

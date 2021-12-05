@@ -1,5 +1,7 @@
 package com.bselzer.gw2.manager.android.ui.activity.common
 
+import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,10 +26,11 @@ import com.bselzer.library.gw2.v2.client.client.Gw2Client
 import com.bselzer.library.gw2.v2.emblem.client.EmblemClient
 import com.bselzer.library.gw2.v2.tile.cache.instance.TileCache
 import com.bselzer.library.gw2.v2.tile.client.TileClient
+import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBarColumn
 import com.bselzer.library.kotlin.extension.compose.ui.background.Background
 import com.bselzer.library.kotlin.extension.compose.ui.background.BackgroundColumn
 import com.bselzer.library.kotlin.extension.compose.ui.background.BackgroundImage
-import com.bselzer.library.kotlin.extension.compose.ui.column.CenteredRow
+import com.bselzer.library.kotlin.extension.compose.ui.container.CenteredRow
 import org.kodein.db.DB
 import org.kodein.di.DI
 import org.kodein.di.android.closestDI
@@ -53,14 +56,14 @@ abstract class BaseActivity : AppCompatActivity(), AndroidAware {
     private val absoluteBox: @Composable BoxScope.() -> Unit = { BackgroundImage(drawableId = absoluteBackgroundDrawableId()) }
 
     /**
-     * Displays an image suitable for a relative background based on the current theme. This is typically used for backgrounds that are covered by text.
+     * Lays out an image suitable for a relative background based on the current theme. This is typically used for backgrounds that are covered by text.
      */
     @Composable
     protected fun RelativeBackground(modifier: Modifier = Modifier, contentAlignment: Alignment = Alignment.TopStart, content: @Composable BoxScope.() -> Unit) =
         Background(modifier = modifier, contentAlignment = contentAlignment, background = relativeBox, content = content)
 
     /**
-     * Displays an image suitable for the absolute background based on the current theme. This is typically used for backgrounds that are not covered by text.
+     * Lays out an image suitable for the absolute background based on the current theme. This is typically used for backgrounds that are not covered by text.
      */
     @Composable
     protected fun AbsoluteBackground(modifier: Modifier = Modifier, contentAlignment: Alignment = Alignment.TopStart, content: @Composable BoxScope.() -> Unit) =
@@ -99,6 +102,36 @@ abstract class BaseActivity : AppCompatActivity(), AndroidAware {
     )
 
     @Composable
+    fun RelativeBackgroundContent(
+        modifier: Modifier = Modifier,
+        title: String,
+        navigationIcon: (@Composable () -> Unit)? = null,
+        actions: @Composable RowScope.() -> Unit = {},
+        backgroundModifier: Modifier = Modifier,
+        contentAlignment: Alignment = Alignment.TopStart,
+        content: @Composable BoxScope.() -> Unit,
+    ) = MaterialAppBarColumn(modifier = modifier, title = title, navigationIcon = navigationIcon, actions = actions) {
+        RelativeBackground(modifier = Modifier
+            .fillMaxSize()
+            .then(backgroundModifier), contentAlignment = contentAlignment, content = content)
+    }
+
+    @Composable
+    fun AbsoluteBackgroundContent(
+        modifier: Modifier = Modifier,
+        title: String,
+        navigationIcon: (@Composable () -> Unit)? = null,
+        actions: @Composable RowScope.() -> Unit = {},
+        backgroundModifier: Modifier = Modifier,
+        contentAlignment: Alignment = Alignment.TopStart,
+        content: @Composable BoxScope.() -> Unit,
+    ) = MaterialAppBarColumn(modifier = modifier, title = title, navigationIcon = navigationIcon, actions = actions) {
+        AbsoluteBackground(modifier = Modifier
+            .fillMaxSize()
+            .then(backgroundModifier), contentAlignment = contentAlignment, content = content)
+    }
+
+    @Composable
     private fun relativeBackgroundDrawableId() = if (app.theme() == Theme.DARK) R.drawable.gw2_bloodstone_night else R.drawable.gw2_ice
 
     @Composable
@@ -115,7 +148,7 @@ abstract class BaseActivity : AppCompatActivity(), AndroidAware {
     )
 
     /**
-     * Displays a card for each of the [items].
+     * Lays out a card for each of the [items].
      *
      * @param items the title mapped to the on-click handler
      */
@@ -146,10 +179,22 @@ abstract class BaseActivity : AppCompatActivity(), AndroidAware {
         }
 
     /**
-     * Displays a circular progress indicator.
+     * Lays out a circular progress indicator.
      */
     @Composable
     protected fun ShowProgressIndicator() = CircularProgressIndicator(
         modifier = Modifier.fillMaxSize(0.15f)
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            app.Content {
+                Content()
+            }
+        }
+    }
+
+    @Composable
+    protected abstract fun Content()
 }

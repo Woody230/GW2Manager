@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.*
@@ -125,9 +124,8 @@ class WvwActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         zoom.value = configuration.wvw.map.zoom.default
-        setContent { Content() }
+        super.onCreate(savedInstanceState)
     }
 
     @OptIn(ExperimentalTime::class)
@@ -282,7 +280,7 @@ class WvwActivity : BaseActivity() {
     // region ShowMenu
 
     @Composable
-    private fun Content() = app.Content {
+    override fun Content() = app.Content {
         val selectedPage = rememberSaveable { selectedPage }.value
         when (selectedPage) {
             MAP -> ShowMapPage()
@@ -1247,7 +1245,7 @@ class WvwActivity : BaseActivity() {
      */
     @Composable
     private fun ShowContentTopAppBar(@StringRes title: Int, actions: @Composable RowScope.() -> Unit = {}) = MaterialAppBar(
-        title = title,
+        title = stringResource(title),
         navigationIcon = { UpNavigationIcon(MainActivity::class.java) },
         actions = appBarActions(actions)
     )

@@ -17,7 +17,6 @@ class WvwPreference(settings: SuspendSettings) {
     @OptIn(ExperimentalTime::class)
     val refreshInterval: SafeSetting<Duration> = DurationSetting(settings = settings, key = "RefreshInterval", defaultValue = Duration.minutes(10)).safe()
 
-    // TODO duration unit getting aliased to TimeUnit and preventing use of toInt and toDuration
     /**
      * The default data refresh interval date/time component.
      */

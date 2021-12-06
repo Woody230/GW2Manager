@@ -15,7 +15,6 @@ kotlin {
         }
     }
     sourceSets {
-        val kotlinVersion = "1.5.31"
         val wrapperVersion = "1.0.0"
         val kodeinDbVersion = "0.9.0-beta"
         val kodeinDiVersion = "7.9.0"

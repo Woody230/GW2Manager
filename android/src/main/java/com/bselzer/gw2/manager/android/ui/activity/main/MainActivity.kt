@@ -65,6 +65,8 @@ class MainActivity : BaseActivity() {
         stringResource(id = R.string.activity_settings) to {
             startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
         }
+
+        // TODO DB clearing
     )
 
     /**

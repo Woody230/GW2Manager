@@ -34,6 +34,7 @@ kotlin {
 
                 // Extensions
                 api("com.bselzer.library.kotlin.extension:compose:$extensionVersion")
+                api("com.bselzer.library.kotlin.extension:coroutine:$extensionVersion")
                 api("com.bselzer.library.kotlin.extension:function:$extensionVersion")
                 api("com.bselzer.library.kotlin.extension:logging:$extensionVersion")
                 api("com.bselzer.library.kotlin.extension:settings-compose:$extensionVersion")

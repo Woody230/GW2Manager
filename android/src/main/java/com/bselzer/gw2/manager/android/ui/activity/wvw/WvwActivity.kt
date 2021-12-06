@@ -71,14 +71,12 @@ import com.bselzer.library.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.library.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.library.gw2.v2.tile.model.response.Tile
 import com.bselzer.library.gw2.v2.tile.model.response.TileGrid
+import com.bselzer.library.kotlin.extension.compose.effect.PreRepeatedEffect
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBar
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.RefreshIcon
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.library.kotlin.extension.compose.ui.geometry.ArcShape
 import com.bselzer.library.kotlin.extension.compose.ui.unit.toDp
-import com.bselzer.library.kotlin.extension.coroutine.cancel
-import com.bselzer.library.kotlin.extension.coroutine.repeat
-import com.bselzer.library.kotlin.extension.function.collection.addTo
 import com.bselzer.library.kotlin.extension.function.collection.isOneOf
 import com.bselzer.library.kotlin.extension.function.objects.userFriendly
 import com.bselzer.library.kotlin.extension.geometry.dimension.bi.Dimension2D
@@ -94,7 +92,6 @@ import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
 class WvwActivity : BaseActivity() {
-    private val jobs: ArrayDeque<Job> = ArrayDeque()
     private val worlds = mutableStateOf<Collection<World>>(emptyList())
     private val match = mutableStateOf<WvwMatch?>(null)
     private val objectives = mutableStateOf<Collection<WvwObjective>>(emptyList())
@@ -106,7 +103,7 @@ class WvwActivity : BaseActivity() {
     private val grid = mutableStateOf(TileGrid())
     private val selectedObjective = mutableStateOf<WvwObjective?>(null)
     private val tileContent = mutableStateMapOf<Tile, Bitmap>()
-    private val zoom = MutableStateFlow(0)
+    private val zoom = mutableStateOf(0)
     private val selectedPage = mutableStateOf<Page?>(null)
 
     private enum class Page {
@@ -126,31 +123,6 @@ class WvwActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         zoom.value = configuration.wvw.map.zoom.default
         super.onCreate(savedInstanceState)
-    }
-
-    @OptIn(ExperimentalTime::class)
-    override fun onResume() {
-        super.onResume()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            repeat(wvwPref.refreshInterval.get()) {
-                refreshData(wvwPref.selectedWorld.get())
-            }
-        }.addTo(jobs)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            // Zoom has changed so notify that the grid needs to be refreshed.
-            zoom.shareIn(this, SharingStarted.Lazily).onEach {
-                gw2Cache.lockedInstance {
-                    refreshGridData()
-                }
-            }.collect()
-        }.addTo(jobs)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        jobs.cancel()
     }
 
     // region Refresh
@@ -279,6 +251,7 @@ class WvwActivity : BaseActivity() {
 
     // region ShowMenu
 
+    @OptIn(ExperimentalTime::class)
     @Composable
     override fun Content() = app.Content {
         val selectedPage = rememberSaveable { selectedPage }.value
@@ -293,6 +266,16 @@ class WvwActivity : BaseActivity() {
         LaunchedEffect(selectedPage) {
             if (selectedPage == MAP) {
                 refreshMapData()
+                refreshGridData()
+            }
+        }
+
+        PreRepeatedEffect(delay = runBlocking { wvwPref.refreshInterval.get() }) {
+            refreshData(wvwPref.selectedWorld.get())
+        }
+
+        LaunchedEffect(key1 = zoom.value) {
+            gw2Cache.lockedInstance {
                 refreshGridData()
             }
         }
@@ -783,7 +766,7 @@ class WvwActivity : BaseActivity() {
     private fun tileCount(): TileCount {
         val grid = remember { grid }.value
         val tileContent = remember { tileContent }
-        val zoom by zoom.collectAsState()
+        val zoom by zoom
         val contentSize = tileContent.filterKeys { key -> key.zoom == zoom }.size
         return TileCount(contentSize = contentSize, gridSize = grid.tiles.size)
     }

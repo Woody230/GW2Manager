@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
@@ -75,6 +74,7 @@ import com.bselzer.library.kotlin.extension.compose.effect.PreRepeatedEffect
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBar
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.RefreshIcon
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.UpNavigationIcon
+import com.bselzer.library.kotlin.extension.compose.ui.dialog.SingleChoiceDialog
 import com.bselzer.library.kotlin.extension.compose.ui.geometry.ArcShape
 import com.bselzer.library.kotlin.extension.compose.ui.unit.toDp
 import com.bselzer.library.kotlin.extension.function.collection.isOneOf
@@ -105,6 +105,7 @@ class WvwActivity : BaseActivity() {
     private val tileContent = mutableStateMapOf<Tile, Bitmap>()
     private val zoom = mutableStateOf(0)
     private val selectedPage = mutableStateOf<Page?>(null)
+    private val showWorldDialog = mutableStateOf(false)
 
     private enum class Page {
         MAP,
@@ -137,8 +138,7 @@ class WvwActivity : BaseActivity() {
 
             // Need the world to be able to get the associated match.
             if (selectedWorld <= 0) {
-                // Selection is required so do not allow cancellation.
-                showSelectWorldDialog(cancellable = false)
+                showWorldDialog.value = true
                 return@lockedInstance
             }
 
@@ -262,6 +262,10 @@ class WvwActivity : BaseActivity() {
             null -> ShowMenu()
         }
 
+        if (remember { showWorldDialog }.value) {
+            SelectWorldDialog()
+        }
+
         // Map refresh is comparatively expensive so only do it when the user is on its page.
         LaunchedEffect(selectedPage) {
             if (selectedPage == MAP) {
@@ -275,9 +279,7 @@ class WvwActivity : BaseActivity() {
         }
 
         LaunchedEffect(key1 = zoom.value) {
-            gw2Cache.lockedInstance {
-                refreshGridData()
-            }
+            refreshGridData()
         }
     }
 
@@ -1240,7 +1242,7 @@ class WvwActivity : BaseActivity() {
     private fun appBarActions(content: @Composable RowScope.() -> Unit = {}): @Composable RowScope.() -> Unit = {
         val selectedId by wvwPref.selectedWorld.safeState()
         RefreshIcon { refreshData(selectedId) }
-        IconButton(onClick = { showSelectWorldDialog() }) {
+        IconButton(onClick = { showWorldDialog.value = true }) {
             Icon(Icons.Filled.List, contentDescription = "World")
         }
         content()
@@ -1249,37 +1251,36 @@ class WvwActivity : BaseActivity() {
     /**
      * Create a dialog for the user to select the world.
      */
-    private fun showSelectWorldDialog(cancellable: Boolean = true) {
-        // TODO composable refresh so that this can be converted into compose dialog
-        val worlds = this.worlds.value.sortedBy { world -> world.name }.toList()
+    @Composable
+    private fun SelectWorldDialog() {
+        val worlds = remember { worlds }.value.sortedBy { world -> world.name }
         if (worlds.isEmpty()) {
             Toast.makeText(this, "Waiting for the worlds to be downloaded.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            val selectedId = wvwPref.selectedWorld.get()
-            Logger.d("Selected world id: $selectedId")
+        var selectedId by wvwPref.selectedWorld.safeState()
+        Logger.d("Selected world id: $selectedId")
 
-            // If there is no matching world then the resulting -1 will specify no selection.
-            val selectedWorld = worlds.indexOfFirst { world -> world.id == selectedId }
-            withContext(Dispatchers.Main)
-            {
-                AlertDialog.Builder(this@WvwActivity)
-                    .setTitle("Worlds")
-                    .setSingleChoiceItems(worlds.map { world -> world.name }.toTypedArray(), selectedWorld) { dialog, which ->
-                        CoroutineScope(Dispatchers.IO).launch {
-                            // Update the id on the same thread as refreshData so that the dialog does not reappear when calling refreshData() because it was not saved yet.
-                            val newWorldId = worlds[which].id
-                            wvwPref.selectedWorld.set(newWorldId)
-                            refreshData(newWorldId)
-                        }
-                        dialog.dismiss()
-                    }
-                    .setCancelable(cancellable)
-                    .show()
+        val selected = remember { mutableStateOf<World?>(null) }
+        selected.value = worlds.firstOrNull { world -> world.id == selectedId }
+
+        // TODO preferably, choice should be scrolled to when dialog gets opened
+        SingleChoiceDialog(
+            showDialog = { showWorldDialog.value = it },
+            title = "Worlds",
+            values = worlds,
+            labels = worlds.map { world -> world.name },
+            selected = selected,
+            onStateChanged = { world ->
+                selectedId = world.id
+
+                // MUST not use remembered scope since it will be cancelled due to dialog closing.
+                CoroutineScope(Dispatchers.IO).launch {
+                    refreshData(world.id)
+                }
             }
-        }
+        )
     }
 
     override fun onBackPressed() {

@@ -74,6 +74,7 @@ import com.bselzer.library.kotlin.extension.compose.effect.PreRepeatedEffect
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.MaterialAppBar
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.RefreshIcon
 import com.bselzer.library.kotlin.extension.compose.ui.appbar.UpNavigationIcon
+import com.bselzer.library.kotlin.extension.compose.ui.container.DividedColumn
 import com.bselzer.library.kotlin.extension.compose.ui.dialog.SingleChoiceDialog
 import com.bselzer.library.kotlin.extension.compose.ui.geometry.ArcShape
 import com.bselzer.library.kotlin.extension.compose.ui.unit.toDp
@@ -887,20 +888,19 @@ class WvwActivity : BaseActivity() {
         val match = remember { match }.value ?: return
 
         // TODO pager: main = total, then for each map (will need map name title on each page)
-        AbsoluteBackgroundColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentModifier = Modifier.verticalScroll(rememberScrollState())
-        ) {
-            val spacing = 5.dp
-            ShowMatchChart(match.pointsPerTick(), "Points Per Tick")
-            Spacer(modifier = Modifier.height(spacing))
-            ShowMatchChart(match.victoryPoints(), "Victory Points")
-            Spacer(modifier = Modifier.height(spacing))
-            ShowMatchChart(match.scores(), "Total Score")
-            Spacer(modifier = Modifier.height(spacing))
-            ShowMatchChart(match.kills(), "Total Kills")
-            Spacer(modifier = Modifier.height(spacing))
-            ShowMatchChart(match.deaths(), "Total Deaths")
+        AbsoluteBackground(modifier = Modifier.fillMaxSize()) {
+            DividedColumn(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                divider = { Spacer(modifier = Modifier.height(5.dp)) },
+                contents = arrayOf(
+                    { ShowMatchChart(match.pointsPerTick(), "Points Per Tick") },
+                    { ShowMatchChart(match.victoryPoints(), "Victory Points") },
+                    { ShowMatchChart(match.scores(), "Total Score") },
+                    { ShowMatchChart(match.kills(), "Total Kills") },
+                    { ShowMatchChart(match.deaths(), "Total Deaths") }
+                )
+            )
         }
     }
 
@@ -1062,21 +1062,21 @@ class WvwActivity : BaseActivity() {
      * Displays the detailed selected objective information.
      */
     @Composable
-    private fun ShowDetailedSelectedObjective() = Column(
-        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+    private fun ShowDetailedSelectedObjective() = DividedColumn(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        val margin = 10.dp
-        ShowSelectedObjectiveImage()
-        Spacer(modifier = Modifier.height(margin))
-        ShowSelectedObjectiveCard { ShowSelectedObjectiveOverview() }
-        Spacer(modifier = Modifier.height(margin))
-        ShowSelectedObjectiveCard { ShowSelectedObjectivePoints() }
-        Spacer(modifier = Modifier.height(margin))
-        ShowSelectedObjectiveClaimCard()
-        Spacer(modifier = Modifier.height(margin))
-    }
+            .verticalScroll(rememberScrollState()),
+        divider = { Spacer(modifier = Modifier.height(10.dp)) },
+        prepend = true,
+        append = true,
+        contents = arrayOf(
+            { ShowSelectedObjectiveImage() },
+            { ShowSelectedObjectiveCard { ShowSelectedObjectiveOverview() } },
+            { ShowSelectedObjectiveCard { ShowSelectedObjectivePoints() } },
+            { ShowSelectedObjectiveClaimCard() }
+        )
+    )
 
     /**
      * Displays the image for the detailed selected objective.

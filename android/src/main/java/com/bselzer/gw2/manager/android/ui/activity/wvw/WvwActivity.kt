@@ -598,7 +598,7 @@ class WvwActivity : BaseActivity() {
 
         // Verify that the objective has been upgraded to a tier that has the waypoint upgrade.
         val upgrade = upgrades[objective.upgradeId]
-        val tierUpgrades = upgrade?.tiers?.filter { tier -> matchObjective.yaksDelivered >= tier.yaksRequired }?.flatMap { tier -> tier.upgrades } ?: emptyList()
+        val tierUpgrades = upgrade?.tiers(yaksDelivered = matchObjective.yaksDelivered)?.flatMap { tier -> tier.upgrades } ?: emptyList()
         if (!tierUpgrades.any { tierUpgrade -> waypoint.upgradeNameRegex.matches(tierUpgrade.name) }) {
             // Fallback to trying to find the tactic.
             if (!waypoint.guild.enabled || !matchObjective.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }

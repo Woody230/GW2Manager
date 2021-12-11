@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
+import com.bselzer.gw2.manager.android.ui.activity.cache.CacheActivity
 import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.android.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwActivity
@@ -56,17 +57,22 @@ class MainActivity : BaseActivity() {
      */
     @Composable
     private fun ShowMainMenu() = ShowMenu(
+        // TODO account page
+
         stringResource(id = R.string.activity_wvw) to {
             // Disable the animation to give the illusion that we haven't swapped screens.
             val intent = Intent(this@MainActivity, WvwActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
             startActivity(intent)
         },
+
+        // TODO move to app bar
         stringResource(id = R.string.activity_settings) to {
             startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+        },
+        stringResource(id = R.string.activity_cache) to {
+            startActivity(Intent(this@MainActivity, CacheActivity::class.java))
         }
-
-        // TODO DB clearing
     )
 
     /**

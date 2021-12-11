@@ -4,6 +4,7 @@
     <!-- Activity -->
     <string name="activity_settings">Settings</string>
     <string name="activity_wvw">World vs. World</string>
+    <string name="activity_cache">Cache</string>
 
     <!-- World vs. World -->
     <string name="wvw_map">Map</string>

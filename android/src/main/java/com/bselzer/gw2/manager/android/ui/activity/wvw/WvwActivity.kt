@@ -275,6 +275,7 @@ class WvwActivity : BaseActivity() {
             }
         }
 
+        // TODO maintain last refresh time instead
         PreRepeatedEffect(delay = runBlocking { wvwPref.refreshInterval.get() }) {
             refreshData(wvwPref.selectedWorld.get())
         }

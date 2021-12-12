@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.cache.CacheActivity
 import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
+import com.bselzer.gw2.manager.android.ui.activity.license.LicenseActivity
 import com.bselzer.gw2.manager.android.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwActivity
 import com.bselzer.gw2.manager.common.expect.App
@@ -23,6 +24,7 @@ import kotlinx.coroutines.*
 import org.kodein.di.instance
 
 class MainActivity : BaseActivity() {
+    // TODO widgets
     private val initializedData by instance<MutableState<Boolean>>(tag = App.INITIAL_DATA_POPULATION)
 
     @Composable
@@ -66,13 +68,10 @@ class MainActivity : BaseActivity() {
             startActivity(intent)
         },
 
-        // TODO move to app bar
-        stringResource(id = R.string.activity_settings) to {
-            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
-        },
-        stringResource(id = R.string.activity_cache) to {
-            startActivity(Intent(this@MainActivity, CacheActivity::class.java))
-        }
+        // TODO move to navigation drawer
+        stringResource(id = R.string.activity_settings) to { startActivity(Intent(this@MainActivity, SettingsActivity::class.java)) },
+        stringResource(id = R.string.activity_cache) to { startActivity(Intent(this@MainActivity, CacheActivity::class.java)) },
+        stringResource(id = R.string.activity_license) to { startActivity(Intent(this@MainActivity, LicenseActivity::class.java)) }
     )
 
     /**

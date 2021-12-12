@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
     id("org.jetbrains.compose") version "1.0.0"
+    id("com.mikepenz.aboutlibraries.plugin")
 }
 
 android {

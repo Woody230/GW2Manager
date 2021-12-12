@@ -23,6 +23,7 @@ kotlin {
         val serializationVersion = "1.3.0"
         val coilVersion = "1.4.0"
         val settingsVersion = "0.8.1"
+        val licenseVersion = "10.0.0-b03"
 
         val commonMain by getting {
             dependencies {
@@ -60,6 +61,9 @@ kotlin {
                 api("com.bselzer.library.gw2:v2-tile-cache:$wrapperVersion")
                 api("org.kodein.db:kodein-db:$kodeinDbVersion")
                 api("org.kodein.db:kodein-db-serializer-kotlinx:$kodeinDbVersion")
+
+                // Licensing
+                api("com.mikepenz:aboutlibraries-compose:${licenseVersion}")
             }
         }
         val commonTest by getting {

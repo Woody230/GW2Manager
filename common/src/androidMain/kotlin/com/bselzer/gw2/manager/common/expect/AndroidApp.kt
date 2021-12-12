@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import coil.ImageLoader
 import coil.util.CoilUtils
 import com.bselzer.gw2.manager.common.BuildConfig
-import com.bselzer.library.kotlin.extension.logging.Logger
+import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.datastore.DataStoreSettings

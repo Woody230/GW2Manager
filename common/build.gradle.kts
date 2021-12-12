@@ -34,20 +34,20 @@ kotlin {
                 api(compose.preview)
 
                 // Extensions
-                api("com.bselzer.library.kotlin.extension:compose:$extensionVersion")
-                api("com.bselzer.library.kotlin.extension:coroutine:$extensionVersion")
-                api("com.bselzer.library.kotlin.extension:function:$extensionVersion")
-                api("com.bselzer.library.kotlin.extension:logging:$extensionVersion")
-                api("com.bselzer.library.kotlin.extension:settings-compose:$extensionVersion")
+                api("com.bselzer.ktx:compose:$extensionVersion")
+                api("com.bselzer.ktx:coroutine:$extensionVersion")
+                api("com.bselzer.ktx:function:$extensionVersion")
+                api("com.bselzer.ktx:logging:$extensionVersion")
+                api("com.bselzer.ktx:settings-compose:$extensionVersion")
 
                 // GW2 API Wrapper
-                api("com.bselzer.library.gw2:v2-client:$wrapperVersion")
-                api("com.bselzer.library.gw2:v2-model:$wrapperVersion")
-                api("com.bselzer.library.gw2:v2-model-extension:$wrapperVersion")
-                api("com.bselzer.library.gw2:v2-model-enumeration:$wrapperVersion")
-                api("com.bselzer.library.gw2:v2-scope:$wrapperVersion")
-                api("com.bselzer.library.gw2:v2-tile:$wrapperVersion")
-                api("com.bselzer.library.gw2:v2-emblem:$wrapperVersion")
+                api("com.bselzer.gw2:v2-client:$wrapperVersion")
+                api("com.bselzer.gw2:v2-model:$wrapperVersion")
+                api("com.bselzer.gw2:v2-model-extension:$wrapperVersion")
+                api("com.bselzer.gw2:v2-model-enumeration:$wrapperVersion")
+                api("com.bselzer.gw2:v2-scope:$wrapperVersion")
+                api("com.bselzer.gw2:v2-tile:$wrapperVersion")
+                api("com.bselzer.gw2:v2-emblem:$wrapperVersion")
 
                 // Serialization
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
@@ -57,8 +57,8 @@ kotlin {
                 api("org.kodein.di:kodein-di:$kodeinDiVersion")
 
                 // GW2 Database
-                api("com.bselzer.library.gw2:v2-cache:$wrapperVersion")
-                api("com.bselzer.library.gw2:v2-tile-cache:$wrapperVersion")
+                api("com.bselzer.gw2:v2-cache:$wrapperVersion")
+                api("com.bselzer.gw2:v2-tile-cache:$wrapperVersion")
                 api("org.kodein.db:kodein-db:$kodeinDbVersion")
                 api("org.kodein.db:kodein-db-serializer-kotlinx:$kodeinDbVersion")
 

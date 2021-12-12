@@ -5,7 +5,7 @@ import android.graphics.Color
 import coil.bitmap.BitmapPool
 import coil.size.Size
 import coil.transform.Transformation
-import com.bselzer.library.kotlin.extension.function.ui.changeColor
+import com.bselzer.ktx.function.ui.changeColor
 
 /**
  * Transform the image into the given hex color.

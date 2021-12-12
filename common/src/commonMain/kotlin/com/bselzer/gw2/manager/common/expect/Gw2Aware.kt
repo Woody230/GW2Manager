@@ -3,11 +3,11 @@ package com.bselzer.gw2.manager.common.expect
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
-import com.bselzer.library.gw2.v2.cache.provider.Gw2CacheProvider
-import com.bselzer.library.gw2.v2.client.client.Gw2Client
-import com.bselzer.library.gw2.v2.emblem.client.EmblemClient
-import com.bselzer.library.gw2.v2.tile.cache.instance.TileCache
-import com.bselzer.library.gw2.v2.tile.client.TileClient
+import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
+import com.bselzer.gw2.v2.client.client.Gw2Client
+import com.bselzer.gw2.v2.emblem.client.EmblemClient
+import com.bselzer.gw2.v2.tile.cache.instance.TileCache
+import com.bselzer.gw2.v2.tile.client.TileClient
 import org.kodein.db.DB
 import org.kodein.di.DIAware
 

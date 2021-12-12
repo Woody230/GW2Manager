@@ -1,6 +1,6 @@
 package com.bselzer.gw2.manager.common.expect
 
-import com.bselzer.library.kotlin.extension.logging.Logger
+import com.bselzer.ktx.logging.Logger
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.features.*

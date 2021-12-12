@@ -1,8 +1,8 @@
 package com.bselzer.gw2.manager.common.preference
 
-import com.bselzer.library.kotlin.extension.settings.setting.DurationSetting
-import com.bselzer.library.kotlin.extension.settings.setting.IntSetting
-import com.bselzer.library.kotlin.extension.settings.setting.delegate.SafeSetting
+import com.bselzer.ktx.settings.setting.DurationSetting
+import com.bselzer.ktx.settings.setting.IntSetting
+import com.bselzer.ktx.settings.setting.delegate.SafeSetting
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlin.time.Duration

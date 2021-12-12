@@ -6,17 +6,17 @@ import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.library.gw2.v2.cache.metadata.IdentifiableMetadataExtractor
-import com.bselzer.library.gw2.v2.cache.provider.Gw2CacheProvider
-import com.bselzer.library.gw2.v2.cache.type.gw2
-import com.bselzer.library.gw2.v2.client.client.ExceptionRecoveryMode
-import com.bselzer.library.gw2.v2.client.client.Gw2Client
-import com.bselzer.library.gw2.v2.client.client.Gw2ClientConfiguration
-import com.bselzer.library.gw2.v2.model.serialization.Modules
-import com.bselzer.library.gw2.v2.tile.cache.instance.TileCache
-import com.bselzer.library.gw2.v2.tile.cache.metadata.TileMetadataExtractor
-import com.bselzer.library.gw2.v2.tile.client.TileClient
-import com.bselzer.library.kotlin.extension.logging.Logger
+import com.bselzer.gw2.v2.cache.metadata.IdentifiableMetadataExtractor
+import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
+import com.bselzer.gw2.v2.cache.type.gw2
+import com.bselzer.gw2.v2.client.client.ExceptionRecoveryMode
+import com.bselzer.gw2.v2.client.client.Gw2Client
+import com.bselzer.gw2.v2.client.client.Gw2ClientConfiguration
+import com.bselzer.gw2.v2.model.serialization.Modules
+import com.bselzer.gw2.v2.tile.cache.instance.TileCache
+import com.bselzer.gw2.v2.tile.cache.metadata.TileMetadataExtractor
+import com.bselzer.gw2.v2.tile.client.TileClient
+import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import io.ktor.client.*
 import io.ktor.client.features.*
@@ -177,7 +177,7 @@ abstract class App : DIAware {
         bindSingleton { TileClient(instance()) }
         bindSingleton { TileCache(instance(), instance()) }
         bindSingleton {
-            com.bselzer.library.gw2.v2.emblem.client.EmblemClient(instance<HttpClient>().config {
+            com.bselzer.gw2.v2.emblem.client.EmblemClient(instance<HttpClient>().config {
                 install(UserAgent) {
                     agent = EMBLEM_USER_AGENT
                 }

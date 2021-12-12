@@ -18,15 +18,15 @@ import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.cache.CacheActivity.CacheType.*
 import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
-import com.bselzer.library.gw2.v2.cache.instance.ContinentCache
-import com.bselzer.library.gw2.v2.cache.instance.GuildCache
-import com.bselzer.library.gw2.v2.cache.instance.WorldCache
-import com.bselzer.library.gw2.v2.cache.instance.WvwCache
-import com.bselzer.library.kotlin.extension.compose.ui.appbar.DeleteButton
-import com.bselzer.library.kotlin.extension.compose.ui.appbar.UpNavigationIcon
-import com.bselzer.library.kotlin.extension.compose.ui.container.DividedColumn
-import com.bselzer.library.kotlin.extension.compose.ui.preference.CheckBoxPreference
-import com.bselzer.library.kotlin.extension.coroutine.showToast
+import com.bselzer.gw2.v2.cache.instance.ContinentCache
+import com.bselzer.gw2.v2.cache.instance.GuildCache
+import com.bselzer.gw2.v2.cache.instance.WorldCache
+import com.bselzer.gw2.v2.cache.instance.WvwCache
+import com.bselzer.ktx.compose.ui.appbar.DeleteButton
+import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
+import com.bselzer.ktx.compose.ui.container.DividedColumn
+import com.bselzer.ktx.compose.ui.preference.CheckBoxPreference
+import com.bselzer.ktx.coroutine.showToast
 
 class CacheActivity : BaseActivity() {
     private val selected = mutableStateListOf<CacheType>()

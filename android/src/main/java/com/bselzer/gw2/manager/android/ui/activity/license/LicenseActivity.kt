@@ -7,7 +7,7 @@ import androidx.compose.ui.res.stringResource
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
-import com.bselzer.library.kotlin.extension.compose.ui.appbar.UpNavigationIcon
+import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
 import com.mikepenz.aboutlibraries.ui.compose.LibrariesContainer
 
 class LicenseActivity : BaseActivity() {

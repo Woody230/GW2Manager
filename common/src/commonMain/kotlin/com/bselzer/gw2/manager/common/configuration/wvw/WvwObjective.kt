@@ -1,8 +1,8 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
 import com.bselzer.gw2.manager.common.configuration.common.Size
-import com.bselzer.library.gw2.v2.model.enumeration.wvw.ObjectiveType
-import com.bselzer.library.kotlin.extension.datetime.serialization.DurationSerializer
+import com.bselzer.gw2.v2.model.enumeration.wvw.ObjectiveType
+import com.bselzer.ktx.datetime.serialization.DurationSerializer
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlElement
 import nl.adaptivity.xmlutil.serialization.XmlSerialName

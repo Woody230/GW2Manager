@@ -19,7 +19,7 @@ import com.bselzer.gw2.manager.android.ui.activity.setting.SettingsActivity
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwActivity
 import com.bselzer.gw2.manager.common.expect.App
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.library.kotlin.extension.function.core.hasInternet
+import com.bselzer.ktx.function.core.hasInternet
 import kotlinx.coroutines.*
 import org.kodein.di.instance
 

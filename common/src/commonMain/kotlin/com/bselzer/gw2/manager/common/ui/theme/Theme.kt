@@ -11,9 +11,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 val DarkColorPalette = darkColors(
-    primary = Purple200,
+    primary = Purple700A,
     primaryVariant = Purple700,
     secondary = Teal200,
+    secondaryVariant = Teal200,
     onPrimary = Color.White,
     onSecondary = Color.Black,
     onBackground = Color.White,
@@ -25,6 +26,7 @@ val LightColorPalette = lightColors(
     primary = Purple500,
     primaryVariant = Purple700,
     secondary = Teal200,
+    secondaryVariant = Teal500,
     onPrimary = Color.Black,
     onSecondary = Color.White,
     onBackground = Color.Black,

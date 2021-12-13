@@ -26,7 +26,7 @@ class LicenseActivity : BaseActivity() {
             contentPadding = PaddingValues(all = 8.dp),
             backgroundColor = Color.Transparent, // Use the relative background instead.
             itemElevation = 0.dp, // Disable the shadow.
-            libraries = libraries().sortedBy { library -> library.name }
+            libraries = libraries().sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { library -> library.name })
         )
     }
 }

@@ -24,7 +24,8 @@ import kotlinx.coroutines.*
 import org.kodein.di.instance
 
 class MainActivity : BaseActivity() {
-    // TODO widgets
+    // TODO single activity with decompose navigation
+    // TODO widgets https://android-developers.googleblog.com/2021/12/announcing-jetpack-glance-alpha-for-app.html
     private val initializedData by instance<MutableState<Boolean>>(tag = App.INITIAL_DATA_POPULATION)
 
     @Composable

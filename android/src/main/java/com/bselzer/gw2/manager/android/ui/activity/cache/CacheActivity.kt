@@ -35,6 +35,7 @@ class CacheActivity : BaseActivity() {
         CONTINENT,
         GUILD,
         WVW,
+        IMAGE
     }
 
     @Composable
@@ -48,6 +49,10 @@ class CacheActivity : BaseActivity() {
                     when (type) {
                         CONTINENT -> gw2Cache.apply {
                             get<ContinentCache>().clear()
+                            tileCache.clear()
+                        }
+                        IMAGE -> {
+                            okHttpClient.cache?.evictAll()
                             tileCache.clear()
                         }
                         GUILD -> gw2Cache.get<GuildCache>().clear()
@@ -78,6 +83,7 @@ class CacheActivity : BaseActivity() {
                     )
                 },
                 { CacheSection(type = GUILD, painter = painterResource(id = R.drawable.gw2_guild_commendation), title = "Guilds", subtitle = "Upgrades") },
+                { CacheSection(type = IMAGE, painter = painterResource(id = R.drawable.gw2_sunrise), title = "Images", subtitle = "Icons, map tiles") },
                 {
                     CacheSection(
                         type = WVW,

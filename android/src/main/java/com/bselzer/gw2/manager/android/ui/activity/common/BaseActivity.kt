@@ -31,6 +31,7 @@ import com.bselzer.ktx.compose.ui.background.Background
 import com.bselzer.ktx.compose.ui.background.BackgroundColumn
 import com.bselzer.ktx.compose.ui.background.BackgroundImage
 import com.bselzer.ktx.compose.ui.container.CenteredRow
+import okhttp3.OkHttpClient
 import org.kodein.db.DB
 import org.kodein.di.DI
 import org.kodein.di.android.closestDI
@@ -46,9 +47,11 @@ abstract class BaseActivity : AppCompatActivity(), AndroidAware {
     override val tileCache by instance<TileCache>()
     override val emblemClient by instance<EmblemClient>()
     override val configuration by instance<Configuration>()
-    override val imageLoader by instance<ImageLoader>()
     override val commonPref by instance<CommonPreference>()
     override val wvwPref by instance<WvwPreference>()
+
+    override val imageLoader by instance<ImageLoader>()
+    override val okHttpClient by instance<OkHttpClient>()
 
     private val relative: @Composable () -> Unit = { BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment()) }
     private val absolute: @Composable () -> Unit = { BackgroundImage(drawableId = absoluteBackgroundDrawableId()) }

@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
+import com.bselzer.gw2.manager.android.ui.activity.about.AboutActivity
 import com.bselzer.gw2.manager.android.ui.activity.cache.CacheActivity
 import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
 import com.bselzer.gw2.manager.android.ui.activity.license.LicenseActivity
@@ -72,7 +73,8 @@ class MainActivity : BaseActivity() {
         // TODO move to navigation drawer
         stringResource(id = R.string.activity_settings) to { startActivity(Intent(this@MainActivity, SettingsActivity::class.java)) },
         stringResource(id = R.string.activity_cache) to { startActivity(Intent(this@MainActivity, CacheActivity::class.java)) },
-        stringResource(id = R.string.activity_license) to { startActivity(Intent(this@MainActivity, LicenseActivity::class.java)) }
+        stringResource(id = R.string.activity_license) to { startActivity(Intent(this@MainActivity, LicenseActivity::class.java)) },
+        "About" to { startActivity(Intent(this@MainActivity, AboutActivity::class.java)) }
     )
 
     /**

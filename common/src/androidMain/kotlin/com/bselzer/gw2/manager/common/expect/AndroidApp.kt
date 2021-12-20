@@ -96,6 +96,7 @@ class AndroidApp(private val application: Application, private val datastore: ()
         bindSingleton { application }
 
         // Coil image loader
+        // TODO cache using kodein-db instead
         bindSingleton { ImageLoader.Builder(instance()).okHttpClient(instance<OkHttpClient>()).build() }
     }
 }

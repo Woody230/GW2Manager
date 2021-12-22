@@ -37,7 +37,7 @@ class WvwMatchPage(
     imageLoader: ImageLoader,
     appBarActions: @Composable RowScope.() -> Unit,
     state: WvwMatchState,
-) : WvwPage<WvwMatchState>(theme, imageLoader, appBarActions, state) {
+) : WvwContentPage<WvwMatchState>(theme, imageLoader, appBarActions, state) {
     @Composable
     override fun Content() = Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar()

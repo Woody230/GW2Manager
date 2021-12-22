@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.android.ui.activity.license
+package com.bselzer.gw2.manager.android.ui.activity
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,25 +8,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
-import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
+import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
+import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.ktx.library.LibraryColumn
-import com.bselzer.ktx.library.libraries
+import com.mikepenz.aboutlibraries.entity.Library
 
-class LicenseActivity : BaseActivity() {
+/**
+ * The page for laying out the libraries used in the app and their associated licenses.
+ */
+class LicensePage(
+    theme: Theme,
+    private val navigateUp: () -> Unit,
+    private val libraries: List<Library>
+) : BasePage(theme) {
     @Composable
     override fun Content() = RelativeBackgroundContent(
         modifier = Modifier.fillMaxSize(),
         title = stringResource(id = R.string.activity_license),
-        navigationIcon = { UpNavigationIcon(destination = MainActivity::class.java) },
+        navigationIcon = { UpNavigationIcon(onClick = navigateUp) },
     ) {
         LibraryColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(all = 8.dp),
             backgroundColor = Color.Transparent, // Use the relative background instead.
             itemElevation = 0.dp, // Disable the shadow.
-            libraries = libraries().sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { library -> library.name })
+            libraries = libraries.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { library -> library.name })
         )
     }
 }

@@ -42,7 +42,7 @@ class WvwSelectedObjectivePage(
     appBarActions: @Composable RowScope.() -> Unit,
     state: WvwSelectedState,
     private val emblemClient: EmblemClient,
-) : WvwPage<WvwSelectedState>(theme, imageLoader, appBarActions, state) {
+) : WvwContentPage<WvwSelectedState>(theme, imageLoader, appBarActions, state) {
     @Composable
     override fun Content() = Column(
         modifier = Modifier.fillMaxSize()

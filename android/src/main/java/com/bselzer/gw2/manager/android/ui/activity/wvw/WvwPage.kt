@@ -1,29 +1,31 @@
 package com.bselzer.gw2.manager.android.ui.activity.wvw
 
 import android.graphics.BitmapFactory
-import android.os.Bundle
 import android.widget.Toast
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
-import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
-import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwActivity.PageType.*
+import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
 import com.bselzer.gw2.manager.android.ui.activity.wvw.page.WvwMapPage
 import com.bselzer.gw2.manager.android.ui.activity.wvw.page.WvwMatchPage
 import com.bselzer.gw2.manager.android.ui.activity.wvw.page.WvwSelectedObjectivePage
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.WvwState
+import com.bselzer.gw2.manager.common.expect.AndroidAware
+import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.cache.instance.GuildCache
 import com.bselzer.gw2.v2.cache.instance.WorldCache
 import com.bselzer.gw2.v2.cache.instance.WvwCache
-import com.bselzer.gw2.v2.model.extension.wvw.*
+import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.tile.model.response.Tile
@@ -36,27 +38,26 @@ import com.bselzer.ktx.compose.ui.dialog.SingleChoiceDialog
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.compose.safeState
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
-import kotlinx.datetime.*
 import kotlin.time.ExperimentalTime
 
-class WvwActivity : BaseActivity() {
-    private lateinit var state: WvwState
-    private val selectedPage = mutableStateOf<PageType?>(null)
+class WvwPage(
+    aware: AndroidAware,
+    theme: Theme,
+    private val navigateUp: () -> Unit,
+    private val backEnabled: Boolean,
+) : BasePage(theme), AndroidAware by aware {
+    private val state: WvwState = WvwState(
+        configuration = configuration.wvw,
+        zoom = mutableStateOf(value = configuration.wvw.map.zoom.default)
+    )
+    private val selectedPage = mutableStateOf(PageType.MENU)
     private val showWorldDialog: MutableState<Boolean> = mutableStateOf(false)
 
     enum class PageType {
+        MENU,
         MAP,
         MATCH,
         DETAILED_SELECTED_OBJECTIVE
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        state = WvwState(
-            configuration = configuration.wvw,
-            zoom = mutableStateOf(value = configuration.wvw.map.zoom.default)
-        )
-        super.onCreate(savedInstanceState)
     }
 
     // region Refresh
@@ -86,7 +87,7 @@ class WvwActivity : BaseActivity() {
             state.guildUpgrades.value = cache.findGuildUpgrades(objectives.mapNotNull { objective -> match.objective(objective) }).associateBy { it.id }
 
             // Map refresh is comparatively expensive so only do it when the user is on its page.
-            if (selectedPage.value == MAP) {
+            if (selectedPage.value == PageType.MAP) {
                 refreshMapData(match)
                 refreshGridData()
             }
@@ -190,7 +191,7 @@ class WvwActivity : BaseActivity() {
     override fun Content() = app.Content {
         var selectedPage by rememberSaveable { selectedPage }
         when (selectedPage) {
-            MAP -> {
+            PageType.MAP -> {
                 WvwMapPage(
                     theme = app.theme(),
                     imageLoader = imageLoader,
@@ -199,7 +200,7 @@ class WvwActivity : BaseActivity() {
                     setPage = { selectedPage = it }
                 ).Content()
             }
-            MATCH -> {
+            PageType.MATCH -> {
                 WvwMatchPage(
                     theme = app.theme(),
                     imageLoader = imageLoader,
@@ -207,7 +208,7 @@ class WvwActivity : BaseActivity() {
                     state = state.rememberMatch(),
                 ).Content()
             }
-            DETAILED_SELECTED_OBJECTIVE -> {
+            PageType.DETAILED_SELECTED_OBJECTIVE -> {
                 WvwSelectedObjectivePage(
                     theme = app.theme(),
                     imageLoader = imageLoader,
@@ -224,7 +225,7 @@ class WvwActivity : BaseActivity() {
                     }
                 }
             }
-            null -> Menu()
+            PageType.MENU -> Menu()
         }
 
         if (remember { showWorldDialog }.value) {
@@ -233,7 +234,7 @@ class WvwActivity : BaseActivity() {
 
         // Map refresh is comparatively expensive so only do it when the user is on its page.
         LaunchedEffect(selectedPage) {
-            if (selectedPage == MAP) {
+            if (selectedPage == PageType.MAP) {
                 refreshMapData()
                 refreshGridData()
             }
@@ -247,6 +248,19 @@ class WvwActivity : BaseActivity() {
         LaunchedEffect(key1 = state.zoom.value) {
             refreshGridData()
         }
+
+        BackHandler(enabled = backEnabled) {
+            when (selectedPage) {
+                PageType.MAP -> selectedPage = PageType.MENU
+                PageType.MATCH -> selectedPage = PageType.MENU
+                PageType.DETAILED_SELECTED_OBJECTIVE -> {
+                    // Go back to the map page with the objective cleared so that the pop-up is not displayed.
+                    selectedPage = PageType.MAP
+                    state.selectedObjective.value = null
+                }
+                PageType.MENU -> navigateUp()
+            }
+        }
     }
 
     /**
@@ -255,11 +269,11 @@ class WvwActivity : BaseActivity() {
     @Composable
     private fun Menu() = Column {
         // Match the same way that the MainActivity is displayed.
-        MaterialAppBar(title = stringResource(R.string.activity_wvw), navigationIcon = { UpNavigationIcon(MainActivity::class.java) })
+        MaterialAppBar(title = stringResource(R.string.activity_wvw), navigationIcon = { UpNavigationIcon(onClick = navigateUp) })
         AbsoluteBackground {
             ShowMenu(
-                stringResource(id = R.string.wvw_map) to { selectedPage.value = MAP },
-                stringResource(id = R.string.wvw_match) to { selectedPage.value = MATCH }
+                stringResource(id = R.string.wvw_map) to { selectedPage.value = PageType.MAP },
+                stringResource(id = R.string.wvw_match) to { selectedPage.value = PageType.MATCH }
             )
         }
     }
@@ -287,7 +301,7 @@ class WvwActivity : BaseActivity() {
     private fun SelectWorldDialog() {
         val worlds = remember { state.worlds }.value.sortedBy { world -> world.name }
         if (worlds.isEmpty()) {
-            Toast.makeText(this, "Waiting for the worlds to be downloaded.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current, "Waiting for the worlds to be downloaded.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -314,19 +328,4 @@ class WvwActivity : BaseActivity() {
             }
         )
     }
-
-    override fun onBackPressed() {
-        when (selectedPage.value) {
-            MAP -> selectedPage.value = null // Go back to the menu.
-            MATCH -> selectedPage.value = null // Go back to the menu.
-            DETAILED_SELECTED_OBJECTIVE -> {
-                // Go back to the map page with the objective cleared so that the pop-up is not displayed.
-                selectedPage.value = MAP
-                state.selectedObjective.value = null
-            }
-            null -> finish()
-        }
-    }
-
-    // endregion Common
 }

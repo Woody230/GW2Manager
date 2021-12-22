@@ -31,7 +31,7 @@ import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import coil.transform.Transformation
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwActivity
+import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwPage
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.common.ImageState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.BloodlustState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.SelectedObjectiveState
@@ -52,8 +52,8 @@ class WvwMapPage(
     imageLoader: ImageLoader,
     appBarActions: @Composable RowScope.() -> Unit,
     state: WvwMapState,
-    private val setPage: (WvwActivity.PageType) -> Unit,
-) : WvwPage<WvwMapState>(theme, imageLoader, appBarActions, state) {
+    private val setPage: (WvwPage.PageType) -> Unit,
+) : WvwContentPage<WvwMapState>(theme, imageLoader, appBarActions, state) {
     @Composable
     override fun Content() {
         Column {
@@ -317,7 +317,7 @@ class WvwMapPage(
                 .combinedClickable(onLongClick = {
                     // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.
                     state.select(objective)
-                    setPage(WvwActivity.PageType.DETAILED_SELECTED_OBJECTIVE)
+                    setPage(WvwPage.PageType.DETAILED_SELECTED_OBJECTIVE)
                 }) {
                     state.select(objective)
                 }

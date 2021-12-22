@@ -39,7 +39,7 @@ data class ImmunityState(
     /**
      * The amount of immunity time left formatted into a user friendly string.
      *
-     * @see <a href=" // Formatting: https://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html">formatting</a>
+     * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html">formatting</a>
      */
     val formattedRemaining: String
         get() {

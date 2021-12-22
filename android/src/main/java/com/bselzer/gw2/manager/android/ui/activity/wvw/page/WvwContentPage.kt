@@ -5,13 +5,13 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import coil.ImageLoader
+import com.bselzer.gw2.manager.android.ui.activity.MainActivity
 import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
-import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.ui.appbar.MaterialAppBar
 import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
 
-abstract class WvwPage<State>(
+abstract class WvwContentPage<State>(
     theme: Theme,
     protected val imageLoader: ImageLoader,
     private val appBarActions: @Composable RowScope.() -> Unit,

@@ -11,27 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GW2Manager">
         <activity
-            android:name=".ui.activity.about.AboutActivity"
-            android:exported="true"
-            android:theme="@style/Theme.GW2Manager.NoActionBar" />
-        <activity
-            android:name=".ui.activity.cache.CacheActivity"
-            android:exported="true"
-            android:theme="@style/Theme.GW2Manager.NoActionBar" />
-        <activity
-            android:name=".ui.activity.license.LicenseActivity"
-            android:exported="true"
-            android:theme="@style/Theme.GW2Manager.NoActionBar" />
-        <activity
-            android:name=".ui.activity.wvw.WvwActivity"
-            android:exported="true"
-            android:theme="@style/Theme.GW2Manager.NoActionBar" />
-        <activity
-            android:name=".ui.activity.setting.SettingsActivity"
-            android:exported="true"
-            android:theme="@style/Theme.GW2Manager.NoActionBar" />
-        <activity
-            android:name=".ui.activity.main.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.GW2Manager.NoActionBar">

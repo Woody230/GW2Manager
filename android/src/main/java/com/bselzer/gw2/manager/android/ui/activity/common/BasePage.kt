@@ -19,7 +19,7 @@ import com.bselzer.ktx.compose.ui.background.BackgroundImage
 import com.bselzer.ktx.compose.ui.container.CenteredRow
 
 abstract class BasePage(
-    private val theme: Theme
+    val theme: Theme
 ) : Page {
     private val relative: @Composable () -> Unit = { BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment()) }
     private val absolute: @Composable () -> Unit = { BackgroundImage(drawableId = absoluteBackgroundDrawableId()) }

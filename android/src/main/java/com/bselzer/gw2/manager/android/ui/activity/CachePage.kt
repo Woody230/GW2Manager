@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.android.ui.activity.cache
+package com.bselzer.gw2.manager.android.ui.activity
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
@@ -11,24 +11,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.android.ui.activity.cache.CacheActivity.CacheType.*
-import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
-import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
+import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
+import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.cache.instance.GuildCache
 import com.bselzer.gw2.v2.cache.instance.WorldCache
 import com.bselzer.gw2.v2.cache.instance.WvwCache
+import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
+import com.bselzer.gw2.v2.tile.cache.instance.TileCache
 import com.bselzer.ktx.compose.ui.appbar.DeleteButton
 import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.preference.CheckBoxPreference
 import com.bselzer.ktx.coroutine.showToast
+import okhttp3.Cache
 
-class CacheActivity : BaseActivity() {
+/**
+ * The page for managing underlying caches.
+ */
+class CachePage(
+    theme: Theme,
+    private val navigateUp: () -> Unit,
+    private val cache: Cache?,
+    private val gw2Cache: Gw2CacheProvider,
+    private val tileCache: TileCache
+) : BasePage(theme) {
     private val selected = mutableStateListOf<CacheType>()
 
     private enum class CacheType {
@@ -42,21 +54,22 @@ class CacheActivity : BaseActivity() {
     override fun Content() = RelativeBackgroundContent(
         backgroundModifier = Modifier.verticalScroll(rememberScrollState()),
         title = stringResource(R.string.activity_cache),
-        navigationIcon = { UpNavigationIcon(destination = MainActivity::class.java) },
+        navigationIcon = { UpNavigationIcon(onClick = navigateUp) },
         actions = {
+            val context = LocalContext.current
             DeleteButton(enabled = selected.isNotEmpty()) {
                 selected.forEach { type ->
                     when (type) {
-                        CONTINENT -> gw2Cache.apply {
+                        CacheType.CONTINENT -> gw2Cache.apply {
                             get<ContinentCache>().clear()
                             tileCache.clear()
                         }
-                        IMAGE -> {
-                            okHttpClient.cache?.evictAll()
+                        CacheType.IMAGE -> {
+                            cache?.evictAll()
                             tileCache.clear()
                         }
-                        GUILD -> gw2Cache.get<GuildCache>().clear()
-                        WVW -> gw2Cache.apply {
+                        CacheType.GUILD -> gw2Cache.get<GuildCache>().clear()
+                        CacheType.WVW -> gw2Cache.apply {
                             get<WvwCache>().clear()
                             get<WorldCache>().clear()
                         }
@@ -64,7 +77,7 @@ class CacheActivity : BaseActivity() {
                 }
 
                 selected.clear()
-                showToast(this@CacheActivity, "Cache cleared.", Toast.LENGTH_SHORT)
+                showToast(context, "Cache cleared.", Toast.LENGTH_SHORT)
             }
         }
     ) {
@@ -76,17 +89,17 @@ class CacheActivity : BaseActivity() {
             contents = arrayOf(
                 {
                     CacheSection(
-                        type = CONTINENT,
+                        type = CacheType.CONTINENT,
                         painter = painterResource(id = R.drawable.gw2_gift_of_exploration),
                         title = "Continents",
                         subtitle = "Maps, regions, floors, tiles"
                     )
                 },
-                { CacheSection(type = GUILD, painter = painterResource(id = R.drawable.gw2_guild_commendation), title = "Guilds", subtitle = "Upgrades") },
-                { CacheSection(type = IMAGE, painter = painterResource(id = R.drawable.gw2_sunrise), title = "Images", subtitle = "Icons, map tiles") },
+                { CacheSection(type = CacheType.GUILD, painter = painterResource(id = R.drawable.gw2_guild_commendation), title = "Guilds", subtitle = "Upgrades") },
+                { CacheSection(type = CacheType.IMAGE, painter = painterResource(id = R.drawable.gw2_sunrise), title = "Images", subtitle = "Icons, map tiles") },
                 {
                     CacheSection(
-                        type = WVW,
+                        type = CacheType.WVW,
                         painter = painterResource(id = R.drawable.gw2_rank_dolyak),
                         title = stringResource(R.string.activity_wvw),
                         subtitle = "Objectives, upgrades, worlds"

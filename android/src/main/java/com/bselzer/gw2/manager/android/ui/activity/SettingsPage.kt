@@ -1,11 +1,12 @@
-package com.bselzer.gw2.manager.android.ui.activity.setting
+package com.bselzer.gw2.manager.android.ui.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -13,10 +14,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.android.ui.activity.common.BaseActivity
-import com.bselzer.gw2.manager.android.ui.activity.main.MainActivity
+import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
+import com.bselzer.gw2.manager.common.preference.CommonPreference
+import com.bselzer.gw2.manager.common.preference.WvwPreference
 import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.v2.client.client.Gw2Client
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.model.enumeration.extension.account.permissions
 import com.bselzer.gw2.v2.scope.core.Permission
@@ -30,23 +34,37 @@ import com.bselzer.ktx.coroutine.showToast
 import com.bselzer.ktx.function.objects.userFriendly
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.compose.nullState
-import com.bselzer.ktx.settings.compose.safeState
 import io.ktor.client.features.*
 import io.ktor.client.statement.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.kodein.db.DB
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.time.*
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.DurationUnit
+import kotlin.time.ExperimentalTime
+import kotlin.time.toDuration
 
-class SettingsActivity : BaseActivity() {
-
+/**
+ * The page for the user to select and manage preferences.
+ */
+class SettingsPage(
+    theme: Theme,
+    private val navigateUp: () -> Unit,
+    private val commonPref: CommonPreference,
+    private val wvwPref: WvwPreference,
+    private val gw2Client: Gw2Client,
+    private val database: DB
+) : BasePage(theme) {
     @Composable
     override fun Content() = RelativeBackgroundContent(
         backgroundModifier = Modifier.verticalScroll(rememberScrollState()),
         title = stringResource(R.string.activity_settings),
-        navigationIcon = { UpNavigationIcon(destination = MainActivity::class.java) },
+        navigationIcon = { UpNavigationIcon(onClick = navigateUp) },
     ) {
         PreferenceColumn(
             modifier = Modifier.padding(25.dp),
@@ -70,13 +88,16 @@ class SettingsActivity : BaseActivity() {
      */
     @Composable
     private fun ThemePreference() {
-        var theme by commonPref.theme.safeState()
         SwitchPreference(
             iconPainter = painterResource(if (theme == Theme.LIGHT) R.drawable.gw2_sunrise else R.drawable.gw2_twilight),
             title = "Theme",
             subtitle = theme.userFriendly(),
             checked = theme != Theme.LIGHT,
-            onStateChanged = { theme = if (it) Theme.DARK else Theme.LIGHT }
+            onStateChanged = {
+                CoroutineScope(Dispatchers.IO).launch {
+                    commonPref.theme.set(if (it) Theme.DARK else Theme.LIGHT)
+                }
+            }
         )
     }
 
@@ -103,8 +124,8 @@ class SettingsActivity : BaseActivity() {
             dialogSubtitleOnClick = { offset, text ->
                 text.getStringAnnotations(tag = linkTag, start = offset, end = offset).firstOrNull()?.let {
                     // Open the link in the user's browser.
-                    val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(hyperlink))
-                    startActivity(intent)
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(hyperlink))
+                    startActivity(context, intent, null)
                 }
             },
             onStateChanged = { newValue ->

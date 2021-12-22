@@ -37,8 +37,6 @@ import org.kodein.di.instance
 
 abstract class App : DIAware {
     final override val di: DI = DI.lazy { bindAll() }
-    private val database by instance<DB>()
-    private val configuration by instance<Configuration>()
     private val commonPref by instance<CommonPreference>()
 
     companion object {
@@ -51,11 +49,6 @@ abstract class App : DIAware {
          * The name of the GW2 emblem user agent.
          */
         const val EMBLEM_USER_AGENT: String = "gw2-emblem"
-
-        /**
-         * The initial data population flag.
-         */
-        const val INITIAL_DATA_POPULATION: String = "InitialDataPopulation"
     }
 
     /**
@@ -100,7 +93,6 @@ abstract class App : DIAware {
         bindPreferences()
         bindConfiguration()
         bindGw2()
-        bindSingleton(tag = INITIAL_DATA_POPULATION) { mutableStateOf(false) }
     }
 
     /**

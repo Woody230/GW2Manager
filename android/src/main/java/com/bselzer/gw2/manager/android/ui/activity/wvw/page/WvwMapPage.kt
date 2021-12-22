@@ -118,14 +118,14 @@ class WvwMapPage(
                 state.changeZoom(increment = 1)
                 isExpanded = false
             }) {
-                Icon(painter = painterResource(id = R.drawable.ic_zoom_in), contentDescription = "Zoom In")
+                Icon(painter = painterResource(id = R.drawable.ic_zoom_in_map), contentDescription = "Zoom In")
             }
 
             IconButton(enabled = zoom > range.first, onClick = {
                 state.changeZoom(increment = -1)
                 isExpanded = false
             }) {
-                Icon(painter = painterResource(id = R.drawable.ic_zoom_out), contentDescription = "Zoom Out")
+                Icon(painter = painterResource(id = R.drawable.ic_zoom_out_map), contentDescription = "Zoom Out")
             }
         }
     }

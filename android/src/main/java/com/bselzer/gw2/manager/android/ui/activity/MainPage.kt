@@ -40,6 +40,7 @@ class MainPage(
     private val closeApplication: () -> Unit,
 ) : BasePage(theme), AndroidAware by aware {
     private val selectedPage = mutableStateOf(SPLASH)
+    private val wvwPage = mutableStateOf(WvwPage.PageType.MENU)
 
     enum class PageType {
         MENU,
@@ -56,11 +57,11 @@ class MainPage(
         var selectedPage by rememberSaveable { selectedPage }
         val navigateUp: () -> Unit = {
             selectedPage = MENU
-            Logger.d("Changing page to $selectedPage")
+            Logger.d("Changing main page to $selectedPage")
         }
 
         // TODO after changing the theme in settings page, going back, and trying to change pages... this is not getting recomposed to display the page
-        Logger.d("Displaying page $selectedPage")
+        Logger.d("Displaying main page $selectedPage")
         when (selectedPage) {
             MENU -> MainMenu()
             SPLASH -> Splash()
@@ -68,7 +69,7 @@ class MainPage(
             CACHE -> CachePage(theme, navigateUp, okHttpClient.cache, gw2Cache, tileCache).Content()
             LICENSE -> LicensePage(theme, navigateUp, LocalContext.current.libraries()).Content()
             SETTING -> SettingsPage(theme, navigateUp, commonPref, wvwPref, gw2Client, database).Content()
-            WVW -> WvwPage(aware = aware, theme = theme, navigateUp = navigateUp, backEnabled = selectedPage == WVW).Content()
+            WVW -> WvwPage(aware = aware, theme = theme, navigateUp = navigateUp, backEnabled = selectedPage == WVW, selectedPage = wvwPage).Content()
         }
 
         // Let the WvW page use its own back handler.
@@ -103,23 +104,35 @@ class MainPage(
         }
     }
 
+    // TODO drawer header
     /**
      * Lays out the content for the modal drawer.
      */
     @Composable
     private fun ColumnScope.DrawerContent() = MaterialDrawerContent(sections = arrayOf(
         {
+            // TODO account page?
+            DrawerSection(
+                header = "World vs. World",
+                components = arrayOf(
+                    drawerComponent(drawable = R.drawable.gw2_rank_dolyak, text = R.string.wvw_map, page = WvwPage.PageType.MAP),
+                    drawerComponent(drawable = R.drawable.gw2_rank_dolyak, text = R.string.wvw_match, page = WvwPage.PageType.MATCH)
+                )
+            )
+        },
+        {
             DrawerSection(
                 components = arrayOf(
-                    // TODO account page
-
-                    // TODO better icons
-                    // TODO each individual wvw page
-                    drawerComponent(drawable = R.drawable.gw2_rank_dolyak, text = R.string.activity_wvw, page = WVW),
-                    drawerComponent(drawable = R.drawable.gw2_black_lion_key, text = R.string.activity_settings, page = SETTING),
-                    drawerComponent(drawable = R.drawable.gw2_black_lion_key, text = R.string.activity_cache, page = CACHE),
-                    drawerComponent(drawable = R.drawable.gw2_black_lion_key, text = R.string.activity_license, page = LICENSE),
-                    drawerComponent(drawable = R.drawable.gw2_black_lion_key, text = R.string.activity_about, page = ABOUT)
+                    drawerComponent(drawable = R.drawable.ic_settings, text = R.string.activity_settings, page = SETTING),
+                    drawerComponent(drawable = R.drawable.ic_cached, text = R.string.activity_cache, page = CACHE),
+                )
+            )
+        },
+        {
+            DrawerSection(
+                components = arrayOf(
+                    drawerComponent(drawable = R.drawable.ic_policy, text = R.string.activity_license, page = LICENSE),
+                    drawerComponent(drawable = R.drawable.ic_info, text = R.string.activity_about, page = ABOUT)
                 )
             )
         }
@@ -129,11 +142,25 @@ class MainPage(
      * Lays out an individual drawer component for setting another page.
      */
     @Composable
-    private fun drawerComponent(@DrawableRes drawable: Int, @StringRes text: Int, page: PageType): @Composable ColumnScope.() -> Unit = {
-        DrawerComponent(iconPainter = painterResource(id = drawable), text = stringResource(id = text)) {
+    private fun drawerComponent(@DrawableRes drawable: Int?, @StringRes text: Int, page: PageType, onClick: () -> Unit = {}): @Composable ColumnScope.() -> Unit = {
+        DrawerComponent(iconPainter = drawable?.let { painterResource(id = drawable) }, text = stringResource(id = text)) {
+            onClick()
             selectedPage.value = page
-            Logger.d("Changing page to ${selectedPage.value}")
+            Logger.d("Changing main page to ${selectedPage.value}")
         }
+    }
+
+    /**
+     * Lays out an individual drawer component for setting another page.
+     */
+    @Composable
+    private fun drawerComponent(@DrawableRes drawable: Int?, @StringRes text: Int, page: WvwPage.PageType): @Composable ColumnScope.() -> Unit = drawerComponent(
+        drawable = drawable,
+        text = text,
+        page = WVW,
+    ) {
+        wvwPage.value = page
+        Logger.d("Changing World vs. World page to ${wvwPage.value}")
     }
 
     /**

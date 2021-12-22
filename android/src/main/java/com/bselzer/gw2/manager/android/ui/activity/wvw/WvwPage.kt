@@ -1,6 +1,5 @@
 package com.bselzer.gw2.manager.android.ui.activity.wvw
 
-import android.graphics.BitmapFactory
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -45,16 +44,16 @@ class WvwPage(
     theme: Theme,
     private val navigateUp: () -> Unit,
     private val backEnabled: Boolean,
+    private val selectedPage: MutableState<PageType>
 ) : BasePage(theme), AndroidAware by aware {
     private val state: WvwState = WvwState(
         configuration = configuration.wvw,
         zoom = mutableStateOf(value = configuration.wvw.map.zoom.default)
     )
-    private val selectedPage = mutableStateOf(PageType.MENU)
     private val showWorldDialog: MutableState<Boolean> = mutableStateOf(false)
 
     enum class PageType {
-        MENU,
+        MENU, // TODO remove menu and allow for modal drawer use everywhere instead of up navigation in this page and other pages?
         MAP,
         MATCH,
         DETAILED_SELECTED_OBJECTIVE
@@ -162,7 +161,6 @@ class WvwPage(
             // Defer the content for parallelism and populate it when its ready.
             for (deferred in tileCache.findTilesAsync(gridRequest.tileRequests)) {
                 val tile = deferred.await()
-                val bitmap = BitmapFactory.decodeByteArray(tile.content, 0, tile.content.size)
                 state.tileContent[tile] = tile.content
             }
         }
@@ -188,8 +186,10 @@ class WvwPage(
 
     @OptIn(ExperimentalTime::class)
     @Composable
-    override fun Content() = app.Content {
+    override fun Content() {
         var selectedPage by rememberSaveable { selectedPage }
+
+        Logger.d("Displaying World vs. World page ${selectedPage}")
         when (selectedPage) {
             PageType.MAP -> {
                 WvwMapPage(

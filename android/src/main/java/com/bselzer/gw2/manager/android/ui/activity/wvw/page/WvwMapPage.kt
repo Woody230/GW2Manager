@@ -19,41 +19,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.constraintlayout.compose.ConstraintLayout
-import coil.ImageLoader
-import coil.compose.rememberImagePainter
-import coil.request.ImageRequest
-import coil.transform.Transformation
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwPage
-import com.bselzer.gw2.manager.android.ui.activity.wvw.state.common.ImageState
-import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.BloodlustState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.SelectedObjectiveState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.WvwMapState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.grid.TileState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.objective.ImmunityState
-import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.objective.IndicatorState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.objective.ObjectiveState
-import com.bselzer.gw2.manager.android.ui.coil.ColorTransformation
-import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.ui.composable.ImageContent
+import com.bselzer.gw2.manager.common.ui.composable.ImageState
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.ktx.compose.ui.unit.toDp
 import kotlinx.coroutines.delay
 import kotlin.time.ExperimentalTime
 
 class WvwMapPage(
-    theme: Theme,
-    imageLoader: ImageLoader,
+    aware: Gw2Aware,
+    navigateUp: () -> Unit,
     appBarActions: @Composable RowScope.() -> Unit,
     state: WvwMapState,
     private val setPage: (WvwPage.PageType) -> Unit,
-) : WvwContentPage<WvwMapState>(theme, imageLoader, appBarActions, state) {
+) : WvwContentPage<WvwMapState>(aware, navigateUp, appBarActions, state) {
     @Composable
     override fun Content() {
         Column {
@@ -156,8 +147,8 @@ class WvwMapPage(
             Objectives()
 
             if (state.shouldShowBloodlust.value) {
-                state.bloodlusts.value.forEach {
-                    Bloodlust(bloodlust = it)
+                state.bloodlusts.value.forEach { bloodlust ->
+                    bloodlust.ImageContent(modifier = Modifier.absoluteOffset(x = bloodlust.x.toDp(), y = bloodlust.y.toDp()))
                 }
             }
         }
@@ -254,8 +245,7 @@ class WvwMapPage(
             }
         )
 
-        Indicator(
-            indicator = objective.progression,
+        objective.progression.ImageContent(
             modifier = Modifier.constrainAs(upgradeIndicator) {
                 // Display the indicator in the top center of the objective icon.
                 top.linkTo(icon.top)
@@ -264,8 +254,7 @@ class WvwMapPage(
             },
         )
 
-        Indicator(
-            indicator = objective.claim,
+        objective.claim.ImageContent(
             modifier = Modifier.constrainAs(claimIndicator) {
                 // Display the indicator in the bottom right of the objective icon.
                 bottom.linkTo(icon.bottom)
@@ -273,11 +262,7 @@ class WvwMapPage(
             }
         )
 
-        val waypointColor = objective.waypoint.color?.toArgb()
-        val waypointTransformations: Array<Transformation> = if (waypointColor == null) emptyArray() else arrayOf(ColorTransformation(waypointColor))
-        Indicator(
-            indicator = objective.waypoint,
-            transformations = waypointTransformations,
+        objective.waypoint.ImageContent(
             modifier = Modifier.constrainAs(waypointIndicator) {
                 // Display the indicator in the bottom left of the objective icon.
                 bottom.linkTo(icon.bottom)
@@ -301,53 +286,15 @@ class WvwMapPage(
      */
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun ObjectiveImage(modifier: Modifier, image: ImageState, objective: WvwObjective) {
-        val request = ImageRequest.Builder(LocalContext.current)
-            .data(image.link)
-            .size(width = image.width, height = image.height)
-            .transformations(ColorTransformation(image.color.toArgb()))
-            .build()
-
-        Image(
-            painter = rememberImagePainter(request = request, imageLoader = imageLoader),
-            contentDescription = image.description,
-            contentScale = ContentScale.Fit,
-            modifier = modifier
-                .size(width = image.width.toDp(), height = image.height.toDp())
-                .combinedClickable(onLongClick = {
-                    // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.
-                    state.select(objective)
-                    setPage(WvwPage.PageType.DETAILED_SELECTED_OBJECTIVE)
-                }) {
-                    state.select(objective)
-                }
-        )
-    }
-
-    /**
-     * Lays out an indicator icon.
-     */
-    @Composable
-    private fun Indicator(
-        modifier: Modifier,
-        indicator: IndicatorState,
-        vararg transformations: Transformation
-    ) {
-        if (!indicator.enabled || indicator.link.isNullOrBlank()) return
-
-        val request = ImageRequest.Builder(LocalContext.current)
-            .data(indicator.link)
-            .size(width = indicator.width, height = indicator.height)
-            .transformations(*transformations)
-            .build()
-
-        Image(
-            painter = rememberImagePainter(request, imageLoader),
-            contentDescription = indicator.description,
-            contentScale = ContentScale.Fit,
-            modifier = modifier.size(width = indicator.width.toDp(), height = indicator.height.toDp())
-        )
-    }
+    private fun ObjectiveImage(modifier: Modifier, image: ImageState, objective: WvwObjective) = image.ImageContent(
+        modifier = modifier.combinedClickable(onLongClick = {
+            // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.
+            state.select(objective)
+            setPage(WvwPage.PageType.DETAILED_SELECTED_OBJECTIVE)
+        }) {
+            state.select(objective)
+        },
+    )
 
     /**
      * Lays out the timer for the amount of time an objective is immune from capture.
@@ -385,26 +332,5 @@ class WvwMapPage(
         selected.subtitle?.let { subtitle ->
             Text(text = subtitle, fontSize = textSize)
         }
-    }
-
-    /**
-     * Lays out the bloodlust icon.
-     */
-    @Composable
-    private fun Bloodlust(bloodlust: BloodlustState) {
-        val request = ImageRequest.Builder(LocalContext.current)
-            .data(bloodlust.link)
-            .size(width = bloodlust.width, height = bloodlust.height)
-            .transformations(ColorTransformation(color = bloodlust.color.toArgb()))
-            .build()
-
-        Image(
-            painter = rememberImagePainter(request, imageLoader),
-            contentDescription = bloodlust.description,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .absoluteOffset(x = bloodlust.x.toDp(), y = bloodlust.y.toDp())
-                .size(width = bloodlust.width.toDp(), height = bloodlust.height.toDp())
-        )
     }
 }

@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration> <!-- TODO versioning -->
+<Configuration> <!-- TODO config versioning -->
     <!-- TODO cache clearing based on build number/app version -->
     <WorldVsWorld>
         <Objectives>
-            <Size
-                height="64"
-                width="64" />
+            <Size height="64" width="64" />
 
             <!-- Delay of less than a second to attempt to account for other processing. -->
-            <Immunity
-                delay="995"
+            <Immunity delay="995"
                 enabled="true"
                 textSize="12" />
 

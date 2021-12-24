@@ -8,6 +8,7 @@ import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.WvwMapState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.match.WvwMatchState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.selected.WvwSelectedState
 import com.bselzer.gw2.manager.common.configuration.wvw.Wvw
+import com.bselzer.gw2.v2.emblem.client.EmblemClient
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.ContinentFloor
 import com.bselzer.gw2.v2.model.enumeration.wvw.ObjectiveOwner
@@ -22,6 +23,7 @@ import com.bselzer.gw2.v2.tile.model.response.TileGrid
 
 data class WvwState(
     val configuration: Wvw,
+    private val emblemClient: EmblemClient,
     val worlds: MutableState<Collection<World>> = mutableStateOf(emptyList()),
     val match: MutableState<WvwMatch?> = mutableStateOf(null),
     val objectives: MutableState<Collection<WvwObjective>> = mutableStateOf(emptyList()),
@@ -79,6 +81,7 @@ data class WvwState(
     @Composable
     fun rememberSelected() = WvwSelectedState(
         configuration = configuration,
+        emblemClient = emblemClient,
         match = remember { match },
         selectedObjective = remember { selectedObjective },
         worlds = remember { worlds },

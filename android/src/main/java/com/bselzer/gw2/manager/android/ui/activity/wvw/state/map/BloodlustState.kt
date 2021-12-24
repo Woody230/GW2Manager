@@ -1,14 +1,15 @@
 package com.bselzer.gw2.manager.android.ui.activity.wvw.state.map
 
 import androidx.compose.ui.graphics.Color
+import com.bselzer.gw2.manager.common.ui.composable.ImageState
 
-// TODO extend from image state
 data class BloodlustState(
-    val link: String,
+    override val link: String,
     val x: Int,
     val y: Int,
-    val width: Int,
-    val height: Int,
-    val color: Color,
-    val description: String
-)
+    override val width: Int,
+    override val height: Int,
+    override val color: Color,
+    override val description: String,
+    override val enabled: Boolean
+) : ImageState

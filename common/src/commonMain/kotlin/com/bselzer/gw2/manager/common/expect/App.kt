@@ -16,6 +16,9 @@ import com.bselzer.gw2.v2.model.serialization.Modules
 import com.bselzer.gw2.v2.tile.cache.instance.TileCache
 import com.bselzer.gw2.v2.tile.cache.metadata.TileMetadataExtractor
 import com.bselzer.gw2.v2.tile.client.TileClient
+import com.bselzer.ktx.compose.image.cache.instance.ImageCache
+import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
+import com.bselzer.ktx.compose.image.ui.LocalImageCache
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import io.ktor.client.*
@@ -38,18 +41,6 @@ import org.kodein.di.instance
 abstract class App : DIAware {
     final override val di: DI = DI.lazy { bindAll() }
     private val commonPref by instance<CommonPreference>()
-
-    companion object {
-        /**
-         * The name of the GW2 user agent.
-         */
-        const val GW2_USER_AGENT: String = "gw2"
-
-        /**
-         * The name of the GW2 emblem user agent.
-         */
-        const val EMBLEM_USER_AGENT: String = "gw2-emblem"
-    }
 
     /**
      * Whether debug mode is enabled.
@@ -80,7 +71,15 @@ abstract class App : DIAware {
     }
 
     @Composable
-    fun Content(content: @Composable () -> Unit) = AppTheme(content)
+    fun Content(content: @Composable () -> Unit) = AppTheme {
+        val imageCache by di.instance<ImageCache>()
+        CompositionLocalProvider(
+            LocalTheme provides theme(),
+            LocalImageCache provides imageCache
+        ) {
+            content()
+        }
+    }
 
     /**
      * Binds all the dependencies.
@@ -93,6 +92,7 @@ abstract class App : DIAware {
         bindPreferences()
         bindConfiguration()
         bindGw2()
+        bindImageLoader()
     }
 
     /**
@@ -129,6 +129,7 @@ abstract class App : DIAware {
             KotlinxSerializer(Modules.ALL),
             IdentifiableMetadataExtractor(),
             TileMetadataExtractor(),
+            ImageMetadataExtractor(),
             TypeTable { gw2() }
         )
     }
@@ -168,12 +169,11 @@ abstract class App : DIAware {
         bindSingleton { Gw2CacheProvider(instance()).apply { inject(instance()) } }
         bindSingleton { TileClient(instance()) }
         bindSingleton { TileCache(instance(), instance()) }
-        bindSingleton {
-            com.bselzer.gw2.v2.emblem.client.EmblemClient(instance<HttpClient>().config {
-                install(UserAgent) {
-                    agent = EMBLEM_USER_AGENT
-                }
-            })
-        }
+        bindSingleton { com.bselzer.gw2.v2.emblem.client.EmblemClient(instance<HttpClient>()) }
     }
+
+    /**
+     * Binds the image loader.
+     */
+    private fun DI.MainBuilder.bindImageLoader() = bindSingleton { ImageCache(instance(), instance()) }
 }

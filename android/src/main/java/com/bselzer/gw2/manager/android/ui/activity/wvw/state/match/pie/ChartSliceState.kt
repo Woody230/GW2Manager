@@ -1,10 +1,15 @@
 package com.bselzer.gw2.manager.android.ui.activity.wvw.state.match.pie
 
+import androidx.compose.ui.graphics.Color
+import com.bselzer.gw2.manager.common.ui.composable.ImageState
+
 data class ChartSliceState(
-    val link: String,
-    val width: Int,
-    val height: Int,
-    val description: String,
+    override val link: String,
+    override val width: Int,
+    override val height: Int,
+    override val description: String,
+    override val enabled: Boolean = true,
+    override val color: Color? = null,
 
     /**
      * The starting angle in degrees.
@@ -15,4 +20,4 @@ data class ChartSliceState(
      * The ending angle in degrees.
      */
     val endAngle: Float,
-)
+) : ImageState

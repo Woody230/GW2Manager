@@ -2,9 +2,9 @@ import org.jetbrains.compose.compose
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "1.0.0"
+    id("org.jetbrains.compose") version "1.0.1"
     id("com.android.library")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
 }
 
 kotlin {
@@ -21,7 +21,6 @@ kotlin {
         val extensionVersion = "3.0.0"
         val ktorVersion = "1.6.4"
         val serializationVersion = "1.3.0"
-        val coilVersion = "1.4.0"
         val settingsVersion = "0.8.1"
 
         val commonMain by getting {
@@ -34,6 +33,7 @@ kotlin {
 
                 // Extensions
                 api("com.bselzer.ktx:compose:$extensionVersion")
+                api("com.bselzer.ktx:compose-image:$extensionVersion")
                 api("com.bselzer.ktx:coroutine:$extensionVersion")
                 api("com.bselzer.ktx:function:$extensionVersion")
                 api("com.bselzer.ktx:library:$extensionVersion")
@@ -81,19 +81,13 @@ kotlin {
                 api("androidx.datastore:datastore-preferences:1.0.0")
 
                 // Compose
-                val googleComposeVersion = "1.0.5"
                 api("androidx.activity:activity-compose:1.4.0")
-                api("androidx.compose.ui:ui-tooling:$googleComposeVersion")
-
-                // Image Loading
-                api("io.coil-kt:coil:$coilVersion")
-                api("io.coil-kt:coil-compose:$coilVersion")
 
                 // Dependency Injection
                 api("org.kodein.di:kodein-di-framework-android-core:$kodeinDiVersion")
 
                 // HTTP Client
-                api("io.ktor:ktor-client-okhttp:$ktorVersion") // Using OkHttp because Coil relies on it.
+                api("io.ktor:ktor-client-okhttp:$ktorVersion")
             }
         }
         val androidTest by getting {

@@ -18,8 +18,7 @@ import com.bselzer.gw2.manager.android.ui.activity.wvw.page.WvwMapPage
 import com.bselzer.gw2.manager.android.ui.activity.wvw.page.WvwMatchPage
 import com.bselzer.gw2.manager.android.ui.activity.wvw.page.WvwSelectedObjectivePage
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.WvwState
-import com.bselzer.gw2.manager.common.expect.AndroidAware
-import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.cache.instance.GuildCache
 import com.bselzer.gw2.v2.cache.instance.WorldCache
@@ -40,14 +39,14 @@ import kotlinx.coroutines.*
 import kotlin.time.ExperimentalTime
 
 class WvwPage(
-    aware: AndroidAware,
-    theme: Theme,
+    aware: Gw2Aware,
     private val navigateUp: () -> Unit,
     private val backEnabled: Boolean,
     private val selectedPage: MutableState<PageType>
-) : BasePage(theme), AndroidAware by aware {
+) : BasePage(aware) {
     private val state: WvwState = WvwState(
         configuration = configuration.wvw,
+        emblemClient = emblemClient,
         zoom = mutableStateOf(value = configuration.wvw.map.zoom.default)
     )
     private val showWorldDialog: MutableState<Boolean> = mutableStateOf(false)
@@ -190,12 +189,12 @@ class WvwPage(
     override fun Content() {
         var selectedPage by rememberSaveable { selectedPage }
 
-        Logger.d("Displaying World vs. World page ${selectedPage}")
+        Logger.d("Displaying World vs. World page $selectedPage")
         when (selectedPage) {
             PageType.MAP -> {
                 WvwMapPage(
-                    theme = app.theme(),
-                    imageLoader = imageLoader,
+                    aware = this,
+                    navigateUp = navigateUp,
                     appBarActions = commonAppBarActions(),
                     state = state.rememberMap(),
                     setPage = { selectedPage = it }
@@ -203,19 +202,18 @@ class WvwPage(
             }
             PageType.MATCH -> {
                 WvwMatchPage(
-                    theme = app.theme(),
-                    imageLoader = imageLoader,
+                    aware = this,
+                    navigateUp = navigateUp,
                     appBarActions = commonAppBarActions(),
                     state = state.rememberMatch(),
                 ).Content()
             }
             PageType.DETAILED_SELECTED_OBJECTIVE -> {
                 WvwSelectedObjectivePage(
-                    theme = app.theme(),
-                    imageLoader = imageLoader,
+                    aware = this,
+                    navigateUp = navigateUp,
                     appBarActions = commonAppBarActions(),
                     state = state.rememberSelected(),
-                    emblemClient = emblemClient
                 ).Content()
 
                 remember { state.selectedObjective }.value?.let { objective ->

@@ -1,8 +1,13 @@
 package com.bselzer.gw2.manager.android.ui.activity.wvw.state.match.pie
 
+import androidx.compose.ui.graphics.Color
+import com.bselzer.gw2.manager.common.ui.composable.ImageState
+
 data class ChartBackgroundState(
-    val shadowLink: String,
-    val neutralLink: String,
-    val width: Int,
-    val height: Int,
-)
+    override val enabled: Boolean = true,
+    override val link: String?,
+    override val width: Int,
+    override val height: Int,
+    override val color: Color? = null,
+    override val description: String? = null
+) : ImageState

@@ -1,6 +1,7 @@
 package com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.objective
 
 import androidx.compose.ui.graphics.Color
+import com.bselzer.gw2.manager.common.ui.composable.ImageState
 
 data class WaypointState(
     override val enabled: Boolean,
@@ -8,9 +9,5 @@ data class WaypointState(
     override val description: String = "Waypoint",
     override val width: Int,
     override val height: Int,
-
-    /**
-     * The color to transform the image into.
-     */
-    val color: Color?
-) : IndicatorState
+    override val color: Color?
+) : ImageState

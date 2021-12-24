@@ -17,30 +17,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
-import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.cache.instance.GuildCache
 import com.bselzer.gw2.v2.cache.instance.WorldCache
 import com.bselzer.gw2.v2.cache.instance.WvwCache
-import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
-import com.bselzer.gw2.v2.tile.cache.instance.TileCache
 import com.bselzer.ktx.compose.ui.appbar.DeleteButton
 import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.preference.CheckBoxPreference
 import com.bselzer.ktx.coroutine.showToast
-import okhttp3.Cache
 
 /**
  * The page for managing underlying caches.
  */
 class CachePage(
-    theme: Theme,
+    aware: Gw2Aware,
     private val navigateUp: () -> Unit,
-    private val cache: Cache?,
-    private val gw2Cache: Gw2CacheProvider,
-    private val tileCache: TileCache
-) : BasePage(theme) {
+) : BasePage(aware) {
     private val selected = mutableStateListOf<CacheType>()
 
     private enum class CacheType {
@@ -65,7 +59,7 @@ class CachePage(
                             tileCache.clear()
                         }
                         CacheType.IMAGE -> {
-                            cache?.evictAll()
+                            imageCache.clear()
                             tileCache.clear()
                         }
                         CacheType.GUILD -> gw2Cache.get<GuildCache>().clear()

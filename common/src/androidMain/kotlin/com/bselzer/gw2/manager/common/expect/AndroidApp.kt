@@ -4,8 +4,6 @@ import android.app.Application
 import android.content.ContextWrapper
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import coil.ImageLoader
-import coil.util.CoilUtils
 import com.bselzer.gw2.manager.common.BuildConfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
@@ -35,18 +33,12 @@ class AndroidApp(private val application: Application, private val datastore: ()
     override fun DI.MainBuilder.bindHttpClient() {
         bindSingleton {
             OkHttpClient.Builder()
-                .cache(CoilUtils.createDefaultCache(instance()))
                 .addInterceptor { chain ->
                     var request: Request? = null
                     try {
                         request = chain.request()
                         Logger.d("Intercepted ${request.url}")
-
-                        val originalResponse = chain.proceed(request)
-                        val isCacheableRequest = request.headers[HttpHeaders.UserAgent] != GW2_USER_AGENT
-
-                        // Do not cache anything coming from the GW2/Tile clients. That should only be left to Kodein-DB.
-                        if (isCacheableRequest) originalResponse else originalResponse.newBuilder().header("Cache-Control", "no-store").build()
+                        chain.proceed(request)
                     } catch (ex: Exception) {
                         Logger.e(ex)
 
@@ -63,10 +55,6 @@ class AndroidApp(private val application: Application, private val datastore: ()
                 engine {
                     // Set the bound OkHttpClient.
                     preconfigured = instance()
-                }
-
-                install(UserAgent) {
-                    agent = GW2_USER_AGENT
                 }
 
                 HttpResponseValidator {
@@ -94,9 +82,5 @@ class AndroidApp(private val application: Application, private val datastore: ()
 
         // Application / context
         bindSingleton { application }
-
-        // Coil image loader
-        // TODO cache using kodein-db instead
-        bindSingleton { ImageLoader.Builder(instance()).okHttpClient(instance<OkHttpClient>()).build() }
     }
 }

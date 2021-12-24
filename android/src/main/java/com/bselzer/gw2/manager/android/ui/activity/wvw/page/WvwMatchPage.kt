@@ -1,6 +1,5 @@
 package com.bselzer.gw2.manager.android.ui.activity.wvw.page
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -10,34 +9,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import coil.ImageLoader
-import coil.compose.rememberImagePainter
-import coil.request.ImageRequest
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.match.ChartState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.match.WvwMatchState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.match.description.ChartDataState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.match.description.ChartDescriptionState
-import com.bselzer.gw2.manager.android.ui.activity.wvw.state.match.pie.ChartBackgroundState
-import com.bselzer.gw2.manager.android.ui.activity.wvw.state.match.pie.ChartDividerState
-import com.bselzer.gw2.manager.android.ui.activity.wvw.state.match.pie.ChartSliceState
-import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.ui.composable.ImageContent
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.geometry.ArcShape
-import com.bselzer.ktx.compose.ui.unit.toDp
 
 class WvwMatchPage(
-    theme: Theme,
-    imageLoader: ImageLoader,
+    aware: Gw2Aware,
+    navigateUp: () -> Unit,
     appBarActions: @Composable RowScope.() -> Unit,
     state: WvwMatchState,
-) : WvwContentPage<WvwMatchState>(theme, imageLoader, appBarActions, state) {
+) : WvwContentPage<WvwMatchState>(aware, navigateUp, appBarActions, state) {
     @Composable
     override fun Content() = Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar()
@@ -62,82 +53,20 @@ class WvwMatchPage(
     @Composable
     private fun pieChart(chart: ChartState): @Composable ColumnScope.() -> Unit = {
         Box {
-            ChartBackground(background = chart.background)
-            chart.slices.forEach { slice -> ChartSlice(slice) }
-            ChartDividers(divider = chart.divider, angles = chart.slices.map { slice -> slice.startAngle })
+            chart.background.ImageContent()
+            chart.slices.forEach { slice ->
+                slice.ImageContent(
+                    modifier = Modifier.clip(ArcShape(slice.startAngle, slice.endAngle))
+                )
+            }
+
+            // Add the dividers between the slices.
+            chart.slices.map { slice -> slice.startAngle }.forEach { angle ->
+                chart.divider.ImageContent(modifier = Modifier.rotate(degrees = angle))
+            }
         }
 
         ChartDescription(description = chart.description)
-    }
-
-    /**
-     * Lays out the pie chart background.
-     */
-    @Composable
-    private fun ChartBackground(background: ChartBackgroundState) {
-        val shadow = ImageRequest.Builder(LocalContext.current)
-            .data(background.shadowLink)
-            .size(width = background.width, height = background.height)
-            .build()
-
-        Image(
-            painter = rememberImagePainter(request = shadow),
-            contentDescription = null,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier.size(width = background.width.toDp(), height = background.height.toDp())
-        )
-
-        val neutral = ImageRequest.Builder(LocalContext.current)
-            .data(background.neutralLink)
-            .size(width = background.width, height = background.height)
-            .build()
-
-        Image(
-            painter = rememberImagePainter(request = neutral),
-            contentDescription = null,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier.size(width = background.width.toDp(), height = background.height.toDp())
-        )
-    }
-
-    /**
-     * Lays out a slice of the pie chart.
-     */
-    @Composable
-    private fun ChartSlice(slice: ChartSliceState) {
-        val request = ImageRequest.Builder(LocalContext.current)
-            .data(slice.link)
-            .size(slice.width, slice.height)
-            .build()
-
-        Image(
-            painter = rememberImagePainter(request = request),
-            contentDescription = slice.description,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .size(slice.width.toDp(), slice.height.toDp())
-                .clip(ArcShape(slice.startAngle, slice.endAngle))
-        )
-    }
-
-    /**
-     * Lays out dividers along the given [angles].
-     */
-    @Composable
-    private fun ChartDividers(divider: ChartDividerState, angles: Collection<Float>) = angles.forEach { angle ->
-        val request = ImageRequest.Builder(LocalContext.current)
-            .data(divider.link)
-            .size(divider.width, divider.height)
-            .build()
-
-        Image(
-            painter = rememberImagePainter(request = request),
-            contentDescription = null,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .size(divider.width.toDp(), divider.height.toDp())
-                .rotate(angle)
-        )
     }
 
     /**

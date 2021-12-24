@@ -17,16 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
-import com.bselzer.gw2.manager.common.preference.CommonPreference
-import com.bselzer.gw2.manager.common.preference.WvwPreference
+import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.expect.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.gw2.v2.client.client.Gw2Client
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.model.enumeration.extension.account.permissions
 import com.bselzer.gw2.v2.scope.core.Permission
 import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
-import com.bselzer.ktx.compose.ui.picker.NumberPicker
-import com.bselzer.ktx.compose.ui.picker.ValuePicker
 import com.bselzer.ktx.compose.ui.preference.*
 import com.bselzer.ktx.compose.ui.style.hyperlink
 import com.bselzer.ktx.compose.ui.style.withColor
@@ -40,26 +37,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.kodein.db.DB
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
-import kotlin.time.toDuration
 
 /**
  * The page for the user to select and manage preferences.
  */
 class SettingsPage(
-    theme: Theme,
+    aware: Gw2Aware,
     private val navigateUp: () -> Unit,
-    private val commonPref: CommonPreference,
-    private val wvwPref: WvwPreference,
-    private val gw2Client: Gw2Client,
-    private val database: DB
-) : BasePage(theme) {
+) : BasePage(aware) {
     @Composable
     override fun Content() = RelativeBackgroundContent(
         backgroundModifier = Modifier.verticalScroll(rememberScrollState()),
@@ -88,6 +76,7 @@ class SettingsPage(
      */
     @Composable
     private fun ThemePreference() {
+        val theme = LocalTheme.current
         SwitchPreference(
             iconPainter = painterResource(if (theme == Theme.LIGHT) R.drawable.gw2_sunrise else R.drawable.gw2_twilight),
             title = "Theme",
@@ -154,9 +143,6 @@ class SettingsPage(
         )
     }
 
-    /*
-        // TODO DurationUnit <=> TimeUnit alias -- 1.6.0 fixes
-
     /**
      * Displays the refresh interval for WvW data retrieval.
      */
@@ -164,66 +150,20 @@ class SettingsPage(
     @Composable
     private fun RefreshIntervalPreference() {
         var refreshInterval by wvwPref.refreshInterval.nullState()
-        val value = refreshInterval ?: wvwPref.refreshInterval.defaultValue
-        val unit = wvwPref.refreshIntervalDefaultUnit
+        val initial = wvwPref.refreshInterval.defaultValue
+        val initialUnit = wvwPref.refreshIntervalDefaultUnit
+        val value = refreshInterval ?: initial
 
         DurationDialogPreference(
-            onStateChanged = { refreshInterval.value = it },
-            iconPainter = painterResource(id = R.drawable.gw2_concentration),
-            title = "Refresh Interval",
-            subtitle = value.toString(),
-            initialAmount = value.toInt(DurationUnit.MINUTES),
-            initialUnit = DurationUnit.MINUTES,
-            minimum = 30.seconds,
-            units = listOf(DurationUnit.SECONDS, DurationUnit.MINUTES, DurationUnit.HOURS, DurationUnit.DAYS)
-        )
-    }
-    */
-
-    /**
-     * Lays out the refresh interval for WvW data retrieval.
-     */
-    @OptIn(ExperimentalTime::class)
-    @Composable
-    private fun RefreshIntervalPreference() {
-        var refreshInterval by wvwPref.refreshInterval.nullState()
-        val value = refreshInterval ?: wvwPref.refreshInterval.defaultValue
-        val unit = remember { mutableStateOf(DurationUnit.MINUTES) }
-
-        // Adjust the current value as the component changes to make sure it is bounded.
-        val minimum = 30.seconds
-        val maximum = Int.MAX_VALUE.days
-        val convertedMin = max(1, minimum.toInt(unit.value))
-        val convertedMax = maximum.toInt(unit.value)
-        fun bounded(value: Int) = min(convertedMax, max(convertedMin, value))
-        val amount = remember { mutableStateOf(value.toInt(DurationUnit.MINUTES)) }
-        amount.value = bounded(amount.value)
-
-        val temp = remember { mutableStateOf(refreshInterval) }
-        temp.value = amount.value.toDuration(unit.value)
-        DialogPreference(
-            state = temp,
             onStateChanged = { refreshInterval = it },
             iconPainter = painterResource(id = R.drawable.gw2_concentration),
             title = "Refresh Interval",
             subtitle = value.toString(),
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                // Converted minimum can produce 0 because of being rounded down so set the minimum bound to at least 1. (ex: 30 seconds => 0 minutes)
-                NumberPicker(value = amount.value, range = convertedMin..convertedMax) {
-                    amount.value = bounded(it)
-                }
-                Spacer(modifier = Modifier.width(25.dp))
-
-                val units = listOf(DurationUnit.SECONDS, DurationUnit.MINUTES, DurationUnit.HOURS, DurationUnit.DAYS)
-                ValuePicker(value = unit.value, values = units, labels = units.map { component -> component.userFriendly() }) {
-                    unit.value = it
-                }
-            }
-        }
+            initialAmount = initial.toInt(initialUnit),
+            initialUnit = initialUnit,
+            minimum = 30.seconds,
+            units = listOf(DurationUnit.SECONDS, DurationUnit.MINUTES, DurationUnit.HOURS, DurationUnit.DAYS)
+        )
     }
 
     /**

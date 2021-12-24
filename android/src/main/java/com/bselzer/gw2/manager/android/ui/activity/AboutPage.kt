@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.BuildConfig
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
-import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.description.Description
@@ -21,9 +21,9 @@ import com.bselzer.ktx.compose.ui.description.Description
  * The page for laying out information about the app.
  */
 class AboutPage(
-    theme: Theme,
+    aware: Gw2Aware,
     private val navigateUp: () -> Unit,
-) : BasePage(theme) {
+) : BasePage(aware) {
     @Composable
     override fun Content() = RelativeBackgroundContent(
         backgroundModifier = Modifier.verticalScroll(rememberScrollState()),

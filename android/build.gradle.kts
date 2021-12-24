@@ -1,8 +1,8 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
-    id("org.jetbrains.compose") version "1.0.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
+    id("org.jetbrains.compose") version "1.0.1"
     id("com.mikepenz.aboutlibraries.plugin")
 }
 

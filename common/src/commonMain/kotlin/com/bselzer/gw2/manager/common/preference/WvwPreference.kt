@@ -6,6 +6,7 @@ import com.bselzer.ktx.settings.setting.delegate.SafeSetting
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
 
@@ -15,7 +16,7 @@ class WvwPreference(settings: SuspendSettings) {
      * The data refresh interval.
      */
     @OptIn(ExperimentalTime::class)
-    val refreshInterval: SafeSetting<Duration> = DurationSetting(settings = settings, key = "RefreshInterval", defaultValue = Duration.minutes(10)).safe()
+    val refreshInterval: SafeSetting<Duration> = DurationSetting(settings = settings, key = "RefreshInterval", defaultValue = 10.minutes).safe()
 
     /**
      * The default data refresh interval date/time component.

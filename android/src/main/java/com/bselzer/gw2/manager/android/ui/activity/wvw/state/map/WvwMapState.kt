@@ -6,13 +6,13 @@ import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwHelper.color
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwHelper.objective
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwHelper.selectedDateFormatted
-import com.bselzer.gw2.manager.android.ui.activity.wvw.state.common.ImageState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.*
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.grid.GridState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.grid.TileCount
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.grid.TileState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.objective.*
 import com.bselzer.gw2.manager.common.configuration.wvw.Wvw
+import com.bselzer.gw2.manager.common.ui.composable.ImageState
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.ContinentFloor
 import com.bselzer.gw2.v2.model.enumeration.extension.wvw.owner
@@ -129,7 +129,7 @@ data class WvwMapState(
     /**
      * Whether to show the bloodlust icons.
      */
-    val shouldShowBloodlust: State<Boolean> = derivedStateOf { configuration.bloodlust.enabled && tileCount.value.hasAllContent && bloodlusts.value.isNotEmpty() }
+    val shouldShowBloodlust: State<Boolean> = derivedStateOf { configuration.bloodlust.enabled && tileCount.value.hasAllContent }
 
     /**
      * The state of the bloodlust icons.
@@ -169,7 +169,8 @@ data class WvwMapState(
                 y = coordinates.y.toInt(),
                 width = width,
                 height = height,
-                description = "${owner.userFriendly()} Bloodlust"
+                description = "${owner.userFriendly()} Bloodlust",
+                enabled = shouldShowBloodlust.value
             )
         }
     }
@@ -255,14 +256,15 @@ data class WvwMapState(
                     startTime = fromMatch.lastFlippedAt,
                     delay = configuration.objectives.immunity.delay
                 ),
-                image = ImageState(
+                image = object : ImageState {
                     // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
-                    link = if (objective.iconLink.isBlank()) fromConfig?.defaultIconLink else objective.iconLink,
-                    description = objective.name,
-                    color = configuration.color(fromMatch),
-                    width = size.width,
-                    height = size.height,
-                )
+                    override val link = if (objective.iconLink.isBlank()) fromConfig?.defaultIconLink else objective.iconLink
+                    override val description = objective.name
+                    override val color = configuration.color(fromMatch)
+                    override val width = size.width
+                    override val height = size.height
+                    override val enabled = true
+                }
             )
         }
     }

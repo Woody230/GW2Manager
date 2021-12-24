@@ -9,7 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
-import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.ktx.library.LibraryColumn
 import com.mikepenz.aboutlibraries.entity.Library
@@ -18,10 +18,10 @@ import com.mikepenz.aboutlibraries.entity.Library
  * The page for laying out the libraries used in the app and their associated licenses.
  */
 class LicensePage(
-    theme: Theme,
+    aware: Gw2Aware,
     private val navigateUp: () -> Unit,
     private val libraries: List<Library>
-) : BasePage(theme) {
+) : BasePage(aware) {
     @Composable
     override fun Content() = RelativeBackgroundContent(
         modifier = Modifier.fillMaxSize(),

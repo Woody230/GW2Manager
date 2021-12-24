@@ -77,7 +77,20 @@ data class WvwMatchState(
         val height = configuration.chart.size.height
 
         val descriptions = mutableListOf<ChartDataState>()
-        val slices = mutableListOf<ChartSliceState>()
+        val slices = mutableListOf<ChartSliceState>().apply {
+            // Add the neutral slice first.
+            add(
+                ChartSliceState(
+                    width = width,
+                    height = height,
+                    description = "Neutral Slice",
+                    startAngle = 0f,
+                    endAngle = 360f,
+                    link = configuration.chart.neutralLink
+                )
+            )
+        }
+
         var startAngle = 0f
         for (owner in owners) {
             val amount = data?.get(owner) ?: 0
@@ -126,8 +139,7 @@ data class WvwMatchState(
                 height = height,
             ),
             background = ChartBackgroundState(
-                shadowLink = configuration.chart.backgroundLink,
-                neutralLink = configuration.chart.neutralLink,
+                link = configuration.chart.backgroundLink,
                 width = width,
                 height = height
             ),

@@ -1,22 +1,19 @@
 package com.bselzer.gw2.manager.android.ui.activity.wvw.page
 
-import android.content.Intent
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import coil.ImageLoader
-import com.bselzer.gw2.manager.android.ui.activity.MainActivity
 import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
-import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.ktx.compose.ui.appbar.MaterialAppBar
 import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
 
 abstract class WvwContentPage<State>(
-    theme: Theme,
-    protected val imageLoader: ImageLoader,
+    aware: Gw2Aware,
+    private val navigateUp: () -> Unit,
     private val appBarActions: @Composable RowScope.() -> Unit,
     protected val state: State
-) : BasePage(theme) {
+) : BasePage(aware) {
     /**
      * Lays out the top app bar.
      */
@@ -26,10 +23,7 @@ abstract class WvwContentPage<State>(
         MaterialAppBar(
             title = topAppBarTitle(),
             navigationIcon = {
-                UpNavigationIcon {
-                    // TODO temporary until single activity is used
-                    context.startActivity(Intent(context, MainActivity::class.java))
-                }
+                UpNavigationIcon { navigateUp() }
             },
             actions = {
                 appBarActions()

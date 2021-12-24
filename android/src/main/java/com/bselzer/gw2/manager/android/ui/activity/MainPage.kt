@@ -22,7 +22,7 @@ import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.ui.activity.MainPage.PageType.*
 import com.bselzer.gw2.manager.android.ui.activity.common.BasePage
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwPage
-import com.bselzer.gw2.manager.common.expect.AndroidAware
+import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.ui.appbar.DrawerNavigationIcon
 import com.bselzer.ktx.compose.ui.drawer.DrawerComponent
@@ -35,10 +35,9 @@ import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.launch
 
 class MainPage(
-    private val aware: AndroidAware,
-    theme: Theme,
+    aware: Gw2Aware,
     private val closeApplication: () -> Unit,
-) : BasePage(theme), AndroidAware by aware {
+) : BasePage(aware = aware) {
     private val selectedPage = mutableStateOf(SPLASH)
     private val wvwPage = mutableStateOf(WvwPage.PageType.MENU)
 
@@ -60,16 +59,15 @@ class MainPage(
             Logger.d("Changing main page to $selectedPage")
         }
 
-        // TODO after changing the theme in settings page, going back, and trying to change pages... this is not getting recomposed to display the page
         Logger.d("Displaying main page $selectedPage")
         when (selectedPage) {
             MENU -> MainMenu()
             SPLASH -> Splash()
-            ABOUT -> AboutPage(theme, navigateUp).Content()
-            CACHE -> CachePage(theme, navigateUp, okHttpClient.cache, gw2Cache, tileCache).Content()
-            LICENSE -> LicensePage(theme, navigateUp, LocalContext.current.libraries()).Content()
-            SETTING -> SettingsPage(theme, navigateUp, commonPref, wvwPref, gw2Client, database).Content()
-            WVW -> WvwPage(aware = aware, theme = theme, navigateUp = navigateUp, backEnabled = selectedPage == WVW, selectedPage = wvwPage).Content()
+            ABOUT -> AboutPage(aware = this, navigateUp).Content()
+            CACHE -> CachePage(aware = this, navigateUp).Content()
+            LICENSE -> LicensePage(aware = this, navigateUp, LocalContext.current.libraries()).Content()
+            SETTING -> SettingsPage(aware = this, navigateUp).Content()
+            WVW -> WvwPage(aware = this, navigateUp = navigateUp, backEnabled = selectedPage == WVW, selectedPage = wvwPage).Content()
         }
 
         // Let the WvW page use its own back handler.

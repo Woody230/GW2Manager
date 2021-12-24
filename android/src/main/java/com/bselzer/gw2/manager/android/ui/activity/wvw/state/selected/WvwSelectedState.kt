@@ -6,11 +6,13 @@ import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwHelper.color
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwHelper.objective
 import com.bselzer.gw2.manager.android.ui.activity.wvw.WvwHelper.selectedDateFormatted
-import com.bselzer.gw2.manager.android.ui.activity.wvw.state.common.ImageState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.selected.overview.MapState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.selected.overview.OverviewState
 import com.bselzer.gw2.manager.android.ui.activity.wvw.state.selected.overview.OwnerState
 import com.bselzer.gw2.manager.common.configuration.wvw.Wvw
+import com.bselzer.gw2.manager.common.ui.composable.ImageState
+import com.bselzer.gw2.v2.emblem.client.EmblemClient
+import com.bselzer.gw2.v2.emblem.request.EmblemRequestOptions
 import com.bselzer.gw2.v2.model.enumeration.extension.wvw.mapType
 import com.bselzer.gw2.v2.model.enumeration.extension.wvw.owner
 import com.bselzer.gw2.v2.model.extension.wvw.*
@@ -25,6 +27,7 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 data class WvwSelectedState(
     private val configuration: Wvw,
+    private val emblemClient: EmblemClient,
     private val match: State<WvwMatch?>,
     private val selectedObjective: State<WvwObjective?>,
     private val worlds: State<Collection<World>>,
@@ -40,16 +43,17 @@ data class WvwSelectedState(
         val fromMatch = match.value.objective(objective)
 
         val link = objective.iconLink
-        ImageState(
+        object : ImageState {
             // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
-            link = if (link.isBlank()) fromConfig?.defaultIconLink else link,
-            description = objective.name,
-            color = configuration.color(fromMatch),
+            override val link = if (link.isBlank()) fromConfig?.defaultIconLink else link
+            override val description = objective.name
+            override val color = configuration.color(fromMatch)
+            override val enabled: Boolean = true
 
             // TODO objective images are mostly 32x32 and look awful as result of being scaled like this
-            width = 64,
-            height = 64,
-        )
+            override val width = 128
+            override val height = 128
+        }
     }
 
     /**
@@ -116,11 +120,14 @@ data class WvwSelectedState(
         val name = guilds[guildId]?.name
         if (name.isNullOrBlank()) return@derivedStateOf null
 
+        val size = 256
+        val request = emblemClient.requestEmblem(guildId = guildId, size = size, EmblemRequestOptions.MAXIMIZE_BACKGROUND_ALPHA)
         ClaimState(
             claimedAt = "Claimed at ${configuration.selectedDateFormatted(claimedAt)}",
             claimedBy = "Claimed by $name",
-            id = guildId,
-            size = 256,
+            link = emblemClient.emblemUrl(request),
+            width = size,
+            height = size,
             description = "$name Guild Emblem"
         )
     }

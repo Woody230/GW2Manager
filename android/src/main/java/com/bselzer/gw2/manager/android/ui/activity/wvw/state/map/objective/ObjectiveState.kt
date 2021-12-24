@@ -1,6 +1,6 @@
 package com.bselzer.gw2.manager.android.ui.activity.wvw.state.map.objective
 
-import com.bselzer.gw2.manager.android.ui.activity.wvw.state.common.ImageState
+import com.bselzer.gw2.manager.common.ui.composable.ImageState
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 
 data class ObjectiveState(

@@ -11,6 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
+import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.expect.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.ui.appbar.MaterialAppBarColumn
 import com.bselzer.ktx.compose.ui.background.Background
@@ -19,8 +21,8 @@ import com.bselzer.ktx.compose.ui.background.BackgroundImage
 import com.bselzer.ktx.compose.ui.container.CenteredRow
 
 abstract class BasePage(
-    val theme: Theme
-) : Page {
+    aware: Gw2Aware
+) : Page, Gw2Aware by aware {
     private val relative: @Composable () -> Unit = { BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment()) }
     private val absolute: @Composable () -> Unit = { BackgroundImage(drawableId = absoluteBackgroundDrawableId()) }
     private val relativeBox: @Composable BoxScope.() -> Unit = { BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment()) }
@@ -107,10 +109,10 @@ abstract class BasePage(
     }
 
     @Composable
-    private fun relativeBackgroundDrawableId() = if (theme == Theme.DARK) R.drawable.gw2_bloodstone_night else R.drawable.gw2_ice
+    private fun relativeBackgroundDrawableId() = if (LocalTheme.current == Theme.DARK) R.drawable.gw2_bloodstone_night else R.drawable.gw2_ice
 
     @Composable
-    private fun relativeBackgroundAlignment() = if (theme == Theme.DARK) Alignment.TopCenter else Alignment.Center
+    private fun relativeBackgroundAlignment() = if (LocalTheme.current == Theme.DARK) Alignment.TopCenter else Alignment.Center
 
     @Composable
     private fun absoluteBackgroundDrawableId() = R.drawable.gw2_two_sylvari

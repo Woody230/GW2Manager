@@ -95,7 +95,7 @@ class MainPage(
                     }
                 }
             ) {
-                // TODO modules: world selection, overview of WvW data, etc
+                // TODO modules: which worlds are assigned to each side for currently selected world, world selection, overview of WvW data, etc
             }
         }
 

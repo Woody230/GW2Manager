@@ -3,106 +3,102 @@ package com.bselzer.gw2.manager.android.main
 import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.ModalDrawer
-import androidx.compose.material.Text
 import androidx.compose.material.rememberDrawerState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.common.BasePage
-import com.bselzer.gw2.manager.android.main.MainPage.PageType.*
-import com.bselzer.gw2.manager.android.other.AboutPage
-import com.bselzer.gw2.manager.android.other.CachePage
-import com.bselzer.gw2.manager.android.other.LicensePage
-import com.bselzer.gw2.manager.android.other.SettingsPage
-import com.bselzer.gw2.manager.android.wvw.WvwPage
+import com.bselzer.gw2.manager.android.dialog.WorldSelectionDialog
+import com.bselzer.gw2.manager.android.other.*
+import com.bselzer.gw2.manager.android.wvw.WvwMapPage
+import com.bselzer.gw2.manager.android.wvw.WvwMatchPage
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
-import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.manager.common.state.AppState.Companion.PageType
+import com.bselzer.gw2.manager.common.state.map.WvwMapState
+import com.bselzer.gw2.manager.common.state.match.WvwMatchState
+import com.bselzer.ktx.compose.effect.PreRepeatedEffect
 import com.bselzer.ktx.compose.ui.appbar.DrawerNavigationIcon
 import com.bselzer.ktx.compose.ui.drawer.DrawerComponent
 import com.bselzer.ktx.compose.ui.drawer.DrawerSection
 import com.bselzer.ktx.compose.ui.drawer.MaterialDrawerContent
-import com.bselzer.ktx.function.core.hasInternet
-import com.bselzer.ktx.function.objects.isOneOf
 import com.bselzer.ktx.library.libraries
 import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MainPage(
     aware: Gw2Aware,
     private val closeApplication: () -> Unit,
 ) : BasePage(aware = aware) {
-    private val selectedPage = mutableStateOf(SPLASH)
-    private val wvwPage = mutableStateOf(WvwPage.PageType.MENU)
-
-    enum class PageType {
-        MENU,
-        SPLASH,
-        ABOUT,
-        CACHE,
-        LICENSE,
-        SETTING,
-        WVW
-    }
 
     @Composable
     override fun Content() {
-        var selectedPage by rememberSaveable { selectedPage }
-        val navigateUp: () -> Unit = {
-            selectedPage = MENU
-            Logger.d("Changing main page to $selectedPage")
-        }
+        var selectedPage by rememberSaveable { appState.page }
 
-        Logger.d("Displaying main page $selectedPage")
-        when (selectedPage) {
-            MENU -> MainMenu()
-            SPLASH -> Splash()
-            ABOUT -> AboutPage(aware = this, navigateUp).Content()
-            CACHE -> CachePage(aware = this, navigateUp).Content()
-            LICENSE -> LicensePage(aware = this, navigateUp, LocalContext.current.libraries()).Content()
-            SETTING -> SettingsPage(aware = this, navigateUp).Content()
-            WVW -> WvwPage(aware = this, navigateUp = navigateUp, backEnabled = selectedPage == WVW, selectedPage = wvwPage).Content()
-        }
-
-        // Let the WvW page use its own back handler.
-        // TODO better screen management
-        BackHandler(enabled = selectedPage.isOneOf(MENU, SPLASH), onBack = closeApplication)
-        BackHandler(enabled = selectedPage.isOneOf(ABOUT, CACHE, LICENSE, SETTING), onBack = navigateUp)
-    }
-
-    /**
-     * Lays out all of the buttons within the main menu.
-     */
-    @Composable
-    private fun MainMenu() {
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-        ModalDrawer(drawerContent = { DrawerContent() }, drawerState = drawerState) {
-            AbsoluteBackgroundContent(
-                title = stringResource(id = R.string.app_name),
-                contentAlignment = Alignment.Center,
-                navigationIcon = {
-                    DrawerNavigationIcon {
-                        scope.launch { drawerState.open() }
-                    }
-                }
-            ) {
-                // TODO modules: which worlds are assigned to each side for currently selected world, world selection, overview of WvW data, etc
+
+        // Do not allow preemptive opening of the drawer before initialization from the Splash screen is complete.
+        val canOpenDrawer = selectedPage != PageType.SPLASH
+        val navigationIcon: @Composable () -> Unit = {
+            DrawerNavigationIcon(enabled = canOpenDrawer) {
+                scope.launch { drawerState.open() }
             }
+        }
+
+        ModalDrawer(
+            drawerContent = {
+                DrawerContent {
+                    // Close the drawer when any of its items are clicked.
+                    scope.launch { drawerState.close() }
+                }
+            },
+            drawerState = drawerState,
+            gesturesEnabled = canOpenDrawer
+        ) {
+            Logger.d("Displaying page $selectedPage")
+            val mapState = remember { WvwMapState(this) }
+            val matchState = remember { WvwMatchState(this) }
+            val libraries = LocalContext.current.libraries()
+            when (selectedPage) {
+                PageType.MODULE -> remember { ModulePage(aware = this, navigationIcon = navigationIcon) }
+                PageType.SPLASH -> remember { SplashPage(aware = this, navigationIcon = navigationIcon) }
+                PageType.ABOUT -> remember { AboutPage(aware = this, navigationIcon = navigationIcon) }
+                PageType.CACHE -> remember { CachePage(aware = this, navigationIcon = navigationIcon) }
+                PageType.LICENSE -> remember { LicensePage(aware = this, navigationIcon = navigationIcon, libraries = libraries) }
+                PageType.SETTING -> remember { SettingsPage(aware = this, navigationIcon = navigationIcon) }
+                PageType.WVW_MAP -> remember { WvwMapPage(aware = this, navigationIcon = navigationIcon, state = mapState) }
+                PageType.WVW_MATCH -> remember { WvwMatchPage(aware = this, navigationIcon = navigationIcon, state = matchState) }
+            }.apply { Content() }
+        }
+
+        if (remember { appState.showWorldDialog }.value) {
+            WorldSelectionDialog(aware = this).Content()
+        }
+
+        // TODO maintain last refresh time instead
+        PreRepeatedEffect(delay = runBlocking { wvwPref.refreshInterval.get() }) {
+            appState.refreshWvwData(wvwPref.selectedWorld.get())
         }
 
         BackHandler(enabled = drawerState.isOpen) {
             scope.launch { drawerState.close() }
+        }
+
+        BackHandler(enabled = drawerState.isClosed) {
+            // If we are on the core page then close the application.
+            // Otherwise, go back to the core page.
+            if (selectedPage == PageType.MODULE) {
+                closeApplication()
+            } else {
+                selectedPage = PageType.MODULE
+            }
         }
     }
 
@@ -111,30 +107,31 @@ class MainPage(
      * Lays out the content for the modal drawer.
      */
     @Composable
-    private fun ColumnScope.DrawerContent() = MaterialDrawerContent(sections = arrayOf(
-        {
-            // TODO account page?
-            DrawerSection(
-                header = "World vs. World",
-                components = arrayOf(
-                    drawerComponent(drawable = R.drawable.gw2_rank_dolyak, text = R.string.wvw_map, page = WvwPage.PageType.MAP),
-                    drawerComponent(drawable = R.drawable.gw2_rank_dolyak, text = R.string.wvw_match, page = WvwPage.PageType.MATCH)
+    private fun ColumnScope.DrawerContent(closeDrawer: () -> Unit) = MaterialDrawerContent(
+        sections = arrayOf(
+            {
+                // TODO account page?
+                DrawerSection(
+                    header = "World vs. World",
+                    components = arrayOf(
+                        drawerComponent(drawable = R.drawable.gw2_rank_dolyak, text = R.string.wvw_map, page = PageType.WVW_MAP, closeDrawer = closeDrawer),
+                        drawerComponent(drawable = R.drawable.gw2_rank_dolyak, text = R.string.wvw_match, page = PageType.WVW_MATCH, closeDrawer = closeDrawer)
+                    )
                 )
-            )
-        },
-        {
-            DrawerSection(
-                components = arrayOf(
-                    drawerComponent(drawable = R.drawable.ic_settings, text = R.string.activity_settings, page = SETTING),
-                    drawerComponent(drawable = R.drawable.ic_cached, text = R.string.activity_cache, page = CACHE),
+            },
+            {
+                DrawerSection(
+                    components = arrayOf(
+                        drawerComponent(drawable = R.drawable.ic_settings, text = R.string.activity_settings, page = PageType.SETTING, closeDrawer = closeDrawer),
+                        drawerComponent(drawable = R.drawable.ic_cached, text = R.string.activity_cache, page = PageType.CACHE, closeDrawer = closeDrawer),
+                    )
                 )
-            )
-        },
-        {
-            DrawerSection(
+            },
+            {
+                DrawerSection(
                 components = arrayOf(
-                    drawerComponent(drawable = R.drawable.ic_policy, text = R.string.activity_license, page = LICENSE),
-                    drawerComponent(drawable = R.drawable.ic_info, text = R.string.activity_about, page = ABOUT)
+                    drawerComponent(drawable = R.drawable.ic_policy, text = R.string.activity_license, page = PageType.LICENSE, closeDrawer = closeDrawer),
+                    drawerComponent(drawable = R.drawable.ic_info, text = R.string.activity_about, page = PageType.ABOUT, closeDrawer = closeDrawer)
                 )
             )
         }
@@ -144,85 +141,10 @@ class MainPage(
      * Lays out an individual drawer component for setting another page.
      */
     @Composable
-    private fun drawerComponent(@DrawableRes drawable: Int?, @StringRes text: Int, page: PageType, onClick: () -> Unit = {}): @Composable ColumnScope.() -> Unit = {
+    private fun drawerComponent(@DrawableRes drawable: Int?, @StringRes text: Int, page: PageType, closeDrawer: () -> Unit): @Composable ColumnScope.() -> Unit = {
         DrawerComponent(iconPainter = drawable?.let { painterResource(id = drawable) }, text = stringResource(id = text)) {
-            onClick()
-            selectedPage.value = page
-            Logger.d("Changing main page to ${selectedPage.value}")
-        }
-    }
-
-    /**
-     * Lays out an individual drawer component for setting another page.
-     */
-    @Composable
-    private fun drawerComponent(@DrawableRes drawable: Int?, @StringRes text: Int, page: WvwPage.PageType): @Composable ColumnScope.() -> Unit = drawerComponent(
-        drawable = drawable,
-        text = text,
-        page = WVW,
-    ) {
-        wvwPage.value = page
-        Logger.d("Changing World vs. World page to ${wvwPage.value}")
-    }
-
-    /**
-     * Lays out the splash screen to allow for preprocessing.
-     */
-    @Composable
-    private fun Splash() = AbsoluteBackgroundContent(
-        title = stringResource(id = R.string.app_name),
-        contentAlignment = Alignment.Center
-    ) {
-        val (description, setDescription) = remember { mutableStateOf("") }
-        Downloading(description)
-        RetrieveData(setDescription)
-    }
-
-    /**
-     * Lays out the download indicator.
-     */
-    @Composable
-    private fun Downloading(description: String) = RelativeBackgroundColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-    ) {
-        Text(
-            text = description,
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold
-        )
-        ProgressIndicator()
-    }
-
-    /**
-     * Load initial data from the API.
-     */
-    @Composable
-    private fun RetrieveData(setDescription: (String) -> Unit) {
-        val initialTheme = if (isSystemInDarkTheme()) Theme.DARK else Theme.LIGHT
-        val context = LocalContext.current
-        var selectedPage by selectedPage
-        LaunchedEffect(selectedPage) {
-            fun finishedDownloading() {
-                selectedPage = MENU
-            }
-
-            commonPref.theme.initialize(initialTheme)
-
-            if (!context.hasInternet()) {
-                finishedDownloading()
-                return@LaunchedEffect
-            }
-
-            setDescription("Build Number")
-            val newId = gw2Client.build.buildId()
-            val buildNumber = commonPref.buildNumber
-            if (newId > buildNumber.get()) {
-                buildNumber.set(newId)
-            }
-
-            finishedDownloading()
+            appState.page.value = page
+            closeDrawer()
         }
     }
 }

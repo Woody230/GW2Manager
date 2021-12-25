@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -16,14 +17,13 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.android.common.BasePage
+import com.bselzer.gw2.manager.android.common.NavigatePage
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.expect.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.model.enumeration.extension.account.permissions
 import com.bselzer.gw2.v2.scope.core.Permission
-import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.ktx.compose.ui.preference.*
 import com.bselzer.ktx.compose.ui.style.hyperlink
 import com.bselzer.ktx.compose.ui.style.withColor
@@ -46,30 +46,32 @@ import kotlin.time.ExperimentalTime
  */
 class SettingsPage(
     aware: Gw2Aware,
-    private val navigateUp: () -> Unit,
-) : BasePage(aware) {
+    navigationIcon: @Composable () -> Unit
+) : NavigatePage(aware, navigationIcon) {
     @Composable
-    override fun Content() = RelativeBackgroundContent(
-        backgroundModifier = Modifier.verticalScroll(rememberScrollState()),
-        title = stringResource(R.string.activity_settings),
-        navigationIcon = { UpNavigationIcon(onClick = navigateUp) },
-    ) {
-        PreferenceColumn(
-            modifier = Modifier.padding(25.dp),
-            contents = arrayOf(
-                { ThemePreference() },
-                { TokenPreference() },
-                {
-                    PreferenceSection(
-                        iconPainter = painterResource(R.drawable.gw2_rank_dolyak),
-                        title = stringResource(R.string.activity_wvw)
-                    ) {
-                        RefreshIntervalPreference()
-                    }
+    override fun background() = BackgroundType.RELATIVE
+
+    @Composable
+    override fun CoreContent() = PreferenceColumn(
+        modifier = Modifier.padding(25.dp),
+        contents = arrayOf(
+            { ThemePreference() },
+            { TokenPreference() },
+            {
+                PreferenceSection(
+                    iconPainter = painterResource(R.drawable.gw2_rank_dolyak),
+                    title = stringResource(R.string.activity_wvw)
+                ) {
+                    RefreshIntervalPreference()
                 }
-            )
+            }
         )
-    }
+    )
+
+    @Composable
+    override fun title(): String = stringResource(id = R.string.activity_settings)
+
+    override fun Modifier.background(): Modifier = composed { verticalScroll(rememberScrollState()) }
 
     /**
      * Lays out the preference for selecting the theme.

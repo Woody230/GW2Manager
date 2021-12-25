@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.expect
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
+import com.bselzer.gw2.manager.common.state.AppState
 import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.gw2.v2.client.client.Gw2Client
 import com.bselzer.gw2.v2.emblem.client.EmblemClient
@@ -16,6 +17,7 @@ import org.kodein.di.instance
 
 interface Gw2Aware : DIAware {
     val app: App
+    val appState: AppState
     val database: DB
     val gw2Client: Gw2Client
     val gw2Cache: Gw2CacheProvider
@@ -34,6 +36,7 @@ interface Gw2Aware : DIAware {
 fun DI.gw2Aware() = object : Gw2Aware {
     override val di: DI = this@gw2Aware
     override val app by instance<App>()
+    override val appState = AppState(this)
     override val database by instance<DB>()
     override val gw2Client by instance<Gw2Client>()
     override val gw2Cache by instance<Gw2CacheProvider>()

@@ -14,7 +14,6 @@ import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.expect.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.ktx.compose.ui.appbar.MaterialAppBarColumn
 import com.bselzer.ktx.compose.ui.background.Background
 import com.bselzer.ktx.compose.ui.background.BackgroundColumn
 import com.bselzer.ktx.compose.ui.background.BackgroundImage
@@ -23,6 +22,12 @@ import com.bselzer.ktx.compose.ui.container.CenteredRow
 abstract class BasePage(
     aware: Gw2Aware
 ) : Page, Gw2Aware by aware {
+    enum class BackgroundType {
+        RELATIVE,
+        ABSOLUTE,
+        NONE
+    }
+
     private val relative: @Composable () -> Unit = { BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment()) }
     private val absolute: @Composable () -> Unit = { BackgroundImage(drawableId = absoluteBackgroundDrawableId()) }
     private val relativeBox: @Composable BoxScope.() -> Unit = { BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment()) }
@@ -73,40 +78,6 @@ abstract class BasePage(
         contentHorizontalAlignment = contentHorizontalAlignment,
         content = content
     )
-
-    @Composable
-    protected fun RelativeBackgroundContent(
-        modifier: Modifier = Modifier,
-        title: String,
-        navigationIcon: (@Composable () -> Unit)? = null,
-        actions: @Composable RowScope.() -> Unit = {},
-        backgroundModifier: Modifier = Modifier,
-        contentAlignment: Alignment = Alignment.TopStart,
-        content: @Composable BoxScope.() -> Unit,
-    ) = MaterialAppBarColumn(modifier = modifier, title = title, navigationIcon = navigationIcon, actions = actions) {
-        RelativeBackground(
-            modifier = Modifier
-                .fillMaxSize()
-                .then(backgroundModifier), contentAlignment = contentAlignment, content = content
-        )
-    }
-
-    @Composable
-    protected fun AbsoluteBackgroundContent(
-        modifier: Modifier = Modifier,
-        title: String,
-        navigationIcon: (@Composable () -> Unit)? = null,
-        actions: @Composable RowScope.() -> Unit = {},
-        backgroundModifier: Modifier = Modifier,
-        contentAlignment: Alignment = Alignment.TopStart,
-        content: @Composable BoxScope.() -> Unit,
-    ) = MaterialAppBarColumn(modifier = modifier, title = title, navigationIcon = navigationIcon, actions = actions) {
-        AbsoluteBackground(
-            modifier = Modifier
-                .fillMaxSize()
-                .then(backgroundModifier), contentAlignment = contentAlignment, content = content
-        )
-    }
 
     @Composable
     private fun relativeBackgroundDrawableId() = if (LocalTheme.current == Theme.DARK) R.drawable.gw2_bloodstone_night else R.drawable.gw2_ice

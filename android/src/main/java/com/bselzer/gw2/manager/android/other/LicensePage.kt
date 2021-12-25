@@ -8,9 +8,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.android.common.BasePage
+import com.bselzer.gw2.manager.android.common.NavigatePage
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
-import com.bselzer.ktx.compose.ui.appbar.UpNavigationIcon
 import com.bselzer.ktx.library.LibraryColumn
 import com.mikepenz.aboutlibraries.entity.Library
 
@@ -19,21 +18,21 @@ import com.mikepenz.aboutlibraries.entity.Library
  */
 class LicensePage(
     aware: Gw2Aware,
-    private val navigateUp: () -> Unit,
+    navigationIcon: @Composable () -> Unit,
     private val libraries: List<Library>
-) : BasePage(aware) {
+) : NavigatePage(aware, navigationIcon) {
     @Composable
-    override fun Content() = RelativeBackgroundContent(
+    override fun background() = BackgroundType.RELATIVE
+
+    @Composable
+    override fun CoreContent() = LibraryColumn(
         modifier = Modifier.fillMaxSize(),
-        title = stringResource(id = R.string.activity_license),
-        navigationIcon = { UpNavigationIcon(onClick = navigateUp) },
-    ) {
-        LibraryColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(all = 8.dp),
-            backgroundColor = Color.Transparent, // Use the relative background instead.
-            itemElevation = 0.dp, // Disable the shadow.
-            libraries = libraries.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { library -> library.name })
-        )
-    }
+        contentPadding = PaddingValues(all = 8.dp),
+        backgroundColor = Color.Transparent, // Use the relative background instead.
+        itemElevation = 0.dp, // Disable the shadow.
+        libraries = libraries.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER) { library -> library.name })
+    )
+
+    @Composable
+    override fun title(): String = stringResource(id = R.string.activity_license)
 }

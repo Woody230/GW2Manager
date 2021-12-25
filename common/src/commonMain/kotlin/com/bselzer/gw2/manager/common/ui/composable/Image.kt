@@ -10,7 +10,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.bselzer.ktx.compose.image.ui.rememberImagePainter
 import com.bselzer.ktx.compose.ui.unit.toDp
-import com.bselzer.ktx.compose.ui.unit.toPx
 
 interface ImageState {
     val enabled: Boolean
@@ -24,6 +23,7 @@ interface ImageState {
 @Composable
 fun ImageState.ImageContent(modifier: Modifier = Modifier, isPixel: Boolean = true) {
     if (enabled && !link.isNullOrBlank()) {
+        // TODO placeholder image or progress bar as appropriate for missing images
         rememberImagePainter(url = link)?.let { painter ->
             Image(
                 contentDescription = description,

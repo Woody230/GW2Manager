@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.android
+package com.bselzer.gw2.manager.android.other
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.common.BasePage
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.v2.cache.instance.ContinentCache

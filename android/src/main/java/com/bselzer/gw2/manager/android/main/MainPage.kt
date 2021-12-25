@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.android
+package com.bselzer.gw2.manager.android.main
 
 import androidx.activity.compose.BackHandler
 import androidx.annotation.DrawableRes
@@ -18,8 +18,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.bselzer.gw2.manager.android.MainPage.PageType.*
+import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.common.BasePage
+import com.bselzer.gw2.manager.android.main.MainPage.PageType.*
+import com.bselzer.gw2.manager.android.other.AboutPage
+import com.bselzer.gw2.manager.android.other.CachePage
+import com.bselzer.gw2.manager.android.other.LicensePage
+import com.bselzer.gw2.manager.android.other.SettingsPage
 import com.bselzer.gw2.manager.android.wvw.WvwPage
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.ui.theme.Theme

@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.android
+package com.bselzer.gw2.manager.android.other
 
 import android.content.Intent
 import android.net.Uri
@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
+import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.common.BasePage
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.expect.LocalTheme

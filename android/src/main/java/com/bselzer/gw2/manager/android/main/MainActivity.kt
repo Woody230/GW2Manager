@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.android
+package com.bselzer.gw2.manager.android.main
 
 import android.os.Bundle
 import androidx.activity.compose.setContent

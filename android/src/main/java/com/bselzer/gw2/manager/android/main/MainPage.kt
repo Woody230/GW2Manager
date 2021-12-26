@@ -102,7 +102,7 @@ class MainPage(
         }
     }
 
-    // TODO drawer header
+    // TODO drawer header with account name and team for the week
     /**
      * Lays out the content for the modal drawer.
      */

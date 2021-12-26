@@ -13,19 +13,18 @@ import com.bselzer.ktx.compose.ui.appbar.MaterialAppBarColumn
 abstract class NavigatePage(
     aware: Gw2Aware,
     private val navigationIcon: @Composable () -> Unit,
-    private val contentAlignment: Alignment = Alignment.TopStart,
 ) : BasePage(aware) {
     @Composable
     override fun Content() = MaterialAppBarColumn(title = title(), navigationIcon = navigationIcon, actions = appBarActions()) {
         val modifier = Modifier.fillMaxSize()
         when (background()) {
             BackgroundType.RELATIVE -> {
-                RelativeBackground(modifier = modifier.background(), contentAlignment = contentAlignment) {
+                RelativeBackground(modifier = modifier.background(), contentAlignment = contentAlignment()) {
                     CoreContent()
                 }
             }
             BackgroundType.ABSOLUTE -> {
-                AbsoluteBackground(modifier = modifier.background(), contentAlignment = contentAlignment) {
+                AbsoluteBackground(modifier = modifier.background(), contentAlignment = contentAlignment()) {
                     CoreContent()
                 }
             }
@@ -46,6 +45,12 @@ abstract class NavigatePage(
      */
     @Composable
     protected abstract fun title(): String
+
+    /**
+     * The alignment of the [CoreContent].
+     */
+    @Composable
+    protected open fun contentAlignment(): Alignment = Alignment.TopStart
 
     /**
      * Composes a modifier for the background content.

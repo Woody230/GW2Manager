@@ -21,7 +21,7 @@ import com.bselzer.ktx.function.core.hasInternet
 class SplashPage(
     aware: Gw2Aware,
     navigationIcon: @Composable () -> Unit
-) : NavigatePage(aware, navigationIcon, contentAlignment = Alignment.Center) {
+) : NavigatePage(aware, navigationIcon) {
     @Composable
     override fun background() = BackgroundType.ABSOLUTE
 
@@ -37,6 +37,9 @@ class SplashPage(
 
     @Composable
     override fun title(): String = stringResource(id = R.string.app_name)
+
+    @Composable
+    override fun contentAlignment() = Alignment.Center
 
     /**
      * Lays out the download indicator.
@@ -74,6 +77,8 @@ class SplashPage(
                 finishedDownloading()
                 return@LaunchedEffect
             }
+
+            // TODO wvw reset => force refresh
 
             setDescription("Build Number")
             val newId = gw2Client.build.buildId()

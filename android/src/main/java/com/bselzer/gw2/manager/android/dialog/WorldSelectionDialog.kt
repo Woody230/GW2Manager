@@ -25,8 +25,7 @@ class WorldSelectionDialog(
         }
 
         var selectedId by wvwPref.selectedWorld.safeState()
-        Logger.d("Selected world id: $selectedId")
-
+        Logger.d("Dialog world id: $selectedId")
 
         // TODO preferably, choice should be scrolled to when dialog gets opened
         // TODO if current selected does not exist, do not allow cancellation
@@ -40,6 +39,7 @@ class WorldSelectionDialog(
             selected = selected,
             onStateChanged = { world ->
                 selectedId = world.id
+                Logger.d("Set world to $world")
 
                 // MUST not use remembered scope since it will be cancelled due to dialog closing.
                 CoroutineScope(Dispatchers.IO).launch {

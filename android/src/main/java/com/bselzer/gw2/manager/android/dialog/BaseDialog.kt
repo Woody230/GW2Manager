@@ -1,6 +1,7 @@
-package com.bselzer.gw2.manager.android.common
+package com.bselzer.gw2.manager.android.dialog
 
 import androidx.compose.runtime.MutableState
+import com.bselzer.gw2.manager.common.base.Dialog
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
 
 abstract class BaseDialog(

@@ -32,7 +32,7 @@ class WvwMatchPage(
     @Composable
     override fun background() = BackgroundType.ABSOLUTE
 
-    // TODO pager: main = total, then for each map (will need map name title on each page)
+    // TODO horizontal paging for each chart, vertical paging for each map (will need map name title on each page)
     @Composable
     override fun CoreContent() = DividedColumn(
         modifier = Modifier.verticalScroll(rememberScrollState()),

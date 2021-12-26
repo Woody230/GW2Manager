@@ -1,8 +1,8 @@
-package com.bselzer.gw2.manager.android.common
+package com.bselzer.gw2.manager.common.base
 
 import androidx.compose.runtime.Composable
 
-interface Dialog {
+interface Composable {
     /**
      * Lays out the content.
      */

@@ -3,7 +3,6 @@ package com.bselzer.gw2.manager.android.dialog
 import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import com.bselzer.gw2.manager.android.common.BaseDialog
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.ktx.compose.ui.dialog.SingleChoiceDialog

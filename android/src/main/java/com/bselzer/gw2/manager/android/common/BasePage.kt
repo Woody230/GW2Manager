@@ -11,6 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
+import com.bselzer.gw2.manager.common.base.Page
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.expect.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme

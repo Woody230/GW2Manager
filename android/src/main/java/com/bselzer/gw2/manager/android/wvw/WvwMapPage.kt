@@ -102,8 +102,8 @@ class WvwMapPage(
     }
 
     @Composable
-    override fun dropdownIcons(setExpanded: (Boolean) -> Unit): (@Composable () -> Unit)? = when (remember { page }.value) {
-        MapPageType.MAP -> mapDropdownIcons(setExpanded = setExpanded)
+    override fun dropdownIcons(): (@Composable ((Boolean) -> Unit) -> Unit)? = when (remember { page }.value) {
+        MapPageType.MAP -> mapDropdownIcons()
         MapPageType.SELECTED -> null
     }
 
@@ -111,7 +111,7 @@ class WvwMapPage(
      * Lays out the icons for zooming in/out the map.
      */
     @Composable
-    private fun mapDropdownIcons(setExpanded: (Boolean) -> Unit): @Composable () -> Unit = {
+    private fun mapDropdownIcons(): (@Composable ((Boolean) -> Unit) -> Unit) = { setExpanded ->
         // Only enable zoom in/zoom out buttons when within the range.
         val zoom = remember { state.currentZoom() }
         val range = remember { state.zoomRange() }

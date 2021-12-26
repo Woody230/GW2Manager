@@ -22,7 +22,7 @@ import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.cache.instance.GuildCache
 import com.bselzer.gw2.v2.cache.instance.WorldCache
 import com.bselzer.gw2.v2.cache.instance.WvwCache
-import com.bselzer.ktx.compose.ui.appbar.DeleteButton
+import com.bselzer.ktx.compose.ui.appbar.DeleteIcon
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.preference.CheckBoxPreference
 import com.bselzer.ktx.coroutine.showToast
@@ -89,7 +89,7 @@ class CachePage(
     @Composable
     override fun appBarActions(): @Composable RowScope.() -> Unit = {
         val context = LocalContext.current
-        DeleteButton(enabled = selected.isNotEmpty()) {
+        DeleteIcon(enabled = selected.isNotEmpty()) {
             selected.forEach { type ->
                 when (type) {
                     CacheType.CONTINENT -> gw2Cache.apply {

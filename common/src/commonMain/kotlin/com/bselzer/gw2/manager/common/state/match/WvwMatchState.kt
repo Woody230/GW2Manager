@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.state.WvwHelper.color
 import com.bselzer.gw2.manager.common.state.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.common.state.match.description.ChartDataState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDescriptionState
@@ -117,7 +118,7 @@ data class WvwMatchState(
                     // Get the names of the worlds associated with the owner.
                     owner = worlds.value.displayableLinkedWorlds(match = match.value, owner = owner),
                     data = amount.toString(),
-                    color = configuration.wvw.objectives.color(owner = owner),
+                    color = configuration.wvw.color(owner = owner),
                     textSize = configuration.wvw.chart.data.textSize.sp
                 )
             )

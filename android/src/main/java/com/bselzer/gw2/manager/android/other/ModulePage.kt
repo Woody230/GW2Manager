@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.common.NavigatePage
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.state.WvwHelper.color
 import com.bselzer.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.ktx.compose.ui.preference.TextPreference
@@ -73,7 +74,7 @@ class ModulePage(
         val worlds = remember { appState.worlds.values }
         val world = worlds.firstOrNull { world -> world.id == selectedId }
         val owner = world?.let { match?.owner(world) } ?: ObjectiveOwner.NEUTRAL
-        val color = configuration.wvw.objectives.color(owner = owner)
+        val color = configuration.wvw.color(owner)
         TextPreference(
             iconPainter = painterResource(id = R.drawable.gw2_rank_dolyak),
             title = "World",

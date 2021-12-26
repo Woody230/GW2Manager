@@ -74,13 +74,13 @@ class WvwSelectedState(
             map = objective.mapType()?.let { mapType ->
                 MapState(
                     name = mapType.userFriendly(),
-                    color = configuration.wvw.objectives.color(mapType.owner())
+                    color = configuration.wvw.color(owner = mapType.owner())
                 )
             },
             owner = owner?.let {
                 OwnerState(
                     name = worlds.value.displayableLinkedWorlds(match = match, owner = owner),
-                    color = configuration.wvw.objectives.color(owner = owner)
+                    color = configuration.wvw.color(owner = owner)
                 )
             }
         )

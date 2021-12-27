@@ -125,8 +125,6 @@ class WvwSelectedObjectivePage(
     ) {
         Text(text = claim.claimedAt, textAlign = TextAlign.Center)
         Text(text = claim.claimedBy, textAlign = TextAlign.Center)
-
-        // TODO swapping to worlds unselected shows correct emblem but when returning to previous ones then the current one remains
         claim.ImageContent()
     }
 }

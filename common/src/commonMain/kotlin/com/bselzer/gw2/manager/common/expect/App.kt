@@ -1,11 +1,8 @@
 package com.bselzer.gw2.manager.common.expect
 
-import androidx.compose.runtime.*
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
-import com.bselzer.gw2.manager.common.ui.theme.AppTheme
-import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.cache.metadata.IdentifiableMetadataExtractor
 import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.gw2.v2.cache.type.gw2
@@ -18,12 +15,9 @@ import com.bselzer.gw2.v2.tile.cache.metadata.TileMetadataExtractor
 import com.bselzer.gw2.v2.tile.client.TileClient
 import com.bselzer.ktx.compose.image.cache.instance.ImageCache
 import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
-import com.bselzer.ktx.compose.image.ui.LocalImageCache
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import io.ktor.client.*
-import io.ktor.client.features.*
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
@@ -40,7 +34,6 @@ import org.kodein.di.instance
 
 abstract class App : DIAware {
     final override val di: DI = DI.lazy { bindAll() }
-    private val commonPref by instance<CommonPreference>()
 
     /**
      * Whether debug mode is enabled.
@@ -56,28 +49,6 @@ abstract class App : DIAware {
         // Only enable logging for debug mode.
         if (isDebug) {
             Logger.enableDebugging()
-        }
-    }
-
-    /**
-     * @return the current app theme type, defaulting to [Theme.DARK]
-     */
-    @Composable
-    fun theme(): Theme {
-        // Using runBlocking to avoid the initial theme changing because it is noticeable.
-        val initial = runBlocking { commonPref.theme.get() }
-        val theme by commonPref.theme.observe().collectAsState(initial = initial)
-        return theme
-    }
-
-    @Composable
-    fun Content(content: @Composable () -> Unit) = AppTheme {
-        val imageCache by di.instance<ImageCache>()
-        CompositionLocalProvider(
-            LocalTheme provides theme(),
-            LocalImageCache provides imageCache
-        ) {
-            content()
         }
     }
 

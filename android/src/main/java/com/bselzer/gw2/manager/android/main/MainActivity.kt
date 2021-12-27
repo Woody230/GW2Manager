@@ -4,14 +4,12 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
-import com.bselzer.gw2.manager.common.expect.App
 import com.bselzer.gw2.manager.common.expect.gw2Aware
 import com.bselzer.ktx.compose.image.ui.LocalImageDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.android.closestDI
-import org.kodein.di.instance
 
 class MainActivity : AppCompatActivity(), DIAware {
     override val di: DI by closestDI()
@@ -19,13 +17,13 @@ class MainActivity : AppCompatActivity(), DIAware {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val aware = di.gw2Aware()
         setContent {
-            val app by di.instance<App>()
-            app.Content {
+            aware.Content {
                 CompositionLocalProvider(
                     LocalImageDispatcher provides Dispatchers.IO
                 ) {
-                    MainPage(aware = di.gw2Aware(), closeApplication = { finish() }).Content()
+                    MainPage(aware = aware, closeApplication = { finish() }).Content()
                 }
             }
         }

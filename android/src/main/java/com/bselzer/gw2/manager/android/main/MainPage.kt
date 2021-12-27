@@ -46,12 +46,6 @@ class MainPage(
 
         // Do not allow preemptive opening of the drawer before initialization from the Splash screen is complete.
         val canOpenDrawer = selectedPage != PageType.SPLASH
-        val navigationIcon: @Composable () -> Unit = {
-            DrawerNavigationIcon(enabled = canOpenDrawer) {
-                scope.launch { drawerState.open() }
-            }
-        }
-
         ModalDrawer(
             drawerContent = {
                 DrawerContent {
@@ -62,20 +56,11 @@ class MainPage(
             drawerState = drawerState,
             gesturesEnabled = canOpenDrawer
         ) {
-            Logger.d("Displaying page $selectedPage")
-            val mapState = remember { WvwMapState(this) }
-            val matchState = remember { WvwMatchState(this) }
-            val libraries = LocalContext.current.libraries()
-            when (selectedPage) {
-                PageType.MODULE -> remember { ModulePage(aware = this, navigationIcon = navigationIcon) }
-                PageType.SPLASH -> remember { SplashPage(aware = this, navigationIcon = navigationIcon) }
-                PageType.ABOUT -> remember { AboutPage(aware = this, navigationIcon = navigationIcon) }
-                PageType.CACHE -> remember { CachePage(aware = this, navigationIcon = navigationIcon) }
-                PageType.LICENSE -> remember { LicensePage(aware = this, navigationIcon = navigationIcon, libraries = libraries) }
-                PageType.SETTING -> remember { SettingsPage(aware = this, navigationIcon = navigationIcon) }
-                PageType.WVW_MAP -> remember { WvwMapPage(aware = this, navigationIcon = navigationIcon, state = mapState) }
-                PageType.WVW_MATCH -> remember { WvwMatchPage(aware = this, navigationIcon = navigationIcon, state = matchState) }
-            }.apply { Content() }
+            CoreContent {
+                DrawerNavigationIcon(enabled = canOpenDrawer) {
+                    scope.launch { drawerState.open() }
+                }
+            }
         }
 
         if (remember { appState.showWorldDialog }.value) {
@@ -100,6 +85,26 @@ class MainPage(
                 selectedPage = PageType.MODULE
             }
         }
+    }
+
+    @Composable
+    private fun CoreContent(navigationIcon: @Composable () -> Unit) {
+        val selectedPage by rememberSaveable { appState.page }
+        Logger.d("Displaying page $selectedPage")
+
+        val mapState = remember { WvwMapState(this) }
+        val matchState = remember { WvwMatchState(this) }
+        val libraries = LocalContext.current.libraries()
+        when (selectedPage) {
+            PageType.MODULE -> remember { ModulePage(aware = this, navigationIcon = navigationIcon) }
+            PageType.SPLASH -> remember { SplashPage(aware = this, navigationIcon = navigationIcon) }
+            PageType.ABOUT -> remember { AboutPage(aware = this, navigationIcon = navigationIcon) }
+            PageType.CACHE -> remember { CachePage(aware = this, navigationIcon = navigationIcon) }
+            PageType.LICENSE -> remember { LicensePage(aware = this, navigationIcon = navigationIcon, libraries = libraries) }
+            PageType.SETTING -> remember { SettingsPage(aware = this, navigationIcon = navigationIcon) }
+            PageType.WVW_MAP -> remember { WvwMapPage(aware = this, navigationIcon = navigationIcon, state = mapState) }
+            PageType.WVW_MATCH -> remember { WvwMatchPage(aware = this, navigationIcon = navigationIcon, state = matchState) }
+        }.apply { Content() }
     }
 
     // TODO drawer header with account name and team for the week
@@ -144,6 +149,7 @@ class MainPage(
     private fun drawerComponent(@DrawableRes drawable: Int?, @StringRes text: Int, page: PageType, closeDrawer: () -> Unit): @Composable ColumnScope.() -> Unit = {
         DrawerComponent(iconPainter = drawable?.let { painterResource(id = drawable) }, text = stringResource(id = text)) {
             appState.page.value = page
+            Logger.d("Page = ${appState.page.value}")
             closeDrawer()
         }
     }

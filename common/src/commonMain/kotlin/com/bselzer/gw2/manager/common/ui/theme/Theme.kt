@@ -6,7 +6,6 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
-import com.bselzer.gw2.manager.common.expect.App
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -44,8 +43,8 @@ enum class Theme {
 }
 
 @Composable
-internal fun App.AppTheme(content: @Composable () -> Unit) {
-    val colors = if (theme() == Theme.DARK) {
+internal fun AppTheme(theme: Theme, content: @Composable () -> Unit) {
+    val colors = if (theme == Theme.DARK) {
         DarkColorPalette
     } else {
         LightColorPalette

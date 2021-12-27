@@ -4,7 +4,7 @@ import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import com.bselzer.gw2.manager.common.base.Dialog
-import com.bselzer.gw2.manager.common.expect.LocalState
+import com.bselzer.gw2.manager.common.ui.composable.LocalState
 import com.bselzer.gw2.v2.model.extension.world.worldId
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.ktx.compose.ui.dialog.SingleChoiceDialog

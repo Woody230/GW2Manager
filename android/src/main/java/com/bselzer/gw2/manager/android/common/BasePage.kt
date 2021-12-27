@@ -12,9 +12,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.common.base.Page
-import com.bselzer.gw2.manager.common.expect.LocalState
-import com.bselzer.gw2.manager.common.expect.LocalTheme
 import com.bselzer.gw2.manager.common.state.core.Gw2State
+import com.bselzer.gw2.manager.common.ui.composable.LocalState
+import com.bselzer.gw2.manager.common.ui.composable.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.ui.background.Background
 import com.bselzer.ktx.compose.ui.background.BackgroundColumn

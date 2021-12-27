@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.expect
+package com.bselzer.gw2.manager.common.ui.composable
 
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf

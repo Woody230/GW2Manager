@@ -20,12 +20,12 @@ import com.bselzer.gw2.manager.android.dialog.WorldSelectionDialog
 import com.bselzer.gw2.manager.android.other.*
 import com.bselzer.gw2.manager.android.wvw.WvwMapPage
 import com.bselzer.gw2.manager.android.wvw.WvwMatchPage
-import com.bselzer.gw2.manager.common.expect.LocalState
 import com.bselzer.gw2.manager.common.state.core.DialogType
 import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.state.core.PageType
 import com.bselzer.gw2.manager.common.state.map.WvwMapState
 import com.bselzer.gw2.manager.common.state.match.WvwMatchState
+import com.bselzer.gw2.manager.common.ui.composable.LocalState
 import com.bselzer.gw2.v2.model.extension.world.WorldId
 import com.bselzer.ktx.compose.effect.PreRepeatedEffect
 import com.bselzer.ktx.compose.ui.appbar.DrawerNavigationIcon

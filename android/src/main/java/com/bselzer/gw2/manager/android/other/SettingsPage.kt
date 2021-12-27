@@ -20,8 +20,8 @@ import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.common.BackgroundType
 import com.bselzer.gw2.manager.android.common.NavigatePage
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
-import com.bselzer.gw2.manager.common.expect.LocalTheme
 import com.bselzer.gw2.manager.common.state.core.Gw2State
+import com.bselzer.gw2.manager.common.ui.composable.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.model.enumeration.extension.account.permissions

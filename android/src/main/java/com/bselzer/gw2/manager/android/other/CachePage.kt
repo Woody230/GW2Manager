@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.common.BackgroundType
 import com.bselzer.gw2.manager.android.common.NavigatePage
-import com.bselzer.gw2.manager.common.expect.LocalTheme
 import com.bselzer.gw2.manager.common.state.core.Gw2State
+import com.bselzer.gw2.manager.common.ui.composable.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.cache.instance.GuildCache

@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
+import com.bselzer.gw2.manager.common.ui.composable.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.gw2.v2.client.client.Gw2Client

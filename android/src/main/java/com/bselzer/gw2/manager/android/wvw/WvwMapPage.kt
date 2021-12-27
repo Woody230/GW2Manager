@@ -33,15 +33,9 @@ import com.bselzer.gw2.manager.common.state.map.objective.ObjectiveState
 import com.bselzer.gw2.manager.common.state.selected.WvwSelectedState
 import com.bselzer.gw2.manager.common.ui.composable.ImageContent
 import com.bselzer.gw2.manager.common.ui.composable.ImageState
-import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
-import com.bselzer.gw2.v2.tile.model.response.Tile
-import com.bselzer.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.ktx.compose.ui.unit.toDp
-import com.bselzer.ktx.logging.Logger
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import kotlin.time.ExperimentalTime
 
 class WvwMapPage(
@@ -97,8 +91,8 @@ class WvwMapPage(
     override fun title(): String = stringResource(id = R.string.wvw_map)
 
     override suspend fun refresh() {
-        refreshMapData()
-        refreshGridData()
+        state.refreshMapData()
+        state.refreshGridData()
     }
 
     @Composable
@@ -390,75 +384,4 @@ class WvwMapPage(
             Text(text = subtitle, fontSize = textSize)
         }
     }
-
-    // region Refresh
-
-    /**
-     * Refreshes the WvW map tiling grid.
-     */
-    private suspend fun refreshGridData() = withContext(Dispatchers.IO) {
-        gw2Cache.instance {
-            val continent = state.continent.value
-            val floor = state.floor.value
-
-            // Verify that the related data exists.
-            if (continent == null || floor == null) {
-                return@instance
-            }
-
-            val zoom = state.currentZoom()
-            Logger.d("Refreshing WvW tile grid data for zoom level $zoom.")
-
-            val gridRequest = tileClient.requestGrid(continent, floor, zoom).let { request ->
-                if (configuration.wvw.map.isBounded) {
-                    // Cut off unneeded tiles.
-                    val bound = configuration.wvw.map.levels.firstOrNull { level -> level.zoom == zoom }?.bound
-                    if (bound != null) {
-                        return@let request.bounded(startX = bound.startX, startY = bound.startY, endX = bound.endX, endY = bound.endY)
-                    } else {
-                        Logger.w("Unable to create a bounded request for zoom level $zoom.")
-                    }
-                }
-
-                return@let request
-            }
-
-            // Set up the grid without content in the tiles.
-            state.grid.value = TileGrid(gridRequest, gridRequest.tileRequests.map { tileRequest -> Tile(tileRequest) })
-
-            // Defer the content for parallelism and populate it when its ready.
-            for (deferred in tileCache.findTilesAsync(gridRequest.tileRequests)) {
-                val tile = deferred.await()
-                state.tileContent[tile] = tile.content
-            }
-        }
-    }
-
-    /**
-     * Refreshes the WvW map data using the configuration ids.
-     */
-    private suspend fun refreshMapData() = withContext(Dispatchers.IO) {
-        gw2Cache.instance {
-            Logger.d("Refreshing WvW map data.")
-
-            // Assume that all WvW maps are within the same continent and floor.
-            val mapId = appState.match.value?.maps?.firstOrNull()?.id
-            if (mapId == null) {
-                // Default to what is in the config to determine the correct continent.
-                val cache = get<ContinentCache>()
-                val continent = cache.getContinent(configuration.wvw.map.continentId)
-                state.floor.value = cache.getContinentFloor(configuration.wvw.map.continentId, configuration.wvw.map.floorId)
-                state.continent.value = continent
-            } else {
-                // Get the associated continent from the map.
-                val cache = get<ContinentCache>()
-                val map = cache.getMap(mapId)
-                val continent = cache.getContinent(map)
-                state.floor.value = cache.getContinentFloor(map)
-                state.continent.value = continent
-            }
-        }
-    }
-
-    // endregion Refresh
 }

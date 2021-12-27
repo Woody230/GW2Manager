@@ -4,24 +4,25 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
+import com.bselzer.gw2.manager.android.common.BackgroundType
 import com.bselzer.gw2.manager.android.common.NavigatePage
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
-import com.bselzer.gw2.manager.common.state.AppState.Companion.PageType
+import com.bselzer.gw2.manager.common.state.core.Gw2State
+import com.bselzer.gw2.manager.common.state.core.PageType
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.ktx.function.core.hasInternet
 
 class SplashPage(
-    aware: Gw2Aware,
     navigationIcon: @Composable () -> Unit
-) : NavigatePage(aware, navigationIcon) {
+) : NavigatePage(navigationIcon) {
     @Composable
     override fun background() = BackgroundType.ABSOLUTE
 
@@ -29,7 +30,7 @@ class SplashPage(
      * Lays out the splash screen to allow for preprocessing.
      */
     @Composable
-    override fun CoreContent() {
+    override fun Gw2State.CoreContent() {
         val (description, setDescription) = remember { mutableStateOf("") }
         Downloading(description)
         RetrieveData(setDescription)
@@ -62,33 +63,25 @@ class SplashPage(
      * Load initial data from the API.
      */
     @Composable
-    private fun RetrieveData(setDescription: (String) -> Unit) {
+    private fun Gw2State.RetrieveData(setDescription: (String) -> Unit) {
         val initialTheme = if (isSystemInDarkTheme()) Theme.DARK else Theme.LIGHT
-        val context = LocalContext.current
-        var selectedPage by appState.page
-        LaunchedEffect(selectedPage) {
-            fun finishedDownloading() {
-                selectedPage = PageType.MODULE
+        LaunchedEffect(this) {
+            try {
+                setDescription("Preferences")
+                commonPref.theme.initialize(initialTheme)
+
+                setDescription("World vs. World")
+                initializeWvwData()
+
+                setDescription("Build Number")
+                val newId = gw2Client.build.buildId()
+                val buildNumber = commonPref.buildNumber
+                if (newId > buildNumber.get()) {
+                    buildNumber.set(newId)
+                }
+            } finally {
+                changePage(PageType.MODULE)
             }
-
-            commonPref.theme.initialize(initialTheme)
-            appState.initialWvwData()
-
-            if (!context.hasInternet()) {
-                finishedDownloading()
-                return@LaunchedEffect
-            }
-
-            // TODO wvw reset => force refresh
-
-            setDescription("Build Number")
-            val newId = gw2Client.build.buildId()
-            val buildNumber = commonPref.buildNumber
-            if (newId > buildNumber.get()) {
-                buildNumber.set(newId)
-            }
-
-            finishedDownloading()
         }
     }
 }

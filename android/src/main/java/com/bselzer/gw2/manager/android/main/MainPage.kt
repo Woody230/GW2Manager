@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.ModalDrawer
 import androidx.compose.material.rememberDrawerState
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -18,10 +20,13 @@ import com.bselzer.gw2.manager.android.dialog.WorldSelectionDialog
 import com.bselzer.gw2.manager.android.other.*
 import com.bselzer.gw2.manager.android.wvw.WvwMapPage
 import com.bselzer.gw2.manager.android.wvw.WvwMatchPage
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
-import com.bselzer.gw2.manager.common.state.AppState.Companion.PageType
+import com.bselzer.gw2.manager.common.expect.LocalState
+import com.bselzer.gw2.manager.common.state.core.DialogType
+import com.bselzer.gw2.manager.common.state.core.Gw2State
+import com.bselzer.gw2.manager.common.state.core.PageType
 import com.bselzer.gw2.manager.common.state.map.WvwMapState
 import com.bselzer.gw2.manager.common.state.match.WvwMatchState
+import com.bselzer.gw2.v2.model.extension.world.WorldId
 import com.bselzer.ktx.compose.effect.PreRepeatedEffect
 import com.bselzer.ktx.compose.ui.appbar.DrawerNavigationIcon
 import com.bselzer.ktx.compose.ui.drawer.DrawerComponent
@@ -33,19 +38,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class MainPage(
-    aware: Gw2Aware,
     private val closeApplication: () -> Unit,
-) : BasePage(aware = aware) {
+) : BasePage() {
 
     @Composable
-    override fun Content() {
-        var selectedPage by rememberSaveable { appState.page }
+    override fun Gw2State.Content() {
+        val currentPage by currentPage
 
         val scope = rememberCoroutineScope()
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
         // Do not allow preemptive opening of the drawer before initialization from the Splash screen is complete.
-        val canOpenDrawer = selectedPage != PageType.SPLASH
+        val canOpenDrawer = currentPage != PageType.SPLASH
         ModalDrawer(
             drawerContent = {
                 DrawerContent {
@@ -56,20 +60,21 @@ class MainPage(
             drawerState = drawerState,
             gesturesEnabled = canOpenDrawer
         ) {
-            CoreContent {
+            // Lay out the currently selected page.
+            CurrentPage {
                 DrawerNavigationIcon(enabled = canOpenDrawer) {
                     scope.launch { drawerState.open() }
                 }
             }
         }
 
-        if (remember { appState.showWorldDialog }.value) {
-            WorldSelectionDialog(aware = this).Content()
-        }
+        // Lay out the currently open dialog.
+        CurrentDialog()
 
         // TODO maintain last refresh time instead
         PreRepeatedEffect(delay = runBlocking { wvwPref.refreshInterval.get() }) {
-            appState.refreshWvwData(wvwPref.selectedWorld.get())
+            val id = WorldId(wvwPref.selectedWorld.get())
+            refreshWvwData(id)
         }
 
         BackHandler(enabled = drawerState.isOpen) {
@@ -79,32 +84,41 @@ class MainPage(
         BackHandler(enabled = drawerState.isClosed) {
             // If we are on the core page then close the application.
             // Otherwise, go back to the core page.
-            if (selectedPage == PageType.MODULE) {
+            if (currentPage == PageType.MODULE) {
                 closeApplication()
             } else {
-                selectedPage = PageType.MODULE
+                changePage(PageType.MODULE)
             }
         }
     }
 
     @Composable
-    private fun CoreContent(navigationIcon: @Composable () -> Unit) {
-        val selectedPage by rememberSaveable { appState.page }
-        Logger.d("Displaying page $selectedPage")
+    private fun Gw2State.CurrentPage(navigationIcon: @Composable () -> Unit) {
+        val currentPage by currentPage
+        Logger.d("Displaying page $currentPage")
 
-        val mapState = remember { WvwMapState(this) }
-        val matchState = remember { WvwMatchState(this) }
+        val mapState = remember(this) { WvwMapState(state = this) }
+        val matchState = remember(this) { WvwMatchState(state = this) }
         val libraries = LocalContext.current.libraries()
-        when (selectedPage) {
-            PageType.MODULE -> remember { ModulePage(aware = this, navigationIcon = navigationIcon) }
-            PageType.SPLASH -> remember { SplashPage(aware = this, navigationIcon = navigationIcon) }
-            PageType.ABOUT -> remember { AboutPage(aware = this, navigationIcon = navigationIcon) }
-            PageType.CACHE -> remember { CachePage(aware = this, navigationIcon = navigationIcon) }
-            PageType.LICENSE -> remember { LicensePage(aware = this, navigationIcon = navigationIcon, libraries = libraries) }
-            PageType.SETTING -> remember { SettingsPage(aware = this, navigationIcon = navigationIcon) }
-            PageType.WVW_MAP -> remember { WvwMapPage(aware = this, navigationIcon = navigationIcon, state = mapState) }
-            PageType.WVW_MATCH -> remember { WvwMatchPage(aware = this, navigationIcon = navigationIcon, state = matchState) }
+        when (currentPage) {
+            PageType.MODULE -> ModulePage(navigationIcon = navigationIcon)
+            PageType.SPLASH -> SplashPage(navigationIcon = navigationIcon)
+            PageType.ABOUT -> AboutPage(navigationIcon = navigationIcon)
+            PageType.CACHE -> CachePage(navigationIcon = navigationIcon)
+            PageType.LICENSE -> LicensePage(navigationIcon = navigationIcon, libraries = libraries)
+            PageType.SETTING -> SettingsPage(navigationIcon = navigationIcon)
+            PageType.WVW_MAP -> WvwMapPage(navigationIcon = navigationIcon, state = mapState)
+            PageType.WVW_MATCH -> WvwMatchPage(navigationIcon = navigationIcon, state = matchState)
         }.apply { Content() }
+    }
+
+    /**
+     * lays out the currently selected dialog
+     */
+    @Composable
+    private fun Gw2State.CurrentDialog() = when (currentDialog.value) {
+        DialogType.WORLD_SELECTION -> WorldSelectionDialog().Content()
+        else -> {}
     }
 
     // TODO drawer header with account name and team for the week
@@ -147,9 +161,9 @@ class MainPage(
      */
     @Composable
     private fun drawerComponent(@DrawableRes drawable: Int?, @StringRes text: Int, page: PageType, closeDrawer: () -> Unit): @Composable ColumnScope.() -> Unit = {
+        val state = LocalState.current
         DrawerComponent(iconPainter = drawable?.let { painterResource(id = drawable) }, text = stringResource(id = text)) {
-            appState.page.value = page
-            Logger.d("Page = ${appState.page.value}")
+            state.changePage(page)
             closeDrawer()
         }
     }

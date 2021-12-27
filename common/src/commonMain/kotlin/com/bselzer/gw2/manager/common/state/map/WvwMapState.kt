@@ -8,11 +8,10 @@ import com.bselzer.gw2.manager.common.state.map.grid.TileCount
 import com.bselzer.gw2.manager.common.state.map.grid.TileState
 import com.bselzer.gw2.manager.common.state.map.objective.*
 import com.bselzer.gw2.manager.common.state.WvwHelper.color
-import com.bselzer.gw2.manager.common.state.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.common.state.WvwHelper.objective
 import com.bselzer.gw2.manager.common.state.WvwHelper.selectedDateFormatted
-import com.bselzer.gw2.manager.common.configuration.wvw.Wvw
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.ui.composable.ImageState
 import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.model.continent.Continent
@@ -42,16 +41,12 @@ import kotlinx.coroutines.withContext
 import kotlin.time.ExperimentalTime
 
 class WvwMapState(
-    aware: Gw2Aware
-) : Gw2Aware by aware {
+    private val state: Gw2State
+) : Gw2State by state {
     // Scroll control is exposed through shouldScrollToRegion and should not be exposed here as well.
     private val enableScrollToRegion = mutableStateOf(true)
-    private val match: State<WvwMatch?> = aware.appState.match
-    private val objectives: State<Collection<WvwObjective>> = aware.appState.objectives
-    private val upgrades: Map<Int, WvwUpgrade> = aware.appState.upgrades
-    private val guildUpgrades: Map<Int, GuildUpgrade> = aware.appState.guildUpgrades
+    private val zoom = mutableStateOf(state.configuration.wvw.map.zoom.default)
     val selectedObjective = mutableStateOf<WvwObjective?>(null)
-    private val zoom = mutableStateOf(configuration.wvw.map.zoom.default)
     val grid = mutableStateOf(TileGrid())
     val tileContent = mutableStateMapOf<Tile, ByteArray>()
     val continent = mutableStateOf<Continent?>(null)
@@ -109,7 +104,7 @@ class WvwMapState(
     var shouldScrollToRegion: MutableState<Boolean> = object : MutableState<Boolean> {
         val state = derivedStateOf { configuration.wvw.map.scroll.enabled && !tileCount.value.isEmpty && enableScrollToRegion.value }
         override var value: Boolean
-            get() = state.value
+            get() = this.state.value
             set(value) {
                 enableScrollToRegion.value = value
             }
@@ -137,7 +132,7 @@ class WvwMapState(
      * The state of the bloodlust icons.
      */
     val bloodlusts: State<Collection<BloodlustState>> = derivedStateOf {
-        val match = match.value ?: return@derivedStateOf emptyList<BloodlustState>()
+        val match = worldMatch.value ?: return@derivedStateOf emptyList<BloodlustState>()
 
         val width = configuration.wvw.bloodlust.size.width
         val height = configuration.wvw.bloodlust.size.height
@@ -150,7 +145,7 @@ class WvwMapState(
                 return@mapNotNull null
             }
 
-            val objectiveRuins = matchRuins.mapNotNull { ruin -> objectives.value.firstOrNull { objective -> objective.id == ruin.id } }
+            val objectiveRuins = matchRuins.mapNotNull { ruin -> worldObjectives.value.firstOrNull { objective -> objective.id == ruin.id } }
             if (objectiveRuins.count() != matchRuins.count()) {
                 Logger.w("Mismatch between the number of ruins in the match and objectives on map ${borderland.id}.")
                 return@mapNotNull null
@@ -201,8 +196,8 @@ class WvwMapState(
      */
     @OptIn(ExperimentalTime::class)
     private val mapObjectives: State<Collection<ObjectiveState>> = derivedStateOf {
-        val match = match.value ?: return@derivedStateOf emptyList<ObjectiveState>()
-        objectives.value.mapNotNull { objective ->
+        val match = worldMatch.value ?: return@derivedStateOf emptyList<ObjectiveState>()
+        worldObjectives.value.mapNotNull { objective ->
             val fromConfig = configuration.wvw.objective(objective)
             val fromMatch = match.objective(objective) ?: return@mapNotNull null
 
@@ -274,7 +269,7 @@ class WvwMapState(
      */
     val mapSelectedObjective: State<SelectedObjectiveState?> = derivedStateOf {
         val objective = selectedObjective.value ?: return@derivedStateOf null
-        val fromMatch = match.value.objective(objective)
+        val fromMatch = worldMatch.value.objective(objective)
         val owner = fromMatch?.owner() ?: ObjectiveOwner.NEUTRAL
         SelectedObjectiveState(
             title = "${objective.name} (${owner.userFriendly()} ${objective.type})",
@@ -346,7 +341,7 @@ class WvwMapState(
             Logger.d("Refreshing WvW map data.")
 
             // Assume that all WvW maps are within the same continent and floor.
-            val mapId = appState.match.value?.maps?.firstOrNull()?.id
+            val mapId = worldMatch.value?.maps?.firstOrNull()?.id
             if (mapId == null) {
                 // Default to what is in the config to determine the correct continent.
                 val cache = get<ContinentCache>()

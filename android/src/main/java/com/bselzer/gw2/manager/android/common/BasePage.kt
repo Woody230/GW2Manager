@@ -12,27 +12,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.common.base.Page
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.expect.LocalState
 import com.bselzer.gw2.manager.common.expect.LocalTheme
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.ui.background.Background
 import com.bselzer.ktx.compose.ui.background.BackgroundColumn
 import com.bselzer.ktx.compose.ui.background.BackgroundImage
 import com.bselzer.ktx.compose.ui.container.CenteredRow
 
-abstract class BasePage(
-    aware: Gw2Aware
-) : Page, Gw2Aware by aware {
-    enum class BackgroundType {
-        RELATIVE,
-        ABSOLUTE,
-        NONE
-    }
-
+abstract class BasePage : Page {
     private val relative: @Composable () -> Unit = { BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment()) }
     private val absolute: @Composable () -> Unit = { BackgroundImage(drawableId = absoluteBackgroundDrawableId()) }
     private val relativeBox: @Composable BoxScope.() -> Unit = { BackgroundImage(drawableId = relativeBackgroundDrawableId(), alignment = relativeBackgroundAlignment()) }
     private val absoluteBox: @Composable BoxScope.() -> Unit = { BackgroundImage(drawableId = absoluteBackgroundDrawableId()) }
+
+    @Composable
+    override fun Content() = LocalState.current.run { Content() }
+
+    /**
+     * Lays out the content for the current state.
+     */
+    @Composable
+    protected abstract fun Gw2State.Content()
 
     /**
      * Lays out an image suitable for a relative background based on the current theme. This is typically used for backgrounds that are covered by text.

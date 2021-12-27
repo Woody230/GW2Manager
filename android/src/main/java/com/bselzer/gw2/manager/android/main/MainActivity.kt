@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
+import com.bselzer.gw2.manager.common.expect.LocalState
 import com.bselzer.gw2.manager.common.expect.gw2Aware
+import com.bselzer.gw2.manager.common.state.core.AppState
 import com.bselzer.ktx.compose.image.ui.LocalImageDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
@@ -19,11 +21,12 @@ class MainActivity : AppCompatActivity(), DIAware {
         super.onCreate(savedInstanceState)
         val aware = di.gw2Aware()
         setContent {
-            aware.Content {
-                CompositionLocalProvider(
-                    LocalImageDispatcher provides Dispatchers.IO
-                ) {
-                    MainPage(aware = aware, closeApplication = { finish() }).Content()
+            CompositionLocalProvider(
+                LocalState provides AppState(aware = aware),
+                LocalImageDispatcher provides Dispatchers.IO
+            ) {
+                aware.Content {
+                    MainPage(closeApplication = { finish() }).Content()
                 }
             }
         }

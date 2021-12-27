@@ -7,7 +7,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,20 +15,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.common.BasePage
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.state.selected.ClaimState
-import com.bselzer.gw2.manager.common.state.selected.DataState
+import com.bselzer.gw2.manager.common.state.selected.SelectedDataState
 import com.bselzer.gw2.manager.common.state.selected.WvwSelectedState
 import com.bselzer.gw2.manager.common.state.selected.overview.OverviewState
 import com.bselzer.gw2.manager.common.ui.composable.ImageContent
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 
 class WvwSelectedObjectivePage(
-    aware: Gw2Aware,
     private val state: WvwSelectedState,
-) : BasePage(aware) {
+) : BasePage() {
     @Composable
-    override fun Content() {
+    override fun Gw2State.Content() {
         // TODO pager: main = details, left = upgrades, right = guild upgrades
         DetailedSelectedObjective()
     }
@@ -47,10 +45,10 @@ class WvwSelectedObjectivePage(
         prepend = true,
         append = true,
         contents = arrayOf(
-            { remember { state.image }.value?.ImageContent() },
-            { remember { state.overview }.value?.let { InfoCard { Overview(it) } } },
-            { remember { state.data }.value?.let { InfoCard { Data(it) } } },
-            { remember { state.claim }.value?.let { InfoCard { Claim(it) } } }
+            { state.image.value?.ImageContent() },
+            { state.overview.value?.let { InfoCard { Overview(it) } } },
+            { state.data.value?.let { InfoCard { Data(it) } } },
+            { state.claim.value?.let { InfoCard { Claim(it) } } }
         )
     )
 
@@ -101,7 +99,7 @@ class WvwSelectedObjectivePage(
      * Lays out the data points such as point information and upgrade progress.
      */
     @Composable
-    private fun Data(data: DataState) = Column {
+    private fun Data(data: SelectedDataState) = Column {
         @Composable
         fun Pair<String, String>?.Row() {
             this?.let {

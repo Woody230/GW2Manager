@@ -12,8 +12,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.BuildConfig
 import com.bselzer.gw2.manager.android.R
+import com.bselzer.gw2.manager.android.common.BackgroundType
 import com.bselzer.gw2.manager.android.common.NavigatePage
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.description.Description
 
@@ -21,14 +22,13 @@ import com.bselzer.ktx.compose.ui.description.Description
  * The page for laying out information about the app.
  */
 class AboutPage(
-    aware: Gw2Aware,
     navigationIcon: @Composable () -> Unit,
-) : NavigatePage(aware, navigationIcon) {
+) : NavigatePage(navigationIcon) {
     @Composable
     override fun background() = BackgroundType.RELATIVE
 
     @Composable
-    override fun CoreContent() = DividedColumn(
+    override fun Gw2State.CoreContent() = DividedColumn(
         modifier = Modifier.padding(all = 25.dp),
         divider = { Spacer(modifier = Modifier.height(25.dp)) },
         contents = arrayOf(

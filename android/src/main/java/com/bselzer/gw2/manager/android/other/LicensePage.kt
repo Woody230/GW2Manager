@@ -8,8 +8,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
+import com.bselzer.gw2.manager.android.common.BackgroundType
 import com.bselzer.gw2.manager.android.common.NavigatePage
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.ktx.library.LibraryColumn
 import com.mikepenz.aboutlibraries.entity.Library
 
@@ -17,15 +18,14 @@ import com.mikepenz.aboutlibraries.entity.Library
  * The page for laying out the libraries used in the app and their associated licenses.
  */
 class LicensePage(
-    aware: Gw2Aware,
     navigationIcon: @Composable () -> Unit,
     private val libraries: List<Library>
-) : NavigatePage(aware, navigationIcon) {
+) : NavigatePage(navigationIcon) {
     @Composable
     override fun background() = BackgroundType.RELATIVE
 
     @Composable
-    override fun CoreContent() = LibraryColumn(
+    override fun Gw2State.CoreContent() = LibraryColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(all = 8.dp),
         backgroundColor = Color.Transparent, // Use the relative background instead.

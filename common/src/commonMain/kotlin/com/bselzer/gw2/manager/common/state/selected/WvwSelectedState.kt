@@ -2,11 +2,11 @@ package com.bselzer.gw2.manager.common.state.selected
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.state.WvwHelper.color
 import com.bselzer.gw2.manager.common.state.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.common.state.WvwHelper.objective
 import com.bselzer.gw2.manager.common.state.WvwHelper.selectedDateFormatted
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.state.selected.overview.MapState
 import com.bselzer.gw2.manager.common.state.selected.overview.OverviewState
 import com.bselzer.gw2.manager.common.state.selected.overview.OwnerState
@@ -15,11 +15,7 @@ import com.bselzer.gw2.v2.emblem.request.EmblemRequestOptions
 import com.bselzer.gw2.v2.model.enumeration.extension.wvw.mapType
 import com.bselzer.gw2.v2.model.enumeration.extension.wvw.owner
 import com.bselzer.gw2.v2.model.extension.wvw.*
-import com.bselzer.gw2.v2.model.guild.Guild
-import com.bselzer.gw2.v2.model.world.World
-import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
-import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.ktx.function.objects.userFriendly
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,21 +24,16 @@ import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 class WvwSelectedState(
-    aware: Gw2Aware,
+    state: Gw2State,
     val selectedObjective: State<WvwObjective?>
-) : Gw2Aware by aware {
-    private val match: State<WvwMatch?> = appState.match
-    private val worlds: State<Collection<World>> = derivedStateOf { appState.worlds.values }
-    private val upgrades: Map<Int, WvwUpgrade> = appState.upgrades
-    private val guilds: Map<String, Guild> = appState.guilds
-
+) : Gw2State by state {
     /**
      * The state of the objective image.
      */
     val image: State<ImageState?> = derivedStateOf {
         val objective = selectedObjective.value ?: return@derivedStateOf null
         val fromConfig = configuration.wvw.objective(objective)
-        val fromMatch = match.value.objective(objective)
+        val fromMatch = worldMatch.value.objective(objective)
 
         val link = objective.iconLink
         object : ImageState {
@@ -63,7 +54,7 @@ class WvwSelectedState(
      */
     val overview: State<OverviewState?> = derivedStateOf {
         val objective = selectedObjective.value ?: return@derivedStateOf null
-        val match = match.value
+        val match = worldMatch.value
         val fromMatch = match.objective(objective)
         val owner = fromMatch?.owner()
         OverviewState(
@@ -79,7 +70,7 @@ class WvwSelectedState(
             },
             owner = owner?.let {
                 OwnerState(
-                    name = worlds.value.displayableLinkedWorlds(match = match, owner = owner),
+                    name = worlds.values.displayableLinkedWorlds(match = match, owner = owner),
                     color = configuration.wvw.color(owner = owner)
                 )
             }
@@ -89,12 +80,12 @@ class WvwSelectedState(
     /**
      * The state of the core objective information.
      */
-    val data: State<DataState?> = derivedStateOf {
+    val data: State<SelectedDataState?> = derivedStateOf {
         val objective = selectedObjective.value ?: return@derivedStateOf null
-        val fromMatch = match.value.objective(objective) ?: return@derivedStateOf null
+        val fromMatch = worldMatch.value.objective(objective) ?: return@derivedStateOf null
         val upgrade = upgrades[objective.upgradeId]
         val yaks = fromMatch.yaksDelivered
-        DataState(
+        SelectedDataState(
             pointsPerTick = "Points per tick:" to fromMatch.pointsPerTick.toString(),
             pointsPerCapture = "Points per capture:" to fromMatch.pointsPerCapture.toString(),
             yaks = upgrade?.let {
@@ -114,7 +105,7 @@ class WvwSelectedState(
      */
     val claim: State<ClaimState?> = derivedStateOf {
         val objective = selectedObjective.value ?: return@derivedStateOf null
-        val fromMatch = match.value.objective(objective) ?: return@derivedStateOf null
+        val fromMatch = worldMatch.value.objective(objective) ?: return@derivedStateOf null
         val claimedAt = fromMatch.claimedAt ?: return@derivedStateOf null
 
         // Note that claimedBy is the id, so it is necessary to look up the name from the guild model.
@@ -123,7 +114,7 @@ class WvwSelectedState(
         if (guild == null) {
             // Attempt to reconcile the missing data.
             CoroutineScope(Dispatchers.IO).launch {
-                appState.refreshGuild(guildId)
+                refreshGuild(guildId)
             }
             return@derivedStateOf null
         }

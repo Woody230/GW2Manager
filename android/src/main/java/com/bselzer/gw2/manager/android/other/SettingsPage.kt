@@ -17,9 +17,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.bselzer.gw2.manager.android.R
+import com.bselzer.gw2.manager.android.common.BackgroundType
 import com.bselzer.gw2.manager.android.common.NavigatePage
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.expect.LocalTheme
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.model.enumeration.extension.account.permissions
@@ -45,14 +47,13 @@ import kotlin.time.ExperimentalTime
  * The page for the user to select and manage preferences.
  */
 class SettingsPage(
-    aware: Gw2Aware,
     navigationIcon: @Composable () -> Unit
-) : NavigatePage(aware, navigationIcon) {
+) : NavigatePage(navigationIcon) {
     @Composable
     override fun background() = BackgroundType.RELATIVE
 
     @Composable
-    override fun CoreContent() = PreferenceColumn(
+    override fun Gw2State.CoreContent() = PreferenceColumn(
         modifier = Modifier.padding(25.dp),
         contents = arrayOf(
             { ThemePreference() },
@@ -77,7 +78,7 @@ class SettingsPage(
      * Lays out the preference for selecting the theme.
      */
     @Composable
-    private fun ThemePreference() {
+    private fun Gw2State.ThemePreference() {
         val theme = LocalTheme.current
         SwitchPreference(
             iconPainter = painterResource(if (theme == Theme.LIGHT) R.drawable.gw2_sunrise else R.drawable.gw2_twilight),
@@ -86,7 +87,7 @@ class SettingsPage(
             checked = theme != Theme.LIGHT,
             onStateChanged = {
                 CoroutineScope(Dispatchers.IO).launch {
-                    commonPref.theme.set(if (it) Theme.DARK else Theme.LIGHT)
+                    changeTheme(if (it) Theme.DARK else Theme.LIGHT)
                 }
             }
         )
@@ -96,10 +97,10 @@ class SettingsPage(
      * Lays out the preference for setting the token/api key.
      */
     @Composable
-    private fun TokenPreference() {
+    private fun Gw2State.TokenPreference() {
+        val context = LocalContext.current
         var token by commonPref.token.nullState()
         val value = token
-        val context = LocalContext.current
         val linkTag = "applications"
         val hyperlink = "https://account.arena.net/applications"
         TextFieldDialogPreference(
@@ -150,7 +151,7 @@ class SettingsPage(
      */
     @OptIn(ExperimentalTime::class)
     @Composable
-    private fun RefreshIntervalPreference() {
+    private fun Gw2State.RefreshIntervalPreference() {
         var refreshInterval by wvwPref.refreshInterval.nullState()
         val initial = wvwPref.refreshInterval.defaultValue
         val initialUnit = wvwPref.refreshIntervalDefaultUnit
@@ -172,7 +173,7 @@ class SettingsPage(
      * Set up other preferences based on the [tokenInfo].
      */
     @OptIn(ExperimentalTime::class)
-    private suspend fun initializePreferences(token: String, tokenInfo: TokenInfo) {
+    private suspend fun Gw2Aware.initializePreferences(token: String, tokenInfo: TokenInfo) {
         try {
             val permissions = tokenInfo.permissions()
             Logger.d("Token permissions: $permissions")

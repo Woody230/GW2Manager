@@ -5,7 +5,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -15,7 +14,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.android.common.BackgroundType
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.state.match.ChartState
 import com.bselzer.gw2.manager.common.state.match.WvwMatchState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDataState
@@ -25,20 +25,19 @@ import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.geometry.ArcShape
 
 class WvwMatchPage(
-    aware: Gw2Aware,
     navigationIcon: @Composable () -> Unit,
     state: WvwMatchState,
-) : WvwPage<WvwMatchState>(aware, navigationIcon, state) {
+) : WvwPage<WvwMatchState>(navigationIcon, state) {
     @Composable
     override fun background() = BackgroundType.ABSOLUTE
 
     // TODO horizontal paging for each chart, vertical paging for each map (will need map name title on each page)
     @Composable
-    override fun CoreContent() = DividedColumn(
+    override fun Gw2State.CoreContent() = DividedColumn(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         divider = { Spacer(modifier = Modifier.height(5.dp)) },
-        contents = remember { state.charts }.value.map { chart -> pieChart(chart) }.toTypedArray()
+        contents = state.charts.value.map { chart -> pieChart(chart) }.toTypedArray()
     )
 
     @Composable

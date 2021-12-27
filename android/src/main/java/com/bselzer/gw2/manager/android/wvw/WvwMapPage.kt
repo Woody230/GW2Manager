@@ -23,8 +23,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.bselzer.gw2.manager.android.R
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
-import com.bselzer.gw2.manager.common.state.AppState
+import com.bselzer.gw2.manager.android.common.BackgroundType
+import com.bselzer.gw2.manager.common.state.core.Gw2State
+import com.bselzer.gw2.manager.common.state.core.PageType
 import com.bselzer.gw2.manager.common.state.map.SelectedObjectiveState
 import com.bselzer.gw2.manager.common.state.map.WvwMapState
 import com.bselzer.gw2.manager.common.state.map.grid.TileState
@@ -39,10 +40,9 @@ import kotlinx.coroutines.delay
 import kotlin.time.ExperimentalTime
 
 class WvwMapPage(
-    aware: Gw2Aware,
     navigationIcon: @Composable () -> Unit,
     state: WvwMapState,
-) : WvwPage<WvwMapState>(aware, navigationIcon, state) {
+) : WvwPage<WvwMapState>(navigationIcon, state) {
     private val page = mutableStateOf(MapPageType.MAP)
 
     private enum class MapPageType {
@@ -51,33 +51,33 @@ class WvwMapPage(
     }
 
     @Composable
-    override fun background(): BackgroundType = when (remember { page }.value) {
+    override fun background(): BackgroundType = when (page.value) {
         MapPageType.MAP -> BackgroundType.NONE
         MapPageType.SELECTED -> BackgroundType.ABSOLUTE
     }
 
     @Composable
-    override fun CoreContent() {
+    override fun Gw2State.CoreContent() {
         var page by page
         when (page) {
             MapPageType.MAP -> {
                 Map()
             }
             MapPageType.SELECTED -> {
-                val selectedState = remember { WvwSelectedState(aware = this, selectedObjective = state.selectedObjective) }
-                WvwSelectedObjectivePage(aware = this, state = selectedState).Content()
+                val selectedState = WvwSelectedState(state = this, selectedObjective = state.selectedObjective)
+                WvwSelectedObjectivePage(state = selectedState).Content()
             }
         }
 
         // Tile refresh is comparatively expensive to typical fetching so only do it when the user is on this page.
-        val appPage by appState.page
-        LaunchedEffect(page, appPage, state.currentZoom()) {
+        val currentPage by currentPage
+        LaunchedEffect(page, currentPage, state.currentZoom()) {
             refresh()
         }
 
         // If we are not on the core subpage of this page, then reset to the core subpage.
         // Otherwise, let the caller manage back state.
-        BackHandler(enabled = appPage == AppState.Companion.PageType.WVW_MAP && page != MapPageType.MAP) {
+        BackHandler(enabled = currentPage == PageType.WVW_MAP && page != MapPageType.MAP) {
             // Clear the objective pop-up when returning.
             if (page == MapPageType.SELECTED) {
                 state.selectedObjective.value = null
@@ -96,7 +96,7 @@ class WvwMapPage(
     }
 
     @Composable
-    override fun dropdownIcons(): (@Composable ((Boolean) -> Unit) -> Unit)? = when (remember { page }.value) {
+    override fun dropdownIcons(): (@Composable ((Boolean) -> Unit) -> Unit)? = when (page.value) {
         MapPageType.MAP -> mapDropdownIcons()
         MapPageType.SELECTED -> null
     }
@@ -149,7 +149,7 @@ class WvwMapPage(
             })
 
             // Overlay the selected objective over everything else on the map.
-            remember { state.mapSelectedObjective }.value?.let {
+            state.mapSelectedObjective.value?.let {
                 SelectedObjectiveLabel(
                     selected = it,
                     modifier = Modifier.constrainAs(selectedObjective) {
@@ -163,7 +163,7 @@ class WvwMapPage(
         }
 
         // Display a progress bar until tiling is finished.
-        if (remember { state.shouldShowMissingGridData }.value) {
+        if (state.shouldShowMissingGridData.value) {
             MissingGridData()
         }
     }
@@ -192,12 +192,12 @@ class WvwMapPage(
         ) {
             MapGrid()
 
-            if (remember { state.shouldShowObjectives }.value) {
+            if (state.shouldShowObjectives.value) {
                 Objectives()
             }
 
-            if (remember { state.shouldShowBloodlust }.value) {
-                remember { state.bloodlusts }.value.forEach { bloodlust ->
+            if (state.shouldShowBloodlust.value) {
+                state.bloodlusts.value.forEach { bloodlust ->
                     bloodlust.ImageContent(modifier = Modifier.absoluteOffset(x = bloodlust.x.toDp(), y = bloodlust.y.toDp()))
                 }
             }
@@ -211,8 +211,8 @@ class WvwMapPage(
      */
     @Composable
     private fun ScrollToRegion() {
-        var shouldScroll by remember { state.shouldScrollToRegion }
-        val coordinates by remember { state.scrollToRegionCoordinates }
+        var shouldScroll by state.shouldScrollToRegion
+        val coordinates by state.scrollToRegionCoordinates
         LaunchedEffect(shouldScroll) {
             if (shouldScroll) {
                 state.horizontalScroll.animateScrollTo(coordinates.first)
@@ -229,7 +229,7 @@ class WvwMapPage(
     private fun MapGrid() = Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        for (row in remember { state.mapGrid }.value.tiles) {
+        for (row in state.mapGrid.value.tiles) {
             Row {
                 for (tile in row) {
                     MapTile(tile)
@@ -268,7 +268,7 @@ class WvwMapPage(
     private fun Objectives() {
         // Render from bottom right to top left so that overlap is consistent.
         val comparator = compareByDescending<ObjectiveState> { objective -> objective.y }.thenByDescending { objective -> objective.x }
-        remember { state.mapGrid }.value.objectives.sortedWith(comparator).forEach { objective ->
+        state.mapGrid.value.objectives.sortedWith(comparator).forEach { objective ->
             Objective(objective)
         }
     }

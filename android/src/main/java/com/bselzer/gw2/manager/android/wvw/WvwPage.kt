@@ -7,22 +7,24 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.Composable
 import com.bselzer.gw2.manager.android.common.NavigatePage
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.state.core.DialogType
+import com.bselzer.gw2.manager.common.state.core.Gw2State
+import com.bselzer.gw2.v2.model.extension.world.WorldId
 import com.bselzer.ktx.compose.ui.appbar.DropdownMenuIcon
 import com.bselzer.ktx.compose.ui.appbar.RefreshIcon
 
 abstract class WvwPage<State>(
-    aware: Gw2Aware,
     navigationIcon: @Composable () -> Unit,
     protected val state: State,
-) : NavigatePage(aware, navigationIcon) {
+) : NavigatePage(navigationIcon) {
     @Composable
-    override fun appBarActions(): @Composable RowScope.() -> Unit = {
+    override fun Gw2State.appBarActions(): @Composable RowScope.() -> Unit = {
         RefreshIcon {
-            appState.refreshWvwData(wvwPref.selectedWorld.get())
+            val id = WorldId(wvwPref.selectedWorld.get())
+            refreshWvwData(id)
             refresh()
         }
-        IconButton(onClick = { appState.showWorldDialog.value = true }) {
+        IconButton(onClick = { changeDialog(DialogType.WORLD_SELECTION) }) {
             Icon(Icons.Filled.List, contentDescription = "World")
         }
 

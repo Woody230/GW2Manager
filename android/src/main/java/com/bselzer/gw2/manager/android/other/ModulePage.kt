@@ -16,23 +16,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
+import com.bselzer.gw2.manager.android.common.BackgroundType
 import com.bselzer.gw2.manager.android.common.NavigatePage
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.state.WvwHelper.color
+import com.bselzer.gw2.manager.common.state.core.DialogType
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.ktx.compose.ui.preference.TextPreference
 import com.bselzer.ktx.settings.compose.safeState
 
 class ModulePage(
-    aware: Gw2Aware,
     navigationIcon: @Composable () -> Unit
-) : NavigatePage(aware, navigationIcon) {
+) : NavigatePage(navigationIcon) {
     @Composable
     override fun background() = BackgroundType.ABSOLUTE
 
     @Composable
-    override fun CoreContent() = Box(
+    override fun Gw2State.CoreContent() = Box(
         modifier = Modifier.padding(vertical = 25.dp)
     ) {
         // TODO modules: which worlds are assigned to each side for currently selected world, world selection, overview of WvW data, etc
@@ -68,10 +69,11 @@ class ModulePage(
      * Lays out the selected world with the ability to show the dialog for a new selection.
      */
     @Composable
-    private fun SelectedWorld() {
+    private fun Gw2State.SelectedWorld() {
+        // TODO state object
         val selectedId by wvwPref.selectedWorld.safeState()
-        val match = remember { appState.match }.value
-        val worlds = remember { appState.worlds.values }
+        val match = remember { worldMatch }.value
+        val worlds = remember { worlds.values }
         val world = worlds.firstOrNull { world -> world.id == selectedId }
         val owner = world?.let { match?.owner(world) } ?: ObjectiveOwner.NEUTRAL
         val color = configuration.wvw.color(owner)
@@ -80,7 +82,7 @@ class ModulePage(
             title = "World",
             subtitle = if (selectedId <= 0) "Not set" else world?.name ?: "Unknown",
             subtitleStyle = MaterialTheme.typography.subtitle1.copy(color = color, fontWeight = FontWeight.Bold),
-            onClick = { appState.showWorldDialog.value = true }
+            onClick = { changeDialog(DialogType.WORLD_SELECTION) }
         )
     }
 }

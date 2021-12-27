@@ -7,15 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.ktx.compose.ui.appbar.MaterialAppBarColumn
 
 abstract class NavigatePage(
-    aware: Gw2Aware,
     private val navigationIcon: @Composable () -> Unit,
-) : BasePage(aware) {
+) : BasePage() {
     @Composable
-    override fun Content() = MaterialAppBarColumn(title = title(), navigationIcon = navigationIcon, actions = appBarActions()) {
+    override fun Gw2State.Content() = MaterialAppBarColumn(title = title(), navigationIcon = navigationIcon, actions = appBarActions()) {
         val modifier = Modifier.fillMaxSize()
         when (background()) {
             BackgroundType.RELATIVE -> {
@@ -62,11 +61,11 @@ abstract class NavigatePage(
      * The relevant content to the page excluding app bar management.
      */
     @Composable
-    protected abstract fun CoreContent()
+    protected abstract fun Gw2State.CoreContent()
 
     /**
      * The action buttons on the app bar.
      */
     @Composable
-    protected open fun appBarActions(): @Composable RowScope.() -> Unit = {}
+    protected open fun Gw2State.appBarActions(): @Composable RowScope.() -> Unit = {}
 }

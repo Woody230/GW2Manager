@@ -14,9 +14,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.android.R
+import com.bselzer.gw2.manager.android.common.BackgroundType
 import com.bselzer.gw2.manager.android.common.NavigatePage
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.expect.LocalTheme
+import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.cache.instance.GuildCache
@@ -31,9 +32,8 @@ import com.bselzer.ktx.coroutine.showToast
  * The page for managing underlying caches.
  */
 class CachePage(
-    aware: Gw2Aware,
     navigationIcon: @Composable () -> Unit,
-) : NavigatePage(aware, navigationIcon) {
+) : NavigatePage(navigationIcon) {
     private val selected = mutableStateListOf<CacheType>()
 
     private enum class CacheType {
@@ -47,7 +47,7 @@ class CachePage(
     override fun background() = BackgroundType.RELATIVE
 
     @Composable
-    override fun CoreContent() = DividedColumn(
+    override fun Gw2State.CoreContent() = DividedColumn(
         modifier = Modifier
             .padding(25.dp)
             .fillMaxSize(),
@@ -87,7 +87,7 @@ class CachePage(
     override fun Modifier.background(): Modifier = composed { verticalScroll(rememberScrollState()) }
 
     @Composable
-    override fun appBarActions(): @Composable RowScope.() -> Unit = {
+    override fun Gw2State.appBarActions(): @Composable RowScope.() -> Unit = {
         val context = LocalContext.current
         DeleteIcon(enabled = selected.isNotEmpty()) {
             selected.forEach { type ->

@@ -5,6 +5,7 @@ import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.v2.cache.instance.GuildCache
 import com.bselzer.gw2.v2.cache.instance.WorldCache
 import com.bselzer.gw2.v2.cache.instance.WvwCache
+import com.bselzer.gw2.v2.model.extension.world.WorldId
 import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
@@ -19,6 +20,7 @@ import kotlinx.coroutines.withContext
 class AppState(
     aware: Gw2Aware
 ) : Gw2Aware by aware {
+
     /**
      * The type of page to lay out.
      */
@@ -61,6 +63,24 @@ class AppState(
     // region Refresh
 
     /**
+     * Sets the data associated with the initial match.
+     */
+    suspend fun initialWvwData() = withContext(Dispatchers.IO) {
+        val worldId = WorldId(wvwPref.selectedWorld.get())
+        Logger.d("Initialization of WvW data for world ${worldId.value}.")
+
+        gw2Cache.lockedInstance {
+            get<WorldCache>().findWorlds().forEach { world ->
+                appState.worlds[world.id] = world
+            }
+
+            get<WvwCache>().apply {
+                put(findMatch(worldId))
+            }
+        }
+    }
+
+    /**
      * Refreshes the common WvW data and any data specific to the user's chosen world.
      */
     suspend fun refreshWvwData(selectedWorld: Int) = withContext(Dispatchers.IO) {
@@ -77,19 +97,8 @@ class AppState(
                 return@lockedInstance
             }
 
-            val cache = get<WvwCache>()
-            val match = gw2Client.wvw.match(selectedWorld)
-            cache.putMatch(match)
-            val objectives = cache.findObjectives(match)
-
-            appState.match.value = match
-            appState.objectives.value = objectives
-
-            cache.findUpgrades(objectives).forEach { upgrade ->
-                appState.upgrades[upgrade.id] = upgrade
-            }
-            cache.findGuildUpgrades(objectives.mapNotNull { objective -> match.objective(objective) }).forEach { guildUpgrade ->
-                appState.guildUpgrades[guildUpgrade.id] = guildUpgrade
+            get<WvwCache>().apply {
+                put(gw2Client.wvw.match(selectedWorld))
             }
         }
     }
@@ -105,6 +114,24 @@ class AppState(
 
         guilds[id] = gw2Cache.instance {
             get<GuildCache>().getGuild(id)
+        }
+    }
+
+    /**
+     * Puts the match, objective, and upgrade information.
+     */
+    private suspend fun WvwCache.put(match: WvwMatch) {
+        putMatch(match)
+        appState.match.value = match
+
+        val objectives = findObjectives(match)
+        appState.objectives.value = objectives
+
+        findUpgrades(objectives).forEach { upgrade ->
+            appState.upgrades[upgrade.id] = upgrade
+        }
+        findGuildUpgrades(objectives.mapNotNull { objective -> match.objective(objective) }).forEach { guildUpgrade ->
+            appState.guildUpgrades[guildUpgrade.id] = guildUpgrade
         }
     }
 

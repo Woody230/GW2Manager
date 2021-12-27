@@ -72,6 +72,7 @@ class SplashPage(
             }
 
             commonPref.theme.initialize(initialTheme)
+            appState.initialWvwData()
 
             if (!context.hasInternet()) {
                 finishedDownloading()

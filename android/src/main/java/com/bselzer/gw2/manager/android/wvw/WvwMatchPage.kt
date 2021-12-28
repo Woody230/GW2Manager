@@ -1,8 +1,6 @@
 package com.bselzer.gw2.manager.android.wvw
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,8 +19,9 @@ import com.bselzer.gw2.manager.common.state.match.WvwMatchState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDataState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDescriptionState
 import com.bselzer.gw2.manager.common.ui.composable.ImageContent
-import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.compose.ui.geometry.ArcShape
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
 
 class WvwMatchPage(
     navigationIcon: @Composable () -> Unit,
@@ -31,23 +30,33 @@ class WvwMatchPage(
     @Composable
     override fun background() = BackgroundType.ABSOLUTE
 
-    // TODO horizontal paging for each chart, vertical paging for each map (will need map name title on each page)
+    // TODO vertical paging for each map (will need map name title on each page)
+    @OptIn(ExperimentalPagerApi::class)
     @Composable
-    override fun Gw2State.CoreContent() = DividedColumn(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        divider = { Spacer(modifier = Modifier.height(5.dp)) },
-        contents = state.charts.value.map { chart -> pieChart(chart) }.toTypedArray()
-    )
+    override fun Gw2State.CoreContent() {
+        val charts = state.charts.value.toList()
+        HorizontalPager(
+            count = charts.size,
+            contentPadding = PaddingValues(vertical = 25.dp),
+            modifier = Modifier.fillMaxSize()
+        ) { index ->
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                PieChart(chart = charts[index])
+            }
+        }
+    }
 
     @Composable
     override fun title(): String = stringResource(id = R.string.wvw_match)
 
     /**
-     * Lays out a pie chart.
+     * Lays out a pie chart with the data describing it.
      */
     @Composable
-    private fun pieChart(chart: ChartState): @Composable ColumnScope.() -> Unit = {
+    private fun PieChart(chart: ChartState) {
         Box {
             chart.background.ImageContent()
             chart.slices.forEach { slice ->

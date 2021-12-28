@@ -33,6 +33,7 @@ kotlin {
 
                 // Extensions
                 api("com.bselzer.ktx:compose:$extensionVersion")
+                api("com.bselzer.ktx:compose-accompanist:$extensionVersion")
                 api("com.bselzer.ktx:compose-image:$extensionVersion")
                 api("com.bselzer.ktx:coroutine:$extensionVersion")
                 api("com.bselzer.ktx:function:$extensionVersion")

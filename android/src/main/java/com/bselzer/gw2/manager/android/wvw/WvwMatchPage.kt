@@ -1,6 +1,8 @@
 package com.bselzer.gw2.manager.android.wvw
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,9 +21,13 @@ import com.bselzer.gw2.manager.common.state.match.WvwMatchState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDataState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDescriptionState
 import com.bselzer.gw2.manager.common.ui.composable.ImageContent
+import com.bselzer.gw2.manager.common.ui.theme.Purple200
+import com.bselzer.gw2.manager.common.ui.theme.Purple500
 import com.bselzer.ktx.compose.ui.geometry.ArcShape
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 
 class WvwMatchPage(
     navigationIcon: @Composable () -> Unit,
@@ -33,11 +39,26 @@ class WvwMatchPage(
     // TODO vertical paging for each map (will need map name title on each page)
     @OptIn(ExperimentalPagerApi::class)
     @Composable
-    override fun Gw2State.CoreContent() {
+    override fun Gw2State.CoreContent() = Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 25.dp)
+            .verticalScroll(rememberScrollState()),
+    ) {
+        val pagerState = rememberPagerState()
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            activeColor = Purple500,
+            inactiveColor = Purple200
+        )
+
+        Spacer(modifier = Modifier.height(5.dp))
+
         val charts = state.charts.value.toList()
         HorizontalPager(
             count = charts.size,
-            contentPadding = PaddingValues(vertical = 25.dp),
+            state = pagerState,
             modifier = Modifier.fillMaxSize()
         ) { index ->
             Column(

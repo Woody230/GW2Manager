@@ -3,8 +3,10 @@ package com.bselzer.gw2.manager.android.wvw
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ScrollableTabRow
+import androidx.compose.material.Tab
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -13,8 +15,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.common.BackgroundType
+import com.bselzer.gw2.manager.common.state.WvwHelper.color
 import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.state.match.ChartState
 import com.bselzer.gw2.manager.common.state.match.WvwMatchState
@@ -22,8 +27,11 @@ import com.bselzer.gw2.manager.common.state.match.description.ChartDataState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDescriptionState
 import com.bselzer.gw2.manager.common.ui.composable.ImageContent
 import com.bselzer.gw2.manager.common.ui.theme.Purple200
-import com.bselzer.gw2.manager.common.ui.theme.Purple500
+import com.bselzer.gw2.v2.model.enumeration.wvw.MapType
+import com.bselzer.gw2.v2.model.enumeration.wvw.MapType.*
+import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.ktx.compose.ui.geometry.ArcShape
+import com.bselzer.ktx.function.objects.userFriendly
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -36,30 +44,58 @@ class WvwMatchPage(
     @Composable
     override fun background() = BackgroundType.ABSOLUTE
 
-    // TODO vertical paging for each map (will need map name title on each page)
     @OptIn(ExperimentalPagerApi::class)
     @Composable
-    override fun Gw2State.CoreContent() = Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    override fun Gw2State.CoreContent() = ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 25.dp)
             .verticalScroll(rememberScrollState()),
     ) {
+        val (tabs, pager, indicators) = createRefs()
+
+        val order = listOf(ETERNAL_BATTLEGROUNDS, BLUE_BORDERLANDS, GREEN_BORDERLANDS, RED_BORDERLANDS)
+        val allCharts = state.borderlandCharts.value.entries.sortedBy { entry -> order.indexOf(entry.key) }.toMutableList()
+        allCharts.add(0, object : Map.Entry<MapType?, Collection<ChartState>> {
+            // Add the total charts first as the match overview.
+            override val key: MapType? = null
+            override val value: Collection<ChartState> = state.totalCharts.value
+        })
+
+        // Lay out the tabs representing each map.
+        var selectedIndex by remember { mutableStateOf(0) }
+        ScrollableTabRow(
+            selectedTabIndex = selectedIndex,
+            indicator = { },
+            modifier = Modifier.constrainAs(tabs) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        ) {
+            allCharts.forEachIndexed { index, entry ->
+                Tab(
+                    // Use the map type as the title, otherwise default to the match overview for the null type that was added.
+                    text = { Text(entry.key?.userFriendly() ?: "Overview") },
+                    selected = index == selectedIndex,
+                    onClick = { selectedIndex = index }
+                )
+            }
+        }
+
+        // Lay out the charts for the currently selected map.
         val pagerState = rememberPagerState()
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            activeColor = Purple500,
-            inactiveColor = Purple200
-        )
-
-        Spacer(modifier = Modifier.height(5.dp))
-
-        val charts = state.charts.value.toList()
+        val entry = allCharts.getOrNull(selectedIndex)
+        val charts = entry?.value?.toList() ?: emptyList()
         HorizontalPager(
             count = charts.size,
             state = pagerState,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.constrainAs(pager) {
+                top.linkTo(tabs.bottom, margin = 25.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                bottom.linkTo(indicators.top, margin = 10.dp)
+                height = Dimension.fillToConstraints
+            }
         ) { index ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -68,6 +104,18 @@ class WvwMatchPage(
                 PieChart(chart = charts[index])
             }
         }
+
+        // Lay out the indicators representing each chart for the selected map.
+        HorizontalPagerIndicator(
+            pagerState = pagerState,
+            inactiveColor = Purple200,
+            activeColor = configuration.wvw.color(entry?.key?.owner()),
+            modifier = Modifier.constrainAs(indicators) {
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                bottom.linkTo(parent.bottom, margin = 25.dp)
+            }
+        )
     }
 
     @Composable

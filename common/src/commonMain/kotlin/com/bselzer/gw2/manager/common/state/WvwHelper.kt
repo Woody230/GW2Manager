@@ -30,12 +30,12 @@ object WvwHelper {
     /**
      * @return the color associated with the endpoint objective
      */
-    fun Wvw.color(objective: WvwMapObjective?): Color = color(objective?.owner() ?: ObjectiveOwner.NEUTRAL)
+    fun Wvw.color(objective: WvwMapObjective?): Color = color(objective?.owner())
 
     /**
      * @return the color associated with an objective [owner]
      */
-    fun Wvw.color(owner: ObjectiveOwner, default: String = "#888888") = Hex(objectives.hex(owner = owner, default = default)).color()
+    fun Wvw.color(owner: ObjectiveOwner?, default: String = "#888888") = Hex(objectives.hex(owner = owner ?: ObjectiveOwner.NEUTRAL, default = default)).color()
 
     /**
      * @return the date/time instant to a displayable formatted string

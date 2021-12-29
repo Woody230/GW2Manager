@@ -12,6 +12,8 @@ import com.bselzer.gw2.manager.common.state.match.description.ChartTitleState
 import com.bselzer.gw2.manager.common.state.match.pie.ChartBackgroundState
 import com.bselzer.gw2.manager.common.state.match.pie.ChartDividerState
 import com.bselzer.gw2.manager.common.state.match.pie.ChartSliceState
+import com.bselzer.gw2.v2.model.enumeration.extension.wvw.type
+import com.bselzer.gw2.v2.model.enumeration.wvw.MapType
 import com.bselzer.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.wvw.ObjectiveOwner.*
 import com.bselzer.gw2.v2.model.extension.wvw.*
@@ -22,46 +24,58 @@ class WvwMatchState(
     private val owners: Collection<ObjectiveOwner> = listOf(BLUE, GREEN, RED)
 ) : Gw2State by state {
     /**
-     * The state of the chart for the number of points earned per tick.
+     * The state of all the charts associated with the match total.
      */
-    private val pointsPerTick: State<ChartState> = derivedStateOf {
-        chart(data = worldMatch.value?.pointsPerTick(), title = "Points Per Tick")
+    val totalCharts: State<Collection<ChartState>> = derivedStateOf {
+        listOf(
+            worldMatch.value?.victoryPoints().vpChart(),
+            worldMatch.value?.pointsPerTick().pptChart(),
+            worldMatch.value?.scores().scoreChart(),
+            worldMatch.value?.kills().killChart(),
+            worldMatch.value?.deaths().deathChart()
+        )
     }
 
     /**
-     * The state of the chart for the total number of victory points for the entire match.
+     * The state of all the charts for each individual map.
      */
-    private val victoryPoints: State<ChartState> = derivedStateOf {
-        chart(data = worldMatch.value?.victoryPoints(), title = "Victory Points")
+    val borderlandCharts: State<Map<MapType?, Collection<ChartState>>> = derivedStateOf {
+        val maps = worldMatch.value?.maps ?: emptyList()
+        maps.associateBy { map -> map.type() }.mapValues { entry ->
+            val map = entry.value
+            listOf(
+                map.pointsPerTick().pptChart(),
+                map.scores().scoreChart(),
+                map.kills().killChart(),
+                map.deaths().deathChart()
+            )
+        }
     }
+
+    /**
+     * The state of the chart for the number of points earned per tick.
+     */
+    private fun Map<out ObjectiveOwner?, Int>?.pptChart() = chart(data = this, title = "Points Per Tick")
+
+    /**
+     * The state of the chart for the number of victory points for the entire match.
+     */
+    private fun Map<out ObjectiveOwner?, Int>?.vpChart() = chart(data = this, title = "Victory Points")
 
     /**
      * The state of the chart for the total score count for the entire match.
      */
-    private val scores: State<ChartState> = derivedStateOf {
-        chart(data = worldMatch.value?.scores(), "Total Score")
-    }
+    private fun Map<out ObjectiveOwner?, Int>?.scoreChart() = chart(data = this, title = "Total Score")
 
     /**
      * The state of the chart for the total number of kills for the entire match.
      */
-    private val kills: State<ChartState> = derivedStateOf {
-        chart(data = worldMatch.value?.kills(), "Total Kills")
-    }
+    private fun Map<out ObjectiveOwner?, Int>?.killChart() = chart(data = this, title = "Total Kills")
 
     /**
      * The state of the chart for the total number of deaths for the entire match.
      */
-    private val deaths: State<ChartState> = derivedStateOf {
-        chart(data = worldMatch.value?.deaths(), "Total Deaths")
-    }
-
-    /**
-     * The state of all the charts associated with the match.
-     */
-    val charts: State<Collection<ChartState>> = derivedStateOf {
-        listOf(pointsPerTick.value, victoryPoints.value, scores.value, kills.value, deaths.value)
-    }
+    private fun Map<out ObjectiveOwner?, Int>?.deathChart() = chart(data = this, title = "Total Deaths")
 
     /**
      * Creates a chart associated with the [data] for each of the [owners].

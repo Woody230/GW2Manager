@@ -21,12 +21,34 @@ import com.bselzer.ktx.function.objects.userFriendly
 
 class WvwMatchState(
     state: Gw2State,
-    private val owners: Collection<ObjectiveOwner> = listOf(BLUE, GREEN, RED)
+    private val owners: Collection<ObjectiveOwner> = listOf(BLUE, GREEN, RED),
+    private val order: Collection<MapType> = listOf(MapType.ETERNAL_BATTLEGROUNDS, MapType.BLUE_BORDERLANDS, MapType.GREEN_BORDERLANDS, MapType.RED_BORDERLANDS)
 ) : Gw2State by state {
+    /**
+     * The state of all the charts: an overview of the match and for each individual map.
+     */
+    val charts: State<List<ChartsState>> = derivedStateOf {
+        val charts = borderlandCharts.value.entries.sortedBy { entry -> order.indexOf(entry.key) }.toMutableList()
+        charts.add(0, object : Map.Entry<MapType?, Collection<ChartState>> {
+            // Add the total charts first as the match overview.
+            override val key: MapType? = null
+            override val value: Collection<ChartState> = overviewCharts.value
+        })
+
+        // Use the map type as the title, otherwise default to the match overview for the null type that was added.
+        charts.map { entry ->
+            ChartsState(
+                title = entry.key?.userFriendly() ?: "Overview",
+                color = configuration.wvw.color(entry.key?.owner()),
+                charts = entry.value.toList()
+            )
+        }
+    }
+
     /**
      * The state of all the charts associated with the match total.
      */
-    val totalCharts: State<Collection<ChartState>> = derivedStateOf {
+    private val overviewCharts: State<Collection<ChartState>> = derivedStateOf {
         listOf(
             worldMatch.value?.victoryPoints().vpChart(),
             worldMatch.value?.pointsPerTick().pptChart(),
@@ -39,7 +61,7 @@ class WvwMatchState(
     /**
      * The state of all the charts for each individual map.
      */
-    val borderlandCharts: State<Map<MapType?, Collection<ChartState>>> = derivedStateOf {
+    private val borderlandCharts: State<Map<MapType?, Collection<ChartState>>> = derivedStateOf {
         val maps = worldMatch.value?.maps ?: emptyList()
         maps.associateBy { map -> map.type() }.mapValues { entry ->
             val map = entry.value

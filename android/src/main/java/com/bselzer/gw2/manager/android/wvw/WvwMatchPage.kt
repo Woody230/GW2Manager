@@ -22,16 +22,14 @@ import com.bselzer.gw2.manager.android.common.BackgroundType
 import com.bselzer.gw2.manager.common.state.WvwHelper.color
 import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.state.match.ChartState
+import com.bselzer.gw2.manager.common.state.match.ChartsState
 import com.bselzer.gw2.manager.common.state.match.WvwMatchState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDataState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDescriptionState
 import com.bselzer.gw2.manager.common.ui.composable.ImageContent
 import com.bselzer.gw2.manager.common.ui.theme.Purple200
-import com.bselzer.gw2.v2.model.enumeration.wvw.MapType
-import com.bselzer.gw2.v2.model.enumeration.wvw.MapType.*
-import com.bselzer.gw2.v2.model.extension.wvw.owner
+import com.bselzer.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.ktx.compose.ui.geometry.ArcShape
-import com.bselzer.ktx.function.objects.userFriendly
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -52,14 +50,7 @@ class WvwMatchPage(
             .verticalScroll(rememberScrollState()),
     ) {
         val (tabs, pager, indicators) = createRefs()
-
-        val order = listOf(ETERNAL_BATTLEGROUNDS, BLUE_BORDERLANDS, GREEN_BORDERLANDS, RED_BORDERLANDS)
-        val allCharts = state.borderlandCharts.value.entries.sortedBy { entry -> order.indexOf(entry.key) }.toMutableList()
-        allCharts.add(0, object : Map.Entry<MapType?, Collection<ChartState>> {
-            // Add the total charts first as the match overview.
-            override val key: MapType? = null
-            override val value: Collection<ChartState> = state.totalCharts.value
-        })
+        val allCharts = state.charts.value
 
         // Lay out the tabs representing each map.
         var selectedIndex by remember { mutableStateOf(0) }
@@ -72,10 +63,10 @@ class WvwMatchPage(
                 end.linkTo(parent.end)
             }
         ) {
-            allCharts.forEachIndexed { index, entry ->
+            // TODO since overview has the extra chart for victory points, feels awkward to swap between overview and a borderland and get a different type of chart
+            allCharts.forEachIndexed { index, charts ->
                 Tab(
-                    // Use the map type as the title, otherwise default to the match overview for the null type that was added.
-                    text = { Text(entry.key?.userFriendly() ?: "Overview") },
+                    text = { Text(text = charts.title) },
                     selected = index == selectedIndex,
                     onClick = { selectedIndex = index }
                 )
@@ -84,10 +75,9 @@ class WvwMatchPage(
 
         // Lay out the charts for the currently selected map.
         val pagerState = rememberPagerState()
-        val entry = allCharts.getOrNull(selectedIndex)
-        val charts = entry?.value?.toList() ?: emptyList()
+        val selectedCharts = allCharts.getOrElse(selectedIndex) { ChartsState(title = "", color = configuration.wvw.color(ObjectiveOwner.NEUTRAL), charts = emptyList()) }
         HorizontalPager(
-            count = charts.size,
+            count = selectedCharts.charts.size,
             state = pagerState,
             modifier = Modifier.constrainAs(pager) {
                 top.linkTo(tabs.bottom, margin = 25.dp)
@@ -101,7 +91,7 @@ class WvwMatchPage(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize()
             ) {
-                PieChart(chart = charts[index])
+                PieChart(chart = selectedCharts.charts[index])
             }
         }
 
@@ -109,7 +99,7 @@ class WvwMatchPage(
         HorizontalPagerIndicator(
             pagerState = pagerState,
             inactiveColor = Purple200,
-            activeColor = configuration.wvw.color(entry?.key?.owner()),
+            activeColor = selectedCharts.color,
             modifier = Modifier.constrainAs(indicators) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)

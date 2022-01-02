@@ -10,9 +10,7 @@ import com.bselzer.gw2.manager.common.state.map.objective.*
 import com.bselzer.gw2.manager.common.state.WvwHelper.color
 import com.bselzer.gw2.manager.common.state.WvwHelper.objective
 import com.bselzer.gw2.manager.common.state.WvwHelper.selectedDateFormatted
-import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.state.core.Gw2State
-import com.bselzer.gw2.manager.common.ui.composable.ImageState
 import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.ContinentFloor
@@ -24,10 +22,7 @@ import com.bselzer.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.wvw.ObjectiveType
 import com.bselzer.gw2.v2.model.extension.continent.continentRectangle
 import com.bselzer.gw2.v2.model.extension.wvw.*
-import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
-import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
-import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.gw2.v2.tile.model.response.Tile
 import com.bselzer.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.ktx.compose.ui.style.Hex
@@ -212,7 +207,7 @@ class WvwMapState(
                 val level = upgrade.level(fromMatch.yaksDelivered)
                 configuration.wvw.objectives.progressions.progression.getOrNull(level)
             }
-            val progressionSize = progression?.size ?: configuration.wvw.objectives.progressions.defaultSize
+            val progressionSize = configuration.wvw.objectives.progressions.indicatorSize
 
             // See if any of the progressed tiers has a permanent waypoint upgrade, or the tactic for the temporary waypoint.
             val hasWaypointUpgrade = tiers.any { tier -> configuration.wvw.objectives.waypoint.upgradeNameRegex.matches(tier.name) }
@@ -227,7 +222,7 @@ class WvwMapState(
                 height = size.height,
                 progression = ProgressionState(
                     enabled = configuration.wvw.objectives.progressions.enabled && progression != null,
-                    link = progression?.iconLink,
+                    link = progression?.indicatorLink,
                     width = progressionSize.width,
                     height = progressionSize.height
                 ),
@@ -249,17 +244,15 @@ class WvwMapState(
                     textSize = configuration.wvw.objectives.immunity.textSize.sp,
                     duration = fromConfig?.immunity ?: configuration.wvw.objectives.immunity.defaultDuration,
                     startTime = fromMatch.lastFlippedAt,
-                    delay = configuration.wvw.objectives.immunity.delay
                 ),
-                image = object : ImageState {
+                image = ObjectiveImageState(
                     // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
-                    override val link = if (objective.iconLink.isBlank()) fromConfig?.defaultIconLink else objective.iconLink
-                    override val description = objective.name
-                    override val color = configuration.wvw.color(fromMatch)
-                    override val width = size.width
-                    override val height = size.height
-                    override val enabled = true
-                }
+                    link = if (objective.iconLink.isBlank()) fromConfig?.defaultIconLink else objective.iconLink,
+                    description = objective.name,
+                    color = configuration.wvw.color(fromMatch),
+                    width = size.width,
+                    height = size.height
+                )
             )
         }
     }

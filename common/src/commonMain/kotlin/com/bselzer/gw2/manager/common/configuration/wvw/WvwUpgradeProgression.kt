@@ -1,14 +1,19 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
-import com.bselzer.gw2.manager.common.configuration.common.Size
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
 class WvwUpgradeProgression(
-    @XmlSerialName(value = "icon", namespace = "", prefix = "")
-    val iconLink: String? = null,
+    /**
+     * The link to the small indicator icon.
+     */
+    @XmlSerialName(value = "indicator", namespace = "", prefix = "")
+    val indicatorLink: String = "",
 
-    @XmlSerialName(value = "Size", namespace = "", prefix = "")
-    val size: Size? = null,
+    /**
+     * The link to the large structure icon.
+     */
+    @XmlSerialName(value = "icon", namespace = "", prefix = "")
+    val iconLink: String = ""
 )

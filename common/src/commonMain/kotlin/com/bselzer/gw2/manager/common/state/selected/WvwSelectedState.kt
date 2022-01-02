@@ -2,18 +2,24 @@ package com.bselzer.gw2.manager.common.state.selected
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import com.bselzer.gw2.manager.common.configuration.wvw.WvwGuildUpgradeTier
 import com.bselzer.gw2.manager.common.state.WvwHelper.color
 import com.bselzer.gw2.manager.common.state.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.common.state.WvwHelper.objective
 import com.bselzer.gw2.manager.common.state.WvwHelper.selectedDateFormatted
 import com.bselzer.gw2.manager.common.state.core.Gw2State
+import com.bselzer.gw2.manager.common.state.selected.guild.GuildUpgradeState
+import com.bselzer.gw2.manager.common.state.selected.guild.GuildUpgradeTierState
 import com.bselzer.gw2.manager.common.state.selected.overview.MapState
 import com.bselzer.gw2.manager.common.state.selected.overview.OverviewState
 import com.bselzer.gw2.manager.common.state.selected.overview.OwnerState
+import com.bselzer.gw2.manager.common.state.selected.upgrade.UpgradeState
+import com.bselzer.gw2.manager.common.state.selected.upgrade.UpgradeTierState
 import com.bselzer.gw2.manager.common.ui.composable.ImageState
 import com.bselzer.gw2.v2.emblem.request.EmblemRequestOptions
 import com.bselzer.gw2.v2.model.enumeration.extension.wvw.mapType
 import com.bselzer.gw2.v2.model.enumeration.extension.wvw.owner
+import com.bselzer.gw2.v2.model.enumeration.extension.wvw.type
 import com.bselzer.gw2.v2.model.extension.wvw.*
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.ktx.function.objects.userFriendly
@@ -36,17 +42,16 @@ class WvwSelectedState(
         val fromMatch = worldMatch.value.objective(objective)
 
         val link = objective.iconLink
-        object : ImageState {
+        ObjectiveImageState(
             // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
-            override val link = if (link.isBlank()) fromConfig?.defaultIconLink else link
-            override val description = objective.name
-            override val color = configuration.wvw.color(fromMatch)
-            override val enabled: Boolean = true
+            link = if (link.isBlank()) fromConfig?.defaultIconLink else link,
+            description = objective.name,
+            color = configuration.wvw.color(fromMatch),
 
             // TODO objective images are mostly 32x32 and look awful as result of being scaled like this
-            override val width = 128
-            override val height = 128
-        }
+            width = 128,
+            height = 128
+        )
     }
 
     /**
@@ -132,5 +137,107 @@ class WvwSelectedState(
             height = size,
             description = "$name Guild Emblem"
         )
+    }
+
+    /**
+     * Whether the upgrade tiers should be displayed.
+     */
+    val shouldShowUpgradeTiers = derivedStateOf {
+        configuration.wvw.objectives.progressions.enabled && automaticUpgradeTiers.value.flatMap { tier -> tier.upgrades }.isNotEmpty()
+    }
+
+    /**
+     * The state of the objective upgrades and its tiers.
+     */
+    val automaticUpgradeTiers: State<Collection<UpgradeTierState>> = derivedStateOf {
+        val objective = selectedObjective.value ?: return@derivedStateOf emptyList<UpgradeTierState>()
+        val selectedUpgrade = upgrades[objective.upgradeId]
+        val fromMatch = worldMatch.value.objective(objective)
+        val yaksDelivered = fromMatch?.yaksDelivered ?: 0
+        val yakRatios = selectedUpgrade?.yakRatios(yaksDelivered = yaksDelivered)?.toList() ?: emptyList()
+        val progressed = selectedUpgrade?.tiers(yaksDelivered = yaksDelivered) ?: emptyList()
+
+        // Skip level 0 which only exists in the configuration.
+        configuration.wvw.objectives.progressions.progression.drop(1).mapIndexedNotNull { index, progression ->
+            val tier = selectedUpgrade?.tiers?.getOrNull(index) ?: return@mapIndexedNotNull null
+            val ratio = yakRatios.getOrNull(index) ?: Pair(0, 0)
+
+            // If the tier is not unlocked, then reduce opacity.
+            val alpha = configuration.alpha(condition = progressed.contains(tier))
+            UpgradeTierState(
+                yakRatio = "${ratio.first}/${ratio.second}",
+                link = progression.iconLink,
+                width = configuration.wvw.objectives.progressions.tierIconSize.width,
+                height = configuration.wvw.objectives.progressions.tierIconSize.height,
+                description = tier.name,
+                alpha = alpha,
+
+                upgrades = tier.upgrades.map { upgrade ->
+                    UpgradeState(
+                        name = upgrade.name,
+                        link = upgrade.iconLink,
+                        description = upgrade.description,
+                        width = configuration.wvw.objectives.progressions.iconSize.width,
+                        height = configuration.wvw.objectives.progressions.iconSize.height,
+                        alpha = alpha
+                    )
+                }
+            )
+        }
+    }
+
+    /**
+     * Whether the guild upgrade improvement tiers should be displayed.
+     */
+    val shouldShowImprovementTiers = derivedStateOf {
+        configuration.wvw.objectives.guildUpgrades.enabled && improvementTiers.value.flatMap { tier -> tier.upgrades }.isNotEmpty()
+    }
+
+    /**
+     * The state of the objective improvements.
+     */
+    val improvementTiers: State<Collection<GuildUpgradeTierState>> = guildUpgradeStates(configuration.wvw.objectives.guildUpgrades.improvements)
+
+    /**
+     * Whether the guild upgrade tactic tiers should be displayed.
+     */
+    val shouldShowTacticTiers = derivedStateOf {
+        configuration.wvw.objectives.guildUpgrades.enabled && tacticTiers.value.flatMap { tier -> tier.upgrades }.isNotEmpty()
+    }
+
+    /**
+     * The state of the objective tactics.
+     */
+    val tacticTiers: State<Collection<GuildUpgradeTierState>> = guildUpgradeStates(configuration.wvw.objectives.guildUpgrades.tactics)
+
+    /**
+     * The state of the objective's guild upgrades.
+     */
+    private fun guildUpgradeStates(tiers: List<WvwGuildUpgradeTier>): State<Collection<GuildUpgradeTierState>> = derivedStateOf {
+        val objective = selectedObjective.value ?: return@derivedStateOf emptyList()
+        val fromMatch = worldMatch.value.objective(objective) ?: return@derivedStateOf emptyList()
+        tiers.map { tier ->
+            GuildUpgradeTierState(
+                holdingPeriod = tier.holdingPeriod,
+                startTime = fromMatch.lastFlippedAt,
+                link = tier.iconLink,
+                width = configuration.wvw.objectives.guildUpgrades.tierSize.width,
+                height = configuration.wvw.objectives.guildUpgrades.tierSize.height,
+                transparency = configuration.transparency,
+
+                // Filtering on objective type to make sure the upgrades are suitable for this kind of objective.
+                upgrades = tier.upgrades.filter { upgrade -> upgrade.objectiveTypes.contains(objective.type()) }.mapNotNull { upgrade ->
+                    // All of the usable guild upgrades need to be configured since the api doesn't provide a list.
+                    val guildUpgrade = guildUpgrades[upgrade.id] ?: return@mapNotNull null
+                    GuildUpgradeState(
+                        link = guildUpgrade.iconLink,
+                        width = configuration.wvw.objectives.guildUpgrades.size.width,
+                        height = configuration.wvw.objectives.guildUpgrades.size.height,
+                        name = guildUpgrade.name,
+                        description = guildUpgrade.description
+                    )
+                }
+            )
+        }
     }
 }

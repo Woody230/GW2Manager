@@ -36,14 +36,15 @@ import com.bselzer.gw2.manager.common.ui.composable.ImageContent
 import com.bselzer.gw2.manager.common.ui.composable.ImageState
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.ktx.compose.ui.unit.toDp
-import kotlinx.coroutines.delay
+import com.bselzer.ktx.datetime.timer.minuteFormat
+import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
 class WvwMapPage(
     navigationIcon: @Composable () -> Unit,
     state: WvwMapState,
 ) : WvwPage<WvwMapState>(navigationIcon, state) {
-    private val page = mutableStateOf(MapPageType.MAP)
+    private val subpage = mutableStateOf(MapPageType.MAP)
 
     private enum class MapPageType {
         MAP,
@@ -51,14 +52,14 @@ class WvwMapPage(
     }
 
     @Composable
-    override fun background(): BackgroundType = when (page.value) {
+    override fun background(): BackgroundType = when (subpage.value) {
         MapPageType.MAP -> BackgroundType.NONE
         MapPageType.SELECTED -> BackgroundType.ABSOLUTE
     }
 
     @Composable
     override fun Gw2State.CoreContent() {
-        var page by page
+        var page by subpage
         when (page) {
             MapPageType.MAP -> {
                 Map()
@@ -96,7 +97,7 @@ class WvwMapPage(
     }
 
     @Composable
-    override fun dropdownIcons(): (@Composable ((Boolean) -> Unit) -> Unit)? = when (page.value) {
+    override fun dropdownIcons(): (@Composable ((Boolean) -> Unit) -> Unit)? = when (subpage.value) {
         MapPageType.MAP -> mapDropdownIcons()
         MapPageType.SELECTED -> null
     }
@@ -340,7 +341,7 @@ class WvwMapPage(
         modifier = modifier.combinedClickable(onLongClick = {
             // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.
             state.selectedObjective.value = objective
-            page.value = MapPageType.SELECTED
+            subpage.value = MapPageType.SELECTED
         }) {
             state.selectedObjective.value = objective
         },
@@ -349,28 +350,21 @@ class WvwMapPage(
     /**
      * Lays out the timer for the amount of time an objective is immune from capture.
      */
-    @OptIn(ExperimentalTime::class)
     @Composable
     private fun ImmunityTimer(modifier: Modifier, immunity: ImmunityState) {
         // If the time has finished or the current time is incorrectly set and thus causing an inflated remaining time, do not display it.
         // For the latter case, while the timers shown will be incorrect they will at the very least not be inflated.
+        val remaining by immunity.remaining.collectAsState(initial = Duration.ZERO)
         val duration = immunity.duration
-        if (!immunity.enabled || !immunity.remaining.isPositive() || duration == null || immunity.remaining > duration) return
+        if (!immunity.enabled || !remaining.isPositive() || duration == null || remaining > duration) return
 
         Text(
-            text = immunity.formattedRemaining,
+            text = remaining.minuteFormat(),
             fontWeight = FontWeight.Bold,
             fontSize = immunity.textSize,
             color = Color.White,
             modifier = modifier.wrapContentSize()
         )
-
-        // Recompose every immunity.delay for an updated timer.
-        var temp by remember { mutableStateOf(Int.MIN_VALUE) }
-        LaunchedEffect(key1 = temp) {
-            delay(immunity.delay)
-            temp += 1
-        }
     }
 
     /**

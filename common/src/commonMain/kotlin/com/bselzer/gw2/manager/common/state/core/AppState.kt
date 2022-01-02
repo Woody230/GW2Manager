@@ -94,6 +94,11 @@ class AppState(
 
             get<WvwCache>().apply {
                 put(findMatch(worldId))
+
+                // Set up all the configured guild upgrades since there is no direct way to know what upgrades are associated with each tier.
+                val improvementIds = configuration.wvw.objectives.guildUpgrades.improvements.flatMap { improvement -> improvement.upgrades.map { upgrade -> upgrade.id } }
+                val tacticIds = configuration.wvw.objectives.guildUpgrades.tactics.flatMap { tactic -> tactic.upgrades.map { upgrade -> upgrade.id } }
+                findGuildUpgrades(ids = improvementIds + tacticIds).forEach { guildUpgrade -> guildUpgrades[guildUpgrade.id] = guildUpgrade }
             }
         }
     }

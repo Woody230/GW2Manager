@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.android.wvw
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.Text
@@ -27,7 +28,6 @@ import com.bselzer.gw2.manager.common.state.match.WvwMatchState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDataState
 import com.bselzer.gw2.manager.common.state.match.description.ChartDescriptionState
 import com.bselzer.gw2.manager.common.ui.composable.ImageContent
-import com.bselzer.gw2.manager.common.ui.theme.Purple200
 import com.bselzer.gw2.v2.model.enumeration.wvw.ObjectiveOwner
 import com.bselzer.ktx.compose.ui.geometry.ArcShape
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -98,7 +98,7 @@ class WvwMatchPage(
         // Lay out the indicators representing each chart for the selected map.
         HorizontalPagerIndicator(
             pagerState = pagerState,
-            inactiveColor = Purple200,
+            inactiveColor = MaterialTheme.colors.primary,
             activeColor = selectedCharts.color,
             modifier = Modifier.constrainAs(indicators) {
                 start.linkTo(parent.start)

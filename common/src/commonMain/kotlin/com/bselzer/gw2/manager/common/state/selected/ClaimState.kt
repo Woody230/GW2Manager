@@ -1,7 +1,7 @@
 package com.bselzer.gw2.manager.common.state.selected
 
 import androidx.compose.ui.graphics.Color
-import com.bselzer.gw2.manager.common.ui.composable.ImageState
+import com.bselzer.gw2.manager.common.ui.composable.ImageStateAdapter
 
 data class ClaimState(
     val claimedAt: String,
@@ -12,4 +12,4 @@ data class ClaimState(
     override val description: String,
     override val enabled: Boolean = true,
     override val color: Color? = null
-) : ImageState
+) : ImageStateAdapter()

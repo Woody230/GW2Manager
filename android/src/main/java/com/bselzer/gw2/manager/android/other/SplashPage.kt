@@ -73,6 +73,8 @@ class SplashPage(
                 setDescription("World vs. World")
                 initializeWvwData()
 
+                // TODO build number has been static for months https://github.com/gw2-api/issues/issues/1
+                // TODO resolve build number from http://assetcdn.101.arenanetworks.com/latest64/101 (see https://github.com/blish-hud/Blish-HUD/blob/6ee229eb456bd20c1ff9ab58775c740be675b247/Blish%20HUD/GameServices/Contexts/CdnInfoContext.cs#L17-L41)
                 setDescription("Build Number")
                 val newId = gw2Client.build.buildId()
                 val buildNumber = commonPref.buildNumber

@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration> <!-- TODO config versioning -->
+<Configuration transparency="0.5"> <!-- TODO config versioning -->
     <!-- TODO cache clearing based on build number/app version -->
     <WorldVsWorld>
         <Objectives>
             <Size height="64" width="64" />
-
-            <!-- Delay of less than a second to attempt to account for other processing. -->
-            <Immunity delay="995"
-                enabled="true"
-                textSize="12" />
+            <Immunity enabled="true" textSize="12" />
 
             <!-- Colors -->
-            <Color
-                owner="Red"
-                type="#ff4d4d" />
-            <Color
-                owner="Blue"
-                type="#00ffff" />
-            <Color
-                owner="Green"
-                type="#4dff4d" />
-            <Color
-                owner="Neutral"
-                type="#888888" />
+            <Color owner="Red" type="#ff4d4d" />
+            <Color owner="Blue" type="#00ffff" />
+            <Color owner="Green" type="#4dff4d" />
+            <Color owner="Neutral" type="#888888" />
 
             <!-- Objectives -->
             <Objective
@@ -50,42 +38,69 @@
 
             <!-- Upgrades -->
             <Upgrades enabled="true">
-                <Size
-                    height="32"
-                    width="32" />
+                <IndicatorSize height="32" width="32" />
+                <IconSize height="128" width="128" />
+                <TierIconSize height="172" width="172" />
 
                 <!-- Progressions -->
                 <Progression /> <!-- Display nothing for level 0. -->
-                <Progression icon="https://assets.gw2dat.com/1324349.png" />
-                <Progression icon="https://assets.gw2dat.com/1324350.png" />
-                <Progression icon="https://assets.gw2dat.com/1324351.png" />
+                <Progression icon="https://woody230.github.io/GW2Manager-CDN/Icons/Secured.png" indicator="https://assets.gw2dat.com/1324349.png" />
+                <Progression icon="https://woody230.github.io/GW2Manager-CDN/Icons/Reinforced.png" indicator="https://assets.gw2dat.com/1324350.png" />
+                <Progression icon="https://woody230.github.io/GW2Manager-CDN/Icons/Fortified.png" indicator="https://assets.gw2dat.com/1324351.png" />
             </Upgrades>
+
+            <!-- Guild Upgrade -->
+            <GuildUpgrades enabled="true">
+                <Size height="128" width="128" />
+                <TierSize height="172" width="172" />
+                <ImprovementTier hold="10m" icon="https://assets.gw2dat.com/1025208.png">
+                    <Improvement name="Sabotage Depot" availability="Camp,Tower,Keep,Castle" id="306" />
+                    <Improvement name="Hardened Gates" availability="Tower,Keep,Castle" id="389" />
+                    <Improvement name="Armored Dolyaks" availability="Camp" id="307" />
+                    <Improvement name="Packed Dolyaks" availability="Camp" id="365" />
+                    <Improvement name="Speedy Dolyaks" availability="Camp" id="562" />
+                </ImprovementTier>
+                <ImprovementTier hold="30m" icon="https://assets.gw2dat.com/1025210.png">
+                    <Improvement name="Iron Guards" availability="Camp,Tower,Keep,Castle" id="147" />
+                    <Improvement name="Hardened Siege" availability="Tower,Keep,Castle" id="329" />
+                </ImprovementTier>
+                <ImprovementTier hold="60m" icon="https://assets.gw2dat.com/1025212.png">
+                    <Improvement name="Auto Turrets" availability="Tower,Keep,Castle" id="183" />
+                    <Improvement name="Watchtower" availability="Tower" id="583" />
+                    <Improvement name="Presence of the Keep" availability="Keep" id="418" />
+                    <Improvement name="Cloaking Waters" availability="Castle" id="168" />
+                </ImprovementTier>
+                <TacticTier hold="10m" icon="https://assets.gw2dat.com/1025208.png">
+                    <Tactic name="Minor Supply Drop" availability="Camp,Tower,Keep,Castle" id="483" />
+                    <Tactic name="Chilling Fog" availability="Camp,Tower,Keep,Castle" id="559" />
+                    <Tactic name="Invulnerable Dolyaks" availability="Camp" id="383" />
+                    <Tactic name="Dune Roller" availability="Camp" id="222" />
+                </TacticTier>
+                <TacticTier hold="30m" icon="https://assets.gw2dat.com/1025210.png">
+                    <Tactic name="Centaur Banner" availability="Tower,Keep,Castle" id="345" />
+                    <Tactic name="Turtle Banner" availability="Tower,Keep,Castle" id="399" />
+                    <Tactic name="Dragon Banner" availability="Tower,Keep,Castle" id="590" />
+                </TacticTier>
+                <TacticTier hold="60m" icon="https://assets.gw2dat.com/1025212.png">
+                    <Tactic name="Emergency Waypoint" availability="Tower,Keep,Castle" id="178" />
+                    <Tactic name="Invulnerable Fortifications" availability="Tower,Keep,Castle" id="513" />
+                    <Tactic name="Airship Defense" availability="Castle" id="298" />
+                </TacticTier>
+            </GuildUpgrades>
 
             <!-- Waypoint Upgrade -->
             <!-- https://api.guildwars2.com/v2/wvw/upgrades/24 -->
             <!-- https://api.guildwars2.com/v2/wvw/upgrades/30 -->
-            <Waypoint
-                enabled="true"
-                icon="https://assets.gw2dat.com/157353.png"
-                upgrade="^Build Waypoint$">
-                <Size
-                    height="32"
-                    width="32" />
+            <Waypoint enabled="true" icon="https://assets.gw2dat.com/157353.png" upgrade="^Build Waypoint$">
+                <Size height="32" width="32" />
 
                 <!-- https://api.guildwars2.com/v2/guild/upgrades/178 -->
-                <Guild
-                    color="#888888"
-                    enabled="true"
-                    upgrade="^Emergency Waypoint$" />
+                <Guild color="#888888" enabled="true" upgrade="^Emergency Waypoint$" />
             </Waypoint>
 
             <!-- Guild Claim -->
-            <Claim
-                enabled="true"
-                icon="https://assets.gw2dat.com/1304078.png">
-                <Size
-                    height="32"
-                    width="32" />
+            <Claim enabled="true" icon="https://assets.gw2dat.com/1304078.png">
+                <Size height="32" width="32" />
             </Claim>
         </Objectives>
         <Map

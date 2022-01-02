@@ -27,7 +27,7 @@ import com.bselzer.gw2.manager.common.state.map.WvwMapState
 import com.bselzer.gw2.manager.common.state.match.WvwMatchState
 import com.bselzer.gw2.manager.common.ui.composable.LocalState
 import com.bselzer.gw2.v2.model.extension.world.WorldId
-import com.bselzer.ktx.compose.effect.PreRepeatedEffect
+import com.bselzer.ktx.compose.effect.PostRepeatedEffect
 import com.bselzer.ktx.compose.ui.appbar.DrawerNavigationIcon
 import com.bselzer.ktx.compose.ui.drawer.DrawerComponent
 import com.bselzer.ktx.compose.ui.drawer.DrawerSection
@@ -72,7 +72,7 @@ class MainPage(
         CurrentDialog()
 
         // TODO maintain last refresh time instead
-        PreRepeatedEffect(delay = runBlocking { wvwPref.refreshInterval.get() }) {
+        PostRepeatedEffect(delay = runBlocking { wvwPref.refreshInterval.get() }) {
             val id = WorldId(wvwPref.selectedWorld.get())
             refreshWvwData(id)
         }

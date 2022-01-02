@@ -1,7 +1,7 @@
 package com.bselzer.gw2.manager.common.state.map
 
 import androidx.compose.ui.graphics.Color
-import com.bselzer.gw2.manager.common.ui.composable.ImageState
+import com.bselzer.gw2.manager.common.ui.composable.ImageStateAdapter
 
 data class BloodlustState(
     override val link: String,
@@ -12,4 +12,4 @@ data class BloodlustState(
     override val color: Color,
     override val description: String,
     override val enabled: Boolean
-) : ImageState
+) : ImageStateAdapter()

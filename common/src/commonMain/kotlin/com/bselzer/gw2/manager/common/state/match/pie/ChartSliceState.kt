@@ -1,7 +1,7 @@
 package com.bselzer.gw2.manager.common.state.match.pie
 
 import androidx.compose.ui.graphics.Color
-import com.bselzer.gw2.manager.common.ui.composable.ImageState
+import com.bselzer.gw2.manager.common.ui.composable.ImageStateAdapter
 
 data class ChartSliceState(
     override val link: String,
@@ -20,4 +20,4 @@ data class ChartSliceState(
      * The ending angle in degrees.
      */
     val endAngle: Float,
-) : ImageState
+) : ImageStateAdapter()

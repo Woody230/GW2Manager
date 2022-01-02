@@ -1,13 +1,12 @@
-package com.bselzer.gw2.manager.common.state.map.objective
+package com.bselzer.gw2.manager.common.state.selected
 
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.ui.composable.ImageStateAdapter
 
-data class WaypointState(
-    override val enabled: Boolean,
+data class ObjectiveImageState(
     override val link: String?,
-    override val description: String = "Waypoint",
     override val width: Int,
     override val height: Int,
-    override val color: Color?
+    override val description: String?,
+    override val color: Color,
 ) : ImageStateAdapter()

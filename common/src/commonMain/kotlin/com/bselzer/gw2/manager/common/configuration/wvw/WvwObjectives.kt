@@ -51,6 +51,12 @@ class WvwObjectives(
     val progressions: WvwUpgradeProgressions = WvwUpgradeProgressions(),
 
     /**
+     * Information related to guild upgrade tier progression.
+     */
+    @XmlSerialName(value = "GuildUpgrades", namespace = "", prefix = "")
+    val guildUpgrades: WvwGuildUpgrades = WvwGuildUpgrades(),
+
+    /**
      * Information related to the waypoint upgrade/tactic.
      */
     @XmlSerialName(value = "Waypoint", namespace = "", prefix = "")

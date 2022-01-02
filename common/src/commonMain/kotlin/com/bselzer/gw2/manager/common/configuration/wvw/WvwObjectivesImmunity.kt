@@ -23,10 +23,4 @@ class WvwObjectivesImmunity(
      */
     @XmlSerialName(value = "textSize", namespace = "", prefix = "")
     val textSize: Float = 8f,
-
-    /**
-     * The countdown delay in milliseconds. Defaults to a second.
-     */
-    @XmlSerialName(value = "delay", namespace = "", prefix = "")
-    val delay: Long = 1000
 )

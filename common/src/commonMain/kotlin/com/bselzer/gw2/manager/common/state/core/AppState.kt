@@ -130,7 +130,7 @@ class AppState(
             return@withContext
         }
 
-        guilds[id] = gw2Cache.instance {
+        guilds[id] = gw2Cache.lockedInstance {
             get<GuildCache>().getGuild(id)
         }
     }

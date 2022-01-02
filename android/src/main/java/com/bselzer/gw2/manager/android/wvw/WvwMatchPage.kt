@@ -56,7 +56,6 @@ class WvwMatchPage(
         var selectedIndex by remember { mutableStateOf(0) }
         ScrollableTabRow(
             selectedTabIndex = selectedIndex,
-            indicator = { },
             modifier = Modifier.constrainAs(tabs) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)

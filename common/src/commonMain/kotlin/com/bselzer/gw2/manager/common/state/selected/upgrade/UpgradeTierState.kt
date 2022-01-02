@@ -3,7 +3,6 @@ package com.bselzer.gw2.manager.common.state.selected.upgrade
 import com.bselzer.gw2.manager.common.ui.composable.ImageStateAdapter
 
 data class UpgradeTierState(
-    val yakRatio: String,
     override val link: String?,
     override val width: Int,
     override val height: Int,

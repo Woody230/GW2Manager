@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.state.selected.guild
+package com.bselzer.gw2.manager.common.state.selected.upgrade
 
 import androidx.compose.ui.graphics.DefaultAlpha
 import com.bselzer.gw2.manager.common.ui.composable.ImageStateAdapter
@@ -16,21 +16,18 @@ data class GuildUpgradeTierState(
     override val height: Int,
     override val width: Int,
     val transparency: Float,
-    val upgrades: Collection<GuildUpgradeState>
+    val upgrades: Collection<UpgradeState>
 ) : ImageStateAdapter() {
-    override var alpha: Float = DefaultAlpha
+    override var alpha: Float = if (startTime != null) DefaultAlpha else transparency
 
     /**
      * The amount of time until the tier is unlocked.
      * Transparency is reduced until the timer is complete.
      */
-    val remaining: Flow<Duration> = countdown(startTime = startTime ?: Instant.DISTANT_PAST, duration = holdingPeriod).onStart {
-        alpha = transparency
-        upgrades.forEach { upgrade -> upgrade.alpha = transparency }
-    }.onCompletion {
-        alpha = DefaultAlpha
+    val remaining: Flow<Duration> = countdown(
+        startTime = startTime ?: Instant.DISTANT_PAST,
 
-        // TODO only do full opacity when the upgrade is slotted
-        upgrades.forEach { upgrade -> upgrade.alpha = DefaultAlpha }
-    }
+        // If there is no start time then there must be no claim so the tier will be locked indefinitely.
+        duration = if (startTime == null) Duration.INFINITE else holdingPeriod
+    ).onStart { alpha = transparency }.onCompletion { alpha = DefaultAlpha }
 }

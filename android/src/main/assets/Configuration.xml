@@ -61,7 +61,7 @@
                     <Improvement name="Speedy Dolyaks" availability="Camp" id="562" />
                 </ImprovementTier>
                 <ImprovementTier hold="30m" icon="https://assets.gw2dat.com/1025210.png">
-                    <Improvement name="Iron Guards" availability="Camp,Tower,Keep,Castle" id="147" />
+                    <Improvement name="Iron Guards" availability="Tower,Keep,Castle" id="147" />
                     <Improvement name="Hardened Siege" availability="Tower,Keep,Castle" id="329" />
                 </ImprovementTier>
                 <ImprovementTier hold="60m" icon="https://assets.gw2dat.com/1025212.png">

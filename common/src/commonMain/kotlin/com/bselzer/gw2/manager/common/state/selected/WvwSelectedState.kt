@@ -2,17 +2,17 @@ package com.bselzer.gw2.manager.common.state.selected
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.ui.graphics.DefaultAlpha
 import com.bselzer.gw2.manager.common.configuration.wvw.WvwGuildUpgradeTier
 import com.bselzer.gw2.manager.common.state.WvwHelper.color
 import com.bselzer.gw2.manager.common.state.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.common.state.WvwHelper.objective
 import com.bselzer.gw2.manager.common.state.WvwHelper.selectedDateFormatted
 import com.bselzer.gw2.manager.common.state.core.Gw2State
-import com.bselzer.gw2.manager.common.state.selected.guild.GuildUpgradeState
-import com.bselzer.gw2.manager.common.state.selected.guild.GuildUpgradeTierState
 import com.bselzer.gw2.manager.common.state.selected.overview.MapState
 import com.bselzer.gw2.manager.common.state.selected.overview.OverviewState
 import com.bselzer.gw2.manager.common.state.selected.overview.OwnerState
+import com.bselzer.gw2.manager.common.state.selected.upgrade.GuildUpgradeTierState
 import com.bselzer.gw2.manager.common.state.selected.upgrade.UpgradeState
 import com.bselzer.gw2.manager.common.state.selected.upgrade.UpgradeTierState
 import com.bselzer.gw2.manager.common.ui.composable.ImageState
@@ -160,16 +160,15 @@ class WvwSelectedState(
         // Skip level 0 which only exists in the configuration.
         configuration.wvw.objectives.progressions.progression.drop(1).mapIndexedNotNull { index, progression ->
             val tier = selectedUpgrade?.tiers?.getOrNull(index) ?: return@mapIndexedNotNull null
-            val ratio = yakRatios.getOrNull(index) ?: Pair(0, 0)
+            val yakRatio = yakRatios.getOrNull(index) ?: Pair(0, 0)
 
             // If the tier is not unlocked, then reduce opacity.
             val alpha = configuration.alpha(condition = progressed.contains(tier))
             UpgradeTierState(
-                yakRatio = "${ratio.first}/${ratio.second}",
                 link = progression.iconLink,
                 width = configuration.wvw.objectives.progressions.tierIconSize.width,
                 height = configuration.wvw.objectives.progressions.tierIconSize.height,
-                description = tier.name,
+                description = "${tier.name} (${yakRatio.first}/${yakRatio.second})",
                 alpha = alpha,
 
                 upgrades = tier.upgrades.map { upgrade ->
@@ -183,7 +182,7 @@ class WvwSelectedState(
                     )
                 }
             )
-        }
+        }.filter { tier -> tier.upgrades.isNotEmpty() }
     }
 
     /**
@@ -215,11 +214,14 @@ class WvwSelectedState(
      */
     private fun guildUpgradeStates(tiers: List<WvwGuildUpgradeTier>): State<Collection<GuildUpgradeTierState>> = derivedStateOf {
         val objective = selectedObjective.value ?: return@derivedStateOf emptyList()
-        val fromMatch = worldMatch.value.objective(objective) ?: return@derivedStateOf emptyList()
+        val fromMatch = worldMatch.value.objective(objective)
         tiers.map { tier ->
             GuildUpgradeTierState(
                 holdingPeriod = tier.holdingPeriod,
-                startTime = fromMatch.lastFlippedAt,
+
+                // Note that the holding period starts from the claim time, NOT from the capture time.
+                startTime = fromMatch?.claimedAt,
+
                 link = tier.iconLink,
                 width = configuration.wvw.objectives.guildUpgrades.tierSize.width,
                 height = configuration.wvw.objectives.guildUpgrades.tierSize.height,
@@ -229,15 +231,18 @@ class WvwSelectedState(
                 upgrades = tier.upgrades.filter { upgrade -> upgrade.objectiveTypes.contains(objective.type()) }.mapNotNull { upgrade ->
                     // All of the usable guild upgrades need to be configured since the api doesn't provide a list.
                     val guildUpgrade = guildUpgrades[upgrade.id] ?: return@mapNotNull null
-                    GuildUpgradeState(
+                    UpgradeState(
                         link = guildUpgrade.iconLink,
                         width = configuration.wvw.objectives.guildUpgrades.size.width,
                         height = configuration.wvw.objectives.guildUpgrades.size.height,
                         name = guildUpgrade.name,
-                        description = guildUpgrade.description
+                        description = guildUpgrade.description,
+
+                        // If the upgrade is slotted then provide full opacity.
+                        alpha = if (fromMatch?.guildUpgradeIds?.contains(upgrade.id) == true) DefaultAlpha else configuration.transparency
                     )
                 }
             )
-        }
+        }.filter { tier -> tier.upgrades.isNotEmpty() }
     }
 }

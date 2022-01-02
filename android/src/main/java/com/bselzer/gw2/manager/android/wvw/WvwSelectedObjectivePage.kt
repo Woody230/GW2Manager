@@ -22,6 +22,8 @@ import com.bselzer.gw2.manager.common.state.selected.ClaimState
 import com.bselzer.gw2.manager.common.state.selected.SelectedDataState
 import com.bselzer.gw2.manager.common.state.selected.WvwSelectedState
 import com.bselzer.gw2.manager.common.state.selected.overview.OverviewState
+import com.bselzer.gw2.manager.common.state.selected.upgrade.GuildUpgradeTierState
+import com.bselzer.gw2.manager.common.state.selected.upgrade.UpgradeState
 import com.bselzer.gw2.manager.common.ui.composable.ImageContent
 import com.bselzer.gw2.manager.common.ui.composable.ImageState
 import com.bselzer.ktx.compose.ui.appbar.ExpansionIcon
@@ -49,7 +51,6 @@ class WvwSelectedObjectivePage(
         val tabs = currentTabs()
         ScrollableTabRow(
             selectedTabIndex = selectedIndex,
-            indicator = { },
             modifier = Modifier.fillMaxWidth()
         ) {
             tabs.forEachIndexed { index, tab ->
@@ -62,41 +63,10 @@ class WvwSelectedObjectivePage(
         }
 
         when (tabs[selectedIndex]) {
-            DETAILS -> ContentColumn(
-                { state.image.value?.ImageContent() },
-                { state.overview.value?.let { InfoCard { Overview(it) } } },
-                { state.data.value?.let { InfoCard { Data(it) } } },
-                { state.claim.value?.let { InfoCard { Claim(it) } } }
-            )
-            AUTOMATIC_UPGRADES -> ContentColumn(
-                contents = state.automaticUpgradeTiers.value.map { tier ->
-                    tierCard(
-                        tierIcon = tier,
-                        tierDescription = "${tier.description} (${tier.yakRatio})",
-                        upgradeContent = tier.upgrades.map { upgrade -> upgrade(image = upgrade, name = upgrade.name, description = upgrade.description) }
-                    )
-                }.toTypedArray()
-            )
-            GUILD_IMPROVEMENTS -> ContentColumn(
-                contents = state.improvementTiers.value.map { tier ->
-                    val remaining by tier.remaining.collectAsState(initial = tier.holdingPeriod)
-                    tierCard(
-                        tierIcon = tier,
-                        tierDescription = if (remaining.isPositive()) "Hold for ${remaining.minuteFormat()}" else "Held for ${tier.holdingPeriod.minuteFormat()}",
-                        upgradeContent = tier.upgrades.map { upgrade -> upgrade(image = upgrade, name = upgrade.name, description = upgrade.description) }
-                    )
-                }.toTypedArray()
-            )
-            GUILD_TACTICS -> ContentColumn(
-                contents = state.tacticTiers.value.map { tier ->
-                    val remaining by tier.remaining.collectAsState(initial = tier.holdingPeriod)
-                    tierCard(
-                        tierIcon = tier,
-                        tierDescription = if (remaining.isPositive()) "Hold for ${remaining.minuteFormat()}" else "Held for ${tier.holdingPeriod.minuteFormat()}",
-                        upgradeContent = tier.upgrades.map { upgrade -> upgrade(image = upgrade, name = upgrade.name, description = upgrade.description) }
-                    )
-                }.toTypedArray()
-            )
+            DETAILS -> DetailsColumn()
+            AUTOMATIC_UPGRADES -> AutomaticUpgradeColumn()
+            GUILD_IMPROVEMENTS -> GuildUpgradeColumn(tiers = state.improvementTiers.value)
+            GUILD_TACTICS -> GuildUpgradeColumn(tiers = state.tacticTiers.value)
         }
     }
 
@@ -121,6 +91,9 @@ class WvwSelectedObjectivePage(
         }
     }
 
+    /**
+     * Lays out a column for wrapping the content of each [ObjectivePageType].
+     */
     @Composable
     private fun ContentColumn(vararg contents: @Composable ColumnScope.() -> Unit) = DividedColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -131,19 +104,73 @@ class WvwSelectedObjectivePage(
         contents = contents
     )
 
+    /**
+     * Lays out the core details of the objective.
+     */
     @Composable
-    private fun tierCard(
+    private fun DetailsColumn() = ContentColumn(
+        { state.image.value?.ImageContent() },
+        { state.overview.value?.let { InfoCard { Overview(it) } } },
+        { state.data.value?.let { InfoCard { Data(it) } } },
+        { state.claim.value?.let { InfoCard { Claim(it) } } }
+    )
+
+    /**
+     * Lays out the column for automatic upgrades.
+     */
+    @Composable
+    private fun AutomaticUpgradeColumn() = ContentColumn(
+        contents = state.automaticUpgradeTiers.value.map { tier ->
+            upgradeTierCard(
+                tierIcon = tier,
+                tierDescription = tier.description,
+                upgrades = tier.upgrades
+            )
+        }.toTypedArray()
+    )
+
+    /**
+     * Lays out the column for guild upgrades.
+     */
+    @Composable
+    private fun GuildUpgradeColumn(tiers: Collection<GuildUpgradeTierState>) = ContentColumn(
+        contents = tiers.map { tier ->
+            val description: String = if (tier.startTime == null) {
+                // If there is no time, then there must be no claim.
+                "Not Claimed"
+            } else {
+                val remaining by tier.remaining.collectAsState(initial = tier.holdingPeriod)
+
+                // If there is remaining time then display it, otherwise display the amount of time that was needed for this tier to unlock.
+                if (remaining.isPositive()) "Hold for ${remaining.minuteFormat()}" else "Held for ${tier.holdingPeriod.minuteFormat()}"
+            }
+
+            upgradeTierCard(
+                tierIcon = tier,
+                tierDescription = description,
+                upgrades = tier.upgrades
+            )
+        }.toTypedArray()
+    )
+
+    /**
+     * Lays out a card wrapping the tier header with the ability to expand to display the associated upgrades.
+     */
+    @Composable
+    private fun upgradeTierCard(
         tierIcon: ImageState,
         tierDescription: String,
-        upgradeContent: Collection<@Composable ColumnScope.() -> Unit>
+        upgrades: Collection<UpgradeState>
     ): @Composable ColumnScope.() -> Unit = {
         val isExpanded = remember { mutableStateOf(false) }
         InfoCard(
             modifier = Modifier
         ) {
+            // TODO (un)lock icon?
             val contents = mutableListOf(upgradeTier(image = tierIcon, description = tierDescription, isExpanded = isExpanded))
             if (isExpanded.value) {
-                contents.addAll(upgradeContent)
+                // Only show the upgrade content when expanded to save space.
+                contents.addAll(upgrades.map { upgrade -> upgrade(image = upgrade, name = upgrade.name, description = upgrade.description) })
             }
 
             DividedColumn(
@@ -235,6 +262,9 @@ class WvwSelectedObjectivePage(
         claim.ImageContent()
     }
 
+    /**
+     * Lays out the header representing a tier of upgrades.
+     */
     @Composable
     private fun upgradeTier(image: ImageState, description: String, isExpanded: MutableState<Boolean>): @Composable ColumnScope.() -> Unit = {
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
@@ -259,6 +289,9 @@ class WvwSelectedObjectivePage(
         }
     }
 
+    /**
+     * Lays out the image and description of an individual upgrade.
+     */
     @Composable
     private fun upgrade(image: ImageState, name: String, description: String): @Composable ColumnScope.() -> Unit = {
         Row(

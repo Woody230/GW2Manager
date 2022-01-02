@@ -23,9 +23,7 @@ import com.bselzer.gw2.v2.model.enumeration.extension.wvw.type
 import com.bselzer.gw2.v2.model.extension.wvw.*
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.ktx.function.objects.userFriendly
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.bselzer.ktx.logging.Logger
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -117,10 +115,7 @@ class WvwSelectedState(
         val guildId = fromMatch.claimedBy ?: return@derivedStateOf null
         val guild = guilds[guildId]
         if (guild == null) {
-            // Attempt to reconcile the missing data.
-            CoroutineScope(Dispatchers.IO).launch {
-                refreshGuild(guildId)
-            }
+            Logger.w("Attempting to find the claim for a missing guild with id $guildId")
             return@derivedStateOf null
         }
 
@@ -159,11 +154,15 @@ class WvwSelectedState(
 
         // Skip level 0 which only exists in the configuration.
         configuration.wvw.objectives.progressions.progression.drop(1).mapIndexedNotNull { index, progression ->
-            val tier = selectedUpgrade?.tiers?.getOrNull(index) ?: return@mapIndexedNotNull null
-            val yakRatio = yakRatios.getOrNull(index) ?: Pair(0, 0)
+            val tier = selectedUpgrade?.tiers?.getOrNull(index)
+            if (tier == null) {
+                Logger.w("Attempting to get a missing upgrade tier with index $index when there are ${selectedUpgrade?.tiers?.size ?: 0} tiers.")
+                return@mapIndexedNotNull null
+            }
 
             // If the tier is not unlocked, then reduce opacity.
             val alpha = configuration.alpha(condition = progressed.contains(tier))
+            val yakRatio = yakRatios.getOrNull(index) ?: Pair(0, 0)
             UpgradeTierState(
                 link = progression.iconLink,
                 width = configuration.wvw.objectives.progressions.tierIconSize.width,
@@ -230,7 +229,12 @@ class WvwSelectedState(
                 // Filtering on objective type to make sure the upgrades are suitable for this kind of objective.
                 upgrades = tier.upgrades.filter { upgrade -> upgrade.objectiveTypes.contains(objective.type()) }.mapNotNull { upgrade ->
                     // All of the usable guild upgrades need to be configured since the api doesn't provide a list.
-                    val guildUpgrade = guildUpgrades[upgrade.id] ?: return@mapNotNull null
+                    val guildUpgrade = guildUpgrades[upgrade.id]
+                    if (guildUpgrade == null) {
+                        Logger.w("Attempting to determine the state of a missing guild upgrade with id ${upgrade.id}")
+                        return@mapNotNull null
+                    }
+
                     UpgradeState(
                         link = guildUpgrade.iconLink,
                         width = configuration.wvw.objectives.guildUpgrades.size.width,

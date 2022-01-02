@@ -34,9 +34,13 @@ import com.bselzer.gw2.manager.common.state.map.objective.ObjectiveState
 import com.bselzer.gw2.manager.common.state.selected.WvwSelectedState
 import com.bselzer.gw2.manager.common.ui.composable.ImageContent
 import com.bselzer.gw2.manager.common.ui.composable.ImageState
+import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.datetime.timer.minuteFormat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
@@ -342,6 +346,11 @@ class WvwMapPage(
             // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.
             state.selectedObjective.value = objective
             subpage.value = MapPageType.SELECTED
+
+            // Refresh the guild so that the claim information can be displayed on the selected objective page.
+            CoroutineScope(Dispatchers.IO).launch {
+                state.refreshGuild(state.worldMatch.value.objective(objective)?.claimedBy)
+            }
         }) {
             state.selectedObjective.value = objective
         },

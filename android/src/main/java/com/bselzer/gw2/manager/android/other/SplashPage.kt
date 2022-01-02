@@ -19,6 +19,7 @@ import com.bselzer.gw2.manager.android.common.NavigatePage
 import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.state.core.PageType
 import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.ktx.logging.Logger
 
 class SplashPage(
     navigationIcon: @Composable () -> Unit
@@ -73,12 +74,18 @@ class SplashPage(
                 setDescription("World vs. World")
                 initializeWvwData()
 
-                // TODO build number has been static for months https://github.com/gw2-api/issues/issues/1
-                // TODO resolve build number from http://assetcdn.101.arenanetworks.com/latest64/101 (see https://github.com/blish-hud/Blish-HUD/blob/6ee229eb456bd20c1ff9ab58775c740be675b247/Blish%20HUD/GameServices/Contexts/CdnInfoContext.cs#L17-L41)
+                // Build number has been static for months https://github.com/gw2-api/issues/issues/1 and have to use assetcdn
                 setDescription("Build Number")
-                val newId = gw2Client.build.buildId()
+                var newId = assetCdnClient.latest().id
+                if (newId <= 0) {
+                    Logger.w("Asset CDN build id is not valid. Defaulting to the api.")
+                    newId = gw2Client.build.buildId()
+                }
+
                 val buildNumber = commonPref.buildNumber
-                if (newId > buildNumber.get()) {
+                val oldId = buildNumber.get()
+                Logger.d("Old build id: $oldId | New build id: $newId")
+                if (newId > oldId) {
                     buildNumber.set(newId)
                 }
             } finally {

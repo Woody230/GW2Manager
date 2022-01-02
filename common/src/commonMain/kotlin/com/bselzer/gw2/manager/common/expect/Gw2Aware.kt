@@ -9,6 +9,7 @@ import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
 import com.bselzer.gw2.manager.common.ui.composable.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
+import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.gw2.v2.client.client.Gw2Client
 import com.bselzer.gw2.v2.emblem.client.EmblemClient
@@ -30,6 +31,7 @@ interface Gw2Aware : DIAware {
     val tileCache: TileCache
     val imageCache: ImageCache
     val emblemClient: EmblemClient
+    val assetCdnClient: AssetCdnClient
     val configuration: Configuration
     val commonPref: CommonPreference
     val wvwPref: WvwPreference
@@ -50,6 +52,7 @@ fun DI.gw2Aware() = object : Gw2Aware {
     override val tileCache by instance<TileCache>()
     override val imageCache by instance<ImageCache>()
     override val emblemClient by instance<EmblemClient>()
+    override val assetCdnClient: AssetCdnClient by instance<AssetCdnClient>()
     override val configuration by instance<Configuration>()
     override val commonPref by instance<CommonPreference>()
     override val wvwPref by instance<WvwPreference>()

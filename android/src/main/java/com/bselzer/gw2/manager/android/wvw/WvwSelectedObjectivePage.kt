@@ -109,6 +109,7 @@ class WvwSelectedObjectivePage(
      */
     @Composable
     private fun DetailsColumn() = ContentColumn(
+        // TODO chat link?
         { state.image.value?.ImageContent() },
         { state.overview.value?.let { InfoCard { Overview(it) } } },
         { state.data.value?.let { InfoCard { Data(it) } } },

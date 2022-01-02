@@ -1,6 +1,7 @@
 package com.bselzer.gw2.manager.common.state.core
 
 import androidx.compose.runtime.*
+import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.expect.Gw2Aware
 import com.bselzer.gw2.manager.common.preference.CommonPreference
@@ -42,6 +43,7 @@ class AppState(
     override val tileCache: TileCache = aware.tileCache
     override val imageCache: ImageCache = aware.imageCache
     override val emblemClient: EmblemClient = aware.emblemClient
+    override val assetCdnClient: AssetCdnClient = aware.assetCdnClient
     override val configuration: Configuration = aware.configuration
     override val commonPref: CommonPreference = aware.commonPref
     override val wvwPref: WvwPreference = aware.wvwPref

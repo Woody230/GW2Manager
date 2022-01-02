@@ -42,6 +42,7 @@ kotlin {
                 api("com.bselzer.ktx:settings-compose:$extensionVersion")
 
                 // GW2 API Wrapper
+                api("com.bselzer.gw2:asset-cdn:$wrapperVersion")
                 api("com.bselzer.gw2:v2-client:$wrapperVersion")
                 api("com.bselzer.gw2:v2-model:$wrapperVersion")
                 api("com.bselzer.gw2:v2-model-extension:$wrapperVersion")

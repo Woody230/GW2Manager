@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.common.expect
 
+import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
@@ -17,7 +18,6 @@ import com.bselzer.ktx.compose.image.cache.instance.ImageCache
 import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
-import io.ktor.client.*
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
@@ -140,7 +140,8 @@ abstract class App : DIAware {
         bindSingleton { Gw2CacheProvider(instance()).apply { inject(instance()) } }
         bindSingleton { TileClient(instance()) }
         bindSingleton { TileCache(instance(), instance()) }
-        bindSingleton { com.bselzer.gw2.v2.emblem.client.EmblemClient(instance<HttpClient>()) }
+        bindSingleton { com.bselzer.gw2.v2.emblem.client.EmblemClient(instance()) }
+        bindSingleton { AssetCdnClient(instance()) }
     }
 
     /**

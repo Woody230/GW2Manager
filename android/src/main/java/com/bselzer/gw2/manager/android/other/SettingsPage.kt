@@ -32,6 +32,7 @@ import com.bselzer.ktx.compose.ui.style.withColor
 import com.bselzer.ktx.coroutine.showToast
 import com.bselzer.ktx.function.objects.userFriendly
 import com.bselzer.ktx.logging.Logger
+import com.bselzer.ktx.settings.compose.defaultState
 import com.bselzer.ktx.settings.compose.nullState
 import io.ktor.client.features.*
 import io.ktor.client.statement.*
@@ -152,18 +153,14 @@ class SettingsPage(
     @OptIn(ExperimentalTime::class)
     @Composable
     private fun Gw2State.RefreshIntervalPreference() {
-        var refreshInterval by wvwPref.refreshInterval.nullState()
-        val initial = wvwPref.refreshInterval.defaultValue
-        val initialUnit = wvwPref.refreshIntervalDefaultUnit
-        val value = refreshInterval ?: initial
-
+        var refreshInterval by wvwPref.refreshInterval.defaultState()
         DurationDialogPreference(
             onStateChanged = { refreshInterval = it },
             iconPainter = painterResource(id = R.drawable.gw2_concentration),
             title = "Refresh Interval",
-            subtitle = value.toString(),
-            initialAmount = initial.toInt(initialUnit),
-            initialUnit = initialUnit,
+            subtitle = refreshInterval.toString(),
+            initialAmount = wvwPref.refreshInterval.initialAmount,
+            initialUnit = wvwPref.refreshInterval.initialUnit,
             minimum = 30.seconds,
             units = listOf(DurationUnit.SECONDS, DurationUnit.MINUTES, DurationUnit.HOURS, DurationUnit.DAYS)
         )

@@ -46,8 +46,7 @@ class WvwMatchPage(
     @Composable
     override fun Gw2State.CoreContent() = ConstraintLayout(
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .fillMaxSize(),
     ) {
         val (tabs, pager, indicators) = createRefs()
         val allCharts = state.charts.value
@@ -78,13 +77,15 @@ class WvwMatchPage(
         HorizontalPager(
             count = selectedCharts.charts.size,
             state = pagerState,
-            modifier = Modifier.constrainAs(pager) {
-                top.linkTo(tabs.bottom, margin = 25.dp)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                bottom.linkTo(indicators.top, margin = 10.dp)
-                height = Dimension.fillToConstraints
-            }
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .constrainAs(pager) {
+                    top.linkTo(tabs.bottom, margin = 5.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(indicators.top, margin = 5.dp)
+                    height = Dimension.fillToConstraints
+                }
         ) { index ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -102,7 +103,7 @@ class WvwMatchPage(
             modifier = Modifier.constrainAs(indicators) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
-                bottom.linkTo(parent.bottom, margin = 25.dp)
+                bottom.linkTo(parent.bottom, margin = 5.dp)
             }
         )
     }

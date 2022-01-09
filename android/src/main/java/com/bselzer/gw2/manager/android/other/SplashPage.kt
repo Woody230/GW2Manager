@@ -1,8 +1,8 @@
 package com.bselzer.gw2.manager.android.other
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -46,16 +46,21 @@ class SplashPage(
      * Lays out the download indicator.
      */
     @Composable
-    private fun Downloading(description: String) = RelativeBackgroundColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+    private fun Downloading(description: String) = Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth(),
     ) {
-        Text(
-            text = description,
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold
-        )
+        RelativeBackground(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(
+                text = description,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
         ProgressIndicator()
     }
 

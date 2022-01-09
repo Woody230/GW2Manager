@@ -59,14 +59,17 @@ class AppState(
     override val currentDialog = mutableStateOf<DialogType?>(null)
 
     override fun changePage(page: PageType) {
+        Logger.d("Changing the current page from ${currentPage.value} to $page.")
         currentPage.value = page
     }
 
     override fun changeDialog(dialog: DialogType) {
+        Logger.d("Changing the current dialog from ${currentDialog.value} to $dialog.")
         currentDialog.value = dialog
     }
 
     override fun clearDialog() {
+        Logger.d("Clearing the current dialog from ${currentDialog.value}.")
         currentDialog.value = null
     }
 

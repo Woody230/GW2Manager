@@ -89,6 +89,7 @@ class SplashPage(
                     buildNumber.set(newId)
                 }*/
             } finally {
+                // TODO last page
                 changePage(PageType.MODULE)
             }
         }

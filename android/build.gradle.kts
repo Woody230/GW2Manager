@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -6,9 +8,21 @@ plugins {
     id("com.mikepenz.aboutlibraries.plugin")
 }
 
+val localProperties = gradleLocalProperties(rootDir)
 android {
-    compileSdk = 31
+    val hasStoreFile = localProperties.containsKey("storeFile")
+    if (hasStoreFile) {
+        signingConfigs {
+            create("release") {
+                storeFile = file(localProperties["storeFile"] ?: throw NotImplementedError("Set the store file in local properties."))
+                storePassword = localProperties["storePassword"]?.toString() ?: throw NotImplementedError("Set the store password in local properties.")
+                keyPassword = localProperties["keyPassword"]?.toString() ?: throw NotImplementedError("Set the key password in local properties.")
+                keyAlias = localProperties["keyAlias"]?.toString() ?: throw NotImplementedError("Set the key alias in local properties.")
+            }
+        }
+    }
 
+    compileSdk = 31
     defaultConfig {
         applicationId = "com.bselzer.gw2.manager.android"
         minSdk = 21
@@ -24,6 +38,10 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            if (hasStoreFile) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
     compileOptions {

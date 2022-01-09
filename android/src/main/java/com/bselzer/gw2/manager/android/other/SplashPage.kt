@@ -19,7 +19,6 @@ import com.bselzer.gw2.manager.android.common.NavigatePage
 import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.state.core.PageType
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.ktx.logging.Logger
 
 class SplashPage(
     navigationIcon: @Composable () -> Unit
@@ -75,7 +74,8 @@ class SplashPage(
                 initializeWvwData()
 
                 // Build number has been static for months https://github.com/gw2-api/issues/issues/1 and have to use assetcdn
-                setDescription("Build Number")
+                // TODO enable build number when it becomes necessary
+                /*setDescription("Build Number")
                 var newId = assetCdnClient.latest().id
                 if (newId <= 0) {
                     Logger.w("Asset CDN build id is not valid. Defaulting to the api.")
@@ -87,7 +87,7 @@ class SplashPage(
                 Logger.d("Old build id: $oldId | New build id: $newId")
                 if (newId > oldId) {
                     buildNumber.set(newId)
-                }
+                }*/
             } finally {
                 changePage(PageType.MODULE)
             }

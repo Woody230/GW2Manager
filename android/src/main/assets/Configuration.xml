@@ -13,28 +13,14 @@
             <Color owner="Neutral" type="#888888" />
 
             <!-- Objectives -->
-            <Objective
-                immunity="5m"
-                type="Camp" />
-            <Objective
-                immunity="5m"
-                type="Tower" />
-            <Objective
-                immunity="5m"
-                type="Keep" />
-            <Objective
-                immunity="5m"
-                type="Castle" />
-            <Objective
-                icon="https://assets.gw2dat.com/157353.png"
-                type="Spawn" />
-            <Objective
-                icon="https://assets.gw2dat.com/102682.png"
-                type="Mercenary" />
+            <Objective immunity="5m" type="Camp" />
+            <Objective immunity="5m" type="Tower" />
+            <Objective immunity="5m" type="Keep" />
+            <Objective immunity="5m" type="Castle" />
+            <Objective icon="https://assets.gw2dat.com/157353.png" type="Spawn" />
+            <Objective icon="https://assets.gw2dat.com/102682.png" type="Mercenary" />
 
-            <Selected
-                dateFormat="hh:mm a 'on' EEEE"
-                textSize="16" />
+            <Selected dateFormat="hh:mm a 'on' EEEE" textSize="16" />
 
             <!-- Upgrades -->
             <Upgrades enabled="true">
@@ -103,52 +89,24 @@
                 <Size height="32" width="32" />
             </Claim>
         </Objectives>
-        <Map
-            bounded="true"
-            continentId="2"
-            floorId="3"
-            region="World vs. World">
-            <Scroll
-                enabled="true"
-                map="Eternal Battlegrounds" />
-            <Zoom
-                default="4"
-                max="5"
-                min="3" />
+        <Map bounded="true" continentId="2" floorId="3" region="World vs. World">
+            <Scroll enabled="true" map="Eternal Battlegrounds" />
+            <Zoom default="4" max="5" min="3" />
             <Level zoom="4">
-                <Bound
-                    endX="14"
-                    endY="15"
-                    startX="5"
-                    startY="8" />
+                <Bound endX="14" endY="15" startX="5" startY="8" />
             </Level>
             <Level zoom="5">
-                <Bound
-                    endX="29"
-                    endY="30"
-                    startX="11"
-                    startY="17" />
+                <Bound endX="29" endY="30" startX="11" startY="17" />
             </Level>
         </Map>
-        <Bloodlust
-            enabled="true"
-            icon="https://assets.gw2dat.com/638740.png">
-            <Size
-                height="64"
-                width="64" />
+        <Bloodlust enabled="true" icon="https://assets.gw2dat.com/638740.png">
+            <Size height="64" width="64" />
         </Bloodlust>
-        <Chart
-            background="https://assets.gw2dat.com/157384.png"
-            blue="https://assets.gw2dat.com/157385.png"
-            divider="https://assets.gw2dat.com/157386.png"
-            green="https://assets.gw2dat.com/157387.png"
-            neutral="https://assets.gw2dat.com/733278.png"
-            red="https://assets.gw2dat.com/157388.png">
+        <Chart background="https://assets.gw2dat.com/157384.png" blue="https://assets.gw2dat.com/157385.png" divider="https://assets.gw2dat.com/157386.png"
+            green="https://assets.gw2dat.com/157387.png" neutral="https://assets.gw2dat.com/733278.png" red="https://assets.gw2dat.com/157388.png">
             <Data textSize="16" />
             <Title textSize="32" />
-            <Size
-                height="512"
-                width="512" />
+            <Size height="512" width="512" />
         </Chart>
     </WorldVsWorld>
 </Configuration>

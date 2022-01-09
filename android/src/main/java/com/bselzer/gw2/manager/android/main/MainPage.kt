@@ -104,6 +104,7 @@ class MainPage(
 
     @Composable
     private fun Gw2State.CurrentPage(navigationIcon: @Composable () -> Unit) {
+        // TODO saveable page
         val currentPage by currentPage
         Logger.d("Displaying page $currentPage")
 

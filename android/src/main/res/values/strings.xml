@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GW2 Manager</string>
+    <string name="app_name">Pack Yak</string>
 
     <!-- Activity -->
     <string name="activity_settings">Settings</string>

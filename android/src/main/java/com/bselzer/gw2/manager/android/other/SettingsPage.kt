@@ -58,7 +58,8 @@ class SettingsPage(
         modifier = Modifier.padding(25.dp),
         contents = arrayOf(
             { ThemePreference() },
-            { TokenPreference() },
+            // TODO enable token preference when more functionality is available
+            // { TokenPreference() },
             {
                 PreferenceSection(
                     iconPainter = painterResource(R.drawable.gw2_rank_dolyak),

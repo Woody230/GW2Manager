@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.DrawerValue
 import androidx.compose.material.ModalDrawer
 import androidx.compose.material.rememberDrawerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,20 +24,23 @@ import com.bselzer.gw2.manager.common.state.map.WvwMapState
 import com.bselzer.gw2.manager.common.state.match.WvwMatchState
 import com.bselzer.gw2.manager.common.ui.composable.LocalState
 import com.bselzer.gw2.v2.model.extension.world.WorldId
-import com.bselzer.ktx.compose.effect.PostRepeatedEffect
 import com.bselzer.ktx.compose.ui.appbar.DrawerNavigationIcon
 import com.bselzer.ktx.compose.ui.drawer.DrawerComponent
 import com.bselzer.ktx.compose.ui.drawer.DrawerSection
 import com.bselzer.ktx.compose.ui.drawer.MaterialDrawerContent
 import com.bselzer.ktx.library.libraries
 import com.bselzer.ktx.logging.Logger
+import com.bselzer.ktx.settings.compose.safeState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.Clock
+import kotlin.time.ExperimentalTime
 
 class MainPage(
     private val closeApplication: () -> Unit,
 ) : BasePage() {
 
+    @OptIn(ExperimentalTime::class)
     @Composable
     override fun Gw2State.Content() {
         val currentPage by currentPage
@@ -71,10 +71,20 @@ class MainPage(
         // Lay out the currently open dialog.
         CurrentDialog()
 
-        // TODO maintain last refresh time instead
-        PostRepeatedEffect(delay = runBlocking { wvwPref.refreshInterval.get() }) {
+        // Refresh WvW data every so often based on the interval.
+        // TODO refresh setting and wrapper for this logic
+        val refreshInterval by wvwPref.refreshInterval.safeState()
+        var lastRefresh by wvwPref.lastRefresh.safeState()
+        LaunchedEffect(key1 = refreshInterval, key2 = lastRefresh) {
+            val remaining = refreshInterval - Clock.System.now().minus(lastRefresh)
+            if (remaining.isPositive()) {
+                Logger.d("Last refreshed WvW data at $lastRefresh. Waiting for $remaining.")
+                delay(remaining)
+            }
+
             val id = WorldId(wvwPref.selectedWorld.get())
             refreshWvwData(id)
+            lastRefresh = Clock.System.now()
         }
 
         BackHandler(enabled = drawerState.isOpen) {

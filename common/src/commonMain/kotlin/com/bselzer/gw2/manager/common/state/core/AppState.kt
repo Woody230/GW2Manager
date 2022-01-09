@@ -56,11 +56,15 @@ class AppState(
     // region ComposeState
 
     override val currentPage = mutableStateOf(PageType.SPLASH)
+    override val splashRedirectPage = mutableStateOf<PageType?>(null)
     override val currentDialog = mutableStateOf<DialogType?>(null)
 
     override fun changePage(page: PageType) {
         Logger.d("Changing the current page from ${currentPage.value} to $page.")
         currentPage.value = page
+        if (page != PageType.SPLASH) {
+            splashRedirectPage.value = page
+        }
     }
 
     override fun changeDialog(dialog: DialogType) {

@@ -13,6 +13,11 @@ interface ComposeState {
     val currentPage: State<PageType>
 
     /**
+     * The previous page that was laid out for the splash page to go to.
+     */
+    val splashRedirectPage: State<PageType?> // TODO better way
+
+    /**
      * The current dialog to lay out.
      */
     val currentDialog: State<DialogType?>

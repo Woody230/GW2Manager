@@ -89,8 +89,7 @@ class SplashPage(
                     buildNumber.set(newId)
                 }*/
             } finally {
-                // TODO last page
-                changePage(PageType.MODULE)
+                changePage(splashRedirectPage.value ?: PageType.MODULE)
             }
         }
     }

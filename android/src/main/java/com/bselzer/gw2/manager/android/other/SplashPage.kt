@@ -1,8 +1,7 @@
 package com.bselzer.gw2.manager.android.other
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.common.BackgroundType
@@ -52,15 +52,17 @@ class SplashPage(
     ) {
         RelativeBackground(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
+                modifier = Modifier.padding(vertical = 10.dp),
                 text = description,
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold
             )
         }
 
+        Spacer(modifier = Modifier.height(10.dp))
         ProgressIndicator()
     }
 

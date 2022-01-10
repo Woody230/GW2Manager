@@ -30,6 +30,10 @@ import com.bselzer.ktx.compose.ui.appbar.ExpansionIcon
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.datetime.timer.minuteFormat
 import com.bselzer.ktx.function.objects.userFriendly
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 
 class WvwSelectedObjectivePage(
     private val state: WvwSelectedState,
@@ -41,13 +45,14 @@ class WvwSelectedObjectivePage(
         GUILD_TACTICS
     }
 
+    @OptIn(ExperimentalPagerApi::class)
     @Composable
     override fun Gw2State.Content() = Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+        modifier = Modifier.fillMaxSize()
     ) {
-        var selectedIndex by remember { mutableStateOf(0) }
+        val scope = rememberCoroutineScope()
+        val pagerState = rememberPagerState()
+        val selectedIndex = pagerState.currentPage
         val tabs = currentTabs()
         ScrollableTabRow(
             selectedTabIndex = selectedIndex,
@@ -57,16 +62,28 @@ class WvwSelectedObjectivePage(
                 Tab(
                     text = { Text(text = tab.userFriendly()) },
                     selected = index == selectedIndex,
-                    onClick = { selectedIndex = index },
+                    onClick = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+                    },
                 )
             }
         }
 
-        when (tabs[selectedIndex]) {
-            DETAILS -> DetailsColumn()
-            AUTOMATIC_UPGRADES -> AutomaticUpgradeColumn()
-            GUILD_IMPROVEMENTS -> GuildUpgradeColumn(tiers = state.improvementTiers.value)
-            GUILD_TACTICS -> GuildUpgradeColumn(tiers = state.tacticTiers.value)
+        HorizontalPager(
+            count = tabs.size,
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) { index ->
+            when (tabs[index]) {
+                DETAILS -> DetailsColumn()
+                AUTOMATIC_UPGRADES -> AutomaticUpgradeColumn()
+                GUILD_IMPROVEMENTS -> GuildUpgradeColumn(tiers = state.improvementTiers.value)
+                GUILD_TACTICS -> GuildUpgradeColumn(tiers = state.tacticTiers.value)
+            }
         }
     }
 

@@ -35,10 +35,10 @@ android {
 
     buildTypes {
         getByName("release") {
-            // TODO fix proguard rules
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            ndk.debugSymbolLevel = "FULL"
 
             if (hasStoreFile) {
                 signingConfig = signingConfigs.getByName("release")

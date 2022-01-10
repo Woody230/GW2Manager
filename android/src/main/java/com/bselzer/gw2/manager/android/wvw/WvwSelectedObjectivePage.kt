@@ -26,6 +26,8 @@ import com.bselzer.gw2.manager.common.state.selected.upgrade.GuildUpgradeTierSta
 import com.bselzer.gw2.manager.common.state.selected.upgrade.UpgradeState
 import com.bselzer.gw2.manager.common.ui.composable.ImageContent
 import com.bselzer.gw2.manager.common.ui.composable.ImageState
+import com.bselzer.gw2.manager.common.ui.composable.LocalTheme
+import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.ui.appbar.ExpansionIcon
 import com.bselzer.ktx.compose.ui.container.DividedColumn
 import com.bselzer.ktx.datetime.timer.minuteFormat
@@ -166,7 +168,10 @@ class WvwSelectedObjectivePage(
             upgradeTierCard(
                 tierIcon = tier,
                 tierDescription = description,
-                upgrades = tier.upgrades
+                upgrades = tier.upgrades,
+
+                // Tier image is completely white so it must be converted to black for light mode.
+                color = if (LocalTheme.current == Theme.LIGHT) Color.Black else null
             )
         }.toTypedArray()
     )
@@ -178,14 +183,15 @@ class WvwSelectedObjectivePage(
     private fun upgradeTierCard(
         tierIcon: ImageState,
         tierDescription: String,
-        upgrades: Collection<UpgradeState>
+        upgrades: Collection<UpgradeState>,
+        color: Color? = null
     ): @Composable ColumnScope.() -> Unit = {
         val isExpanded = remember { mutableStateOf(false) }
         InfoCard(
             modifier = Modifier
         ) {
             // TODO (un)lock icon?
-            val contents = mutableListOf(upgradeTier(image = tierIcon, description = tierDescription, isExpanded = isExpanded))
+            val contents = mutableListOf(upgradeTier(image = tierIcon, description = tierDescription, isExpanded = isExpanded, color = color))
             if (isExpanded.value) {
                 // Only show the upgrade content when expanded to save space.
                 contents.addAll(upgrades.map { upgrade -> upgrade(image = upgrade, name = upgrade.name, description = upgrade.description) })
@@ -284,10 +290,10 @@ class WvwSelectedObjectivePage(
      * Lays out the header representing a tier of upgrades.
      */
     @Composable
-    private fun upgradeTier(image: ImageState, description: String, isExpanded: MutableState<Boolean>): @Composable ColumnScope.() -> Unit = {
+    private fun upgradeTier(image: ImageState, description: String, isExpanded: MutableState<Boolean>, color: Color? = null): @Composable ColumnScope.() -> Unit = {
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
             val (icon, descriptor, expansion) = createRefs()
-            image.ImageContent(modifier = Modifier.constrainAs(icon) {
+            image.ImageContent(color = color, modifier = Modifier.constrainAs(icon) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
                 bottom.linkTo(parent.bottom)

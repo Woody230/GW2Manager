@@ -31,7 +31,7 @@ abstract class ImageStateAdapter : ImageState {
 }
 
 @Composable
-fun ImageState.ImageContent(modifier: Modifier = Modifier, isPixel: Boolean = true) {
+fun ImageState.ImageContent(modifier: Modifier = Modifier, color: Color? = null, isPixel: Boolean = true) {
     if (enabled && !link.isNullOrBlank()) {
         val width = if (isPixel) width.toDp() else width.dp
         val height = if (isPixel) height.toDp() else height.dp
@@ -51,7 +51,7 @@ fun ImageState.ImageContent(modifier: Modifier = Modifier, isPixel: Boolean = tr
                 modifier = modifier.size(width = width, height = height),
 
                 // Multiply the given color with the existing image (which is most likely a neutral gray).
-                colorFilter = color?.let { color -> ColorFilter.lighting(color, Color.Transparent) }
+                colorFilter = (color ?: this.color)?.let { filterColor -> ColorFilter.lighting(filterColor, Color.Transparent) }
             )
         }
     }

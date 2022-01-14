@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Asset CDN is not secured so cleartext must be allowed. -->
+        <domain includeSubdomains="true">assetcdn.101.arenanetworks.com</domain>
+    </domain-config>
+</network-security-config>

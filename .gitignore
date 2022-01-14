@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+/common/build/
+/android/build/
+/desktop/build/
+keystore.jks

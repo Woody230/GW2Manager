@@ -2,6 +2,10 @@
 ![](https://img.shields.io/github/v/release/Woody230/GW2Manager)
 ![](https://img.shields.io/github/license/Woody230/GW2Manager)
 
+<a href='https://play.google.com/store/apps/details?id=com.bselzer.gw2.manager.android'>
+    <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width='250'/>
+</a>
+
 # Pack Yak
 
 Currently focused on [World vs. World](https://wiki.guildwars2.com/wiki/World_versus_World), the manager can be used to observe state changes in the match of a designated

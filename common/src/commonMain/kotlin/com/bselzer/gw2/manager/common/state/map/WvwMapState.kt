@@ -11,6 +11,7 @@ import com.bselzer.gw2.manager.common.state.WvwHelper.color
 import com.bselzer.gw2.manager.common.state.WvwHelper.objective
 import com.bselzer.gw2.manager.common.state.WvwHelper.selectedDateFormatted
 import com.bselzer.gw2.manager.common.state.core.Gw2State
+import com.bselzer.gw2.manager.common.state.core.PageType
 import com.bselzer.gw2.v2.cache.instance.ContinentCache
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.ContinentFloor
@@ -48,6 +49,18 @@ class WvwMapState(
     val floor = mutableStateOf<ContinentFloor?>(null)
     val horizontalScroll: ScrollState = ScrollState(0)
     val verticalScroll: ScrollState = ScrollState(0)
+
+    // TODO interface
+    private val subpage = mutableStateOf(MapPageType.MAP)
+    val currentSubpage: State<MapPageType> = subpage
+
+    /**
+     * Changes the [currentSubpage] to the new [page].
+     */
+    fun changeSubpage(page: MapPageType) {
+        Logger.d("Changing the current subpage from ${currentSubpage.value} to $page.")
+        subpage.value = page
+    }
 
     /**
      * Updates the zoom to be within the configured range.

@@ -26,6 +26,7 @@ import com.bselzer.gw2.manager.android.R
 import com.bselzer.gw2.manager.android.common.BackgroundType
 import com.bselzer.gw2.manager.common.state.core.Gw2State
 import com.bselzer.gw2.manager.common.state.core.PageType
+import com.bselzer.gw2.manager.common.state.map.MapPageType
 import com.bselzer.gw2.manager.common.state.map.SelectedObjectiveState
 import com.bselzer.gw2.manager.common.state.map.WvwMapState
 import com.bselzer.gw2.manager.common.state.map.grid.TileState
@@ -38,6 +39,7 @@ import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.datetime.timer.minuteFormat
+import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,22 +50,17 @@ class WvwMapPage(
     navigationIcon: @Composable () -> Unit,
     state: WvwMapState,
 ) : WvwPage<WvwMapState>(navigationIcon, state) {
-    private val subpage = mutableStateOf(MapPageType.MAP)
-
-    private enum class MapPageType {
-        MAP,
-        SELECTED
-    }
-
     @Composable
-    override fun background(): BackgroundType = when (subpage.value) {
+    override fun background(): BackgroundType = when (state.currentSubpage.value) {
         MapPageType.MAP -> BackgroundType.NONE
         MapPageType.SELECTED -> BackgroundType.ABSOLUTE
     }
 
     @Composable
     override fun Gw2State.CoreContent() {
-        var page by subpage
+        val page = state.currentSubpage.value
+
+        Logger.d("Displaying subpage $page")
         when (page) {
             MapPageType.MAP -> {
                 Map()
@@ -88,7 +85,7 @@ class WvwMapPage(
                 state.selectedObjective.value = null
             }
 
-            page = MapPageType.MAP
+            state.changeSubpage(MapPageType.MAP)
         }
     }
 
@@ -101,7 +98,7 @@ class WvwMapPage(
     }
 
     @Composable
-    override fun dropdownIcons(): (@Composable ((Boolean) -> Unit) -> Unit)? = when (subpage.value) {
+    override fun dropdownIcons(): (@Composable ((Boolean) -> Unit) -> Unit)? = when (state.currentSubpage.value) {
         MapPageType.MAP -> mapDropdownIcons()
         MapPageType.SELECTED -> null
     }
@@ -345,7 +342,7 @@ class WvwMapPage(
         modifier = modifier.combinedClickable(onLongClick = {
             // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.
             state.selectedObjective.value = objective
-            subpage.value = MapPageType.SELECTED
+            state.changeSubpage(MapPageType.SELECTED)
 
             // Refresh the guild so that the claim information can be displayed on the selected objective page.
             CoroutineScope(Dispatchers.IO).launch {

@@ -73,12 +73,14 @@ class WvwSelectedObjectivePage(
             }
         }
 
+        val verticalScroll = rememberScrollState()
         HorizontalPager(
             count = tabs.size,
             state = pagerState,
+            verticalAlignment = Alignment.Top,
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(verticalScroll)
         ) { index ->
             when (tabs[index]) {
                 DETAILS -> DetailsColumn()
@@ -86,6 +88,11 @@ class WvwSelectedObjectivePage(
                 GUILD_IMPROVEMENTS -> GuildUpgradeColumn(tiers = state.improvementTiers.value)
                 GUILD_TACTICS -> GuildUpgradeColumn(tiers = state.tacticTiers.value)
             }
+        }
+
+        LaunchedEffect(selectedIndex) {
+            // Reset to the top of the page when changing pages.
+            verticalScroll.animateScrollTo(0)
         }
     }
 
@@ -116,7 +123,7 @@ class WvwSelectedObjectivePage(
     @Composable
     private fun ContentColumn(vararg contents: @Composable ColumnScope.() -> Unit) = DividedColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxWidth(),
         divider = { Spacer(modifier = Modifier.height(10.dp)) },
         prepend = true,
         append = true,

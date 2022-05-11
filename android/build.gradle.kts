@@ -3,8 +3,9 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("kotlin-parcelize")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
-    id("org.jetbrains.compose") version "1.0.1"
+    id("org.jetbrains.compose") version "1.1.0"
     id("com.mikepenz.aboutlibraries.plugin")
 }
 
@@ -27,8 +28,8 @@ android {
         applicationId = "com.bselzer.gw2.manager.android"
         minSdk = 21
         targetSdk = 31
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

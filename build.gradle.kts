@@ -6,12 +6,10 @@ buildscript {
         maven("https://storage.googleapis.com/r8-releases/raw")
     }
     dependencies {
-        // Need to use 3.0.77 for proper metadata handling https://stackoverflow.com/a/70331139, otherwise Gw2Client default recovery can't find the id parameter.
-        classpath("com.android.tools:r8:3.0.77")
-
-        classpath("com.android.tools.build:gradle:7.0.4")
+        classpath("com.android.tools.build:gradle:7.1.3")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:10.0.0-b03")
+        classpath("com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:10.0.0")
+        classpath("dev.icerock.moko:resources-generator:0.19.0")
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -20,7 +18,7 @@ buildscript {
 
 allprojects {
     group = "com.bselzer.gw2.manager"
-    version = "1.0.1"
+    version = "1.1.0"
 
     repositories {
         google()

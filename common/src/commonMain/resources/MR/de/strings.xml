@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <!-- World vs. World -->
+    <string name="wvw">Welt gegen Welt</string>
+    <string name="world">Welt</string>
+    <string name="worlds">Welten</string>
+    <string name="no_worlds">Welten nicht gefunden.</string>
+    <string name="wvw_map">Karte</string>
+    <string name="wvw_match">Match</string>
+    <string name="wvw_detailed_selected_objective">Befestigungen</string>
+    <string name="wvw_tile">Kachelkarte</string>
+    <string name="no_claim">Kein Gilden-Beanspruchung</string>
+
+    <!-- About -->
+    <string name="ncsoft_notice">© 2021 NCSOFT Corporation. Alle Rechte vorbehalten. NCSOFT, ArenaNet, das ineinandergreifende NC-Logo, Aion, Lineage II, Guild Wars, Guild
+        Wars 2: Heart of Thorns, Guild Wars 2: Path of Fire, Blade &amp; Soul und alle zugehörigen Logos, Designs und kombinierten Marken sind (eingetragene) Marken der NCSOFT
+        Corporation. Alle sonstigen Marken sind das Eigentum ihrer jeweiligen Eigentümer.
+    </string>
+
+    <!-- Cache -->
+    <string name="continents">Kontinents</string>
+    <string name="continents_description">Karte, regionen, ebenen, kacheln</string>
+    <string name="guilds">Gilden</string>
+    <string name="guilds_description">Aufwertungen</string>
+    <string name="images">Bilder</string>
+    <string name="images_description">Symbole, kachelkarte</string>
+    <string name="wvw_description">Befestigungen, aufwertungen, welten</string>
+    <string name="cache_clear">Habe den Cache geleert.</string>
+
+    <!-- Settings -->
+    <string name="token_description">Der API-Schlüssel für Ihr Konto.</string>
+    <string name="token_failure">Kann nicht speichern der API-Schlüssel.</string>
+
+    <!-- Splash -->
+    <string name="build_number">Build-Nummer</string>
+</resources>

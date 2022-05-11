@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <!-- World vs. World -->
+    <string name="wvw">Monde contre Monde</string>
+    <string name="world">Monde</string>
+    <string name="worlds">Mondes</string>
+    <string name="no_worlds">Mondes introuvable.</string>
+    <string name="wvw_map">Carte</string>
+    <string name="wvw_match">Match</string>
+    <string name="wvw_detailed_selected_objective">Objectif</string>
+    <string name="wvw_tile">Dalles de carte</string>
+    <string name="no_claim">Aucune Revendication de Guilde</string>
+
+    <!-- About -->
+    <string name="ncsoft_notice">© 2021 NCSOFT Corporation. Tous droits réservés. NCSOFT, ArenaNet, le logo NC imbriqué, Aion, Lineage II, Guild Wars, Guild Wars 2 : Heart of
+        Thorns, Guild Wars 2 : Path of Fire, Blade &amp; Soul et tous les logos, dessins et marques composites associés sont des marques ou des marques déposées de NCSOFT
+        Corporation. Toutes les autres marques de commerce appartiennent à leurs propriétaires respectifs.
+    </string>
+
+    <!-- Cache -->
+    <string name="continents">Continents</string>
+    <string name="continents_description">Cartes, régions, niveaux, dalles</string>
+    <string name="guilds">Guildes</string>
+    <string name="guilds_description">Améliorations</string>
+    <string name="images">Images</string>
+    <string name="images_description">Icônes, dalles de carte</string>
+    <string name="wvw_description">Objectifs, améliorations, mondes</string>
+    <string name="cache_clear">Vidé le cache.</string>
+
+    <!-- Settings -->
+    <string name="token_description">La clé API de votre compte.</string>
+    <string name="token_failure">Impossible d\'enregistrer la clé API.</string>
+
+    <!-- Splash -->
+    <string name="build_number">Numéro de Build</string>
+</resources>

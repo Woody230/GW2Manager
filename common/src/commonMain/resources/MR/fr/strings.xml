@@ -29,7 +29,7 @@
 
     <!-- Settings -->
     <string name="token_description">La clé API de votre compte.</string>
-    <string name="token_failure">Impossible d\'enregistrer la clé API.</string>
+    <string name="token_failure">Impossible d’enregistrer la clé API.</string>
 
     <!-- Splash -->
     <string name="build_number">Numéro de Build</string>

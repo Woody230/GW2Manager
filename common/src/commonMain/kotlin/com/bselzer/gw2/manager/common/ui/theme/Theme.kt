@@ -6,6 +6,7 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
+import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -57,7 +58,8 @@ internal fun AppTheme(theme: Theme, content: @Composable () -> Unit) {
     ) {
         CompositionLocalProvider(
             // Need to override so that dark theme uses white instead of default black.
-            androidx.compose.material.LocalContentColor provides MaterialTheme.colors.onPrimary
+            androidx.compose.material.LocalContentColor provides MaterialTheme.colors.onPrimary,
+            LocalTheme provides theme
         ) {
             content()
         }

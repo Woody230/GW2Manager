@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
 
         val app = AndroidApp(this, datastore).apply { initialize() }
         setContent {
+            app.Content {
+
+            }
         }
     }
 }

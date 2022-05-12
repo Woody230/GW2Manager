@@ -1,9 +1,12 @@
 package com.bselzer.gw2.manager.common.dependency
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
+import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.gw2.v2.cache.metadata.IdentifiableMetadataExtractor
 import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.gw2.v2.cache.type.gw2
@@ -17,7 +20,9 @@ import com.bselzer.gw2.v2.tile.cache.metadata.TileMetadataExtractor
 import com.bselzer.gw2.v2.tile.client.TileClient
 import com.bselzer.ktx.compose.image.cache.instance.ImageCache
 import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
+import com.bselzer.ktx.compose.image.ui.LocalImageCache
 import com.bselzer.ktx.logging.Logger
+import com.bselzer.ktx.settings.compose.safeState
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import io.ktor.client.*
@@ -114,5 +119,15 @@ abstract class App(
         if (isDebug) {
             Logger.enableDebugging()
         }
+    }
+
+    @Composable
+    fun Content(content: @Composable () -> Unit) = CompositionLocalProvider(
+        LocalImageCache provides caches.image,
+    ) {
+        AppTheme(
+            theme = preferences.common.theme.safeState().value,
+            content = content
+        )
     }
 }

@@ -18,7 +18,6 @@ kotlin {
     sourceSets {
         val wrapperVersion = "2.0.0"
         val kodeinDbVersion = "0.9.0-beta"
-        val kodeinDiVersion = "7.9.0"
         val extensionVersion = "4.0.0"
         val ktorVersion = "2.0.0"
         val serializationVersion = "1.3.2"
@@ -59,9 +58,6 @@ kotlin {
                 api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
                 api("io.github.pdvrieze.xmlutil:serialization:0.83.0")
 
-                // Dependency Injection
-                api("org.kodein.di:kodein-di:$kodeinDiVersion")
-
                 // GW2 Database
                 api("com.bselzer.gw2:v2-cache:$wrapperVersion")
                 api("com.bselzer.gw2:v2-tile-cache:$wrapperVersion")
@@ -88,9 +84,6 @@ kotlin {
 
                 // Compose
                 api("androidx.activity:activity-compose:1.4.0")
-
-                // Dependency Injection
-                api("org.kodein.di:kodein-di-framework-android-core:$kodeinDiVersion")
 
                 // HTTP Client
                 api("io.ktor:ktor-client-okhttp:$ktorVersion")

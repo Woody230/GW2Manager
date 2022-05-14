@@ -1,8 +1,8 @@
 package com.bselzer.gw2.manager.common.ui.layout.host.viewmodel
 
 import com.arkivanov.decompose.router.Router
+import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
-import com.bselzer.gw2.manager.common.ui.context.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.MainViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel

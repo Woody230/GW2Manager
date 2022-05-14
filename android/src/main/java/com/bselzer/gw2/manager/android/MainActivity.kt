@@ -8,7 +8,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.bselzer.gw2.manager.common.AndroidApp
-import com.bselzer.gw2.manager.common.ui.context.Gw2ComponentContext
+import com.bselzer.gw2.manager.common.ui.base.Gw2ComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.host.content.HostComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.HostViewModel
 

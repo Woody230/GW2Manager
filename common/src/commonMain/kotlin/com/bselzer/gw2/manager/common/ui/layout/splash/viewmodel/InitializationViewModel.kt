@@ -3,7 +3,7 @@ package com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.*
 import com.bselzer.gw2.manager.common.Gw2Resources
-import com.bselzer.gw2.manager.common.ui.context.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Initializer
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor

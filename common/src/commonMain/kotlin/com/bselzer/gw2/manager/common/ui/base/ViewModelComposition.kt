@@ -1,7 +1,6 @@
-package com.bselzer.gw2.manager.common.ui.composition
+package com.bselzer.gw2.manager.common.ui.base
 
 import androidx.compose.runtime.Composable
-import com.bselzer.gw2.manager.common.ui.base.ViewModel
 
 abstract class ViewModelComposition<Model : ViewModel> {
     /**

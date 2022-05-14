@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.bselzer.gw2.manager.common.ui.composition.ViewModelComposition
+import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.HostViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.content.SplashComposition
 

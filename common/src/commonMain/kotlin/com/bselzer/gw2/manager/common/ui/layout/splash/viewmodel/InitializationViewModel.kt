@@ -30,17 +30,17 @@ class InitializationViewModel(
 
         LaunchedEffect(true) {
             initializers.forEach { initializer ->
-                description.value = descriptions[initializer]
+                description.value = descriptions.getOrDefault(initializer, noDescription)
                 initializer.block()
             }
 
-            description.value = null
+            description.value = noDescription
             onFinish()
         }
     }
 
-    val description: MutableState<DescriptionInteractor?> = mutableStateOf(null)
-    val noDescription = DescriptionInteractor(title = TextInteractor(""), subtitle = TextInteractor(""))
+    private val noDescription = DescriptionInteractor(title = TextInteractor(""), subtitle = TextInteractor(""))
+    val description: MutableState<DescriptionInteractor> = mutableStateOf(noDescription)
 
     // TODO add build number if needed
     private val initializers: Collection<Initializer>

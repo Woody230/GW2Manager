@@ -3,8 +3,6 @@ package com.bselzer.gw2.manager.common.ui.layout.splash.content
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -50,9 +48,8 @@ class InitializationComposition(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    val description by remember { description }
                     DescriptionProjector(
-                        interactor = description ?: noDescription,
+                        interactor = description.value,
                         presenter = DescriptionPresenter(title = TextPresenter(fontSize = 30.sp))
                     ).Projection(modifier = Modifier.padding(vertical = 10.dp))
 

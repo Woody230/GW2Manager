@@ -25,30 +25,43 @@ class InitializationComposition(
     override fun Content(model: InitializationViewModel) = model.run {
         Initialize(onFinish)
 
-        Box(modifier = Modifier.fillMaxWidth()) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
             ImageProjector(
                 presenter = backgroundImagePresenter(),
                 interactor = ImageInteractor(
-                    painter = model.relativeBackgroundPainter,
+                    painter = model.absoluteBackgroundPainter,
                     contentDescription = null
-                ),
+                )
             ).Projection()
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                val description by remember { description }
-                DescriptionProjector(
-                    interactor = description ?: noDescription,
-                    presenter = DescriptionPresenter(title = TextPresenter(fontSize = 30.sp))
-                ).Projection(modifier = Modifier.padding(vertical = 10.dp))
+            Box(modifier = Modifier.fillMaxWidth()) {
+                ImageProjector(
+                    presenter = backgroundImagePresenter(),
+                    interactor = ImageInteractor(
+                        painter = model.relativeBackgroundPainter,
+                        contentDescription = null
+                    ),
+                ).Projection()
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    val description by remember { description }
+                    DescriptionProjector(
+                        interactor = description ?: noDescription,
+                        presenter = DescriptionPresenter(title = TextPresenter(fontSize = 30.sp))
+                    ).Projection(modifier = Modifier.padding(vertical = 10.dp))
 
-                CircularProgressIndicator(
-                    modifier = Modifier.fillMaxSize(0.15f)
-                )
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    CircularProgressIndicator(
+                        modifier = Modifier.fillMaxSize(0.15f)
+                    )
+                }
             }
         }
     }

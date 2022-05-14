@@ -8,6 +8,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.bselzer.gw2.manager.common.AndroidApp
+import com.bselzer.gw2.manager.common.ui.context.Gw2ComponentContext
+import com.bselzer.gw2.manager.common.ui.layout.host.content.HostComposition
+import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.HostViewModel
 
 class MainActivity : AppCompatActivity() {
     /**
@@ -19,9 +22,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val app = AndroidApp(this, datastore).apply { initialize() }
+        val context = Gw2ComponentContext(app)
+        val host = HostViewModel(context)
+
         setContent {
             app.Content {
-
+                HostComposition().Content(model = host)
             }
         }
     }

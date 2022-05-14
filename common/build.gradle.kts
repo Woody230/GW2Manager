@@ -9,7 +9,9 @@ plugins {
 }
 
 kotlin {
-    android()
+    android {
+        apply(plugin = "kotlin-parcelize")
+    }
     jvm("desktop") {
         compilations.all {
             kotlinOptions.jvmTarget = "11"

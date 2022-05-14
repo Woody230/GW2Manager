@@ -9,12 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bselzer.gw2.manager.common.Gw2Resources
-import com.bselzer.gw2.manager.common.dependency.LocalTheme
-import com.bselzer.gw2.manager.common.ui.base.Composition
+import com.bselzer.gw2.manager.common.ui.composition.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationViewModel
-import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
@@ -24,7 +20,7 @@ import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 class InitializationComposition(
     private val onFinish: () -> Unit
-) : Composition<InitializationViewModel> {
+) : ViewModelComposition<InitializationViewModel>() {
     @Composable
     override fun Content(model: InitializationViewModel) = model.run {
         Initialize(onFinish)
@@ -33,7 +29,7 @@ class InitializationComposition(
             ImageProjector(
                 presenter = backgroundImagePresenter(),
                 interactor = ImageInteractor(
-                    painter = if (LocalTheme.current == Theme.DARK) Gw2Resources.images.gw2_bloodstone_night.painter() else Gw2Resources.images.gw2_ice.painter(),
+                    painter = model.relativeBackgroundPainter,
                     contentDescription = null
                 ),
             ).Projection()

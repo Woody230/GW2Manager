@@ -9,11 +9,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationViewModel
+import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
+import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
-import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
-import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
-import com.bselzer.ktx.compose.ui.layout.image.backgroundImagePresenter
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 class InitializationComposition(
@@ -22,44 +21,43 @@ class InitializationComposition(
     @Composable
     override fun Content(model: InitializationViewModel) = model.run {
         Initialize(onFinish)
+        Container()
+    }
 
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
+    @Composable
+    private fun InitializationViewModel.Container() = BackgroundImage(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+        painter = absoluteBackgroundPainter,
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ImageProjector(
-                presenter = backgroundImagePresenter(),
-                interactor = ImageInteractor(
-                    painter = model.absoluteBackgroundPainter,
-                    contentDescription = null
-                )
-            ).Projection()
-
-            Box(modifier = Modifier.fillMaxWidth()) {
-                ImageProjector(
-                    presenter = backgroundImagePresenter(),
-                    interactor = ImageInteractor(
-                        painter = model.relativeBackgroundPainter,
-                        contentDescription = null
-                    ),
-                ).Projection()
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    DescriptionProjector(
-                        interactor = description.value,
-                        presenter = DescriptionPresenter(title = TextPresenter(fontSize = 30.sp))
-                    ).Projection(modifier = Modifier.padding(vertical = 10.dp))
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    CircularProgressIndicator(
-                        modifier = Modifier.fillMaxSize(0.15f)
-                    )
-                }
-            }
+            Progress()
         }
+    }
+
+    @Composable
+    private fun InitializationViewModel.Progress() {
+        BackgroundImage(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center,
+            painter = relativeBackgroundPainter
+        ) {
+            DescriptionProjector(
+                interactor = description.value,
+                presenter = DescriptionPresenter(
+                    container = ColumnPresenter.CenteredHorizontally,
+                    title = TextPresenter(fontSize = 30.sp)
+                )
+            ).Projection(modifier = Modifier.padding(vertical = 10.dp))
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        CircularProgressIndicator(
+            modifier = Modifier.fillMaxSize(0.15f)
+        )
     }
 }

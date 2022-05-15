@@ -4,6 +4,6 @@ import dev.icerock.moko.resources.desc.StringDesc
 
 data class Initializer(
     val title: StringDesc,
-    val subtitle: StringDesc,
+    val subtitle: StringDesc?,
     val block: suspend () -> Unit
 )

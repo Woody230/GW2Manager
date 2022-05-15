@@ -11,8 +11,6 @@ import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.compose.localized
-import dev.icerock.moko.resources.desc.Raw
-import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 
 class InitializationViewModel(
@@ -24,7 +22,7 @@ class InitializationViewModel(
         val descriptions = initializers.associateWith { initializer ->
             DescriptionInteractor(
                 title = TextInteractor(initializer.title.localized()),
-                subtitle = TextInteractor(initializer.subtitle.localized())
+                subtitle = initializer.subtitle?.let { subtitle -> TextInteractor(subtitle.localized()) }
             )
         }
 
@@ -39,26 +37,26 @@ class InitializationViewModel(
         }
     }
 
-    private val noDescription = DescriptionInteractor(title = TextInteractor(""), subtitle = TextInteractor(""))
+    private val noDescription = DescriptionInteractor(title = TextInteractor("..."), subtitle = null)
     val description: MutableState<DescriptionInteractor> = mutableStateOf(noDescription)
 
     // TODO add build number if needed
     private val initializers: Collection<Initializer>
         @Composable
-        get() = listOf(initializePreferences)
+        get() = listOf(initializeTheme)
 
 
     private val initialTheme
         @Composable
         get() = if (isSystemInDarkTheme()) Theme.DARK else Theme.LIGHT
 
-    private val initializePreferences
+    private val initializeTheme
         @Composable
         get() = run {
             val initialTheme = initialTheme
             Initializer(
                 title = Resources.strings.settings.desc(),
-                subtitle = StringDesc.Raw(""),
+                subtitle = Resources.strings.theme.desc(),
             ) {
                 preferences.common.theme.initialize(initialTheme)
             }
@@ -67,7 +65,7 @@ class InitializationViewModel(
     private val initializeBuildNumber
         get() = Initializer(
             title = Gw2Resources.strings.build_number.desc(),
-            subtitle = StringDesc.Raw(""),
+            subtitle = null,
         ) {
             // Build number has been static for months https://github.com/gw2-api/issues/issues/1 so assetcdn must be used
             var newId = clients.asset.latest().id

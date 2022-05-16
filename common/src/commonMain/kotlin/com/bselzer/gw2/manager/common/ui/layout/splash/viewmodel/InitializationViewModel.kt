@@ -5,6 +5,7 @@ import androidx.compose.runtime.*
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Initializer
+import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.migration.Migrator
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
@@ -14,6 +15,7 @@ import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
+import dev.icerock.moko.resources.desc.plus
 
 class InitializationViewModel(
     context: AppComponentContext,
@@ -45,7 +47,7 @@ class InitializationViewModel(
     // TODO add build number if needed
     private val initializers: Collection<Initializer>
         @Composable
-        get() = listOf(initializeTheme)
+        get() = listOf(initializeTheme, migration)
 
 
     private val initialTheme
@@ -69,10 +71,12 @@ class InitializationViewModel(
             val newVersion = configuration.app.versionCode
             Initializer(
                 title = Resources.strings.migration.desc(),
-                subtitle = StringDesc.Raw(newVersion.toString())
+                subtitle = Resources.strings.version.desc() + StringDesc.Raw(" $newVersion")
             ) {
                 val currentVersion = preferences.common.appVersion.get()
                 Logger.d { "Migration | Current version $currentVersion | New version $newVersion" }
+                Migrator(this).migrate(currentVersion)
+
                 preferences.common.appVersion.set(newVersion)
             }
         }

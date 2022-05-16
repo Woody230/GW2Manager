@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel
 import com.bselzer.ktx.compose.resource.images.painter
@@ -22,7 +21,6 @@ import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import dev.icerock.moko.resources.compose.localized
-import dev.icerock.moko.resources.desc.desc
 
 class ModuleComposition : ViewModelComposition<ModuleViewModel>() {
     @Composable
@@ -48,7 +46,7 @@ class ModuleComposition : ViewModelComposition<ModuleViewModel>() {
         // Open up the world selection dialog so that the user can pick another world.
         TextPreferenceProjector(
             interactor = TextPreferenceInteractor(
-                image = ImageInteractor(painter = Gw2Resources.images.gw2_rank_dolyak.painter(), contentDescription = Gw2Resources.strings.wvw.desc().localized()),
+                image = ImageInteractor(painter = selectedWorld.image.painter(), contentDescription = selectedWorld.description.localized()),
                 title = TextInteractor(selectedWorld.title.localized()),
                 subtitle = TextInteractor(selectedWorld.subtitle.localized()),
             ),

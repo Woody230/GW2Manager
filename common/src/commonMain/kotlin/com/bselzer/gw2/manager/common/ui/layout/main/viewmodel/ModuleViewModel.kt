@@ -30,7 +30,9 @@ class ModuleViewModel(context: AppComponentContext) : MainViewModel(context) {
             return WorldModule(
                 title = Gw2Resources.strings.world.desc(),
                 subtitle = worldSubtitle(selectedId, world),
-                color = configuration.wvw.color(owner)
+                color = configuration.wvw.color(owner),
+                image = Gw2Resources.images.gw2_rank_dolyak,
+                description = Gw2Resources.strings.world.desc()
             )
         }
 

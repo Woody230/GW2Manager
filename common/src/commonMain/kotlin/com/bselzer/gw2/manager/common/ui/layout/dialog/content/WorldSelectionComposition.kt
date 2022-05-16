@@ -1,6 +1,8 @@
 package com.bselzer.gw2.manager.common.ui.layout.dialog.content
 
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.WorldSelectionViewModel
 import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.resetAlertDialogInteractor
@@ -43,5 +45,5 @@ class WorldSelectionComposition(
                 save(world.id)
             }
         )
-    )
+    ).Projection(modifier = Modifier.fillMaxHeight())
 }

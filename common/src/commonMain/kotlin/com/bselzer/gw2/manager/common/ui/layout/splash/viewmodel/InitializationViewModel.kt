@@ -36,7 +36,6 @@ class InitializationViewModel(
                 initializer.block()
             }
 
-            description.value = noDescription
             onFinish()
         }
     }

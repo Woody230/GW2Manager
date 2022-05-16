@@ -11,6 +11,8 @@ import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.compose.localized
+import dev.icerock.moko.resources.desc.Raw
+import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 
 class InitializationViewModel(
@@ -59,6 +61,19 @@ class InitializationViewModel(
                 subtitle = Resources.strings.theme.desc(),
             ) {
                 preferences.common.theme.initialize(initialTheme)
+            }
+        }
+
+    private val migration
+        get() = run {
+            val newVersion = configuration.app.versionCode
+            Initializer(
+                title = Resources.strings.migration.desc(),
+                subtitle = StringDesc.Raw(newVersion.toString())
+            ) {
+                val currentVersion = preferences.common.appVersion.get()
+                Logger.d { "Migration | Current version $currentVersion | New version $newVersion" }
+                preferences.common.appVersion.set(newVersion)
             }
         }
 

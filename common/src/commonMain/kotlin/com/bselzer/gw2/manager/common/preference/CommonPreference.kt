@@ -13,6 +13,11 @@ import kotlinx.serialization.serializer
 @OptIn(ExperimentalSettingsApi::class)
 class CommonPreference(settings: SuspendSettings) {
     /**
+     * The version of this application.
+     */
+    val appVersion: Setting<Int> = IntSetting(settings = settings, key = "ApplicationVersion")
+
+    /**
      * The GW2 build version.
      */
     val buildNumber: Setting<Int> = IntSetting(settings = settings, key = "BuildNumber")

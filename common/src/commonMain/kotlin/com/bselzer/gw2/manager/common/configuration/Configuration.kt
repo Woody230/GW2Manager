@@ -1,13 +1,21 @@
 package com.bselzer.gw2.manager.common.configuration
 
 import androidx.compose.ui.graphics.DefaultAlpha
+import com.bselzer.gw2.manager.common.configuration.app.App
 import com.bselzer.gw2.manager.common.configuration.wvw.Wvw
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
 @XmlSerialName(value = "Configuration", namespace = "", prefix = "")
 data class Configuration(
+    /**
+     * Metadata about this application.
+     */
+    @Transient
+    val app: App = App(),
+
     /**
      * World vs. World
      */

@@ -20,6 +20,7 @@ import com.bselzer.gw2.v2.tile.cache.metadata.TileMetadataExtractor
 import com.bselzer.gw2.v2.tile.client.TileClient
 import com.bselzer.ktx.compose.image.cache.instance.ImageCache
 import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
+import com.bselzer.ktx.compose.image.client.ImageClient
 import com.bselzer.ktx.compose.image.ui.LocalImageCache
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.compose.safeState
@@ -63,12 +64,12 @@ abstract class App(
      */
     settings: SuspendSettings
 ) : Dependencies {
-    override val preferences = Preferences(
+    final override val preferences = Preferences(
         common = CommonPreference(settings),
         wvw = WvwPreference(settings)
     )
 
-    override val configuration: Configuration = run {
+    final override val configuration: Configuration = run {
         try {
             // TODO attempt to get config from online location and default to bundled config if that fails
             XML(serializersModule = SerializersModule {}) {
@@ -83,18 +84,22 @@ abstract class App(
         }
     }
 
-    override val clients = Clients(
+    final override val clients = Clients(
         gw2 = Gw2Client(
             httpClient = httpClient,
             configuration = Gw2ClientConfiguration(exceptionRecoveryMode = ExceptionRecoveryMode.DEFAULT)
         ),
         tile = TileClient(httpClient),
+        image = ImageClient(httpClient),
         emblem = EmblemClient(httpClient),
         asset = AssetCdnClient(httpClient)
     )
 
-    override val caches: Caches = run {
-        val db = DB.inDir(databaseDirectory).open(
+    final override val caches: Caches = Caches(
+        gw2 = Gw2CacheProvider(clients.gw2),
+        tile = TileCache(clients.tile),
+        image = ImageCache(clients.image),
+        database = DB.inDir(databaseDirectory).open(
             "Gw2Database",
             KotlinxSerializer(Modules.ALL),
             IdentifiableMetadataExtractor(),
@@ -102,15 +107,7 @@ abstract class App(
             ImageMetadataExtractor(),
             TypeTable { gw2() }
         )
-
-        val provider = Gw2CacheProvider(db).apply { inject(clients.gw2) }
-        Caches(
-            database = db,
-            gw2 = provider,
-            tile = TileCache(transactionManager = provider, client = clients.tile),
-            image = ImageCache(transactionManager = provider, client = httpClient)
-        )
-    }
+    )
 
     fun initialize() {
         Logger.clear()

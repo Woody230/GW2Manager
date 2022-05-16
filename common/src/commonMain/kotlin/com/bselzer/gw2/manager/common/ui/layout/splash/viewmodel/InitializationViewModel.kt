@@ -75,9 +75,12 @@ class InitializationViewModel(
             ) {
                 val currentVersion = preferences.common.appVersion.get()
                 Logger.d { "Migration | Current version $currentVersion | New version $newVersion" }
-                Migrator(this).migrate(currentVersion)
-
-                preferences.common.appVersion.set(newVersion)
+                try {
+                    Migrator(this).migrate(currentVersion)
+                    preferences.common.appVersion.set(newVersion)
+                } catch (ex: Exception) {
+                    Logger.e(ex) { "Failed to perform the migration from $currentVersion to $newVersion" }
+                }
             }
         }
 

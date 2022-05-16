@@ -5,7 +5,7 @@ import com.bselzer.gw2.manager.common.ui.base.Configuration
 
 sealed class SplashConfig : Configuration {
     @Parcelize
-    object DefaultConfig : SplashConfig()
+    object NoSplashConfig : SplashConfig()
 
     @Parcelize
     object InitializationConfig : SplashConfig()

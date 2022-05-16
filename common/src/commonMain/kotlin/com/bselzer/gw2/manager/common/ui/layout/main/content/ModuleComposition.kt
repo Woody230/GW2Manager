@@ -1,6 +1,7 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
+import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
@@ -22,7 +24,9 @@ import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import dev.icerock.moko.resources.compose.localized
 
-class ModuleComposition : ViewModelComposition<ModuleViewModel>() {
+class ModuleComposition(
+    private val setDialog: (DialogConfig) -> Unit
+) : ViewModelComposition<ModuleViewModel>() {
     @Composable
     override fun Content(model: ModuleViewModel) = model.run {
         BackgroundImage(
@@ -42,8 +46,6 @@ class ModuleComposition : ViewModelComposition<ModuleViewModel>() {
      */
     @Composable
     private fun ModuleViewModel.SelectedWorld() = ModuleCard {
-        // TODO on click: show world selection dialog
-        // Open up the world selection dialog so that the user can pick another world.
         TextPreferenceProjector(
             interactor = TextPreferenceInteractor(
                 image = ImageInteractor(painter = selectedWorld.image.painter(), contentDescription = selectedWorld.description.localized()),
@@ -53,7 +55,10 @@ class ModuleComposition : ViewModelComposition<ModuleViewModel>() {
             presenter = TextPreferencePresenter(
                 subtitle = TextPresenter(color = selectedWorld.color, fontWeight = FontWeight.Bold)
             )
-        ).Projection()
+        ).Projection(modifier = Modifier.clickable {
+            // Open up the world selection dialog so that the user can pick another world.
+            setDialog(DialogConfig.WorldSelectionConfig)
+        })
     }
 
     /**

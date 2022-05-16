@@ -3,8 +3,8 @@ package com.bselzer.gw2.manager.common.repository
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.v2.model.world.World
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.zip
 
 class WorldRepository(dependencies: RepositoryDependencies) : AppRepository(dependencies) {
     fun worlds(): Flow<Collection<World>> = flow {
@@ -15,7 +15,7 @@ class WorldRepository(dependencies: RepositoryDependencies) : AppRepository(depe
         }
     }
 
-    fun selectedWorld(): Flow<World?> = preferences.wvw.selectedWorld.observeOrNull().zip(worlds()) { selectedId, worlds ->
+    fun selectedWorld(): Flow<World?> = preferences.wvw.selectedWorld.observeOrNull().combine(worlds()) { selectedId, worlds ->
         worlds.firstOrNull { world -> world.id == selectedId }
     }
 }

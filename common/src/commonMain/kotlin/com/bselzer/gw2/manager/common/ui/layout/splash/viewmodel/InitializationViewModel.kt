@@ -48,15 +48,10 @@ class InitializationViewModel(
         @Composable
         get() = listOf(initializeTheme, migration)
 
-
-    private val initialTheme
-        @Composable
-        get() = if (isSystemInDarkTheme()) Theme.DARK else Theme.LIGHT
-
     private val initializeTheme
         @Composable
         get() = run {
-            val initialTheme = initialTheme
+            val initialTheme = if (isSystemInDarkTheme()) Theme.DARK else Theme.LIGHT
             Initializer(
                 title = Resources.strings.settings.desc(),
                 subtitle = Resources.strings.theme.desc(),

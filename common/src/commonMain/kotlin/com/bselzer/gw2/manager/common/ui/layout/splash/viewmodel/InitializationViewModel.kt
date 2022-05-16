@@ -98,7 +98,7 @@ class InitializationViewModel(
 
             val buildNumber = preferences.common.buildNumber
             val oldId = buildNumber.get()
-            Logger.d("Old build id: $oldId | New build id: $newId")
+            Logger.d("Build Number | Old build id $oldId | New build id $newId")
             if (newId > oldId) {
                 buildNumber.set(newId.value)
             }

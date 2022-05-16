@@ -6,6 +6,8 @@ import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
+import com.bselzer.gw2.manager.common.repository.WorldRepository
+import com.bselzer.gw2.manager.common.repository.WvwRepository
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.gw2.v2.cache.metadata.IdentifiableMetadataExtractor
 import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
@@ -108,6 +110,21 @@ abstract class App(
             TypeTable { gw2() }
         )
     )
+
+    final override val repositories: Repositories
+        get() {
+            val dependencies = object : RepositoryDependencies {
+                override val caches: Caches = this@App.caches
+                override val clients: Clients = this@App.clients
+                override val configuration: Configuration = this@App.configuration
+                override val preferences: Preferences = this@App.preferences
+            }
+
+            return Repositories(
+                world = WorldRepository(dependencies),
+                wvw = WvwRepository(dependencies)
+            )
+        }
 
     fun initialize() {
         Logger.clear()

@@ -7,9 +7,7 @@ import com.bselzer.gw2.manager.common.ui.base.RouterComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.DialogViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
-import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.MainViewModel
-import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel
-import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.*
 
 class MainComposition(
     router: Router<MainConfig, MainViewModel>,
@@ -18,11 +16,14 @@ class MainComposition(
     @Composable
     override fun MainViewModel.Content() = when (this) {
         // TODO scaffold, drawer, top app bar
+        is AboutViewModel -> {}
+        is CacheViewModel -> {}
+        is LicenseViewModel -> {}
         is ModuleViewModel -> ModuleComposition { config ->
             dialog.bringToFront(config)
         }.Content(this)
-        is SettingsViewModel -> {
-            /* TODO settings */
-        }
+        is SettingsViewModel -> {}
+        is WvwMapViewModel -> {}
+        is WvwMatchViewModel -> {}
     }
 }

@@ -8,9 +8,7 @@ import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.DialogViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.NoDialogViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.WorldSelectionViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
-import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.MainViewModel
-import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel
-import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.*
 import com.bselzer.gw2.manager.common.ui.layout.splash.configuration.SplashConfig
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.NoSplashViewModel
@@ -38,8 +36,13 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
         childFactory = { state, context ->
             Logger.d { "Main router: ${state::class.simpleName}" }
             when (state) {
+                MainConfig.AboutConfig -> AboutViewModel(context)
+                MainConfig.CacheConfig -> CacheViewModel(context)
+                MainConfig.LicenseConfig -> LicenseViewModel(context)
                 MainConfig.ModuleConfig -> ModuleViewModel(context)
                 MainConfig.SettingsConfig -> SettingsViewModel(context)
+                MainConfig.WvwMapConfig -> WvwMapViewModel(context)
+                MainConfig.WvwMatchConfig -> WvwMatchViewModel(context)
             }
         }
     )

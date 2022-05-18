@@ -5,6 +5,7 @@ import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.model.drawer.DrawerComponent
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.DrawerViewModel
 import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.component.DrawerComponentInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerProjector
@@ -19,6 +20,7 @@ class DrawerComposition : ViewModelComposition<DrawerViewModel>() {
     override fun Content(model: DrawerViewModel) = model.run {
         ModalDrawerProjector(
             interactor = ModalDrawerInteractor(
+                container = ColumnInteractor.Divided,
                 sections = listOf(wvwSection(), settingsSection(), aboutSection())
             ),
         ).DrawerContent()

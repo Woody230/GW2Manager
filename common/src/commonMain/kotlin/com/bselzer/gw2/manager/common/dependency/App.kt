@@ -29,6 +29,7 @@ import com.bselzer.ktx.settings.compose.safeState
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import io.ktor.client.*
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
@@ -111,9 +112,12 @@ abstract class App(
         )
     )
 
+    final override val lock: Mutex = Mutex()
+
     final override val repositories: Repositories
         get() {
             val dependencies = object : RepositoryDependencies {
+                override val lock: Mutex = this@App.lock
                 override val caches: Caches = this@App.caches
                 override val clients: Clients = this@App.clients
                 override val configuration: Configuration = this@App.configuration

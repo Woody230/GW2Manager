@@ -13,7 +13,7 @@ class MainComposition : RouterComposition<MainConfig, MainViewModel>(
     override fun MainViewModel.Content() = when (this) {
         // TODO scaffold, drawer, top app bar
         is AboutViewModel -> {}
-        is CacheViewModel -> {}
+        is CacheViewModel -> CacheComposition().Content(this)
         is LicenseViewModel -> {}
         is ModuleViewModel -> ModuleComposition().Content(this)
         is SettingsViewModel -> {}

@@ -2,8 +2,6 @@ package com.bselzer.gw2.manager.common.ui.layout.host.viewmodel
 
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
@@ -12,8 +10,12 @@ import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-class DrawerViewModel(context: AppComponentContext) : ViewModel(context) {
+class DrawerViewModel(
+    context: AppComponentContext,
+) : ViewModel(context) {
     val wvwTitle: StringDesc = Gw2Resources.strings.wvw.desc()
 
     val wvwMap = DrawerComponent(
@@ -52,17 +54,16 @@ class DrawerViewModel(context: AppComponentContext) : ViewModel(context) {
         configuration = MainConfig.AboutConfig
     )
 
-    val state: DrawerState = DrawerState(initialValue = DrawerValue.Closed)
+    val confirmStateChange: (DrawerValue) -> Boolean = { true }
+    val state = DrawerState(initialValue = DrawerValue.Closed, confirmStateChange)
 
     /**
      * Opens the drawer.
      */
-    @Composable
-    fun open() = LaunchedEffect(state) { state.open() }
+    fun CoroutineScope.open() = launch { state.open() }
 
     /**
      * Closes the drawer.
      */
-    @Composable
-    fun close() = LaunchedEffect(state) { state.close() }
+    fun CoroutineScope.close() = launch { state.close() }
 }

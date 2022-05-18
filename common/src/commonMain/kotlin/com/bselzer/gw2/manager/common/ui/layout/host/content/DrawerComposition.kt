@@ -2,6 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.host.content
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.text.font.FontWeight
 import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.layout.host.model.drawer.DrawerComponent
@@ -20,11 +21,13 @@ import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import dev.icerock.moko.resources.compose.localized
 
 class DrawerComposition(
-    private val model: DrawerViewModel,
+    private val model: DrawerViewModel
 ) {
     @Composable
     fun interactor() = model.run {
         ModalDrawerInteractor(
+            confirmStateChange = confirmStateChange,
+            state = state,
             container = ColumnInteractor.Divided,
             sections = listOf(wvwSection(), settingsSection(), aboutSection())
         )
@@ -59,6 +62,7 @@ class DrawerComposition(
     private fun DrawerComponent.interactor(): DrawerComponentInteractor {
         val localized: String = description.localized()
         val mainRouter = LocalMainRouter.current
+        val scope = rememberCoroutineScope()
         return DrawerComponentInteractor(
             icon = IconInteractor(
                 painter = icon.painter(),
@@ -66,7 +70,9 @@ class DrawerComposition(
             ),
             text = TextInteractor(text = localized),
             modifier = Clickable {
+                // Change the current page to the selected destination and close the drawer.
                 mainRouter.bringToFront(configuration)
+                with(model) { scope.close() }
             }
         )
     }

@@ -3,6 +3,10 @@ package com.bselzer.gw2.manager.android
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.essenty.backpressed.BackPressedDispatcher
+import com.arkivanov.essenty.backpressed.BackPressedHandler
+import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.bselzer.gw2.manager.common.AndroidApp
 import com.bselzer.gw2.manager.common.dependency.Dependencies
 import com.bselzer.gw2.manager.common.ui.base.Gw2ComponentContext
@@ -12,9 +16,11 @@ import com.bselzer.ktx.logging.Logger
 
 class MainActivity : AppCompatActivity() {
     private var dependencies: Dependencies? = null
+    private var backPressedDispatcher: BackPressedDispatcher? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         // Must keep the datastore in the application so that there is only one active at a time.
         val datastore = with(application) {
@@ -30,9 +36,18 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize the component context before composing to avoid potentially creating on another thread.
         // https://arkivanov.github.io/Decompose/component/overview/#root-componentcontext-in-jetpackjetbrains-compose
-        val context = Gw2ComponentContext(app)
-        val host = HostViewModel(context)
+        val context = Gw2ComponentContext(
+            dependencies = app,
+            component = DefaultComponentContext(
+                lifecycle = LifecycleRegistry(),
 
+                // Establish the connection between Android's back press dispatcher and essenty's.
+                // https://arkivanov.github.io/Decompose/component/back-button/
+                backPressedHandler = BackPressedHandler(onBackPressedDispatcher)
+            )
+        )
+
+        val host = HostViewModel(context)
         setContent {
             app.Content {
                 HostComposition().Content(model = host)

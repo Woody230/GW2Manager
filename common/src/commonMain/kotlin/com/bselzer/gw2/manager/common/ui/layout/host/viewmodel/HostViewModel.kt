@@ -1,6 +1,8 @@
 package com.bselzer.gw2.manager.common.ui.layout.host.viewmodel
 
 import com.arkivanov.decompose.router.Router
+import com.arkivanov.decompose.router.activeChild
+import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
@@ -14,6 +16,7 @@ import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationV
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.NoSplashViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.SplashViewModel
 import com.bselzer.ktx.logging.Logger
+import kotlinx.coroutines.CoroutineScope
 
 class HostViewModel(context: AppComponentContext) : ViewModel(context) {
     val dialogRouter: Router<DialogConfig, DialogViewModel> = context.createRouter(
@@ -59,4 +62,36 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
             }
         }
     )
+
+    val scaffold: ScaffoldViewModel = ScaffoldViewModel(context)
+
+    /**
+     * Handles back navigation between the routers.
+     *
+     * @return whether the back press is handled
+     */
+    fun onBackPressed(scope: CoroutineScope): Boolean = when {
+        // If we are showing a dialog, then close it.
+        dialogRouter.activeChild.instance !is NoDialogViewModel -> {
+            dialogRouter.bringToFront(DialogConfig.NoDialogConfig)
+            true
+        }
+
+        // Otherwise if the drawer is open, then close it.
+        scaffold.drawer.state.isOpen -> {
+            with(scaffold.drawer) {
+                scope.close()
+                true
+            }
+        }
+
+        // Otherwise if we aren't on the module page then go back to it.
+        mainRouter.activeChild.instance !is ModuleViewModel -> {
+            mainRouter.bringToFront(MainConfig.ModuleConfig)
+            true
+        }
+
+        // Otherwise let the system propagate backing out.
+        else -> false
+    }
 }

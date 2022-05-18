@@ -1,27 +1,21 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content
 
 import androidx.compose.runtime.Composable
-import com.arkivanov.decompose.router.Router
-import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.RouterComposition
-import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
-import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.DialogViewModel
+import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalMainRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.*
 
-class MainComposition(
-    router: Router<MainConfig, MainViewModel>,
-    private val dialog: Router<DialogConfig, DialogViewModel>,
-) : RouterComposition<MainConfig, MainViewModel>(router) {
+class MainComposition : RouterComposition<MainConfig, MainViewModel>(
+    router = { LocalMainRouter.current }
+) {
     @Composable
     override fun MainViewModel.Content() = when (this) {
         // TODO scaffold, drawer, top app bar
         is AboutViewModel -> {}
         is CacheViewModel -> {}
         is LicenseViewModel -> {}
-        is ModuleViewModel -> ModuleComposition { config ->
-            dialog.bringToFront(config)
-        }.Content(this)
+        is ModuleViewModel -> ModuleComposition().Content(this)
         is SettingsViewModel -> {}
         is WvwMapViewModel -> {}
         is WvwMatchViewModel -> {}

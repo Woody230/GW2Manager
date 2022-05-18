@@ -11,8 +11,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
+import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
@@ -24,9 +26,7 @@ import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import dev.icerock.moko.resources.compose.localized
 
-class ModuleComposition(
-    private val setDialog: (DialogConfig) -> Unit
-) : ViewModelComposition<ModuleViewModel>() {
+class ModuleComposition : ViewModelComposition<ModuleViewModel>() {
     @Composable
     override fun Content(model: ModuleViewModel) = model.run {
         BackgroundImage(
@@ -46,6 +46,7 @@ class ModuleComposition(
      */
     @Composable
     private fun ModuleViewModel.SelectedWorld() = ModuleCard {
+        val dialogRouter = LocalDialogRouter.current
         TextPreferenceProjector(
             interactor = TextPreferenceInteractor(
                 image = ImageInteractor(painter = selectedWorld.image.painter(), contentDescription = selectedWorld.description.localized()),
@@ -57,7 +58,7 @@ class ModuleComposition(
             )
         ).Projection(modifier = Modifier.clickable {
             // Open up the world selection dialog so that the user can pick another world.
-            setDialog(DialogConfig.WorldSelectionConfig)
+            dialogRouter.bringToFront(DialogConfig.WorldSelectionConfig)
         })
     }
 

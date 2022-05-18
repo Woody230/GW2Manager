@@ -3,7 +3,7 @@ package com.bselzer.gw2.manager.common.ui.layout.host.content
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
-import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
+import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.layout.host.model.drawer.DrawerComponent
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.DrawerViewModel
 import com.bselzer.ktx.compose.resource.images.painter
@@ -11,7 +11,6 @@ import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.component.DrawerComponentInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerPresenter
-import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerProjector
 import com.bselzer.ktx.compose.ui.layout.drawer.section.DrawerSectionInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.section.DrawerSectionPresenter
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
@@ -20,20 +19,24 @@ import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import dev.icerock.moko.resources.compose.localized
 
-class DrawerComposition : ViewModelComposition<DrawerViewModel>() {
+class DrawerComposition(
+    private val model: DrawerViewModel,
+) {
     @Composable
-    override fun Content(model: DrawerViewModel) = model.run {
-        ModalDrawerProjector(
-            interactor = ModalDrawerInteractor(
-                container = ColumnInteractor.Divided,
-                sections = listOf(wvwSection(), settingsSection(), aboutSection())
-            ),
-            presenter = ModalDrawerPresenter(
-                section = DrawerSectionPresenter(
-                    title = TextPresenter(fontWeight = FontWeight.Bold, color = MaterialTheme.colors.primary)
-                )
+    fun interactor() = model.run {
+        ModalDrawerInteractor(
+            container = ColumnInteractor.Divided,
+            sections = listOf(wvwSection(), settingsSection(), aboutSection())
+        )
+    }
+
+    @Composable
+    fun presenter() = model.run {
+        ModalDrawerPresenter(
+            section = DrawerSectionPresenter(
+                title = TextPresenter(fontWeight = FontWeight.Bold, color = MaterialTheme.colors.primary)
             )
-        ).DrawerContent()
+        )
     }
 
     @Composable
@@ -55,6 +58,7 @@ class DrawerComposition : ViewModelComposition<DrawerViewModel>() {
     @Composable
     private fun DrawerComponent.interactor(): DrawerComponentInteractor {
         val localized: String = description.localized()
+        val mainRouter = LocalMainRouter.current
         return DrawerComponentInteractor(
             icon = IconInteractor(
                 painter = icon.painter(),
@@ -62,7 +66,7 @@ class DrawerComposition : ViewModelComposition<DrawerViewModel>() {
             ),
             text = TextInteractor(text = localized),
             modifier = Clickable {
-                // TODO route and close drawer
+                mainRouter.bringToFront(configuration)
             }
         )
     }

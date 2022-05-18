@@ -11,22 +11,24 @@ import com.bselzer.ktx.logging.Logger
 
 @OptIn(ExperimentalDecomposeApi::class)
 abstract class RouterComposition<Config : Configuration, Model : ViewModel>(
-    protected val router: Router<Config, Model>
+    protected val router: @Composable () -> Router<Config, Model>
 ) {
     /**
      * Lays out the content for the currently active child of the router.
      */
     @Composable
-    fun Content(modifier: Modifier = Modifier) = Children(
-        routerState = router.state,
-        modifier = modifier,
-        animation = animation(),
-        content = { child ->
-            val model = child.instance
-            Logger.d { "${this::class.simpleName}: ${model::class.simpleName}" }
-            model.Content()
-        }
-    )
+    fun Content(modifier: Modifier = Modifier) = router().run {
+        Children(
+            routerState = state,
+            modifier = modifier,
+            animation = animation(),
+            content = { child ->
+                val model = child.instance
+                Logger.d { "${this::class.simpleName}: ${model::class.simpleName}" }
+                model.Content()
+            }
+        )
+    }
 
     /**
      * Creates an animation to use when swapping between children.

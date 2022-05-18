@@ -7,7 +7,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
+import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalSplashRouter
+import com.bselzer.gw2.manager.common.ui.layout.splash.configuration.SplashConfig
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationViewModel
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
@@ -15,12 +18,15 @@ import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
-class InitializationComposition(
-    private val onFinish: () -> Unit
-) : ViewModelComposition<InitializationViewModel>() {
+class InitializationComposition : ViewModelComposition<InitializationViewModel>() {
     @Composable
     override fun Content(model: InitializationViewModel) = model.run {
-        Initialize(onFinish)
+        val splashRouter = LocalSplashRouter.current
+        Initialize {
+            // Don't show the splash screen once initialization is finished.
+            splashRouter.bringToFront(SplashConfig.NoSplashConfig)
+        }
+
         Container()
     }
 

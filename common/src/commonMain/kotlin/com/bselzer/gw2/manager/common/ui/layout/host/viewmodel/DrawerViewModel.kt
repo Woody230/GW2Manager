@@ -1,5 +1,9 @@
 package com.bselzer.gw2.manager.common.ui.layout.host.viewmodel
 
+import androidx.compose.material.DrawerState
+import androidx.compose.material.DrawerValue
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
@@ -47,4 +51,18 @@ class DrawerViewModel(context: AppComponentContext) : ViewModel(context) {
         description = Resources.strings.about_app.desc(),
         configuration = MainConfig.AboutConfig
     )
+
+    val state: DrawerState = DrawerState(initialValue = DrawerValue.Closed)
+
+    /**
+     * Opens the drawer.
+     */
+    @Composable
+    fun open() = LaunchedEffect(state) { state.open() }
+
+    /**
+     * Closes the drawer.
+     */
+    @Composable
+    fun close() = LaunchedEffect(state) { state.close() }
 }

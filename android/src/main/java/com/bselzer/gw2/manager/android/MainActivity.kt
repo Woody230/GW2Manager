@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.arkivanov.decompose.DefaultComponentContext
-import com.arkivanov.essenty.backpressed.BackPressedDispatcher
 import com.arkivanov.essenty.backpressed.BackPressedHandler
-import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import com.arkivanov.essenty.lifecycle.essentyLifecycle
+import com.arkivanov.essenty.statekeeper.stateKeeper
 import com.bselzer.gw2.manager.common.AndroidApp
 import com.bselzer.gw2.manager.common.dependency.Dependencies
 import com.bselzer.gw2.manager.common.ui.base.Gw2ComponentContext
@@ -16,11 +16,9 @@ import com.bselzer.ktx.logging.Logger
 
 class MainActivity : AppCompatActivity() {
     private var dependencies: Dependencies? = null
-    private var backPressedDispatcher: BackPressedDispatcher? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         // Must keep the datastore in the application so that there is only one active at a time.
         val datastore = with(application) {
@@ -36,18 +34,8 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize the component context before composing to avoid potentially creating on another thread.
         // https://arkivanov.github.io/Decompose/component/overview/#root-componentcontext-in-jetpackjetbrains-compose
-        val context = Gw2ComponentContext(
-            dependencies = app,
-            component = DefaultComponentContext(
-                lifecycle = LifecycleRegistry(),
+        val host = HostViewModel(app.createContext())
 
-                // Establish the connection between Android's back press dispatcher and essenty's.
-                // https://arkivanov.github.io/Decompose/component/back-button/
-                backPressedHandler = BackPressedHandler(onBackPressedDispatcher)
-            )
-        )
-
-        val host = HostViewModel(context)
         setContent {
             app.Content {
                 HostComposition().Content(model = host)
@@ -65,5 +53,30 @@ class MainActivity : AppCompatActivity() {
         } catch (ex: Exception) {
             Logger.e(ex) { "Failed to close the LevelDB database." }
         }
+    }
+
+    private fun Dependencies.createContext() = run {
+        Gw2ComponentContext(
+            dependencies = this,
+
+            // Not using androidx.lifecycle.ViewModel so there is no instance keeper passed.
+            // https://github.com/arkivanov/Essenty#instancekeeper
+            component = DefaultComponentContext(
+                // Establish the connection between the activity's lifecycle and essenty's lifecycle.
+                // https://github.com/arkivanov/Essenty#lifecyle
+                // https://arkivanov.github.io/Decompose/component/lifecycle/
+                lifecycle = essentyLifecycle(),
+
+                // Establish the connection between the activity's SavedStateRegistry and essenty's state keeper.
+                // https://github.com/arkivanov/Essenty#statekeeper
+                // https://arkivanov.github.io/Decompose/component/state-preservation/
+                stateKeeper = stateKeeper(),
+
+                // Establish the connection between the activity's OnBackPressedDispatcher and essenty's handler.
+                // https://github.com/arkivanov/Essenty#backpresseddispatcher
+                // https://arkivanov.github.io/Decompose/component/back-button/
+                backPressedHandler = BackPressedHandler(onBackPressedDispatcher)
+            )
+        )
     }
 }

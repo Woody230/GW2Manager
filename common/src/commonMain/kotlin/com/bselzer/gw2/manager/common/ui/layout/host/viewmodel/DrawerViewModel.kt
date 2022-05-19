@@ -50,7 +50,7 @@ class DrawerViewModel(
 
     val about = DrawerComponent(
         icon = Gw2Resources.images.ic_info,
-        description = Resources.strings.about_app.desc(),
+        description = Resources.strings.about.desc(),
         configuration = MainConfig.AboutConfig
     )
 

@@ -7,12 +7,16 @@ import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.CacheClear
 import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.ktx.resource.Resources
+import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
+    override val title: StringDesc = Resources.strings.cache.desc()
+
     val continent = CacheClear(
         image = Gw2Resources.images.gw2_gift_of_exploration,
         title = Gw2Resources.strings.continents.desc(),

@@ -34,11 +34,13 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
             val snackbar = LocalSnackbarHostState.current
             val notification = Resources.strings.cache_clear.desc().localized()
             IconButtonInteractor(
+                enabled = selected.any(),
                 icon = deleteIconInteractor(),
                 onClick = {
                     // Clear the caches and then notify the user.
                     performSelected()
                     scope.launch {
+                        // TODO snackbar message not getting displayed
                         snackbar.showSnackbar(notification)
                     }
                 }
@@ -112,6 +114,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val wvwLogic = ClearLogic(type = ClearType.WVW) {
         with(caches.gw2.wvw) { clear() }
+        with(caches.gw2.world) { clear() }
     }
 
     val resources
@@ -125,7 +128,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     fun deselect(type: ClearType) = selected.remove(type)
     fun isSelected(type: ClearType) = selected.contains(type)
 
-    fun selectionToggle() {
+    private fun selectionToggle() {
         // If there are none selected then add them all, otherwise deselect the ones selected.
         if (selected.isEmpty()) {
             clears.forEach { clear -> selected[clear.type] = clear }
@@ -134,7 +137,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         }
     }
 
-    fun performSelected() {
+    private fun performSelected() {
         // Need to make a copy due to multiple threads using the collection.
         // This is to avoid emptying the list and then trying to clear it.
         clearCaches(selected.values.toList())

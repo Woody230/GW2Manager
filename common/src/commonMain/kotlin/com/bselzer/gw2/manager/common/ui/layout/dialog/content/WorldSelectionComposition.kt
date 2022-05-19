@@ -2,7 +2,9 @@ package com.bselzer.gw2.manager.common.ui.layout.dialog.content
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.router.activeChild
 import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
@@ -12,7 +14,7 @@ import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.resetAlertDialogIn
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogProjector
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
-import com.bselzer.ktx.compose.ui.notification.snackbar.ShowSnackbar
+import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.compose.localized
 
@@ -20,9 +22,22 @@ class WorldSelectionComposition : ViewModelComposition<WorldSelectionViewModel>(
     @Composable
     override fun Content(model: WorldSelectionViewModel): Unit = model.run {
         if (noWorlds.enabled) {
-            ShowSnackbar(message = noWorlds.message.localized())
+            NoWorldsMessage()
         } else {
             SelectionDialog()
+        }
+    }
+
+    @Composable
+    private fun WorldSelectionViewModel.NoWorldsMessage() {
+        val host = LocalSnackbarHostState.current
+        val message = noWorlds.message.localized()
+        val dialogRouter = LocalDialogRouter.current
+
+        // Only display the message once per dialog initialization.
+        LaunchedEffect(dialogRouter.activeChild) {
+            host.showSnackbar(message = message)
+            dialogRouter.bringToFront(DialogConfig.NoDialogConfig)
         }
     }
 

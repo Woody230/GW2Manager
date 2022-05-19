@@ -11,7 +11,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.CacheViewModel
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.checkbox.CheckboxInteractor
-import com.bselzer.ktx.compose.ui.layout.column.dividedColumnProjector
+import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
@@ -29,7 +29,8 @@ class CacheComposition : ViewModelComposition<CacheViewModel>() {
             painter = relativeBackgroundPainter
         ) {
             // TODO app bar perform cache clear and show snackbar
-            dividedColumnProjector(thickness = 25.dp).Projection(
+            // TODO select all
+            spacedColumnProjector(thickness = 25.dp).Projection(
                 modifier = Modifier.padding(25.dp),
                 content = buildArray {
                     listOf(continent, guild, image, wvw).forEach { cache ->

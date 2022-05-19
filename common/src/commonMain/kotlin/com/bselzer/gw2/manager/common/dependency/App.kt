@@ -26,6 +26,7 @@ import com.bselzer.ktx.compose.image.client.ImageClient
 import com.bselzer.ktx.compose.image.ui.LocalImageCache
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.compose.safeState
+import com.mikepenz.aboutlibraries.entity.Library
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import io.ktor.client.*
@@ -65,7 +66,9 @@ abstract class App(
     /**
      * The preference settings.
      */
-    settings: SuspendSettings
+    settings: SuspendSettings,
+
+    override val libraries: List<Library>
 ) : Dependencies {
     final override val preferences = Preferences(
         common = CommonPreference(settings),

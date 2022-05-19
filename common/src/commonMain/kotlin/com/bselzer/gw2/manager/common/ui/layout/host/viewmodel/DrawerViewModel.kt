@@ -31,25 +31,25 @@ class DrawerViewModel(
     )
 
     val settings = DrawerComponent(
-        icon = Gw2Resources.images.ic_settings,
+        icon = Resources.images.ic_settings,
         description = Resources.strings.settings.desc(),
         configuration = MainConfig.SettingsConfig
     )
 
     val cache = DrawerComponent(
-        icon = Gw2Resources.images.ic_cached,
+        icon = Resources.images.ic_cached,
         description = Resources.strings.cache.desc(),
         configuration = MainConfig.CacheConfig
     )
 
     val license = DrawerComponent(
-        icon = Gw2Resources.images.ic_policy,
+        icon = Resources.images.ic_policy,
         description = Resources.strings.licenses.desc(),
         configuration = MainConfig.LicenseConfig
     )
 
     val about = DrawerComponent(
-        icon = Gw2Resources.images.ic_info,
+        icon = Resources.images.ic_info,
         description = Resources.strings.about.desc(),
         configuration = MainConfig.AboutConfig
     )

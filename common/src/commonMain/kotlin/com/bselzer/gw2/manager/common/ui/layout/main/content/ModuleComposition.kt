@@ -35,7 +35,6 @@ class ModuleComposition : ViewModelComposition<ModuleViewModel>() {
             painter = absoluteBackgroundPainter,
         ) {
             Column(modifier = Modifier.padding(25.dp)) {
-                // TODO top app bar with refresh action
                 SelectedWorld()
             }
         }

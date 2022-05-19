@@ -11,10 +11,9 @@ class MainComposition : RouterComposition<MainConfig, MainViewModel>(
 ) {
     @Composable
     override fun MainViewModel.Content() = when (this) {
-        // TODO scaffold, drawer, top app bar
         is AboutViewModel -> {}
         is CacheViewModel -> CacheComposition().Content(this)
-        is LicenseViewModel -> {}
+        is LicenseViewModel -> LicenseComposition().Content(this)
         is ModuleViewModel -> ModuleComposition().Content(this)
         is SettingsViewModel -> {}
         is WvwMapViewModel -> {}

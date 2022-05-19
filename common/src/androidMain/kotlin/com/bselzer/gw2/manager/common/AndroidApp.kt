@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.bselzer.gw2.manager.common.dependency.App
+import com.bselzer.ktx.library.libraries
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
@@ -27,7 +28,8 @@ class AndroidApp(
     configurationContent = context.configurationContent(),
     httpClient = httpClient(),
     databaseDirectory = context.filesDir.absolutePath,
-    settings = DataStoreSettings(datastore)
+    settings = DataStoreSettings(datastore),
+    libraries = context.libraries()
 ) {
     private companion object {
         fun Context.configurationContent() = assets.open("Configuration.xml")

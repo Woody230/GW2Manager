@@ -24,7 +24,7 @@ abstract class RouterComposition<Config : Configuration, Model : ViewModel>(
             animation = animation(),
             content = { child ->
                 val model = child.instance
-                Logger.d { "${this::class.simpleName}: ${model::class.simpleName}" }
+                Logger.d { "${this@RouterComposition::class.simpleName}: ${model::class.simpleName}" }
                 model.Content()
             }
         )

@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.state.ToggleableState
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
@@ -11,7 +12,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearType
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.resource.ui.layout.icon.deleteIconInteractor
-import com.bselzer.ktx.compose.resource.ui.layout.icon.refreshIconInteractor
+import com.bselzer.ktx.compose.resource.ui.layout.icon.triStateCheckboxIconInteractor
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
 import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
 import com.bselzer.ktx.logging.Logger
@@ -47,9 +48,14 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     private val selectionToggleAction
         @Composable
         get() = IconButtonInteractor(
-            // TODO checkbox icon dependent on if there is a selection (unchecked, intermediate, checked)
-            icon = refreshIconInteractor(),
-            onClick = selectionToggle()
+            icon = triStateCheckboxIconInteractor(
+                state = when {
+                    selected.size == clears.size -> ToggleableState.On
+                    selected.any() -> ToggleableState.Indeterminate
+                    else -> ToggleableState.Off
+                }
+            ),
+            onClick = ::selectionToggle
         )
 
     override val actions: @Composable () -> List<IconButtonInteractor> = {
@@ -119,7 +125,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     fun deselect(type: ClearType) = selected.remove(type)
     fun isSelected(type: ClearType) = selected.contains(type)
 
-    fun selectionToggle(): () -> Unit = {
+    fun selectionToggle() {
         // If there are none selected then add them all, otherwise deselect the ones selected.
         if (selected.isEmpty()) {
             clears.forEach { clear -> selected[clear.type] = clear }

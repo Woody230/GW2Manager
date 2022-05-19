@@ -1,14 +1,17 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.CacheClear
+import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearLogic
+import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
+import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearType
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.resource.ui.layout.icon.deleteIconInteractor
+import com.bselzer.ktx.compose.resource.ui.layout.icon.refreshIconInteractor
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
 import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
 import com.bselzer.ktx.logging.Logger
@@ -23,11 +26,12 @@ import kotlinx.coroutines.launch
 class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     override val title: StringDesc = Resources.strings.cache.desc()
 
-    override val actions: @Composable () -> List<IconButtonInteractor> = {
-        val scope = rememberCoroutineScope()
-        val snackbar = LocalSnackbarHostState.current
-        val notification = Resources.strings.cache_clear.desc().localized()
-        listOf(
+    private val deleteAction
+        @Composable
+        get() = run {
+            val scope = rememberCoroutineScope()
+            val snackbar = LocalSnackbarHostState.current
+            val notification = Resources.strings.cache_clear.desc().localized()
             IconButtonInteractor(
                 icon = deleteIconInteractor(),
                 onClick = {
@@ -38,31 +42,47 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
                     }
                 }
             )
+        }
+
+    private val selectionToggleAction
+        @Composable
+        get() = IconButtonInteractor(
+            // TODO checkbox icon dependent on if there is a selection (unchecked, intermediate, checked)
+            icon = refreshIconInteractor(),
+            onClick = selectionToggle()
         )
+
+    override val actions: @Composable () -> List<IconButtonInteractor> = {
+        listOf(selectionToggleAction, deleteAction)
     }
 
-    val continent = CacheClear(
+    private val continentResources = ClearResources(
+        type = ClearType.CONTINENT,
         image = Gw2Resources.images.gw2_gift_of_exploration,
         title = Gw2Resources.strings.continents.desc(),
         subtitle = Gw2Resources.strings.continents_description.desc(),
-        perform = {
-            with(caches.gw2.continent) { clear() }
-            with(caches.tile) { clear() }
-        }
     )
 
-    val guild = CacheClear(
+    private val continentLogic = ClearLogic(type = ClearType.CONTINENT) {
+        with(caches.gw2.continent) { clear() }
+        with(caches.tile) { clear() }
+    }
+
+    private val guildResources = ClearResources(
+        type = ClearType.GUILD,
         image = Gw2Resources.images.gw2_guild_commendation,
         title = Gw2Resources.strings.guilds.desc(),
         subtitle = Gw2Resources.strings.guilds_description.desc(),
-        perform = {
-            with(caches.gw2.guild) { clear() }
-        }
     )
 
-    val image
+    private val guildLogic = ClearLogic(type = ClearType.GUILD) {
+        with(caches.gw2.guild) { clear() }
+    }
+
+    private val imageResources
         @Composable
-        get() = CacheClear(
+        get() = ClearResources(
+            type = ClearType.IMAGE,
             image = if (LocalTheme.current == Theme.DARK) {
                 Gw2Resources.images.gw2_twilight
             } else {
@@ -70,37 +90,58 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
             },
             title = Gw2Resources.strings.images.desc(),
             subtitle = Gw2Resources.strings.images_description.desc(),
-            perform = {
-                with(caches.image) { clear() }
-                with(caches.tile) { clear() }
-            }
         )
 
-    val wvw = CacheClear(
+    private val imageLogic = ClearLogic(type = ClearType.IMAGE) {
+        with(caches.image) { clear() }
+        with(caches.tile) { clear() }
+    }
+
+    private val wvwResources = ClearResources(
+        type = ClearType.WVW,
         image = Gw2Resources.images.gw2_rank_dolyak,
         title = Gw2Resources.strings.wvw.desc(),
         subtitle = Gw2Resources.strings.wvw_description.desc(),
-        perform = {
-            with(caches.gw2.wvw) { clear() }
-        }
     )
 
-    private val _selected: MutableList<CacheClear> = mutableStateListOf()
-    val selected: List<CacheClear> = _selected
-    fun select(cache: CacheClear) = _selected.add(cache)
-    fun deselect(cache: CacheClear) = _selected.remove(cache)
+    private val wvwLogic = ClearLogic(type = ClearType.WVW) {
+        with(caches.gw2.wvw) { clear() }
+    }
+
+    val resources
+        @Composable
+        get() = listOf(continentResources, guildResources, imageResources, wvwResources)
+
+    val clears = listOf(continentLogic, guildLogic, imageLogic, wvwLogic)
+
+    private val selected: MutableMap<ClearType, ClearLogic> = mutableStateMapOf()
+    fun select(type: ClearType) = selected.put(type, clears.first { clear -> clear.type == type })
+    fun deselect(type: ClearType) = selected.remove(type)
+    fun isSelected(type: ClearType) = selected.contains(type)
+
+    fun selectionToggle(): () -> Unit = {
+        // If there are none selected then add them all, otherwise deselect the ones selected.
+        if (selected.isEmpty()) {
+            clears.forEach { clear -> selected[clear.type] = clear }
+        } else {
+            selected.forEach { clear -> deselect(clear.key) }
+        }
+    }
+
     fun performSelected() {
-        clearCaches(_selected.toList())
-        _selected.clear()
+        // Need to make a copy due to multiple threads using the collection.
+        // This is to avoid emptying the list and then trying to clear it.
+        clearCaches(selected.values.toList())
+        selected.clear()
     }
 
     /**
-     * Clears all of the [caches].
+     * Clears all of the cache [clears].
      */
-    private fun clearCaches(caches: Collection<CacheClear>) = CoroutineScope(Dispatchers.Default).launch {
+    private fun clearCaches(clears: Collection<ClearLogic>) = CoroutineScope(Dispatchers.Default).launch {
         transaction {
-            caches.forEach { cache -> cache.perform(this) }
-            Logger.d { "Cache | Clearing ${caches.size}" }
+            clears.forEach { clear -> clear.perform(this) }
+            Logger.d { "Cache | Clearing ${clears.map { logic -> logic.type }}" }
         }
     }
 }

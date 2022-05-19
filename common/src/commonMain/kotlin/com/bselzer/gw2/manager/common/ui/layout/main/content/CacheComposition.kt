@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
-import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.CacheClear
+import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.CacheViewModel
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
@@ -28,13 +28,11 @@ class CacheComposition : ViewModelComposition<CacheViewModel>() {
             modifier = Modifier.fillMaxSize(),
             painter = relativeBackgroundPainter
         ) {
-            // TODO app bar perform cache clear and show snackbar
-            // TODO select all
             spacedColumnProjector(thickness = 25.dp).Projection(
                 modifier = Modifier.padding(25.dp),
                 content = buildArray {
-                    listOf(continent, guild, image, wvw).forEach { cache ->
-                        add { Projection(cache) }
+                    resources.forEach { resource ->
+                        add { Projection(resource) }
                     }
                 }
             )
@@ -42,31 +40,31 @@ class CacheComposition : ViewModelComposition<CacheViewModel>() {
     }
 
     @Composable
-    private fun CacheViewModel.interactor(cache: CacheClear) = CheckboxPreferenceInteractor(
+    private fun CacheViewModel.interactor(resource: ClearResources) = CheckboxPreferenceInteractor(
         checkbox = CheckboxInteractor(
-            checked = selected.contains(cache),
+            checked = isSelected(resource.type),
             onCheckedChange = { checked ->
                 if (checked) {
-                    select(cache)
+                    select(resource.type)
                 } else {
-                    deselect(cache)
+                    deselect(resource.type)
                 }
             }
         ),
         preference = PreferenceInteractor(
             image = ImageInteractor(
-                painter = cache.image.painter(),
-                contentDescription = cache.subtitle.localized()
+                painter = resource.image.painter(),
+                contentDescription = resource.subtitle.localized()
             ),
             description = DescriptionInteractor(
-                title = TextInteractor(cache.title.localized()),
-                subtitle = TextInteractor(cache.subtitle.localized())
+                title = TextInteractor(resource.title.localized()),
+                subtitle = TextInteractor(resource.subtitle.localized())
             )
         )
     )
 
     @Composable
-    private fun CacheViewModel.Projection(cache: CacheClear) = CheckboxPreferenceProjector(
+    private fun CacheViewModel.Projection(cache: ClearResources) = CheckboxPreferenceProjector(
         interactor = interactor(cache),
     ).Projection()
 }

@@ -15,7 +15,7 @@ class MainComposition : RouterComposition<MainConfig, MainViewModel>(
         is CacheViewModel -> CacheComposition().Content(this)
         is LicenseViewModel -> LicenseComposition().Content(this)
         is ModuleViewModel -> ModuleComposition().Content(this)
-        is SettingsViewModel -> {}
+        is SettingsViewModel -> SettingsComposition().Content(this)
         is WvwMapViewModel -> {}
         is WvwMatchViewModel -> {}
     }

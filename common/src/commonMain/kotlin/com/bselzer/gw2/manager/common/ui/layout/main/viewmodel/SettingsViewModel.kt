@@ -75,7 +75,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     val tokenLogic = TokenLogic(
         token = { token.value?.toString() },
-        updateToken = { value -> token.value = value?.let { Token(it) } },
+        updateToken = { value -> token.value = value?.let { Token(it.trim()) } },
         clearToken = { token.value = null },
         onReset = {
             token.value = null
@@ -84,7 +84,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
         onClickHyperlink = { Browser.open(it) },
         onSave = {
             // Validate the new token before committing it.
-            val newValue = token.value?.toString()
+            val newValue = token.value?.toString()?.trim()
             if (newValue.isNullOrBlank()) {
                 token.value = null
                 return@TokenLogic false

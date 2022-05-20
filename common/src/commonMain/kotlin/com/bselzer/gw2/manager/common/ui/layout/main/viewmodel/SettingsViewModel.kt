@@ -22,6 +22,8 @@ import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.launch
+import org.kodein.db.asModelSequence
+import org.kodein.db.find
 
 class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     override val title: StringDesc = Resources.strings.settings.desc()
@@ -65,7 +67,12 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                 if (token.isNullOrBlank()) {
                     Resources.strings.not_set.desc()
                 } else {
-                    StringDesc.Raw(token)
+                    // The token info id is only the first GUID so a startsWith is required.
+                    val tokenInfo = caches.database.find<TokenInfo>().all().asModelSequence().firstOrNull { info -> token.startsWith(info.id.value) }
+
+                    // Try to use the name first as the most user friendly.
+                    // Since the id is not the full token, try to use that as a default otherwise.
+                    StringDesc.Raw(tokenInfo?.name ?: tokenInfo?.id?.value ?: "")
                 }
             },
             dialogSubtitle = Gw2Resources.strings.token_description.desc(),
@@ -112,6 +119,10 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
         if (permissions.contains(Permission.ACCOUNT)) {
             val account = clients.gw2.account.account(token)
             if (!account.id.isDefault) {
+                transaction {
+                    caches.database.put(tokenInfo)
+                }
+
                 preferences.common.token.set(token.value)
                 Logger.d { "Set client token to $token" }
 

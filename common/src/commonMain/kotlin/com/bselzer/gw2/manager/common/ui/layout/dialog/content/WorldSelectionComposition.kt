@@ -14,6 +14,7 @@ import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.resetAlertDialogIn
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogProjector
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
+import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.compose.localized
@@ -49,8 +50,13 @@ class WorldSelectionComposition : ViewModelComposition<WorldSelectionViewModel>(
             interactor = resetAlertDialogInteractor {
                 // Don't show the dialog anymore when the world has been selected.
                 dialogRouter.bringToFront(DialogConfig.NoDialogConfig)
-            }
-        ).Projection {
+            }.copy(
+                title = TextInteractor(selection.title.localized())
+            )
+        ).Projection(
+            // TODO use regular dialog instead of constrained -- title bounces with the choices
+            constrained = true
+        ) {
             SelectionChoice()
         }
     }

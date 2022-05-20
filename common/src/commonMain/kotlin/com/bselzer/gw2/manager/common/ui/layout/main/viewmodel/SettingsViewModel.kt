@@ -119,6 +119,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
         if (permissions.contains(Permission.ACCOUNT)) {
             val account = clients.gw2.account.account(token)
             if (!account.id.isDefault) {
+                // Ensure the token info exists before updating the token so that it will be available for recomposition.
                 transaction {
                     caches.database.put(tokenInfo)
                 }

@@ -42,6 +42,7 @@ kotlin {
                 api("com.bselzer.ktx:compose-image:$extensionVersion")
                 api("com.bselzer.ktx:coroutine:$extensionVersion")
                 api("com.bselzer.ktx:function:$extensionVersion")
+                api("com.bselzer.ktx:intent:$extensionVersion")
                 api("com.bselzer.ktx:library:$extensionVersion")
                 api("com.bselzer.ktx:logging:$extensionVersion")
                 api("com.bselzer.ktx:settings-compose:$extensionVersion")

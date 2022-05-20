@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.desc.StringDesc
 
-class WorldModule(
+class WorldResources(
     val image: ImageResource,
     val description: StringDesc,
     val title: StringDesc,

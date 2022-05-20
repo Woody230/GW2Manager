@@ -32,6 +32,7 @@
     <!-- Settings -->
     <string name="token_description">Your account API key or token.</string>
     <string name="token_failure">Unable to save the token.</string>
+    <string name="token_hyperlink">https://account.arena.net/applications</string>
 
     <!-- Splash -->
     <string name="build_number">Build Number</string>

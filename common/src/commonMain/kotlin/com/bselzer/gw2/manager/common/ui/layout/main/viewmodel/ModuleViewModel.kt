@@ -7,7 +7,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.main.model.module.WorldModule
+import com.bselzer.gw2.manager.common.ui.layout.main.model.module.WorldResources
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.model.world.World
@@ -43,14 +43,14 @@ class ModuleViewModel(context: AppComponentContext) : MainViewModel(context) {
     /**
      * Creates the state for the module displaying the user's choice of world.
      */
-    val selectedWorld: WorldModule
+    val selectedWorld: WorldResources
         @Composable
         get() {
             val world by repositories.world.selectedWorld().collectAsState(null)
             val match by repositories.wvw.selectedMatch().collectAsState(null)
             val selectedId = world?.id ?: WorldId(0)
             val owner = match?.owner(selectedId) ?: WvwObjectiveOwner.NEUTRAL
-            return WorldModule(
+            return WorldResources(
                 title = Gw2Resources.strings.world.desc(),
                 subtitle = worldSubtitle(selectedId, world),
                 color = configuration.wvw.color(owner),

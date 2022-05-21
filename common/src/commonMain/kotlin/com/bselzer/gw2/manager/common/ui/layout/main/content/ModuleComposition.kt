@@ -3,6 +3,8 @@ package com.bselzer.gw2.manager.common.ui.layout.main.content
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,7 +36,7 @@ class ModuleComposition : ViewModelComposition<ModuleViewModel>() {
             contentAlignment = Alignment.TopCenter,
             painter = absoluteBackgroundPainter,
         ) {
-            Column(modifier = Modifier.padding(25.dp)) {
+            Column(modifier = Modifier.padding(25.dp).verticalScroll(rememberScrollState())) {
                 SelectedWorld()
             }
         }

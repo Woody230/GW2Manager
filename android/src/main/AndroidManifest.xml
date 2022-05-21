@@ -29,11 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <provider
-            android:name="com.bselzer.ktx.intent.browser.AppBrowser"
-            android:authorities="com.bselzer.gw2.manager.android.provider"
-            android:exported="false" />
     </application>
 
 </manifest>

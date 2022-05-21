@@ -1,22 +1,20 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.ThemeLogic
-import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.ThemeResources
-import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.TokenLogic
-import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.TokenResources
+import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.*
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.scope.core.Permission
+import com.bselzer.ktx.datetime.format.DurationBound
 import com.bselzer.ktx.intent.browser.Browser
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.Resources
+import com.bselzer.ktx.resource.strings.stringResource
+import com.bselzer.ktx.settings.compose.defaultState
 import com.bselzer.ktx.settings.compose.nullState
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
@@ -24,6 +22,9 @@ import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.launch
 import org.kodein.db.asModelSequence
 import org.kodein.db.find
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     override val title: StringDesc = Resources.strings.settings.desc()
@@ -76,14 +77,14 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                 }
             },
             dialogSubtitle = Gw2Resources.strings.token_description.desc(),
+            dialogInput = StringDesc.Raw(token.value?.toString() ?: ""),
             hyperlink = Gw2Resources.strings.token_hyperlink.desc(),
             failure = Gw2Resources.strings.token_failure.desc(),
         )
 
     val tokenLogic = TokenLogic(
-        token = { token.value?.toString() },
-        updateToken = { value -> token.value = value?.let { Token(it.trim()) } },
-        clearToken = { token.value = null },
+        updateInput = { value -> token.value = value?.let { Token(it.trim()) } },
+        clearInput = { token.value = null },
         onReset = {
             token.value = null
             preferences.common.token.remove()
@@ -134,4 +135,43 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
 
         return false
     }
+
+    val wvwResources
+        @Composable
+        get() = run {
+            val interval by preferences.wvw.refreshInterval.defaultState()
+            WvwResources(
+                image = Gw2Resources.images.gw2_rank_dolyak,
+                title = Gw2Resources.strings.wvw.desc(),
+                interval = WvwIntervalResources(
+                    image = Gw2Resources.images.gw2_concentration,
+                    title = Resources.strings.refresh_interval.desc(),
+
+                    // The notation given should be acceptable for all of the supported localizations.
+                    subtitle = StringDesc.Raw(interval.toString()),
+                    label = { unit -> unit.stringResource().desc() }
+                )
+            )
+        }
+
+    private val intervalAmount: MutableState<Int> = mutableStateOf(preferences.wvw.refreshInterval.initialAmount)
+    private val intervalUnit: MutableState<DurationUnit> = mutableStateOf(preferences.wvw.refreshInterval.initialUnit)
+    private val intervalBound = DurationBound(min = 30.seconds)
+    val intervalLogic
+        get() = WvwIntervalLogic(
+            amount = intervalBound.minBind(intervalAmount.value, intervalUnit.value),
+            unit = intervalUnit.value,
+            amountRange = intervalBound.minRange(intervalUnit.value),
+            units = listOf(DurationUnit.SECONDS, DurationUnit.MINUTES, DurationUnit.HOURS, DurationUnit.DAYS),
+            onValueChange = { amount, unit ->
+                intervalAmount.value = intervalBound.minBind(amount, unit)
+                intervalUnit.value = unit
+            },
+            onSave = {
+                val unit = intervalUnit.value
+                val amount = intervalBound.minBind(intervalAmount.value, unit)
+                preferences.wvw.refreshInterval.set(amount.toDuration(unit))
+            },
+            onReset = { preferences.wvw.refreshInterval.remove() }
+        )
 }

@@ -1,5 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -8,31 +6,38 @@ plugins {
     id("org.jetbrains.compose") version Versions.COMPOSE
 }
 
-val localProperties = gradleLocalProperties(rootDir)
 android {
-    val hasStoreFile = localProperties.containsKey("storeFile")
-    if (hasStoreFile) {
-        signingConfigs {
-            create("release") {
-                storeFile = file(localProperties["storeFile"] ?: throw NotImplementedError("Set the store file in local properties."))
-                storePassword = localProperties["storePassword"]?.toString() ?: throw NotImplementedError("Set the store password in local properties.")
-                keyPassword = localProperties["keyPassword"]?.toString() ?: throw NotImplementedError("Set the key password in local properties.")
-                keyAlias = localProperties["keyAlias"]?.toString() ?: throw NotImplementedError("Set the key alias in local properties.")
-            }
-        }
-    }
-
-    compileSdk = 31
+    compileSdk = Metadata.COMPILE_SDK
+    sourceSets.getByName("main").manifest.srcFile(Metadata.ANDROID_MANIFEST_PATH)
     defaultConfig {
         applicationId = "${Metadata.PACKAGE_NAME}.android"
-        minSdk = 21
-        targetSdk = 31
-        versionCode = Metadata.VERSION_CODE
-        versionName = Metadata.VERSION_NAME
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        minSdk = Metadata.MIN_SDK
+        targetSdk = Metadata.TARGET_SDK
+        testInstrumentationRunner = Metadata.TEST_INSTRUMENTATION_RUNNER
+    }
+    compileOptions {
+        isCoreLibraryDesugaringEnabled
+        sourceCompatibility = Metadata.ANDROID_JAVA_VERSION
+        targetCompatibility = Metadata.ANDROID_JAVA_VERSION
+    }
+    buildFeatures {
+        compose = true
     }
 
+    signing()
+    proguard()
+
+    kotlinOptions {
+        jvmTarget = Metadata.ANDROID_JVM_TARGET
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}")
+    implementation(project(":common"))
+}
+
+fun com.android.build.gradle.internal.dsl.BaseAppModuleExtension.proguard() {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -40,25 +45,22 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             ndk.debugSymbolLevel = "FULL"
 
-            if (hasStoreFile) {
+            if (project.hasStoreFile()) {
                 signingConfig = signingConfigs.getByName("release")
             }
         }
     }
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = Metadata.ANDROID_JVM_TARGET
-    }
-    buildFeatures {
-        compose = true
-    }
 }
 
-dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}")
-    implementation(project(":common"))
+fun com.android.build.gradle.internal.dsl.BaseAppModuleExtension.signing() {
+    if (project.hasStoreFile()) {
+        signingConfigs {
+            create("release") {
+                storeFile = project.file(project.localProperty(LocalProperty.STORE_FILE))
+                storePassword = project.localProperty(LocalProperty.STORE_PASSWORD)
+                keyPassword = project.localProperty(LocalProperty.KEY_PASSWORD)
+                keyAlias = project.localProperty(LocalProperty.KEY_ALIAS)
+            }
+        }
+    }
 }

@@ -19,14 +19,6 @@ kotlin {
         }
     }
     sourceSets {
-        val wrapperVersion = "2.0.0"
-        val kodeinDbVersion = "0.9.0-beta"
-        val extensionVersion = "4.0.0"
-        val ktorVersion = "2.0.0"
-        val serializationVersion = "1.3.2"
-        val settingsVersion = "0.8.1"
-        val decomposeVersion = "0.5.2"
-
         val commonMain by getting {
             dependencies {
                 // Compose
@@ -109,16 +101,17 @@ kotlin {
 }
 
 android {
-    compileSdk = 31
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    compileSdk = Metadata.COMPILE_SDK
+    sourceSets.getByName("main").manifest.srcFile(Metadata.COMMON_MANIFEST_PATH)
     defaultConfig {
-        minSdk = 21
-        targetSdk = 31
+        minSdk = Metadata.MIN_SDK
+        targetSdk = Metadata.TARGET_SDK
+        testInstrumentationRunner = Metadata.TEST_INSTRUMENTATION_RUNNER
     }
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled
+        sourceCompatibility = Metadata.ANDROID_JAVA_VERSION
+        targetCompatibility = Metadata.ANDROID_JAVA_VERSION
     }
     dependencies {
         coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}")

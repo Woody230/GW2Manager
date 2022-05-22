@@ -33,7 +33,6 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import io.ktor.client.*
 import kotlinx.coroutines.sync.Mutex
-import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.XML
@@ -81,7 +80,7 @@ abstract class App(
     final override val configuration: Configuration = run {
         try {
             // TODO attempt to get config from online location and default to bundled config if that fails
-            XML(serializersModule = SerializersModule {}) {
+            XML {
                 this.unknownChildHandler = LoggingUnknownChildHandler()
             }.decodeFromString(serializer(), configurationContent)
         } catch (ex: Exception) {

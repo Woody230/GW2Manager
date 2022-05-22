@@ -25,6 +25,7 @@ import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
 import com.bselzer.ktx.compose.image.client.ImageClient
 import com.bselzer.ktx.compose.image.ui.LocalImageCache
 import com.bselzer.ktx.logging.Logger
+import com.bselzer.ktx.serialization.xml.configuration.LoggingUnknownChildHandler
 import com.bselzer.ktx.settings.compose.safeState
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
@@ -35,7 +36,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
-import nl.adaptivity.xmlutil.serialization.UnknownChildHandler
 import nl.adaptivity.xmlutil.serialization.XML
 import org.kodein.db.DB
 import org.kodein.db.TypeTable
@@ -82,10 +82,7 @@ abstract class App(
         try {
             // TODO attempt to get config from online location and default to bundled config if that fails
             XML(serializersModule = SerializersModule {}) {
-                this.unknownChildHandler = UnknownChildHandler { input, inputKind, descriptor, name, candidates ->
-                    Logger.w("Unable to deserialize an unknown child of $name as $inputKind")
-                    emptyList()
-                }
+                this.unknownChildHandler = LoggingUnknownChildHandler()
             }.decodeFromString(serializer(), configurationContent)
         } catch (ex: Exception) {
             Logger.e(ex, "Unable to create the configuration.")

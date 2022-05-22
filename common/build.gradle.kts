@@ -46,6 +46,7 @@ kotlin {
                 api("com.bselzer.ktx:intent:$extensionVersion")
                 api("com.bselzer.ktx:library:$extensionVersion")
                 api("com.bselzer.ktx:logging:$extensionVersion")
+                api("com.bselzer.ktx:serialization:$extensionVersion")
                 api("com.bselzer.ktx:settings-compose:$extensionVersion")
 
                 // GW2 API Wrapper
@@ -57,10 +58,6 @@ kotlin {
                 api("com.bselzer.gw2:v2-scope:$wrapperVersion")
                 api("com.bselzer.gw2:v2-tile:$wrapperVersion")
                 api("com.bselzer.gw2:v2-emblem:$wrapperVersion")
-
-                // Serialization
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
-                api("io.github.pdvrieze.xmlutil:serialization:0.83.0")
 
                 // GW2 Database
                 api("com.bselzer.gw2:v2-cache:$wrapperVersion")
@@ -140,7 +137,7 @@ aboutLibraries {
 val aboutLibrariesResource = task("aboutLibrariesResource") {
     dependsOn("exportLibraryDefinitions")
 
-    // Move aboutlibraries.json so it can be used be moko-resources.
+    // Move aboutlibraries.json so it can be used by moko-resources.
     copy {
         from("$buildDir\\generated\\aboutLibraries\\debug\\res\\raw") {
             include("aboutlibraries.json")

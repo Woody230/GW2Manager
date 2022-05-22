@@ -4,8 +4,8 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("kotlin-parcelize")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
-    id("org.jetbrains.compose") version "1.1.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version Versions.KOTLIN
+    id("org.jetbrains.compose") version Versions.COMPOSE
 }
 
 val localProperties = gradleLocalProperties(rootDir)
@@ -24,11 +24,11 @@ android {
 
     compileSdk = 31
     defaultConfig {
-        applicationId = "com.bselzer.gw2.manager.android"
+        applicationId = "${Metadata.PACKAGE_NAME}.android"
         minSdk = 21
         targetSdk = 31
-        versionCode = 3
-        versionName = "1.1.0"
+        versionCode = Metadata.VERSION_CODE
+        versionName = Metadata.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,7 +51,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Metadata.ANDROID_JVM_TARGET
     }
     buildFeatures {
         compose = true
@@ -59,6 +59,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}")
     implementation(project(":common"))
 }

@@ -3,13 +3,13 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "1.1.0"
+    id("org.jetbrains.compose") version Versions.COMPOSE
 }
 
 kotlin {
     jvm {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = Metadata.DESKTOP_JVM_TARGET
         }
     }
     sourceSets {
@@ -23,13 +23,15 @@ kotlin {
     }
 }
 
+// TODO proguard
+
 compose.desktop {
     application {
-        mainClass = "com.bselzer.gw2.manager.desktop.MainKt"
+        mainClass = "${Metadata.PACKAGE_NAME}.desktop.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "jvm"
-            packageVersion = "1.1.0"
+            packageName = Metadata.PACKAGE_NAME
+            packageVersion = Metadata.VERSION_NAME
         }
     }
 }

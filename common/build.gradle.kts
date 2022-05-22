@@ -2,9 +2,9 @@ import org.jetbrains.compose.compose
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "1.1.0"
+    id("org.jetbrains.compose") version Versions.COMPOSE
     id("com.android.library")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version Versions.KOTLIN
     id("com.mikepenz.aboutlibraries.plugin")
     id("dev.icerock.mobile.multiplatform-resources")
 }
@@ -15,7 +15,7 @@ kotlin {
     }
     jvm("desktop") {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = Metadata.DESKTOP_JVM_TARGET
         }
     }
     sourceSets {
@@ -34,36 +34,36 @@ kotlin {
                 api(compose.foundation)
                 api(compose.material)
                 api(compose.preview)
-                api("com.arkivanov.decompose:decompose:$decomposeVersion")
-                api("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                api("com.arkivanov.decompose:decompose:${Versions.DECOMPOSE}")
+                api("com.arkivanov.decompose:extensions-compose-jetbrains:${Versions.DECOMPOSE}")
 
                 // Extensions
-                api("com.bselzer.ktx:compose-resource:$extensionVersion")
-                api("com.bselzer.ktx:compose-accompanist:$extensionVersion")
-                api("com.bselzer.ktx:compose-image:$extensionVersion")
-                api("com.bselzer.ktx:coroutine:$extensionVersion")
-                api("com.bselzer.ktx:function:$extensionVersion")
-                api("com.bselzer.ktx:intent:$extensionVersion")
-                api("com.bselzer.ktx:library:$extensionVersion")
-                api("com.bselzer.ktx:logging:$extensionVersion")
-                api("com.bselzer.ktx:serialization:$extensionVersion")
-                api("com.bselzer.ktx:settings-compose:$extensionVersion")
+                api("com.bselzer.ktx:compose-resource:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:compose-accompanist:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:compose-image:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:coroutine:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:function:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:intent:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:library:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:logging:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:serialization:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:settings-compose:${Versions.EXTENSION}")
 
                 // GW2 API Wrapper
-                api("com.bselzer.gw2:asset-cdn:$wrapperVersion")
-                api("com.bselzer.gw2:v2-client:$wrapperVersion")
-                api("com.bselzer.gw2:v2-model:$wrapperVersion")
-                api("com.bselzer.gw2:v2-model-extension:$wrapperVersion")
-                api("com.bselzer.gw2:v2-model-enumeration:$wrapperVersion")
-                api("com.bselzer.gw2:v2-scope:$wrapperVersion")
-                api("com.bselzer.gw2:v2-tile:$wrapperVersion")
-                api("com.bselzer.gw2:v2-emblem:$wrapperVersion")
+                api("com.bselzer.gw2:asset-cdn:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-client:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-model:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-model-extension:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-model-enumeration:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-scope:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-tile:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-emblem:${Versions.WRAPPER}")
 
                 // GW2 Database
-                api("com.bselzer.gw2:v2-cache:$wrapperVersion")
-                api("com.bselzer.gw2:v2-tile-cache:$wrapperVersion")
-                api("org.kodein.db:kodein-db:$kodeinDbVersion")
-                api("org.kodein.db:kodein-db-serializer-kotlinx:$kodeinDbVersion")
+                api("com.bselzer.gw2:v2-cache:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-tile-cache:${Versions.WRAPPER}")
+                api("org.kodein.db:kodein-db:${Versions.KODEIN_DB}")
+                api("org.kodein.db:kodein-db-serializer-kotlinx:${Versions.KODEIN_DB}")
             }
         }
         val commonTest by getting {
@@ -80,14 +80,14 @@ kotlin {
                 api("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
 
                 // Settings
-                api("com.russhwolf:multiplatform-settings-datastore:$settingsVersion")
+                api("com.russhwolf:multiplatform-settings-datastore:${Versions.SETTINGS}")
                 api("androidx.datastore:datastore-preferences:1.0.0")
 
                 // Compose
                 api("androidx.activity:activity-compose:1.4.0")
 
                 // HTTP Client
-                api("io.ktor:ktor-client-okhttp:$ktorVersion")
+                api("io.ktor:ktor-client-okhttp:${Versions.KTOR}")
             }
         }
         val androidTest by getting {
@@ -98,10 +98,10 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 // HTTP Client
-                api("io.ktor:ktor-client-okhttp:$ktorVersion")
+                api("io.ktor:ktor-client-okhttp:${Versions.KTOR}")
 
                 // GW2 Database
-                implementation("org.kodein.db:kodein-leveldb-jni-jvm-windows:$kodeinDbVersion")
+                implementation("org.kodein.db:kodein-leveldb-jni-jvm-windows:${Versions.KODEIN_DB}")
             }
         }
         val desktopTest by getting
@@ -121,12 +121,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     dependencies {
-        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+        coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}")
     }
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "com.bselzer.gw2.manager.common"
+    multiplatformResourcesPackage = "${Metadata.PACKAGE_NAME}.common"
     multiplatformResourcesClassName = "Gw2Resources"
 }
 

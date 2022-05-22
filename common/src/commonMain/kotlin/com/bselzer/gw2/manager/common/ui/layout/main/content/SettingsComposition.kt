@@ -10,7 +10,6 @@ import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
 import com.bselzer.ktx.compose.resource.images.painter
@@ -57,7 +56,7 @@ class SettingsComposition : ViewModelComposition<SettingsViewModel>() {
 
     @Composable
     private fun SettingsViewModel.Preferences() = preferenceColumnProjector().Projection(
-        modifier = Modifier.padding(25.dp).verticalScroll(rememberScrollState()),
+        modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState()),
         content = buildArray {
             // TODO language
             add { ThemePreference() }

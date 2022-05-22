@@ -6,7 +6,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.AboutViewModel
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
@@ -24,10 +23,10 @@ class AboutComposition : ViewModelComposition<AboutViewModel>() {
             modifier = Modifier.fillMaxSize(),
             painter = relativeBackgroundPainter
         ) {
-            spacedColumnProjector(thickness = 25.dp).Projection(
+            spacedColumnProjector(thickness = padding).Projection(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(25.dp)
+                    .padding(paddingValues)
                     .verticalScroll(rememberScrollState()),
                 content = buildArray {
                     add { VersionName() }

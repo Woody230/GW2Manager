@@ -1,7 +1,10 @@
 package com.bselzer.gw2.manager.common.ui.base
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
@@ -14,7 +17,10 @@ abstract class ViewModelComposition<Model : ViewModel> {
     @Composable
     abstract fun Content(model: Model)
 
-    val relativeBackgroundPainter: Painter
+    protected val padding: Dp = 25.dp
+    protected val paddingValues: PaddingValues = PaddingValues(all = padding)
+
+    protected val relativeBackgroundPainter: Painter
         @Composable
         get() = if (LocalTheme.current == Theme.DARK) {
             Gw2Resources.images.gw2_bloodstone_night.painter()
@@ -22,7 +28,7 @@ abstract class ViewModelComposition<Model : ViewModel> {
             Gw2Resources.images.gw2_ice.painter()
         }
 
-    val absoluteBackgroundPainter: Painter
+    protected val absoluteBackgroundPainter: Painter
         @Composable
         get() = Gw2Resources.images.gw2_two_sylvari.painter()
 }

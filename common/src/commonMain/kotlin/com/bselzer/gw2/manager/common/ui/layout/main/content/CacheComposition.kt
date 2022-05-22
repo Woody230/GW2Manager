@@ -6,7 +6,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.CacheViewModel
@@ -30,8 +29,8 @@ class CacheComposition : ViewModelComposition<CacheViewModel>() {
             modifier = Modifier.fillMaxSize(),
             painter = relativeBackgroundPainter
         ) {
-            spacedColumnProjector(thickness = 25.dp).Projection(
-                modifier = Modifier.padding(25.dp).verticalScroll(rememberScrollState()),
+            spacedColumnProjector(thickness = padding).Projection(
+                modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState()),
                 content = buildArray {
                     resources.forEach { resource ->
                         add { Projection(resource) }

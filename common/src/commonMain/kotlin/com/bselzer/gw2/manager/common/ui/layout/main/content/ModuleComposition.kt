@@ -36,7 +36,7 @@ class ModuleComposition : ViewModelComposition<ModuleViewModel>() {
             contentAlignment = Alignment.TopCenter,
             painter = absoluteBackgroundPainter,
         ) {
-            Column(modifier = Modifier.padding(25.dp).verticalScroll(rememberScrollState())) {
+            Column(modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState())) {
                 SelectedWorld()
             }
         }

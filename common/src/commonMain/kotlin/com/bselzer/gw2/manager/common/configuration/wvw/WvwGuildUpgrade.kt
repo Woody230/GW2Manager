@@ -1,7 +1,7 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
-import com.bselzer.ktx.serialization.function.enumValueOrNull
+import com.bselzer.ktx.serialization.json.JsonContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
@@ -24,5 +24,7 @@ class WvwGuildUpgrade(
      * The types of objectives that can use this upgrades.
      */
     @Transient
-    val objectiveTypes: Collection<WvwObjectiveType> = availability.split(',').mapNotNull { type -> type.enumValueOrNull<WvwObjectiveType>() }
+    val objectiveTypes: Collection<WvwObjectiveType> = with(JsonContext) {
+        availability.split(',').mapNotNull { type -> type.enumValueOrNull<WvwObjectiveType>() }
+    }
 }

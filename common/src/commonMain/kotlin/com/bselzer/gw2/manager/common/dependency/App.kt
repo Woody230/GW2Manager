@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.dependency
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
+import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
@@ -25,6 +26,7 @@ import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
 import com.bselzer.ktx.compose.image.client.ImageClient
 import com.bselzer.ktx.compose.image.ui.LocalImageCache
 import com.bselzer.ktx.logging.Logger
+import com.bselzer.ktx.resource.assets.AssetReader
 import com.bselzer.ktx.serialization.xml.configuration.LoggingUnknownChildHandler
 import com.bselzer.ktx.settings.compose.safeState
 import com.mikepenz.aboutlibraries.Libs
@@ -49,11 +51,6 @@ abstract class App(
     private val isDebug: Boolean = false,
 
     /**
-     * The content of the bundled configuration file.
-     */
-    configurationContent: String, // TODO extension to be able to access resource commonly
-
-    /**
      * The HTTP client for making network requests.
      */
     httpClient: HttpClient,
@@ -67,22 +64,24 @@ abstract class App(
      * The preference settings.
      */
     settings: SuspendSettings,
-
-    libraryContent: String,
 ) : Dependencies {
     final override val preferences = Preferences(
         common = CommonPreference(settings),
         wvw = WvwPreference(settings)
     )
 
-    final override val libraries: List<Library> = Libs.Builder().withJson(libraryContent).build().libraries
+    final override val libraries: List<Library> = with(AssetReader) {
+        val content = Gw2Resources.assets.aboutlibraries.readText()
+        Libs.Builder().withJson(content).build().libraries
+    }
 
-    final override val configuration: Configuration = run {
+    final override val configuration: Configuration = with(AssetReader) {
         try {
             // TODO attempt to get config from online location and default to bundled config if that fails
+            val content = Gw2Resources.assets.Configuration.readText()
             XML {
                 this.unknownChildHandler = LoggingUnknownChildHandler()
-            }.decodeFromString(serializer(), configurationContent)
+            }.decodeFromString(serializer(), content)
         } catch (ex: Exception) {
             Logger.e(ex, "Unable to create the configuration.")
             Configuration()

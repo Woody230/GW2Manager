@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.bselzer.gw2.manager.common.BuildConfig
-import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
@@ -25,11 +24,9 @@ class AndroidApp(
     datastore: DataStore<Preferences>
 ) : App(
     isDebug = BuildConfig.DEBUG,
-    configurationContent = Gw2Resources.assets.Configuration.readText(context),
     httpClient = httpClient(),
     databaseDirectory = context.filesDir.absolutePath,
-    settings = DataStoreSettings(datastore),
-    libraryContent = Gw2Resources.assets.aboutlibraries.readText(context)
+    settings = DataStoreSettings(datastore)
 ) {
     private companion object {
         fun okHttpClient(): OkHttpClient = OkHttpClient.Builder()

@@ -1,6 +1,5 @@
 package com.bselzer.gw2.manager.common.dependency
 
-import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
@@ -15,7 +14,6 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.internal.http.RealResponseBody
 import okio.Buffer
-import java.io.File
 import java.nio.file.Files
 import java.util.prefs.Preferences
 import kotlin.io.path.Path
@@ -23,15 +21,13 @@ import kotlin.io.path.Path
 @OptIn(ExperimentalSettingsImplementation::class, ExperimentalSettingsApi::class)
 class JvmApp : App(
     isDebug = false,
-    configurationContent = Gw2Resources.assets.Configuration.readText(),
     httpClient = httpClient(),
     databaseDirectory = databaseDirectory(),
     settings = JvmPreferencesSettings(Preferences.userRoot()).toSuspendSettings(),
-    libraryContent = Gw2Resources.assets.aboutlibraries.readText(),
 ) {
     private companion object {
         fun databaseDirectory(): String {
-            val directory = Path(System.getProperty("user.dir") + File.pathSeparator + "AppData")
+            val directory = Path(System.getenv("APPDATA") + "\\com.bselzer.gw2.manager")
             if (Files.notExists(directory)) {
                 Files.createDirectory(directory)
             }

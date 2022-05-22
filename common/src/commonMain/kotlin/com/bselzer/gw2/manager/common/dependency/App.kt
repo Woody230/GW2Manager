@@ -26,6 +26,7 @@ import com.bselzer.ktx.compose.image.client.ImageClient
 import com.bselzer.ktx.compose.image.ui.LocalImageCache
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.compose.safeState
+import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
@@ -51,7 +52,7 @@ abstract class App(
     /**
      * The content of the bundled configuration file.
      */
-    configurationContent: String,
+    configurationContent: String, // TODO extension to be able to access resource commonly
 
     /**
      * The HTTP client for making network requests.
@@ -68,12 +69,14 @@ abstract class App(
      */
     settings: SuspendSettings,
 
-    override val libraries: List<Library>
+    libraryContent: String,
 ) : Dependencies {
     final override val preferences = Preferences(
         common = CommonPreference(settings),
         wvw = WvwPreference(settings)
     )
+
+    final override val libraries: List<Library> = Libs.Builder().withJson(libraryContent).build().libraries
 
     final override val configuration: Configuration = run {
         try {

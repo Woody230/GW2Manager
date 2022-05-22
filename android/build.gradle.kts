@@ -6,7 +6,6 @@ plugins {
     id("kotlin-parcelize")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
     id("org.jetbrains.compose") version "1.1.0"
-    id("com.mikepenz.aboutlibraries.plugin")
 }
 
 val localProperties = gradleLocalProperties(rootDir)

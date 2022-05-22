@@ -7,7 +7,7 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.backpressed.BackPressedHandler
 import com.arkivanov.essenty.lifecycle.essentyLifecycle
 import com.arkivanov.essenty.statekeeper.stateKeeper
-import com.bselzer.gw2.manager.common.AndroidApp
+import com.bselzer.gw2.manager.common.dependency.AndroidApp
 import com.bselzer.gw2.manager.common.dependency.Dependencies
 import com.bselzer.gw2.manager.common.ui.base.Gw2ComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.host.content.HostComposition

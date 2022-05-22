@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.compose") version "1.1.0"
     id("com.android.library")
     id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
+    id("com.mikepenz.aboutlibraries.plugin")
     id("dev.icerock.mobile.multiplatform-resources")
 }
 
@@ -101,6 +102,9 @@ kotlin {
             dependencies {
                 // HTTP Client
                 api("io.ktor:ktor-client-okhttp:$ktorVersion")
+
+                // GW2 Database
+                implementation("org.kodein.db:kodein-leveldb-jni-jvm-windows:$kodeinDbVersion")
             }
         }
         val desktopTest by getting
@@ -127,4 +131,26 @@ android {
 multiplatformResources {
     multiplatformResourcesPackage = "com.bselzer.gw2.manager.common"
     multiplatformResourcesClassName = "Gw2Resources"
+}
+
+aboutLibraries {
+    registerAndroidTasks = false
+}
+
+val aboutLibrariesResource = task("aboutLibrariesResource") {
+    dependsOn("exportLibraryDefinitions")
+
+    // Move aboutlibraries.json so it can be used be moko-resources.
+    copy {
+        from("$buildDir\\generated\\aboutLibraries\\debug\\res\\raw") {
+            include("aboutlibraries.json")
+        }
+        into("$projectDir\\src\\commonMain\\resources\\MR\\assets")
+    }
+}
+
+tasks.whenTaskAdded {
+    if (name == "generateMRcommonMain") {
+        dependsOn(aboutLibrariesResource)
+    }
 }

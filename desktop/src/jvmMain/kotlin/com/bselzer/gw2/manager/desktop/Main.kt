@@ -4,6 +4,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.dependency.JvmApp
 import com.bselzer.gw2.manager.common.ui.base.Gw2ComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.host.content.HostComposition
@@ -24,7 +25,10 @@ fun main() {
 
     val host = HostViewModel(context)
     application {
-        Window(onCloseRequest = ::exitApplication) {
+        Window(
+            title = Gw2Resources.strings.app_name.localized(),
+            onCloseRequest = ::exitApplication
+        ) {
             // TODO tailor to desktop
             //  components can be split into multiple columns due to bigger screen size
             //  scaffold modal drawer should always be visible by default

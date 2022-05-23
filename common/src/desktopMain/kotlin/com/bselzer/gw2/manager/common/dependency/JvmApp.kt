@@ -20,7 +20,6 @@ import kotlin.io.path.Path
 
 @OptIn(ExperimentalSettingsImplementation::class, ExperimentalSettingsApi::class)
 class JvmApp : App(
-    isDebug = false,
     httpClient = httpClient(),
     databaseDirectory = databaseDirectory(),
     settings = JvmPreferencesSettings(Preferences.userRoot()).toSuspendSettings(),

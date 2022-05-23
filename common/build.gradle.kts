@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.*
 import org.jetbrains.compose.compose
 
 plugins {
@@ -7,6 +8,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version Versions.KOTLIN
     id("com.mikepenz.aboutlibraries.plugin")
     id("dev.icerock.mobile.multiplatform-resources")
+    id("com.codingfeline.buildkonfig")
 }
 
 kotlin {
@@ -93,7 +95,7 @@ kotlin {
                 api("io.ktor:ktor-client-okhttp:${Versions.KTOR}")
 
                 // GW2 Database
-                implementation("org.kodein.db:kodein-leveldb-jni-jvm-windows:${Versions.KODEIN_DB}")
+                api("org.kodein.db:kodein-leveldb-jni-jvm-windows:${Versions.KODEIN_DB}")
             }
         }
         val desktopTest by getting
@@ -127,6 +129,17 @@ aboutLibraries {
     registerAndroidTasks = false
 }
 
+buildkonfig {
+    packageName = Metadata.PACKAGE_NAME
+    exposeObjectWithName = "BuildKonfig"
+
+    defaultConfigs {
+        buildConfigField(BOOLEAN, "DEBUG", Metadata.DEBUG.toString())
+        buildConfigField(STRING, "VERSION_NAME", Metadata.VERSION_NAME)
+        buildConfigField(INT, "VERSION_CODE", Metadata.VERSION_CODE.toString())
+    }
+}
+
 val aboutLibrariesResource = task("aboutLibrariesResource") {
     dependsOn("exportLibraryDefinitions")
 
@@ -142,5 +155,9 @@ val aboutLibrariesResource = task("aboutLibrariesResource") {
 tasks.whenTaskAdded {
     if (name == "generateMRcommonMain") {
         dependsOn(aboutLibrariesResource)
+    }
+
+    if (name == "build") {
+        dependsOn("generateBuildKonfig")
     }
 }

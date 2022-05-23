@@ -18,11 +18,11 @@ class AboutViewModel(context: AppComponentContext) : MainViewModel(context) {
         get() = VersionResources(
             code = VersionCode(
                 title = Resources.strings.version_code.desc(),
-                subtitle = StringDesc.Raw(configuration.app.versionCode.toString())
+                subtitle = StringDesc.Raw(build.VERSION_CODE.toString())
             ),
             name = VersionName(
                 title = Resources.strings.version_name.desc(),
-                subtitle = StringDesc.Raw(configuration.app.versionName)
+                subtitle = StringDesc.Raw(build.VERSION_NAME)
             )
         )
 

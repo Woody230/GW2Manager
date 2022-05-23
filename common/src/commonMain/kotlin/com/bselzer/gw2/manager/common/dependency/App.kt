@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.dependency
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
+import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
@@ -65,6 +66,8 @@ abstract class App(
      */
     settings: SuspendSettings,
 ) : Dependencies {
+    final override val build: BuildKonfig = BuildKonfig
+
     final override val preferences = Preferences(
         common = CommonPreference(settings),
         wvw = WvwPreference(settings)
@@ -135,7 +138,7 @@ abstract class App(
         Logger.clear()
 
         // Only enable logging for debug mode.
-        if (isDebug) {
+        if (isDebug || build.DEBUG) {
             Logger.enableDebugging()
         }
     }

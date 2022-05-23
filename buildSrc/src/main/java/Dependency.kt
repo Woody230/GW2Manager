@@ -14,9 +14,11 @@ object Versions {
     const val SETTINGS = "0.8.1"
     const val DECOMPOSE = "0.5.2"
     const val DESUGAR = "1.1.5"
+    const val BUILD_CONFIG = "0.11.0"
 }
 
 object Metadata {
+    const val DEBUG = false
     const val PACKAGE_NAME = "com.bselzer.gw2.manager"
     const val VERSION_NAME = "1.1.0"
     const val VERSION_CODE = 3

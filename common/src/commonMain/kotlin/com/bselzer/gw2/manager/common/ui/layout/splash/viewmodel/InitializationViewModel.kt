@@ -1,17 +1,20 @@
 package com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Initializer
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.migration.Migrator
 import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.Resources
-import dev.icerock.moko.resources.compose.localized
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -62,7 +65,7 @@ class InitializationViewModel(
 
     private val migration
         get() = run {
-            val newVersion = configuration.app.versionCode
+            val newVersion = build.VERSION_CODE
             Initializer(
                 title = Resources.strings.migration.desc(),
                 subtitle = Resources.strings.version.desc() + StringDesc.Raw(" $newVersion")

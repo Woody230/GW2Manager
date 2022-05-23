@@ -14,6 +14,8 @@ android {
         minSdk = Metadata.MIN_SDK
         targetSdk = Metadata.TARGET_SDK
         testInstrumentationRunner = Metadata.TEST_INSTRUMENTATION_RUNNER
+        versionName = Metadata.VERSION_NAME
+        versionCode = Metadata.VERSION_CODE
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled

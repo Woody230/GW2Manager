@@ -31,8 +31,11 @@ fun main() {
         ) {
             // TODO tailor to desktop
             //  components can be split into multiple columns due to bigger screen size
-            //  scaffold modal drawer should always be visible by default
+            //  scaffold modal drawer should always be visible by default and only wrap width
             //  constrained dialog instead of normal alert dialog will create a window with a title (of "Untitled")
+            //  dialog size and scrolling
+            //  snackbar not showing
+            //  back handling via escape
             app.Content {
                 HostComposition(host).Content()
             }

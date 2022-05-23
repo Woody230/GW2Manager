@@ -29,6 +29,8 @@ class DrawerComposition(
             confirmStateChange = confirmStateChange,
             state = state,
             container = ColumnInteractor.Divided,
+
+            // TODO add module? on desktop only way to get back would be by adding back handler for escape
             sections = listOf(wvwSection(), settingsSection(), aboutSection())
         )
     }

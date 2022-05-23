@@ -11,11 +11,11 @@ class MainComposition : RouterComposition<MainConfig, MainViewModel>(
 ) {
     @Composable
     override fun MainViewModel.Content() = when (this) {
-        is AboutViewModel -> AboutComposition().Content(this)
-        is CacheViewModel -> CacheComposition().Content(this)
-        is LicenseViewModel -> LicenseComposition().Content(this)
-        is ModuleViewModel -> ModuleComposition().Content(this)
-        is SettingsViewModel -> SettingsComposition().Content(this)
+        is AboutViewModel -> AboutComposition(this).Content()
+        is CacheViewModel -> CacheComposition(this).Content()
+        is LicenseViewModel -> LicenseComposition(this).Content()
+        is ModuleViewModel -> ModuleComposition(this).Content()
+        is SettingsViewModel -> SettingsComposition(this).Content()
         is WvwMapViewModel -> {}
         is WvwMatchViewModel -> {}
     }

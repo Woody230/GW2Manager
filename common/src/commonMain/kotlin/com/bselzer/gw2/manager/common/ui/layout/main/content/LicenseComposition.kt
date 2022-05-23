@@ -14,15 +14,13 @@ import com.bselzer.ktx.library.LibraryInteractor
 import com.bselzer.ktx.library.LibraryPresenter
 import com.bselzer.ktx.library.LibraryProjector
 
-class LicenseComposition : ViewModelComposition<LicenseViewModel>() {
+class LicenseComposition(model: LicenseViewModel) : ViewModelComposition<LicenseViewModel>(model) {
     @Composable
-    override fun Content(model: LicenseViewModel) = model.run {
-        BackgroundImage(
-            modifier = Modifier.fillMaxSize(),
-            painter = relativeBackgroundPainter,
-        ) {
-            Libraries()
-        }
+    override fun LicenseViewModel.Content() = BackgroundImage(
+        modifier = Modifier.fillMaxSize(),
+        painter = relativeBackgroundPainter,
+    ) {
+        Libraries()
     }
 
     @Composable

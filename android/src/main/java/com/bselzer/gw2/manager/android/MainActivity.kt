@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             app.Content {
-                HostComposition().Content(model = host)
+                HostComposition(host).Content()
             }
         }
     }

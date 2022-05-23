@@ -19,6 +19,7 @@ import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfi
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel
 import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceInteractor
@@ -26,19 +27,18 @@ import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
-import dev.icerock.moko.resources.compose.localized
 
-class ModuleComposition : ViewModelComposition<ModuleViewModel>() {
+class ModuleComposition(model: ModuleViewModel) : ViewModelComposition<ModuleViewModel>(model) {
     @Composable
-    override fun Content(model: ModuleViewModel) = model.run {
-        BackgroundImage(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.TopCenter,
-            painter = absoluteBackgroundPainter,
+    override fun ModuleViewModel.Content() = BackgroundImage(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter,
+        painter = absoluteBackgroundPainter,
+    ) {
+        Column(
+            modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState())
         ) {
-            Column(modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState())) {
-                SelectedWorld()
-            }
+            SelectedWorld()
         }
     }
 

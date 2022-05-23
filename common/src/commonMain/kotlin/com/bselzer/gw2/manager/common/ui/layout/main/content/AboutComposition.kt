@@ -8,33 +8,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.AboutViewModel
+import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.function.collection.buildArray
-import dev.icerock.moko.resources.compose.localized
 
-class AboutComposition : ViewModelComposition<AboutViewModel>() {
+class AboutComposition(model: AboutViewModel) : ViewModelComposition<AboutViewModel>(model) {
     @Composable
-    override fun Content(model: AboutViewModel) = model.run {
-        BackgroundImage(
-            modifier = Modifier.fillMaxSize(),
-            painter = relativeBackgroundPainter
-        ) {
-            spacedColumnProjector(thickness = padding).Projection(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(rememberScrollState()),
-                content = buildArray {
-                    add { VersionName() }
-                    add { VersionCode() }
-                    add { LegalNotice() }
-                }
-            )
-        }
+    override fun AboutViewModel.Content() = BackgroundImage(
+        modifier = Modifier.fillMaxSize(),
+        painter = relativeBackgroundPainter
+    ) {
+        spacedColumnProjector(thickness = padding).Projection(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(rememberScrollState()),
+            content = buildArray {
+                add { VersionName() }
+                add { VersionCode() }
+                add { LegalNotice() }
+            }
+        )
     }
 
     @Composable

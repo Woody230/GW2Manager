@@ -6,17 +6,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.HostViewModel
 
-class HostComposition : ViewModelComposition<HostViewModel>() {
+class HostComposition(model: HostViewModel) : ViewModelComposition<HostViewModel>(model) {
     @Composable
-    override fun Content(model: HostViewModel) = model.run {
+    override fun HostViewModel.Content() {
         registerOnBackPressed()
 
         CompositionLocalProvider(
-            LocalDialogRouter provides model.dialogRouter,
-            LocalMainRouter provides model.mainRouter,
-            LocalSplashRouter provides model.splashRouter
+            LocalDialogRouter provides dialogRouter,
+            LocalMainRouter provides mainRouter,
+            LocalSplashRouter provides splashRouter
         ) {
-            ScaffoldComposition().Content(scaffold)
+            ScaffoldComposition(scaffold).Content()
         }
     }
 

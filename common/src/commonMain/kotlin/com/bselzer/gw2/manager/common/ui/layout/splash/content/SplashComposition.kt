@@ -14,6 +14,6 @@ class SplashComposition : RouterComposition<SplashConfig, SplashViewModel>(
     @Composable
     override fun SplashViewModel.Content() = when (this) {
         is NoSplashViewModel -> {}
-        is InitializationViewModel -> InitializationComposition().Content(this)
+        is InitializationViewModel -> InitializationComposition(this).Content()
     }
 }

@@ -14,6 +14,6 @@ class DialogComposition : RouterComposition<DialogConfig, DialogViewModel>(
     @Composable
     override fun DialogViewModel.Content() = when (this) {
         is NoDialogViewModel -> {}
-        is WorldSelectionViewModel -> WorldSelectionComposition().Content(this)
+        is WorldSelectionViewModel -> WorldSelectionComposition(this).Content()
     }
 }

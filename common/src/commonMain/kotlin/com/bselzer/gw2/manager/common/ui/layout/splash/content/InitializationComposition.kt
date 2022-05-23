@@ -18,9 +18,9 @@ import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
-class InitializationComposition : ViewModelComposition<InitializationViewModel>() {
+class InitializationComposition(model: InitializationViewModel) : ViewModelComposition<InitializationViewModel>(model) {
     @Composable
-    override fun Content(model: InitializationViewModel) = model.run {
+    override fun InitializationViewModel.Content() {
         val splashRouter = LocalSplashRouter.current
         Initialize {
             // Don't show the splash screen once initialization is finished.

@@ -13,6 +13,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
 import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.resetAlertDialogInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.downIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.upIconInteractor
@@ -39,19 +40,16 @@ import com.bselzer.ktx.compose.ui.layout.text.hyperlink
 import com.bselzer.ktx.compose.ui.layout.textfield.TextFieldInteractor
 import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
 import com.bselzer.ktx.function.collection.buildArray
-import dev.icerock.moko.resources.compose.localized
 import kotlinx.coroutines.launch
 import kotlin.time.DurationUnit
 
-class SettingsComposition : ViewModelComposition<SettingsViewModel>() {
+class SettingsComposition(model: SettingsViewModel) : ViewModelComposition<SettingsViewModel>(model) {
     @Composable
-    override fun Content(model: SettingsViewModel) = model.run {
-        BackgroundImage(
-            modifier = Modifier.fillMaxSize(),
-            painter = relativeBackgroundPainter
-        ) {
-            Preferences()
-        }
+    override fun SettingsViewModel.Content() = BackgroundImage(
+        modifier = Modifier.fillMaxSize(),
+        painter = relativeBackgroundPainter
+    ) {
+        Preferences()
     }
 
     @Composable

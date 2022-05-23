@@ -34,7 +34,7 @@ fun main() {
             //  scaffold modal drawer should always be visible by default
             //  constrained dialog instead of normal alert dialog will create a window with a title (of "Untitled")
             app.Content {
-                HostComposition().Content(model = host)
+                HostComposition(host).Content()
             }
         }
     }

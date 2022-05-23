@@ -10,6 +10,7 @@ import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.CacheViewModel
 import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.checkbox.CheckboxInteractor
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
@@ -20,24 +21,21 @@ import com.bselzer.ktx.compose.ui.layout.preference.checkbox.CheckboxPreferenceI
 import com.bselzer.ktx.compose.ui.layout.preference.checkbox.CheckboxPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.function.collection.buildArray
-import dev.icerock.moko.resources.compose.localized
 
-class CacheComposition : ViewModelComposition<CacheViewModel>() {
+class CacheComposition(model: CacheViewModel) : ViewModelComposition<CacheViewModel>(model) {
     @Composable
-    override fun Content(model: CacheViewModel) = model.run {
-        BackgroundImage(
-            modifier = Modifier.fillMaxSize(),
-            painter = relativeBackgroundPainter
-        ) {
-            spacedColumnProjector(thickness = padding).Projection(
-                modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState()),
-                content = buildArray {
-                    resources.forEach { resource ->
-                        add { Projection(resource) }
-                    }
+    override fun CacheViewModel.Content() = BackgroundImage(
+        modifier = Modifier.fillMaxSize(),
+        painter = relativeBackgroundPainter
+    ) {
+        spacedColumnProjector(thickness = padding).Projection(
+            modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState()),
+            content = buildArray {
+                resources.forEach { resource ->
+                    add { Projection(resource) }
                 }
-            )
-        }
+            }
+        )
     }
 
     @Composable

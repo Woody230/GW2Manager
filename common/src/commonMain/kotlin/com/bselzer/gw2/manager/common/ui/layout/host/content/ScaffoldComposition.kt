@@ -12,34 +12,51 @@ import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.ScaffoldViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.content.MainComposition
 import com.bselzer.gw2.manager.common.ui.layout.splash.content.SplashComposition
 import com.bselzer.ktx.compose.resource.ui.layout.icon.drawerNavigationIconInteractor
+import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerPresenter
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
 import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldInteractor
 import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldPresenter
 import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldProjector
+import com.bselzer.ktx.compose.ui.layout.scaffold.scaffoldInteractor
+import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostInteractor
 import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarInteractor
 
 class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<ScaffoldViewModel>(model) {
     @Composable
     override fun ScaffoldViewModel.Content() {
         val drawer = DrawerComposition(drawer)
-        val mainComposition = MainComposition()
-        ScaffoldProjector(
-            interactor = ScaffoldInteractor(
-                drawer = drawer.interactor(),
-                topBar = TopAppBarInteractor(
-                    title = mainComposition.title(),
-                    navigation = navigationInteractor(),
-                    actions = mainComposition.actions()
-                )
-            ),
-            presenter = ScaffoldPresenter(
-                drawer = drawer.presenter()
+        scaffoldInteractor(
+            drawer = drawer.interactor(),
+            snackbarHost = SnackbarHostInteractor()
+        ) { interactor ->
+            Scaffold(
+                scaffoldInteractor = interactor,
+                drawerPresenter = drawer.presenter(),
+                mainComposition = MainComposition()
             )
-        ).Projection(modifier = Modifier.fillMaxSize()) {
-            mainComposition.Content()
-            DialogComposition().Content()
-            Splash()
         }
+    }
+
+    @Composable
+    private fun ScaffoldViewModel.Scaffold(
+        scaffoldInteractor: ScaffoldInteractor,
+        drawerPresenter: ModalDrawerPresenter,
+        mainComposition: MainComposition
+    ) = ScaffoldProjector(
+        interactor = scaffoldInteractor.copy(
+            topBar = TopAppBarInteractor(
+                title = mainComposition.title(),
+                navigation = navigationInteractor(),
+                actions = mainComposition.actions()
+            )
+        ),
+        presenter = ScaffoldPresenter(
+            drawer = drawerPresenter
+        )
+    ).Projection(modifier = Modifier.fillMaxSize()) {
+        mainComposition.Content()
+        DialogComposition().Content()
+        Splash()
     }
 
     @Composable

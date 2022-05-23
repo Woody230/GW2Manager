@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.router.bringToFront
-import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel
@@ -28,7 +27,7 @@ import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
-class ModuleComposition(model: ModuleViewModel) : ViewModelComposition<ModuleViewModel>(model) {
+class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleViewModel>(model) {
     @Composable
     override fun ModuleViewModel.Content() = BackgroundImage(
         modifier = Modifier.fillMaxSize(),

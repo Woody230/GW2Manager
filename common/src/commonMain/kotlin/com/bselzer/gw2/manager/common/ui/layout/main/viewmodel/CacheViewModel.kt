@@ -2,20 +2,17 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.state.ToggleableState
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.layout.main.model.Action
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearLogic
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearType
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.resource.ui.layout.icon.deleteIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.triStateCheckboxIconInteractor
-import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
-import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.desc.StringDesc
@@ -28,41 +25,29 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     override val title: StringDesc = Resources.strings.cache.desc()
 
     private val deleteAction
-        @Composable
-        get() = run {
-            val scope = rememberCoroutineScope()
-            val snackbar = LocalSnackbarHostState.current
-            val notification = Resources.strings.cache_clear.desc().localized()
-            IconButtonInteractor(
-                enabled = selected.any(),
-                icon = deleteIconInteractor(),
-                onClick = {
-                    // Clear the caches and then notify the user.
-                    performSelected()
-                    scope.launch {
-                        // TODO snackbar message not getting displayed
-                        snackbar.showSnackbar(notification)
-                    }
-                }
-            )
-        }
-
-    private val selectionToggleAction
-        @Composable
-        get() = IconButtonInteractor(
-            icon = triStateCheckboxIconInteractor(
-                state = when {
-                    selected.size == clears.size -> ToggleableState.On
-                    selected.any() -> ToggleableState.Indeterminate
-                    else -> ToggleableState.Off
-                }
-            ),
-            onClick = ::selectionToggle
+        get() = Action(
+            enabled = selected.any(),
+            notification = Resources.strings.cache_clear.desc(),
+            icon = { deleteIconInteractor() },
+            onClick = { clearSelected() }
         )
 
-    override val actions: @Composable () -> List<IconButtonInteractor> = {
-        listOf(selectionToggleAction, deleteAction)
-    }
+    private val selectionToggleAction
+        get() = Action(
+            onClick = { selectionToggle() },
+            icon = {
+                triStateCheckboxIconInteractor(
+                    state = when {
+                        selected.size == clears.size -> ToggleableState.On
+                        selected.any() -> ToggleableState.Indeterminate
+                        else -> ToggleableState.Off
+                    }
+                )
+            },
+        )
+
+    override val actions
+        get() = listOf(selectionToggleAction, deleteAction)
 
     private val continentResources = ClearResources(
         type = ClearType.CONTINENT,
@@ -121,7 +106,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         @Composable
         get() = listOf(continentResources, guildResources, imageResources, wvwResources)
 
-    val clears = listOf(continentLogic, guildLogic, imageLogic, wvwLogic)
+    val clears
+        get() = listOf(continentLogic, guildLogic, imageLogic, wvwLogic)
 
     private val selected: MutableMap<ClearType, ClearLogic> = mutableStateMapOf()
     fun select(type: ClearType) = selected.put(type, clears.first { clear -> clear.type == type })
@@ -137,7 +123,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         }
     }
 
-    private fun performSelected() {
+    private fun clearSelected() {
         // Need to make a copy due to multiple threads using the collection.
         // This is to avoid emptying the list and then trying to clear it.
         clearCaches(selected.values.toList())

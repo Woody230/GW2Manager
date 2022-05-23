@@ -6,7 +6,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.CacheViewModel
 import com.bselzer.ktx.compose.resource.images.painter
@@ -22,7 +21,8 @@ import com.bselzer.ktx.compose.ui.layout.preference.checkbox.CheckboxPreferenceP
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.function.collection.buildArray
 
-class CacheComposition(model: CacheViewModel) : ViewModelComposition<CacheViewModel>(model) {
+class CacheComposition(model: CacheViewModel) : MainChildComposition<CacheViewModel>(model) {
+
     @Composable
     override fun CacheViewModel.Content() = BackgroundImage(
         modifier = Modifier.fillMaxSize(),

@@ -10,7 +10,7 @@ import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.resource.images.painter
 
-abstract class ViewModelComposition<Model : ViewModel>(private val model: Model) {
+abstract class ViewModelComposition<Model : ViewModel>(protected val model: Model) {
     /**
      * Lays out the content using the [ViewModel].
      */

@@ -6,40 +6,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.content.DialogComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.ScaffoldViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.content.MainComposition
 import com.bselzer.gw2.manager.common.ui.layout.splash.content.SplashComposition
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.resource.ui.layout.icon.drawerNavigationIconInteractor
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
 import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldInteractor
 import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldPresenter
 import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldProjector
-import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarInteractor
 
 class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<ScaffoldViewModel>(model) {
     @Composable
     override fun ScaffoldViewModel.Content() {
         val drawer = DrawerComposition(drawer)
-        val mainModel = LocalMainRouter.current.state.subscribeAsState().value.activeChild.instance
+        val mainComposition = MainComposition()
         ScaffoldProjector(
             interactor = ScaffoldInteractor(
                 drawer = drawer.interactor(),
                 topBar = TopAppBarInteractor(
-                    title = TextInteractor(text = mainModel.title.localized()),
+                    title = mainComposition.title(),
                     navigation = navigationInteractor(),
-                    actions = mainModel.actions()
+                    actions = mainComposition.actions()
                 )
             ),
             presenter = ScaffoldPresenter(
                 drawer = drawer.presenter()
             )
         ).Projection(modifier = Modifier.fillMaxSize()) {
-            MainComposition().Content()
+            mainComposition.Content()
             DialogComposition().Content()
             Splash()
         }

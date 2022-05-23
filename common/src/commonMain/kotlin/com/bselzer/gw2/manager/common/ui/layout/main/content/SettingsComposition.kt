@@ -10,7 +10,6 @@ import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
-import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.resource.strings.localized
@@ -43,7 +42,7 @@ import com.bselzer.ktx.function.collection.buildArray
 import kotlinx.coroutines.launch
 import kotlin.time.DurationUnit
 
-class SettingsComposition(model: SettingsViewModel) : ViewModelComposition<SettingsViewModel>(model) {
+class SettingsComposition(model: SettingsViewModel) : MainChildComposition<SettingsViewModel>(model) {
     @Composable
     override fun SettingsViewModel.Content() = BackgroundImage(
         modifier = Modifier.fillMaxSize(),

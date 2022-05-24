@@ -35,6 +35,7 @@ class InitializationComposition(model: InitializationViewModel) : ViewModelCompo
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
         painter = absoluteBackgroundPainter,
+        presenter = absoluteBackgroundPresenter
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -49,7 +50,8 @@ class InitializationComposition(model: InitializationViewModel) : ViewModelCompo
         BackgroundImage(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center,
-            painter = relativeBackgroundPainter
+            painter = relativeBackgroundPainter,
+            presenter = relativeBackgroundPresenter
         ) {
             DescriptionProjector(
                 interactor = description.value,

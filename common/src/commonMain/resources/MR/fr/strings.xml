@@ -10,6 +10,18 @@
     <string name="wvw_detailed_selected_objective">Objectif</string>
     <string name="wvw_tile">Dalles de carte</string>
     <string name="no_claim">Aucune Revendication de Guilde</string>
+    <string name="points_per_tick">Points par chronos</string>
+    <string name="victory_points">Points de victorie</string>
+    <string name="total_score">Score de guerre (total)</string>
+    <string name="total_kills">Victimes (total)</string>
+    <string name="total_deaths">Morts (total)</string>
+    <string name="war_score">Score de guerre</string>
+    <string name="skirmish">Escarmouche</string>
+
+    <!-- Match -->
+    <!-- %Angle% Degree Slice for %Color% -->
+    <string name="owned_slice">Tranche de %1$s degrés pour le %2$s</string>
+    <string name="neutral_slice">Tranche neutre</string>
 
     <!-- About -->
     <string name="ncsoft_notice">© 2021 NCSOFT Corporation. Tous droits réservés. NCSOFT, ArenaNet, le logo NC imbriqué, Aion, Lineage II, Guild Wars, Guild Wars 2 : Heart of

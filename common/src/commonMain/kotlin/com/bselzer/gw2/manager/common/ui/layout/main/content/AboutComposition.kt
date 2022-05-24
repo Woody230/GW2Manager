@@ -19,7 +19,8 @@ class AboutComposition(model: AboutViewModel) : MainChildComposition<AboutViewMo
     @Composable
     override fun AboutViewModel.Content() = BackgroundImage(
         modifier = Modifier.fillMaxSize(),
-        painter = relativeBackgroundPainter
+        painter = relativeBackgroundPainter,
+        presenter = relativeBackgroundPresenter
     ) {
         spacedColumnProjector(thickness = padding).Projection(
             modifier = Modifier

@@ -1,7 +1,6 @@
 package com.bselzer.gw2.manager.common.dependency
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.gw2.manager.common.Gw2Resources
@@ -25,7 +24,6 @@ import com.bselzer.gw2.v2.tile.client.TileClient
 import com.bselzer.ktx.compose.image.cache.instance.ImageCache
 import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
 import com.bselzer.ktx.compose.image.client.ImageClient
-import com.bselzer.ktx.compose.image.ui.LocalImageCache
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.assets.AssetReader
 import com.bselzer.ktx.serialization.xml.configuration.LoggingUnknownChildHandler
@@ -144,12 +142,8 @@ abstract class App(
     }
 
     @Composable
-    fun Content(content: @Composable () -> Unit) = CompositionLocalProvider(
-        LocalImageCache provides caches.image,
-    ) {
-        AppTheme(
-            theme = preferences.common.theme.safeState().value,
-            content = content
-        )
-    }
+    fun Content(content: @Composable () -> Unit) = AppTheme(
+        theme = preferences.common.theme.safeState().value,
+        content = content
+    )
 }

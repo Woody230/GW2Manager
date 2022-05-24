@@ -46,7 +46,8 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
     @Composable
     override fun SettingsViewModel.Content() = BackgroundImage(
         modifier = Modifier.fillMaxSize(),
-        painter = relativeBackgroundPainter
+        painter = relativeBackgroundPainter,
+        presenter = relativeBackgroundPresenter
     ) {
         Preferences()
     }

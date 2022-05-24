@@ -10,6 +10,18 @@
     <string name="wvw_detailed_selected_objective">Objetivo</string>
     <string name="wvw_tile">Teselas del mapa</string>
     <string name="no_claim">No hay Reclamación de Clan</string>
+    <string name="points_per_tick">Puntos por período</string>
+    <string name="victory_points">Puntos de victoria</string>
+    <string name="total_score">Puntuación de guerra (total)</string>
+    <string name="total_kills">Eliminados (total)</string>
+    <string name="total_deaths">Muertes (total)</string>
+    <string name="war_score">Puntuación de guerra</string>
+    <string name="skirmish">Escaramuza</string>
+
+    <!-- Match -->
+    <!-- %Angle% Degree Slice for %Color% -->
+    <string name="owned_slice">Rebanada de %1$s grados para %2$s</string>
+    <string name="neutral_slice">Rebanada neutra</string>
 
     <!-- About -->
     <string name="ncsoft_notice">© 2021 NCSOFT Corporation. Todos los derechos reservados. NCSOFT, ArenaNet, el logotipo NC entrelazado, Aion, Lineage II, Guild Wars, Guild

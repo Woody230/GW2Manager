@@ -13,6 +13,10 @@ import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
 import com.bselzer.ktx.compose.ui.graphics.color.color
 import com.bselzer.ktx.function.objects.userFriendly
+import com.bselzer.ktx.resource.Resources
+import dev.icerock.moko.resources.StringResource
+import dev.icerock.moko.resources.desc.StringDesc
+import dev.icerock.moko.resources.desc.desc
 import kotlinx.datetime.Instant
 
 object WvwHelper {
@@ -53,4 +57,14 @@ object WvwHelper {
         val sortedWorlds = if (mainWorld == null) linkedWorlds else linkedWorlds.toMutableList().apply { remove(mainWorld); add(0, mainWorld) }
         return sortedWorlds.joinToString(separator = "/")
     }
+
+    /**
+     * @return the [StringResource] representing the objective owner
+     */
+    fun WvwObjectiveOwner.stringResource(): StringDesc = when (this) {
+        WvwObjectiveOwner.RED -> Resources.strings.red
+        WvwObjectiveOwner.BLUE -> Resources.strings.blue
+        WvwObjectiveOwner.GREEN -> Resources.strings.green
+        WvwObjectiveOwner.NEUTRAL -> Resources.strings.gray
+    }.desc()
 }

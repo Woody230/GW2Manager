@@ -26,7 +26,8 @@ class CacheComposition(model: CacheViewModel) : MainChildComposition<CacheViewMo
     @Composable
     override fun CacheViewModel.Content() = BackgroundImage(
         modifier = Modifier.fillMaxSize(),
-        painter = relativeBackgroundPainter
+        painter = relativeBackgroundPainter,
+        presenter = relativeBackgroundPresenter
     ) {
         spacedColumnProjector(thickness = padding).Projection(
             modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState()),

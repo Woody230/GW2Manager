@@ -18,6 +18,7 @@ class LicenseComposition(model: LicenseViewModel) : MainChildComposition<License
     override fun LicenseViewModel.Content() = BackgroundImage(
         modifier = Modifier.fillMaxSize(),
         painter = relativeBackgroundPainter,
+        presenter = relativeBackgroundPresenter
     ) {
         Libraries()
     }

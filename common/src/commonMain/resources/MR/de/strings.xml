@@ -10,6 +10,18 @@
     <string name="wvw_detailed_selected_objective">Befestigungen</string>
     <string name="wvw_tile">Kachelkarte</string>
     <string name="no_claim">Kein Gilden-Beanspruchung</string>
+    <string name="points_per_tick">Punkte pro Tick</string>
+    <string name="victory_points">Siegpunkte</string>
+    <string name="total_score">Kriegspunktzahl (gesamt)</string>
+    <string name="total_kills">Feinde besiegt (gesamt)</string>
+    <string name="total_deaths">Tode (gesamt)</string>
+    <string name="war_score">Kriegspunktzahl</string>
+    <string name="skirmish">Gefecht</string>
+
+    <!-- Match -->
+    <!-- %Angle% Degree Slice for %Color% -->
+    <string name="owned_slice">%1$s Grad Scheibe für %2$s</string>
+    <string name="neutral_slice">Neutrale scheibe</string>
 
     <!-- About -->
     <string name="ncsoft_notice">© 2021 NCSOFT Corporation. Alle Rechte vorbehalten. NCSOFT, ArenaNet, das ineinandergreifende NC-Logo, Aion, Lineage II, Guild Wars, Guild

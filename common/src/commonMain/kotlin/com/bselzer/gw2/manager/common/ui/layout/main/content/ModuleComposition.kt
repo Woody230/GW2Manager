@@ -33,6 +33,7 @@ class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleVie
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter,
         painter = absoluteBackgroundPainter,
+        presenter = absoluteBackgroundPresenter
     ) {
         Column(
             modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState())
@@ -77,7 +78,11 @@ class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleVie
                 .border(width = border, color = Color.Black)
                 .padding(all = border)
         ) {
-            BackgroundImage(painter = relativeBackgroundPainter, content = content)
+            BackgroundImage(
+                painter = relativeBackgroundPainter,
+                presenter = relativeBackgroundPresenter,
+                content = content
+            )
         }
     }
 }

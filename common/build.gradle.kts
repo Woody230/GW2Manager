@@ -137,6 +137,7 @@ buildkonfig {
         buildConfigField(BOOLEAN, "DEBUG", Metadata.DEBUG.toString())
         buildConfigField(STRING, "VERSION_NAME", Metadata.VERSION_NAME)
         buildConfigField(INT, "VERSION_CODE", Metadata.VERSION_CODE.toString())
+        buildConfigField(STRING, "PACKAGE_NAME", Metadata.PACKAGE_NAME)
     }
 }
 

@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.common.dependency
 
+import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
@@ -26,7 +27,7 @@ class JvmApp : App(
 ) {
     private companion object {
         fun databaseDirectory(): String {
-            val directory = Path(System.getenv("APPDATA") + "\\com.bselzer.gw2.manager")
+            val directory = Path(System.getenv("APPDATA") + "\\${BuildKonfig.PACKAGE_NAME}")
             if (Files.notExists(directory)) {
                 Files.createDirectory(directory)
             }

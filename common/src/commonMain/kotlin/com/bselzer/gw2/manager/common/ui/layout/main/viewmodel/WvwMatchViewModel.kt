@@ -1,5 +1,7 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import com.bselzer.gw2.manager.common.Gw2Resources
@@ -7,6 +9,8 @@ import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.stringResource
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
+import com.bselzer.gw2.manager.common.ui.layout.main.model.Action
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Chart
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.ChartData
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.ChartSlice
@@ -15,8 +19,13 @@ import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.*
+import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.compose.resource.ui.layout.icon.refreshIconInteractor
+import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
 import com.bselzer.ktx.function.collection.addTo
 import com.bselzer.ktx.function.objects.userFriendly
+import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
@@ -24,10 +33,36 @@ import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.format
 
-class WvwMatchViewModel(context: AppComponentContext) : MainViewModel(context) {
+class WvwMatchViewModel(context: AppComponentContext, private val showDialog: (DialogConfig) -> Unit) : MainViewModel(context) {
     override val title: StringDesc = Gw2Resources.strings.wvw_match.desc()
 
-    // TODO actions
+    private val refreshAction
+        get() = Action(
+            icon = { refreshIconInteractor() },
+            onClick = {
+                repositories.world.worlds().collect { worlds ->
+                    Logger.d { "Manual Refresh | Worlds: $worlds" }
+                }
+
+                repositories.wvw.selectedMatch().collect { match ->
+                    Logger.d { "Manual Refresh | Match: $match" }
+                }
+            }
+        )
+
+    private val worldSelection
+        get() = Action(
+            icon = {
+                IconInteractor(
+                    painter = Icons.Filled.List.painter(),
+                    contentDescription = Gw2Resources.strings.world.desc().localized()
+                )
+            },
+            onClick = { showDialog(DialogConfig.WorldSelectionConfig) }
+        )
+
+    override val actions: List<Action>
+        get() = listOf(refreshAction, worldSelection)
 
     /**
      * The team color of the owner to create charts for.

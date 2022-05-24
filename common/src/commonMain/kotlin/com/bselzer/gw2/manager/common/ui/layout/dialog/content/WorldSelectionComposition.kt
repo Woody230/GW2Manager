@@ -13,6 +13,7 @@ import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.resetAlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogProjector
+import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
@@ -44,14 +45,32 @@ class WorldSelectionComposition(
         }
     }
 
-
     @Composable
     private fun WorldSelectionViewModel.SelectionDialog() {
         val dialogRouter = LocalDialogRouter.current
+        val selection = selection
         AlertDialogProjector(
-            interactor = resetAlertDialogInteractor {
+            interactor = resetAlertDialogInteractor(
+                onConfirmation = {
+                    val world = selection.selected
+                    if (world == null) {
+                        DialogState.OPENED
+                    } else {
+                        Logger.d("Setting world to $world")
+                        selection.onSave(world)
+                        DialogState.CLOSED
+                    }
+                },
+                onReset = {
+                    selection.onReset()
+                    DialogState.CLOSED
+                }
+            ) {
                 // Don't show the dialog anymore when the world has been selected.
                 dialogRouter.bringToFront(DialogConfig.NoDialogConfig)
+
+                // Reset the choice so that it does not persist when the dialog is reopened.
+                selection.resetSelected()
             }.copy(
                 title = TextInteractor(selection.title.localized())
             )
@@ -66,15 +85,15 @@ class WorldSelectionComposition(
     // TODO preferably, choice should be scrolled to when dialog gets opened
     // TODO if current selected does not exist, do not allow cancellation
     @Composable
-    private fun WorldSelectionViewModel.SelectionChoice() = SingleChoiceProjector(
-        interactor = SingleChoiceInteractor(
-            selected = selection.selected,
-            values = selection.values,
-            getLabel = selection.getLabel,
-            onSelection = { world ->
-                Logger.d("Setting world to $world")
-                save(world.id)
-            }
-        )
-    ).Projection(modifier = Modifier.fillMaxHeight())
+    private fun WorldSelectionViewModel.SelectionChoice() {
+        val selection = selection
+        SingleChoiceProjector(
+            interactor = SingleChoiceInteractor(
+                selected = selection.selected,
+                values = selection.values,
+                getLabel = selection.getLabel,
+                onSelection = { world -> selection.setSelected(world) }
+            )
+        ).Projection(modifier = Modifier.fillMaxHeight())
+    }
 }

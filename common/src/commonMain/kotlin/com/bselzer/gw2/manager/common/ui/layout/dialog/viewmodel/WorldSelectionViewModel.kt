@@ -1,8 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.model.worldselection.NoWorlds
@@ -35,6 +33,8 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
             message = Gw2Resources.strings.no_worlds.desc()
         )
 
+    private val selected: MutableState<World?> = mutableStateOf(null)
+
     /**
      * The state for displaying all worlds and the selection made by the user.
      */
@@ -42,20 +42,31 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
         @Composable
         get() {
             val selectedWorld by preferences.wvw.selectedWorld.nullState()
+
+            // If the dialog has a selection then use it, otherwise use the saved selection.
+            val resolved: WorldId? = selected.value?.id ?: selectedWorld
             return WorldSelection(
                 title = Gw2Resources.strings.worlds.desc(),
                 values = worlds,
-                getLabel = { world -> world.name.toString() },
-                selected = selectedWorld?.let {
+                getLabel = { world ->
+                    // TODO translate
+                    world.name.toString()
+                },
+                selected = resolved?.let {
                     worlds.firstOrNull { world -> world.id == it }
-                }
+                },
+                onSave = { selection ->
+                    CoroutineScope(Dispatchers.Main).launch {
+                        preferences.wvw.selectedWorld.set(selection.id)
+                    }
+                },
+                onReset = {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        preferences.wvw.selectedWorld.remove()
+                    }
+                },
+                setSelected = { selected.value = it },
+                resetSelected = { selected.value = null }
             )
         }
-
-    /**
-     * Saves the [selection] to preferences.
-     */
-    fun save(selection: WorldId) = CoroutineScope(Dispatchers.Main).launch {
-        preferences.wvw.selectedWorld.set(selection)
-    }
 }

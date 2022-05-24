@@ -45,7 +45,10 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
                 MainConfig.ModuleConfig -> ModuleViewModel(context)
                 MainConfig.SettingsConfig -> SettingsViewModel(context)
                 MainConfig.WvwMapConfig -> WvwMapViewModel(context)
-                MainConfig.WvwMatchConfig -> WvwMatchViewModel(context)
+                MainConfig.WvwMatchConfig -> WvwMatchViewModel(context) { config ->
+                    // TODO is it appropriate to pass delegate here?
+                    dialogRouter.bringToFront(config)
+                }
             }
         }
     )

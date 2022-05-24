@@ -1,7 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.image
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -48,10 +47,12 @@ fun PendingImage.Content(
             }
         )
 
+        val width = width.toDp()
+        val height = height.toDp()
         if (painter == null) {
             // TODO placeholder drawables for certain images?
             CircularProgressIndicator(
-                modifier = Modifier.fillMaxSize(0.15f)
+                modifier = Modifier.size(width = width, height = height)
             )
         } else {
             Image(
@@ -59,7 +60,7 @@ fun PendingImage.Content(
                 painter = painter,
                 contentScale = ContentScale.Fit,
                 alpha = alpha,
-                modifier = modifier.size(width = width.toDp(), height = height.toDp()),
+                modifier = modifier.size(width = width, height = height),
 
                 // Multiply the given color with the existing image (which is most likely a neutral gray).
                 colorFilter = (color ?: this.color)?.let { filterColor -> ColorFilter.lighting(filterColor, Color.Transparent) }

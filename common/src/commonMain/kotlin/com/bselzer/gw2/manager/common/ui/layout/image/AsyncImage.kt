@@ -1,8 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.image
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -11,15 +9,18 @@ import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.layout.ContentScale
 import com.bselzer.gw2.manager.common.dependency.KodeinTransaction
 import com.bselzer.ktx.compose.image.cache.instance.ImageCache
-import com.bselzer.ktx.compose.image.ui.rememberImagePainter
+import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageInteractor
+import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImagePresenter
+import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageProjector
 import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.unit.toDp
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.image.ImageDesc
 import dev.icerock.moko.resources.desc.image.ImageDescUrl
 
 // TODO use image projection
-data class PendingImage(
+data class AsyncImage(
     val enabled: Boolean = true,
     val image: ImageDesc,
     val width: Int,
@@ -30,7 +31,7 @@ data class PendingImage(
 )
 
 @Composable
-fun PendingImage.Content(
+fun AsyncImage.Content(
     modifier: Modifier = Modifier,
     transaction: KodeinTransaction,
     cache: ImageCache
@@ -38,33 +39,31 @@ fun PendingImage.Content(
     // TODO check if image desc resource
     val link = if (image is ImageDescUrl) image.url else null
     if (enabled && !link.isNullOrBlank()) {
-        val painter = rememberImagePainter(
-            url = link,
-            getImage = { url ->
-                transaction.transaction {
-                    with(cache) { getImage(url) }
-                }
-            }
-        )
-
-        val width = width.toDp()
-        val height = height.toDp()
-        if (painter == null) {
+        AsyncImageProjector(
             // TODO placeholder drawables for certain images?
-            CircularProgressIndicator(
-                modifier = Modifier.size(width = width, height = height)
-            )
-        } else {
-            Image(
-                contentDescription = description?.localized(),
-                painter = painter,
-                contentScale = ContentScale.Fit,
-                alpha = alpha,
-                modifier = modifier.size(width = width, height = height),
+            interactor = AsyncImageInteractor(
+                url = link,
+                getImage = { url ->
+                    transaction.transaction {
+                        with(cache) { getImage(url) }
+                    }
+                },
+                contentDescription = description?.localized()
+            ),
+            presenter = AsyncImagePresenter(
+                image = ImagePresenter(
+                    alpha = alpha,
+                    contentScale = ContentScale.Fit,
 
-                // Multiply the given color with the existing image (which is most likely a neutral gray).
-                colorFilter = (color ?: this.color)?.let { filterColor -> ColorFilter.lighting(filterColor, Color.Transparent) }
+                    // Multiply the given color with the existing image (which is most likely a neutral gray).
+                    colorFilter = (color ?: this.color)?.let { filterColor -> ColorFilter.lighting(filterColor, Color.Transparent) }
+                )
             )
-        }
+        ).Projection(
+            modifier = modifier.size(
+                width = width.toDp(),
+                height = height.toDp()
+            )
+        )
     }
 }

@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
-import com.bselzer.gw2.manager.common.ui.layout.image.PendingImage
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Chart
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.ChartData
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchViewModel
@@ -111,14 +111,14 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
         val width = model.configuration.wvw.chart.size.width
         val height = model.configuration.wvw.chart.size.height
         Box {
-            PendingImage(
+            AsyncImage(
                 image = chart.background,
                 width = width,
                 height = height,
             ).Content(transaction = model, cache = caches.image)
 
             chart.slices.forEach { slice ->
-                PendingImage(
+                AsyncImage(
                     image = slice.image,
                     width = width,
                     height = height,
@@ -132,7 +132,7 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
 
             // Add the dividers between the slices.
             chart.slices.map { slice -> slice.startAngle }.forEach { angle ->
-                PendingImage(
+                AsyncImage(
                     image = chart.divider,
                     width = width,
                     height = height,

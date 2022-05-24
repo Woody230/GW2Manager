@@ -17,17 +17,17 @@ import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.resetAlertDialogIn
 import com.bselzer.ktx.compose.resource.ui.layout.icon.downIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.upIconInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
+import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
+import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
+import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.preference.duration.DurationPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.duration.DurationPreferenceProjector
-import com.bselzer.ktx.compose.ui.layout.preference.section.PreferenceSectionInteractor
-import com.bselzer.ktx.compose.ui.layout.preference.section.PreferenceSectionPresenter
-import com.bselzer.ktx.compose.ui.layout.preference.section.PreferenceSectionProjector
-import com.bselzer.ktx.compose.ui.layout.preference.section.preferenceColumnProjector
+import com.bselzer.ktx.compose.ui.layout.preference.section.*
 import com.bselzer.ktx.compose.ui.layout.preference.switch.SwitchPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.switch.SwitchPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferenceInteractor
@@ -57,13 +57,21 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
         modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState()),
         content = buildArray {
             // TODO language
-            add { ThemePreference() }
+            add { CommonSection() }
 
             /* TODO enable token preference when needed
             add { TokenPreference() }
              */
 
             add { WvwSection() }
+        }
+    )
+
+    @Composable
+    private fun SettingsViewModel.CommonSection() = spacedPreferenceColumnProjector().Projection(
+        content = buildArray {
+            add { ThemePreference() }
+            add { LanguagePreference() }
         }
     )
 
@@ -86,6 +94,52 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
             )
         )
     ).Projection()
+
+    @Composable
+    private fun SettingsViewModel.LanguagePreference() {
+        var state by remember { mutableStateOf(DialogState.CLOSED) }
+        val labels = languageLogic.values.associateWith { locale -> languageResources.getLabel(locale).localized() }
+        AlertDialogPreferenceProjector(
+            interactor = AlertDialogPreferenceInteractor(
+                preference = PreferenceInteractor(
+                    image = ImageInteractor(
+                        painter = languageResources.image.painter(),
+                        contentDescription = languageResources.title.localized(),
+                    ),
+                    description = DescriptionInteractor(
+                        title = TextInteractor(text = languageResources.title.localized()),
+                        subtitle = TextInteractor(text = languageResources.subtitle.localized())
+                    )
+                ),
+                dialog = resetAlertDialogInteractor(
+                    onConfirmation = {
+                        languageLogic.onSave()
+                        DialogState.CLOSED
+                    },
+                    onReset = {
+                        languageLogic.onReset()
+                        DialogState.CLOSED
+                    }
+                ) {
+                    state = DialogState.CLOSED
+                }.copy(
+                    state = state,
+                    title = TextInteractor(text = languageResources.title.localized())
+                )
+            )
+        ).Projection(modifier = Modifier.clickable {
+            state = DialogState.OPENED
+        }) {
+            SingleChoiceProjector(
+                interactor = SingleChoiceInteractor(
+                    selected = languageLogic.selected,
+                    values = languageLogic.values,
+                    getLabel = { locale -> labels[locale] ?: "" },
+                    onSelection = { locale -> languageLogic.updateSelection(locale) }
+                )
+            ).Projection()
+        }
+    }
 
     @Composable
     private fun SettingsViewModel.TokenPreference() {

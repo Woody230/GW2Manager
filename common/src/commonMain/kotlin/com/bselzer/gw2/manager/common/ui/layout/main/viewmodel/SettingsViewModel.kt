@@ -1,6 +1,10 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.text.intl.Locale
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
@@ -9,6 +13,8 @@ import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.scope.core.Permission
+import com.bselzer.ktx.compose.resource.ui.intl.stringResourceOrNull
+import com.bselzer.ktx.compose.ui.intl.Localizer
 import com.bselzer.ktx.datetime.format.DurationBound
 import com.bselzer.ktx.intent.browser.Browser
 import com.bselzer.ktx.logging.Logger
@@ -139,7 +145,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     val wvwResources
         @Composable
         get() = run {
-            val interval by preferences.wvw.refreshInterval.defaultState()
+            val interval = preferences.wvw.refreshInterval.defaultState().value
             WvwResources(
                 image = Gw2Resources.images.gw2_rank_dolyak,
                 title = Gw2Resources.strings.wvw.desc(),
@@ -173,5 +179,27 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                 preferences.wvw.refreshInterval.set(amount.toDuration(unit))
             },
             onReset = { preferences.wvw.refreshInterval.remove() }
+        )
+
+    private val language: MutableState<Locale?> = mutableStateOf(null)
+    val languageResources
+        @Composable
+        get() = LanguageResources(
+            image = Resources.images.ic_language,
+            title = Resources.strings.language.desc(),
+            subtitle = (Localizer.locale.stringResourceOrNull() ?: Resources.strings.locale_en).desc(),
+            getLabel = { locale -> locale.stringResourceOrNull()?.desc() ?: StringDesc.Raw("") }
+        )
+
+    val languageLogic
+        get() = LanguageLogic(
+            values = listOf(Localizer.ENGLISH, Localizer.FRENCH, Localizer.GERMAN, Localizer.SPANISH),
+            selected = language.value ?: Localizer.ENGLISH,
+            onSave = {
+                language.value?.let { Localizer.locale = it }
+            },
+            onReset = { Localizer.locale = Localizer.DEFAULT },
+            updateSelection = { language.value = it },
+            resetSelection = { language.value = null }
         )
 }

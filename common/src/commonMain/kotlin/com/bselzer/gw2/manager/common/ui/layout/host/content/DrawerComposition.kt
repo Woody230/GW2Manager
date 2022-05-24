@@ -66,6 +66,7 @@ class DrawerComposition(
         val mainRouter = LocalMainRouter.current
         val scope = rememberCoroutineScope()
         return DrawerComponentInteractor(
+            // TODO icons seem to be using disabled tint
             icon = IconInteractor(
                 painter = icon.painter(),
                 contentDescription = localized

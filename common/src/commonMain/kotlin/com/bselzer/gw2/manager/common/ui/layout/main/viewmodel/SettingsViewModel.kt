@@ -22,6 +22,7 @@ import com.bselzer.ktx.resource.Resources
 import com.bselzer.ktx.resource.strings.stringResource
 import com.bselzer.ktx.settings.compose.defaultState
 import com.bselzer.ktx.settings.compose.nullState
+import com.bselzer.ktx.settings.compose.safeState
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -187,7 +188,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
         get() = LanguageResources(
             image = Resources.images.ic_language,
             title = Resources.strings.language.desc(),
-            subtitle = (Localizer.locale.stringResourceOrNull() ?: Resources.strings.locale_en).desc(),
+            subtitle = (preferences.common.locale.safeState().value.stringResourceOrNull() ?: Resources.strings.locale_en).desc(),
             getLabel = { locale -> locale.stringResourceOrNull()?.desc() ?: StringDesc.Raw("") }
         )
 
@@ -196,9 +197,11 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
             values = listOf(Localizer.ENGLISH, Localizer.FRENCH, Localizer.GERMAN, Localizer.SPANISH),
             selected = language.value ?: Localizer.ENGLISH,
             onSave = {
-                language.value?.let { Localizer.locale = it }
+                language.value?.let { locale ->
+                    preferences.common.locale.set(locale)
+                }
             },
-            onReset = { Localizer.locale = Localizer.DEFAULT },
+            onReset = { preferences.common.locale.remove() },
             updateSelection = { language.value = it },
             resetSelection = { language.value = null }
         )

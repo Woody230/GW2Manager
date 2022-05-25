@@ -1,7 +1,9 @@
 package com.bselzer.gw2.manager.common.preference
 
+import androidx.compose.ui.text.intl.Locale
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.gw2.v2.model.enumeration.Language
+import com.bselzer.ktx.compose.ui.intl.LocaleSerializer
+import com.bselzer.ktx.compose.ui.intl.Localizer
 import com.bselzer.ktx.settings.setting.IntSetting
 import com.bselzer.ktx.settings.setting.SerializableSetting
 import com.bselzer.ktx.settings.setting.Setting
@@ -33,7 +35,7 @@ class CommonPreference(settings: SuspendSettings) {
     val theme: Setting<Theme> = SerializableSetting(settings = settings, key = "Theme", defaultValue = Theme.LIGHT, serializer = serializer())
 
     /**
-     * The language to display information in.
+     * The locale indicating the language to display information in.
      */
-    val language: Setting<Language> = SerializableSetting(settings = settings, key = "Language", defaultValue = Language.ENGLISH, serializer())
+    val locale: Setting<Locale> = SerializableSetting(settings = settings, key = "Locale", defaultValue = Localizer.ENGLISH, LocaleSerializer())
 }

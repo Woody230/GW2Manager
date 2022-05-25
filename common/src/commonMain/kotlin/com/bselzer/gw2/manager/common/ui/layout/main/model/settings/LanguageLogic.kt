@@ -7,6 +7,6 @@ data class LanguageLogic(
     val selected: Locale,
     val updateSelection: (Locale) -> Unit,
     val resetSelection: () -> Unit,
-    val onSave: () -> Unit,
-    val onReset: () -> Unit
+    val onSave: suspend () -> Unit,
+    val onReset: suspend () -> Unit
 )

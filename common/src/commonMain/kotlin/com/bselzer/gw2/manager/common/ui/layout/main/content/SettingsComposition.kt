@@ -97,6 +97,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
 
     @Composable
     private fun SettingsViewModel.LanguagePreference() {
+        val scope = rememberCoroutineScope()
         var state by remember { mutableStateOf(DialogState.CLOSED) }
         val labels = languageLogic.values.associateWith { locale -> languageResources.getLabel(locale).localized() }
         AlertDialogPreferenceProjector(
@@ -113,11 +114,11 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                 ),
                 dialog = resetAlertDialogInteractor(
                     onConfirmation = {
-                        languageLogic.onSave()
+                        scope.launch { languageLogic.onSave() }
                         DialogState.CLOSED
                     },
                     onReset = {
-                        languageLogic.onReset()
+                        scope.launch { languageLogic.onReset() }
                         DialogState.CLOSED
                     }
                 ) {
@@ -133,7 +134,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
             SingleChoiceProjector(
                 interactor = SingleChoiceInteractor(
                     selected = languageLogic.selected,
-                    values = languageLogic.values,
+                    values = languageLogic.values.sortedBy { locale -> labels[locale] },
                     getLabel = { locale -> labels[locale] ?: "" },
                     onSelection = { locale -> languageLogic.updateSelection(locale) }
                 )

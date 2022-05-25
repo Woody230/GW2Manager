@@ -1,6 +1,7 @@
 package com.bselzer.gw2.manager.common.dependency
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.gw2.manager.common.Gw2Resources
@@ -24,6 +25,7 @@ import com.bselzer.gw2.v2.tile.client.TileClient
 import com.bselzer.ktx.compose.image.cache.instance.ImageCache
 import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
 import com.bselzer.ktx.compose.image.client.ImageClient
+import com.bselzer.ktx.compose.ui.intl.Localizer
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.assets.AssetReader
 import com.bselzer.ktx.serialization.xml.configuration.LoggingUnknownChildHandler
@@ -32,6 +34,7 @@ import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
+import dev.icerock.moko.resources.desc.StringDesc
 import io.ktor.client.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.serialization.serializer
@@ -144,6 +147,14 @@ abstract class App(
     @Composable
     fun Content(content: @Composable () -> Unit) = AppTheme(
         theme = preferences.common.theme.safeState().value,
-        content = content
-    )
+    ) {
+        content()
+
+        // Update the locale as it gets changed and recompose.
+        val locale = Localizer.locale
+        LaunchedEffect(locale) {
+            Logger.d { "Locale | $locale" }
+            StringDesc.localeType = StringDesc.LocaleType.Custom(locale.toLanguageTag())
+        }
+    }
 }

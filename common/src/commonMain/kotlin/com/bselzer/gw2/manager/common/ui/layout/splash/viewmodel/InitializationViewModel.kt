@@ -11,6 +11,7 @@ import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Init
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.migration.Migrator
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.compose.ui.intl.Localizer
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.logging.Logger
@@ -49,7 +50,18 @@ class InitializationViewModel(
     // TODO add build number if needed
     private val initializers: Collection<Initializer>
         @Composable
-        get() = listOf(initializeTheme, migration)
+        get() = listOf(initializeLanguage, initializeTheme, migration)
+
+    private val initializeLanguage
+        @Composable
+        get() = Initializer(
+            title = Resources.strings.settings.desc(),
+            subtitle = Resources.strings.language.desc()
+        ) {
+            val locale = preferences.common.locale.get()
+            Logger.d { "Locale | $locale" }
+            Localizer.locale = locale
+        }
 
     private val initializeTheme
         @Composable

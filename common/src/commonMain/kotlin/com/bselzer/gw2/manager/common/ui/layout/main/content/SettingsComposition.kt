@@ -133,7 +133,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
         }) {
             SingleChoiceProjector(
                 interactor = SingleChoiceInteractor(
-                    selected = languageLogic.selected,
+                    selected = languageLogic.selected(),
                     values = languageLogic.values.sortedBy { locale -> labels[locale] },
                     getLabel = { locale -> labels[locale] ?: "" },
                     onSelection = { locale -> languageLogic.updateSelection(locale) }

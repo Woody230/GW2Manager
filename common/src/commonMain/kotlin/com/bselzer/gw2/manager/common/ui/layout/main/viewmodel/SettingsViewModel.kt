@@ -161,6 +161,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
             )
         }
 
+    // TODO default to the actual preference instead of initial?
     private val intervalAmount: MutableState<Int> = mutableStateOf(preferences.wvw.refreshInterval.initialAmount)
     private val intervalUnit: MutableState<DurationUnit> = mutableStateOf(preferences.wvw.refreshInterval.initialUnit)
     private val intervalBound = DurationBound(min = 30.seconds)
@@ -195,7 +196,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     val languageLogic
         get() = LanguageLogic(
             values = listOf(Localizer.ENGLISH, Localizer.FRENCH, Localizer.GERMAN, Localizer.SPANISH),
-            selected = language.value ?: Localizer.ENGLISH,
+            selected = { language.value ?: preferences.common.locale.safeState().value },
             onSave = {
                 language.value?.let { locale ->
                     preferences.common.locale.set(locale)

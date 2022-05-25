@@ -13,9 +13,9 @@ import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.gw2.v2.cache.metadata.IdentifiableMetadataExtractor
 import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.gw2.v2.cache.type.gw2
-import com.bselzer.gw2.v2.client.client.ExceptionRecoveryMode
-import com.bselzer.gw2.v2.client.client.Gw2Client
-import com.bselzer.gw2.v2.client.client.Gw2ClientConfiguration
+import com.bselzer.gw2.v2.client.instance.ExceptionRecoveryMode
+import com.bselzer.gw2.v2.client.instance.Gw2Client
+import com.bselzer.gw2.v2.client.instance.Gw2ClientConfiguration
 import com.bselzer.gw2.v2.emblem.client.EmblemClient
 import com.bselzer.gw2.v2.model.serialization.Modules
 import com.bselzer.gw2.v2.tile.cache.instance.TileCache

@@ -200,6 +200,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
             onSave = {
                 language.value?.let { locale ->
                     preferences.common.locale.set(locale)
+                    Localizer.locale = locale
                 }
             },
             onReset = { preferences.common.locale.remove() },

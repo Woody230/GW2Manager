@@ -49,6 +49,7 @@ class WorldSelectionComposition(
     private fun WorldSelectionViewModel.SelectionDialog() {
         val dialogRouter = LocalDialogRouter.current
         val selection = selection
+        // TODO french/german buttons overflowing
         AlertDialogProjector(
             interactor = resetAlertDialogInteractor(
                 onConfirmation = {

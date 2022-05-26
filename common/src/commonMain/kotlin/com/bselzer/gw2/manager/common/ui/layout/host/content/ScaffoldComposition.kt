@@ -12,6 +12,7 @@ import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.ScaffoldViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.content.MainComposition
 import com.bselzer.gw2.manager.common.ui.layout.splash.content.SplashComposition
 import com.bselzer.ktx.compose.resource.ui.layout.icon.drawerNavigationIconInteractor
+import com.bselzer.ktx.compose.ui.layout.appbar.top.TopAppBarInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerPresenter
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
 import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldInteractor
@@ -19,7 +20,6 @@ import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldPresenter
 import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldProjector
 import com.bselzer.ktx.compose.ui.layout.scaffold.scaffoldInteractor
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostInteractor
-import com.bselzer.ktx.compose.ui.layout.topappbar.TopAppBarInteractor
 
 class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<ScaffoldViewModel>(model) {
     @Composable

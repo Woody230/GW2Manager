@@ -58,6 +58,8 @@ class WvwMatchViewModel(context: AppComponentContext, private val showDialog: (D
                     contentDescription = Gw2Resources.strings.world.desc().localized()
                 )
             },
+
+            // TODO data not refreshing upon selection
             onClick = { showDialog(DialogConfig.WorldSelectionConfig) }
         )
 

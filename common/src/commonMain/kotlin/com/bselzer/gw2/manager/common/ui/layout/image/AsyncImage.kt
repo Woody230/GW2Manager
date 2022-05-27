@@ -22,7 +22,7 @@ import dev.icerock.moko.resources.desc.image.ImageDescUrl
 // TODO use image projection
 data class AsyncImage(
     val enabled: Boolean = true,
-    val image: ImageDesc,
+    val image: ImageDesc?,
     val width: Int,
     val height: Int,
     val color: Color? = null,

@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model
+package com.bselzer.gw2.manager.common.ui.layout.main.model.action
 
 import androidx.compose.runtime.Composable
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor

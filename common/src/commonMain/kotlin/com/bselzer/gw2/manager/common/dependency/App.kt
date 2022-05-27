@@ -10,7 +10,6 @@ import com.bselzer.gw2.manager.common.preference.WvwPreference
 import com.bselzer.gw2.manager.common.repository.WorldRepository
 import com.bselzer.gw2.manager.common.repository.WvwRepository
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
-import com.bselzer.gw2.v2.cache.metadata.IdentifiableMetadataExtractor
 import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.gw2.v2.cache.type.gw2
 import com.bselzer.gw2.v2.client.instance.ExceptionRecoveryMode
@@ -26,6 +25,8 @@ import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
 import com.bselzer.ktx.compose.image.client.ImageClient
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
 import com.bselzer.ktx.compose.ui.intl.ProvideLocale
+import com.bselzer.ktx.kodein.db.metadata.IdentifiableMetadataExtractor
+import com.bselzer.ktx.kodein.db.value.IdentifierValueConverter
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.assets.AssetReader
 import com.bselzer.ktx.serialization.xml.configuration.LoggingUnknownChildHandler
@@ -112,6 +113,7 @@ abstract class App(
             IdentifiableMetadataExtractor(),
             TileMetadataExtractor(),
             ImageMetadataExtractor(),
+            IdentifierValueConverter(),
             TypeTable { gw2() }
         )
     )

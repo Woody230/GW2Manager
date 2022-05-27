@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.main.model.Action
+import com.bselzer.gw2.manager.common.ui.layout.main.model.action.Action
 import com.bselzer.gw2.manager.common.ui.layout.main.model.module.WorldResources
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.extension.wvw.owner

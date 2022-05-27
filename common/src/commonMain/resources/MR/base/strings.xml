@@ -20,6 +20,7 @@
     <string name="total_deaths">Total Deaths</string>
     <string name="war_score">War Score</string>
     <string name="skirmish">Skirmish</string>
+    <string name="objective">Objective</string>
 
     <!-- Match -->
     <!-- %Angle% Degree Slice for %Color% -->

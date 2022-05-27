@@ -44,7 +44,9 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
                 MainConfig.LicenseConfig -> LicenseViewModel(context)
                 MainConfig.ModuleConfig -> ModuleViewModel(context)
                 MainConfig.SettingsConfig -> SettingsViewModel(context)
-                MainConfig.WvwMapConfig -> WvwMapViewModel(context)
+                MainConfig.WvwMapConfig -> WvwMapViewModel(context) { config ->
+                    dialogRouter.bringToFront(config)
+                }
                 MainConfig.WvwMatchConfig -> WvwMatchViewModel(context) { config ->
                     // TODO is it appropriate to pass delegate here?
                     dialogRouter.bringToFront(config)
@@ -87,6 +89,9 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
                 true
             }
         }
+
+        // Otherwise see if the page can handle the press press.
+        mainRouter.activeChild.instance.onBackPressed() -> true
 
         // Otherwise if we aren't on the module page then go back to it.
         mainRouter.activeChild.instance !is ModuleViewModel -> {

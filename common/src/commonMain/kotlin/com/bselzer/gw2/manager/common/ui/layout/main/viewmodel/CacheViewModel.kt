@@ -6,7 +6,7 @@ import androidx.compose.ui.state.ToggleableState
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.main.model.Action
+import com.bselzer.gw2.manager.common.ui.layout.main.model.action.Action
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearLogic
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearType

@@ -17,6 +17,7 @@
     <string name="total_deaths">Morts (total)</string>
     <string name="war_score">Score de guerre</string>
     <string name="skirmish">Escarmouche</string>
+    <string name="objective">Objectif</string>
 
     <!-- Match -->
     <!-- %Angle% Degree Slice for %Color% -->

@@ -2,7 +2,6 @@ package com.bselzer.gw2.manager.common.configuration
 
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.configuration.wvw.Wvw
-import com.bselzer.gw2.manager.common.configuration.wvw.WvwObjective
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.linkedWorlds
@@ -10,6 +9,7 @@ import com.bselzer.gw2.v2.model.extension.wvw.mainWorld
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
+import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
 import com.bselzer.ktx.compose.ui.graphics.color.color
 import com.bselzer.ktx.function.objects.userFriendly
@@ -24,7 +24,7 @@ object WvwHelper {
      * @return the objective from the configuration associated with the endpoint objective
      */
     fun Wvw.objective(objective: WvwObjective?) = objective?.let {
-        objectives.objectives.firstOrNull { it.type == objective.type }
+        objectives.objectives.firstOrNull { it.type == objective.type.enumValueOrNull() }
     }
 
     /**

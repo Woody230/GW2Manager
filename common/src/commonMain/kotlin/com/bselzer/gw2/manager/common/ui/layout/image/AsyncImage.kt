@@ -7,8 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.layout.ContentScale
-import com.bselzer.gw2.manager.common.dependency.KodeinTransaction
-import com.bselzer.ktx.compose.image.cache.instance.ImageCache
+import com.bselzer.gw2.manager.common.dependency.LocalDependencies
 import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageInteractor
 import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImagePresenter
 import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageProjector
@@ -32,10 +31,10 @@ data class AsyncImage(
 
 @Composable
 fun AsyncImage.Content(
-    modifier: Modifier = Modifier,
-    transaction: KodeinTransaction,
-    cache: ImageCache
+    modifier: Modifier = Modifier
 ) {
+    val dependencies = LocalDependencies.current
+
     // TODO check if image desc resource
     val link = if (image is ImageDescUrl) image.url else null
     if (enabled && !link.isNullOrBlank()) {
@@ -44,8 +43,8 @@ fun AsyncImage.Content(
             interactor = AsyncImageInteractor(
                 url = link,
                 getImage = { url ->
-                    transaction.transaction {
-                        with(cache) { getImage(url) }
+                    dependencies.transaction {
+                        with(dependencies.caches.image) { getImage(url) }
                     }
                 },
                 contentDescription = description?.localized()

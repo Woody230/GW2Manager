@@ -134,8 +134,6 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         description = description
     ).Content(
         modifier = Modifier.absoluteOffset(x = x.toDp(), y = y.toDp()),
-        transaction = model,
-        cache = model.caches.image
     )
 
     /**
@@ -215,11 +213,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         description = description,
         width = width,
         height = height,
-    ).Content(
-        modifier = modifier,
-        transaction = model,
-        cache = model.caches.image
-    )
+    ).Content(modifier = modifier)
 
     /**
      * Lays out the indicators for the objective's upgrade progression level.
@@ -234,8 +228,6 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         color = color
     ).Content(
         modifier = modifier,
-        transaction = model,
-        cache = model.caches.image
     )
 
     /**
@@ -251,8 +243,6 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         color = color
     ).Content(
         modifier = modifier,
-        transaction = model,
-        cache = model.caches.image
     )
 
     /**
@@ -280,8 +270,6 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
                     model.selected.value = objective
                 }
             ),
-            transaction = model,
-            cache = model.caches.image
         )
     }
 

@@ -1,6 +1,7 @@
 package com.bselzer.gw2.manager.common.dependency
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.gw2.manager.common.Gw2Resources
@@ -154,6 +155,11 @@ abstract class App(
             val locale = LocalLocale.current
             Logger.d { "Locale | $locale" }
             content()
+
+            CompositionLocalProvider(
+                LocalDependencies provides this,
+                content = content
+            )
         }
     }
 }

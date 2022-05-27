@@ -115,7 +115,7 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                 image = chart.background,
                 width = width,
                 height = height,
-            ).Content(transaction = model, cache = caches.image)
+            ).Content()
 
             chart.slices.forEach { slice ->
                 AsyncImage(
@@ -125,8 +125,6 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                     description = slice.description
                 ).Content(
                     modifier = Modifier.clip(ArcShape(slice.startAngle, slice.endAngle)),
-                    transaction = model,
-                    cache = caches.image
                 )
             }
 
@@ -138,8 +136,6 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                     height = height,
                 ).Content(
                     modifier = Modifier.rotate(degrees = angle),
-                    transaction = model,
-                    cache = caches.image
                 )
             }
         }

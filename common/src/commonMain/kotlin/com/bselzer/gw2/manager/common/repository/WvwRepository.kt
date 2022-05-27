@@ -7,6 +7,7 @@ import com.bselzer.gw2.v2.model.continent.ContinentId
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.continent.floor.FloorId
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
+import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
 import com.bselzer.gw2.v2.model.map.MapId
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
@@ -16,6 +17,7 @@ import com.bselzer.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class WvwRepository(dependencies: RepositoryDependencies) : AppRepository(dependencies) {
@@ -65,6 +67,22 @@ class WvwRepository(dependencies: RepositoryDependencies) : AppRepository(depend
             with(caches.gw2.wvw) {
                 val objectives = match?.maps?.flatMap { map -> map.objectives } ?: emptyList()
                 if (objectives.isEmpty()) emptyList() else findGuildUpgrades(objectives)
+            }
+        }
+    }
+
+    /**
+     * The guild upgrades associated declared in the configuration.
+     */
+    fun configuredGuildUpgrades(): Flow<Collection<GuildUpgrade>> = flow {
+        transaction {
+            with(caches.gw2.wvw) {
+                // Set up all the configured guild upgrades since there is no direct way to know what upgrades are associated with each tier.
+                val improvementIds = configuration.wvw.objectives.guildUpgrades.improvements.flatMap { improvement -> improvement.upgrades.map { upgrade -> upgrade.id } }
+                val tacticIds = configuration.wvw.objectives.guildUpgrades.tactics.flatMap { tactic -> tactic.upgrades.map { upgrade -> upgrade.id } }
+                val allIds = (improvementIds + tacticIds).map { id -> GuildUpgradeId(id) }
+                val guildUpgrades = findGuildUpgrades(ids = allIds)
+                emit(guildUpgrades)
             }
         }
     }

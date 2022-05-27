@@ -84,7 +84,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     /**
      * Whether to scroll the map to the configured region.
      */
-    val shouldScrollToRegion = mutableStateOf(configuration.wvw.map.scroll.enabled)
+    private val shouldScrollToRegion = mutableStateOf(configuration.wvw.map.scroll.enabled)
 
     /**
      * The coordinates to scroll to for the configured map.
@@ -170,7 +170,9 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
             val match = repositories.wvw.selectedMatch().collectAsState(null).value ?: return emptyList()
             val objectives = repositories.wvw.selectedMatchObjectives().collectAsState(emptyList()).value
             val upgrades = repositories.wvw.selectedMatchUpgrades().collectAsState(emptyList()).value
-            val guildUpgrades = repositories.wvw.selectedMatchGuildUpgrades().collectAsState(emptyList()).value
+            val matchGuildUpgrades = repositories.wvw.selectedMatchGuildUpgrades().collectAsState(emptyList()).value
+            val configuredGuildUpgrades = repositories.wvw.configuredGuildUpgrades().collectAsState(emptyList()).value
+            val guildUpgrades = matchGuildUpgrades + configuredGuildUpgrades
 
             val models = objectives.mapNotNull { objective ->
                 val fromConfig = configuration.wvw.objective(objective)

@@ -154,7 +154,6 @@ abstract class App(
         ProvideLocale {
             val locale = LocalLocale.current
             Logger.d { "Locale | $locale" }
-            content()
 
             CompositionLocalProvider(
                 LocalDependencies provides this,

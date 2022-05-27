@@ -25,7 +25,12 @@ class WvwRepository(dependencies: RepositoryDependencies) : AppRepository(depend
     fun selectedMatch(): Flow<WvwMatch?> = preferences.wvw.selectedWorld.observe().map { worldId ->
         transaction {
             with(caches.gw2.wvw) {
-                if (worldId.isDefault) null else findMatch(worldId)
+                if (worldId.isDefault) {
+                    null
+                } else {
+                    // MUST call putMatch for objectives and upgrades to be populated.
+                    findMatch(worldId).also { putMatch(it) }
+                }
             }
         }
     }

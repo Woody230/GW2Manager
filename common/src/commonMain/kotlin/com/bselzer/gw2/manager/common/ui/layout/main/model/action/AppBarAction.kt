@@ -5,24 +5,24 @@ import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.CoroutineScope
 
-data class Action(
+interface AppBarAction {
     /**
      * Whether the user is able to perform the action.
      */
-    val enabled: Boolean = true,
+    val enabled: Boolean
 
     /**
      * The notification to display after performing the action.
      */
-    val notification: StringDesc? = null,
+    val notification: StringDesc?
 
     /**
      * The interactor for the icon's painter and content description.
      */
-    val icon: @Composable () -> IconInteractor,
+    val icon: @Composable () -> IconInteractor
 
     /**
      * The logic for performing the action.
      */
     val onClick: suspend CoroutineScope.() -> Unit
-)
+}

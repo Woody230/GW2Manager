@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,11 +26,13 @@ import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MapConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.*
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.gw2.v2.tile.model.response.Tile
+import com.bselzer.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.ktx.compose.image.ui.layout.asImageBitmap
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.datetime.format.minuteFormat
+import kotlinx.coroutines.launch
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 
@@ -39,10 +42,11 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         modifier = Modifier.fillMaxSize(),
         painter = absoluteBackgroundPainter,
     ) {
+        val scope = rememberCoroutineScope()
         val pinchToZoom = rememberTransformableState { zoomChange, panChange, rotationChange ->
             // Allow the user to change the zoom by pinching the map.
             val change = if (zoomChange > 1) 1 else -1
-            changeZoom(change)
+            scope.launch { changeZoom(change) }
         }
 
         ConstraintLayout(
@@ -89,7 +93,8 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
     private fun ViewerViewModel.MapGrid() = Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        grid.value.rows.forEach { row ->
+        val grid = repositories.selectedWorld.grid.collectAsState().value ?: TileGrid()
+        grid.rows.forEach { row ->
             Row {
                 row.forEach { tile -> tile.MapTile() }
             }

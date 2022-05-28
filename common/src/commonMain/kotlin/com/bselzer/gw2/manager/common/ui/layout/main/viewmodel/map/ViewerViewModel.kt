@@ -1,7 +1,10 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map
 
 import androidx.compose.foundation.ScrollState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.objective
@@ -9,7 +12,8 @@ import com.bselzer.gw2.manager.common.configuration.WvwHelper.selectedDateFormat
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.stringResource
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
-import com.bselzer.gw2.manager.common.ui.layout.main.model.action.Action
+import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
+import com.bselzer.gw2.manager.common.ui.layout.main.model.action.GeneralAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.*
 import com.bselzer.gw2.v2.model.enumeration.WvwMapBonusType
 import com.bselzer.gw2.v2.model.enumeration.WvwMapType
@@ -20,7 +24,12 @@ import com.bselzer.gw2.v2.model.extension.wvw.level
 import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.extension.wvw.position
 import com.bselzer.gw2.v2.model.extension.wvw.tiers
+import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
+import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
+import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
+import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
+import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgradeId
 import com.bselzer.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
@@ -35,48 +44,31 @@ import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.desc.plus
 import kotlinx.coroutines.launch
-import kotlin.math.max
-import kotlin.math.min
 
 class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -> Unit) : MapViewModel(context, showDialog) {
     override val title: StringDesc = Gw2Resources.strings.wvw_map.desc()
 
     private val zoomInAction
-        get() = Action(
-            enabled = zoom.value < zoomRange.last,
+        get() = GeneralAction(
+            enabled = repositories.selectedWorld.zoom.value < repositories.selectedWorld.zoomRange.last,
             icon = { zoomInMapIconInteractor() },
             onClick = { changeZoom(increment = 1) }
         )
 
     private val zoomOutAction
-        get() = Action(
-            enabled = zoom.value > zoomRange.first,
+        get() = GeneralAction(
+            enabled = repositories.selectedWorld.zoom.value > repositories.selectedWorld.zoomRange.first,
             icon = { zoomOutMapIconInteractor() },
             onClick = { changeZoom(increment = -1) }
         )
 
-    override val actions: List<Action>
+    override val actions: List<AppBarAction>
         get() = super.actions + listOf(zoomInAction, zoomOutAction)
-
-    private val zoom: MutableState<Int> = mutableStateOf(configuration.wvw.map.zoom.default)
-    private val zoomRange: IntRange = IntRange(start = configuration.wvw.map.zoom.min, endInclusive = configuration.wvw.map.zoom.max)
 
     /**
      * Updates the zoom to be within the configured range.
      */
-    fun changeZoom(increment: Int) {
-        val currentZoom = zoom.value
-
-        // Must keep the zoom bounded within the configured range.
-        zoom.value = max(zoomRange.first, min(zoomRange.last, currentZoom + increment))
-    }
-
-    /**
-     * The grid of tiles without tile content.
-     */
-    val grid: State<TileGrid>
-        @Composable
-        get() = repositories.wvw.selectedMatchGrid(zoom.value).collectAsState(initial = TileGrid())
+    suspend fun changeZoom(increment: Int) = repositories.selectedWorld.updateZoom(repositories.selectedWorld.zoom.value + increment)
 
     val horizontalScroll: ScrollState = ScrollState(0)
     val verticalScroll: ScrollState = ScrollState(0)
@@ -92,11 +84,12 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     private val scrollToRegionCoordinates: Pair<Int, Int>
         @Composable
         get() {
-            val continent = repositories.wvw.selectedMatchContinent().collectAsState(null).value
+            val continent = repositories.selectedWorld.continent.collectAsState().value
             val region = continent?.floor?.regions?.values?.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
             val map = region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scroll.mapName } ?: return Pair(0, 0)
             val topLeft = map.continentRectangle.point1
-            return grid.value.scale(topLeft.x.toInt(), topLeft.y.toInt())
+            val grid = repositories.selectedWorld.grid.collectAsState().value ?: TileGrid()
+            return grid.scale(topLeft.x.toInt(), topLeft.y.toInt())
         }
 
     /**
@@ -117,8 +110,8 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     val bloodlusts: Collection<Bloodlust>
         @Composable
         get() {
-            val match = repositories.wvw.selectedMatch().collectAsState(null).value ?: return emptyList()
-            val objectives = repositories.wvw.selectedMatchObjectives().collectAsState(emptyList()).value
+            val match = repositories.selectedWorld.match.collectAsState().value ?: return emptyList()
+            val objectives = repositories.selectedWorld.objectives.collectAsState().value
 
             val borderlands = match.maps.filter { map ->
                 map.type.enumValueOrNull().isOneOf(WvwMapType.BLUE_BORDERLANDS, WvwMapType.RED_BORDERLANDS, WvwMapType.GREEN_BORDERLANDS)
@@ -131,10 +124,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
                     return@mapNotNull null
                 }
 
-                val objectiveRuins = matchRuins.mapNotNull { matchRuin ->
-                    objectives.firstOrNull { objective -> objective.id == matchRuin.id }
-                }
-
+                val objectiveRuins = matchRuins.mapNotNull { matchRuin -> objectives[matchRuin.id] }
                 if (objectiveRuins.size != matchRuins.size) {
                     Logger.w { "Mismatch between the number of ruins in the match and objectives on map ${borderland.id}." }
                     return@mapNotNull null
@@ -167,17 +157,15 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     val objectives: Collection<Objective>
         @Composable
         get() {
-            val match = repositories.wvw.selectedMatch().collectAsState(null).value ?: return emptyList()
-            val objectives = repositories.wvw.selectedMatchObjectives().collectAsState(emptyList()).value
-            val upgrades = repositories.wvw.selectedMatchUpgrades().collectAsState(emptyList()).value
-            val matchGuildUpgrades = repositories.wvw.selectedMatchGuildUpgrades().collectAsState(emptyList()).value
-            val configuredGuildUpgrades = repositories.wvw.configuredGuildUpgrades().collectAsState(emptyList()).value
-            val guildUpgrades = matchGuildUpgrades + configuredGuildUpgrades
+            val match: WvwMatch = repositories.selectedWorld.match.collectAsState().value ?: return emptyList()
+            val objectives: Collection<WvwObjective> = repositories.selectedWorld.objectives.collectAsState().value.values
+            val upgrades: Map<WvwUpgradeId, WvwUpgrade> = repositories.selectedWorld.upgrades.collectAsState().value
+            val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = repositories.selectedWorld.guildUpgrades.collectAsState().value
 
             val models = objectives.mapNotNull { objective ->
                 val fromConfig = configuration.wvw.objective(objective)
                 val fromMatch = match.objective(objective) ?: return@mapNotNull null
-                val upgrade = upgrades.firstOrNull { upgrade -> upgrade.id == objective.upgradeId }
+                val upgrade = upgrades[objective.upgradeId]
                 val tiers = upgrade?.tiers(fromMatch.yaksDelivered)?.flatMap { tier -> tier.upgrades } ?: emptyList()
 
                 // TODO remove from config
@@ -192,9 +180,8 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
 
                 // See if any of the progressed tiers has a permanent waypoint upgrade, or the tactic for the temporary waypoint.
                 val hasWaypointUpgrade = tiers.any { tier -> configuration.wvw.objectives.waypoint.upgradeNameRegex.matches(tier.name) }
-                val hasWaypointTacticUpgrade = fromMatch.guildUpgradeIds.mapNotNull { id ->
-                    guildUpgrades.firstOrNull { guildUpgrade -> id == guildUpgrade.id }
-                }.any { tactic -> configuration.wvw.objectives.waypoint.guild.upgradeNameRegex.matches(tactic.name) }
+                val hasWaypointTacticUpgrade = fromMatch.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }
+                    .any { tactic -> configuration.wvw.objectives.waypoint.guild.upgradeNameRegex.matches(tactic.name) }
                 val hasWaypointTactic = configuration.wvw.objectives.waypoint.guild.enabled && hasWaypointTacticUpgrade
 
                 Objective(
@@ -253,7 +240,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
         @Composable
         get() = run {
             val objective = selected.value ?: return@run null
-            val fromMatch = repositories.wvw.selectedMatch().collectAsState(null).value.objective(objective)
+            val fromMatch = repositories.selectedWorld.match.collectAsState().value.objective(objective)
             val owner = fromMatch?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
             SelectedObjective(
                 // TODO translate
@@ -270,7 +257,8 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     @Composable
     private fun Point2D.scaledCoordinates(width: Number, height: Number): Point2D {
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        val scaled = grid.value.scale(x.toInt(), y.toInt())
+        val grid = repositories.selectedWorld.grid.collectAsState().value ?: TileGrid()
+        val scaled = grid.scale(x.toInt(), y.toInt())
 
         // Displace the coordinates so that it aligns with the center of the image.
         return Point2D(

@@ -14,9 +14,11 @@ import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageProjector
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.unit.toDp
+import com.bselzer.ktx.kodein.db.transaction.transaction
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.image.ImageDesc
 import dev.icerock.moko.resources.desc.image.ImageDescUrl
+import org.kodein.db.getById
 
 // TODO use image projection
 data class AsyncImage(
@@ -43,8 +45,8 @@ fun AsyncImage.Content(
             interactor = AsyncImageInteractor(
                 url = link,
                 getImage = { url ->
-                    dependencies.transaction {
-                        with(dependencies.caches.image) { getImage(url) }
+                    dependencies.database.transaction().use {
+                        getById(url)
                     }
                 },
                 contentDescription = description?.localized()

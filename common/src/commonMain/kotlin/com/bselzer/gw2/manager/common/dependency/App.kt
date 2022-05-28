@@ -8,20 +8,19 @@ import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
-import com.bselzer.gw2.manager.common.repository.WorldRepository
-import com.bselzer.gw2.manager.common.repository.WvwRepository
+import com.bselzer.gw2.manager.common.repository.base.GenericRepositories
+import com.bselzer.gw2.manager.common.repository.base.Repositories
+import com.bselzer.gw2.manager.common.repository.instance.*
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
-import com.bselzer.gw2.v2.cache.provider.Gw2CacheProvider
 import com.bselzer.gw2.v2.cache.type.gw2
 import com.bselzer.gw2.v2.client.instance.ExceptionRecoveryMode
 import com.bselzer.gw2.v2.client.instance.Gw2Client
 import com.bselzer.gw2.v2.client.instance.Gw2ClientConfiguration
 import com.bselzer.gw2.v2.emblem.client.EmblemClient
 import com.bselzer.gw2.v2.model.serialization.Modules
-import com.bselzer.gw2.v2.tile.cache.instance.TileCache
+import com.bselzer.gw2.v2.tile.cache.metadata.TileGridMetadataExtractor
 import com.bselzer.gw2.v2.tile.cache.metadata.TileMetadataExtractor
 import com.bselzer.gw2.v2.tile.client.TileClient
-import com.bselzer.ktx.compose.image.cache.instance.ImageCache
 import com.bselzer.ktx.compose.image.cache.metadata.ImageMetadataExtractor
 import com.bselzer.ktx.compose.image.client.ImageClient
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
@@ -37,7 +36,8 @@ import com.mikepenz.aboutlibraries.entity.Library
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import io.ktor.client.*
-import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.XML
@@ -104,37 +104,37 @@ abstract class App(
         asset = AssetCdnClient(httpClient)
     )
 
-    final override val caches: Caches = Caches(
-        gw2 = Gw2CacheProvider(clients.gw2),
-        tile = TileCache(clients.tile),
-        image = ImageCache(clients.image),
-        database = DB.inDir(databaseDirectory).open(
-            "Gw2Database",
-            KotlinxSerializer(Modules.ALL),
-            IdentifiableMetadataExtractor(),
-            TileMetadataExtractor(),
-            ImageMetadataExtractor(),
-            IdentifierValueConverter(),
-            TypeTable { gw2() }
-        )
+    final override val database: DB = DB.inDir(databaseDirectory).open(
+        "Gw2Database",
+        KotlinxSerializer(Modules.ALL),
+        IdentifiableMetadataExtractor(),
+        TileMetadataExtractor(),
+        TileGridMetadataExtractor(),
+        ImageMetadataExtractor(),
+        IdentifierValueConverter(),
+        TypeTable { gw2() }
     )
-
-    final override val lock: Mutex = Mutex()
 
     final override val repositories: Repositories
         get() {
             val dependencies = object : RepositoryDependencies {
-                override val lock: Mutex = this@App.lock
-                override val caches: Caches = this@App.caches
-                override val clients: Clients = this@App.clients
-                override val configuration: Configuration = this@App.configuration
-                override val preferences: Preferences = this@App.preferences
+                override val clients = this@App.clients
+                override val configuration = this@App.configuration
+                override val database = this@App.database
+                override val preferences = this@App.preferences
+                override val scope: CoroutineScope = CoroutineScope(Dispatchers.Default)
             }
 
-            return Repositories(
-                world = WorldRepository(dependencies),
-                wvw = WvwRepository(dependencies)
-            )
+            val generic = object : GenericRepositories {
+                override val continent = ContinentRepository(dependencies)
+                override val guild = GuildRepository(dependencies)
+                override val tile = TileRepository(dependencies)
+                override val world = WorldRepository(dependencies)
+            }
+
+            return object : Repositories, GenericRepositories by generic {
+                override val selectedWorld = SelectedWorldRepository(dependencies, generic)
+            }
         }
 
     fun initialize() {

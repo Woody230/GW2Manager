@@ -19,9 +19,7 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
      */
     private val worlds: List<World>
         @Composable
-        get() = repositories.world.worlds()
-            .collectAsState(emptyList()).value
-            .sortedBy { world -> world.name.toString() }
+        get() = repositories.world.worlds.collectAsState().value.sortedBy { world -> world.name.toString() }
 
     /**
      * The state for displaying a message when no worlds are found.

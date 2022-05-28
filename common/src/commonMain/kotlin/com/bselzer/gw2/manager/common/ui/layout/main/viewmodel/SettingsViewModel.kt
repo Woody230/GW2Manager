@@ -17,6 +17,7 @@ import com.bselzer.ktx.compose.resource.ui.intl.stringResourceOrNull
 import com.bselzer.ktx.compose.ui.intl.Localizer
 import com.bselzer.ktx.datetime.format.DurationBound
 import com.bselzer.ktx.intent.browser.Browser
+import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.Resources
 import com.bselzer.ktx.resource.strings.stringResource
@@ -76,7 +77,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                     Resources.strings.not_set.desc()
                 } else {
                     // The token info id is only the first GUID so a startsWith is required.
-                    val tokenInfo = caches.database.find<TokenInfo>().all().asModelSequence().firstOrNull { info -> token.startsWith(info.id.value) }
+                    val tokenInfo = database.find<TokenInfo>().all().asModelSequence().firstOrNull { info -> token.startsWith(info.id.value) }
 
                     // Try to use the name first as the most user friendly.
                     // Since the id is not the full token, try to use that as a default otherwise.
@@ -128,8 +129,8 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
             val account = clients.gw2.account.account(token)
             if (!account.id.isDefault) {
                 // Ensure the token info exists before updating the token so that it will be available for recomposition.
-                transaction {
-                    caches.database.put(tokenInfo)
+                database.transaction().use {
+                    put(tokenInfo)
                 }
 
                 preferences.common.token.set(token.value)

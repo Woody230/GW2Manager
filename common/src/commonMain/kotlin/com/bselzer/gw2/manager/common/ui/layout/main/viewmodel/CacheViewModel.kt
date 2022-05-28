@@ -6,13 +6,19 @@ import androidx.compose.ui.state.ToggleableState
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.main.model.action.Action
+import com.bselzer.gw2.manager.common.ui.layout.main.model.action.GeneralAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearLogic
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearType
 import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.v2.cache.operation.clearContinent
+import com.bselzer.gw2.v2.cache.operation.clearGuild
+import com.bselzer.gw2.v2.cache.operation.clearWvw
+import com.bselzer.gw2.v2.tile.cache.operation.clearTile
+import com.bselzer.ktx.compose.image.cache.operation.clearImage
 import com.bselzer.ktx.compose.resource.ui.layout.icon.deleteIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.triStateCheckboxIconInteractor
+import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.desc.StringDesc
@@ -25,7 +31,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     override val title: StringDesc = Resources.strings.cache.desc()
 
     private val deleteAction
-        get() = Action(
+        get() = GeneralAction(
             enabled = selected.any(),
             notification = Resources.strings.cache_clear.desc(),
             icon = { deleteIconInteractor() },
@@ -33,7 +39,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         )
 
     private val selectionToggleAction
-        get() = Action(
+        get() = GeneralAction(
             onClick = { selectionToggle() },
             icon = {
                 triStateCheckboxIconInteractor(
@@ -57,8 +63,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val continentLogic = ClearLogic(type = ClearType.CONTINENT) {
-        with(caches.gw2.continent) { clear() }
-        with(caches.tile) { clear() }
+        clearContinent()
+        clearTile()
     }
 
     private val guildResources = ClearResources(
@@ -69,7 +75,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val guildLogic = ClearLogic(type = ClearType.GUILD) {
-        with(caches.gw2.guild) { clear() }
+        clearGuild()
     }
 
     private val imageResources
@@ -86,8 +92,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         )
 
     private val imageLogic = ClearLogic(type = ClearType.IMAGE) {
-        with(caches.image) { clear() }
-        with(caches.tile) { clear() }
+        clearImage()
+        clearTile()
     }
 
     private val wvwResources = ClearResources(
@@ -98,8 +104,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val wvwLogic = ClearLogic(type = ClearType.WVW) {
-        with(caches.gw2.wvw) { clear() }
-        with(caches.gw2.world) { clear() }
+        clearWvw()
     }
 
     val resources
@@ -134,7 +139,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
      * Clears all of the cache [clears].
      */
     private fun clearCaches(clears: Collection<ClearLogic>) = CoroutineScope(Dispatchers.Default).launch {
-        transaction {
+        database.transaction().use {
             clears.forEach { clear -> clear.perform(this) }
             Logger.d { "Cache | Clearing ${clears.map { logic -> logic.type }}" }
         }

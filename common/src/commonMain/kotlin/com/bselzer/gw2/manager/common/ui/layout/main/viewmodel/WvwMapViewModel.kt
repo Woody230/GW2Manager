@@ -6,7 +6,7 @@ import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MapConfig
-import com.bselzer.gw2.manager.common.ui.layout.main.model.action.Action
+import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.MapViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
@@ -33,7 +33,7 @@ class WvwMapViewModel(
     override val title: StringDesc
         get() = router.activeChild.instance.title
 
-    override val actions: List<Action>
+    override val actions: List<AppBarAction>
         get() = router.activeChild.instance.actions
 
 

@@ -7,6 +7,7 @@ import com.mikepenz.aboutlibraries.entity.Library
 import org.kodein.db.DB
 
 interface Dependencies {
+    val isDebug: Boolean
     val database: DB
     val build: BuildKonfig
     val clients: Clients

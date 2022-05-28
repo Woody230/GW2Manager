@@ -44,6 +44,8 @@ import nl.adaptivity.xmlutil.serialization.XML
 import org.kodein.db.DB
 import org.kodein.db.TypeTable
 import org.kodein.db.impl.inDir
+import org.kodein.db.kv.FailOnBadClose
+import org.kodein.db.kv.TrackClosableAllocation
 import org.kodein.db.orm.kotlinx.KotlinxSerializer
 
 @OptIn(ExperimentalSettingsApi::class, ExperimentalXmlUtilApi::class)
@@ -51,7 +53,7 @@ abstract class App(
     /**
      * Whether debug mode is enabled.
      */
-    private val isDebug: Boolean = false,
+    debug: Boolean = false,
 
     /**
      * The HTTP client for making network requests.
@@ -69,6 +71,8 @@ abstract class App(
     settings: SuspendSettings,
 ) : Dependencies {
     final override val build: BuildKonfig = BuildKonfig
+
+    final override val isDebug: Boolean = debug || build.DEBUG
 
     final override val preferences = Preferences(
         common = CommonPreference(settings),
@@ -106,13 +110,19 @@ abstract class App(
 
     final override val database: DB = DB.inDir(databaseDirectory).open(
         "Gw2Database",
+
+        // Add options related to GW2 models.
         KotlinxSerializer(Modules.ALL),
         IdentifiableMetadataExtractor(),
         TileMetadataExtractor(),
         TileGridMetadataExtractor(),
         ImageMetadataExtractor(),
         IdentifierValueConverter(),
-        TypeTable { gw2() }
+        TypeTable { gw2() },
+
+        // Add general database options.
+        TrackClosableAllocation(isDebug),
+        FailOnBadClose(isDebug),
     )
 
     final override val repositories: Repositories
@@ -141,7 +151,7 @@ abstract class App(
         Logger.clear()
 
         // Only enable logging for debug mode.
-        if (isDebug || build.DEBUG) {
+        if (isDebug) {
             Logger.enableDebugging()
         }
     }

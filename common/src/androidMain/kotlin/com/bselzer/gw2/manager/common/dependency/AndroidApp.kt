@@ -23,7 +23,7 @@ class AndroidApp(
     context: Context,
     datastore: DataStore<Preferences>
 ) : App(
-    isDebug = BuildConfig.DEBUG,
+    debug = BuildConfig.DEBUG,
     httpClient = httpClient(),
     databaseDirectory = context.filesDir.absolutePath,
     settings = DataStoreSettings(datastore)

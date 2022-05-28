@@ -14,7 +14,10 @@ class WorldRepository(
     dependencies: RepositoryDependencies
 ) : AppRepository(dependencies) {
     val worlds: StateFlow<Collection<World>> = flow {
-        val worlds = database.transaction().findAllOnce { clients.gw2.world.worlds() }
+        val worlds = database.transaction().use {
+            findAllOnce { clients.gw2.world.worlds() }
+        }
+
         emit(worlds)
     }.stateIn(
         // The world is required to find the associated match so resolve it as soon as possible.

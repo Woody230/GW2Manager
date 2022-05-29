@@ -82,6 +82,7 @@ class SelectedWorldRepository(
             Logger.d { "Selected World | Updating world id to $id." }
             _worldId.value = id
 
+            // Since the initial value will be null, only force refresh when the id exists.
             if (id != null) {
                 forceRefresh()
             }

@@ -6,6 +6,7 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 interface GenericRepositories {
     val continent: ContinentRepository
     val guild: GuildRepository
+    val image: ImageRepository
     val tile: TileRepository
     val world: WorldRepository
 }

@@ -138,6 +138,7 @@ abstract class App(
         val generic = object : GenericRepositories {
             override val continent = ContinentRepository(dependencies)
             override val guild = GuildRepository(dependencies)
+            override val image = ImageRepository(dependencies)
             override val tile = TileRepository(dependencies)
             override val world = world
         }

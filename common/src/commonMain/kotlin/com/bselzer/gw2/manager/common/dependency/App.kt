@@ -125,30 +125,29 @@ abstract class App(
         FailOnBadClose(isDebug),
     )
 
-    final override val repositories: Repositories
-        get() {
-            // TODO dependency injection
-            val dependencies = object : RepositoryDependencies {
-                override val clients = this@App.clients
-                override val configuration = this@App.configuration
-                override val database = this@App.database
-                override val preferences = this@App.preferences
-            }
-
-            val world = WorldRepository(dependencies)
-            val generic = object : GenericRepositories {
-                override val continent = ContinentRepository(dependencies)
-                override val guild = GuildRepository(dependencies)
-                override val tile = TileRepository(dependencies)
-                override val world = world
-            }
-
-            return object : Repositories, GenericRepositories by generic {
-                override val selectedMatch = WvwMatchRepository(dependencies, generic)
-                override val selectedMap = MapRepository(dependencies, generic)
-                override val selectedWorld: SelectedWorldRepository = SelectedWorldRepository(dependencies, world, this)
-            }
+    // TODO dependency injection
+    final override val repositories: Repositories = run {
+        val dependencies = object : RepositoryDependencies {
+            override val clients = this@App.clients
+            override val configuration = this@App.configuration
+            override val database = this@App.database
+            override val preferences = this@App.preferences
         }
+
+        val world = WorldRepository(dependencies)
+        val generic = object : GenericRepositories {
+            override val continent = ContinentRepository(dependencies)
+            override val guild = GuildRepository(dependencies)
+            override val tile = TileRepository(dependencies)
+            override val world = world
+        }
+
+        object : Repositories, GenericRepositories by generic {
+            override val selectedMatch = WvwMatchRepository(dependencies, generic)
+            override val selectedMap = MapRepository(dependencies, generic)
+            override val selectedWorld: SelectedWorldRepository = SelectedWorldRepository(dependencies, world, this)
+        }
+    }
 
     fun initialize() {
         Logger.clear()

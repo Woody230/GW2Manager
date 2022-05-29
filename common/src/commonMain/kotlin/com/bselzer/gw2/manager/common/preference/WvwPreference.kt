@@ -20,7 +20,7 @@ class WvwPreference(settings: SuspendSettings) {
     /**
      * The last data refresh date/time.
      */
-    val lastRefresh: SerializableSetting<Instant> = SerializableSetting(settings = settings, key = "WvwLastRefresh", defaultValue = Instant.DISTANT_PAST, serializer())
+    val lastRefresh: SerializableSetting<Instant> = SerializableSetting(settings = settings, key = "WvwLastRefresh", defaultValue = Instant.DISTANT_FUTURE, serializer())
 
     // TODO value class settings
     /**

@@ -26,7 +26,6 @@ import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MapConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.*
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.gw2.v2.tile.model.response.Tile
-import com.bselzer.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.ktx.compose.image.ui.layout.asImageBitmap
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
@@ -93,8 +92,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
     private fun ViewerViewModel.MapGrid() = Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        val grid = repositories.selectedWorld.grid.collectAsState().value ?: TileGrid()
-        grid.rows.forEach { row ->
+        repositories.selectedMap.grid.rows.forEach { row ->
             Row {
                 row.forEach { tile -> tile.MapTile() }
             }

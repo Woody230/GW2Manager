@@ -14,10 +14,13 @@ class HostComposition(model: HostViewModel) : ViewModelComposition<HostViewModel
         CompositionLocalProvider(
             LocalDialogRouter provides dialogRouter,
             LocalMainRouter provides mainRouter,
-            LocalSplashRouter provides splashRouter
+            LocalSplashRouter provides splashRouter,
         ) {
             ScaffoldComposition(scaffold).Content()
         }
+
+        repositories.selectedWorld.Refresh()
+        repositories.selectedWorld.UpdateWorld()
     }
 
     @Composable

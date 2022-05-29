@@ -2,7 +2,6 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.Gw2Resources
@@ -30,7 +29,6 @@ import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgradeId
-import com.bselzer.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
@@ -50,14 +48,14 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
 
     private val zoomInAction
         get() = GeneralAction(
-            enabled = repositories.selectedWorld.zoom.value < repositories.selectedWorld.zoomRange.last,
+            enabled = repositories.selectedMap.zoom < repositories.selectedMap.zoomRange.last,
             icon = { zoomInMapIconInteractor() },
             onClick = { changeZoom(increment = 1) }
         )
 
     private val zoomOutAction
         get() = GeneralAction(
-            enabled = repositories.selectedWorld.zoom.value > repositories.selectedWorld.zoomRange.first,
+            enabled = repositories.selectedMap.zoom > repositories.selectedMap.zoomRange.first,
             icon = { zoomOutMapIconInteractor() },
             onClick = { changeZoom(increment = -1) }
         )
@@ -68,7 +66,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     /**
      * Updates the zoom to be within the configured range.
      */
-    suspend fun changeZoom(increment: Int) = repositories.selectedWorld.updateZoom(repositories.selectedWorld.zoom.value + increment)
+    suspend fun changeZoom(increment: Int) = repositories.selectedWorld.updateZoom(repositories.selectedMap.zoom + increment)
 
     val horizontalScroll: ScrollState = ScrollState(0)
     val verticalScroll: ScrollState = ScrollState(0)
@@ -84,11 +82,10 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     private val scrollToRegionCoordinates: Pair<Int, Int>
         @Composable
         get() {
-            val continent = repositories.selectedWorld.continent.collectAsState().value
-            val region = continent?.floor?.regions?.values?.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
+            val region = repositories.selectedWorld.floor?.regions?.values?.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
             val map = region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scroll.mapName } ?: return Pair(0, 0)
             val topLeft = map.continentRectangle.point1
-            val grid = repositories.selectedWorld.grid.collectAsState().value ?: TileGrid()
+            val grid = repositories.selectedMap.grid
             return grid.scale(topLeft.x.toInt(), topLeft.y.toInt())
         }
 
@@ -110,8 +107,8 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     val bloodlusts: Collection<Bloodlust>
         @Composable
         get() {
-            val match = repositories.selectedWorld.match.collectAsState().value ?: return emptyList()
-            val objectives = repositories.selectedWorld.objectives.collectAsState().value
+            val match = repositories.selectedMatch.match ?: return emptyList()
+            val objectives = repositories.selectedMatch.objectives
 
             val borderlands = match.maps.filter { map ->
                 map.type.enumValueOrNull().isOneOf(WvwMapType.BLUE_BORDERLANDS, WvwMapType.RED_BORDERLANDS, WvwMapType.GREEN_BORDERLANDS)
@@ -157,10 +154,10 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     val objectives: Collection<Objective>
         @Composable
         get() {
-            val match: WvwMatch = repositories.selectedWorld.match.collectAsState().value ?: return emptyList()
-            val objectives: Collection<WvwObjective> = repositories.selectedWorld.objectives.collectAsState().value.values
-            val upgrades: Map<WvwUpgradeId, WvwUpgrade> = repositories.selectedWorld.upgrades.collectAsState().value
-            val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = repositories.selectedWorld.guildUpgrades.collectAsState().value
+            val match: WvwMatch = repositories.selectedMatch.match ?: return emptyList()
+            val objectives: Collection<WvwObjective> = repositories.selectedMatch.objectives.values
+            val upgrades: Map<WvwUpgradeId, WvwUpgrade> = repositories.selectedMatch.upgrades
+            val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = repositories.guild.guildUpgrades
 
             val models = objectives.mapNotNull { objective ->
                 val fromConfig = configuration.wvw.objective(objective)
@@ -240,7 +237,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
         @Composable
         get() = run {
             val objective = selected.value ?: return@run null
-            val fromMatch = repositories.selectedWorld.match.collectAsState().value.objective(objective)
+            val fromMatch = repositories.selectedMatch.match.objective(objective)
             val owner = fromMatch?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
             SelectedObjective(
                 // TODO translate
@@ -257,7 +254,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     @Composable
     private fun Point2D.scaledCoordinates(width: Number, height: Number): Point2D {
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        val grid = repositories.selectedWorld.grid.collectAsState().value ?: TileGrid()
+        val grid = repositories.selectedMap.grid
         val scaled = grid.scale(x.toInt(), y.toInt())
 
         // Displace the coordinates so that it aligns with the center of the image.

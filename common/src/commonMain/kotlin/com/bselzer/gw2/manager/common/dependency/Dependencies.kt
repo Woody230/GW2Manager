@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.dependency
 
 import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.gw2.manager.common.configuration.Configuration
-import com.bselzer.gw2.manager.common.repository.base.Repositories
+import com.bselzer.gw2.manager.common.repository.instance.Repositories
 import com.mikepenz.aboutlibraries.entity.Library
 import org.kodein.db.DB
 

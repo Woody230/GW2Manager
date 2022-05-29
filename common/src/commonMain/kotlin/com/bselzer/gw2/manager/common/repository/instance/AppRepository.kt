@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.repository.base
+package com.bselzer.gw2.manager.common.repository.instance
 
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 

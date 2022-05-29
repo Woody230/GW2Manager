@@ -50,7 +50,7 @@ class InitializationViewModel(
     // TODO add build number if needed
     private val initializers: Collection<Initializer>
         @Composable
-        get() = listOf(initializeLanguage, initializeTheme, migration)
+        get() = listOf(initializeLanguage, initializeTheme, migration, initializeWvwRefresh)
 
     private val initializeLanguage
         @Composable
@@ -110,6 +110,20 @@ class InitializationViewModel(
             Logger.d("Build Number | Old build id $oldId | New build id $newId")
             if (newId > oldId) {
                 buildNumber.set(newId.value)
+            }
+        }
+
+    private val initializeWvwRefresh
+        get() = Initializer(
+            title = Gw2Resources.strings.wvw.desc(),
+
+            // TODO initial refresh instead
+            subtitle = Gw2Resources.strings.wvw_description.desc()
+        ) {
+            // The normal refresh will wait forever when checking against the initial value (the distant future).
+            // Therefore we need to make sure we have actually refreshed once to provide an actual date.
+            if (!preferences.wvw.lastRefresh.exists()) {
+                repositories.selectedWorld.forceRefresh()
             }
         }
 }

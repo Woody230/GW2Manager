@@ -1,8 +1,5 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
@@ -27,10 +24,9 @@ class ModuleViewModel(context: AppComponentContext) : MainViewModel(context) {
      * Creates the state for the module displaying the user's choice of world.
      */
     val selectedWorld: WorldResources
-        @Composable
         get() {
-            val world by repositories.selectedWorld.world.collectAsState()
-            val match by repositories.selectedWorld.match.collectAsState()
+            val world = repositories.selectedWorld.world
+            val match = repositories.selectedMatch.match
             val selectedId = world?.id ?: WorldId(0)
             val owner = match?.owner(selectedId) ?: WvwObjectiveOwner.NEUTRAL
             return WorldResources(

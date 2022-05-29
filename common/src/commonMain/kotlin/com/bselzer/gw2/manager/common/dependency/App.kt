@@ -8,9 +8,11 @@ import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
-import com.bselzer.gw2.manager.common.repository.base.GenericRepositories
-import com.bselzer.gw2.manager.common.repository.base.Repositories
-import com.bselzer.gw2.manager.common.repository.instance.*
+import com.bselzer.gw2.manager.common.repository.instance.Repositories
+import com.bselzer.gw2.manager.common.repository.instance.generic.*
+import com.bselzer.gw2.manager.common.repository.instance.specialized.MapRepository
+import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldRepository
+import com.bselzer.gw2.manager.common.repository.instance.specialized.WvwMatchRepository
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.gw2.v2.cache.type.gw2
 import com.bselzer.gw2.v2.client.instance.ExceptionRecoveryMode
@@ -36,8 +38,6 @@ import com.mikepenz.aboutlibraries.entity.Library
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import io.ktor.client.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.XML
@@ -127,23 +127,26 @@ abstract class App(
 
     final override val repositories: Repositories
         get() {
+            // TODO dependency injection
             val dependencies = object : RepositoryDependencies {
                 override val clients = this@App.clients
                 override val configuration = this@App.configuration
                 override val database = this@App.database
                 override val preferences = this@App.preferences
-                override val scope: CoroutineScope = CoroutineScope(Dispatchers.Default)
             }
 
+            val world = WorldRepository(dependencies)
             val generic = object : GenericRepositories {
                 override val continent = ContinentRepository(dependencies)
                 override val guild = GuildRepository(dependencies)
                 override val tile = TileRepository(dependencies)
-                override val world = WorldRepository(dependencies)
+                override val world = world
             }
 
             return object : Repositories, GenericRepositories by generic {
-                override val selectedWorld = SelectedWorldRepository(dependencies, generic)
+                override val selectedMatch = WvwMatchRepository(dependencies, generic)
+                override val selectedMap = MapRepository(dependencies, generic)
+                override val selectedWorld: SelectedWorldRepository = SelectedWorldRepository(dependencies, world, this)
             }
         }
 

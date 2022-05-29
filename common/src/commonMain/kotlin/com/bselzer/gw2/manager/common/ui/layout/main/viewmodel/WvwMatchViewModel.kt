@@ -1,7 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.displayableLinkedWorlds
@@ -92,7 +91,7 @@ class WvwMatchViewModel(context: AppComponentContext, private val showDialog: (D
     private val overviewCharts: List<Chart>
         @Composable
         get() = run {
-            val match = repositories.selectedWorld.match.collectAsState().value
+            val match = repositories.selectedMatch.match
             match?.objectiveOwnerCount()?.run {
                 listOf(vpChart(), pptChart(), scoreChart(), killChart(), deathChart())
             } ?: emptyList()
@@ -104,7 +103,7 @@ class WvwMatchViewModel(context: AppComponentContext, private val showDialog: (D
     private val borderlandCharts: Map<WvwMapType?, List<Chart>>
         @Composable
         get() = run {
-            val match = repositories.selectedWorld.match.collectAsState().value
+            val match = repositories.selectedMatch.match
             val maps = match?.maps ?: emptyList()
             maps.associateBy { map -> map.type.enumValueOrNull() }.mapValues { entry ->
                 with(entry.value.objectiveOwnerCount()) {
@@ -154,8 +153,8 @@ class WvwMatchViewModel(context: AppComponentContext, private val showDialog: (D
 
     @Composable
     private fun datas(data: Map<out WvwObjectiveOwner?, Int>?): Collection<ChartData> = buildList {
-        val worlds = repositories.world.worlds.collectAsState().value
-        val match = repositories.selectedWorld.match.collectAsState().value
+        val worlds = repositories.world.worlds.values
+        val match = repositories.selectedMatch.match
         owners.forEach { owner ->
             val amount = data?.get(owner) ?: 0
             ChartData(

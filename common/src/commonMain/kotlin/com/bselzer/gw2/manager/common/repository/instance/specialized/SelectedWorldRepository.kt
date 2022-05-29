@@ -81,7 +81,10 @@ class SelectedWorldRepository(
         LaunchedEffect(id) {
             Logger.d { "Selected World | Updating world id to $id." }
             _worldId.value = id
-            worldRepository.updateWorlds()
+
+            if (id != null) {
+                forceRefresh()
+            }
         }
     }
 

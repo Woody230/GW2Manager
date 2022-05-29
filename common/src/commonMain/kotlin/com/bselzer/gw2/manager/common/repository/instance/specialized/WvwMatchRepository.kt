@@ -35,6 +35,7 @@ class WvwMatchRepository(
      * Updates the [match]'s [WvwObjective]s for each map and their associated [WvwUpgrade]s and claimable [GuildUpgrade]s.
      */
     suspend fun updateMatch(match: WvwMatch?) = database.transaction().use {
+        _match.value = match
         updateMapObjectives(match)
         updateMapGuildUpgrades(match)
     }

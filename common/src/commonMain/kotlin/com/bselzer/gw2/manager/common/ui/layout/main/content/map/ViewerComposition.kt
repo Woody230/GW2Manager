@@ -37,10 +37,9 @@ import kotlin.time.ExperimentalTime
 
 class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerViewModel>(model) {
     @Composable
-    override fun ViewerViewModel.Content() = BackgroundImage(
-        modifier = Modifier.fillMaxSize(),
-        painter = absoluteBackgroundPainter,
-    ) {
+    override fun ViewerViewModel.Content() {
+        // Intentionally not using a background in case the device size is large enough that the map doesn't match the full size.
+
         val scope = rememberCoroutineScope()
         val pinchToZoom = rememberTransformableState { zoomChange, panChange, rotationChange ->
             // Allow the user to change the zoom by pinching the map.

@@ -1,6 +1,9 @@
 package com.bselzer.gw2.manager.common.repository.instance.specialized
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.model.continent.Continent
@@ -28,17 +31,20 @@ class SelectedWorldRepository(
     /**
      * The continent for the current match.
      */
-    val continent: Continent? = derivedStateOf { repositories.selectedMap.getContinent(mapId) }.value
+    val continent: Continent?
+        get() = repositories.selectedMap.getContinent(mapId)
 
     /**
      * The floor for the current match.
      */
-    val floor: Floor? = derivedStateOf { repositories.selectedMap.getFloor(mapId) }.value
+    val floor: Floor?
+        get() = repositories.selectedMap.getFloor(mapId)
 
     private val _worldId = mutableStateOf<WorldId?>(null)
     val worldId: WorldId?
         get() = _worldId.value
-    val world: World? = derivedStateOf { worldRepository.worlds[_worldId.value] }.value
+    val world: World?
+        get() = worldRepository.worlds[_worldId.value]
 
     /**
      * Updates the grid to the new [zoom] level with the current match's map.
@@ -75,6 +81,7 @@ class SelectedWorldRepository(
         LaunchedEffect(id) {
             Logger.d { "Selected World | Updating world id to $id." }
             _worldId.value = id
+            worldRepository.updateWorlds()
         }
     }
 

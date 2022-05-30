@@ -6,6 +6,7 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -65,3 +66,17 @@ internal fun AppTheme(theme: Theme, content: @Composable () -> Unit) {
         }
     }
 }
+
+/**
+ * The color filter specifying the tint opposite the color of the current theme.
+ */
+val ThemedColorFilter
+    @Composable
+    get() = ColorFilter.tint(ThemedTint)
+
+/**
+ * The tint for a color opposite to the current theme.
+ */
+val ThemedTint
+    @Composable
+    get() = MaterialTheme.colors.onPrimary

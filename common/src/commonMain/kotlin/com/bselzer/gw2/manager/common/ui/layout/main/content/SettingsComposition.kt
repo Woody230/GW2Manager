@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
+import com.bselzer.gw2.manager.common.ui.theme.ThemedColorFilter
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.resetAlertDialogInteractor
@@ -22,8 +23,11 @@ import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoicePr
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
+import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
+import com.bselzer.ktx.compose.ui.layout.preference.PreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
+import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.preference.duration.DurationPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.duration.DurationPreferenceProjector
@@ -101,6 +105,12 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
         var state by remember { mutableStateOf(DialogState.CLOSED) }
         val labels = languageLogic.values.associateWith { locale -> languageResources.getLabel(locale).localized() }
         AlertDialogPreferenceProjector(
+            presenter = AlertDialogPreferencePresenter(
+                preference = PreferencePresenter(
+                    // Language image is by default harder to see in dark mode.
+                    image = ImagePresenter(colorFilter = ThemedColorFilter)
+                )
+            ),
             interactor = AlertDialogPreferenceInteractor(
                 preference = PreferenceInteractor(
                     image = ImageInteractor(

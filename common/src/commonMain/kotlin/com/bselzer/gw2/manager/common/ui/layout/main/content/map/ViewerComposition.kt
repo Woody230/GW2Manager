@@ -11,11 +11,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arkivanov.decompose.router.bringToFront
@@ -302,14 +304,16 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         val selected = selectedObjective ?: return
         BackgroundImage(
             modifier = modifier,
-            painter = relativeBackgroundPainter
+            painter = relativeBackgroundPainter,
         ) {
-            Column {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 // TODO remove from config
                 val textSize = configuration.wvw.objectives.selected.textSize.sp
-                Text(text = selected.title.localized(), fontSize = textSize, fontWeight = FontWeight.Bold)
+                Text(text = selected.title.localized(), fontSize = textSize, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
                 selected.subtitle?.let { subtitle ->
-                    Text(text = subtitle.localized(), fontSize = textSize)
+                    Text(text = subtitle.localized(), fontSize = textSize, textAlign = TextAlign.Center)
                 }
             }
         }

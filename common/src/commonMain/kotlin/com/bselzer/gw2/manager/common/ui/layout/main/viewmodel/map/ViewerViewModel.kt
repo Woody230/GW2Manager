@@ -233,7 +233,7 @@ class ViewerViewModel(
             val owner = fromMatch?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
             SelectedObjective(
                 // TODO translate
-                title = objective.name.desc() + " (".desc() + owner.stringResource() + objective.type.value.desc() + ")".desc(),
+                title = objective.name.desc() + " (".desc() + owner.stringResource() + " ".desc() + objective.type.value.desc() + ")".desc(),
                 subtitle = fromMatch?.lastFlippedAt?.let { lastFlippedAt ->
                     "Flipped at ${configuration.wvw.selectedDateFormatted(lastFlippedAt)}"
                 }?.desc()

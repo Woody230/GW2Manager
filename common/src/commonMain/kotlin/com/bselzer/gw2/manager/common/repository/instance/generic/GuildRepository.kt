@@ -31,18 +31,23 @@ class GuildRepository(
         _guilds[guild.id] = guild
     }
 
-    suspend fun updateGuildUpgrades(guildUpgradeIds: Collection<GuildUpgradeId>) = database.transaction().use {
-        putMissingById(
-            requestIds = { guildUpgradeIds },
-            requestById = { missingIds -> clients.gw2.guild.upgrades(missingIds) },
-            getId = { guildUpgrade -> guildUpgrade.id },
+    suspend fun updateGuildUpgrades(guildUpgradeIds: Collection<GuildUpgradeId>) = run {
+        // MUST commit put before finding.
+        database.transaction().use {
+            putMissingById(
+                requestIds = { guildUpgradeIds },
+                requestById = { missingIds -> clients.gw2.guild.upgrades(missingIds) },
+                getId = { guildUpgrade -> guildUpgrade.id },
 
-            // Need to default since some ids may not exist and this will prevent repeated API calls.
-            default = { guildUpgradeId -> DefaultUpgrade(guildUpgradeId) }
-        )
+                // Need to default since some ids may not exist and this will prevent repeated API calls.
+                default = { guildUpgradeId -> DefaultUpgrade(guildUpgradeId) }
+            )
+        }
 
-        val guildUpgrades: Collection<GuildUpgrade> = findByIds(guildUpgradeIds)
-        guildUpgrades.forEach { guildUpgrade -> _guildUpgrades[guildUpgrade.id] = guildUpgrade }
+        database.transaction().use {
+            val guildUpgrades: Collection<GuildUpgrade> = findByIds(guildUpgradeIds)
+            guildUpgrades.forEach { guildUpgrade -> _guildUpgrades[guildUpgrade.id] = guildUpgrade }
+        }
     }
 
     /**
@@ -50,7 +55,7 @@ class GuildRepository(
      *
      * This is required because there is no direct way to know what upgrades are associated with each tier.
      */
-    suspend fun updateConfiguredGuildUpgrades() = database.transaction().use {
+    suspend fun updateConfiguredGuildUpgrades() {
         val improvementIds = configuration.wvw.objectives.guildUpgrades.improvements.flatMap { improvement -> improvement.upgrades.map { upgrade -> upgrade.id } }
         val tacticIds = configuration.wvw.objectives.guildUpgrades.tactics.flatMap { tactic -> tactic.upgrades.map { upgrade -> upgrade.id } }
         val allIds = (improvementIds + tacticIds).map { id -> GuildUpgradeId(id) }

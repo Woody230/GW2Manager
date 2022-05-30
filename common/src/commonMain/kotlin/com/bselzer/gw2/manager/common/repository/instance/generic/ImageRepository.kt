@@ -12,7 +12,10 @@ class ImageRepository(
     suspend fun getImage(url: String) = database.transaction().use {
         getById(
             id = url,
-            requestSingle = { clients.image.getImageOrNull(url) ?: Image(url, byteArrayOf()) },
+            requestSingle = {
+                // TODO lock based on url
+                clients.image.getImageOrNull(url) ?: Image(url, byteArrayOf())
+            },
             writeFilter = { image -> image.content.isNotEmpty() }
         )
     }

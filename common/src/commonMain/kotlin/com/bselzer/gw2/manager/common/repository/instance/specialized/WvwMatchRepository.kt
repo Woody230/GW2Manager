@@ -66,12 +66,9 @@ class WvwMatchRepository(
         // MUST commit put before finding.
         database.transaction().use {
             putMissingById(
+                // Note that some upgrades may not exist so the client defaulting these is preferred.
                 requestIds = { upgradeIds },
-                requestById = { missingIds -> clients.gw2.wvw.upgrades(missingIds) },
-                getId = { upgrade -> upgrade.id },
-
-                // Need to default since some ids may not exist and this will prevent repeated API calls.
-                default = { upgradeId -> WvwUpgrade(upgradeId) }
+                requestById = { missingIds -> clients.gw2.wvw.upgrades(missingIds) }
             )
         }
 

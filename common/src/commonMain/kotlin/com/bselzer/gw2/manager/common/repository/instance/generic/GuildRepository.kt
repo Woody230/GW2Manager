@@ -5,7 +5,6 @@ import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.repository.instance.AppRepository
 import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.GuildId
-import com.bselzer.gw2.v2.model.guild.upgrade.DefaultUpgrade
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
 import com.bselzer.ktx.kodein.db.operation.findByIds
@@ -34,13 +33,10 @@ class GuildRepository(
     suspend fun updateGuildUpgrades(guildUpgradeIds: Collection<GuildUpgradeId>) = run {
         // MUST commit put before finding.
         database.transaction().use {
+            // Note that some upgrades may not exist so the client defaulting these is preferred.
             putMissingById(
                 requestIds = { guildUpgradeIds },
                 requestById = { missingIds -> clients.gw2.guild.upgrades(missingIds) },
-                getId = { guildUpgrade -> guildUpgrade.id },
-
-                // Need to default since some ids may not exist and this will prevent repeated API calls.
-                default = { guildUpgradeId -> DefaultUpgrade(guildUpgradeId) }
             )
         }
 

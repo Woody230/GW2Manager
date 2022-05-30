@@ -10,7 +10,6 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.MapViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
-import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
 
 class WvwMapViewModel(
@@ -20,9 +19,8 @@ class WvwMapViewModel(
     val router: Router<MapConfig, MapViewModel> = createRouter(
         initialStack = { listOf(MapConfig.ViewerConfig) },
         configurationClass = MapConfig::class,
-        key = "WvwMap",
+        key = "Map",
         childFactory = { state, context ->
-            Logger.d { "WvwMap router: ${state::class.simpleName}" }
             when (state) {
                 is MapConfig.ObjectiveConfig -> ObjectiveViewModel(context, state.id, showDialog)
                 is MapConfig.ViewerConfig -> ViewerViewModel(context, showDialog)
@@ -35,7 +33,6 @@ class WvwMapViewModel(
 
     override val actions: List<AppBarAction>
         get() = router.activeChild.instance.actions
-
 
     /**
      * Handles back navigation between the routers.

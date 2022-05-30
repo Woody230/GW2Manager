@@ -7,6 +7,7 @@ import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.map.MapId
 import com.bselzer.gw2.v2.tile.model.response.TileGrid
+import com.bselzer.ktx.logging.Logger
 import kotlin.math.max
 import kotlin.math.min
 
@@ -24,6 +25,19 @@ class MapRepository(
      */
     override val grid: TileGrid
         get() = repositories.tile.getGrid(zoom)
+
+    /**
+     * Whether the grid should be refreshed when the continent is updated.
+     */
+    private var _refreshGrid: Boolean = false
+    override var refreshGrid: Boolean
+        get() = synchronized(this) { _refreshGrid }
+        set(value) {
+            synchronized(this) {
+                Logger.d { "Map | Grid | Setting refresh to $value." }
+                _refreshGrid = value
+            }
+        }
 
     /**
      * Gets the [Continent] for the given [mapId].
@@ -65,6 +79,14 @@ class MapRepository(
      * Updates the grid for the continent and floor associated with the map with id [mapId].
      */
     private suspend fun updateGrid(zoom: Int, mapId: MapId?) {
+        // Since tiles are expensive, only update the grid when designated.
+        if (!refreshGrid) {
+            Logger.d { "Map | Grid | Skipping refresh." }
+            return
+        }
+
+        Logger.d { "Map | Grid | Refreshing with zoom level $zoom and map $mapId." }
+
         val (continent, floor) = repositories.continent.getWvwContinent(mapId)
         if (continent != null && floor != null) {
             repositories.tile.updateGrid(continent, floor, zoom)

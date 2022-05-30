@@ -14,9 +14,7 @@ import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.compose.nullState
 import com.bselzer.ktx.settings.compose.safeState
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.datetime.Clock
 
 class SelectedWorldRepository(
@@ -43,6 +41,18 @@ class SelectedWorldRepository(
         get() = _worldId.value
     override val world: World?
         get() = repositories.world.worlds[_worldId.value]
+
+    override var refreshGrid: Boolean
+        get() = repositories.map.refreshGrid
+        set(value) {
+            repositories.map.refreshGrid = value
+
+            if (value) {
+                CoroutineScope(Dispatchers.Default).launch {
+                    forceRefresh()
+                }
+            }
+        }
 
     /**
      * Updates the grid to the new [zoom] level with the current match's map.

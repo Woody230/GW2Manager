@@ -15,7 +15,6 @@ import com.bselzer.gw2.manager.common.ui.layout.splash.configuration.SplashConfi
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.NoSplashViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.SplashViewModel
-import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.CoroutineScope
 
 class HostViewModel(context: AppComponentContext) : ViewModel(context) {
@@ -24,7 +23,6 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
         configurationClass = DialogConfig::class,
         key = "Dialog",
         childFactory = { state, context ->
-            Logger.d { "Dialog router: ${state::class.simpleName}" }
             when (state) {
                 DialogConfig.NoDialogConfig -> NoDialogViewModel(context)
                 DialogConfig.WorldSelectionConfig -> WorldSelectionViewModel(context)
@@ -37,7 +35,6 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
         configurationClass = MainConfig::class,
         key = "Main",
         childFactory = { state, context ->
-            Logger.d { "Main router: ${state::class.simpleName}" }
             when (state) {
                 MainConfig.AboutConfig -> AboutViewModel(context)
                 MainConfig.CacheConfig -> CacheViewModel(context)
@@ -60,7 +57,6 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
         configurationClass = SplashConfig::class,
         key = "Splash",
         childFactory = { state, context ->
-            Logger.d { "Splash router: ${state::class.simpleName}" }
             when (state) {
                 SplashConfig.NoSplashConfig -> NoSplashViewModel(context)
                 SplashConfig.InitializationConfig -> InitializationViewModel(context)

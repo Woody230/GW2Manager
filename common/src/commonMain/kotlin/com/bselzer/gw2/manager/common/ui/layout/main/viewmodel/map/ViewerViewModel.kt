@@ -4,6 +4,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import com.arkivanov.essenty.lifecycle.subscribe
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.objective
@@ -41,8 +42,17 @@ import kotlinx.coroutines.launch
 
 class ViewerViewModel(
     context: AppComponentContext,
-    showDialog: (DialogConfig) -> Unit
+    showDialog: (DialogConfig) -> Unit,
 ) : MapViewModel(context, showDialog), SelectedWorldData by context.repositories.selectedWorld {
+    init {
+        lifecycle.subscribe(
+            onResume = { refreshGrid = true },
+            onPause = { refreshGrid = false },
+            onDestroy = { refreshGrid = false },
+            onStop = { refreshGrid = false }
+        )
+    }
+
     override val title: StringDesc = Gw2Resources.strings.wvw_map.desc()
 
     private val zoomInAction

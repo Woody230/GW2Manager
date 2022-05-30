@@ -34,7 +34,7 @@ class AndroidApp(
                 var request: Request? = null
                 try {
                     request = chain.request()
-                    Logger.d("Intercepted ${request.url}")
+                    Logger.d("Ktor | Intercepted ${request.url}")
                     chain.proceed(request)
                 } catch (ex: Exception) {
                     Logger.e(ex)

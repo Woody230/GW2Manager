@@ -23,7 +23,7 @@ abstract class RouterComposition<Config : Configuration, Model : ViewModel>(
         modifier = modifier
     ) { child ->
         val model = child.instance
-        Logger.d { "${this@RouterComposition::class.simpleName}: ${model::class.simpleName}" }
+        Logger.d { "Router ${this@RouterComposition::class.simpleName} | Model ${model::class.simpleName}" }
         model.Content()
     }
 

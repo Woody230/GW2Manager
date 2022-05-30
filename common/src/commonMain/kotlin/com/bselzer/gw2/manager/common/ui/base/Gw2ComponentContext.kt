@@ -6,6 +6,7 @@ import com.arkivanov.decompose.router.Router
 import com.arkivanov.decompose.router.router
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.bselzer.gw2.manager.common.dependency.Dependencies
+import com.bselzer.ktx.logging.Logger
 import kotlin.reflect.KClass
 
 class Gw2ComponentContext(
@@ -24,6 +25,7 @@ class Gw2ComponentContext(
         key = key,
         handleBackButton = handleBackButton,
     ) { configuration, componentContext ->
+        Logger.d { "Router $key | Configuration ${configuration::class.simpleName}" }
         childFactory(
             configuration,
             Gw2ComponentContext(this, componentContext)

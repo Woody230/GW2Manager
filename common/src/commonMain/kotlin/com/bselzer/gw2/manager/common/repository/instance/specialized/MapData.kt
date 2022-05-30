@@ -17,4 +17,9 @@ interface MapData {
      * The size of the map with tile content.
      */
     val grid: TileGrid
+
+    /**
+     * Whether the grid should be refreshed when the continent is updated.
+     */
+    var refreshGrid: Boolean
 }

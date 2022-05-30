@@ -5,7 +5,7 @@ import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.image.ImageDesc
 
-data class Objective(
+data class ObjectiveIcon(
     val objective: WvwObjective,
     val x: Int,
     val y: Int,

@@ -9,6 +9,7 @@ import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.objective
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.selectedDateFormatted
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.stringResource
+import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
@@ -23,12 +24,7 @@ import com.bselzer.gw2.v2.model.extension.wvw.level
 import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.extension.wvw.position
 import com.bselzer.gw2.v2.model.extension.wvw.tiers
-import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
-import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
-import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
-import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
-import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgradeId
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
@@ -43,19 +39,22 @@ import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.desc.plus
 import kotlinx.coroutines.launch
 
-class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -> Unit) : MapViewModel(context, showDialog) {
+class ViewerViewModel(
+    context: AppComponentContext,
+    showDialog: (DialogConfig) -> Unit
+) : MapViewModel(context, showDialog), SelectedWorldData by context.repositories.selectedWorld {
     override val title: StringDesc = Gw2Resources.strings.wvw_map.desc()
 
     private val zoomInAction
         get() = GeneralAction(
-            enabled = repositories.selectedMap.zoom < repositories.selectedMap.zoomRange.last,
+            enabled = zoom < zoomRange.last,
             icon = { zoomInMapIconInteractor() },
             onClick = { changeZoom(increment = 1) }
         )
 
     private val zoomOutAction
         get() = GeneralAction(
-            enabled = repositories.selectedMap.zoom > repositories.selectedMap.zoomRange.first,
+            enabled = zoom > zoomRange.first,
             icon = { zoomOutMapIconInteractor() },
             onClick = { changeZoom(increment = -1) }
         )
@@ -66,7 +65,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     /**
      * Updates the zoom to be within the configured range.
      */
-    suspend fun changeZoom(increment: Int) = repositories.selectedWorld.updateZoom(repositories.selectedMap.zoom + increment)
+    suspend fun changeZoom(increment: Int) = updateZoom(zoom + increment)
 
     val horizontalScroll: ScrollState = ScrollState(0)
     val verticalScroll: ScrollState = ScrollState(0)
@@ -85,7 +84,6 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
             val region = repositories.selectedWorld.floor?.regions?.values?.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
             val map = region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scroll.mapName } ?: return Pair(0, 0)
             val topLeft = map.continentRectangle.point1
-            val grid = repositories.selectedMap.grid
             return grid.scale(topLeft.x.toInt(), topLeft.y.toInt())
         }
 
@@ -107,9 +105,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     val bloodlusts: Collection<Bloodlust>
         @Composable
         get() {
-            val match = repositories.selectedMatch.match ?: return emptyList()
-            val objectives = repositories.selectedMatch.objectives
-
+            val match = match ?: return emptyList()
             val borderlands = match.maps.filter { map ->
                 map.type.enumValueOrNull().isOneOf(WvwMapType.BLUE_BORDERLANDS, WvwMapType.RED_BORDERLANDS, WvwMapType.GREEN_BORDERLANDS)
             }
@@ -151,15 +147,11 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
             }
         }
 
-    val objectives: Collection<Objective>
+    val objectiveIcons: Collection<ObjectiveIcon>
         @Composable
         get() {
-            val match: WvwMatch = repositories.selectedMatch.match ?: return emptyList()
-            val objectives: Collection<WvwObjective> = repositories.selectedMatch.objectives.values
-            val upgrades: Map<WvwUpgradeId, WvwUpgrade> = repositories.selectedMatch.upgrades
-            val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = repositories.guild.guildUpgrades
-
-            val models = objectives.mapNotNull { objective ->
+            val match = match ?: return emptyList()
+            val models = objectives.values.mapNotNull { objective ->
                 val fromConfig = configuration.wvw.objective(objective)
                 val fromMatch = match.objective(objective) ?: return@mapNotNull null
                 val upgrade = upgrades[objective.upgradeId]
@@ -181,7 +173,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
                     .any { tactic -> configuration.wvw.objectives.waypoint.guild.upgradeNameRegex.matches(tactic.name) }
                 val hasWaypointTactic = configuration.wvw.objectives.waypoint.guild.enabled && hasWaypointTacticUpgrade
 
-                Objective(
+                ObjectiveIcon(
                     objective = objective,
                     x = coordinates.x.toInt(),
                     y = coordinates.y.toInt(),
@@ -225,7 +217,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
             }
 
             // Render from bottom right to top left so that overlap is consistent.
-            val comparator = compareByDescending<Objective> { objective -> objective.y }.thenByDescending { objective -> objective.x }
+            val comparator = compareByDescending<ObjectiveIcon> { objective -> objective.y }.thenByDescending { objective -> objective.x }
             return models.sortedWith(comparator)
         }
 
@@ -237,7 +229,7 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
         @Composable
         get() = run {
             val objective = selected.value ?: return@run null
-            val fromMatch = repositories.selectedMatch.match.objective(objective)
+            val fromMatch = match.objective(objective)
             val owner = fromMatch?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
             SelectedObjective(
                 // TODO translate
@@ -254,7 +246,6 @@ class ViewerViewModel(context: AppComponentContext, showDialog: (DialogConfig) -
     @Composable
     private fun Point2D.scaledCoordinates(width: Number, height: Number): Point2D {
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        val grid = repositories.selectedMap.grid
         val scaled = grid.scale(x.toInt(), y.toInt())
 
         // Displace the coordinates so that it aligns with the center of the image.

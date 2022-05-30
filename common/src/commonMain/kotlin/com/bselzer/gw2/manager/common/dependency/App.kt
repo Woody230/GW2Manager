@@ -9,10 +9,6 @@ import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
 import com.bselzer.gw2.manager.common.repository.instance.Repositories
-import com.bselzer.gw2.manager.common.repository.instance.generic.*
-import com.bselzer.gw2.manager.common.repository.instance.specialized.MapRepository
-import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldRepository
-import com.bselzer.gw2.manager.common.repository.instance.specialized.WvwMatchRepository
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.gw2.v2.cache.type.gw2
 import com.bselzer.gw2.v2.client.instance.ExceptionRecoveryMode
@@ -125,7 +121,7 @@ abstract class App(
         FailOnBadClose(isDebug),
     )
 
-    // TODO dependency injection
+    // TODO dependency injection?
     final override val repositories: Repositories = run {
         val dependencies = object : RepositoryDependencies {
             override val clients = this@App.clients
@@ -134,20 +130,8 @@ abstract class App(
             override val preferences = this@App.preferences
         }
 
-        val world = WorldRepository(dependencies)
-        val generic = object : GenericRepositories {
-            override val continent = ContinentRepository(dependencies)
-            override val guild = GuildRepository(dependencies)
-            override val image = ImageRepository(dependencies)
-            override val tile = TileRepository(dependencies)
-            override val world = world
-        }
-
-        object : Repositories, GenericRepositories by generic {
-            override val selectedMatch = WvwMatchRepository(dependencies, generic)
-            override val selectedMap = MapRepository(dependencies, generic)
-            override val selectedWorld: SelectedWorldRepository = SelectedWorldRepository(dependencies, world, this)
-        }
+        val generic = GenericRepositories(dependencies)
+        SpecializedRepositories(dependencies, generic)
     }
 
     fun initialize() {

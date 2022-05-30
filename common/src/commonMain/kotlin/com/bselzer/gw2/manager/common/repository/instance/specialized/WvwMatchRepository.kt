@@ -7,6 +7,7 @@ import com.bselzer.gw2.manager.common.repository.instance.generic.GenericReposit
 import com.bselzer.gw2.v2.model.extension.wvw.guildUpgradeIds
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveIds
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
+import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.model.wvw.objective.WvwMapObjectiveId
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
@@ -20,16 +21,18 @@ import com.bselzer.ktx.kodein.db.transaction.transaction
 class WvwMatchRepository(
     dependencies: RepositoryDependencies,
     repositories: GenericRepositories
-) : SpecializedRepository(dependencies, repositories) {
+) : SpecializedRepository(dependencies, repositories), MatchData {
     private val _match = mutableStateOf<WvwMatch?>(null)
-    val match: WvwMatch?
+    override val match: WvwMatch?
         get() = _match.value
 
     private val _objectives = mutableStateMapOf<WvwMapObjectiveId, WvwObjective>()
-    val objectives: Map<WvwMapObjectiveId, WvwObjective> = _objectives
+    override val objectives: Map<WvwMapObjectiveId, WvwObjective> = _objectives
 
     private val _upgrades = mutableStateMapOf<WvwUpgradeId, WvwUpgrade>()
-    val upgrades: Map<WvwUpgradeId, WvwUpgrade> = _upgrades
+    override val upgrades: Map<WvwUpgradeId, WvwUpgrade> = _upgrades
+
+    override val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = repositories.guild.guildUpgrades
 
     /**
      * Updates the [match]'s [WvwObjective]s for each map and their associated [WvwUpgrade]s and claimable [GuildUpgrade]s.

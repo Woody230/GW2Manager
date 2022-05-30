@@ -33,7 +33,6 @@ import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.datetime.format.minuteFormat
 import kotlinx.coroutines.launch
 import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
 
 class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerViewModel>(model) {
     @Composable
@@ -91,7 +90,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
     private fun ViewerViewModel.MapGrid() = Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        repositories.selectedMap.grid.rows.forEach { row ->
+        grid.rows.forEach { row ->
             Row {
                 row.forEach { tile -> tile.MapTile() }
             }
@@ -144,8 +143,8 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
     @Composable
     private fun ViewerViewModel.Objectives() {
         // Render from bottom right to top left so that overlap is consistent.
-        val comparator = compareByDescending<Objective> { objective -> objective.y }.thenByDescending { objective -> objective.x }
-        objectives.sortedWith(comparator).forEach { objective ->
+        val comparator = compareByDescending<ObjectiveIcon> { objective -> objective.y }.thenByDescending { objective -> objective.x }
+        objectiveIcons.sortedWith(comparator).forEach { objective ->
             Objective(objective)
         }
     }
@@ -153,9 +152,8 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
     /**
      * Lays out the individual objective on the map.
      */
-    @OptIn(ExperimentalTime::class)
     @Composable
-    private fun ViewerViewModel.Objective(objective: Objective) = ConstraintLayout(
+    private fun ViewerViewModel.Objective(objective: ObjectiveIcon) = ConstraintLayout(
         modifier = Modifier
             .absoluteOffset(objective.x.toDp(), objective.y.toDp())
             .wrapContentSize()
@@ -252,7 +250,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
      */
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun Objective.Image(modifier: Modifier) {
+    private fun ObjectiveIcon.Image(modifier: Modifier) {
         val mapRouter = LocalMapRouter.current
         AsyncImage(
             width = width,

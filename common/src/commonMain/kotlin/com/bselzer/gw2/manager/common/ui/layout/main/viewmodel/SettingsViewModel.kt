@@ -156,7 +156,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                     title = Resources.strings.refresh_interval.desc(),
 
                     // The notation given should be acceptable for all of the supported localizations.
-                    subtitle = StringDesc.Raw(interval.toString()),
+                    subtitle = interval.toString().desc(),
                     label = { unit -> unit.stringResource().desc() }
                 )
             )
@@ -191,7 +191,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
             image = Resources.images.ic_language,
             title = Resources.strings.language.desc(),
             subtitle = (preferences.common.locale.safeState().value.stringResourceOrNull() ?: Resources.strings.locale_en).desc(),
-            getLabel = { locale -> locale.stringResourceOrNull()?.desc() ?: StringDesc.Raw("") }
+            getLabel = { locale -> locale.stringResourceOrNull()?.desc() ?: "".desc() }
         )
 
     val languageLogic

@@ -7,12 +7,7 @@ import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
  */
 interface SpecializedRepositories {
     /**
-     * The [WvwMatch] data associated with the selected world.
+     * The [WvwMatch] and map/grid data associated with the selected world.
      */
-    val selectedMatch: WvwMatchRepository
-
-    /**
-     * The map and grid data associated with the selected world.
-     */
-    val selectedMap: MapRepository
+    val selectedWorld: SelectedWorldRepository
 }

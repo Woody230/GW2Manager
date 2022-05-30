@@ -7,7 +7,6 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.about.VersionCode
 import com.bselzer.gw2.manager.common.ui.layout.main.model.about.VersionName
 import com.bselzer.gw2.manager.common.ui.layout.main.model.about.VersionResources
 import com.bselzer.ktx.resource.Resources
-import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 
@@ -18,11 +17,11 @@ class AboutViewModel(context: AppComponentContext) : MainViewModel(context) {
         get() = VersionResources(
             code = VersionCode(
                 title = Resources.strings.version_code.desc(),
-                subtitle = StringDesc.Raw(build.VERSION_CODE.toString())
+                subtitle = build.VERSION_CODE.toString().desc()
             ),
             name = VersionName(
                 title = Resources.strings.version_name.desc(),
-                subtitle = StringDesc.Raw(build.VERSION_NAME)
+                subtitle = build.VERSION_NAME.desc()
             )
         )
 

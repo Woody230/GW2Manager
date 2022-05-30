@@ -5,10 +5,11 @@ import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.stringResource
+import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
-import com.bselzer.gw2.manager.common.ui.layout.main.model.action.SelectedWorldRefreshAction
+import com.bselzer.gw2.manager.common.ui.layout.main.model.action.SelectedWorldRefreshAction.Companion.refreshAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.WorldSelectionAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Chart
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.ChartData
@@ -30,30 +31,42 @@ import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.format
 
-class WvwMatchViewModel(context: AppComponentContext, private val showDialog: (DialogConfig) -> Unit) : MainViewModel(context) {
+class WvwMatchViewModel(
+    context: AppComponentContext,
+    private val showDialog: (DialogConfig) -> Unit
+) : MainViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
     override val title: StringDesc = Gw2Resources.strings.wvw_match.desc()
 
     override val actions: List<AppBarAction>
         get() = listOf(
-            SelectedWorldRefreshAction(repositories.selectedWorld),
+            refreshAction(),
             WorldSelectionAction(showDialog)
         )
 
     /**
      * The team color of the owner to create charts for.
      */
-    private val owners: Collection<WvwObjectiveOwner> = listOf(WvwObjectiveOwner.BLUE, WvwObjectiveOwner.GREEN, WvwObjectiveOwner.RED)
+    private val owners: Collection<WvwObjectiveOwner> = listOf(
+        WvwObjectiveOwner.BLUE,
+        WvwObjectiveOwner.GREEN,
+        WvwObjectiveOwner.RED
+    )
 
     /**
      * The maps to create charts for.
      */
-    private val maps: Collection<WvwMapType> = listOf(WvwMapType.ETERNAL_BATTLEGROUNDS, WvwMapType.BLUE_BORDERLANDS, WvwMapType.GREEN_BORDERLANDS, WvwMapType.RED_BORDERLANDS)
+    private val maps: Collection<WvwMapType> = listOf(
+        WvwMapType.ETERNAL_BATTLEGROUNDS,
+        WvwMapType.BLUE_BORDERLANDS,
+        WvwMapType.GREEN_BORDERLANDS,
+        WvwMapType.RED_BORDERLANDS
+    )
 
     /**
      * The default charts to use when attempting to index into the [charts].
      */
     val defaultCharts = Charts(
-        title = StringDesc.Raw(""),
+        title = "".desc(),
         color = configuration.wvw.color(WvwObjectiveOwner.NEUTRAL),
         charts = emptyList()
     )
@@ -78,7 +91,7 @@ class WvwMatchViewModel(context: AppComponentContext, private val showDialog: (D
                 val title = entry.key?.userFriendly()
                 Charts(
                     // Use the map type as the title, otherwise default to the match overview for the null type that was added.
-                    title = if (!title.isNullOrBlank()) StringDesc.Raw(title) else Resources.strings.overview.desc(),
+                    title = if (!title.isNullOrBlank()) title.desc() else Resources.strings.overview.desc(),
                     color = configuration.wvw.color(entry.key?.owner()),
                     charts = entry.value
                 )
@@ -90,12 +103,9 @@ class WvwMatchViewModel(context: AppComponentContext, private val showDialog: (D
      */
     private val overviewCharts: List<Chart>
         @Composable
-        get() = run {
-            val match = repositories.selectedMatch.match
-            match?.objectiveOwnerCount()?.run {
-                listOf(vpChart(), pptChart(), scoreChart(), killChart(), deathChart())
-            } ?: emptyList()
-        }
+        get() = match?.objectiveOwnerCount()?.run {
+            listOf(vpChart(), pptChart(), scoreChart(), killChart(), deathChart())
+        } ?: emptyList()
 
     /**
      * The charts associated with each individual map.
@@ -103,7 +113,6 @@ class WvwMatchViewModel(context: AppComponentContext, private val showDialog: (D
     private val borderlandCharts: Map<WvwMapType?, List<Chart>>
         @Composable
         get() = run {
-            val match = repositories.selectedMatch.match
             val maps = match?.maps ?: emptyList()
             maps.associateBy { map -> map.type.enumValueOrNull() }.mapValues { entry ->
                 with(entry.value.objectiveOwnerCount()) {
@@ -154,7 +163,7 @@ class WvwMatchViewModel(context: AppComponentContext, private val showDialog: (D
     @Composable
     private fun datas(data: Map<out WvwObjectiveOwner?, Int>?): Collection<ChartData> = buildList {
         val worlds = repositories.world.worlds.values
-        val match = repositories.selectedMatch.match
+        val match = repositories.selectedWorld.match
         owners.forEach { owner ->
             val amount = data?.get(owner) ?: 0
             ChartData(

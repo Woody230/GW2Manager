@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.map.MapId
@@ -22,34 +21,33 @@ import kotlinx.datetime.Clock
 
 class SelectedWorldRepository(
     dependencies: RepositoryDependencies,
-    private val worldRepository: WorldRepository,
-    private val repositories: SpecializedRepositories
-) : RepositoryDependencies by dependencies {
+    private val repositories: SelectedWorldRepositories
+) : RepositoryDependencies by dependencies, SelectedWorldData, MapData by repositories.map, MatchData by repositories.match {
     private val mapId: MapId?
-        get() = repositories.selectedMatch.match?.mapId()
+        get() = repositories.match.match?.mapId()
 
     /**
      * The continent for the current match.
      */
-    val continent: Continent?
-        get() = repositories.selectedMap.getContinent(mapId)
+    override val continent: Continent?
+        get() = repositories.map.getContinent(mapId)
 
     /**
      * The floor for the current match.
      */
-    val floor: Floor?
-        get() = repositories.selectedMap.getFloor(mapId)
+    override val floor: Floor?
+        get() = repositories.map.getFloor(mapId)
 
     private val _worldId = mutableStateOf<WorldId?>(null)
-    val worldId: WorldId?
+    override val worldId: WorldId?
         get() = _worldId.value
-    val world: World?
-        get() = worldRepository.worlds[_worldId.value]
+    override val world: World?
+        get() = repositories.world.worlds[_worldId.value]
 
     /**
      * Updates the grid to the new [zoom] level with the current match's map.
      */
-    suspend fun updateZoom(zoom: Int) = repositories.selectedMap.updateZoom(zoom, mapId)
+    override suspend fun updateZoom(zoom: Int) = repositories.map.updateZoom(zoom, mapId)
 
     /**
      * Refreshes the associated [WvwMatchRepository] and [MapRepository] based on the interval defined in the preferences.
@@ -92,8 +90,8 @@ class SelectedWorldRepository(
     /**
      * Refreshes the associated [WvwMatchRepository] and [MapRepository] regardless of when the last refresh occurred.
      */
-    suspend fun forceRefresh() {
-        worldRepository.updateWorlds()
+    override suspend fun forceRefresh() {
+        repositories.world.updateWorlds()
         worldId?.let { updateMatch(it) }
 
         val now = Clock.System.now()
@@ -105,8 +103,8 @@ class SelectedWorldRepository(
         Logger.d { "Selected World | Update Match | Refreshing with world id $worldId." }
 
         val match = clients.gw2.wvw.match(worldId)
-        launch { repositories.selectedMap.updateContinent(match.mapId()) }
-        launch { repositories.selectedMatch.updateMatch(match) }
+        launch { repositories.map.updateContinent(match.mapId()) }
+        launch { repositories.match.updateMatch(match) }
     }
 
     /**

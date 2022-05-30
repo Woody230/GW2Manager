@@ -13,16 +13,16 @@ import kotlin.math.min
 class MapRepository(
     dependencies: RepositoryDependencies,
     repositories: GenericRepositories
-) : SpecializedRepository(dependencies, repositories) {
-    val zoomRange: IntRange = IntRange(start = configuration.wvw.map.zoom.min, endInclusive = configuration.wvw.map.zoom.max)
+) : SpecializedRepository(dependencies, repositories), MapData {
+    override val zoomRange: IntRange = IntRange(start = configuration.wvw.map.zoom.min, endInclusive = configuration.wvw.map.zoom.max)
     private val _zoom = mutableStateOf(configuration.wvw.map.zoom.default)
-    val zoom: Int
+    override val zoom: Int
         get() = _zoom.value
 
     /**
      * The [TileGrid] for the current zoom level.
      */
-    val grid: TileGrid
+    override val grid: TileGrid
         get() = repositories.tile.getGrid(zoom)
 
     /**

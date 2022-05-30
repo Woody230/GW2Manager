@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.map
+package com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer
 
 import dev.icerock.moko.resources.desc.StringDesc
 

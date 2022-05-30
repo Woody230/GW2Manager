@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.map
+package com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer
 
 import com.bselzer.ktx.datetime.timer.countdown
 import kotlinx.coroutines.flow.Flow

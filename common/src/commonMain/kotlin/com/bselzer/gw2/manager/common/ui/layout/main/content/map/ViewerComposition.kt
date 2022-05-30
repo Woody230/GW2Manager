@@ -25,7 +25,7 @@ import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MapConfig
-import com.bselzer.gw2.manager.common.ui.layout.main.model.map.*
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.*
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.gw2.v2.tile.model.response.Tile
 import com.bselzer.ktx.compose.image.ui.layout.asImageBitmap

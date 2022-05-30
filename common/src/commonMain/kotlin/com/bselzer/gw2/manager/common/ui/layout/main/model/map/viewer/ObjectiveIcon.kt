@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.map
+package com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer
 
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective

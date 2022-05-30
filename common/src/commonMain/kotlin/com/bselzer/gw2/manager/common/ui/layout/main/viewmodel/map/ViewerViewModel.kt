@@ -10,7 +10,6 @@ import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.objective
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.selectedDateFormatted
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.stringResource
-import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
@@ -43,7 +42,7 @@ import kotlinx.coroutines.launch
 class ViewerViewModel(
     context: AppComponentContext,
     showDialog: (DialogConfig) -> Unit,
-) : MapViewModel(context, showDialog), SelectedWorldData by context.repositories.selectedWorld {
+) : MapViewModel(context, showDialog) {
     init {
         lifecycle.subscribe(
             onResume = { refreshGrid = true },
@@ -113,7 +112,6 @@ class ViewerViewModel(
     }
 
     val bloodlusts: Collection<Bloodlust>
-        @Composable
         get() {
             val match = match ?: return emptyList()
             val borderlands = match.maps.filter { map ->
@@ -158,7 +156,6 @@ class ViewerViewModel(
         }
 
     val objectiveIcons: Collection<ObjectiveIcon>
-        @Composable
         get() {
             val match = match ?: return emptyList()
             val models = objectives.values.mapNotNull { objective ->
@@ -236,7 +233,6 @@ class ViewerViewModel(
      */
     val selected = mutableStateOf<WvwObjective?>(null)
     val selectedObjective: SelectedObjective?
-        @Composable
         get() = run {
             val objective = selected.value ?: return@run null
             val fromMatch = match.objective(objective)
@@ -253,7 +249,6 @@ class ViewerViewModel(
     /**
      * @return the scaled coordinates of the image
      */
-    @Composable
     private fun Point2D.scaledCoordinates(width: Number, height: Number): Point2D {
         // Scale the objective coordinates to the zoom level and remove excluded bounds.
         val scaled = grid.scale(x.toInt(), y.toInt())

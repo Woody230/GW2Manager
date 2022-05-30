@@ -53,7 +53,6 @@ class InitializationViewModel(
         get() = listOf(initializeLanguage, initializeTheme, migration, initializeWvwRefresh)
 
     private val initializeLanguage
-        @Composable
         get() = Initializer(
             title = Resources.strings.settings.desc(),
             subtitle = Resources.strings.language.desc()

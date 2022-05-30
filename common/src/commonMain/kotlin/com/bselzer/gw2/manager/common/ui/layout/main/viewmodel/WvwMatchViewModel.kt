@@ -1,6 +1,5 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
-import androidx.compose.runtime.Composable
 import com.bselzer.gw2.manager.common.Gw2Resources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.displayableLinkedWorlds
@@ -74,7 +73,6 @@ class WvwMatchViewModel(
      * All the charts: an overview of the match and for each individual map
      */
     val charts: Collection<Charts>
-        @Composable
         get() = run {
             // Maintain a consistent map order.
             val charts = borderlandCharts.entries.sortedBy { entry -> maps.indexOf(entry.key) }.toMutableList()
@@ -101,7 +99,6 @@ class WvwMatchViewModel(
      * The charts associated with the match total.
      */
     private val overviewCharts: List<Chart>
-        @Composable
         get() = match?.objectiveOwnerCount()?.run {
             listOf(vpChart(), pptChart(), scoreChart(), killChart(), deathChart())
         } ?: emptyList()
@@ -110,7 +107,6 @@ class WvwMatchViewModel(
      * The charts associated with each individual map.
      */
     private val borderlandCharts: Map<WvwMapType?, List<Chart>>
-        @Composable
         get() = run {
             val maps = match?.maps ?: emptyList()
             maps.associateBy { map -> map.type.enumValueOrNull() }.mapValues { entry ->
@@ -123,34 +119,28 @@ class WvwMatchViewModel(
     /**
      * The chart for the number of points earned per tick.
      */
-    @Composable
     private fun ObjectiveOwnerCount?.pptChart() = chart(this?.pointsPerTick, Gw2Resources.strings.points_per_tick.desc())
 
     /**
      * The chart for the number of victory points earned for the entire match.
      */
-    @Composable
     private fun WvwMatchObjectiveOwnerCount?.vpChart() = chart(this?.victoryPoints, Gw2Resources.strings.victory_points.desc())
 
     /**
      * The chart for the total score earned for the entire match.
      */
-    @Composable
     private fun ObjectiveOwnerCount?.scoreChart() = chart(this?.scores, Gw2Resources.strings.total_score.desc())
 
     /**
      * The chart for the total number of kills earned for the entire match.
      */
-    @Composable
     private fun ObjectiveOwnerCount?.killChart() = chart(this?.kills, Gw2Resources.strings.total_kills.desc())
 
     /**
      * The chart for the total number of deaths given the entire match.
      */
-    @Composable
     private fun ObjectiveOwnerCount?.deathChart() = chart(this?.deaths, Gw2Resources.strings.total_deaths.desc())
 
-    @Composable
     private fun chart(data: Map<out WvwObjectiveOwner?, Int>?, title: StringDesc): Chart = Chart(
         title = title,
         data = datas(data),
@@ -159,7 +149,6 @@ class WvwMatchViewModel(
         slices = slices(data)
     )
 
-    @Composable
     private fun datas(data: Map<out WvwObjectiveOwner?, Int>?): Collection<ChartData> = buildList {
         val worlds = repositories.world.worlds.values
         owners.forEach { owner ->

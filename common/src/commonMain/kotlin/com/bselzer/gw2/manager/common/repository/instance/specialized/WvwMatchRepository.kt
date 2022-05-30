@@ -13,7 +13,7 @@ import com.bselzer.gw2.v2.model.wvw.objective.WvwMapObjectiveId
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgradeId
-import com.bselzer.ktx.kodein.db.operation.findByIds
+import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.kodein.db.operation.putMissingById
 import com.bselzer.ktx.kodein.db.transaction.transaction
 
@@ -42,40 +42,24 @@ class WvwMatchRepository(
         updateMapGuildUpgrades(match)
     }
 
-    private suspend fun updateMapObjectives(match: WvwMatch?) {
+    private suspend fun updateMapObjectives(match: WvwMatch?) = database.transaction().use {
         val objectiveIds = match?.objectiveIds() ?: emptyList()
+        val objectives = putMissingById(
+            requestIds = { objectiveIds },
+            requestById = { missingIds -> clients.gw2.wvw.objectives(missingIds) }
+        )
 
-        // MUST commit put before finding.
-        database.transaction().use {
-            putMissingById(
-                requestIds = { objectiveIds },
-                requestById = { missingIds -> clients.gw2.wvw.objectives(missingIds) }
-            )
-        }
-
-        database.transaction().use {
-            val objectives: Collection<WvwObjective> = findByIds(objectiveIds)
-            objectives.forEach { objective -> _objectives[objective.id] = objective }
-            updateUpgrades(objectives)
-        }
+        objectives.putInto(_objectives)
+        updateUpgrades(objectives.values)
     }
 
-    private suspend fun updateUpgrades(objectives: Collection<WvwObjective>) {
+    private suspend fun updateUpgrades(objectives: Collection<WvwObjective>) = database.transaction().use {
         val upgradeIds = objectives.map { objective -> objective.upgradeId }
-
-        // MUST commit put before finding.
-        database.transaction().use {
-            putMissingById(
-                // Note that some upgrades may not exist so the client defaulting these is preferred.
-                requestIds = { upgradeIds },
-                requestById = { missingIds -> clients.gw2.wvw.upgrades(missingIds) }
-            )
-        }
-
-        database.transaction().use {
-            val upgrades: Collection<WvwUpgrade> = findByIds(upgradeIds)
-            upgrades.forEach { upgrade -> _upgrades[upgrade.id] = upgrade }
-        }
+        putMissingById(
+            // Note that some upgrades may not exist so the client defaulting these is preferred.
+            requestIds = { upgradeIds },
+            requestById = { missingIds -> clients.gw2.wvw.upgrades(missingIds) }
+        ).putInto(_upgrades)
     }
 
     private suspend fun updateMapGuildUpgrades(match: WvwMatch?) {

@@ -7,7 +7,7 @@ import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.GuildId
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
-import com.bselzer.ktx.kodein.db.operation.findByIds
+import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.kodein.db.operation.getById
 import com.bselzer.ktx.kodein.db.operation.putMissingById
 import com.bselzer.ktx.kodein.db.transaction.transaction
@@ -30,20 +30,12 @@ class GuildRepository(
         _guilds[guild.id] = guild
     }
 
-    suspend fun updateGuildUpgrades(guildUpgradeIds: Collection<GuildUpgradeId>) = run {
-        // MUST commit put before finding.
-        database.transaction().use {
-            // Note that some upgrades may not exist so the client defaulting these is preferred.
-            putMissingById(
-                requestIds = { guildUpgradeIds },
-                requestById = { missingIds -> clients.gw2.guild.upgrades(missingIds) },
-            )
-        }
-
-        database.transaction().use {
-            val guildUpgrades: Collection<GuildUpgrade> = findByIds(guildUpgradeIds)
-            guildUpgrades.forEach { guildUpgrade -> _guildUpgrades[guildUpgrade.id] = guildUpgrade }
-        }
+    suspend fun updateGuildUpgrades(guildUpgradeIds: Collection<GuildUpgradeId>) = database.transaction().use {
+        // Note that some upgrades may not exist so the client defaulting these is preferred.
+        putMissingById(
+            requestIds = { guildUpgradeIds },
+            requestById = { missingIds -> clients.gw2.guild.upgrades(missingIds) },
+        ).putInto(_guildUpgrades)
     }
 
     /**

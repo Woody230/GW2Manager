@@ -49,7 +49,7 @@ class SelectedWorldRepository(
 
             if (value) {
                 CoroutineScope(Dispatchers.Default).launch {
-                    forceRefresh()
+                    repositories.map.updateGrid(mapId)
                 }
             }
         }

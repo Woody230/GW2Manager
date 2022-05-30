@@ -76,6 +76,11 @@ class MapRepository(
     }
 
     /**
+     * Updates the grid for the continent and floor associated with the map with id [mapId] for the current zoom level.
+     */
+    suspend fun updateGrid(mapId: MapId?) = updateGrid(zoom, mapId)
+
+    /**
      * Updates the grid for the continent and floor associated with the map with id [mapId].
      */
     private suspend fun updateGrid(zoom: Int, mapId: MapId?) {

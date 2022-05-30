@@ -7,6 +7,6 @@ import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveView
 class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<ObjectiveViewModel>(model) {
     @Composable
     override fun ObjectiveViewModel.Content() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 }

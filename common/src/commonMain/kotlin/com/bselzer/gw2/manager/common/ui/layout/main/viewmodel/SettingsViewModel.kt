@@ -77,7 +77,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                     Resources.strings.not_set.desc()
                 } else {
                     // The token info id is only the first GUID so a startsWith is required.
-                    val tokenInfo = database.find<TokenInfo>().all().asModelSequence().firstOrNull { info -> token.startsWith(info.id.value) }
+                    val tokenInfo = database.find<TokenInfo<*>>().all().asModelSequence().firstOrNull { info -> token.startsWith(info.id.value) }
 
                     // Try to use the name first as the most user friendly.
                     // Since the id is not the full token, try to use that as a default otherwise.
@@ -120,7 +120,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     /**
      * Set up other preferences based on the [tokenInfo].
      */
-    private suspend fun initializePreferences(token: Token, tokenInfo: TokenInfo): Boolean {
+    private suspend fun initializePreferences(token: Token, tokenInfo: TokenInfo<*>): Boolean {
         val permissions = tokenInfo.permissions
         Logger.d { "Token $token permissions: $permissions" }
 

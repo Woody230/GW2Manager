@@ -25,7 +25,6 @@ import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.ktx.function.collection.addTo
 import com.bselzer.ktx.function.objects.userFriendly
 import com.bselzer.ktx.resource.Resources
-import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
@@ -163,15 +162,14 @@ class WvwMatchViewModel(
     @Composable
     private fun datas(data: Map<out WvwObjectiveOwner?, Int>?): Collection<ChartData> = buildList {
         val worlds = repositories.world.worlds.values
-        val match = repositories.selectedWorld.match
         owners.forEach { owner ->
             val amount = data?.get(owner) ?: 0
             ChartData(
                 color = configuration.wvw.color(owner),
-                data = StringDesc.Raw(amount.toString()),
+                data = amount.toString().desc(),
 
                 // TODO translated world names
-                owner = StringDesc.Raw(worlds.displayableLinkedWorlds(match, owner))
+                owner = worlds.displayableLinkedWorlds(match, owner).desc()
             ).addTo(this)
         }
     }

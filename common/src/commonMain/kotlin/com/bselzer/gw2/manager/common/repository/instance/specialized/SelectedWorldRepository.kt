@@ -112,7 +112,6 @@ class SelectedWorldRepository(
     private suspend fun updateMatch(worldId: WorldId) = coroutineScope {
         Logger.d { "Selected World | Update Match | Refreshing with world id $worldId." }
 
-        // TODO refresh grid only when map lifecycle is active
         val match = clients.gw2.wvw.match(worldId)
         launch { repositories.map.updateContinent(match.mapId()) }
         launch { repositories.match.updateMatch(match) }

@@ -14,11 +14,11 @@ import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageProjector
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.unit.toDp
+import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.image.ImageDesc
 import dev.icerock.moko.resources.desc.image.ImageDescUrl
 
-// TODO use image projection
 data class AsyncImage(
     val enabled: Boolean = true,
     val image: ImageDesc?,
@@ -33,18 +33,23 @@ data class AsyncImage(
 fun AsyncImage.Content(
     modifier: Modifier = Modifier
 ) {
-    val dependencies = LocalDependencies.current
+    val link = when (image) {
+        is ImageDescUrl -> {
+            image.url
+        }
+        else -> {
+            Logger.w { "Expected image to be ImageDescUrl but found $image" }
+            null
+        }
+    }
 
-    // TODO check if image desc resource
-    val link = if (image is ImageDescUrl) image.url else null
     if (enabled && !link.isNullOrBlank()) {
+        val dependencies = LocalDependencies.current
         AsyncImageProjector(
             // TODO placeholder drawables for certain images?
             interactor = AsyncImageInteractor(
                 url = link,
-                getImage = { url ->
-                    dependencies.repositories.image.getImage(url)
-                },
+                getImage = { url -> dependencies.repositories.image.getImage(url) },
                 contentDescription = description?.localized()
             ),
             presenter = AsyncImagePresenter(
@@ -53,7 +58,7 @@ fun AsyncImage.Content(
                     contentScale = ContentScale.Fit,
 
                     // Multiply the given color with the existing image (which is most likely a neutral gray).
-                    colorFilter = (color ?: this.color)?.let { filterColor -> ColorFilter.lighting(filterColor, Color.Transparent) }
+                    colorFilter = color?.let { filterColor -> ColorFilter.lighting(filterColor, Color.Transparent) }
                 )
             )
         ).Projection(

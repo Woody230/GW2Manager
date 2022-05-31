@@ -78,8 +78,11 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
                 .verticalScroll(rememberSaveable(saver = ScrollState.Saver) { verticalScroll })
         ) {
             MapGrid()
-            Objectives()
-            bloodlusts.forEach { bloodlust -> bloodlust.Bloodlust() }
+
+            if (grid.rows.isNotEmpty()) {
+                Objectives()
+                bloodlusts.forEach { bloodlust -> bloodlust.Bloodlust() }
+            }
         }
 
         scrollToRegion()

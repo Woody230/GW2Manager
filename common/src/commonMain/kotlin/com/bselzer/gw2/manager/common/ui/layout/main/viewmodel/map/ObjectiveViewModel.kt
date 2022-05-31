@@ -1,6 +1,5 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.DefaultAlpha
 import com.arkivanov.essenty.lifecycle.doOnResume
 import com.bselzer.gw2.manager.common.Gw2Resources
@@ -30,6 +29,8 @@ import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -196,7 +197,7 @@ class ObjectiveViewModel(
 
                     // TODO translated
                     description = "${tier.name} (${yakRatio.first}/${yakRatio.second})".desc(),
-                    alpha = alpha,
+                    alpha = flowOf(alpha),
                     color = null,
                 ),
 
@@ -208,7 +209,7 @@ class ObjectiveViewModel(
                         icon = Icon(
                             link = upgrade.iconLink.value.asImageUrl(),
                             description = upgrade.description.desc(),
-                            alpha = alpha,
+                            alpha = flowOf(alpha),
                             color = null,
 
                             // TODO remove from config
@@ -237,8 +238,8 @@ class ObjectiveViewModel(
         return map { tier ->
             val startTime = fromMatch?.claimedAt
             val holdingPeriod = tier.holdingPeriod
-            val initialAlpha = configuration.alpha(condition = startTime == null)
-            val alpha = mutableStateOf(initialAlpha)
+            val initialAlpha = configuration.alpha(condition = startTime != null)
+            val alpha = MutableStateFlow(initialAlpha)
             GuildUpgradeTier(
                 // Note that the holding period starts from the claim time, NOT from the capture time.
                 startTime = startTime,
@@ -253,7 +254,7 @@ class ObjectiveViewModel(
 
                     description = "".desc(),
                     color = null,
-                    alpha = alpha.value,
+                    alpha = alpha,
                 ),
 
                 // Transparency is reduced until the timer is complete.
@@ -287,7 +288,7 @@ class ObjectiveViewModel(
                             height = configuration.wvw.objectives.guildUpgrades.size.height,
 
                             // If the upgrade is slotted then provide full opacity.
-                            alpha = configuration.alpha(condition = fromMatch?.guildUpgradeIds?.contains(guildUpgradeId) == true)
+                            alpha = flowOf(configuration.alpha(condition = fromMatch?.guildUpgradeIds?.contains(guildUpgradeId) == true))
                         ),
 
                         // TODO translations

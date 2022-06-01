@@ -11,12 +11,10 @@ import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfi
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.WorldSelectionViewModel
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.resetAlertDialogInteractor
+import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triTextAlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogProjector
-import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
-import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
 import com.bselzer.ktx.logging.Logger
 
@@ -51,30 +49,22 @@ class WorldSelectionComposition(
         val selection = selection
         // TODO french/german buttons overflowing
         AlertDialogProjector(
-            interactor = resetAlertDialogInteractor(
-                onConfirmation = {
-                    val world = selection.selected
-                    if (world == null) {
-                        DialogState.OPENED
-                    } else {
-                        Logger.d("Setting world to $world")
-                        selection.onSave(world)
-                        DialogState.CLOSED
-                    }
-                },
-                onReset = {
-                    selection.onReset()
-                    DialogState.CLOSED
-                }
-            ) {
+            interactor = triTextAlertDialogInteractor {
                 // Don't show the dialog anymore when the world has been selected.
                 dialogRouter.bringToFront(DialogConfig.NoDialogConfig)
 
                 // Reset the choice so that it does not persist when the dialog is reopened.
                 selection.resetSelected()
-            }.copy(
-                title = TextInteractor(selection.title.localized())
-            )
+            }.closeOnPositive {
+                // TODO keep open if world not selected and force show dialog on launch if no selection?
+                val world = selection.selected
+                if (world != null) {
+                    Logger.d("Setting world to $world")
+                    selection.onSave(world)
+                }
+            }.closeOnNeutral {
+                selection.onReset()
+            }.title(selection.title.localized()).build()
         ).Projection(
             // TODO use regular dialog instead of constrained -- title bounces with the choices
             constrained = true

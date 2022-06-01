@@ -14,9 +14,10 @@ import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
 import com.bselzer.gw2.manager.common.ui.theme.ThemedColorFilter
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.resetAlertDialogInteractor
+import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triTextAlertDialogInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.downIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.upIconInteractor
+import com.bselzer.ktx.compose.resource.ui.layout.text.textInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
@@ -122,21 +123,16 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                         subtitle = TextInteractor(text = languageResources.subtitle.localized())
                     )
                 ),
-                dialog = resetAlertDialogInteractor(
-                    onConfirmation = {
-                        scope.launch { languageLogic.onSave() }
-                        DialogState.CLOSED
-                    },
-                    onReset = {
-                        scope.launch { languageLogic.onReset() }
-                        DialogState.CLOSED
-                    }
-                ) {
+                dialog = triTextAlertDialogInteractor {
                     state = DialogState.CLOSED
-                }.copy(
-                    state = state,
-                    title = TextInteractor(text = languageResources.title.localized())
-                )
+                }.closeOnPositive {
+                    scope.launch { languageLogic.onSave() }
+                }.closeOnNegative {
+                    scope.launch { languageLogic.onReset() }
+                }.apply {
+                    title = languageResources.title.textInteractor()
+                    this.state = state
+                }.build()
             )
         ).Projection(modifier = Modifier.clickable {
             state = DialogState.OPENED
@@ -173,31 +169,22 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                             subtitle = TextInteractor(text = tokenResources.subtitle.localized())
                         )
                     ),
-                    dialog = resetAlertDialogInteractor(
-                        onConfirmation = {
-                            scope.launch {
-                                if (tokenLogic.onSave()) {
-                                    tokenLogic.clearInput()
-                                } else {
-                                    host.showSnackbar(message = failure, duration = SnackbarDuration.Long)
-                                }
+                    dialog = triTextAlertDialogInteractor {
+                        state = DialogState.CLOSED
+                    }.closeOnPositive {
+                        scope.launch {
+                            if (tokenLogic.onSave()) {
+                                tokenLogic.clearInput()
+                            } else {
+                                host.showSnackbar(message = failure, duration = SnackbarDuration.Long)
                             }
-
-                            DialogState.CLOSED
-                        },
-                        onReset = {
-                            scope.launch { tokenLogic.onReset() }
-                            DialogState.CLOSED
-                        },
-                        closeDialog = {
-                            state = DialogState.CLOSED
                         }
-                    ).copy(
-                        state = state,
-                        title = TextInteractor(
-                            text = tokenResources.title.localized()
-                        ),
-                    )
+                    }.closeOnNegative {
+                        scope.launch { tokenLogic.onReset() }
+                    }.apply {
+                        title = tokenResources.title.textInteractor()
+                        this.state = state
+                    }.build()
                 ),
                 inputDescription = TextInteractor(
                     text = buildAnnotatedString {
@@ -266,24 +253,16 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                             subtitle = TextInteractor(text = wvwResources.interval.subtitle.localized())
                         )
                     ),
-                    dialog = resetAlertDialogInteractor(
-                        onConfirmation = {
-                            scope.launch { intervalLogic.onSave() }
-                            DialogState.CLOSED
-                        },
-                        onReset = {
-                            scope.launch { intervalLogic.onReset() }
-                            DialogState.CLOSED
-                        },
-                        closeDialog = {
-                            state = DialogState.CLOSED
-                        }
-                    ).copy(
-                        state = state,
-                        title = TextInteractor(
-                            text = wvwResources.interval.title.localized()
-                        ),
-                    )
+                    dialog = triTextAlertDialogInteractor {
+                        state = DialogState.CLOSED
+                    }.closeOnPositive {
+                        scope.launch { intervalLogic.onSave() }
+                    }.closeOnNeutral {
+                        scope.launch { intervalLogic.onReset() }
+                    }.apply {
+                        title = wvwResources.interval.title.textInteractor()
+                        this.state = state
+                    }.build()
                 )
             ),
         ).Projection(modifier = Modifier.clickable {

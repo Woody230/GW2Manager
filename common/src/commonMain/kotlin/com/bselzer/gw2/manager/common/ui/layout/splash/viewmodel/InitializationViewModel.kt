@@ -115,9 +115,7 @@ class InitializationViewModel(
     private val initializeWvwRefresh
         get() = Initializer(
             title = Gw2Resources.strings.wvw.desc(),
-
-            // TODO initial refresh instead
-            subtitle = Gw2Resources.strings.wvw_description.desc()
+            subtitle = Resources.strings.refresh.desc()
         ) {
             // The normal refresh will wait forever when checking against the initial value (the distant future).
             // Therefore we need to make sure we have actually refreshed once to provide an actual date.

@@ -17,12 +17,10 @@ import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triTextAlertDialogInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.downIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.upIconInteractor
-import com.bselzer.ktx.compose.resource.ui.layout.text.textInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
-import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
@@ -84,14 +82,9 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
     private fun SettingsViewModel.ThemePreference() = SwitchPreferenceProjector(
         interactor = SwitchPreferenceInteractor(
             preference = PreferenceInteractor(
-                image = ImageInteractor(
-                    painter = themeResources.image.painter(),
-                    contentDescription = themeResources.subtitle.localized()
-                ),
-                description = DescriptionInteractor(
-                    title = TextInteractor(text = themeResources.title.localized()),
-                    subtitle = TextInteractor(text = themeResources.subtitle.localized())
-                )
+                painter = themeResources.image.painter(),
+                title = themeResources.title.localized(),
+                subtitle = themeResources.subtitle.localized()
             ),
             switch = SwitchInteractor(
                 checked = themeLogic.checked,
@@ -114,14 +107,9 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
             ),
             interactor = AlertDialogPreferenceInteractor(
                 preference = PreferenceInteractor(
-                    image = ImageInteractor(
-                        painter = languageResources.image.painter(),
-                        contentDescription = languageResources.title.localized(),
-                    ),
-                    description = DescriptionInteractor(
-                        title = TextInteractor(text = languageResources.title.localized()),
-                        subtitle = TextInteractor(text = languageResources.subtitle.localized())
-                    )
+                    painter = languageResources.image.painter(),
+                    title = languageResources.title.localized(),
+                    subtitle = languageResources.subtitle.localized()
                 ),
                 dialog = triTextAlertDialogInteractor {
                     state = DialogState.CLOSED
@@ -130,7 +118,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                 }.closeOnNegative {
                     scope.launch { languageLogic.onReset() }
                 }.apply {
-                    title = languageResources.title.textInteractor()
+                    title = languageResources.title.localized()
                     this.state = state
                 }.build()
             )
@@ -160,14 +148,9 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
             interactor = TextFieldPreferenceInteractor(
                 preference = AlertDialogPreferenceInteractor(
                     preference = PreferenceInteractor(
-                        image = ImageInteractor(
-                            painter = tokenResources.image.painter(),
-                            contentDescription = tokenResources.title.localized(),
-                        ),
-                        description = DescriptionInteractor(
-                            title = TextInteractor(text = tokenResources.title.localized()),
-                            subtitle = TextInteractor(text = tokenResources.subtitle.localized())
-                        )
+                        painter = tokenResources.image.painter(),
+                        title = tokenResources.title.localized(),
+                        subtitle = tokenResources.subtitle.localized()
                     ),
                     dialog = triTextAlertDialogInteractor {
                         state = DialogState.CLOSED
@@ -182,7 +165,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                     }.closeOnNegative {
                         scope.launch { tokenLogic.onReset() }
                     }.apply {
-                        title = tokenResources.title.textInteractor()
+                        title = tokenResources.title.localized()
                         this.state = state
                     }.build()
                 ),
@@ -244,14 +227,9 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                 downIcon = downIconInteractor(),
                 preference = AlertDialogPreferenceInteractor(
                     preference = PreferenceInteractor(
-                        image = ImageInteractor(
-                            painter = wvwResources.interval.image.painter(),
-                            contentDescription = wvwResources.interval.title.localized(),
-                        ),
-                        description = DescriptionInteractor(
-                            title = TextInteractor(text = wvwResources.interval.title.localized()),
-                            subtitle = TextInteractor(text = wvwResources.interval.subtitle.localized())
-                        )
+                        painter = wvwResources.interval.image.painter(),
+                        title = wvwResources.interval.title.localized(),
+                        subtitle = wvwResources.interval.subtitle.localized()
                     ),
                     dialog = triTextAlertDialogInteractor {
                         state = DialogState.CLOSED
@@ -260,7 +238,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                     }.closeOnNeutral {
                         scope.launch { intervalLogic.onReset() }
                     }.apply {
-                        title = wvwResources.interval.title.textInteractor()
+                        title = wvwResources.interval.title.localized()
                         this.state = state
                     }.build()
                 )

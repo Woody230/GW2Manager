@@ -22,7 +22,6 @@ import com.bselzer.ktx.compose.ui.layout.alertdialog.rememberDialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
-import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.PreferencePresenter
@@ -182,11 +181,9 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
     @Composable
     private fun SettingsViewModel.WvwSection() = PreferenceSectionProjector(
         interactor = PreferenceSectionInteractor(
-            image = ImageInteractor(
-                painter = wvwResources.image.painter(),
-                contentDescription = wvwResources.title.localized()
-            ),
-            title = TextInteractor(text = wvwResources.title.localized())
+            title = wvwResources.title.localized(),
+            painter = wvwResources.image.painter(),
+            contentDescription = wvwResources.title.localized()
         ),
         presenter = PreferenceSectionPresenter(
             title = TextPresenter(color = MaterialTheme.colors.primary)

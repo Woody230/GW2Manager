@@ -2,10 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization
 
 import dev.icerock.moko.resources.desc.StringDesc
 
-data class Initializer(
+data class Descriptor(
     val title: StringDesc,
-    val subtitle: StringDesc?,
-    val block: suspend () -> Unit
-) {
-    val descriptor = Descriptor(title, subtitle)
-}
+    val subtitle: StringDesc?
+)

@@ -12,8 +12,10 @@ import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalSplashRouter
 import com.bselzer.gw2.manager.common.ui.layout.splash.configuration.SplashConfig
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationViewModel
+import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
+import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
@@ -21,13 +23,17 @@ import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 class InitializationComposition(model: InitializationViewModel) : ViewModelComposition<InitializationViewModel>(model) {
     @Composable
     override fun InitializationViewModel.Content() {
+        Initialize()
+        Container()
+    }
+
+    @Composable
+    private fun InitializationViewModel.Initialize() {
         val splashRouter = LocalSplashRouter.current
         Initialize {
             // Don't show the splash screen once initialization is finished.
             splashRouter.bringToFront(SplashConfig.NoSplashConfig)
         }
-
-        Container()
     }
 
     @Composable
@@ -54,7 +60,10 @@ class InitializationComposition(model: InitializationViewModel) : ViewModelCompo
             presenter = relativeBackgroundPresenter
         ) {
             DescriptionProjector(
-                interactor = description.value,
+                interactor = DescriptionInteractor(
+                    title = description.value.title.localized(),
+                    subtitle = description.value.subtitle?.localized()
+                ),
                 presenter = DescriptionPresenter(
                     container = ColumnPresenter.CenteredHorizontally,
                     title = TextPresenter(fontSize = 30.sp)

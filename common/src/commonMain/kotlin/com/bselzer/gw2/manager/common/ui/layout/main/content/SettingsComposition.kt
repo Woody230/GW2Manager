@@ -7,8 +7,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
@@ -19,8 +17,8 @@ import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triText
 import com.bselzer.ktx.compose.resource.ui.layout.icon.downIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.upIconInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
-import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
-import com.bselzer.ktx.compose.ui.layout.alertdialog.open
+import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
+import com.bselzer.ktx.compose.ui.layout.alertdialog.rememberDialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
@@ -97,7 +95,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
 
     @Composable
     private fun SettingsViewModel.LanguagePreference() {
-        val state = remember { mutableStateOf(DialogState.CLOSED) }
+        val state = rememberDialogState()
         val labels = languageLogic.values.associateWith { locale -> languageResources.getLabel(locale).localized() }
         AlertDialogPreferenceProjector(
             presenter = AlertDialogPreferencePresenter(
@@ -118,7 +116,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                     closeOnNeutral { languageLogic.onReset() }
                 }
             )
-        ).Projection(modifier = state.open()) {
+        ).Projection(modifier = state.openOnClick()) {
             // TODO desktop only: lazy column inside alert dialog crash https://github.com/JetBrains/compose-jb/issues/1111
             SingleChoiceProjector(
                 interactor = SingleChoiceInteractor(
@@ -134,7 +132,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
     @Composable
     private fun SettingsViewModel.TokenPreference() {
         val tag = "applications"
-        val state = remember { mutableStateOf(DialogState.CLOSED) }
+        val state = rememberDialogState()
         TextFieldPreferenceProjector(
             interactor = TextFieldPreferenceInteractor(
                 preference = AlertDialogPreferenceInteractor(
@@ -178,7 +176,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                     onValueChange = { tokenLogic.updateInput(it) }
                 )
             )
-        ).Projection(modifier = state.open())
+        ).Projection(modifier = state.openOnClick())
     }
 
     @Composable
@@ -199,7 +197,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
 
     @Composable
     private fun SettingsViewModel.RefreshInterval() {
-        val state = remember { mutableStateOf(DialogState.CLOSED) }
+        val state = rememberDialogState()
         val labels: Map<DurationUnit, String> = intervalLogic.units.associateWith { unit -> wvwResources.interval.label(unit).localized() }
         DurationPreferenceProjector(
             interactor = DurationPreferenceInteractor(
@@ -224,6 +222,6 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                     }
                 )
             ),
-        ).Projection(modifier = state.open())
+        ).Projection(modifier = state.openOnClick())
     }
 }

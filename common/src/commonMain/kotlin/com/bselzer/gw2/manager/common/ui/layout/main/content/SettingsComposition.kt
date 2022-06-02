@@ -109,7 +109,9 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                     title = languageResources.title.localized(),
                     subtitle = languageResources.subtitle.localized()
                 ),
-                dialog = AlertDialogInteractor.Builder(state).triText().build {
+                dialog = AlertDialogInteractor.Builder(state) {
+                    languageLogic.resetSelection()
+                }.triText().build {
                     title = languageResources.title.localized()
                     closeOnPositive { languageLogic.onSave() }
                     closeOnNeutral { languageLogic.onReset() }
@@ -140,7 +142,9 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                         title = tokenResources.title.localized(),
                         subtitle = tokenResources.subtitle.localized()
                     ),
-                    dialog = AlertDialogInteractor.Builder(state).triText().build {
+                    dialog = AlertDialogInteractor.Builder(state) {
+                        tokenLogic.clearInput()
+                    }.triText().build {
                         title = tokenResources.title.localized()
                         closeOnNeutral { tokenLogic.onReset() }
 
@@ -212,7 +216,9 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                         title = wvwResources.interval.title.localized(),
                         subtitle = wvwResources.interval.subtitle.localized()
                     ),
-                    dialog = AlertDialogInteractor.Builder(state).triText().build {
+                    dialog = AlertDialogInteractor.Builder(state) {
+                        intervalLogic.clearInput()
+                    }.triText().build {
                         title = wvwResources.interval.title.localized()
                         closeOnPositive { intervalLogic.onSave() }
                         closeOnNeutral { intervalLogic.onReset() }

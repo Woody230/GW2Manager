@@ -93,10 +93,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     val tokenLogic = TokenLogic(
         updateInput = { value -> token.value = value?.let { Token(it.trim()) } },
         clearInput = { token.value = null },
-        onReset = {
-            token.value = null
-            preferences.common.token.remove()
-        },
+        onReset = { preferences.common.token.remove() },
         onClickHyperlink = { Browser.open(it) },
         onSave = {
             // Validate the new token before committing it.
@@ -181,7 +178,11 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                 val amount = intervalBound.minBind(intervalAmount.value, unit)
                 preferences.wvw.refreshInterval.set(amount.toDuration(unit))
             },
-            onReset = { preferences.wvw.refreshInterval.remove() }
+            onReset = { preferences.wvw.refreshInterval.remove() },
+            clearInput = {
+                intervalAmount.value = preferences.wvw.refreshInterval.initialAmount
+                intervalUnit.value = preferences.wvw.refreshInterval.initialUnit
+            }
         )
 
     private val language: MutableState<Locale?> = mutableStateOf(null)
@@ -204,7 +205,10 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                     Localizer.locale = locale
                 }
             },
-            onReset = { preferences.common.locale.remove() },
+            onReset = {
+                preferences.common.locale.remove()
+                Localizer.locale = preferences.common.locale.defaultValue
+            },
             updateSelection = { language.value = it },
             resetSelection = { language.value = null }
         )

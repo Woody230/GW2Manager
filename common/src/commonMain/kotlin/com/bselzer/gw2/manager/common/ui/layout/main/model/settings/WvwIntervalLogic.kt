@@ -10,4 +10,5 @@ data class WvwIntervalLogic(
     val onValueChange: (Int, DurationUnit) -> Unit,
     val onSave: suspend () -> Unit,
     val onReset: suspend () -> Unit,
+    val clearInput: () -> Unit
 )

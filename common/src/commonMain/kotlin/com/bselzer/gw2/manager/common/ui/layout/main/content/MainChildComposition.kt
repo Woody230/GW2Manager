@@ -3,8 +3,10 @@ package com.bselzer.gw2.manager.common.ui.layout.main.content
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
+import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.MainViewModel
 import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.compose.resource.ui.layout.text.textInteractor
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
@@ -14,17 +16,23 @@ abstract class MainChildComposition<Model>(model: Model) : ViewModelComposition<
     /**
      * Creates the [TextInteractor] for the top app bar title.
      */
-    val title
+    val title: TextInteractor
         @Composable
-        get() = TextInteractor(text = model.title.localized())
+        get() = model.title.textInteractor()
 
     /**
-     * Creates the [IconButtonInteractor]s for the top app bar buttons.
+     * Creates the [IconButtonInteractor]s for the top app bar actions.
      */
-    val actions: @Composable () -> List<IconButtonInteractor> = {
+    open val actions: @Composable () -> List<IconButtonInteractor> = { model.actions.interactors() }
+
+    /**
+     * Creates the [IconButtonInteractor]s for the given actions.
+     */
+    @Composable
+    protected fun List<AppBarAction>.interactors(): List<IconButtonInteractor> {
         val scope = rememberCoroutineScope()
         val host = LocalSnackbarHostState.current
-        model.actions.map { action ->
+        return map { action ->
             val notification = action.notification?.localized()
             IconButtonInteractor(
                 enabled = action.enabled,

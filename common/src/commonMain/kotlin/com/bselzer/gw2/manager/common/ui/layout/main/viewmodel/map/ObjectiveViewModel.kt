@@ -124,7 +124,7 @@ class ObjectiveViewModel(
             CoreData(
                 // TODO translations
                 pointsPerTick = "Points per tick:".desc() to objective.pointsPerTick.toString().desc(),
-                pointsPerCapture = "Points per capture".desc() to objective.pointsPerCapture.toString().desc(),
+                pointsPerCapture = "Points per capture:".desc() to objective.pointsPerCapture.toString().desc(),
                 yaks = upgrade?.let { upgrade ->
                     val ratio = upgrade.yakRatio(yaksDelivered)
                     "Yaks delivered:".desc() to "${ratio.first}/${ratio.second}".desc()

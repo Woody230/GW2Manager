@@ -11,11 +11,12 @@ import dev.icerock.moko.resources.desc.StringDesc
 
 sealed class MapViewModel(
     context: AppComponentContext,
-    showDialog: (DialogConfig) -> Unit
+    private val showDialog: (DialogConfig) -> Unit
 ) : ViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
     abstract val title: StringDesc
-    open val actions: List<AppBarAction> = listOf(
-        refreshAction(),
-        WorldSelectionAction(showDialog)
-    )
+    open val actions: List<AppBarAction>
+        get() = listOf(
+            refreshAction(),
+            WorldSelectionAction(showDialog)
+        )
 }

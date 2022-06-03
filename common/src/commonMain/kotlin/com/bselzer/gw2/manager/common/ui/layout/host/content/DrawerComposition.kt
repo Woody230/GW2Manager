@@ -69,7 +69,7 @@ class DrawerComposition(
             // TODO icons seem to be using disabled tint
             icon = IconInteractor(
                 painter = icon.painter(),
-                contentDescription = localized
+                contentDescription = null
             ),
             text = TextInteractor(text = localized),
             modifier = Clickable {

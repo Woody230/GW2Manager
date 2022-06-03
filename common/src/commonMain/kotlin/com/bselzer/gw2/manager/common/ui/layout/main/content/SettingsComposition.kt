@@ -187,7 +187,6 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
         interactor = PreferenceSectionInteractor(
             title = wvwResources.title.localized(),
             painter = wvwResources.image.painter(),
-            contentDescription = wvwResources.title.localized()
         ),
         presenter = PreferenceSectionPresenter(
             title = TextPresenter(color = MaterialTheme.colors.primary)

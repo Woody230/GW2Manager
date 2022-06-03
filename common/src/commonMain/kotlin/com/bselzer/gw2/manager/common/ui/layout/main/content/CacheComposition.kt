@@ -13,8 +13,6 @@ import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.checkbox.CheckboxInteractor
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
-import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
-import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.checkbox.CheckboxPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.checkbox.CheckboxPreferenceProjector
@@ -51,14 +49,9 @@ class CacheComposition(model: CacheViewModel) : MainChildComposition<CacheViewMo
             }
         ),
         preference = PreferenceInteractor(
-            image = ImageInteractor(
-                painter = resource.image.painter(),
-                contentDescription = resource.subtitle.localized()
-            ),
-            description = DescriptionInteractor(
-                title = resource.title.localized(),
-                subtitle = resource.subtitle.localized()
-            )
+            painter = resource.image.painter(),
+            title = resource.title.localized(),
+            subtitle = resource.subtitle.localized()
         )
     )
 

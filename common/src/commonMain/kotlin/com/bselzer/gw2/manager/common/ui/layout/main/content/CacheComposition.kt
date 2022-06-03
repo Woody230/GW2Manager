@@ -18,7 +18,6 @@ import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.checkbox.CheckboxPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.checkbox.CheckboxPreferenceProjector
-import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.function.collection.buildArray
 
 class CacheComposition(model: CacheViewModel) : MainChildComposition<CacheViewModel>(model) {
@@ -57,8 +56,8 @@ class CacheComposition(model: CacheViewModel) : MainChildComposition<CacheViewMo
                 contentDescription = resource.subtitle.localized()
             ),
             description = DescriptionInteractor(
-                title = TextInteractor(resource.title.localized()),
-                subtitle = TextInteractor(resource.subtitle.localized())
+                title = resource.title.localized(),
+                subtitle = resource.subtitle.localized()
             )
         )
     )

@@ -12,7 +12,6 @@ import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
-import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.function.collection.buildArray
 
 class AboutComposition(model: AboutViewModel) : MainChildComposition<AboutViewModel>(model) {
@@ -38,24 +37,24 @@ class AboutComposition(model: AboutViewModel) : MainChildComposition<AboutViewMo
     @Composable
     private fun AboutViewModel.VersionCode() = DescriptionProjector(
         interactor = DescriptionInteractor(
-            title = TextInteractor(text = versionResources.code.title.localized()),
-            subtitle = TextInteractor(text = versionResources.code.subtitle.localized())
+            title = versionResources.code.title.localized(),
+            subtitle = versionResources.code.subtitle.localized()
         )
     ).Projection()
 
     @Composable
     private fun AboutViewModel.VersionName() = DescriptionProjector(
         interactor = DescriptionInteractor(
-            title = TextInteractor(text = versionResources.name.title.localized()),
-            subtitle = TextInteractor(text = versionResources.name.subtitle.localized())
+            title = versionResources.name.title.localized(),
+            subtitle = versionResources.name.subtitle.localized()
         )
     ).Projection()
 
     @Composable
     private fun AboutViewModel.LegalNotice() = DescriptionProjector(
         interactor = DescriptionInteractor(
-            title = TextInteractor(text = noticeResources.title.localized()),
-            subtitle = TextInteractor(text = noticeResources.subtitle.localized())
+            title = noticeResources.title.localized(),
+            subtitle = noticeResources.subtitle.localized()
         )
     ).Projection()
 }

@@ -20,11 +20,9 @@ import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
-import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceProjector
-import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleViewModel>(model) {
@@ -50,9 +48,9 @@ class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleVie
         val dialogRouter = LocalDialogRouter.current
         TextPreferenceProjector(
             interactor = TextPreferenceInteractor(
-                image = ImageInteractor(painter = selectedWorld.image.painter(), contentDescription = selectedWorld.description.localized()),
-                title = TextInteractor(selectedWorld.title.localized()),
-                subtitle = TextInteractor(selectedWorld.subtitle.localized()),
+                painter = selectedWorld.image.painter(),
+                title = selectedWorld.title.localized(),
+                subtitle = selectedWorld.subtitle.localized(),
             ),
             presenter = TextPreferencePresenter(
                 subtitle = TextPresenter(color = selectedWorld.color, fontWeight = FontWeight.Bold)

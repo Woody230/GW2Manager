@@ -48,6 +48,8 @@ class TileRepository(
      * Updates the [TileGridRequest] for the given [zoom] level and the tiles associated with it.
      */
     suspend fun updateGrid(continent: Continent, floor: Floor, zoom: Int) {
+        Logger.d { "Grid | Updating grid at zoom level $zoom for continent ${continent.id} and floor ${floor.id}." }
+
         val gridRequest = getGridRequest(continent, floor, zoom)
         _gridRequests[zoom] = gridRequest
         updateTiles(gridRequest)
@@ -57,6 +59,8 @@ class TileRepository(
      * Gets the tiles associated with the tile requests on the [gridRequest].
      */
     private suspend fun updateTiles(gridRequest: TileGridRequest) = database.transaction().use {
+        Logger.d { "Grid | Updating ${gridRequest.tileRequests.size} tiles." }
+
         val missing = gridRequest.tileRequests.filter { tileRequest ->
             getById<Tile>(tileRequest.id()) == null
         }

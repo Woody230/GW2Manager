@@ -74,6 +74,7 @@ class TranslationRepository(
             return
         }
 
+        Logger.d { "Translation | Updating for ${defaults.size} models." }
         database.transaction().use {
             putMissingTranslations(
                 translator = translator,

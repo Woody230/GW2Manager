@@ -10,6 +10,7 @@ import com.bselzer.gw2.v2.model.continent.floor.FloorId
 import com.bselzer.gw2.v2.model.map.MapId
 import com.bselzer.ktx.kodein.db.operation.getById
 import com.bselzer.ktx.kodein.db.transaction.transaction
+import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -58,6 +59,8 @@ class ContinentRepository(
     }
 
     private suspend fun updateContinent(continentId: ContinentId) = database.transaction().use {
+        Logger.d { "Continent | Updating continent $continentId." }
+
         val continent = getById(
             id = continentId,
             requestSingle = { clients.gw2.continent.continent(continentId) },
@@ -67,6 +70,8 @@ class ContinentRepository(
     }
 
     private suspend fun updateFloor(continentId: ContinentId, floorId: FloorId) = database.transaction().use {
+        Logger.d { "Continent | Updating floor $floorId in continent $continentId." }
+
         val floor = getById(
             id = floorId,
             requestSingle = { clients.gw2.continent.floor(continentId, floorId) }

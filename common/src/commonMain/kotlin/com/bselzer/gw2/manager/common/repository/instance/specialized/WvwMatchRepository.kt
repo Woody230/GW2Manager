@@ -16,6 +16,7 @@ import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgradeId
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.kodein.db.operation.putMissingById
 import com.bselzer.ktx.kodein.db.transaction.transaction
+import com.bselzer.ktx.logging.Logger
 
 class WvwMatchRepository(
     dependencies: RepositoryDependencies,
@@ -37,6 +38,8 @@ class WvwMatchRepository(
      * Updates the [match]'s [WvwObjective]s for each map and their associated [WvwUpgrade]s and claimable [GuildUpgrade]s.
      */
     suspend fun updateMatch(match: WvwMatch?) = database.transaction().use {
+        Logger.d { "Match | Updating match ${match?.id}." }
+
         _match.value = match
         updateMapObjectives(match)
         updateMapGuildUpgrades(match)
@@ -49,12 +52,15 @@ class WvwMatchRepository(
             requestById = { missingIds -> clients.gw2.wvw.objectives(missingIds) }
         )
 
+        Logger.d { "Match | Updating ${objectives.size} objectives in match ${match?.id}." }
         objectives.putInto(_objectives)
         updateUpgrades(objectives.values)
     }
 
     private suspend fun updateUpgrades(objectives: Collection<WvwObjective>) = database.transaction().use {
         val upgradeIds = objectives.map { objective -> objective.upgradeId }
+        Logger.d { "Match | Updating ${upgradeIds.size} upgrades for ${objectives.size} objectives." }
+
         putMissingById(
             // Note that some upgrades may not exist so the client defaulting these is preferred.
             requestIds = { upgradeIds },

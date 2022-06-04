@@ -8,6 +8,7 @@ import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
 import com.bselzer.ktx.kodein.db.operation.findAllOnce
 import com.bselzer.ktx.kodein.db.transaction.transaction
+import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,6 +29,8 @@ class WorldRepository(
     val worlds: Map<WorldId, World> = _worlds
 
     suspend fun updateWorlds() = database.transaction().use {
+        Logger.d { "World | Updating all worlds." }
+
         val worlds = findAllOnce { clients.gw2.world.worlds() }.onEach { world -> _worlds[world.id] = world }
         translation.updateTranslations(
             translator = Gw2Translators.world,

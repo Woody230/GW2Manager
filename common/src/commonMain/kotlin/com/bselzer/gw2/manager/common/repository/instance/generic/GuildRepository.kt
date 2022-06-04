@@ -11,6 +11,7 @@ import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.kodein.db.operation.getById
 import com.bselzer.ktx.kodein.db.operation.putMissingById
 import com.bselzer.ktx.kodein.db.transaction.transaction
+import com.bselzer.ktx.logging.Logger
 
 class GuildRepository(
     dependencies: RepositoryDependencies,
@@ -22,6 +23,8 @@ class GuildRepository(
     val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = _guildUpgrades
 
     suspend fun updateGuild(guildId: GuildId) = database.transaction().use {
+        Logger.d { "Guild | Updating guild $guildId." }
+
         val guild = getById(
             id = guildId,
             requestSingle = { clients.gw2.guild.guild(guildId) }
@@ -31,6 +34,8 @@ class GuildRepository(
     }
 
     suspend fun updateGuildUpgrades(guildUpgradeIds: Collection<GuildUpgradeId>) = database.transaction().use {
+        Logger.d { "Guild | Updating ${guildUpgradeIds.size} guild upgrades." }
+
         // Note that some upgrades may not exist so the client defaulting these is preferred.
         putMissingById(
             requestIds = { guildUpgradeIds },

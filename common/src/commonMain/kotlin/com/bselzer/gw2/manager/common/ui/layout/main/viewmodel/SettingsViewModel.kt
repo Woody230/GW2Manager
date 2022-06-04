@@ -131,7 +131,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                 }
 
                 preferences.common.token.set(token.value)
-                Logger.d { "Set client token to $token" }
+                Logger.i { "Set client token to $token" }
 
                 preferences.wvw.selectedWorld.initialize(account.world)
                 return true
@@ -201,14 +201,10 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
             selected = { language.value ?: preferences.common.locale.safeState().value },
             onSave = {
                 language.value?.let { locale ->
-                    preferences.common.locale.set(locale)
-                    Localizer.locale = locale
+                    repositories.translation.updateLocale(locale)
                 }
             },
-            onReset = {
-                preferences.common.locale.remove()
-                Localizer.locale = preferences.common.locale.defaultValue
-            },
+            onReset = { repositories.translation.resetLocale() },
             updateSelection = { language.value = it },
             resetSelection = { language.value = null }
         )

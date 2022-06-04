@@ -46,6 +46,7 @@ kotlin {
                 // GW2 API Wrapper
                 api("com.bselzer.gw2:asset-cdn:${Versions.WRAPPER}")
                 api("com.bselzer.gw2:v2-client:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-intl:${Versions.WRAPPER}")
                 api("com.bselzer.gw2:v2-model:${Versions.WRAPPER}")
                 api("com.bselzer.gw2:v2-model-extension:${Versions.WRAPPER}")
                 api("com.bselzer.gw2:v2-model-enumeration:${Versions.WRAPPER}")
@@ -55,6 +56,7 @@ kotlin {
 
                 // GW2 Database
                 api("com.bselzer.gw2:v2-cache:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-intl-cache:${Versions.WRAPPER}")
                 api("com.bselzer.gw2:v2-tile-cache:${Versions.WRAPPER}")
                 api("org.kodein.db:kodein-db:${Versions.KODEIN_DB}")
                 api("org.kodein.db:kodein-db-serializer-kotlinx:${Versions.KODEIN_DB}")

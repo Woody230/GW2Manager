@@ -8,5 +8,6 @@ interface GenericRepositories {
     val guild: GuildRepository
     val image: ImageRepository
     val tile: TileRepository
+    val translation: TranslationRepository
     val world: WorldRepository
 }

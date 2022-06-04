@@ -11,7 +11,6 @@ import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Desc
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Initializer
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.migration.Migrator
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.ktx.compose.ui.intl.Localizer
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.Resources
 import dev.icerock.moko.resources.desc.desc
@@ -46,9 +45,7 @@ class InitializationViewModel(
             title = Resources.strings.settings.desc(),
             subtitle = Resources.strings.language.desc()
         ) {
-            val locale = preferences.common.locale.get()
-            Logger.d { "Locale | $locale" }
-            Localizer.locale = locale
+            repositories.translation.updateLocale(preferences.common.locale.get())
         }
 
     private val initializeTheme

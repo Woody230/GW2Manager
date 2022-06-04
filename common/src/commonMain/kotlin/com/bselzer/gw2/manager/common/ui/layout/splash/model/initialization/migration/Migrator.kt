@@ -15,18 +15,18 @@ class Migrator(
      * @return the version migrated to
      */
     suspend fun migrate(from: Int): Int {
-        Logger.d { "Migrating from $from." }
+        Logger.i { "Migrating from $from." }
 
         var intermediate = from
         migrations.forEach { migration ->
             if (intermediate in migration.from until migration.to) {
-                Logger.d { "Migration | ${migration.from} to ${migration.to}" }
+                Logger.i { "Migration | ${migration.from} to ${migration.to}" }
                 migration.migrate()
                 intermediate = migration.to
             }
         }
 
-        Logger.d { "Migrated to $intermediate." }
+        Logger.i { "Migrated to $intermediate." }
         return intermediate
     }
 }

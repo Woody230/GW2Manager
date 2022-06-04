@@ -43,10 +43,7 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
             return WorldSelection(
                 title = Gw2Resources.strings.worlds.desc(),
                 values = worlds,
-                getLabel = { world ->
-                    // TODO translate
-                    world.name.toString()
-                },
+                getLabel = { world -> repositories.translation.translate(world.name.toString()) },
                 selected = resolved?.let {
                     worlds.firstOrNull { world -> world.id == it }
                 },

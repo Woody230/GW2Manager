@@ -8,5 +8,6 @@ class GenericRepositories(dependencies: RepositoryDependencies) : GenericReposit
     override val guild = GuildRepository(dependencies)
     override val image = ImageRepository(dependencies)
     override val tile = TileRepository(dependencies)
-    override val world = WorldRepository(dependencies)
+    override val translation = TranslationRepository(dependencies)
+    override val world = WorldRepository(dependencies, translation)
 }

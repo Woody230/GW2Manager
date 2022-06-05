@@ -21,7 +21,6 @@ import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.ktx.function.collection.addTo
-import com.bselzer.ktx.function.objects.userFriendly
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -83,11 +82,9 @@ class WvwMatchViewModel(
             })
 
             charts.map { entry ->
-                // TODO get translated from map or continent
-                val title = entry.key?.userFriendly()
                 Charts(
                     // Use the map type as the title, otherwise default to the match overview for the null type that was added.
-                    title = if (!title.isNullOrBlank()) title.desc() else KtxResources.strings.overview.desc(),
+                    title = entry.key?.stringDesc() ?: KtxResources.strings.overview.desc(),
                     color = configuration.wvw.color(entry.key?.owner()),
                     charts = entry.value
                 )

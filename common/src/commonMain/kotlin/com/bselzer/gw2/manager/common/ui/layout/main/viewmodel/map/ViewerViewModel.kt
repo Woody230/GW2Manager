@@ -6,9 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.essenty.lifecycle.subscribe
 import com.bselzer.gw2.manager.common.AppResources
-import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
-import com.bselzer.gw2.manager.common.configuration.WvwHelper.objective
-import com.bselzer.gw2.manager.common.configuration.WvwHelper.selectedDateFormatted
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction

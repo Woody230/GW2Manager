@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.repository.instance.AppRepository
+import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.ContinentId
 import com.bselzer.gw2.v2.model.continent.floor.Floor
@@ -13,10 +13,20 @@ import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import me.tatarka.inject.annotations.Inject
 
+@Singleton
+@Inject
 class ContinentRepository(
-    dependencies: RepositoryDependencies
-) : AppRepository(dependencies) {
+    dependencies: RepositoryDependencies,
+    private val repositories: Repositories
+) : RepositoryDependencies by dependencies {
+    @Singleton
+    @Inject
+    data class Repositories(
+        val translation: TranslationRepository
+    )
+
     private val _continents = mutableStateMapOf<ContinentId, Continent>()
     val continents: Map<ContinentId, Continent> = _continents
 

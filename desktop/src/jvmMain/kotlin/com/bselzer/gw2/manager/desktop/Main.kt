@@ -12,14 +12,12 @@ import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.HostViewModel
 
 fun main() {
     // Initialize dependencies before composing since they won't change.
-    val app = JvmApp().apply {
-        initialize()
-    }
+    val app = JvmApp()
 
     // Initialize the component context before composing to avoid potentially creating on another thread.
     // https://arkivanov.github.io/Decompose/component/overview/#root-componentcontext-in-jetpackjetbrains-compose
     val context = Gw2ComponentContext(
-        dependencies = app,
+        dependencies = app.dependencies,
         component = DefaultComponentContext(LifecycleRegistry())
     )
 

@@ -1,10 +1,10 @@
 package com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.migration
 
-import com.bselzer.gw2.manager.common.dependency.Dependencies
+import com.bselzer.gw2.manager.common.dependency.AppDependencies
 import com.bselzer.ktx.logging.Logger
 
 class Migrator(
-    dependencies: Dependencies
+    dependencies: AppDependencies
 ) {
     private val migrations: Collection<Migration> = listOf(
         Migrate0To3(dependencies)

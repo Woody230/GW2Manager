@@ -1,8 +1,8 @@
 package com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.migration
 
-import com.bselzer.gw2.manager.common.dependency.Dependencies
+import com.bselzer.gw2.manager.common.dependency.AppDependencies
 
-abstract class Migration(dependencies: Dependencies) : Dependencies by dependencies, Comparable<Migration> {
+abstract class Migration(dependencies: AppDependencies) : AppDependencies by dependencies, Comparable<Migration> {
     abstract val from: Int
     abstract val to: Int
     abstract val reason: String

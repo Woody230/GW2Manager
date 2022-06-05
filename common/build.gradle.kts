@@ -9,6 +9,30 @@ plugins {
     id("com.mikepenz.aboutlibraries.plugin")
     id("dev.icerock.mobile.multiplatform-resources")
     id("com.codingfeline.buildkonfig")
+
+    // Note ksp issue with 1.6.20 for kotlin-inject https://github.com/evant/kotlin-inject/issues/193
+    id("com.google.devtools.ksp") version "${Versions.KOTLIN}-1.0.4"
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "${Metadata.PACKAGE_NAME}.common"
+    multiplatformResourcesClassName = "Gw2Resources"
+}
+
+aboutLibraries {
+    registerAndroidTasks = false
+}
+
+buildkonfig {
+    packageName = Metadata.PACKAGE_NAME
+    exposeObjectWithName = "BuildKonfig"
+
+    defaultConfigs {
+        buildConfigField(BOOLEAN, "DEBUG", Metadata.DEBUG.toString())
+        buildConfigField(STRING, "VERSION_NAME", Metadata.VERSION_NAME)
+        buildConfigField(INT, "VERSION_CODE", Metadata.VERSION_CODE.toString())
+        buildConfigField(STRING, "PACKAGE_NAME", Metadata.PACKAGE_NAME)
+    }
 }
 
 kotlin {
@@ -23,6 +47,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                // Dependency Injection
+                dependencies.add("kspMetadata", "me.tatarka.inject:kotlin-inject-compiler-ksp:${Versions.INJECT}")
+                api("me.tatarka.inject:kotlin-inject-runtime:${Versions.INJECT}")
+
                 // Compose
                 api(compose.runtime)
                 api(compose.foundation)
@@ -122,27 +150,6 @@ android {
     }
 }
 
-multiplatformResources {
-    multiplatformResourcesPackage = "${Metadata.PACKAGE_NAME}.common"
-    multiplatformResourcesClassName = "Gw2Resources"
-}
-
-aboutLibraries {
-    registerAndroidTasks = false
-}
-
-buildkonfig {
-    packageName = Metadata.PACKAGE_NAME
-    exposeObjectWithName = "BuildKonfig"
-
-    defaultConfigs {
-        buildConfigField(BOOLEAN, "DEBUG", Metadata.DEBUG.toString())
-        buildConfigField(STRING, "VERSION_NAME", Metadata.VERSION_NAME)
-        buildConfigField(INT, "VERSION_CODE", Metadata.VERSION_CODE.toString())
-        buildConfigField(STRING, "PACKAGE_NAME", Metadata.PACKAGE_NAME)
-    }
-}
-
 val aboutLibrariesResource = task("aboutLibrariesResource") {
     dependsOn("exportLibraryDefinitions")
 
@@ -162,5 +169,16 @@ tasks.whenTaskAdded {
 
     if (name == "build") {
         dependsOn("generateBuildKonfig")
+    }
+}
+
+// Generate common code with ksp instead of per-platform, hopefully this won't be needed in the future.
+// https://github.com/google/ksp/issues/567
+kotlin.sourceSets.commonMain {
+    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+}
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().all {
+    if (name != "kspKotlinMetadata") {
+        dependsOn("kspKotlinMetadata")
     }
 }

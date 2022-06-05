@@ -5,6 +5,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
+import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.map.MapId
@@ -16,11 +18,22 @@ import com.bselzer.ktx.settings.compose.nullState
 import com.bselzer.ktx.settings.compose.safeState
 import kotlinx.coroutines.*
 import kotlinx.datetime.Clock
+import me.tatarka.inject.annotations.Inject
 
+@Singleton
+@Inject
 class SelectedWorldRepository(
     dependencies: RepositoryDependencies,
-    private val repositories: SelectedWorldRepositories
+    private val repositories: Repositories
 ) : RepositoryDependencies by dependencies, SelectedWorldData, MapData by repositories.map, MatchData by repositories.match {
+    @Singleton
+    @Inject
+    data class Repositories(
+        val map: MapRepository,
+        val match: WvwMatchRepository,
+        val world: WorldRepository
+    )
+
     private val mapId: MapId?
         get() = repositories.match.match?.mapId()
 

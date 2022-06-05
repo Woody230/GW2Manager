@@ -8,14 +8,14 @@ import com.arkivanov.essenty.backpressed.BackPressedHandler
 import com.arkivanov.essenty.lifecycle.essentyLifecycle
 import com.arkivanov.essenty.statekeeper.stateKeeper
 import com.bselzer.gw2.manager.common.dependency.AndroidApp
-import com.bselzer.gw2.manager.common.dependency.Dependencies
+import com.bselzer.gw2.manager.common.dependency.AppDependencies
 import com.bselzer.gw2.manager.common.ui.base.Gw2ComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.host.content.HostComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.HostViewModel
 import com.bselzer.ktx.logging.Logger
 
 class MainActivity : AppCompatActivity() {
-    private var dependencies: Dependencies? = null
+    private var dependencies: AppDependencies? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +28,12 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize dependencies before composing since they won't change.
         val app = AndroidApp(this, datastore).apply {
-            initialize()
-            dependencies = this
+            this@MainActivity.dependencies = dependencies
         }
 
         // Initialize the component context before composing to avoid potentially creating on another thread.
         // https://arkivanov.github.io/Decompose/component/overview/#root-componentcontext-in-jetpackjetbrains-compose
-        val host = HostViewModel(app.createContext())
+        val host = HostViewModel(app.dependencies.createContext())
 
         setContent {
             app.Content {
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun Dependencies.createContext() = run {
+    private fun AppDependencies.createContext() = run {
         Gw2ComponentContext(
             dependencies = this,
 

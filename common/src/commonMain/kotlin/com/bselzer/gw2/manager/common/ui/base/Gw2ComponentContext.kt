@@ -5,14 +5,14 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.router.Router
 import com.arkivanov.decompose.router.router
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.bselzer.gw2.manager.common.dependency.Dependencies
+import com.bselzer.gw2.manager.common.dependency.AppDependencies
 import com.bselzer.ktx.logging.Logger
 import kotlin.reflect.KClass
 
 class Gw2ComponentContext(
-    dependencies: Dependencies,
+    dependencies: AppDependencies,
     component: ComponentContext = DefaultComponentContext(LifecycleRegistry())
-) : AppComponentContext, Dependencies by dependencies, ComponentContext by component {
+) : AppComponentContext, AppDependencies by dependencies, ComponentContext by component {
     override fun <Config : Configuration, Model : ViewModel> createRouter(
         initialStack: () -> List<Config>,
         configurationClass: KClass<out Config>,

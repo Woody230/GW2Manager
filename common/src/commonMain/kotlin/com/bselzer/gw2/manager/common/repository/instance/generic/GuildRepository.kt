@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.repository.instance.AppRepository
+import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.GuildId
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
@@ -12,10 +12,20 @@ import com.bselzer.ktx.kodein.db.operation.getById
 import com.bselzer.ktx.kodein.db.operation.putMissingById
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
+import me.tatarka.inject.annotations.Inject
 
+@Singleton
+@Inject
 class GuildRepository(
     dependencies: RepositoryDependencies,
-) : AppRepository(dependencies) {
+    private val repositories: Repositories,
+) : RepositoryDependencies by dependencies {
+    @Singleton
+    @Inject
+    data class Repositories(
+        val translation: TranslationRepository
+    )
+
     private val _guilds = mutableStateMapOf<GuildId, Guild>()
     val guilds: Map<GuildId, Guild> = _guilds
 

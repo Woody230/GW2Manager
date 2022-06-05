@@ -3,7 +3,8 @@ package com.bselzer.gw2.manager.common.repository.instance.specialized
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.repository.instance.generic.GenericRepositories
+import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.manager.common.repository.instance.generic.GuildRepository
 import com.bselzer.gw2.v2.model.extension.wvw.guildUpgradeIds
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveIds
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
@@ -17,11 +18,20 @@ import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.kodein.db.operation.putMissingById
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
+import me.tatarka.inject.annotations.Inject
 
+@Singleton
+@Inject
 class WvwMatchRepository(
     dependencies: RepositoryDependencies,
-    repositories: GenericRepositories
-) : SpecializedRepository(dependencies, repositories), MatchData {
+    private val repositories: Repositories
+) : RepositoryDependencies by dependencies, MatchData {
+    @Singleton
+    @Inject
+    data class Repositories(
+        val guild: GuildRepository
+    )
+
     private val _match = mutableStateOf<WvwMatch?>(null)
     override val match: WvwMatch?
         get() = _match.value

@@ -12,4 +12,4 @@ val LocalTheme = compositionLocalOf { Theme.LIGHT }
 /**
  * The image cache.
  */
-val LocalDependencies: ProvidableCompositionLocal<Dependencies> = compositionLocalOf { throw NotImplementedError("Dependencies not initialized") }
+val LocalDependencies: ProvidableCompositionLocal<AppDependencies> = compositionLocalOf { throw NotImplementedError("Dependencies not initialized") }

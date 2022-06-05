@@ -3,7 +3,7 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.ui.text.intl.Locale
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.repository.instance.AppRepository
+import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.v2.intl.cache.operation.putMissingTranslations
 import com.bselzer.gw2.v2.intl.translation.Translator
 import com.bselzer.ktx.compose.ui.intl.Localizer
@@ -17,12 +17,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import me.tatarka.inject.annotations.Inject
 import com.bselzer.gw2.v2.client.model.Language as WrapperLanguage
 import com.bselzer.gw2.v2.model.enumeration.Language as EnumLanguage
 
+@Singleton
+@Inject
 class TranslationRepository(
-    dependencies: RepositoryDependencies
-) : AppRepository(dependencies) {
+    dependencies: RepositoryDependencies,
+) : RepositoryDependencies by dependencies {
     private val listeners: MutableList<(Locale) -> Unit> = mutableListOf()
     private val _translations = mutableStateMapOf<String, String>()
     val translations: Map<String, String> = _translations

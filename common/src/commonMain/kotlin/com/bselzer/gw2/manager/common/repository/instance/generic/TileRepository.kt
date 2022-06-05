@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.repository.instance.AppRepository
+import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.tile.cache.metadata.id
@@ -11,11 +11,14 @@ import com.bselzer.gw2.v2.tile.model.response.Tile
 import com.bselzer.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
+import me.tatarka.inject.annotations.Inject
 import org.kodein.db.getById
 
+@Singleton
+@Inject
 class TileRepository(
     dependencies: RepositoryDependencies
-) : AppRepository(dependencies) {
+) : RepositoryDependencies by dependencies {
     /**
      * The zoom level mapped to the request for the grid.
      */

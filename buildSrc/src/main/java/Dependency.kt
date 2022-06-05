@@ -15,6 +15,7 @@ object Versions {
     const val DECOMPOSE = "0.5.2"
     const val DESUGAR = "1.1.5"
     const val BUILD_CONFIG = "0.11.0"
+    const val INJECT = "0.4.1"
 }
 
 object Metadata {

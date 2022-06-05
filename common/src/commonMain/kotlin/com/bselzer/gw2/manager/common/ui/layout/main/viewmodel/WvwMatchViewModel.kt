@@ -1,6 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
-import com.bselzer.gw2.manager.common.Gw2Resources
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.stringResource
@@ -23,7 +23,7 @@ import com.bselzer.gw2.v2.model.extension.wvw.objectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.ktx.function.collection.addTo
 import com.bselzer.ktx.function.objects.userFriendly
-import com.bselzer.ktx.resource.Resources
+import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
@@ -33,7 +33,7 @@ class WvwMatchViewModel(
     context: AppComponentContext,
     private val showDialog: (DialogConfig) -> Unit
 ) : MainViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
-    override val title: StringDesc = Gw2Resources.strings.wvw_match.desc()
+    override val title: StringDesc = AppResources.strings.wvw_match.desc()
 
     override val actions: List<AppBarAction>
         get() = listOf(
@@ -88,7 +88,7 @@ class WvwMatchViewModel(
                 val title = entry.key?.userFriendly()
                 Charts(
                     // Use the map type as the title, otherwise default to the match overview for the null type that was added.
-                    title = if (!title.isNullOrBlank()) title.desc() else Resources.strings.overview.desc(),
+                    title = if (!title.isNullOrBlank()) title.desc() else KtxResources.strings.overview.desc(),
                     color = configuration.wvw.color(entry.key?.owner()),
                     charts = entry.value
                 )
@@ -119,27 +119,27 @@ class WvwMatchViewModel(
     /**
      * The chart for the number of points earned per tick.
      */
-    private fun ObjectiveOwnerCount?.pptChart() = chart(this?.pointsPerTick, Gw2Resources.strings.points_per_tick.desc())
+    private fun ObjectiveOwnerCount?.pptChart() = chart(this?.pointsPerTick, AppResources.strings.points_per_tick.desc())
 
     /**
      * The chart for the number of victory points earned for the entire match.
      */
-    private fun WvwMatchObjectiveOwnerCount?.vpChart() = chart(this?.victoryPoints, Gw2Resources.strings.victory_points.desc())
+    private fun WvwMatchObjectiveOwnerCount?.vpChart() = chart(this?.victoryPoints, AppResources.strings.victory_points.desc())
 
     /**
      * The chart for the total score earned for the entire match.
      */
-    private fun ObjectiveOwnerCount?.scoreChart() = chart(this?.scores, Gw2Resources.strings.total_score.desc())
+    private fun ObjectiveOwnerCount?.scoreChart() = chart(this?.scores, AppResources.strings.total_score.desc())
 
     /**
      * The chart for the total number of kills earned for the entire match.
      */
-    private fun ObjectiveOwnerCount?.killChart() = chart(this?.kills, Gw2Resources.strings.total_kills.desc())
+    private fun ObjectiveOwnerCount?.killChart() = chart(this?.kills, AppResources.strings.total_kills.desc())
 
     /**
      * The chart for the total number of deaths given the entire match.
      */
-    private fun ObjectiveOwnerCount?.deathChart() = chart(this?.deaths, Gw2Resources.strings.total_deaths.desc())
+    private fun ObjectiveOwnerCount?.deathChart() = chart(this?.deaths, AppResources.strings.total_deaths.desc())
 
     private fun chart(data: Map<out WvwObjectiveOwner?, Int>?, title: StringDesc): Chart = Chart(
         title = title,
@@ -169,7 +169,7 @@ class WvwMatchViewModel(
     private fun slices(data: Map<out WvwObjectiveOwner?, Int>?): Collection<ChartSlice> = buildList {
         // Add the neutral slice first to act as a background behind the owned slices.
         ChartSlice(
-            description = Gw2Resources.strings.neutral_slice.desc(),
+            description = AppResources.strings.neutral_slice.desc(),
             startAngle = 0f,
             endAngle = 0f,
             image = configuration.wvw.chart.neutralLink.asImageUrl()
@@ -183,7 +183,7 @@ class WvwMatchViewModel(
             val angle = if (total <= 0) 120f else amount / total * 360f
 
             ChartSlice(
-                description = Gw2Resources.strings.owned_slice.format(angle, owner.stringResource()),
+                description = AppResources.strings.owned_slice.format(angle, owner.stringResource()),
                 startAngle = startAngle,
                 endAngle = startAngle + angle,
                 image = when (owner) {

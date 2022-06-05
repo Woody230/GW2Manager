@@ -6,7 +6,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.bselzer.gw2.manager.common.Gw2Resources
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.compose.resource.images.painter
@@ -46,9 +46,9 @@ abstract class ViewModelComposition<Model : ViewModel>(protected val model: Mode
     protected val relativeBackgroundPainter: Painter
         @Composable
         get() = if (LocalTheme.current == Theme.DARK) {
-            Gw2Resources.images.gw2_bloodstone_night.painter()
+            AppResources.images.gw2_bloodstone_night.painter()
         } else {
-            Gw2Resources.images.gw2_ice.painter()
+            AppResources.images.gw2_ice.painter()
         }
 
     /**
@@ -56,7 +56,7 @@ abstract class ViewModelComposition<Model : ViewModel>(protected val model: Mode
      */
     protected val absoluteBackgroundPainter: Painter
         @Composable
-        get() = Gw2Resources.images.gw2_two_sylvari.painter()
+        get() = AppResources.images.gw2_two_sylvari.painter()
 
     protected val relativeBackgroundPresenter
         @Composable

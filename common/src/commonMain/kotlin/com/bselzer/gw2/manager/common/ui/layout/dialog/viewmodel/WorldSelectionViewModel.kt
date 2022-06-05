@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.bselzer.gw2.manager.common.Gw2Resources
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.model.worldselection.NoWorlds
 import com.bselzer.gw2.manager.common.ui.layout.dialog.model.worldselection.WorldSelection
@@ -26,7 +26,7 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
     val noWorlds: NoWorlds
         get() = NoWorlds(
             enabled = worlds.isEmpty(),
-            message = Gw2Resources.strings.no_worlds.desc()
+            message = AppResources.strings.no_worlds.desc()
         )
 
     private val selected: MutableState<World?> = mutableStateOf(null)
@@ -41,7 +41,7 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
             // If the dialog has a selection then use it, otherwise use the saved selection.
             val resolved: WorldId? = selected.value?.id ?: selectedWorldId
             return WorldSelection(
-                title = Gw2Resources.strings.worlds.desc(),
+                title = AppResources.strings.worlds.desc(),
                 values = worlds,
                 getLabel = { world -> repositories.translation.translate(world.name.toString()) },
                 selected = resolved?.let {

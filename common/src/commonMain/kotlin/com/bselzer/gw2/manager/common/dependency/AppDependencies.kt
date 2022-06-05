@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.dependency
 
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.manager.BuildKonfig
-import com.bselzer.gw2.manager.common.Gw2Resources
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
@@ -105,7 +105,7 @@ abstract class SingletonAppDependencies(
     fun configuration(): Configuration = with(AssetReader) {
         try {
             // TODO attempt to get config from online location and default to bundled config if that fails
-            val content = Gw2Resources.assets.Configuration.readText()
+            val content = AppResources.assets.Configuration.readText()
             XML {
                 this.unknownChildHandler = LoggingUnknownChildHandler()
             }.decodeFromString(serializer(), content)
@@ -157,7 +157,7 @@ abstract class SingletonAppDependencies(
     @Singleton
     @Provides
     fun libraries(): List<Library> = with(AssetReader) {
-        val content = Gw2Resources.assets.aboutlibraries.readText()
+        val content = AppResources.assets.aboutlibraries.readText()
         Libs.Builder().withJson(content).build().libraries
     }
 

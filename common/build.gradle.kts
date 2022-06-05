@@ -16,7 +16,7 @@ plugins {
 
 multiplatformResources {
     multiplatformResourcesPackage = "${Metadata.PACKAGE_NAME}.common"
-    multiplatformResourcesClassName = "Gw2Resources"
+    multiplatformResourcesClassName = "AppResources"
 }
 
 aboutLibraries {
@@ -100,7 +100,7 @@ kotlin {
                 // Android
                 api("androidx.core:core-ktx:1.7.0")
                 api("androidx.appcompat:appcompat:1.4.1")
-                api("com.google.android.material:material:1.6.0")
+                api("com.google.android.material:material:1.6.1")
                 api("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
 
                 // Settings

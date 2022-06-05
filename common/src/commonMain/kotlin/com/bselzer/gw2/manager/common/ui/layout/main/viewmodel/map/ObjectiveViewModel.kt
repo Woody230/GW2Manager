@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map
 
 import androidx.compose.ui.graphics.DefaultAlpha
 import com.arkivanov.essenty.lifecycle.doOnResume
-import com.bselzer.gw2.manager.common.Gw2Resources
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.objective
@@ -54,7 +54,7 @@ class ObjectiveViewModel(
         }
     }
 
-    override val title: StringDesc = Gw2Resources.strings.objective.desc()
+    override val title: StringDesc = AppResources.strings.objective.desc()
 
     private val objective: WvwObjective?
         get() = objectives[id]

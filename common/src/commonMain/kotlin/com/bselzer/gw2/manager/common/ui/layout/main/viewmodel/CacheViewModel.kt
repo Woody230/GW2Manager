@@ -3,7 +3,7 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.ui.state.ToggleableState
-import com.bselzer.gw2.manager.common.Gw2Resources
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.GeneralAction
@@ -20,7 +20,7 @@ import com.bselzer.ktx.compose.resource.ui.layout.icon.deleteIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.triStateCheckboxIconInteractor
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
-import com.bselzer.ktx.resource.Resources
+import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.CoroutineScope
@@ -28,12 +28,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
-    override val title: StringDesc = Resources.strings.cache.desc()
+    override val title: StringDesc = KtxResources.strings.cache.desc()
 
     private val deleteAction
         get() = GeneralAction(
             enabled = selected.any(),
-            notification = Resources.strings.cache_clear.desc(),
+            notification = KtxResources.strings.cache_clear.desc(),
             icon = { deleteIconInteractor() },
             onClick = { clearSelected() }
         )
@@ -57,9 +57,9 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val continentResources = ClearResources(
         type = ClearType.CONTINENT,
-        image = Gw2Resources.images.gw2_gift_of_exploration,
-        title = Gw2Resources.strings.continents.desc(),
-        subtitle = Gw2Resources.strings.continents_description.desc(),
+        image = AppResources.images.gw2_gift_of_exploration,
+        title = AppResources.strings.continents.desc(),
+        subtitle = AppResources.strings.continents_description.desc(),
     )
 
     private val continentLogic = ClearLogic(type = ClearType.CONTINENT) {
@@ -69,9 +69,9 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val guildResources = ClearResources(
         type = ClearType.GUILD,
-        image = Gw2Resources.images.gw2_guild_commendation,
-        title = Gw2Resources.strings.guilds.desc(),
-        subtitle = Gw2Resources.strings.guilds_description.desc(),
+        image = AppResources.images.gw2_guild_commendation,
+        title = AppResources.strings.guilds.desc(),
+        subtitle = AppResources.strings.guilds_description.desc(),
     )
 
     private val guildLogic = ClearLogic(type = ClearType.GUILD) {
@@ -83,12 +83,12 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         get() = ClearResources(
             type = ClearType.IMAGE,
             image = if (LocalTheme.current == Theme.DARK) {
-                Gw2Resources.images.gw2_twilight
+                AppResources.images.gw2_twilight
             } else {
-                Gw2Resources.images.gw2_sunrise
+                AppResources.images.gw2_sunrise
             },
-            title = Gw2Resources.strings.images.desc(),
-            subtitle = Gw2Resources.strings.images_description.desc(),
+            title = AppResources.strings.images.desc(),
+            subtitle = AppResources.strings.images_description.desc(),
         )
 
     private val imageLogic = ClearLogic(type = ClearType.IMAGE) {
@@ -98,9 +98,9 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val wvwResources = ClearResources(
         type = ClearType.WVW,
-        image = Gw2Resources.images.gw2_rank_dolyak,
-        title = Gw2Resources.strings.wvw.desc(),
-        subtitle = Gw2Resources.strings.wvw_description.desc(),
+        image = AppResources.images.gw2_rank_dolyak,
+        title = AppResources.strings.wvw.desc(),
+        subtitle = AppResources.strings.wvw_description.desc(),
     )
 
     private val wvwLogic = ClearLogic(type = ClearType.WVW) {

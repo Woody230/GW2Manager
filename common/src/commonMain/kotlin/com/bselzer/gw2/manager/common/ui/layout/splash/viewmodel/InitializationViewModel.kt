@@ -5,14 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.bselzer.gw2.manager.common.Gw2Resources
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Descriptor
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Initializer
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.migration.Migrator
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.logging.Logger
-import com.bselzer.ktx.resource.Resources
+import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.plus
 
@@ -42,8 +42,8 @@ class InitializationViewModel(
 
     private val initializeLanguage
         get() = Initializer(
-            title = Resources.strings.settings.desc(),
-            subtitle = Resources.strings.language.desc()
+            title = KtxResources.strings.settings.desc(),
+            subtitle = KtxResources.strings.language.desc()
         ) {
             repositories.translation.updateLocale(preferences.common.locale.get())
         }
@@ -53,8 +53,8 @@ class InitializationViewModel(
         get() = run {
             val initialTheme = if (isSystemInDarkTheme()) Theme.DARK else Theme.LIGHT
             Initializer(
-                title = Resources.strings.settings.desc(),
-                subtitle = Resources.strings.theme.desc(),
+                title = KtxResources.strings.settings.desc(),
+                subtitle = KtxResources.strings.theme.desc(),
             ) {
                 preferences.common.theme.initialize(initialTheme)
             }
@@ -64,8 +64,8 @@ class InitializationViewModel(
         get() = run {
             val newVersion = build.VERSION_CODE
             Initializer(
-                title = Resources.strings.migration.desc(),
-                subtitle = Resources.strings.version.desc() + " $newVersion".desc()
+                title = KtxResources.strings.migration.desc(),
+                subtitle = KtxResources.strings.version.desc() + " $newVersion".desc()
             ) {
                 val currentVersion = preferences.common.appVersion.get()
                 Logger.d { "Migration | Current version $currentVersion | New version $newVersion" }
@@ -80,7 +80,7 @@ class InitializationViewModel(
 
     private val initializeBuildNumber
         get() = Initializer(
-            title = Gw2Resources.strings.build_number.desc(),
+            title = AppResources.strings.build_number.desc(),
             subtitle = null,
         ) {
             // Build number has been static for months https://github.com/gw2-api/issues/issues/1 so assetcdn must be used
@@ -100,8 +100,8 @@ class InitializationViewModel(
 
     private val initializeWvwRefresh
         get() = Initializer(
-            title = Gw2Resources.strings.wvw.desc(),
-            subtitle = Resources.strings.refresh.desc()
+            title = AppResources.strings.wvw.desc(),
+            subtitle = KtxResources.strings.refresh.desc()
         ) {
             // The normal refresh will wait forever when checking against the initial value (the distant future).
             // Therefore we need to make sure we have actually refreshed once to provide an actual date.

@@ -13,7 +13,7 @@ import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
 import com.bselzer.ktx.compose.ui.graphics.color.color
 import com.bselzer.ktx.function.objects.userFriendly
-import com.bselzer.ktx.resource.Resources
+import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -62,9 +62,9 @@ object WvwHelper {
      * @return the [StringResource] representing the objective owner
      */
     fun WvwObjectiveOwner.stringResource(): StringDesc = when (this) {
-        WvwObjectiveOwner.RED -> Resources.strings.red
-        WvwObjectiveOwner.BLUE -> Resources.strings.blue
-        WvwObjectiveOwner.GREEN -> Resources.strings.green
-        WvwObjectiveOwner.NEUTRAL -> Resources.strings.gray
+        WvwObjectiveOwner.RED -> KtxResources.strings.red
+        WvwObjectiveOwner.BLUE -> KtxResources.strings.blue
+        WvwObjectiveOwner.GREEN -> KtxResources.strings.green
+        WvwObjectiveOwner.NEUTRAL -> KtxResources.strings.gray
     }.desc()
 }

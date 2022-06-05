@@ -2,12 +2,12 @@ package com.bselzer.gw2.manager.common.ui.layout.host.viewmodel
 
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
-import com.bselzer.gw2.manager.common.Gw2Resources
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
 import com.bselzer.gw2.manager.common.ui.layout.host.model.drawer.DrawerComponent
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
-import com.bselzer.ktx.resource.Resources
+import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.CoroutineScope
@@ -16,41 +16,41 @@ import kotlinx.coroutines.launch
 class DrawerViewModel(
     context: AppComponentContext,
 ) : ViewModel(context) {
-    val wvwTitle: StringDesc = Gw2Resources.strings.wvw.desc()
+    val wvwTitle: StringDesc = AppResources.strings.wvw.desc()
 
     val wvwMap = DrawerComponent(
-        icon = Gw2Resources.images.gw2_rank_dolyak,
-        description = Gw2Resources.strings.wvw_map.desc(),
+        icon = AppResources.images.gw2_rank_dolyak,
+        description = AppResources.strings.wvw_map.desc(),
         configuration = MainConfig.WvwMapConfig
     )
 
     val wvwMatch = DrawerComponent(
-        icon = Gw2Resources.images.gw2_rank_dolyak,
-        description = Gw2Resources.strings.wvw_match.desc(),
+        icon = AppResources.images.gw2_rank_dolyak,
+        description = AppResources.strings.wvw_match.desc(),
         configuration = MainConfig.WvwMatchConfig
     )
 
     val settings = DrawerComponent(
-        icon = Resources.images.ic_settings,
-        description = Resources.strings.settings.desc(),
+        icon = KtxResources.images.ic_settings,
+        description = KtxResources.strings.settings.desc(),
         configuration = MainConfig.SettingsConfig
     )
 
     val cache = DrawerComponent(
-        icon = Resources.images.ic_cached,
-        description = Resources.strings.cache.desc(),
+        icon = KtxResources.images.ic_cached,
+        description = KtxResources.strings.cache.desc(),
         configuration = MainConfig.CacheConfig
     )
 
     val license = DrawerComponent(
-        icon = Resources.images.ic_policy,
-        description = Resources.strings.licenses.desc(),
+        icon = KtxResources.images.ic_policy,
+        description = KtxResources.strings.licenses.desc(),
         configuration = MainConfig.LicenseConfig
     )
 
     val about = DrawerComponent(
-        icon = Resources.images.ic_info,
-        description = Resources.strings.about.desc(),
+        icon = KtxResources.images.ic_info,
+        description = KtxResources.strings.about.desc(),
         configuration = MainConfig.AboutConfig
     )
 

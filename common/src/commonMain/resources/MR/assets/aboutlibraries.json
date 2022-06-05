@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2022-06-05T02:36:37.729Z"
+    "generated": "2022-06-05T13:17:29.781Z"
   },
   "libraries": [
     {
@@ -1662,7 +1662,7 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.6.0",
+      "artifactVersion": "1.6.1",
       "description": "Material Components for Android is a static library that you can add to your Android application in order to use APIs that provide implementations of the Material Design specification. Compatible on devices running API 14 or later.",
       "scm": {
         "connection": "scm:git:https://github.com/material-components/material-components-android.git",

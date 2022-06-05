@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.text.intl.Locale
-import com.bselzer.gw2.manager.common.Gw2Resources
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.*
@@ -19,7 +19,7 @@ import com.bselzer.ktx.datetime.format.DurationBound
 import com.bselzer.ktx.intent.browser.Browser
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
-import com.bselzer.ktx.resource.Resources
+import com.bselzer.ktx.resource.KtxResources
 import com.bselzer.ktx.resource.strings.stringResource
 import com.bselzer.ktx.settings.compose.defaultState
 import com.bselzer.ktx.settings.compose.nullState
@@ -35,19 +35,19 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
-    override val title: StringDesc = Resources.strings.settings.desc()
+    override val title: StringDesc = KtxResources.strings.settings.desc()
 
     val themeResources
         @Composable
         get() = ThemeResources(
             image = when (LocalTheme.current) {
-                Theme.LIGHT -> Gw2Resources.images.gw2_sunrise
-                Theme.DARK -> Gw2Resources.images.gw2_twilight
+                Theme.LIGHT -> AppResources.images.gw2_sunrise
+                Theme.DARK -> AppResources.images.gw2_twilight
             },
-            title = Resources.strings.theme.desc(),
+            title = KtxResources.strings.theme.desc(),
             subtitle = when (LocalTheme.current) {
-                Theme.LIGHT -> Resources.strings.light
-                Theme.DARK -> Resources.strings.dark
+                Theme.LIGHT -> KtxResources.strings.light
+                Theme.DARK -> KtxResources.strings.dark
             }.desc()
         )
 
@@ -70,11 +70,11 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     val tokenResources
         @Composable
         get() = TokenResources(
-            image = Gw2Resources.images.gw2_black_lion_key,
-            title = Resources.strings.token.desc(),
+            image = AppResources.images.gw2_black_lion_key,
+            title = KtxResources.strings.token.desc(),
             subtitle = preferences.common.token.nullState().value.let { token ->
                 if (token.isNullOrBlank()) {
-                    Resources.strings.not_set.desc()
+                    KtxResources.strings.not_set.desc()
                 } else {
                     // The token info id is only the first GUID so a startsWith is required.
                     val tokenInfo = database.find<TokenInfo<*>>().all().asModelSequence().firstOrNull { info -> token.startsWith(info.id.value) }
@@ -84,10 +84,10 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                     StringDesc.Raw(tokenInfo?.name ?: tokenInfo?.id?.value ?: "")
                 }
             },
-            dialogSubtitle = Gw2Resources.strings.token_description.desc(),
+            dialogSubtitle = AppResources.strings.token_description.desc(),
             dialogInput = StringDesc.Raw(token.value?.toString() ?: ""),
-            hyperlink = Gw2Resources.strings.token_hyperlink.desc(),
-            failure = Gw2Resources.strings.token_failure.desc(),
+            hyperlink = AppResources.strings.token_hyperlink.desc(),
+            failure = AppResources.strings.token_failure.desc(),
         )
 
     val tokenLogic = TokenLogic(
@@ -146,11 +146,11 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
         get() = run {
             val interval = preferences.wvw.refreshInterval.defaultState().value
             WvwResources(
-                image = Gw2Resources.images.gw2_rank_dolyak,
-                title = Gw2Resources.strings.wvw.desc(),
+                image = AppResources.images.gw2_rank_dolyak,
+                title = AppResources.strings.wvw.desc(),
                 interval = WvwIntervalResources(
-                    image = Gw2Resources.images.gw2_concentration,
-                    title = Resources.strings.refresh_interval.desc(),
+                    image = AppResources.images.gw2_concentration,
+                    title = KtxResources.strings.refresh_interval.desc(),
 
                     // The notation given should be acceptable for all of the supported localizations.
                     subtitle = interval.toString().desc(),
@@ -189,9 +189,9 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     val languageResources
         @Composable
         get() = LanguageResources(
-            image = Resources.images.ic_language,
-            title = Resources.strings.language.desc(),
-            subtitle = (preferences.common.locale.safeState().value.stringResourceOrNull() ?: Resources.strings.locale_en).desc(),
+            image = KtxResources.images.ic_language,
+            title = KtxResources.strings.language.desc(),
+            subtitle = (preferences.common.locale.safeState().value.stringResourceOrNull() ?: KtxResources.strings.locale_en).desc(),
             getLabel = { locale -> locale.stringResourceOrNull()?.desc() ?: "".desc() }
         )
 

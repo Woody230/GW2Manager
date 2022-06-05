@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.essenty.lifecycle.subscribe
-import com.bselzer.gw2.manager.common.Gw2Resources
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.objective
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.selectedDateFormatted
@@ -52,7 +52,7 @@ class ViewerViewModel(
         )
     }
 
-    override val title: StringDesc = Gw2Resources.strings.wvw_map.desc()
+    override val title: StringDesc = AppResources.strings.wvw_map.desc()
 
     private val zoomInAction
         get() = GeneralAction(

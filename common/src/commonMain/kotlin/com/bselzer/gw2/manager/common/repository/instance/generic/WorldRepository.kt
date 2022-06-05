@@ -9,9 +9,6 @@ import com.bselzer.gw2.v2.model.world.WorldId
 import com.bselzer.ktx.kodein.db.operation.findAllOnce
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Inject
 
 @Singleton
@@ -20,14 +17,6 @@ class WorldRepository(
     dependencies: RepositoryDependencies,
     private val repositories: Repositories
 ) : RepositoryDependencies by dependencies {
-    init {
-        repositories.translation.addListener {
-            CoroutineScope(Dispatchers.Default).launch {
-                updateWorlds()
-            }
-        }
-    }
-
     @Singleton
     @Inject
     data class Repositories(

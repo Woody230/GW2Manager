@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.v2.intl.translation.Gw2Translators
 import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.GuildId
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
@@ -47,10 +48,17 @@ class GuildRepository(
         Logger.d { "Guild | Updating ${guildUpgradeIds.size} guild upgrades." }
 
         // Note that some upgrades may not exist so the client defaulting these is preferred.
-        putMissingById(
+        val guildUpgrades = putMissingById(
             requestIds = { guildUpgradeIds },
             requestById = { missingIds -> clients.gw2.guild.upgrades(missingIds) },
-        ).putInto(_guildUpgrades)
+        )
+
+        guildUpgrades.putInto(_guildUpgrades)
+        repositories.translation.updateTranslations(
+            translator = Gw2Translators.guildUpgrade,
+            defaults = guildUpgrades.values,
+            requestTranslated = { missing, language -> clients.gw2.guild.upgrades(missing, language) }
+        )
     }
 
     /**

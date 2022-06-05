@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.v2.intl.translation.Gw2Translators
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.ContinentId
 import com.bselzer.gw2.v2.model.continent.floor.Floor
@@ -77,6 +78,12 @@ class ContinentRepository(
         )
 
         _continents[continent.id] = continent
+
+        repositories.translation.updateTranslations(
+            translator = Gw2Translators.continent,
+            defaults = listOf(continent),
+            requestTranslated = { missing, language -> clients.gw2.continent.continents(missing, language) }
+        )
     }
 
     private suspend fun updateFloor(continentId: ContinentId, floorId: FloorId) = database.transaction().use {
@@ -88,5 +95,11 @@ class ContinentRepository(
         )
 
         _floors[floor.id] = floor
+
+        repositories.translation.updateTranslations(
+            translator = Gw2Translators.floor,
+            defaults = listOf(floor),
+            requestTranslated = { missing, language -> clients.gw2.continent.floors(continentId, missing, language) }
+        )
     }
 }

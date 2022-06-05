@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.instance.generic.GuildRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRepository
+import com.bselzer.gw2.v2.intl.translation.Gw2Translators
 import com.bselzer.gw2.v2.model.extension.wvw.guildUpgradeIds
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveIds
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
@@ -29,7 +31,8 @@ class WvwMatchRepository(
     @Singleton
     @Inject
     data class Repositories(
-        val guild: GuildRepository
+        val guild: GuildRepository,
+        val translation: TranslationRepository
     )
 
     private val _match = mutableStateOf<WvwMatch?>(null)
@@ -57,13 +60,20 @@ class WvwMatchRepository(
 
     private suspend fun updateMapObjectives(match: WvwMatch?) = database.transaction().use {
         val objectiveIds = match?.objectiveIds() ?: emptyList()
+        Logger.d { "Match | Updating ${objectiveIds.size} objectives in match ${match?.id}." }
+
         val objectives = putMissingById(
             requestIds = { objectiveIds },
             requestById = { missingIds -> clients.gw2.wvw.objectives(missingIds) }
         )
 
-        Logger.d { "Match | Updating ${objectives.size} objectives in match ${match?.id}." }
         objectives.putInto(_objectives)
+        repositories.translation.updateTranslations(
+            translator = Gw2Translators.wvwObjective,
+            defaults = objectives.values,
+            requestTranslated = { missing, language -> clients.gw2.wvw.objectives(missing, language) }
+        )
+
         updateUpgrades(objectives.values)
     }
 
@@ -71,11 +81,18 @@ class WvwMatchRepository(
         val upgradeIds = objectives.map { objective -> objective.upgradeId }
         Logger.d { "Match | Updating ${upgradeIds.size} upgrades for ${objectives.size} objectives." }
 
-        putMissingById(
+        val upgrades = putMissingById(
             // Note that some upgrades may not exist so the client defaulting these is preferred.
             requestIds = { upgradeIds },
             requestById = { missingIds -> clients.gw2.wvw.upgrades(missingIds) }
-        ).putInto(_upgrades)
+        )
+
+        upgrades.putInto(_upgrades)
+        repositories.translation.updateTranslations(
+            translator = Gw2Translators.wvwUpgrade,
+            defaults = upgrades.values,
+            requestTranslated = { missing, language -> clients.gw2.wvw.upgrades(missing, language) }
+        )
     }
 
     private suspend fun updateMapGuildUpgrades(match: WvwMatch?) {

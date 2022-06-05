@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
@@ -17,6 +18,8 @@ import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.compose.nullState
 import com.bselzer.ktx.settings.compose.safeState
 import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
 import me.tatarka.inject.annotations.Inject
 
@@ -31,9 +34,19 @@ class SelectedWorldRepository(
     data class Repositories(
         val map: MapRepository,
         val match: WvwMatchRepository,
-        val world: WorldRepository
+        val world: WorldRepository,
+        val translation: TranslationRepository,
     )
 
+    init {
+        repositories.translation.addListener {
+            CoroutineScope(Dispatchers.Default).launch {
+                forceRefresh()
+            }
+        }
+    }
+
+    private val lock = Mutex()
     private val mapId: MapId?
         get() = repositories.match.match?.mapId()
 
@@ -113,7 +126,7 @@ class SelectedWorldRepository(
     /**
      * Refreshes the associated [WvwMatchRepository] and [MapRepository] regardless of when the last refresh occurred.
      */
-    override suspend fun forceRefresh() {
+    override suspend fun forceRefresh() = lock.withLock {
         repositories.world.updateWorlds()
         worldId?.let { updateMatch(it) }
 

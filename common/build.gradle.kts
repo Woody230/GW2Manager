@@ -155,7 +155,7 @@ val aboutLibrariesResource = task("aboutLibrariesResource") {
 
     // Move aboutlibraries.json so it can be used by moko-resources.
     copy {
-        from("$buildDir\\generated\\aboutLibraries\\debug\\res\\raw") {
+        from("$buildDir\\generated\\aboutLibraries") {
             include("aboutlibraries.json")
         }
         into("$projectDir\\src\\commonMain\\resources\\MR\\assets")

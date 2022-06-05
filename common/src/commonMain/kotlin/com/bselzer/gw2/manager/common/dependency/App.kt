@@ -10,10 +10,14 @@ import com.bselzer.ktx.settings.compose.safeState
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import io.ktor.client.*
-import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 
-@OptIn(ExperimentalSettingsApi::class, ExperimentalXmlUtilApi::class)
+@OptIn(ExperimentalSettingsApi::class)
 abstract class App(
+    /**
+     * Whether debug mode is enabled.
+     */
+    debugMode: IsDebug = false,
+
     /**
      * The HTTP client for making network requests.
      */
@@ -30,6 +34,7 @@ abstract class App(
     settings: SuspendSettings,
 ) {
     val dependencies: AppDependencies = SingletonAppDependencies::class.create(
+        debugMode = debugMode,
         httpClient = httpClient,
         databaseDirectory = databaseDirectory,
         settings = settings,

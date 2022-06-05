@@ -64,6 +64,8 @@ interface AppDependencies {
 @Singleton
 @Component
 abstract class SingletonAppDependencies(
+    private val debugMode: IsDebug,
+
     /**
      * The location of the database.
      */
@@ -91,7 +93,7 @@ abstract class SingletonAppDependencies(
     @Singleton
     @Provides
     @Inject
-    fun debugMode(build: BuildKonfig): IsDebug = PlatformDebugMode || build.DEBUG
+    fun debugMode(build: BuildKonfig): IsDebug = debugMode || build.DEBUG
 
     @Singleton
     @Provides

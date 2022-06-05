@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="claimed_at">Revendication à %1$s</string>
+    <string name="claimed_by">Revendication de %1$s</string>
     <string name="continents_description">Cartes, régions, niveaux, dalles</string>
     <string name="guilds_description">Améliorations</string>
+    <string name="held_for">Tenu pour %1$s</string>
+    <string name="hold_for">Tenir pour %1$s</string>
     <string name="images_description">Icônes, dalles de carte</string>
     <string name="images">Images</string>
     <string name="neutral_slice">Tranche neutre</string>

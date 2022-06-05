@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="claimed_at">Beansprucht bei %1$s</string>
+    <string name="claimed_by">Beansprucht von %1$s</string>
     <string name="continents_description">Karte, regionen, ebenen, kacheln</string>
     <string name="guilds_description">Aufwertungen</string>
+    <string name="held_for">Gehalten für %1$s</string>
+    <string name="hold_for">Halten für %1$s</string>
     <string name="images_description">Symbole, kachelkarte</string>
     <string name="images">Bilder</string>
     <string name="neutral_slice">Neutrale scheibe</string>

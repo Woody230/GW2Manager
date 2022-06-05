@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="claimed_at">Reclamado a %1$s</string>
+    <string name="claimed_by">Reclamado por %1$s</string>
     <string name="continents_description">Mapas, regiones, niveles, teselas</string>
     <string name="guilds_description">Mejoras</string>
+    <string name="held_for">Mantenido durante %1$s</string>
+    <string name="hold_for">Mantener durante %1$s</string>
     <string name="images_description">Iconos, teselas del mapa</string>
     <string name="images">Imágenes</string>
     <string name="neutral_slice">Rebanada neutra</string>

@@ -2,8 +2,6 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
-import com.bselzer.gw2.manager.common.configuration.WvwHelper.displayableLinkedWorlds
-import com.bselzer.gw2.manager.common.configuration.WvwHelper.stringResource
 import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
@@ -21,6 +19,7 @@ import com.bselzer.gw2.v2.model.extension.wvw.ObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.WvwMatchObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.owner
+import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.ktx.function.collection.addTo
 import com.bselzer.ktx.function.objects.userFriendly
 import com.bselzer.ktx.resource.KtxResources
@@ -150,15 +149,12 @@ class WvwMatchViewModel(
     )
 
     private fun datas(data: Map<out WvwObjectiveOwner?, Int>?): Collection<ChartData> = buildList {
-        val worlds = repositories.world.worlds.values
         owners.forEach { owner ->
             val amount = data?.get(owner) ?: 0
             ChartData(
                 color = configuration.wvw.color(owner),
                 data = amount.toString().desc(),
-
-                // TODO translated world names
-                owner = worlds.displayableLinkedWorlds(match, owner).desc()
+                owner = repositories.selectedWorld.displayableLinkedWorlds(owner)
             ).addTo(this)
         }
     }
@@ -183,7 +179,7 @@ class WvwMatchViewModel(
             val angle = if (total <= 0) 120f else amount / total * 360f
 
             ChartSlice(
-                description = AppResources.strings.owned_slice.format(angle, owner.stringResource()),
+                description = AppResources.strings.owned_slice.format(angle, owner.stringDesc()),
                 startAngle = startAngle,
                 endAngle = startAngle + angle,
                 image = when (owner) {

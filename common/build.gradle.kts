@@ -78,6 +78,7 @@ kotlin {
                 api("com.bselzer.gw2:v2-model:${Versions.WRAPPER}")
                 api("com.bselzer.gw2:v2-model-extension:${Versions.WRAPPER}")
                 api("com.bselzer.gw2:v2-model-enumeration:${Versions.WRAPPER}")
+                api("com.bselzer.gw2:v2-resource:${Versions.WRAPPER}")
                 api("com.bselzer.gw2:v2-scope:${Versions.WRAPPER}")
                 api("com.bselzer.gw2:v2-tile:${Versions.WRAPPER}")
                 api("com.bselzer.gw2:v2-emblem:${Versions.WRAPPER}")

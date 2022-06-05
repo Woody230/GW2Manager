@@ -4,7 +4,6 @@ import androidx.compose.ui.graphics.DefaultAlpha
 import com.arkivanov.essenty.lifecycle.doOnResume
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
-import com.bselzer.gw2.manager.common.configuration.WvwHelper.displayableLinkedWorlds
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.objective
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.selectedDateFormatted
 import com.bselzer.gw2.manager.common.configuration.wvw.WvwGuildUpgradeTier
@@ -110,8 +109,7 @@ class ObjectiveViewModel(
                 },
                 owner = fromMatch?.owner?.enumValueOrNull()?.let { owner ->
                     Owner(
-                        // TODO translated
-                        name = repositories.world.worlds.values.displayableLinkedWorlds(match, owner).desc(),
+                        name = repositories.selectedWorld.displayableLinkedWorlds(owner),
                         color = configuration.wvw.color(owner)
                     )
                 }

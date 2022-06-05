@@ -9,7 +9,6 @@ import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.color
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.objective
 import com.bselzer.gw2.manager.common.configuration.WvwHelper.selectedDateFormatted
-import com.bselzer.gw2.manager.common.configuration.WvwHelper.stringResource
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
@@ -25,6 +24,7 @@ import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.extension.wvw.position
 import com.bselzer.gw2.v2.model.extension.wvw.tiers
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
+import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
@@ -149,7 +149,7 @@ class ViewerViewModel(
                     y = coordinates.y.toInt(),
                     width = width,
                     height = height,
-                    description = owner.stringResource(), // TODO include word bloodlust
+                    description = owner.stringDesc(), // TODO include word bloodlust
                     enabled = configuration.wvw.bloodlust.enabled
                 )
             }
@@ -239,7 +239,7 @@ class ViewerViewModel(
             val owner = fromMatch?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
             SelectedObjective(
                 // TODO translate
-                title = objective.name.desc() + " (".desc() + owner.stringResource() + " ".desc() + objective.type.value.desc() + ")".desc(),
+                title = objective.name.desc() + " (".desc() + owner.stringDesc() + " ".desc() + objective.type.value.desc() + ")".desc(),
                 subtitle = fromMatch?.lastFlippedAt?.let { lastFlippedAt ->
                     "Flipped at ${configuration.wvw.selectedDateFormatted(lastFlippedAt)}"
                 }?.desc()

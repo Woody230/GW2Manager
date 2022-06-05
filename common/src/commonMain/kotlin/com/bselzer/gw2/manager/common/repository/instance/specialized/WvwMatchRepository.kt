@@ -6,8 +6,12 @@ import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.instance.generic.GuildRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
+import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.extension.wvw.guildUpgradeIds
+import com.bselzer.gw2.v2.model.extension.wvw.linkedWorlds
+import com.bselzer.gw2.v2.model.extension.wvw.mainWorld
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveIds
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
@@ -16,10 +20,13 @@ import com.bselzer.gw2.v2.model.wvw.objective.WvwMapObjectiveId
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgradeId
+import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.kodein.db.operation.putMissingById
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
+import dev.icerock.moko.resources.desc.StringDesc
+import dev.icerock.moko.resources.desc.desc
 import me.tatarka.inject.annotations.Inject
 
 @Singleton
@@ -32,7 +39,8 @@ class WvwMatchRepository(
     @Inject
     data class Repositories(
         val guild: GuildRepository,
-        val translation: TranslationRepository
+        val translation: TranslationRepository,
+        val world: WorldRepository
     )
 
     private val _match = mutableStateOf<WvwMatch?>(null)
@@ -46,6 +54,37 @@ class WvwMatchRepository(
     override val upgrades: Map<WvwUpgradeId, WvwUpgrade> = _upgrades
 
     override val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = repositories.guild.guildUpgrades
+
+    /**
+     * @return the displayable names for the linked worlds associated with the objective [owner]
+     */
+    override fun displayableLinkedWorlds(owner: WvwObjectiveOwner): StringDesc {
+        val worlds = repositories.world.worlds
+        val linkedIds = match?.linkedWorlds(owner) ?: emptyList()
+        val linkedWorlds: Collection<String> = linkedIds.mapNotNull { worldId -> worlds[worldId]?.name?.value }
+
+        // Default to using the owner if there are no worlds.
+        if (linkedWorlds.isEmpty()) {
+            return owner.stringDesc()
+        }
+
+        // Make sure that the main world is first.
+        val mainWorld: String? = match?.mainWorld(owner)?.let { worldId -> worlds[worldId]?.name?.value }
+        val sortedWorlds = if (mainWorld == null) {
+            linkedWorlds
+        } else {
+            linkedWorlds.toMutableList().apply {
+                remove(mainWorld)
+                add(0, mainWorld)
+            }
+        }
+
+        // Finally, translate and combine.
+        return sortedWorlds.joinToString(
+            separator = "/",
+            transform = { name -> repositories.translation.translate(name) }
+        ).desc()
+    }
 
     /**
      * Updates the [match]'s [WvwObjective]s for each map and their associated [WvwUpgrade]s and claimable [GuildUpgrade]s.

@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2022-06-05T13:17:29.781Z"
+    "generated": "2022-06-05T17:52:39.924Z"
   },
   "libraries": [
     {
@@ -2357,6 +2357,115 @@
       ]
     },
     {
+      "uniqueId": "com.bselzer.ktx:compose-accompanist-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Google"
+        },
+        {
+          "name": "Chris Banes"
+        },
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-compose-accompanist",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:settings-compose-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-settings-compose",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:settings-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings-coroutines-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.ui:ui-tooling-preview",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Tooling API",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.arkivanov.decompose:decompose-android-debug",
       "funding": [],
       "developers": [
@@ -2504,27 +2613,6 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-accompanist-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Google"
-        },
-        {
-          "name": "Chris Banes"
-        },
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-compose-accompanist",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "com.bselzer.ktx:coroutine-android-debug",
       "funding": [],
       "developers": [
@@ -2535,6 +2623,36 @@
       "artifactVersion": "4.0.0",
       "description": "",
       "name": "ktx-coroutine",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.gw2:v2-resource-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "2.0.0",
+      "description": "",
+      "name": "gw2-v2-resource",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.gw2:v2-model-enumeration-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "2.0.0",
+      "description": "",
+      "name": "gw2-v2-model-enumeration",
       "licenses": [
         "Apache-2.0"
       ]
@@ -2600,21 +2718,6 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-enumeration-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "2.0.0",
-      "description": "",
-      "name": "gw2-v2-model-enumeration",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "com.bselzer.gw2:v2-tile-cache-android-debug",
       "funding": [],
       "developers": [
@@ -2640,74 +2743,6 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-tile",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.bselzer.ktx:settings-compose-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-settings-compose",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.bselzer.ktx:settings-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-settings",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.russhwolf:multiplatform-settings-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Russell Wolf"
-        }
-      ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
-      "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
-      },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.russhwolf:multiplatform-settings-coroutines-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Russell Wolf"
-        }
-      ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
-      "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
-      },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
       "licenses": [
         "Apache-2.0"
       ]
@@ -2785,26 +2820,6 @@
       "website": "http://kodein.org",
       "licenses": [
         "MIT"
-      ]
-    },
-    {
-      "uniqueId": "androidx.compose.ui:ui-tooling-preview",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Tooling API",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.1.0",
-      "licenses": [
-        "Apache-2.0"
       ]
     },
     {
@@ -3591,6 +3606,95 @@
       ]
     },
     {
+      "uniqueId": "com.bselzer.ktx:compose-accompanist-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Google"
+        },
+        {
+          "name": "Chris Banes"
+        },
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-compose-accompanist",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:settings-compose-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-settings-compose",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:settings-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings-coroutines-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.arkivanov.decompose:decompose-android",
       "funding": [],
       "developers": [
@@ -3738,27 +3842,6 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-accompanist-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Google"
-        },
-        {
-          "name": "Chris Banes"
-        },
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-compose-accompanist",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "com.bselzer.ktx:coroutine-android",
       "funding": [],
       "developers": [
@@ -3769,6 +3852,36 @@
       "artifactVersion": "4.0.0",
       "description": "",
       "name": "ktx-coroutine",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.gw2:v2-resource-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "2.0.0",
+      "description": "",
+      "name": "gw2-v2-resource",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.gw2:v2-model-enumeration-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "2.0.0",
+      "description": "",
+      "name": "gw2-v2-model-enumeration",
       "licenses": [
         "Apache-2.0"
       ]
@@ -3834,21 +3947,6 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-enumeration-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "2.0.0",
-      "description": "",
-      "name": "gw2-v2-model-enumeration",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "com.bselzer.gw2:v2-tile-cache-android",
       "funding": [],
       "developers": [
@@ -3874,74 +3972,6 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-tile",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.bselzer.ktx:settings-compose-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-settings-compose",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.bselzer.ktx:settings-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-settings",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.russhwolf:multiplatform-settings-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Russell Wolf"
-        }
-      ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
-      "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
-      },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.russhwolf:multiplatform-settings-coroutines-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Russell Wolf"
-        }
-      ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
-      "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
-      },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5154,6 +5184,36 @@
       ]
     },
     {
+      "uniqueId": "com.bselzer.gw2:v2-resource-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "2.0.0",
+      "description": "",
+      "name": "gw2-v2-resource",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.gw2:v2-model-enumeration-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "2.0.0",
+      "description": "",
+      "name": "gw2-v2-model-enumeration",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.bselzer.ktx:logging-jvm",
       "funding": [],
       "developers": [
@@ -5209,21 +5269,6 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-model-extension",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.bselzer.gw2:v2-model-enumeration-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "2.0.0",
-      "description": "",
-      "name": "gw2-v2-model-enumeration",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6909,6 +6954,36 @@
       ]
     },
     {
+      "uniqueId": "com.bselzer.gw2:v2-resource",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "2.0.0",
+      "description": "",
+      "name": "gw2-v2-resource",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.gw2:v2-model-enumeration",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "2.0.0",
+      "description": "",
+      "name": "gw2-v2-model-enumeration",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.bselzer.ktx:logging",
       "funding": [],
       "developers": [
@@ -6964,21 +7039,6 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-model-extension",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.bselzer.gw2:v2-model-enumeration",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "2.0.0",
-      "description": "",
-      "name": "gw2-v2-model-enumeration",
       "licenses": [
         "Apache-2.0"
       ]

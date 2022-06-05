@@ -1,49 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-    <!-- World vs. World -->
-    <string name="wvw">Mundo contra Mundo</string>
-    <string name="world">Mundo</string>
-    <string name="worlds">Mundos</string>
-    <string name="no_worlds">Mundos no encontrados.</string>
-    <string name="wvw_map">Mapa</string>
-    <string name="wvw_match">Combate</string>
-    <string name="wvw_detailed_selected_objective">Objetivo</string>
-    <string name="wvw_tile">Teselas del mapa</string>
-    <string name="no_claim">No hay Reclamación de Clan</string>
-    <string name="points_per_tick">Puntos por período</string>
-    <string name="victory_points">Puntos de victoria</string>
-    <string name="total_score">Puntuación de guerra (total)</string>
-    <string name="total_kills">Eliminados (total)</string>
-    <string name="total_deaths">Muertes (total)</string>
-    <string name="war_score">Puntuación de guerra</string>
-    <string name="skirmish">Escaramuza</string>
-    <string name="objective">Objetivo</string>
-
-    <!-- Match -->
-    <!-- %Angle% Degree Slice for %Color% -->
-    <string name="owned_slice">Rebanada de %1$s grados para %2$s</string>
-    <string name="neutral_slice">Rebanada neutra</string>
-
-    <!-- About -->
-    <string name="ncsoft_notice">© 2021 NCSOFT Corporation. Todos los derechos reservados. NCSOFT, ArenaNet, el logotipo NC entrelazado, Aion, Lineage II, Guild Wars, Guild
-        Wars 2: Heart of Thorns, Guild Wars 2: Path of Fire, Blade &amp; Soul y todos los logotipos, diseños y marcas compuestas asociados son marcas comerciales o marcas
-        comerciales registradas de NCSOFT Corporation. Todas las demás marcas comerciales son propiedad de sus respectivos propietarios.
-    </string>
-
-    <!-- Cache -->
-    <string name="continents">Continentes</string>
     <string name="continents_description">Mapas, regiones, niveles, teselas</string>
-    <string name="guilds">Clanes</string>
     <string name="guilds_description">Mejoras</string>
-    <string name="images">Imágenes</string>
     <string name="images_description">Iconos, teselas del mapa</string>
-    <string name="wvw_description">Objetivos, mejoras, mundos</string>
-    <string name="cache_clear">Borró la caché.</string>
-
-    <!-- Settings -->
+    <string name="images">Imágenes</string>
+    <string name="neutral_slice">Rebanada neutra</string>
+    <string name="no_claim">No hay Reclamación de Clan</string>
+    <string name="no_worlds">Mundos no encontrados.</string>
+    <string name="owned_slice">Rebanada de %1$s grados para %2$s</string>
     <string name="token_description">La clave API de su cuenta.</string>
     <string name="token_failure">No se puede guardar la clave API.</string>
-
-    <!-- Splash -->
-    <string name="build_number">Número de Compilación</string>
+    <string name="wvw_description">Objetivos, mejoras, mundos</string>
+    <string name="wvw_tile">Teselas del mapa</string>
 </resources>

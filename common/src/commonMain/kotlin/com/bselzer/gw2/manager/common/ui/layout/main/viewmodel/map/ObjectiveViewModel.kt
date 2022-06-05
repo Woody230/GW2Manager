@@ -2,7 +2,6 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map
 
 import androidx.compose.ui.graphics.DefaultAlpha
 import com.arkivanov.essenty.lifecycle.doOnResume
-import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.wvw.WvwGuildUpgradeTier
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
@@ -17,6 +16,7 @@ import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
 import com.bselzer.gw2.v2.model.wvw.objective.WvwMapObjectiveId
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
+import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.datetime.timer.countdown
 import com.bselzer.ktx.function.objects.userFriendly
 import com.bselzer.ktx.logging.Logger
@@ -50,7 +50,7 @@ class ObjectiveViewModel(
         }
     }
 
-    override val title: StringDesc = AppResources.strings.objective.desc()
+    override val title: StringDesc = Gw2Resources.strings.objective.desc()
 
     private val objective: WvwObjective?
         get() = objectives[id]
@@ -90,9 +90,12 @@ class ObjectiveViewModel(
 
     val overview: Overview?
         get() = objective?.let { objective ->
+            val name = repositories.translation.translate(objective.name)
+
+            // TODO translate
+            val type = objective.type.enumValueOrNull()?.userFriendly()
             Overview(
-                // TODO translated
-                name = "${objective.name} (${objective.type})".desc(),
+                name = "$name ($type)".desc(),
                 flipped = fromMatch?.lastFlippedAt?.let { lastFlippedAt ->
                     // TODO translated
                     "Flipped at ${configuration.wvw.selectedDateFormatted(lastFlippedAt)}".desc()

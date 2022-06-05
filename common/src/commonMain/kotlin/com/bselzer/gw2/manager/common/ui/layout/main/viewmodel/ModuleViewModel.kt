@@ -9,6 +9,7 @@ import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
+import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -29,10 +30,10 @@ class ModuleViewModel(
             val selectedId = world?.id ?: WorldId(0)
             val owner = match?.owner(selectedId) ?: WvwObjectiveOwner.NEUTRAL
             return WorldResources(
-                title = AppResources.strings.world.desc(),
+                title = Gw2Resources.strings.world.desc(),
                 subtitle = worldSubtitle(selectedId, world),
                 color = configuration.wvw.color(owner),
-                image = AppResources.images.gw2_rank_dolyak,
+                image = Gw2Resources.images.rank_dolyak,
             )
         }
 

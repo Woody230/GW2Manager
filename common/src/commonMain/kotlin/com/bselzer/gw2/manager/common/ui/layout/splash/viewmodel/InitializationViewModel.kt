@@ -5,12 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Descriptor
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Initializer
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.migration.Migrator
 import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.desc
@@ -80,7 +80,7 @@ class InitializationViewModel(
 
     private val initializeBuildNumber
         get() = Initializer(
-            title = AppResources.strings.build_number.desc(),
+            title = Gw2Resources.strings.build_number.desc(),
             subtitle = null,
         ) {
             // Build number has been static for months https://github.com/gw2-api/issues/issues/1 so assetcdn must be used
@@ -100,7 +100,7 @@ class InitializationViewModel(
 
     private val initializeWvwRefresh
         get() = Initializer(
-            title = AppResources.strings.wvw.desc(),
+            title = Gw2Resources.strings.wvw.desc(),
             subtitle = KtxResources.strings.refresh.desc()
         ) {
             // The normal refresh will wait forever when checking against the initial value (the distant future).

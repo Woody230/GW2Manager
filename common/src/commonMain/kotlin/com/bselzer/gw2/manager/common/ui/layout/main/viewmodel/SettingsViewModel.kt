@@ -12,6 +12,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.*
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
+import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.scope.core.Permission
 import com.bselzer.ktx.compose.resource.ui.intl.stringResourceOrNull
 import com.bselzer.ktx.compose.ui.intl.Localizer
@@ -41,8 +42,8 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
         @Composable
         get() = ThemeResources(
             image = when (LocalTheme.current) {
-                Theme.LIGHT -> AppResources.images.gw2_sunrise
-                Theme.DARK -> AppResources.images.gw2_twilight
+                Theme.LIGHT -> Gw2Resources.images.sunrise
+                Theme.DARK -> Gw2Resources.images.twilight
             },
             title = KtxResources.strings.theme.desc(),
             subtitle = when (LocalTheme.current) {
@@ -70,7 +71,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     val tokenResources
         @Composable
         get() = TokenResources(
-            image = AppResources.images.gw2_black_lion_key,
+            image = Gw2Resources.images.black_lion_key,
             title = KtxResources.strings.token.desc(),
             subtitle = preferences.common.token.nullState().value.let { token ->
                 if (token.isNullOrBlank()) {
@@ -146,10 +147,10 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
         get() = run {
             val interval = preferences.wvw.refreshInterval.defaultState().value
             WvwResources(
-                image = AppResources.images.gw2_rank_dolyak,
-                title = AppResources.strings.wvw.desc(),
+                image = Gw2Resources.images.rank_dolyak,
+                title = Gw2Resources.strings.wvw.desc(),
                 interval = WvwIntervalResources(
-                    image = AppResources.images.gw2_concentration,
+                    image = Gw2Resources.images.concentration,
                     title = KtxResources.strings.refresh_interval.desc(),
 
                     // The notation given should be acceptable for all of the supported localizations.

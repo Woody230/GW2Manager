@@ -1,52 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-    <!-- No translation needed. -->
     <string name="app_name">Pack Yak</string>
-
-    <!-- World vs. World -->
-    <string name="wvw">World vs. World</string>
-    <string name="world">World</string>
-    <string name="worlds">Worlds</string> <!-- Could use plurals. -->
-    <string name="no_worlds">Worlds not found.</string>
-    <string name="wvw_map">Map</string>
-    <string name="wvw_match">Match</string>
-    <string name="wvw_detailed_selected_objective">Objective</string>
-    <string name="wvw_tile">Map Tile</string>
-    <string name="no_claim">Not Claimed</string>
-    <string name="points_per_tick">Points Per Tick</string>
-    <string name="victory_points">Victory Points</string>
-    <string name="total_score">Total War Score</string>
-    <string name="total_kills">Total Kills</string>
-    <string name="total_deaths">Total Deaths</string>
-    <string name="war_score">War Score</string>
-    <string name="skirmish">Skirmish</string>
-    <string name="objective">Objective</string>
-
-    <!-- Match -->
-    <!-- %Angle% Degree Slice for %Color% -->
-    <string name="owned_slice">%1$s degree slice for %2$s</string>
-    <string name="neutral_slice">Neutral slice</string>
-
-    <!-- About -->
-    <string name="ncsoft_notice">© 2021 NCSOFT Corporation. All rights reserved. NCSOFT, ArenaNet, the interlocking NC logo, Aion, Lineage II, Guild Wars, Guild Wars 2: Heart
-        of Thorns, Guild Wars 2: Path of Fire, Blade &amp; Soul, and all associated logos, designs, and composite marks are trademarks or registered trademarks of NCSOFT
-        Corporation. All other trademarks are the property of their respective owners.
-    </string>
-
-    <!-- Cache -->
-    <string name="continents">Continents</string>
     <string name="continents_description">Maps, regions, floors, tiles</string>
-    <string name="guilds">Guilds</string>
     <string name="guilds_description">Upgrades</string>
-    <string name="images">Images</string>
     <string name="images_description">Icons, map tiles</string>
-    <string name="wvw_description">Objectives, upgrades, worlds</string>
-
-    <!-- Settings -->
+    <string name="images">Images</string>
+    <string name="neutral_slice">Neutral slice</string>
+    <string name="no_claim">Not Claimed</string>
+    <string name="no_worlds">Worlds not found.</string>
+    <string name="owned_slice">%1$s degree slice for %2$s</string>
     <string name="token_description">Your account API key or token.</string>
     <string name="token_failure">Unable to save the token.</string>
     <string name="token_hyperlink">https://account.arena.net/applications</string>
-
-    <!-- Splash -->
-    <string name="build_number">Build Number</string>
+    <string name="wvw_description">Objectives, upgrades, worlds</string>
+    <string name="wvw_tile">Map Tile</string>
 </resources>

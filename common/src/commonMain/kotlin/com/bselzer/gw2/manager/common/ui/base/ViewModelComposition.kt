@@ -46,9 +46,9 @@ abstract class ViewModelComposition<Model : ViewModel>(protected val model: Mode
     protected val relativeBackgroundPainter: Painter
         @Composable
         get() = if (LocalTheme.current == Theme.DARK) {
-            AppResources.images.gw2_bloodstone_night.painter()
+            AppResources.images.bloodstone_night.painter()
         } else {
-            AppResources.images.gw2_ice.painter()
+            AppResources.images.ice.painter()
         }
 
     /**
@@ -56,7 +56,7 @@ abstract class ViewModelComposition<Model : ViewModel>(protected val model: Mode
      */
     protected val absoluteBackgroundPainter: Painter
         @Composable
-        get() = AppResources.images.gw2_two_sylvari.painter()
+        get() = AppResources.images.two_sylvari.painter()
 
     protected val relativeBackgroundPresenter
         @Composable

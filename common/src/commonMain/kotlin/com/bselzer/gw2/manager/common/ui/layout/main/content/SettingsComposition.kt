@@ -58,13 +58,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
     private fun SettingsViewModel.Preferences() = preferenceColumnProjector().Projection(
         modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState()),
         content = buildArray {
-            // TODO language
             add { CommonSection() }
-
-            /* TODO enable token preference when needed
-            add { TokenPreference() }
-             */
-
             add { WvwSection() }
         }
     )
@@ -74,6 +68,10 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
         content = buildArray {
             add { ThemePreference() }
             add { LanguagePreference() }
+
+            /* TODO enable token preference when needed
+            add { TokenPreference() }
+             */
         }
     )
 

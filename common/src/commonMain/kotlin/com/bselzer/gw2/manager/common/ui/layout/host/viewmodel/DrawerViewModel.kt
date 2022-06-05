@@ -2,11 +2,11 @@ package com.bselzer.gw2.manager.common.ui.layout.host.viewmodel
 
 import androidx.compose.material.DrawerState
 import androidx.compose.material.DrawerValue
-import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
 import com.bselzer.gw2.manager.common.ui.layout.host.model.drawer.DrawerComponent
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
+import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -16,17 +16,17 @@ import kotlinx.coroutines.launch
 class DrawerViewModel(
     context: AppComponentContext,
 ) : ViewModel(context) {
-    val wvwTitle: StringDesc = AppResources.strings.wvw.desc()
+    val wvwTitle: StringDesc = Gw2Resources.strings.wvw.desc()
 
     val wvwMap = DrawerComponent(
-        icon = AppResources.images.gw2_rank_dolyak,
-        description = AppResources.strings.wvw_map.desc(),
+        icon = Gw2Resources.images.rank_dolyak,
+        description = Gw2Resources.strings.map.desc(),
         configuration = MainConfig.WvwMapConfig
     )
 
     val wvwMatch = DrawerComponent(
-        icon = AppResources.images.gw2_rank_dolyak,
-        description = AppResources.strings.wvw_match.desc(),
+        icon = Gw2Resources.images.rank_dolyak,
+        description = Gw2Resources.strings.match.desc(),
         configuration = MainConfig.WvwMatchConfig
     )
 

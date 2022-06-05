@@ -3,13 +3,12 @@ package com.bselzer.gw2.manager.common.ui.layout.main.model.action
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.Composable
-import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
+import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
 import dev.icerock.moko.resources.desc.StringDesc
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.CoroutineScope
 
 class WorldSelectionAction(
@@ -19,7 +18,7 @@ class WorldSelectionAction(
     override val icon: @Composable () -> IconInteractor = {
         IconInteractor(
             painter = Icons.Filled.List.painter(),
-            contentDescription = AppResources.strings.world.desc().localized()
+            contentDescription = Gw2Resources.strings.world.localized(),
         )
     }
     override val notification: StringDesc? = null

@@ -14,6 +14,7 @@ import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.cache.operation.clearContinent
 import com.bselzer.gw2.v2.cache.operation.clearGuild
 import com.bselzer.gw2.v2.cache.operation.clearWvw
+import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.tile.cache.operation.clearTile
 import com.bselzer.ktx.compose.image.cache.operation.clearImage
 import com.bselzer.ktx.compose.resource.ui.layout.icon.deleteIconInteractor
@@ -57,8 +58,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val continentResources = ClearResources(
         type = ClearType.CONTINENT,
-        image = AppResources.images.gw2_gift_of_exploration,
-        title = AppResources.strings.continents.desc(),
+        image = Gw2Resources.images.gift_of_exploration,
+        title = Gw2Resources.strings.continents.desc(),
         subtitle = AppResources.strings.continents_description.desc(),
     )
 
@@ -69,8 +70,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val guildResources = ClearResources(
         type = ClearType.GUILD,
-        image = AppResources.images.gw2_guild_commendation,
-        title = AppResources.strings.guilds.desc(),
+        image = Gw2Resources.images.guild_commendation,
+        title = Gw2Resources.strings.guilds.desc(),
         subtitle = AppResources.strings.guilds_description.desc(),
     )
 
@@ -83,9 +84,9 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         get() = ClearResources(
             type = ClearType.IMAGE,
             image = if (LocalTheme.current == Theme.DARK) {
-                AppResources.images.gw2_twilight
+                Gw2Resources.images.twilight
             } else {
-                AppResources.images.gw2_sunrise
+                Gw2Resources.images.sunrise
             },
             title = AppResources.strings.images.desc(),
             subtitle = AppResources.strings.images_description.desc(),
@@ -98,8 +99,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val wvwResources = ClearResources(
         type = ClearType.WVW,
-        image = AppResources.images.gw2_rank_dolyak,
-        title = AppResources.strings.wvw.desc(),
+        image = Gw2Resources.images.rank_dolyak,
+        title = Gw2Resources.strings.wvw.desc(),
         subtitle = AppResources.strings.wvw_description.desc(),
     )
 

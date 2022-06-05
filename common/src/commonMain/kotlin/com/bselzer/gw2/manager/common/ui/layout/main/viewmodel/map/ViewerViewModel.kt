@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.essenty.lifecycle.subscribe
-import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
@@ -21,6 +20,7 @@ import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.extension.wvw.position
 import com.bselzer.gw2.v2.model.extension.wvw.tiers
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
+import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
@@ -49,7 +49,7 @@ class ViewerViewModel(
         )
     }
 
-    override val title: StringDesc = AppResources.strings.wvw_map.desc()
+    override val title: StringDesc = Gw2Resources.strings.map.desc()
 
     private val zoomInAction
         get() = GeneralAction(

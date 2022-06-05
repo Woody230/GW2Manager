@@ -8,6 +8,7 @@ import com.bselzer.gw2.manager.common.ui.layout.dialog.model.worldselection.NoWo
 import com.bselzer.gw2.manager.common.ui.layout.dialog.model.worldselection.WorldSelection
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
+import com.bselzer.gw2.v2.resource.Gw2Resources
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,7 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
             // If the dialog has a selection then use it, otherwise use the saved selection.
             val resolved: WorldId? = selected.value?.id ?: selectedWorldId
             return WorldSelection(
-                title = AppResources.strings.worlds.desc(),
+                title = Gw2Resources.strings.worlds.desc(),
                 values = worlds,
                 getLabel = { world -> repositories.translation.translate(world.name.toString()) },
                 selected = resolved?.let {

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.essenty.lifecycle.subscribe
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
@@ -34,6 +35,7 @@ import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.desc.plus
+import dev.icerock.moko.resources.format
 import kotlinx.coroutines.launch
 
 class ViewerViewModel(
@@ -146,7 +148,7 @@ class ViewerViewModel(
                     y = coordinates.y.toInt(),
                     width = width,
                     height = height,
-                    description = owner.stringDesc(), // TODO include word bloodlust
+                    description = AppResources.strings.bloodlust_for.format(owner.stringDesc()),
                     enabled = configuration.wvw.bloodlust.enabled
                 )
             }
@@ -188,7 +190,7 @@ class ViewerViewModel(
                     link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink ?: "" }.asImageUrl(),
 
                     // TODO translate
-                    description = StringDesc.Raw(objective.name),
+                    description = repositories.translation.translate(objective.name).desc(),
                     color = configuration.wvw.color(fromMatch),
                     progression = ObjectiveProgression(
                         enabled = configuration.wvw.objectives.progressions.enabled && progression != null,
@@ -234,10 +236,12 @@ class ViewerViewModel(
             val objective = selected.value ?: return@run null
             val fromMatch = match.objective(objective)
             val owner = fromMatch?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
+            val type = objective.type.enumValueOrNull() ?: WvwObjectiveType.GENERIC
+            val name = repositories.translation.translate(objective.name)
             SelectedObjective(
-                // TODO translate
-                title = objective.name.desc() + " (".desc() + owner.stringDesc() + " ".desc() + objective.type.value.desc() + ")".desc(),
+                title = name.desc() + " (".desc() + owner.stringDesc() + " ".desc() + type.stringDesc() + ")".desc(),
                 subtitle = fromMatch?.lastFlippedAt?.let { lastFlippedAt ->
+                    // TODO translate
                     "Flipped at ${configuration.wvw.selectedDateFormatted(lastFlippedAt)}"
                 }?.desc()
             )

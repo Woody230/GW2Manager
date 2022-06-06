@@ -2,11 +2,13 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map
 
 import androidx.compose.ui.graphics.DefaultAlpha
 import com.arkivanov.essenty.lifecycle.doOnResume
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.wvw.WvwGuildUpgradeTier
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective.*
 import com.bselzer.gw2.v2.emblem.request.EmblemRequestOptions
+import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.*
 import com.bselzer.gw2.v2.model.guild.Guild
@@ -17,12 +19,14 @@ import com.bselzer.gw2.v2.model.wvw.objective.WvwMapObjectiveId
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.gw2.v2.resource.Gw2Resources
+import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.ktx.datetime.timer.countdown
-import com.bselzer.ktx.function.objects.userFriendly
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
+import dev.icerock.moko.resources.desc.plus
+import dev.icerock.moko.resources.format
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,7 +82,7 @@ class ObjectiveViewModel(
             val link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink }
             Icon(
                 link = link?.asImageUrl(),
-                description = objective.name.desc(),
+                description = repositories.translation.translate(objective.name).desc(),
                 color = configuration.wvw.color(fromMatch),
 
                 // TODO use directly in composition
@@ -91,11 +95,9 @@ class ObjectiveViewModel(
     val overview: Overview?
         get() = objective?.let { objective ->
             val name = repositories.translation.translate(objective.name)
-
-            // TODO translate
-            val type = objective.type.enumValueOrNull()?.userFriendly()
+            val type = objective.type.enumValueOrNull() ?: WvwObjectiveType.GENERIC
             Overview(
-                name = "$name ($type)".desc(),
+                name = AppResources.strings.overview_name.format(name, type.stringDesc()),
                 flipped = fromMatch?.lastFlippedAt?.let { lastFlippedAt ->
                     // TODO translated
                     "Flipped at ${configuration.wvw.selectedDateFormatted(lastFlippedAt)}".desc()
@@ -103,7 +105,7 @@ class ObjectiveViewModel(
                 map = objective.mapType.enumValueOrNull()?.let { mapType ->
                     MapInfo(
                         // TODO translated
-                        name = mapType.userFriendly().desc(),
+                        name = mapType.stringDesc(),
                         color = configuration.wvw.color(owner = mapType.owner())
                     )
                 },
@@ -120,16 +122,18 @@ class ObjectiveViewModel(
         get() = fromMatch?.let { objective ->
             val yaksDelivered = objective.yaksDelivered
             CoreData(
-                // TODO translations
-                pointsPerTick = "Points per tick:".desc() to objective.pointsPerTick.toString().desc(),
-                pointsPerCapture = "Points per capture:".desc() to objective.pointsPerCapture.toString().desc(),
+                pointsPerTick = Gw2Resources.strings.points_per_tick.desc() + ":".desc() to objective.pointsPerTick.toString().desc(),
+                pointsPerCapture = Gw2Resources.strings.points_per_capture.desc() + ":".desc() to objective.pointsPerCapture.toString().desc(),
                 yaks = upgrade?.let { upgrade ->
                     val ratio = upgrade.yakRatio(yaksDelivered)
+                    // TODO translation
                     "Yaks delivered:".desc() to "${ratio.first}/${ratio.second}".desc()
                 },
                 upgrade = upgrade?.let { upgrade ->
                     val level = upgrade.level(yaksDelivered)
-                    val tier = upgrade.tier(yaksDelivered)?.name ?: "Not Upgraded"
+
+                    // TODO translations
+                    val tier = upgrade.tier(yaksDelivered)?.name?.let { name -> repositories.translation.translate(name) } ?: "Not Upgraded"
                     "Upgrade tier:".desc() to "$tier ($level/${upgrade.tiers.size})".desc()
                 }
             )
@@ -150,15 +154,18 @@ class ObjectiveViewModel(
 
             val size = 256
             val request = clients.emblem.requestEmblem(guildId.value, size = size, EmblemRequestOptions.MAXIMIZE_BACKGROUND_ALPHA)
-            val name = guild.name
+            val name = repositories.translation.translate(guild.name)
             return Claim(
-                // TODO translations
-                claimedAt = "Claimed at ${configuration.wvw.selectedDateFormatted(claimedAt)}".desc(),
-                claimedBy = "Claimed by $name".desc(),
+
+                // TODO updated format
+                claimedAt = AppResources.strings.claimed_at.format(configuration.wvw.selectedDateFormatted(claimedAt)),
+                claimedBy = AppResources.strings.claimed_by.format(name),
                 icon = Icon(
                     link = clients.emblem.emblemUrl(request).asImageUrl(),
                     width = size,
                     height = size,
+
+                    // TODO translate
                     description = "$name Guild Emblem".desc(),
                     color = null,
                 )
@@ -185,6 +192,7 @@ class ObjectiveViewModel(
             val alpha = configuration.alpha(condition = progressed.contains(tier))
 
             val yakRatio = yakRatios.getOrElse(index) { Pair(0, 0) }
+            val tierName = repositories.translation.translate(tier.name)
             UpgradeTier(
                 icon = Icon(
                     link = progression.iconLink.asImageUrl(),
@@ -194,19 +202,18 @@ class ObjectiveViewModel(
                     height = configuration.wvw.objectives.progressions.tierIconSize.height,
 
                     // TODO translated
-                    description = "${tier.name} (${yakRatio.first}/${yakRatio.second})".desc(),
+                    description = "$tierName (${yakRatio.first}/${yakRatio.second})".desc(),
                     alpha = flowOf(alpha),
                     color = null,
                 ),
 
                 upgrades = tier.upgrades.map { upgrade ->
                     Upgrade(
-                        // TODO translated
-                        name = upgrade.name.desc(),
+                        name = repositories.translation.translate(upgrade.name).desc(),
 
                         icon = Icon(
                             link = upgrade.iconLink.value.asImageUrl(),
-                            description = upgrade.description.desc(),
+                            description = repositories.translation.translate(upgrade.description).desc(),
                             alpha = flowOf(alpha),
                             color = null,
 
@@ -276,9 +283,10 @@ class ObjectiveViewModel(
                     }
 
                     Upgrade(
+                        name = repositories.translation.translate(guildUpgrade.name).desc(),
                         icon = Icon(
                             link = guildUpgrade.iconLink.value.asImageUrl(),
-                            description = guildUpgrade.description.desc(),
+                            description = repositories.translation.translate(guildUpgrade.description).desc(),
                             color = null,
 
                             // TODO remove from config
@@ -288,9 +296,6 @@ class ObjectiveViewModel(
                             // If the upgrade is slotted then provide full opacity.
                             alpha = flowOf(configuration.alpha(condition = fromMatch?.guildUpgradeIds?.contains(guildUpgradeId) == true))
                         ),
-
-                        // TODO translations
-                        name = guildUpgrade.name.desc(),
                     )
                 }
             )

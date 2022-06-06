@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="bloodlust_for">Sed de sangre por %1$s</string>
     <string name="claimed_at">Reclamado a %1$s</string>
     <string name="claimed_by">Reclamado por %1$s</string>
     <string name="continents_description">Mapas, regiones, niveles, teselas</string>

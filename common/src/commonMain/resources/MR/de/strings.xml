@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <string name="bloodlust_for">Blutgier für %1$s</string>
     <string name="claimed_at">Beansprucht bei %1$s</string>
     <string name="claimed_by">Beansprucht von %1$s</string>
     <string name="continents_description">Karte, regionen, ebenen, kacheln</string>

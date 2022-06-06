@@ -10,6 +10,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.MapViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
+import com.bselzer.gw2.v2.model.wvw.objective.WvwMapObjectiveId
 import dev.icerock.moko.resources.desc.StringDesc
 
 class WvwMapViewModel(
@@ -22,7 +23,7 @@ class WvwMapViewModel(
         key = "Map",
         childFactory = { state, context ->
             when (state) {
-                is MapConfig.ObjectiveConfig -> ObjectiveViewModel(context, state.id, showDialog)
+                is MapConfig.ObjectiveConfig -> ObjectiveViewModel(context, WvwMapObjectiveId(state.id), showDialog)
                 is MapConfig.ViewerConfig -> ViewerViewModel(context, showDialog)
             }
         }

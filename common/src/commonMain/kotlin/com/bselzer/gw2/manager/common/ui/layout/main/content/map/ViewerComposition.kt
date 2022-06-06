@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arkivanov.decompose.router.bringToFront
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
@@ -80,7 +81,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
             MapGrid()
 
             if (grid.rows.isNotEmpty()) {
-                Objectives()
+                objectiveIcons.forEach { objective -> Objective(objective) }
                 bloodlusts.forEach { bloodlust -> bloodlust.Bloodlust() }
             }
         }
@@ -111,9 +112,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         val bitmap = if (content.isEmpty()) ImageBitmap(1, 1) else content.asImageBitmap()
         Image(
             painter = BitmapPainter(bitmap),
-
-            // TODO translate
-            contentDescription = "World vs. World Map",
+            contentDescription = AppResources.strings.wvw_tile.localized(),
             modifier = Modifier
                 .size(width.toDp(), height.toDp())
                 .clickable(
@@ -139,20 +138,11 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         color = color,
         description = description
     ).Content(
-        modifier = Modifier.absoluteOffset(x = x.toDp(), y = y.toDp()),
+        modifier = Modifier.absoluteOffset(
+            x = x.toDp(),
+            y = y.toDp()
+        ),
     )
-
-    /**
-     * Lays out the objectives on the map.
-     */
-    @Composable
-    private fun ViewerViewModel.Objectives() {
-        // Render from bottom right to top left so that overlap is consistent.
-        val comparator = compareByDescending<ObjectiveIcon> { objective -> objective.y }.thenByDescending { objective -> objective.x }
-        objectiveIcons.sortedWith(comparator).forEach { objective ->
-            Objective(objective)
-        }
-    }
 
     /**
      * Lays out the individual objective on the map.
@@ -267,7 +257,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
             modifier = modifier.combinedClickable(
                 onLongClick = {
                     // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.
-                    val config = MapConfig.ObjectiveConfig(objective.id)
+                    val config = MapConfig.ObjectiveConfig(objective.id.value)
                     mapRouter.bringToFront(config)
                 },
                 onClick = {

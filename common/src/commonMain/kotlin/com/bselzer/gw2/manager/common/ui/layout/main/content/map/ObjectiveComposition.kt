@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
@@ -44,6 +45,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
+import dev.icerock.moko.resources.format
 import kotlinx.coroutines.launch
 
 class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<ObjectiveViewModel>(model) {
@@ -222,20 +224,22 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             tiers.map { tier ->
                 // TODO move to model
                 // TODO translated
-                val description: String = if (tier.startTime == null) {
+                val description: StringDesc = if (tier.startTime == null) {
                     // If there is no time, then there must be no claim.
-                    "Not Claimed"
+                    "Not Claimed".desc()
                 } else {
                     val remaining = tier.remaining.collectAsState(initial = tier.holdingPeriod).value
 
                     // If there is remaining time then display it, otherwise display the amount of time that was needed for this tier to unlock.
-                    if (remaining.isPositive()) "Hold for ${remaining.minuteFormat()}" else "Held for ${tier.holdingPeriod.minuteFormat()}"
+                    val holdFor = AppResources.strings.hold_for.format(remaining.minuteFormat())
+                    val heldFor = AppResources.strings.held_for.format(tier.holdingPeriod.minuteFormat())
+                    if (remaining.isPositive()) holdFor else heldFor
                 }
 
                 add {
                     upgradeTierCard(
                         tierIcon = tier.icon,
-                        tierDescription = description.desc(),
+                        tierDescription = description,
                         upgrades = tier.upgrades,
 
                         // Tier image is completely white so it must be converted to black for light mode.

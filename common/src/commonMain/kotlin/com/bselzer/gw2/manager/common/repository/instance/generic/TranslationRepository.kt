@@ -1,13 +1,14 @@
 package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.ui.text.intl.Locale
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.v2.intl.cache.operation.putMissingTranslations
 import com.bselzer.gw2.v2.intl.translation.Translator
-import com.bselzer.ktx.compose.ui.intl.Localizer
 import com.bselzer.ktx.function.collection.putInto
+import com.bselzer.ktx.intl.DefaultLocale
+import com.bselzer.ktx.intl.Locale
+import com.bselzer.ktx.intl.Localizer
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.value.identifier.Identifiable
@@ -44,11 +45,8 @@ class TranslationRepository(
 
     fun updateLocale(locale: Locale) = CoroutineScope(Dispatchers.Main).launch {
         Logger.i { "Translation | Locale | Updating to '$locale'." }
-
         preferences.common.locale.set(locale)
-        Localizer.locale = locale
-        _translations.clear()
-        listeners.forEach { listener -> listener(locale) }
+        setLocale(locale)
     }
 
     fun resetLocale() = CoroutineScope(Dispatchers.Main).launch {
@@ -56,9 +54,21 @@ class TranslationRepository(
         Logger.i { "Translation | Locale | Resetting to '$default'." }
 
         preferences.common.locale.remove()
-        Localizer.locale = default
+        setLocale(default)
+    }
+
+    private fun setLocale(locale: Locale) {
+        // Default locale is used by the date time formatters.
+        DefaultLocale = locale
+
+        // Localizer locale is used as a composition local for translations.
+        Localizer.locale = locale
+
+        // Remove the existing locale's translations.
         _translations.clear()
-        listeners.forEach { listener -> listener(default) }
+
+        // Notify listeners about the change so that translations can be updated.
+        listeners.forEach { listener -> listener(locale) }
     }
 
     /**

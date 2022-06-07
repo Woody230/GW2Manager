@@ -1,7 +1,7 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.model.settings
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.intl.Locale
+import com.bselzer.ktx.intl.Locale
 
 data class LanguageLogic(
     val values: List<Locale>,

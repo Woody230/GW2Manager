@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2022-06-06T10:42:21.648Z"
+    "generated": "2022-06-07T23:02:32.397Z"
   },
   "libraries": [
     {
@@ -726,6 +726,96 @@
       ]
     },
     {
+      "uniqueId": "com.bselzer.ktx:datetime-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-datetime",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:intl-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-intl",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "1.3.2",
+      "description": "Kotlin multiplatform serialization runtime library",
+      "scm": {
+        "url": "https://github.com/Kotlin/kotlinx.serialization"
+      },
+      "name": "kotlinx-serialization-json",
+      "website": "https://github.com/Kotlin/kotlinx.serialization",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "1.3.2",
+      "description": "Kotlin multiplatform serialization runtime library",
+      "scm": {
+        "url": "https://github.com/Kotlin/kotlinx.serialization"
+      },
+      "name": "kotlinx-serialization-core",
+      "website": "https://github.com/Kotlin/kotlinx.serialization",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.jetbrains.kotlinx:kotlinx-datetime-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "0.3.2",
+      "description": "Kotlin Datetime Library",
+      "scm": {
+        "url": "https://github.com/Kotlin/kotlinx-datetime"
+      },
+      "name": "kotlinx-datetime",
+      "website": "https://github.com/Kotlin/kotlinx-datetime",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.bselzer.ktx:serialization-android-debug",
       "funding": [],
       "developers": [
@@ -783,46 +873,6 @@
       ]
     },
     {
-      "uniqueId": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "1.3.2",
-      "description": "Kotlin multiplatform serialization runtime library",
-      "scm": {
-        "url": "https://github.com/Kotlin/kotlinx.serialization"
-      },
-      "name": "kotlinx-serialization-core",
-      "website": "https://github.com/Kotlin/kotlinx.serialization",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "1.3.2",
-      "description": "Kotlin multiplatform serialization runtime library",
-      "scm": {
-        "url": "https://github.com/Kotlin/kotlinx.serialization"
-      },
-      "name": "kotlinx-serialization-json",
-      "website": "https://github.com/Kotlin/kotlinx.serialization",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "com.bselzer.gw2:v2-scope-android-debug",
       "funding": [],
       "developers": [
@@ -833,41 +883,6 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-scope",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.bselzer.ktx:datetime-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-datetime",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains.kotlinx:kotlinx-datetime-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "0.3.2",
-      "description": "Kotlin Datetime Library",
-      "scm": {
-        "url": "https://github.com/Kotlin/kotlinx-datetime"
-      },
-      "name": "kotlinx-datetime",
-      "website": "https://github.com/Kotlin/kotlinx-datetime",
       "licenses": [
         "Apache-2.0"
       ]
@@ -2570,21 +2585,6 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:logging-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-logging",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "com.bselzer.gw2:asset-cdn-android-debug",
       "funding": [],
       "developers": [
@@ -2655,6 +2655,21 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-tile",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:logging-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-logging",
       "licenses": [
         "Apache-2.0"
       ]
@@ -3260,6 +3275,36 @@
       ]
     },
     {
+      "uniqueId": "com.bselzer.ktx:datetime-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-datetime",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:intl-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-intl",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.bselzer.ktx:serialization-android",
       "funding": [],
       "developers": [
@@ -3285,21 +3330,6 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-scope",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.bselzer.ktx:datetime-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-datetime",
       "licenses": [
         "Apache-2.0"
       ]
@@ -3819,21 +3849,6 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:logging-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-logging",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "com.bselzer.gw2:asset-cdn-android",
       "funding": [],
       "developers": [
@@ -3904,6 +3919,21 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-tile",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:logging-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-logging",
       "licenses": [
         "Apache-2.0"
       ]
@@ -4544,6 +4574,21 @@
       ]
     },
     {
+      "uniqueId": "com.bselzer.ktx:intl-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-intl",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "dev.icerock.moko:resources-compose-jvm",
       "funding": [],
       "developers": [
@@ -5082,6 +5127,21 @@
       ]
     },
     {
+      "uniqueId": "com.bselzer.ktx:datetime-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-datetime",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.bselzer.ktx:serialization-jvm",
       "funding": [],
       "developers": [
@@ -5154,21 +5214,6 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:datetime-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-datetime",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "com.bselzer.ktx:geometry-jvm",
       "funding": [],
       "developers": [
@@ -5209,21 +5254,6 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-model-enumeration",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.bselzer.ktx:logging-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-logging",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5299,6 +5329,21 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-tile",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:logging-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-logging",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5991,6 +6036,21 @@
       "artifactVersion": "4.0.0",
       "description": "",
       "name": "ktx-function",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:intl",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-intl",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6792,6 +6852,21 @@
       ]
     },
     {
+      "uniqueId": "com.bselzer.ktx:datetime",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-datetime",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.bselzer.ktx:serialization",
       "funding": [],
       "developers": [
@@ -6859,21 +6934,6 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-scope",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.bselzer.ktx:datetime",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-datetime",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6984,21 +7044,6 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:logging",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.0.0",
-      "description": "",
-      "name": "ktx-logging",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "com.bselzer.gw2:asset-cdn",
       "funding": [],
       "developers": [
@@ -7069,6 +7114,21 @@
       "artifactVersion": "2.0.0",
       "description": "",
       "name": "gw2-v2-tile",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.bselzer.ktx:logging",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "4.0.0",
+      "description": "",
+      "name": "ktx-logging",
       "licenses": [
         "Apache-2.0"
       ]

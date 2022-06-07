@@ -20,8 +20,6 @@
             <Objective icon="https://assets.gw2dat.com/157353.png" type="Spawn" />
             <Objective icon="https://assets.gw2dat.com/102682.png" type="Mercenary" />
 
-            <Selected dateFormat="hh:mm a 'on' EEEE" textSize="16" />
-
             <!-- Upgrades -->
             <Upgrades enabled="true">
                 <IndicatorSize height="32" width="32" />

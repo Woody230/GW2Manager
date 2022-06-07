@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="bloodlust_for">Soif de sang de %1$s</string>
-    <string name="claimed_at">Revendication à %1$s</string>
+    <string name="claimed_at">Revendication à %1$s le %2$s</string>
     <string name="claimed_by">Revendication de %1$s</string>
     <string name="continents_description">Cartes, régions, niveaux, dalles</string>
+    <string name="flipped_at">Capturé à %1$s le %2$s</string>
     <string name="guilds_description">Améliorations</string>
     <string name="held_for">Tenu pour %1$s</string>
     <string name="hold_for">Tenir pour %1$s</string>
@@ -13,6 +14,7 @@
     <string name="no_claim">Aucune Revendication de Guilde</string>
     <string name="no_worlds">Mondes introuvable.</string>
     <string name="owned_slice">Tranche de %1$s degrés pour le %2$s</string>
+    <string name="selected_objective">%1$s (%3$s %2$s)</string>
     <string name="token_description">La clé API de votre compte.</string>
     <string name="token_failure">Impossible d’enregistrer la clé API.</string>
     <string name="wvw_description">Objectifs, améliorations, mondes</string>

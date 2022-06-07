@@ -1,14 +1,21 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
 import androidx.compose.ui.graphics.Color
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
 import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
 import com.bselzer.ktx.compose.ui.graphics.color.color
+import com.bselzer.ktx.datetime.format.FormatStyle
+import com.bselzer.ktx.datetime.format.FormatStyleDateTimeFormatter
+import com.bselzer.ktx.datetime.format.PatternDateTimeFormatter
+import dev.icerock.moko.resources.desc.StringDesc
+import dev.icerock.moko.resources.format
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
@@ -42,8 +49,19 @@ class Wvw(
      */
     fun color(owner: WvwObjectiveOwner?, default: String = "#888888") = Hex(objectives.hex(owner = owner ?: WvwObjectiveOwner.NEUTRAL, default = default)).color()
 
-    /**
-     * @return the date/time instant to a displayable formatted string
-     */
-    fun selectedDateFormatted(instant: Instant): String = objectives.selected.dateFormatter.format(instant)
+    @Transient
+    private val timeFormatter = FormatStyleDateTimeFormatter(dateStyle = null, timeStyle = FormatStyle.SHORT)
+
+    @Transient
+    private val dayOfWeekFormatter = PatternDateTimeFormatter("EEEE")
+
+    fun claimedAt(instant: Instant): StringDesc = AppResources.strings.claimed_at.format(
+        timeFormatter.format(instant),
+        dayOfWeekFormatter.format(instant)
+    )
+
+    fun flippedAt(instant: Instant): StringDesc = AppResources.strings.flipped_at.format(
+        timeFormatter.format(instant),
+        dayOfWeekFormatter.format(instant)
+    )
 }

@@ -66,6 +66,7 @@ kotlin {
                 api("com.bselzer.ktx:coroutine:${Versions.EXTENSION}")
                 api("com.bselzer.ktx:function:${Versions.EXTENSION}")
                 api("com.bselzer.ktx:intent:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:intl:${Versions.EXTENSION}")
                 api("com.bselzer.ktx:library:${Versions.EXTENSION}")
                 api("com.bselzer.ktx:logging:${Versions.EXTENSION}")
                 api("com.bselzer.ktx:serialization:${Versions.EXTENSION}")

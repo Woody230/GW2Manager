@@ -99,8 +99,7 @@ class ObjectiveViewModel(
             Overview(
                 name = AppResources.strings.overview_name.format(name, type.stringDesc()),
                 flipped = fromMatch?.lastFlippedAt?.let { lastFlippedAt ->
-                    // TODO translated
-                    "Flipped at ${configuration.wvw.selectedDateFormatted(lastFlippedAt)}".desc()
+                    configuration.wvw.flippedAt(lastFlippedAt)
                 },
                 map = objective.mapType.enumValueOrNull()?.let { mapType ->
                     MapInfo(
@@ -156,9 +155,7 @@ class ObjectiveViewModel(
             val request = clients.emblem.requestEmblem(guildId.value, size = size, EmblemRequestOptions.MAXIMIZE_BACKGROUND_ALPHA)
             val name = repositories.translation.translate(guild.name)
             return Claim(
-
-                // TODO updated format
-                claimedAt = AppResources.strings.claimed_at.format(configuration.wvw.selectedDateFormatted(claimedAt)),
+                claimedAt = configuration.wvw.claimedAt(claimedAt),
                 claimedBy = AppResources.strings.claimed_by.format(name),
                 icon = Icon(
                     link = clients.emblem.emblemUrl(request).asImageUrl(),

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.text.intl.Locale
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
@@ -14,14 +13,15 @@ import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.scope.core.Permission
-import com.bselzer.ktx.compose.resource.ui.intl.stringResourceOrNull
-import com.bselzer.ktx.compose.ui.intl.Localizer
 import com.bselzer.ktx.datetime.format.DurationBound
 import com.bselzer.ktx.intent.browser.Browser
+import com.bselzer.ktx.intl.Locale
+import com.bselzer.ktx.intl.Localizer
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
 import com.bselzer.ktx.resource.strings.stringResource
+import com.bselzer.ktx.resource.strings.stringResourceOrNull
 import com.bselzer.ktx.settings.compose.defaultState
 import com.bselzer.ktx.settings.compose.nullState
 import com.bselzer.ktx.settings.compose.safeState

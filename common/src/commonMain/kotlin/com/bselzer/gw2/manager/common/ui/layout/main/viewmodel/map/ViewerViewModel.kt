@@ -34,7 +34,6 @@ import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
-import dev.icerock.moko.resources.desc.plus
 import dev.icerock.moko.resources.format
 import kotlinx.coroutines.launch
 
@@ -239,11 +238,10 @@ class ViewerViewModel(
             val type = objective.type.enumValueOrNull() ?: WvwObjectiveType.GENERIC
             val name = repositories.translation.translate(objective.name)
             SelectedObjective(
-                title = name.desc() + " (".desc() + owner.stringDesc() + " ".desc() + type.stringDesc() + ")".desc(),
+                title = AppResources.strings.selected_objective.format(name.desc(), owner.stringDesc(), type.stringDesc()),
                 subtitle = fromMatch?.lastFlippedAt?.let { lastFlippedAt ->
-                    // TODO translate
-                    "Flipped at ${configuration.wvw.selectedDateFormatted(lastFlippedAt)}"
-                }?.desc()
+                    configuration.wvw.flippedAt(lastFlippedAt)
+                }
             )
         }
 

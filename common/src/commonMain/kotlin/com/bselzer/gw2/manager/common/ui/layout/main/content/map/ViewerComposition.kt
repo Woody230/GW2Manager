@@ -297,6 +297,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         BackgroundImage(
             modifier = modifier,
             painter = relativeBackgroundPainter,
+            presenter = relativeBackgroundPresenter
         ) {
             Column(modifier = Modifier.padding(horizontal = 5.dp)) {
                 val textSize = 16.sp

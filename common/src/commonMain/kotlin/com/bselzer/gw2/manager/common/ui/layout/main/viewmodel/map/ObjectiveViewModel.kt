@@ -20,6 +20,7 @@ import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
+import com.bselzer.ktx.datetime.format.minuteFormat
 import com.bselzer.ktx.datetime.timer.countdown
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
@@ -28,10 +29,7 @@ import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.format
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -235,10 +233,32 @@ class ObjectiveViewModel(
             val holdingPeriod = tier.holdingPeriod
             val initialAlpha = configuration.alpha(condition = startTime != null)
             val alpha = MutableStateFlow(initialAlpha)
+
+            // Transparency is reduced until the timer is complete.
+            val countdown = Clock.System.countdown(
+                startTime = startTime ?: Instant.DISTANT_PAST,
+
+                // If there is no start time then there must be no claim so the tier will be locked indefinitely.
+                duration = if (startTime == null) Duration.INFINITE else holdingPeriod
+            ).onStart {
+                alpha.value = initialAlpha
+            }.onCompletion {
+                alpha.value = DefaultAlpha
+            }
+
             GuildUpgradeTier(
-                // Note that the holding period starts from the claim time, NOT from the capture time.
-                startTime = startTime,
-                holdingPeriod = holdingPeriod,
+                description = countdown.map { remaining ->
+                    if (startTime == null) {
+                        // If there is no time, then there must be no claim.
+                        AppResources.strings.no_claim.desc()
+                    } else {
+                        // Note that the holding period starts from the claim time, NOT from the capture time.
+                        // If there is remaining time then display it, otherwise display the amount of time that was needed for this tier to unlock.
+                        val holdFor = AppResources.strings.hold_for.format(remaining.minuteFormat())
+                        val heldFor = AppResources.strings.held_for.format(tier.holdingPeriod.minuteFormat())
+                        if (remaining.isPositive()) holdFor else heldFor
+                    }
+                },
 
                 icon = Icon(
                     link = tier.iconLink.asImageUrl(),
@@ -251,18 +271,6 @@ class ObjectiveViewModel(
                     color = null,
                     alpha = alpha,
                 ),
-
-                // Transparency is reduced until the timer is complete.
-                remaining = Clock.System.countdown(
-                    startTime = startTime ?: Instant.DISTANT_PAST,
-
-                    // If there is no start time then there must be no claim so the tier will be locked indefinitely.
-                    duration = if (startTime == null) Duration.INFINITE else holdingPeriod
-                ).onStart {
-                    alpha.value = initialAlpha
-                }.onCompletion {
-                    alpha.value = DefaultAlpha
-                },
 
                 upgrades = tier.upgrades.filter { upgrade -> upgrade.objectiveTypes.contains(objective.type.enumValueOrNull()) }.mapNotNull { upgrade ->
                     val guildUpgradeId = GuildUpgradeId(upgrade.id)

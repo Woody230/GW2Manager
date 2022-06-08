@@ -188,7 +188,6 @@ class ViewerViewModel(
                     // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
                     link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink ?: "" }.asImageUrl(),
 
-                    // TODO translate
                     description = repositories.translation.translate(objective.name).desc(),
                     color = configuration.wvw.color(fromMatch),
                     progression = ObjectiveProgression(

@@ -46,6 +46,7 @@ abstract class ViewModelComposition<Model : ViewModel>(protected val model: Mode
     protected val relativeBackgroundPainter: Painter
         @Composable
         get() = if (LocalTheme.current == Theme.DARK) {
+            // TODO updated version without the fire, which does not work well with the text
             AppResources.images.bloodstone_night.painter()
         } else {
             AppResources.images.ice.painter()

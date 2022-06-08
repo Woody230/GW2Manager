@@ -102,7 +102,6 @@ class ObjectiveViewModel(
                 },
                 map = objective.mapType.enumValueOrNull()?.let { mapType ->
                     MapInfo(
-                        // TODO translated
                         name = mapType.stringDesc(),
                         color = configuration.wvw.color(owner = mapType.owner())
                     )
@@ -158,9 +157,7 @@ class ObjectiveViewModel(
                     link = clients.emblem.emblemUrl(request).asImageUrl(),
                     width = size,
                     height = size,
-
-                    // TODO translate
-                    description = "$name Guild Emblem".desc(),
+                    description = AppResources.strings.guild_emblem.format(name),
                     color = null,
                 )
             )
@@ -195,8 +192,7 @@ class ObjectiveViewModel(
                     width = configuration.wvw.objectives.progressions.tierIconSize.width,
                     height = configuration.wvw.objectives.progressions.tierIconSize.height,
 
-                    // TODO translated
-                    description = "$tierName (${yakRatio.first}/${yakRatio.second})".desc(),
+                    description = AppResources.strings.upgrade_tier_yaks.format(tierName, yakRatio.first, yakRatio.second),
                     alpha = flowOf(alpha),
                     color = null,
                 ),

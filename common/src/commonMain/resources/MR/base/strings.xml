@@ -6,6 +6,7 @@
     <string name="claimed_by">Claimed by %1$s</string>
     <string name="continents_description">Maps, regions, floors, tiles</string>
     <string name="flipped_at">Flipped at %1$s on %2$s</string>
+    <string name="guild_emblem">Guild emblem for %1$s</string>
     <string name="guilds_description">Upgrades</string>
     <string name="held_for">Held for %1$s</string>
     <string name="hold_for">Hold for %1$s</string>
@@ -23,6 +24,7 @@
     <string name="token_hyperlink">https://account.arena.net/applications</string>
     <string name="upgrade_tier">Upgrade Tier</string>
     <string name="upgrade_tier_level">%1$s (%2$s/%3$s)</string>
+    <string name="upgrade_tier_yaks">%1$s (%2$s/%3$s)</string>
     <string name="wvw_description">Objectives, upgrades, worlds</string>
     <string name="wvw_tile">Map Tile</string>
     <string name="yaks_delivered">Yaks Delivered</string>

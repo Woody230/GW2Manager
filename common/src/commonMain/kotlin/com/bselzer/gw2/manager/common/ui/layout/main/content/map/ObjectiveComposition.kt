@@ -230,10 +230,9 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
         content = buildArray {
             tiers.map { tier ->
                 // TODO move to model
-                // TODO translated
                 val description: StringDesc = if (tier.startTime == null) {
                     // If there is no time, then there must be no claim.
-                    "Not Claimed".desc()
+                    AppResources.strings.no_claim.desc()
                 } else {
                     val remaining = tier.remaining.collectAsState(initial = tier.holdingPeriod).value
 

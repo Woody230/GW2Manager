@@ -30,7 +30,6 @@ import com.bselzer.ktx.compose.ui.graphics.color.color
 import com.bselzer.ktx.function.objects.isOneOf
 import com.bselzer.ktx.geometry.dimension.bi.position.Point2D
 import com.bselzer.ktx.logging.Logger
-import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
@@ -167,10 +166,8 @@ class ViewerViewModel(
                 val coordinates = objective.position().scaledCoordinates(size.width, size.height)
 
                 // Get the progression level associated with the current number of yaks delivered to the objective.
-                val progression = upgrade?.let {
-                    val level = upgrade.level(fromMatch.yaksDelivered)
-                    configuration.wvw.objectives.progressions.progression.getOrNull(level)
-                }
+                val level = upgrade?.level(fromMatch.yaksDelivered)
+                val progression = level?.let { configuration.wvw.objectives.progressions.progression.getOrNull(level) }
 
                 // See if any of the progressed tiers has a permanent waypoint upgrade, or the tactic for the temporary waypoint.
                 val hasWaypointUpgrade = tiers.any { tier -> configuration.wvw.objectives.waypoint.upgradeNameRegex.matches(tier.name) }
@@ -192,14 +189,14 @@ class ViewerViewModel(
                     color = configuration.wvw.color(fromMatch),
                     progression = ObjectiveProgression(
                         enabled = configuration.wvw.objectives.progressions.enabled && progression != null,
-                        description = StringDesc.Raw(""), // TODO translation
+                        description = level?.let { AppResources.strings.upgrade_level.format(level) },
                         link = progression?.indicatorLink?.asImageUrl(),
                         width = configuration.wvw.objectives.progressions.indicatorSize.width,
                         height = configuration.wvw.objectives.progressions.indicatorSize.height,
                     ),
                     claim = ObjectiveClaim(
                         enabled = configuration.wvw.objectives.claim.enabled && !fromMatch.claimedBy?.value.isNullOrBlank(),
-                        description = StringDesc.Raw(""), // TODO translation
+                        description = AppResources.strings.claimed.desc(),
                         link = configuration.wvw.objectives.claim.iconLink?.asImageUrl(),
                         width = configuration.wvw.objectives.claim.size.width,
                         height = configuration.wvw.objectives.claim.size.height
@@ -207,7 +204,11 @@ class ViewerViewModel(
                     waypoint = ObjectiveWaypoint(
                         enabled = configuration.wvw.objectives.waypoint.enabled && (hasWaypointUpgrade || hasWaypointTactic),
                         link = configuration.wvw.objectives.waypoint.iconLink?.asImageUrl(),
-                        description = StringDesc.Raw(""), // TODO translation
+                        description = when {
+                            hasWaypointUpgrade -> AppResources.strings.permanent_waypoint.desc()
+                            hasWaypointTactic -> AppResources.strings.temporary_waypoint.desc()
+                            else -> null
+                        },
                         width = configuration.wvw.objectives.waypoint.size.width,
                         height = configuration.wvw.objectives.waypoint.size.height,
                         color = if (hasWaypointTactic && !hasWaypointUpgrade) Hex(configuration.wvw.objectives.waypoint.guild.color).color() else null

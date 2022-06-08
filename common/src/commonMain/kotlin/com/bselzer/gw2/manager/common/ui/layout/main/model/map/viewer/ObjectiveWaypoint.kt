@@ -7,7 +7,7 @@ import dev.icerock.moko.resources.desc.image.ImageDesc
 data class ObjectiveWaypoint(
     val enabled: Boolean,
     val link: ImageDesc?,
-    val description: StringDesc,
+    val description: StringDesc?,
     val width: Int,
     val height: Int,
     val color: Color?

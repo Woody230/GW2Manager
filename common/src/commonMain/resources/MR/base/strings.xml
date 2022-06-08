@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Pack Yak</string>
     <string name="bloodlust_for">Bloodlust for %1$s</string>
+    <string name="claimed">Claimed</string>
     <string name="claimed_at">Claimed at %1$s on %2$s</string>
     <string name="claimed_by">Claimed by %1$s</string>
     <string name="continents_description">Maps, regions, floors, tiles</string>
@@ -12,16 +13,19 @@
     <string name="hold_for">Hold for %1$s</string>
     <string name="images_description">Icons, map tiles</string>
     <string name="images">Images</string>
-    <string name="neutral_slice">Neutral slice</string>
+    <string name="neutral_slice">Neutral Slice</string>
     <string name="no_claim">Not Claimed</string>
     <string name="no_upgrade">Not Upgraded</string>
     <string name="no_worlds">Worlds not found.</string>
     <string name="overview_name">%1$s (%2$s)</string>
     <string name="owned_slice">%1$s degree slice for %2$s</string>
+    <string name="permanent_waypoint">Permanent Waypoint</string>
     <string name="selected_objective">%1$s (%2$s %3$s)</string>
+    <string name="temporary_waypoint">Emergency Waypoint</string>
     <string name="token_description">Your account API key or token.</string>
     <string name="token_failure">Unable to save the token.</string>
     <string name="token_hyperlink">https://account.arena.net/applications</string>
+    <string name="upgrade_level">Upgraded to level %1$s.</string>
     <string name="upgrade_tier">Upgrade Tier</string>
     <string name="upgrade_tier_level">%1$s (%2$s/%3$s)</string>
     <string name="upgrade_tier_yaks">%1$s (%2$s/%3$s)</string>

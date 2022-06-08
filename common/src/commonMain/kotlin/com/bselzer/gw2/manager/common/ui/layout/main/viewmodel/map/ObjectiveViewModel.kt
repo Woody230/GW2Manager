@@ -25,7 +25,6 @@ import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
-import dev.icerock.moko.resources.desc.plus
 import dev.icerock.moko.resources.format
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -121,8 +120,8 @@ class ObjectiveViewModel(
         get() = fromMatch?.let { objective ->
             val yaksDelivered = objective.yaksDelivered
             CoreData(
-                pointsPerTick = Gw2Resources.strings.points_per_tick.desc() + ":".desc() to objective.pointsPerTick.toString().desc(),
-                pointsPerCapture = Gw2Resources.strings.points_per_capture.desc() + ":".desc() to objective.pointsPerCapture.toString().desc(),
+                pointsPerTick = Gw2Resources.strings.points_per_tick.desc() to objective.pointsPerTick.toString().desc(),
+                pointsPerCapture = Gw2Resources.strings.points_per_capture.desc() to objective.pointsPerCapture.toString().desc(),
                 yaks = upgrade?.let { upgrade ->
                     val ratio = upgrade.yakRatio(yaksDelivered)
                     AppResources.strings.yaks_delivered.desc() to AppResources.strings.yaks_delivered_ratio.format(ratio.first, ratio.second)

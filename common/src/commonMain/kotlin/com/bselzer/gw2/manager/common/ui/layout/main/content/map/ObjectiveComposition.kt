@@ -309,7 +309,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             elevation = 10.dp,
             shape = RectangleShape,
             modifier = Modifier
-                .fillMaxWidth(.80f)
+                .fillMaxWidth(.90f)
                 .wrapContentHeight()
                 .border(width = border, color = Color.Black)
                 .padding(all = border)
@@ -358,7 +358,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             this?.let {
                 CenteredTextProjector(
                     interactor = CenteredTextInteractor(
-                        start = TextInteractor(first.localized()),
+                        start = TextInteractor(first.localized() + ":"),
                         end = TextInteractor(second.localized())
                     ),
                     presenter = CenteredTextPresenter(

@@ -12,11 +12,14 @@
     <string name="images">Images</string>
     <string name="neutral_slice">Tranche neutre</string>
     <string name="no_claim">Aucune Revendication de Guilde</string>
+    <string name="no_upgrade">Pas Amélioré</string>
     <string name="no_worlds">Mondes introuvable.</string>
     <string name="owned_slice">Tranche de %1$s degrés pour le %2$s</string>
     <string name="selected_objective">%1$s (%3$s %2$s)</string>
     <string name="token_description">La clé API de votre compte.</string>
     <string name="token_failure">Impossible d’enregistrer la clé API.</string>
+    <string name="upgrade_tier">Niveau D’amélioration</string>
     <string name="wvw_description">Objectifs, améliorations, mondes</string>
     <string name="wvw_tile">Dalles de carte</string>
+    <string name="yaks_delivered">Yaks Délivré</string>
 </resources>

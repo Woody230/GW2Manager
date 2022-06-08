@@ -12,11 +12,14 @@
     <string name="images">Bilder</string>
     <string name="neutral_slice">Neutrale scheibe</string>
     <string name="no_claim">Kein Gilden-Beanspruchung</string>
+    <string name="no_upgrade">Nicht Aufgewertet</string>
     <string name="no_worlds">Welten nicht gefunden.</string>
     <string name="owned_slice">%1$s Grad Scheibe für %2$s</string>
     <string name="selected_objective">%1$s (%2$s %3$s)</string>
     <string name="token_description">Der API-Schlüssel für Ihr Konto.</string>
     <string name="token_failure">Kann nicht speichern der API-Schlüssel.</string>
+    <string name="upgrade_tier">Ausbaustufe</string>
     <string name="wvw_description">Befestigungen, aufwertungen, welten</string>
     <string name="wvw_tile">Kachelkarte</string>
+    <string name="yaks_delivered">Yaks Geliefert</string>
 </resources>

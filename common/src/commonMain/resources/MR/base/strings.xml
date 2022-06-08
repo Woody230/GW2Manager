@@ -13,6 +13,7 @@
     <string name="images">Images</string>
     <string name="neutral_slice">Neutral slice</string>
     <string name="no_claim">Not Claimed</string>
+    <string name="no_upgrade">Not Upgraded</string>
     <string name="no_worlds">Worlds not found.</string>
     <string name="overview_name">%1$s (%2$s)</string>
     <string name="owned_slice">%1$s degree slice for %2$s</string>
@@ -20,6 +21,10 @@
     <string name="token_description">Your account API key or token.</string>
     <string name="token_failure">Unable to save the token.</string>
     <string name="token_hyperlink">https://account.arena.net/applications</string>
+    <string name="upgrade_tier">Upgrade Tier</string>
+    <string name="upgrade_tier_level">%1$s (%2$s/%3$s)</string>
     <string name="wvw_description">Objectives, upgrades, worlds</string>
     <string name="wvw_tile">Map Tile</string>
+    <string name="yaks_delivered">Yaks Delivered</string>
+    <string name="yaks_delivered_ratio">%1$s/%2$s</string>
 </resources>

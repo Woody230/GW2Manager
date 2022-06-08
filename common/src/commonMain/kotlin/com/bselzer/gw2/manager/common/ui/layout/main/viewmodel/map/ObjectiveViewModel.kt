@@ -125,15 +125,13 @@ class ObjectiveViewModel(
                 pointsPerCapture = Gw2Resources.strings.points_per_capture.desc() + ":".desc() to objective.pointsPerCapture.toString().desc(),
                 yaks = upgrade?.let { upgrade ->
                     val ratio = upgrade.yakRatio(yaksDelivered)
-                    // TODO translation
-                    "Yaks delivered:".desc() to "${ratio.first}/${ratio.second}".desc()
+                    AppResources.strings.yaks_delivered.desc() to AppResources.strings.yaks_delivered_ratio.format(ratio.first, ratio.second)
                 },
                 upgrade = upgrade?.let { upgrade ->
                     val level = upgrade.level(yaksDelivered)
 
-                    // TODO translations
-                    val tier = upgrade.tier(yaksDelivered)?.name?.let { name -> repositories.translation.translate(name) } ?: "Not Upgraded"
-                    "Upgrade tier:".desc() to "$tier ($level/${upgrade.tiers.size})".desc()
+                    val tier = upgrade.tier(yaksDelivered)?.name?.let { name -> repositories.translation.translate(name) } ?: AppResources.strings.no_upgrade.desc()
+                    AppResources.strings.upgrade_tier.desc() to AppResources.strings.upgrade_tier_level.format(tier, level, upgrade.tiers.size)
                 }
             )
         }

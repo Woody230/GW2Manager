@@ -18,7 +18,7 @@
     <string name="selected_objective">%1$s (%3$s %2$s)</string>
     <string name="token_description">La clé API de votre compte.</string>
     <string name="token_failure">Impossible d’enregistrer la clé API.</string>
-    <string name="upgrade_tier">Niveau D’amélioration</string>
+    <string name="upgrade_tier">Niveau d’Amélioration</string>
     <string name="wvw_description">Objectifs, améliorations, mondes</string>
     <string name="wvw_tile">Dalles de carte</string>
     <string name="yaks_delivered">Yaks Délivré</string>

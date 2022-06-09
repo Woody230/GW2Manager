@@ -10,7 +10,7 @@ plugins {
     id("dev.icerock.mobile.multiplatform-resources")
     id("com.codingfeline.buildkonfig")
 
-    // Note ksp issue with 1.6.20 for kotlin-inject https://github.com/evant/kotlin-inject/issues/193
+    // NOTE ksp issue with 1.6.20 for kotlin-inject https://github.com/evant/kotlin-inject/issues/193
     id("com.google.devtools.ksp") version "${Versions.KOTLIN}-1.0.4"
 }
 

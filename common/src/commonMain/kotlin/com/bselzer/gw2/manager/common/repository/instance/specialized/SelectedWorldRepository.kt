@@ -128,7 +128,16 @@ class SelectedWorldRepository(
      */
     override suspend fun forceRefresh() = lock.withLock {
         repositories.world.updateWorlds()
-        worldId?.let { updateMatch(it) }
+
+        val worldId = worldId
+        if (worldId == null) {
+            // Try to ensure that a world is always selected so that map/match data is always present for the UI.
+            repositories.world.worlds.keys.randomOrNull()?.let { initialId ->
+                preferences.wvw.selectedWorld.initialize(initialId)
+            }
+        } else {
+            updateMatch(worldId)
+        }
 
         val now = Clock.System.now()
         Logger.d { "Selected World | Refresh Interval | Refresh complete at $now." }

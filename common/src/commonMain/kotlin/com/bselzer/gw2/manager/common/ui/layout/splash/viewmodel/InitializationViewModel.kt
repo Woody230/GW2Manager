@@ -45,6 +45,7 @@ class InitializationViewModel(
             title = KtxResources.strings.settings.desc(),
             subtitle = KtxResources.strings.language.desc()
         ) {
+            // TODO initialize based on system language
             repositories.translation.updateLocale(preferences.common.locale.get())
         }
 

@@ -11,7 +11,7 @@ import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfi
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.WorldSelectionViewModel
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triText
+import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.biText
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogProjector
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
@@ -48,7 +48,6 @@ class WorldSelectionComposition(
     private fun WorldSelectionViewModel.SelectionDialog() {
         val dialogRouter = LocalDialogRouter.current
         val selection = selection
-        // TODO french/german buttons overflowing
         AlertDialogProjector(
             interactor = AlertDialogInteractor.Builder {
                 // Don't show the dialog anymore when the world has been selected.
@@ -56,9 +55,12 @@ class WorldSelectionComposition(
 
                 // Reset the choice so that it does not persist when the dialog is reopened.
                 selection.resetSelected()
-            }.triText().build {
+            }.biText().build {
                 title = selection.title.localized()
-                closeOnNeutral { selection.onReset() }
+                closeOnNeutral {
+                    // NOTE Not using triText so currently resetting is disabled.
+                    selection.onReset()
+                }
                 closeOnPositive {
                     // TODO keep open if world not selected and force show dialog on launch if no selection?
                     val world = selection.selected

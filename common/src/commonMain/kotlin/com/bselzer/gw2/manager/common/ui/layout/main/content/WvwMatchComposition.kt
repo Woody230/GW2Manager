@@ -74,10 +74,10 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
                     .constrainAs(pager) {
-                        top.linkTo(tabs.bottom, margin = 5.dp)
+                        top.linkTo(tabs.bottom)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
-                        bottom.linkTo(indicators.top, margin = 5.dp)
+                        bottom.linkTo(indicators.top)
                         height = Dimension.fillToConstraints
                     }
             ) { index ->
@@ -85,7 +85,9 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxSize()
                 ) {
+                    Spacer(modifier = Modifier.height(5.dp))
                     PieChart(chart = selectedCharts.charts.toList()[index])
+                    Spacer(modifier = Modifier.height(5.dp))
                 }
             }
 

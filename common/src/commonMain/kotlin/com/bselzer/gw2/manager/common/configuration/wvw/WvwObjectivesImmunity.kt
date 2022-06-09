@@ -17,10 +17,4 @@ class WvwObjectivesImmunity(
     @XmlSerialName(value = "duration", namespace = "", prefix = "")
     @XmlElement(false)
     val defaultDuration: Duration? = null,
-
-    /**
-     * The text size in SP.
-     */
-    @XmlSerialName(value = "textSize", namespace = "", prefix = "")
-    val textSize: Float = 8f,
 )

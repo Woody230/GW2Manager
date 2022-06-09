@@ -205,8 +205,8 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         enabled = enabled,
         image = link,
         description = description,
-        width = width,
-        height = height,
+        width = 32,
+        height = 32,
     ).Content(modifier = modifier)
 
     /**
@@ -217,12 +217,10 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         enabled = enabled,
         image = link,
         description = description,
-        width = width,
-        height = height,
+        width = 32,
+        height = 32,
         color = color
-    ).Content(
-        modifier = modifier,
-    )
+    ).Content(modifier = modifier)
 
     /**
      * Lays out the indicator for the objective's permanent or temporary waypoint if it exists.
@@ -232,12 +230,10 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         enabled = enabled,
         image = link,
         description = description,
-        width = width,
-        height = height,
+        width = 32,
+        height = 32,
         color = color
-    ).Content(
-        modifier = modifier,
-    )
+    ).Content(modifier = modifier)
 
     /**
      * Lays out the image of the objective.
@@ -280,9 +276,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         Text(
             text = remaining.minuteFormat(),
             fontWeight = FontWeight.Bold,
-
-            // TODO remove from config
-            fontSize = model.configuration.wvw.objectives.immunity.textSize.sp,
+            fontSize = 12.sp,
             color = Color.White,
             modifier = modifier.wrapContentSize()
         )

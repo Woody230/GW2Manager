@@ -1,6 +1,5 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
-import com.bselzer.gw2.manager.common.configuration.common.Size
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
@@ -23,13 +22,4 @@ class WvwChart(
 
     @XmlSerialName(value = "neutral", namespace = "", prefix = "")
     val neutralLink: String = "",
-
-    @XmlSerialName(value = "Title", namespace = "", prefix = "")
-    val title: WvwChartTitle = WvwChartTitle(),
-
-    @XmlSerialName(value = "Data", namespace = "", prefix = "")
-    val data: WvwChartData = WvwChartData(),
-
-    @XmlSerialName(value = "Size", namespace = "", prefix = "")
-    val size: Size = Size()
 )

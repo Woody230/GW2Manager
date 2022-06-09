@@ -133,9 +133,8 @@ class ViewerViewModel(
                 val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / objectiveRuins.size
 
                 // Scale the position before using it.
-                // TODO remove from config
-                val width = configuration.wvw.bloodlust.size.width
-                val height = configuration.wvw.bloodlust.size.height
+                val width = 64
+                val height = 64
                 val coordinates = Point2D(x, y).scaledCoordinates(width, height)
                 val bonus = borderland.bonuses.firstOrNull { bonus -> bonus.type.enumValueOrNull() == WvwMapBonusType.BLOODLUST }
                 val owner = bonus?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
@@ -161,9 +160,9 @@ class ViewerViewModel(
                 val upgrade = upgrades[objective.upgradeId]
                 val tiers = upgrade?.tiers(fromMatch.yaksDelivered)?.flatMap { tier -> tier.upgrades } ?: emptyList()
 
-                // TODO remove from config
-                val size = fromConfig?.size ?: configuration.wvw.objectives.defaultSize
-                val coordinates = objective.position().scaledCoordinates(size.width, size.height)
+                val width = 64
+                val height = 64
+                val coordinates = objective.position().scaledCoordinates(width, height)
 
                 // Get the progression level associated with the current number of yaks delivered to the objective.
                 val level = upgrade?.level(fromMatch.yaksDelivered)
@@ -179,8 +178,8 @@ class ViewerViewModel(
                     objective = objective,
                     x = coordinates.x.toInt(),
                     y = coordinates.y.toInt(),
-                    width = size.width,
-                    height = size.height,
+                    width = width,
+                    height = height,
 
                     // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
                     link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink ?: "" }.asImageUrl(),
@@ -191,15 +190,11 @@ class ViewerViewModel(
                         enabled = configuration.wvw.objectives.progressions.enabled && progression != null,
                         description = level?.let { AppResources.strings.upgrade_level.format(level) },
                         link = progression?.indicatorLink?.asImageUrl(),
-                        width = configuration.wvw.objectives.progressions.indicatorSize.width,
-                        height = configuration.wvw.objectives.progressions.indicatorSize.height,
                     ),
                     claim = ObjectiveClaim(
                         enabled = configuration.wvw.objectives.claim.enabled && !fromMatch.claimedBy?.value.isNullOrBlank(),
                         description = AppResources.strings.claimed.desc(),
                         link = configuration.wvw.objectives.claim.iconLink?.asImageUrl(),
-                        width = configuration.wvw.objectives.claim.size.width,
-                        height = configuration.wvw.objectives.claim.size.height
                     ),
                     waypoint = ObjectiveWaypoint(
                         enabled = configuration.wvw.objectives.waypoint.enabled && (hasWaypointUpgrade || hasWaypointTactic),
@@ -209,8 +204,6 @@ class ViewerViewModel(
                             hasWaypointTactic -> AppResources.strings.temporary_waypoint.desc()
                             else -> null
                         },
-                        width = configuration.wvw.objectives.waypoint.size.width,
-                        height = configuration.wvw.objectives.waypoint.size.height,
                         color = if (hasWaypointTactic && !hasWaypointUpgrade) Hex(configuration.wvw.objectives.waypoint.guild.color).color() else null
                     ),
                     immunity = ObjectiveImmunity(

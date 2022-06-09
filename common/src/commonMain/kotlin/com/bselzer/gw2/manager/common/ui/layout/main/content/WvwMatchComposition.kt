@@ -108,8 +108,8 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
      */
     @Composable
     private fun WvwMatchViewModel.PieChart(chart: Chart) {
-        val width = model.configuration.wvw.chart.size.width
-        val height = model.configuration.wvw.chart.size.height
+        val width = 512
+        val height = 512
         Box {
             AsyncImage(
                 image = chart.background,
@@ -158,9 +158,7 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
             Text(
                 text = chart.title.localized(),
                 fontWeight = FontWeight.Bold,
-
-                // TODO remove from config
-                fontSize = model.configuration.wvw.chart.title.textSize.sp,
+                fontSize = 32.sp,
                 textAlign = TextAlign.Center
             )
 
@@ -177,15 +175,13 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
         Text(
             text = data.owner.localized(),
             fontWeight = FontWeight.Bold,
-
-            // TODO remove from config
-            fontSize = configuration.wvw.chart.data.textSize.sp,
+            fontSize = 16.sp,
             color = data.color,
             textAlign = TextAlign.Center
         )
         Text(
             text = data.data.localized(),
-            fontSize = configuration.wvw.chart.data.textSize.sp,
+            fontSize = 16.sp,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(3.dp))

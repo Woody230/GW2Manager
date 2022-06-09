@@ -1,20 +1,11 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
-import com.bselzer.gw2.manager.common.configuration.common.Size
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 @Serializable
 class WvwObjectives(
-    /**
-     * The objective size to use when one is not specified in [objectives].
-     */
-    @XmlSerialName(value = "Size", namespace = "", prefix = "")
-    val defaultSize: Size = Size(64, 64),
-
     /**
      * The colors associated with each owner.
      */

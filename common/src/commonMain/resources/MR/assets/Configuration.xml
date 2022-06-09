@@ -3,8 +3,7 @@
     <!-- TODO cache clearing based on build number/app version -->
     <WorldVsWorld>
         <Objectives>
-            <Size height="64" width="64" />
-            <Immunity enabled="true" textSize="12" />
+            <Immunity enabled="true" />
 
             <!-- Colors -->
             <Color owner="Red" type="#ff4d4d" />
@@ -22,8 +21,6 @@
 
             <!-- Upgrades -->
             <Upgrades enabled="true">
-                <IndicatorSize height="32" width="32" />
-
                 <!-- Progressions -->
                 <Progression /> <!-- Display nothing for level 0. -->
                 <Progression icon="https://woody230.github.io/GW2Manager-CDN/Icons/Secured.png" indicator="https://assets.gw2dat.com/1324349.png" />
@@ -72,16 +69,12 @@
             <!-- https://api.guildwars2.com/v2/wvw/upgrades/24 -->
             <!-- https://api.guildwars2.com/v2/wvw/upgrades/30 -->
             <Waypoint enabled="true" icon="https://assets.gw2dat.com/157353.png" upgrade="^Build Waypoint$">
-                <Size height="32" width="32" />
-
                 <!-- https://api.guildwars2.com/v2/guild/upgrades/178 -->
                 <Guild color="#888888" enabled="true" upgrade="^Emergency Waypoint$" />
             </Waypoint>
 
             <!-- Guild Claim -->
-            <Claim enabled="true" icon="https://assets.gw2dat.com/1304078.png">
-                <Size height="32" width="32" />
-            </Claim>
+            <Claim enabled="true" icon="https://assets.gw2dat.com/1304078.png" />
         </Objectives>
         <Map bounded="true" continentId="2" floorId="3" region="World vs. World">
             <Scroll enabled="true" map="Eternal Battlegrounds" />
@@ -93,14 +86,8 @@
                 <Bound endX="29" endY="30" startX="11" startY="17" />
             </Level>
         </Map>
-        <Bloodlust enabled="true" icon="https://assets.gw2dat.com/638740.png">
-            <Size height="64" width="64" />
-        </Bloodlust>
-        <Chart background="https://assets.gw2dat.com/157384.png" blue="https://assets.gw2dat.com/157385.png" divider="https://assets.gw2dat.com/157386.png" green="https://assets.gw2dat.com/157387.png"
-            neutral="https://assets.gw2dat.com/733278.png" red="https://assets.gw2dat.com/157388.png">
-            <Data textSize="16" />
-            <Title textSize="32" />
-            <Size height="512" width="512" />
-        </Chart>
+        <Bloodlust enabled="true" icon="https://assets.gw2dat.com/638740.png" />
+        <Chart background="https://assets.gw2dat.com/157384.png" blue="https://assets.gw2dat.com/157385.png" divider="https://assets.gw2dat.com/157386.png"
+            green="https://assets.gw2dat.com/157387.png" neutral="https://assets.gw2dat.com/733278.png" red="https://assets.gw2dat.com/157388.png" />
     </WorldVsWorld>
 </Configuration>

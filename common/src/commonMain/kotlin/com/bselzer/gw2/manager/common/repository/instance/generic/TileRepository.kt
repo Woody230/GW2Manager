@@ -94,9 +94,9 @@ class TileRepository(
     ).let { request ->
         if (configuration.wvw.map.isBounded) {
             // Cut off unneeded tiles.
-            val bound = configuration.wvw.map.levels.firstOrNull { level -> level.zoom == zoom }?.bound
-            if (bound != null) {
-                return request.bounded(startX = bound.startX, startY = bound.startY, endX = bound.endX, endY = bound.endY)
+            val level = configuration.wvw.map.levels.firstOrNull { level -> level.zoom == zoom }
+            if (level != null) {
+                return request.bounded(startX = level.startX, startY = level.startY, endX = level.endX, endY = level.endY)
             } else {
                 Logger.w { "Unable to create a bounded request for zoom level $zoom" }
             }

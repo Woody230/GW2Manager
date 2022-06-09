@@ -28,7 +28,6 @@ import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
 import com.bselzer.ktx.compose.ui.graphics.color.color
 import com.bselzer.ktx.function.objects.isOneOf
-import com.bselzer.ktx.geometry.dimension.bi.position.Point2D
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -79,7 +78,7 @@ class ViewerViewModel(
     /**
      * Whether to scroll the map to the configured region.
      */
-    private val shouldScrollToRegion = mutableStateOf(configuration.wvw.map.scroll.enabled)
+    private val shouldScrollToRegion = mutableStateOf(true)
 
     /**
      * The coordinates to scroll to for the configured map.
@@ -88,7 +87,7 @@ class ViewerViewModel(
         @Composable
         get() {
             val region = repositories.selectedWorld.floor?.regions?.values?.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
-            val map = region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scroll.mapName } ?: return Pair(0, 0)
+            val map = region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scrollTo } ?: return Pair(0, 0)
             val topLeft = map.continentRectangle.point1
             return grid.scale(topLeft.x.toInt(), topLeft.y.toInt())
         }
@@ -132,21 +131,17 @@ class ViewerViewModel(
                 val x = objectiveRuins.sumOf { ruin -> ruin.coordinates.x } / objectiveRuins.size
                 val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / objectiveRuins.size
 
-                // Scale the position before using it.
-                val width = 64
-                val height = 64
-                val coordinates = Point2D(x, y).scaledCoordinates(width, height)
+                // Scale the coordinates to the zoom level and remove excluded bounds.
+                val coordinates = grid.scale(x.toInt(), y.toInt())
+
                 val bonus = borderland.bonuses.firstOrNull { bonus -> bonus.type.enumValueOrNull() == WvwMapBonusType.BLOODLUST }
                 val owner = bonus?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
                 Bloodlust(
                     link = configuration.wvw.bloodlust.iconLink.asImageUrl(),
                     color = configuration.wvw.color(owner = owner),
-                    x = coordinates.x.toInt(),
-                    y = coordinates.y.toInt(),
-                    width = width,
-                    height = height,
+                    x = coordinates.first,
+                    y = coordinates.second,
                     description = AppResources.strings.bloodlust_for.format(owner.stringDesc()),
-                    enabled = configuration.wvw.bloodlust.enabled
                 )
             }
         }
@@ -160,26 +155,23 @@ class ViewerViewModel(
                 val upgrade = upgrades[objective.upgradeId]
                 val tiers = upgrade?.tiers(fromMatch.yaksDelivered)?.flatMap { tier -> tier.upgrades } ?: emptyList()
 
-                val width = 64
-                val height = 64
-                val coordinates = objective.position().scaledCoordinates(width, height)
+                // Scale the objective coordinates to the zoom level and remove excluded bounds.
+                val position = objective.position()
+                val coordinates = grid.scale(position.x.toInt(), position.y.toInt())
 
                 // Get the progression level associated with the current number of yaks delivered to the objective.
                 val level = upgrade?.level(fromMatch.yaksDelivered)
-                val progression = level?.let { configuration.wvw.objectives.progressions.progression.getOrNull(level) }
+                val progression = level?.let { configuration.wvw.objectives.progressions.getOrNull(level) }
 
                 // See if any of the progressed tiers has a permanent waypoint upgrade, or the tactic for the temporary waypoint.
                 val hasWaypointUpgrade = tiers.any { tier -> configuration.wvw.objectives.waypoint.upgradeNameRegex.matches(tier.name) }
-                val hasWaypointTacticUpgrade = fromMatch.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }
+                val hasWaypointTactic = fromMatch.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }
                     .any { tactic -> configuration.wvw.objectives.waypoint.guild.upgradeNameRegex.matches(tactic.name) }
-                val hasWaypointTactic = configuration.wvw.objectives.waypoint.guild.enabled && hasWaypointTacticUpgrade
 
                 ObjectiveIcon(
                     objective = objective,
-                    x = coordinates.x.toInt(),
-                    y = coordinates.y.toInt(),
-                    width = width,
-                    height = height,
+                    x = coordinates.first,
+                    y = coordinates.second,
 
                     // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
                     link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink ?: "" }.asImageUrl(),
@@ -187,17 +179,17 @@ class ViewerViewModel(
                     description = repositories.translation.translate(objective.name).desc(),
                     color = configuration.wvw.color(fromMatch),
                     progression = ObjectiveProgression(
-                        enabled = configuration.wvw.objectives.progressions.enabled && progression != null,
+                        enabled = progression != null,
                         description = level?.let { AppResources.strings.upgrade_level.format(level) },
                         link = progression?.indicatorLink?.asImageUrl(),
                     ),
                     claim = ObjectiveClaim(
-                        enabled = configuration.wvw.objectives.claim.enabled && !fromMatch.claimedBy?.value.isNullOrBlank(),
+                        enabled = !fromMatch.claimedBy?.value.isNullOrBlank(),
                         description = AppResources.strings.claimed.desc(),
                         link = configuration.wvw.objectives.claim.iconLink?.asImageUrl(),
                     ),
                     waypoint = ObjectiveWaypoint(
-                        enabled = configuration.wvw.objectives.waypoint.enabled && (hasWaypointUpgrade || hasWaypointTactic),
+                        enabled = hasWaypointUpgrade || hasWaypointTactic,
                         link = configuration.wvw.objectives.waypoint.iconLink?.asImageUrl(),
                         description = when {
                             hasWaypointUpgrade -> AppResources.strings.permanent_waypoint.desc()
@@ -207,8 +199,7 @@ class ViewerViewModel(
                         color = if (hasWaypointTactic && !hasWaypointUpgrade) Hex(configuration.wvw.objectives.waypoint.guild.color).color() else null
                     ),
                     immunity = ObjectiveImmunity(
-                        enabled = configuration.wvw.objectives.immunity.enabled,
-                        duration = fromConfig?.immunity ?: configuration.wvw.objectives.immunity.defaultDuration,
+                        duration = fromConfig?.immunity,
                         startTime = fromMatch.lastFlippedAt,
                     )
                 )
@@ -237,18 +228,4 @@ class ViewerViewModel(
                 }
             )
         }
-
-    /**
-     * @return the scaled coordinates of the image
-     */
-    private fun Point2D.scaledCoordinates(width: Number, height: Number): Point2D {
-        // Scale the objective coordinates to the zoom level and remove excluded bounds.
-        val scaled = grid.scale(x.toInt(), y.toInt())
-
-        // Displace the coordinates so that it aligns with the center of the image.
-        return Point2D(
-            x = scaled.first - width.toDouble() / 2,
-            y = scaled.second - height.toDouble() / 2
-        )
-    }
 }

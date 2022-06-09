@@ -36,10 +36,10 @@ class WvwMap(
     val regionName: String = "World vs. World",
 
     /**
-     * How to handle scrolling.
+     * The name of the map to scroll to.
      */
-    @XmlSerialName(value = "Scroll", namespace = "", prefix = "")
-    val scroll: WvwMapScroll = WvwMapScroll(),
+    @XmlSerialName(value = "scrollTo", namespace = "", prefix = "")
+    val scrollTo: String = "",
 
     /**
      * How to handle zoom levels.

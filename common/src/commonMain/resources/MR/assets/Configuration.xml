@@ -3,8 +3,6 @@
     <!-- TODO cache clearing based on build number/app version -->
     <WorldVsWorld>
         <Objectives>
-            <Immunity enabled="true" />
-
             <!-- Colors -->
             <Color owner="Red" type="#ff4d4d" />
             <Color owner="Blue" type="#00ffff" />
@@ -20,16 +18,14 @@
             <Objective icon="https://assets.gw2dat.com/102682.png" type="Mercenary" />
 
             <!-- Upgrades -->
-            <Upgrades enabled="true">
-                <!-- Progressions -->
-                <Progression /> <!-- Display nothing for level 0. -->
-                <Progression icon="https://woody230.github.io/GW2Manager-CDN/Icons/Secured.png" indicator="https://assets.gw2dat.com/1324349.png" />
-                <Progression icon="https://woody230.github.io/GW2Manager-CDN/Icons/Reinforced.png" indicator="https://assets.gw2dat.com/1324350.png" />
-                <Progression icon="https://woody230.github.io/GW2Manager-CDN/Icons/Fortified.png" indicator="https://assets.gw2dat.com/1324351.png" />
-            </Upgrades>
+            <!-- Progressions -->
+            <Progression /> <!-- Display nothing for level 0. -->
+            <Progression icon="https://woody230.github.io/GW2Manager-CDN/Icons/Secured.png" indicator="https://assets.gw2dat.com/1324349.png" />
+            <Progression icon="https://woody230.github.io/GW2Manager-CDN/Icons/Reinforced.png" indicator="https://assets.gw2dat.com/1324350.png" />
+            <Progression icon="https://woody230.github.io/GW2Manager-CDN/Icons/Fortified.png" indicator="https://assets.gw2dat.com/1324351.png" />
 
             <!-- Guild Upgrade -->
-            <GuildUpgrades enabled="true">
+            <GuildUpgrades>
                 <ImprovementTier hold="10m" icon="https://assets.gw2dat.com/1025208.png">
                     <Improvement name="Sabotage Depot" availability="Camp,Tower,Keep,Castle" id="306" />
                     <Improvement name="Hardened Gates" availability="Tower,Keep,Castle" id="389" />
@@ -68,25 +64,20 @@
             <!-- Waypoint Upgrade -->
             <!-- https://api.guildwars2.com/v2/wvw/upgrades/24 -->
             <!-- https://api.guildwars2.com/v2/wvw/upgrades/30 -->
-            <Waypoint enabled="true" icon="https://assets.gw2dat.com/157353.png" upgrade="^Build Waypoint$">
+            <Waypoint icon="https://assets.gw2dat.com/157353.png" upgrade="^Build Waypoint$">
                 <!-- https://api.guildwars2.com/v2/guild/upgrades/178 -->
-                <Guild color="#888888" enabled="true" upgrade="^Emergency Waypoint$" />
+                <Guild color="#888888" upgrade="^Emergency Waypoint$" />
             </Waypoint>
 
             <!-- Guild Claim -->
-            <Claim enabled="true" icon="https://assets.gw2dat.com/1304078.png" />
+            <Claim icon="https://assets.gw2dat.com/1304078.png" />
         </Objectives>
-        <Map bounded="true" continentId="2" floorId="3" region="World vs. World">
-            <Scroll enabled="true" map="Eternal Battlegrounds" />
+        <Map bounded="true" continentId="2" floorId="3" region="World vs. World" scrollTo="Eternal Battlegrounds">
             <Zoom default="4" max="5" min="3" />
-            <Level zoom="4">
-                <Bound endX="14" endY="15" startX="5" startY="8" />
-            </Level>
-            <Level zoom="5">
-                <Bound endX="29" endY="30" startX="11" startY="17" />
-            </Level>
+            <Level endX="14" endY="15" startX="5" startY="8" zoom="4" />
+            <Level endX="29" endY="30" startX="11" startY="17" zoom="5" />
         </Map>
-        <Bloodlust enabled="true" icon="https://assets.gw2dat.com/638740.png" />
+        <Bloodlust icon="https://assets.gw2dat.com/638740.png" />
         <Chart background="https://assets.gw2dat.com/157384.png" blue="https://assets.gw2dat.com/157385.png" divider="https://assets.gw2dat.com/157386.png"
             green="https://assets.gw2dat.com/157387.png" neutral="https://assets.gw2dat.com/733278.png" red="https://assets.gw2dat.com/157388.png" />
     </WorldVsWorld>

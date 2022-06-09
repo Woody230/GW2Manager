@@ -7,8 +7,6 @@ import kotlinx.datetime.Instant
 import kotlin.time.Duration
 
 data class ObjectiveImmunity(
-    val enabled: Boolean,
-
     /**
      * The amount of time the immunity lasts.
      */

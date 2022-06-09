@@ -152,11 +152,11 @@ class ObjectiveViewModel(
         }
 
     val shouldShowUpgradeTiers: Boolean
-        get() = configuration.wvw.objectives.progressions.enabled && automaticUpgradeTiers.any { tier -> tier.upgrades.isNotEmpty() }
+        get() = automaticUpgradeTiers.any { tier -> tier.upgrades.isNotEmpty() }
 
     val automaticUpgradeTiers: Collection<UpgradeTier>
         // Skip level 0 which only exists in the configuration.
-        get() = configuration.wvw.objectives.progressions.progression.drop(1).mapIndexedNotNull { index, progression ->
+        get() = configuration.wvw.objectives.progressions.drop(1).mapIndexedNotNull { index, progression ->
             val tier = upgrade?.tiers?.getOrNull(index)
             if (tier == null) {
                 Logger.w("Attempting to get a missing upgrade tier with index $index when there are ${upgrade?.tiers?.size ?: 0} tiers.")
@@ -191,13 +191,13 @@ class ObjectiveViewModel(
         }.filter { tier -> tier.upgrades.isNotEmpty() }
 
     val shouldShowImprovementTiers: Boolean
-        get() = configuration.wvw.objectives.guildUpgrades.enabled && improvementTiers.any { tier -> tier.upgrades.isNotEmpty() }
+        get() = improvementTiers.any { tier -> tier.upgrades.isNotEmpty() }
 
     val improvementTiers: Collection<GuildUpgradeTier>
         get() = configuration.wvw.objectives.guildUpgrades.improvements.model()
 
     val shouldShowTacticTiers: Boolean
-        get() = configuration.wvw.objectives.guildUpgrades.enabled && tacticTiers.any { tier -> tier.upgrades.isNotEmpty() }
+        get() = tacticTiers.any { tier -> tier.upgrades.isNotEmpty() }
 
     val tacticTiers: Collection<GuildUpgradeTier>
         get() = configuration.wvw.objectives.guildUpgrades.tactics.model()

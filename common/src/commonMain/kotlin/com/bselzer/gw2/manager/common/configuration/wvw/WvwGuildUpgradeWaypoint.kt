@@ -6,9 +6,6 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
 class WvwGuildUpgradeWaypoint(
-    @XmlSerialName(value = "enabled", namespace = "", prefix = "")
-    val enabled: Boolean = false,
-
     @XmlSerialName(value = "upgrade", namespace = "", prefix = "")
     val upgradeName: String = "^Emergency Waypoint$",
 

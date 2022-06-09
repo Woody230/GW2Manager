@@ -129,72 +129,91 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
      * Lays out the image indicating the owner of bloodlust.
      */
     @Composable
-    private fun Bloodlust.Bloodlust() = AsyncImage(
-        enabled = enabled,
-        image = link,
-        width = width,
-        height = height,
-        color = color,
-        description = description
-    ).Content(
-        modifier = Modifier.absoluteOffset(
-            x = x.toDp(),
-            y = y.toDp()
-        ),
-    )
+    private fun Bloodlust.Bloodlust() {
+        val width = 64
+        val height = 64
+
+        // Displace the coordinates so that it aligns with the center of the image.
+        val displacedX = x - width / 2
+        val displacedY = y - height / 2
+
+        AsyncImage(
+            image = link,
+            width = width,
+            height = height,
+            color = color,
+            description = description
+        ).Content(
+            modifier = Modifier.absoluteOffset(
+                x = displacedX.toDp(),
+                y = displacedY.toDp()
+            ),
+        )
+    }
 
     /**
      * Lays out the individual objective on the map.
      */
     @Composable
-    private fun ViewerViewModel.Objective(objective: ObjectiveIcon) = ConstraintLayout(
-        modifier = Modifier
-            .absoluteOffset(objective.x.toDp(), objective.y.toDp())
-            .wrapContentSize()
-    ) {
-        val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
+    private fun ViewerViewModel.Objective(objective: ObjectiveIcon) {
+        val width = 64
+        val height = 64
 
-        // Overlay the objective image onto the map image.
-        objective.Image(
-            modifier = Modifier.constrainAs(icon) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-            }
-        )
+        // Displace the coordinates so that it aligns with the center of the image.
+        val displacedX = objective.x - width / 2
+        val displacedY = objective.y - height / 2
 
-        objective.progression.Progression(
-            modifier = Modifier.constrainAs(upgradeIndicator) {
-                // Display the indicator in the top center of the objective icon.
-                top.linkTo(icon.top)
-                start.linkTo(icon.start)
-                end.linkTo(icon.end)
-            },
-        )
+        ConstraintLayout(
+            modifier = Modifier
+                .absoluteOffset(displacedX.toDp(), displacedY.toDp())
+                .wrapContentSize()
+        ) {
+            val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
 
-        objective.claim.Claim(
-            modifier = Modifier.constrainAs(claimIndicator) {
-                // Display the indicator in the bottom right of the objective icon.
-                bottom.linkTo(icon.bottom)
-                end.linkTo(icon.end)
-            }
-        )
+            // Overlay the objective image onto the map image.
+            objective.Image(
+                width = width,
+                height = height,
+                modifier = Modifier.constrainAs(icon) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                }
+            )
 
-        objective.waypoint.Waypoint(
-            modifier = Modifier.constrainAs(waypointIndicator) {
-                // Display the indicator in the bottom left of the objective icon.
-                bottom.linkTo(icon.bottom)
-                start.linkTo(icon.start)
-            },
-        )
+            objective.progression.Progression(
+                modifier = Modifier.constrainAs(upgradeIndicator) {
+                    // Display the indicator in the top center of the objective icon.
+                    top.linkTo(icon.top)
+                    start.linkTo(icon.start)
+                    end.linkTo(icon.end)
+                },
+            )
 
-        objective.immunity.ImmunityTimer(
-            modifier = Modifier.constrainAs(timer) {
-                // Display the timer underneath the objective icon.
-                top.linkTo(icon.bottom)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
-        )
+            objective.claim.Claim(
+                modifier = Modifier.constrainAs(claimIndicator) {
+                    // Display the indicator in the bottom right of the objective icon.
+                    bottom.linkTo(icon.bottom)
+                    end.linkTo(icon.end)
+                }
+            )
+
+            objective.waypoint.Waypoint(
+                modifier = Modifier.constrainAs(waypointIndicator) {
+                    // Display the indicator in the bottom left of the objective icon.
+                    bottom.linkTo(icon.bottom)
+                    start.linkTo(icon.start)
+                },
+            )
+
+            objective.immunity.ImmunityTimer(
+                modifier = Modifier.constrainAs(timer) {
+                    // Display the timer underneath the objective icon.
+                    top.linkTo(icon.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+            )
+        }
     }
 
     /**
@@ -240,7 +259,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
      */
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun ObjectiveIcon.Image(modifier: Modifier) {
+    private fun ObjectiveIcon.Image(modifier: Modifier, width: Int, height: Int) {
         val mapRouter = LocalMapRouter.current
         AsyncImage(
             width = width,
@@ -271,7 +290,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
         // If the time has finished or the current time is incorrectly set and thus causing an inflated remaining time, do not display it.
         // For the latter case, while the timers shown will be incorrect they will at the very least not be inflated.
         val remaining = remaining.collectAsState(initial = Duration.ZERO).value
-        if (!enabled || !remaining.isPositive() || duration == null || remaining > duration) return
+        if (!remaining.isPositive() || duration == null || remaining > duration) return
 
         Text(
             text = remaining.minuteFormat(),

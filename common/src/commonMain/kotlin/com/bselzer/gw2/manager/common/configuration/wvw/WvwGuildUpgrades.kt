@@ -5,9 +5,6 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
 class WvwGuildUpgrades(
-    @XmlSerialName(value = "enabled", namespace = "", prefix = "")
-    val enabled: Boolean = false,
-
     @XmlSerialName(value = "ImprovementTier", namespace = "", prefix = "")
     val improvements: List<WvwGuildImprovementTier> = emptyList(),
 

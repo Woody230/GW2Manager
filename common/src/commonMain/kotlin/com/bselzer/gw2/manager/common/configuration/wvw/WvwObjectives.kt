@@ -24,16 +24,10 @@ class WvwObjectives(
     val objectives: List<WvwObjective> = emptyList(),
 
     /**
-     * Information related to objective lords being immune to damage and preventing capture.
-     */
-    @XmlSerialName(value = "Immunity", namespace = "", prefix = "")
-    val immunity: WvwObjectivesImmunity = WvwObjectivesImmunity(),
-
-    /**
      * Information related to the upgrade tiers: secured/reinforced/fortified
      */
-    @XmlSerialName(value = "Upgrades", namespace = "", prefix = "")
-    val progressions: WvwUpgradeProgressions = WvwUpgradeProgressions(),
+    @XmlSerialName(value = "Progression", namespace = "", prefix = "")
+    val progressions: List<WvwUpgradeProgression> = emptyList(),
 
     /**
      * Information related to guild upgrade tier progression.

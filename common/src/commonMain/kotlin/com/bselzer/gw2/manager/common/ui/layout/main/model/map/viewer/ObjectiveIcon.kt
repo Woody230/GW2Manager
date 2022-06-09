@@ -9,8 +9,6 @@ data class ObjectiveIcon(
     val objective: WvwObjective,
     val x: Int,
     val y: Int,
-    val width: Int,
-    val height: Int,
     val link: ImageDesc,
     val description: StringDesc,
     val color: Color,

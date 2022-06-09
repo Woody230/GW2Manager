@@ -8,9 +8,6 @@ data class Bloodlust(
     val link: ImageDesc,
     val x: Int,
     val y: Int,
-    val width: Int,
-    val height: Int,
     val color: Color,
     val description: StringDesc,
-    val enabled: Boolean
 )

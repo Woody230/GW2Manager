@@ -6,9 +6,6 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
 class WvwUpgradeWaypoint(
-    @XmlSerialName(value = "enabled", namespace = "", prefix = "")
-    val enabled: Boolean = false,
-
     @XmlSerialName(value = "icon", namespace = "", prefix = "")
     val iconLink: String? = null,
 

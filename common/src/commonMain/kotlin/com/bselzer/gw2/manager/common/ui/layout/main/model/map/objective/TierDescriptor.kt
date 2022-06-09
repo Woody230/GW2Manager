@@ -7,11 +7,9 @@ import dev.icerock.moko.resources.desc.image.ImageDesc
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-data class Icon(
+data class TierDescriptor(
     val link: ImageDesc?,
-    val width: Int,
-    val height: Int,
-    val description: StringDesc?,
-    val color: Color?,
+    val description: Flow<StringDesc>,
+    val color: Color? = null,
     val alpha: Flow<Float> = flowOf(DefaultAlpha)
 )

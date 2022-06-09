@@ -71,21 +71,14 @@ class ObjectiveViewModel(
     private val guild: Guild?
         get() = repositories.guild.guilds[guildId]
 
-    // TODO on init refresh guild information based on claimedBy in match
-
-    val icon: Icon?
+    val icon: ObjectiveIcon?
         get() = objective?.let { objective ->
             // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
             val link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink }
-            Icon(
+            ObjectiveIcon(
                 link = link?.asImageUrl(),
                 description = repositories.translation.translate(objective.name).desc(),
                 color = configuration.wvw.color(fromMatch),
-
-                // TODO use directly in composition
-                // TODO objective images are mostly 32x32 and look awful as result of being scaled like this
-                width = 128,
-                height = 128
             )
         }
 
@@ -145,19 +138,16 @@ class ObjectiveViewModel(
                 return null
             }
 
+            // Since we need to use the size when making the request, this is an appropriate case of passing the size in the model.
             val size = 256
             val request = clients.emblem.requestEmblem(guildId.value, size = size, EmblemRequestOptions.MAXIMIZE_BACKGROUND_ALPHA)
             val name = repositories.translation.translate(guild.name)
             return Claim(
                 claimedAt = configuration.wvw.claimedAt(claimedAt),
                 claimedBy = AppResources.strings.claimed_by.format(name),
-                icon = Icon(
-                    link = clients.emblem.emblemUrl(request).asImageUrl(),
-                    width = size,
-                    height = size,
-                    description = AppResources.strings.guild_emblem.format(name),
-                    color = null,
-                )
+                link = clients.emblem.emblemUrl(request).asImageUrl(),
+                description = AppResources.strings.guild_emblem.format(name),
+                size = size
             )
         }
 
@@ -183,32 +173,18 @@ class ObjectiveViewModel(
             val yakRatio = yakRatios.getOrElse(index) { Pair(0, 0) }
             val tierName = repositories.translation.translate(tier.name)
             UpgradeTier(
-                icon = Icon(
+                icon = TierDescriptor(
                     link = progression.iconLink.asImageUrl(),
-
-                    // TODO remove from config
-                    width = configuration.wvw.objectives.progressions.tierIconSize.width,
-                    height = configuration.wvw.objectives.progressions.tierIconSize.height,
-
-                    description = AppResources.strings.upgrade_tier_yaks.format(tierName, yakRatio.first, yakRatio.second),
+                    description = flowOf(AppResources.strings.upgrade_tier_yaks.format(tierName, yakRatio.first, yakRatio.second)),
                     alpha = flowOf(alpha),
-                    color = null,
                 ),
 
                 upgrades = tier.upgrades.map { upgrade ->
                     Upgrade(
                         name = repositories.translation.translate(upgrade.name).desc(),
-
-                        icon = Icon(
-                            link = upgrade.iconLink.value.asImageUrl(),
-                            description = repositories.translation.translate(upgrade.description).desc(),
-                            alpha = flowOf(alpha),
-                            color = null,
-
-                            // TODO remove from config
-                            width = configuration.wvw.objectives.progressions.iconSize.width,
-                            height = configuration.wvw.objectives.progressions.iconSize.height,
-                        )
+                        link = upgrade.iconLink.value.asImageUrl(),
+                        description = repositories.translation.translate(upgrade.description).desc(),
+                        alpha = flowOf(alpha),
                     )
                 }
             )
@@ -247,29 +223,21 @@ class ObjectiveViewModel(
             }
 
             GuildUpgradeTier(
-                description = countdown.map { remaining ->
-                    if (startTime == null) {
-                        // If there is no time, then there must be no claim.
-                        AppResources.strings.no_claim.desc()
-                    } else {
-                        // Note that the holding period starts from the claim time, NOT from the capture time.
-                        // If there is remaining time then display it, otherwise display the amount of time that was needed for this tier to unlock.
-                        val holdFor = AppResources.strings.hold_for.format(remaining.minuteFormat())
-                        val heldFor = AppResources.strings.held_for.format(tier.holdingPeriod.minuteFormat())
-                        if (remaining.isPositive()) holdFor else heldFor
-                    }
-                },
-
-                icon = Icon(
+                icon = TierDescriptor(
                     link = tier.iconLink.asImageUrl(),
-
-                    // TODO remove from config
-                    width = configuration.wvw.objectives.guildUpgrades.tierSize.width,
-                    height = configuration.wvw.objectives.guildUpgrades.tierSize.height,
-
-                    description = "".desc(),
-                    color = null,
                     alpha = alpha,
+                    description = countdown.map { remaining ->
+                        if (startTime == null) {
+                            // If there is no time, then there must be no claim.
+                            AppResources.strings.no_claim.desc()
+                        } else {
+                            // Note that the holding period starts from the claim time, NOT from the capture time.
+                            // If there is remaining time then display it, otherwise display the amount of time that was needed for this tier to unlock.
+                            val holdFor = AppResources.strings.hold_for.format(remaining.minuteFormat())
+                            val heldFor = AppResources.strings.held_for.format(tier.holdingPeriod.minuteFormat())
+                            if (remaining.isPositive()) holdFor else heldFor
+                        }
+                    },
                 ),
 
                 upgrades = tier.upgrades.filter { upgrade -> upgrade.objectiveTypes.contains(objective.type.enumValueOrNull()) }.mapNotNull { upgrade ->
@@ -282,18 +250,11 @@ class ObjectiveViewModel(
 
                     Upgrade(
                         name = repositories.translation.translate(guildUpgrade.name).desc(),
-                        icon = Icon(
-                            link = guildUpgrade.iconLink.value.asImageUrl(),
-                            description = repositories.translation.translate(guildUpgrade.description).desc(),
-                            color = null,
+                        link = guildUpgrade.iconLink.value.asImageUrl(),
+                        description = repositories.translation.translate(guildUpgrade.description).desc(),
 
-                            // TODO remove from config
-                            width = configuration.wvw.objectives.guildUpgrades.size.width,
-                            height = configuration.wvw.objectives.guildUpgrades.size.height,
-
-                            // If the upgrade is slotted then provide full opacity.
-                            alpha = flowOf(configuration.alpha(condition = fromMatch?.guildUpgradeIds?.contains(guildUpgradeId) == true))
-                        ),
+                        // If the upgrade is slotted then provide full opacity.
+                        alpha = flowOf(configuration.alpha(condition = fromMatch?.guildUpgradeIds?.contains(guildUpgradeId) == true))
                     )
                 }
             )

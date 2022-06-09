@@ -23,8 +23,6 @@
             <!-- Upgrades -->
             <Upgrades enabled="true">
                 <IndicatorSize height="32" width="32" />
-                <IconSize height="128" width="128" />
-                <TierIconSize height="172" width="172" />
 
                 <!-- Progressions -->
                 <Progression /> <!-- Display nothing for level 0. -->
@@ -35,8 +33,6 @@
 
             <!-- Guild Upgrade -->
             <GuildUpgrades enabled="true">
-                <Size height="128" width="128" />
-                <TierSize height="172" width="172" />
                 <ImprovementTier hold="10m" icon="https://assets.gw2dat.com/1025208.png">
                     <Improvement name="Sabotage Depot" availability="Camp,Tower,Keep,Castle" id="306" />
                     <Improvement name="Hardened Gates" availability="Tower,Keep,Castle" id="389" />

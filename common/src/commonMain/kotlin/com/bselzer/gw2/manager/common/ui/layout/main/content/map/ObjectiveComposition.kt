@@ -168,7 +168,16 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
         content = buildArray {
             // TODO chat link?
             icon?.let { icon ->
-                add { icon.ImageContent() }
+                // TODO objective images are mostly 32x32 and look awful as result of being scaled like this
+                add {
+                    AsyncImage(
+                        image = icon.link,
+                        description = icon.description,
+                        width = 128,
+                        height = 128,
+                        color = icon.color
+                    ).Content()
+                }
             }
 
             overview?.let { overview ->
@@ -191,16 +200,6 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
         }
     )
 
-    @Composable
-    private fun Icon.ImageContent(modifier: Modifier = Modifier, color: Color? = null) = AsyncImage(
-        image = link,
-        width = width,
-        height = height,
-        description = description,
-        color = color ?: this.color,
-        alpha = alpha.collectAsState(DefaultAlpha).value
-    ).Content(modifier)
-
     /**
      * Lays out the column for automatic upgrades.
      */
@@ -210,8 +209,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             automaticUpgradeTiers.forEach { tier ->
                 add {
                     upgradeTierCard(
-                        tierIcon = tier.icon,
-                        tierDescription = tier.icon.description ?: "".desc(),
+                        icon = tier.icon,
                         upgrades = tier.upgrades
                     )
                 }
@@ -228,12 +226,9 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             tiers.map { tier ->
                 add {
                     upgradeTierCard(
-                        tierIcon = tier.icon,
-                        tierDescription = tier.description.collectAsState(initial = "".desc()).value,
-                        upgrades = tier.upgrades,
-
                         // Tier image is completely white so it must be converted to black for light mode.
-                        color = if (LocalTheme.current == Theme.LIGHT) Color.Black else null
+                        icon = tier.icon.copy(color = if (LocalTheme.current == Theme.LIGHT) Color.Black else tier.icon.color),
+                        upgrades = tier.upgrades,
                     )
                 }
             }
@@ -244,11 +239,9 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
      * Lays out a card wrapping the tier header with the ability to expand to display the associated upgrades.
      */
     @Composable
-    private fun ColumnScope.upgradeTierCard(
-        tierIcon: Icon,
-        tierDescription: StringDesc,
+    private fun upgradeTierCard(
+        icon: TierDescriptor,
         upgrades: Collection<Upgrade>,
-        color: Color? = null
     ) {
         val isExpanded = remember { mutableStateOf(false) }
         InfoCard(
@@ -265,16 +258,12 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
                     .padding(start = 15.dp, end = 5.dp),
                 content = buildArray {
                     // TODO (un)lock icon?
-                    add {
-                        upgradeTier(image = tierIcon, description = tierDescription, isExpanded = isExpanded.value, color = color)
-                    }
+                    add { upgradeTier(icon = icon, isExpanded = isExpanded.value) }
 
                     if (isExpanded.value) {
                         // Only show the upgrade content when expanded to save space.
                         upgrades.forEach { upgrade ->
-                            add {
-                                upgrade(image = upgrade.icon, name = upgrade.name, description = upgrade.icon.description ?: "".desc())
-                            }
+                            add { upgrade.Content() }
                         }
                     }
                 }
@@ -341,6 +330,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             this?.let {
                 CenteredTextProjector(
                     interactor = CenteredTextInteractor(
+                        // TODO divider instead of colon? separate rows for first/secondary text?
                         start = TextInteractor(first.localized() + ":"),
                         end = TextInteractor(second.localized())
                     ),
@@ -369,29 +359,42 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
     ) {
         Text(text = claim.claimedAt.localized(), textAlign = TextAlign.Center)
         Text(text = claim.claimedBy.localized(), textAlign = TextAlign.Center)
-        claim.icon.ImageContent()
+
+        AsyncImage(
+            image = claim.link,
+            width = claim.size,
+            height = claim.size,
+            description = claim.description
+        ).Content()
     }
 
     /**
      * Lays out the header representing a tier of upgrades.
      */
     @Composable
-    private fun upgradeTier(image: Icon, description: StringDesc, isExpanded: Boolean, color: Color? = null) {
+    private fun upgradeTier(icon: TierDescriptor, isExpanded: Boolean) {
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-            val (icon, descriptor, expansion) = createRefs()
-            image.ImageContent(color = color, modifier = Modifier.constrainAs(icon) {
+            val (iconRef, descriptorRef, expansionRef) = createRefs()
+            AsyncImage(
+                image = icon.link,
+                width = 172,
+                height = 172,
+                color = icon.color,
+                alpha = icon.alpha.collectAsState(DefaultAlpha).value
+            ).Content(Modifier.constrainAs(iconRef) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
                 bottom.linkTo(parent.bottom)
             })
+
             Text(
-                text = description.localized(),
+                text = icon.description.collectAsState("".desc()).value.localized(),
                 style = MaterialTheme.typography.h6,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.constrainAs(descriptor) {
+                modifier = Modifier.constrainAs(descriptorRef) {
                     top.linkTo(parent.top)
-                    start.linkTo(icon.end, margin = 5.dp)
-                    end.linkTo(expansion.start, margin = 5.dp)
+                    start.linkTo(iconRef.end, margin = 5.dp)
+                    end.linkTo(expansionRef.start, margin = 5.dp)
                     bottom.linkTo(parent.bottom)
                     width = Dimension.fillToConstraints
                 }
@@ -400,7 +403,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             IconProjector(
                 interactor = expansionIconInteractor(isExpanded)
             ).Projection(
-                modifier = Modifier.constrainAs(expansion) {
+                modifier = Modifier.constrainAs(expansionRef) {
                     top.linkTo(parent.top)
                     end.linkTo(parent.end)
                     bottom.linkTo(parent.bottom)
@@ -413,11 +416,17 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
      * Lays out the image and description of an individual upgrade.
      */
     @Composable
-    private fun upgrade(image: Icon, name: StringDesc, description: StringDesc) = Row(
+    private fun Upgrade.Content() = Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        image.ImageContent()
+        AsyncImage(
+            image = link,
+            width = 128,
+            height = 128,
+            alpha = alpha.collectAsState(DefaultAlpha).value
+        ).Content()
+
         Spacer(modifier = Modifier.width(25.dp))
         Column {
             Text(text = name.localized(), style = MaterialTheme.typography.subtitle1)

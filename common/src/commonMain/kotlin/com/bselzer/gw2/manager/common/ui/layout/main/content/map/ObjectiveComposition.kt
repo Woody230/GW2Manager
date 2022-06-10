@@ -29,7 +29,6 @@ import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.resource.ui.layout.icon.expansionIconInteractor
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
-import com.bselzer.ktx.compose.ui.intl.toComposeLocale
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextInteractor
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextPresenter
@@ -40,6 +39,7 @@ import com.bselzer.ktx.compose.ui.layout.icon.IconProjector
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
+import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.function.collection.buildArray
 import com.bselzer.ktx.resource.KtxResources
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -337,7 +337,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
                     interactor = CenteredTextInteractor(
                         // TODO divider instead of colon? separate rows for first/secondary text?
                         start = TextInteractor(first.localized() + ":"),
-                        end = TextInteractor(second.localized().capitalize(LocalLocale.current.toComposeLocale()))
+                        end = second.localized().capitalize(LocalLocale.current).textInteractor()
                     ),
                     presenter = CenteredTextPresenter(
                         start = TextPresenter(fontWeight = FontWeight.Bold)
@@ -393,7 +393,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             })
 
             Text(
-                text = icon.description.collectAsState("".desc()).value.localized().capitalize(LocalLocale.current.toComposeLocale()),
+                text = icon.description.collectAsState("".desc()).value.localized().capitalize(LocalLocale.current),
                 style = MaterialTheme.typography.h6,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.constrainAs(descriptorRef) {

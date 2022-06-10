@@ -124,10 +124,12 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
                 }
         )
 
-        LaunchedEffect(hasContent) {
-            // Only refresh individually if the whole grid doesn't need
-            if (!model.refreshGrid && !hasContent) {
-                model.request(this@MapTile)
+        // An individual refresh is only required if the whole grid isn't going to be refreshed.
+        if (!model.refreshGrid) {
+            LaunchedEffect(hasContent) {
+                if (!hasContent) {
+                    model.request(this@MapTile)
+                }
             }
         }
     }

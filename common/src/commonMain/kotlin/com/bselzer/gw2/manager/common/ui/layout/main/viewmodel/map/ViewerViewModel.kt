@@ -81,7 +81,7 @@ class ViewerViewModel(
     /**
      * Whether to scroll the map to the configured region.
      */
-    private val shouldScrollToRegion = mutableStateOf(true)
+    private val shouldScrollToRegion = mutableStateOf(configuration.wvw.map.scrollEnabled)
 
     /**
      * The coordinates to scroll to for the configured map.

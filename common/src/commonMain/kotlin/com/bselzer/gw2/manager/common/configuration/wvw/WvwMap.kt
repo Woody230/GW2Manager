@@ -48,6 +48,12 @@ class WvwMap(
     val scrollTo: String = "",
 
     /**
+     * Whether [scrollTo] is enabled.
+     */
+    @XmlSerialName(value = "scrollEnabled", namespace = "", prefix = "")
+    val scrollEnabled: Boolean = false,
+
+    /**
      * How to handle zoom levels.
      */
     @XmlSerialName(value = "Level", namespace = "", prefix = "")

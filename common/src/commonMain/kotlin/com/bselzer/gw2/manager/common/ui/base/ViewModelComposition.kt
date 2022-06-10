@@ -30,24 +30,12 @@ abstract class ViewModelComposition<Model : ViewModel>(protected val model: Mode
     protected val paddingValues: PaddingValues = PaddingValues(all = padding)
 
     /**
-     * For dark theme, use the top of the image which has a more uniform dark color compared to the center which has a fire.
-     */
-    private val relativeBackgroundAlignment
-        @Composable
-        get() = if (LocalTheme.current == Theme.DARK) {
-            Alignment.TopCenter
-        } else {
-            Alignment.Center
-        }
-
-    /**
      * The painter for an image that will typically have text on it.
      */
     protected val relativeBackgroundPainter: Painter
         @Composable
         get() = if (LocalTheme.current == Theme.DARK) {
-            // TODO updated version without the fire, which does not work well with the text
-            AppResources.images.bloodstone_night.painter()
+            AppResources.images.bloodstone_night_no_fire.painter()
         } else {
             AppResources.images.ice.painter()
         }
@@ -61,7 +49,7 @@ abstract class ViewModelComposition<Model : ViewModel>(protected val model: Mode
 
     protected val relativeBackgroundPresenter
         @Composable
-        get() = backgroundImagePresenter() merge ImagePresenter(alignment = relativeBackgroundAlignment)
+        get() = backgroundImagePresenter() merge ImagePresenter(alignment = Alignment.Center)
 
     protected val absoluteBackgroundPresenter
         @Composable

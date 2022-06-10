@@ -52,6 +52,7 @@ class ViewerViewModel(
 
     override val title: StringDesc = Gw2Resources.strings.map.desc()
 
+    // TODO on refresh action also refresh the grid
     private val zoomInAction
         get() = GeneralAction(
             enabled = zoom < zoomRange.last,

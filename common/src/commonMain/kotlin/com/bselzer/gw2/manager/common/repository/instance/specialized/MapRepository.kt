@@ -8,6 +8,8 @@ import com.bselzer.gw2.manager.common.repository.instance.generic.TileRepository
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.map.MapId
+import com.bselzer.gw2.v2.tile.cache.metadata.id
+import com.bselzer.gw2.v2.tile.model.response.Tile
 import com.bselzer.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.ktx.logging.Logger
 import me.tatarka.inject.annotations.Inject
@@ -77,6 +79,15 @@ class MapRepository(
     }
 
     /**
+     * Requests an update for the contents associated with the [tile].
+     */
+    override suspend fun request(tile: Tile) {
+        val gridRequest = repositories.tile.gridRequests[zoom] ?: return
+        val tileRequest = gridRequest.tileRequests.firstOrNull { tileRequest -> tileRequest.id() == tile.id() } ?: return
+        repositories.tile.updateTile(tileRequest)
+    }
+
+    /**
      * Updates the grid with the new [zoom] level for the continent and floor associated with the map with id [mapId].
      */
     suspend fun updateZoom(zoom: Int, mapId: MapId?) {
@@ -96,20 +107,18 @@ class MapRepository(
      * Updates the grid for the continent and floor associated with the map with id [mapId].
      */
     private suspend fun updateGrid(zoom: Int, mapId: MapId?) {
-        // Release the tiles not being used to be garbage collected.
-        repositories.tile.release(zoom)
-
-        // Since tiles are expensive, only update the grid when designated.
-        if (!refreshGrid) {
-            Logger.d { "Map | Grid | Skipping refresh." }
-            return
-        }
-
-        Logger.d { "Map | Grid | Refreshing with zoom level $zoom and map $mapId." }
-
         val (continent, floor) = repositories.continent.getWvwContinent(mapId)
         if (continent != null && floor != null) {
-            repositories.tile.updateGrid(continent, floor, zoom)
+            Logger.d { "Map | Grid | Refreshing with zoom level zoom and map $mapId." }
+            val request = repositories.tile.updateGridRequest(continent, floor, zoom)
+
+            // Since tiles are expensive, only update the grid when designated.
+            if (refreshGrid) {
+                repositories.tile.updateTiles(request)
+            }
         }
+
+        // Release the tiles not being used to be garbage collected.
+        repositories.tile.release(zoom)
     }
 }

@@ -6,10 +6,7 @@ import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -71,6 +68,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
 
     @Composable
     private fun ViewerViewModel.GridData(modifier: Modifier) {
+        // TODO lazy grid
         Box(
             modifier = modifier
                 .fillMaxSize()
@@ -107,8 +105,10 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
      */
     @Composable
     private fun Tile.MapTile() {
+        val hasContent = content.isNotEmpty()
+
         // Need to specify non-zero width/height on the default bitmap.
-        val bitmap = if (content.isEmpty()) ImageBitmap(1, 1) else content.asImageBitmap()
+        val bitmap = if (hasContent) content.asImageBitmap() else ImageBitmap(1, 1)
         Image(
             painter = BitmapPainter(bitmap),
             contentDescription = AppResources.strings.wvw_tile.localized(),
@@ -123,6 +123,12 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
                     model.selected.value = null
                 }
         )
+
+        LaunchedEffect(hasContent) {
+            if (!hasContent) {
+                model.request(this@MapTile)
+            }
+        }
     }
 
     /**

@@ -71,7 +71,7 @@ class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleVie
             elevation = 10.dp,
             shape = RectangleShape,
             modifier = Modifier
-                .fillMaxWidth(.90f)
+                .fillMaxWidth()
                 .wrapContentHeight()
                 .border(width = border, color = Color.Black)
                 .padding(all = border)

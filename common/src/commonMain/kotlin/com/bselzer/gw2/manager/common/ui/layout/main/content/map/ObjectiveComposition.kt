@@ -337,7 +337,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
                     interactor = CenteredTextInteractor(
                         // TODO divider instead of colon? separate rows for first/secondary text?
                         start = TextInteractor(first.localized() + ":"),
-                        end = TextInteractor(second.localized())
+                        end = TextInteractor(second.localized().capitalize(LocalLocale.current.toComposeLocale()))
                     ),
                     presenter = CenteredTextPresenter(
                         start = TextPresenter(fontWeight = FontWeight.Bold)

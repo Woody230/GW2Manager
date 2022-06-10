@@ -96,6 +96,9 @@ class MapRepository(
      * Updates the grid for the continent and floor associated with the map with id [mapId].
      */
     private suspend fun updateGrid(zoom: Int, mapId: MapId?) {
+        // Release the tiles not being used to be garbage collected.
+        repositories.tile.release(zoom)
+
         // Since tiles are expensive, only update the grid when designated.
         if (!refreshGrid) {
             Logger.d { "Map | Grid | Skipping refresh." }

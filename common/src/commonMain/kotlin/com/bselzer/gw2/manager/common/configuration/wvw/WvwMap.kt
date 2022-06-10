@@ -12,6 +12,12 @@ class WvwMap(
     val isBounded: Boolean = false,
 
     /**
+     * Whether the whole grid should be refreshed instead of requesting tiles as needed.
+     */
+    @XmlSerialName(value = "refreshGrid", namespace = "", prefix = "")
+    val refreshGrid: Boolean = false,
+
+    /**
      * The zoom information.
      */
     @XmlSerialName(value = "Zoom", namespace = "", prefix = "")

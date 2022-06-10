@@ -40,12 +40,14 @@ class ViewerViewModel(
     showDialog: (DialogConfig) -> Unit,
 ) : MapViewModel(context, showDialog) {
     init {
-        lifecycle.subscribe(
-            onResume = { refreshGrid = true },
-            onPause = { refreshGrid = false },
-            onDestroy = { refreshGrid = false },
-            onStop = { refreshGrid = false }
-        )
+        if (configuration.wvw.map.refreshGrid) {
+            lifecycle.subscribe(
+                onResume = { refreshGrid = true },
+                onPause = { refreshGrid = false },
+                onDestroy = { refreshGrid = false },
+                onStop = { refreshGrid = false }
+            )
+        }
     }
 
     override val title: StringDesc = Gw2Resources.strings.map.desc()

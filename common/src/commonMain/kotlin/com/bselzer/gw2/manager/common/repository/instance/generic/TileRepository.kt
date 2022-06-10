@@ -7,11 +7,15 @@ import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.tile.cache.metadata.id
 import com.bselzer.gw2.v2.tile.model.request.TileGridRequest
+import com.bselzer.gw2.v2.tile.model.request.TileRequest
 import com.bselzer.gw2.v2.tile.model.response.Tile
 import com.bselzer.gw2.v2.tile.model.response.TileGrid
+import com.bselzer.ktx.coroutine.sync.LockByKey
+import com.bselzer.ktx.kodein.db.operation.getById
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import me.tatarka.inject.annotations.Inject
+import org.kodein.db.Value
 import org.kodein.db.getById
 
 @Singleton
@@ -19,6 +23,8 @@ import org.kodein.db.getById
 class TileRepository(
     dependencies: RepositoryDependencies
 ) : RepositoryDependencies by dependencies {
+    private val lock = LockByKey<Value>()
+
     /**
      * The zoom level mapped to the request for the grid.
      */
@@ -34,6 +40,13 @@ class TileRepository(
     val tileContent: Map<Tile, ByteArray> = _tileContent
 
     /**
+     * Release the tiles not associated with the given [zoom] level.
+     */
+    fun release(zoom: Int) {
+        _tileContent.keys.filter { tile -> tile.zoom != zoom }.forEach { tile -> _tileContent.remove(tile) }
+    }
+
+    /**
      * Creates the grid with tile content populated for the given [zoom] level.
      */
     fun getGrid(zoom: Int): TileGrid {
@@ -45,6 +58,21 @@ class TileRepository(
         }
 
         return TileGrid(request = gridRequest, tiles = tiles)
+    }
+
+    /**
+     * Updates the tile associated with the [TileRequest].
+     */
+    suspend fun updateTile(tileRequest: TileRequest) = database.transaction().use {
+        getById(
+            id = tileRequest.id(),
+            requestSingle = {
+                lock.withLock(tileRequest.id()) {
+                    clients.tile.tile(tileRequest)
+                }
+            },
+            writeFilter = { tile -> tile.content.isNotEmpty() }
+        )
     }
 
     /**
@@ -70,7 +98,9 @@ class TileRepository(
 
         clients.tile.tilesAsync(missing).map { deferred ->
             deferred.await().also { tile ->
-                put(tile)
+                if (tile.content.isNotEmpty()) {
+                    put(tile)
+                }
 
                 // Immediately put the result in case we are awaiting many other tiles such as on initial load.
                 _tileContent[tile] = tile.content

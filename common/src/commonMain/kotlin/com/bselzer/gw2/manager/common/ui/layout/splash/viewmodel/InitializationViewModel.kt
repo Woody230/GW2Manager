@@ -11,6 +11,9 @@ import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Init
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.migration.Migrator
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.resource.Gw2Resources
+import com.bselzer.ktx.compose.ui.intl.toComposeLocale
+import com.bselzer.ktx.intl.DefaultLocale
+import com.bselzer.ktx.intl.Localizer
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.desc
@@ -45,8 +48,17 @@ class InitializationViewModel(
             title = KtxResources.strings.settings.desc(),
             subtitle = KtxResources.strings.language.desc()
         ) {
-            // TODO initialize based on system language
-            repositories.translation.updateLocale(preferences.common.locale.get())
+            val locale = if (!preferences.common.locale.exists()) {
+                val languages = listOf(Localizer.GERMAN, Localizer.ENGLISH, Localizer.FRENCH, Localizer.SPANISH).associateBy { locale -> locale.toComposeLocale().language }
+                val system = DefaultLocale.toComposeLocale().language
+                Logger.d { "Initialization | Locale | System language is $system." }
+
+                languages[system] ?: Localizer.ENGLISH
+            } else {
+                preferences.common.locale.get()
+            }
+
+            repositories.translation.updateLocale(locale)
         }
 
     private val initializeTheme
@@ -69,7 +81,7 @@ class InitializationViewModel(
                 subtitle = KtxResources.strings.version.desc() + " $newVersion".desc()
             ) {
                 val currentVersion = preferences.common.appVersion.get()
-                Logger.d { "Migration | Current version $currentVersion | New version $newVersion" }
+                Logger.d { "Initialization | Migration | Current version $currentVersion | New version $newVersion" }
                 try {
                     Migrator(this).migrate(currentVersion)
                     preferences.common.appVersion.set(newVersion)
@@ -93,7 +105,7 @@ class InitializationViewModel(
 
             val buildNumber = preferences.common.buildNumber
             val oldId = buildNumber.get()
-            Logger.d("Build Number | Old build id $oldId | New build id $newId")
+            Logger.d("Initialization | Build Number | Old build id $oldId | New build id $newId")
             if (newId > oldId) {
                 buildNumber.set(newId.value)
             }

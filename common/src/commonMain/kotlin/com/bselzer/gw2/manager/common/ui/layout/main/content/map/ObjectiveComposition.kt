@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,8 @@ import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.resource.ui.layout.icon.expansionIconInteractor
+import com.bselzer.ktx.compose.ui.intl.LocalLocale
+import com.bselzer.ktx.compose.ui.intl.toComposeLocale
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextInteractor
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextPresenter
@@ -390,7 +393,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             })
 
             Text(
-                text = icon.description.collectAsState("".desc()).value.localized(),
+                text = icon.description.collectAsState("".desc()).value.localized().capitalize(LocalLocale.current.toComposeLocale()),
                 style = MaterialTheme.typography.h6,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.constrainAs(descriptorRef) {

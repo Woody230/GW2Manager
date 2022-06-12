@@ -5,6 +5,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.Bloodlust
@@ -33,6 +34,10 @@ class BoxGridComposition(model: ViewerViewModel) : GridComposition(model) {
         }
 
         scrollToRegion()
+
+        LaunchedEffect(true) {
+            refreshGrid = true
+        }
     }
 
     @Composable

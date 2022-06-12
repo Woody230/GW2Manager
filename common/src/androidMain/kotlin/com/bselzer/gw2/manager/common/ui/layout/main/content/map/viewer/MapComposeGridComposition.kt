@@ -6,10 +6,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.constraintlayout.compose.ConstraintLayout
-import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
-import com.bselzer.gw2.manager.common.ui.layout.image.Content
+import androidx.compose.ui.graphics.Shape
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
+import com.bselzer.ktx.value.identifier.Identifier
+import com.bselzer.ktx.value.identifier.identifier
 import ovh.plrapps.mapcompose.api.*
 import ovh.plrapps.mapcompose.core.TileStreamProvider
 import ovh.plrapps.mapcompose.ui.MapUI
@@ -40,95 +40,32 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             state.removeAllMarkers()
 
             objectiveIcons.forEach { objective ->
-                val width = 64
-                val height = 64
+                val (width, height) = objectiveSize
                 val (normalizedX, normalizedY) = grid.boundedNormalizeAbsolutePosition(objective.x, objective.y)
-                state.addMarker(
-                    id = objective.objective.id.value,
+                state.addIdentifiableMarker(
+                    id = objective.objective.id,
                     x = normalizedX,
                     y = normalizedY,
-                    relativeOffset = Offset.Zero,
                     absoluteOffset = Offset(-width / 2f, -height / 2f),
-                    clipShape = null,
-                    clickable = false,
                 ) {
-                    ConstraintLayout {
-                        val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
-
-                        // Overlay the objective image onto the map image.
-                        objective.Image(
-                            width = width,
-                            height = height,
-                            modifier = Modifier.constrainAs(icon) {
-                                top.linkTo(parent.top)
-                                start.linkTo(parent.start)
-                            }
-                        )
-
-                        objective.progression.Progression(
-                            modifier = Modifier.constrainAs(upgradeIndicator) {
-                                // Display the indicator in the top center of the objective icon.
-                                top.linkTo(icon.top)
-                                start.linkTo(icon.start)
-                                end.linkTo(icon.end)
-                            },
-                        )
-
-                        objective.claim.Claim(
-                            modifier = Modifier.constrainAs(claimIndicator) {
-                                // Display the indicator in the bottom right of the objective icon.
-                                bottom.linkTo(icon.bottom)
-                                end.linkTo(icon.end)
-                            }
-                        )
-
-                        objective.waypoint.Waypoint(
-                            modifier = Modifier.constrainAs(waypointIndicator) {
-                                // Display the indicator in the bottom left of the objective icon.
-                                bottom.linkTo(icon.bottom)
-                                start.linkTo(icon.start)
-                            },
-                        )
-
-                        objective.immunity.ImmunityTimer(
-                            modifier = Modifier.constrainAs(timer) {
-                                // Display the timer underneath the objective icon.
-                                top.linkTo(icon.bottom)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
-                        )
-                    }
+                    objective.Objective(Modifier)
                 }
             }
 
             bloodlusts.forEach { bloodlust ->
-                val width = 64
-                val height = 64
+                val (width, height) = bloodlustSize
                 val (normalizedX, normalizedY) = grid.boundedNormalizeAbsolutePosition(bloodlust.x, bloodlust.y)
-                state.addMarker(
-                    id = bloodlust.link.toString(),
+                state.addIdentifiableMarker(
+                    id = bloodlust.link.toString().identifier(),
                     x = normalizedX,
                     y = normalizedY,
-                    relativeOffset = Offset.Zero,
                     absoluteOffset = Offset(-width / 2f, -height / 2f),
-                    clipShape = null,
-                    clickable = false,
                 ) {
-                    with(bloodlust) {
-                        AsyncImage(
-                            image = link,
-                            width = width,
-                            height = height,
-                            color = color,
-                            description = description
-                        ).Content()
-                    }
+                    bloodlust.Bloodlust(Modifier)
                 }
             }
         }
     }
-
 
     private val tileStreamProvider = model.run {
         TileStreamProvider { y, x, zoom ->
@@ -167,4 +104,46 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                 }
             }
         }
+
+    private var _counter: Int = Int.MIN_VALUE
+    private val counterId: Identifier<String>
+        get() = synchronized(this) {
+            val id = _counter
+            _counter += 1
+            return id.toString().identifier()
+        }
+
+    /**
+     * Add a marker to the map, with defaults more reasonable for our purposes:
+     *
+     * No relative offset and a required absolute offset.
+     * The absolute offset should be half the size of the icon so that the icon is kept centered around its coordinates.
+     *
+     * Clickable is false since the marker can just handle its own clickable and not use the map state.
+     *
+     * Clip shape is null since clipping interferes with key components such as the timers.
+     */
+    private fun MapState.addIdentifiableMarker(
+        id: Identifier<String> = counterId,
+        x: Double,
+        y: Double,
+        relativeOffset: Offset = Offset.Zero,
+        absoluteOffset: Offset,
+        zIndex: Float = 0f,
+        clickable: Boolean = false,
+        clipShape: Shape? = null,
+        isConstrainedInBounds: Boolean = true,
+        c: @Composable () -> Unit
+    ) = addMarker(
+        id = id.value,
+        x = x,
+        y = y,
+        relativeOffset = relativeOffset,
+        absoluteOffset = absoluteOffset,
+        zIndex = zIndex,
+        clickable = clickable,
+        clipShape = clipShape,
+        isConstrainedInBounds = isConstrainedInBounds,
+        c = c,
+    )
 }

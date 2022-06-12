@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
@@ -17,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arkivanov.decompose.router.bringToFront
@@ -46,6 +46,9 @@ abstract class GridComposition(protected val model: ViewerViewModel) {
     @Composable
     protected abstract fun ViewerViewModel.Content(modifier: Modifier)
 
+    protected val objectiveSize: IntSize = IntSize(64, 64)
+    protected val bloodlustSize: IntSize = objectiveSize
+
     /**
      * Lays out an individual tile within the grid.
      */
@@ -73,91 +76,66 @@ abstract class GridComposition(protected val model: ViewerViewModel) {
      * Lays out the image indicating the owner of bloodlust.
      */
     @Composable
-    protected fun Bloodlust.Bloodlust() {
-        val width = 64
-        val height = 64
-
-        // Displace the coordinates so that it aligns with the center of the image.
-        val displacedX = x - width / 2
-        val displacedY = y - height / 2
-
-        AsyncImage(
-            image = link,
-            width = width,
-            height = height,
-            color = color,
-            description = description
-        ).Content(
-            modifier = Modifier.absoluteOffset(
-                x = displacedX.toDp(),
-                y = displacedY.toDp()
-            ),
-        )
-    }
+    protected fun Bloodlust.Bloodlust(modifier: Modifier) = AsyncImage(
+        image = link,
+        width = bloodlustSize.width,
+        height = bloodlustSize.height,
+        color = color,
+        description = description
+    ).Content(modifier)
 
     /**
      * Lays out the individual objective on the map.
      */
     @Composable
-    protected fun ViewerViewModel.Objective(objective: ObjectiveIcon) {
-        val width = 64
-        val height = 64
+    protected fun ObjectiveIcon.Objective(modifier: Modifier) = ConstraintLayout(
+        modifier = Modifier.wrapContentSize().then(modifier)
+    ) {
+        val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
 
-        // Displace the coordinates so that it aligns with the center of the image.
-        val displacedX = objective.x - width / 2
-        val displacedY = objective.y - height / 2
+        // Overlay the objective image onto the map image.
+        Image(
+            width = objectiveSize.width,
+            height = objectiveSize.height,
+            modifier = Modifier.constrainAs(icon) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+            }
+        )
 
-        ConstraintLayout(
-            modifier = Modifier
-                .absoluteOffset(displacedX.toDp(), displacedY.toDp())
-                .wrapContentSize()
-        ) {
-            val (icon, timer, upgradeIndicator, claimIndicator, waypointIndicator) = createRefs()
+        progression.Progression(
+            modifier = Modifier.constrainAs(upgradeIndicator) {
+                // Display the indicator in the top center of the objective icon.
+                top.linkTo(icon.top)
+                start.linkTo(icon.start)
+                end.linkTo(icon.end)
+            },
+        )
 
-            // Overlay the objective image onto the map image.
-            objective.Image(
-                width = width,
-                height = height,
-                modifier = Modifier.constrainAs(icon) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                }
-            )
+        claim.Claim(
+            modifier = Modifier.constrainAs(claimIndicator) {
+                // Display the indicator in the bottom right of the objective icon.
+                bottom.linkTo(icon.bottom)
+                end.linkTo(icon.end)
+            }
+        )
 
-            objective.progression.Progression(
-                modifier = Modifier.constrainAs(upgradeIndicator) {
-                    // Display the indicator in the top center of the objective icon.
-                    top.linkTo(icon.top)
-                    start.linkTo(icon.start)
-                    end.linkTo(icon.end)
-                },
-            )
+        waypoint.Waypoint(
+            modifier = Modifier.constrainAs(waypointIndicator) {
+                // Display the indicator in the bottom left of the objective icon.
+                bottom.linkTo(icon.bottom)
+                start.linkTo(icon.start)
+            },
+        )
 
-            objective.claim.Claim(
-                modifier = Modifier.constrainAs(claimIndicator) {
-                    // Display the indicator in the bottom right of the objective icon.
-                    bottom.linkTo(icon.bottom)
-                    end.linkTo(icon.end)
-                }
-            )
-
-            objective.waypoint.Waypoint(
-                modifier = Modifier.constrainAs(waypointIndicator) {
-                    // Display the indicator in the bottom left of the objective icon.
-                    bottom.linkTo(icon.bottom)
-                    start.linkTo(icon.start)
-                },
-            )
-
-            objective.immunity.ImmunityTimer(
-                modifier = Modifier.constrainAs(timer) {
-                    // Display the timer underneath the objective icon.
-                    top.linkTo(icon.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
-            )
-        }
+        immunity.ImmunityTimer(
+            modifier = Modifier.constrainAs(timer) {
+                // Display the timer underneath the objective icon.
+                top.linkTo(icon.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
     }
 
     /**

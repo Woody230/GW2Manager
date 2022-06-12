@@ -2,15 +2,15 @@ package com.bselzer.gw2.manager.common.ui.layout.main.content.map.viewer
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.Bloodlust
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.ObjectiveIcon
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
+import com.bselzer.ktx.compose.ui.unit.toDp
 
 /**
  * A composition for laying out the grid of tiles using a box to hold the scrolling capabilities.
@@ -27,12 +27,40 @@ class BoxGridComposition(model: ViewerViewModel) : GridComposition(model) {
             MapGrid()
 
             if (grid.rows.isNotEmpty()) {
-                objectiveIcons.forEach { objective -> Objective(objective) }
+                objectiveIcons.forEach { objective -> objective.Objective() }
                 bloodlusts.forEach { bloodlust -> bloodlust.Bloodlust() }
             }
         }
 
         scrollToRegion()
+    }
+
+    @Composable
+    private fun Bloodlust.Bloodlust() {
+        // Displace the coordinates so that it aligns with the center of the image.
+        val (width, height) = bloodlustSize
+        val displacedX = x - width / 2
+        val displacedY = y - height / 2
+        Bloodlust(
+            modifier = Modifier.absoluteOffset(
+                x = displacedX.toDp(),
+                y = displacedY.toDp()
+            ),
+        )
+    }
+
+    @Composable
+    private fun ObjectiveIcon.Objective() {
+        // Displace the coordinates so that it aligns with the center of the image.
+        val (width, height) = objectiveSize
+        val displacedX = x - width / 2
+        val displacedY = y - height / 2
+        Objective(
+            modifier = Modifier.absoluteOffset(
+                displacedX.toDp(),
+                displacedY.toDp()
+            )
+        )
     }
 
     /**

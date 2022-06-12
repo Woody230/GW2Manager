@@ -21,12 +21,16 @@ import ovh.plrapps.mapcompose.api.*
 import ovh.plrapps.mapcompose.core.TileStreamProvider
 import ovh.plrapps.mapcompose.ui.MapUI
 import ovh.plrapps.mapcompose.ui.state.MapState
+import ovh.plrapps.mapcompose.ui.state.markers.model.RenderingStrategy
 import java.io.ByteArrayInputStream
 
 /**
  * The composition for laying out the grid of tiles using the MapCompose library.
  */
+@OptIn(ExperimentalClusteringApi::class)
 class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model) {
+    private val lazyLoaderId = "default"
+
     @Composable
     override fun ViewerViewModel.Content(modifier: Modifier) {
         val state = mapState.also { state -> GridEffects(state) }
@@ -123,6 +127,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                     }
                 ).apply {
                     addLayer(tileStreamProvider)
+                    addLazyLoader(lazyLoaderId)
 
                     // Unlike a normal map, rotation does not provide much value and accidentally rotating would be more of a likely hindrance.
                     disableRotation()
@@ -147,6 +152,8 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
      * Clickable is false since the marker can just handle its own clickable and not use the map state.
      *
      * Clip shape is null since clipping interferes with key components such as the timers.
+     *
+     * Lazy loading rendering strategy instead of eagerly rendering the marker.
      */
     private fun MapState.addIdentifiableMarker(
         id: Identifier<String> = counterId,
@@ -169,6 +176,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         clickable = clickable,
         clipShape = clipShape,
         isConstrainedInBounds = isConstrainedInBounds,
+        renderingStrategy = RenderingStrategy.LazyLoading(lazyLoaderId),
         c = c,
     )
 }

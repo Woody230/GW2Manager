@@ -7,10 +7,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shape
+import com.arkivanov.essenty.lifecycle.doOnPause
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
+import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
 import com.bselzer.gw2.v2.tile.model.position.GridPosition
+import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.value.identifier.Identifier
 import com.bselzer.ktx.value.identifier.identifier
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ovh.plrapps.mapcompose.api.*
 import ovh.plrapps.mapcompose.core.TileStreamProvider
 import ovh.plrapps.mapcompose.ui.MapUI
@@ -24,6 +30,16 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     @Composable
     override fun ViewerViewModel.Content(modifier: Modifier) {
         val state = mapState.also { state -> GridEffects(state) }
+        LaunchedEffect(state) {
+            lifecycle.doOnPause(isOneTime = true) {
+                CoroutineScope(Dispatchers.Default).launch {
+                    Logger.d { "Grid | Scroll | Saving as [${state.scroll.x},${state.scroll.y}]." }
+                    horizontalScroll.scrollTo(state.scroll.x.toInt())
+                    verticalScroll.scrollTo(state.scroll.y.toInt())
+                }
+            }
+        }
+
         MapUI(
             modifier = Modifier.fillMaxSize().then(modifier),
             state = state
@@ -32,11 +48,6 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
     @Composable
     private fun ViewerViewModel.GridEffects(state: MapState) {
-        LaunchedEffect(grid) {
-            state.removeAllLayers()
-            state.addLayer(tileStreamProvider)
-        }
-
         LaunchedEffect(objectiveIcons, bloodlusts) {
             state.removeAllMarkers()
 
@@ -85,7 +96,15 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     private val mapState: MapState
         @Composable
         get() = model.run {
-            val normalized = grid.normalize(scrollToRegionCoordinates)
+            // Use the coordinates saved from leaving this screen if they exist.
+            // Otherwise do the typical scrolling to the configured region.
+            // NOTE: currently ignoring scroll enable since it will only be triggered on map change which is fine
+            val coordinates = if (horizontalScroll.value > 0 || verticalScroll.value > 0) {
+                BoundedPosition(horizontalScroll.value.toDouble(), verticalScroll.value.toDouble())
+            } else {
+                scrollToRegionCoordinates
+            }
+
             remember(grid.size, grid.tileSize) {
                 /**
                  * NOTE: treating each zoom level as its own map since the actual map contents need to be bounded
@@ -99,6 +118,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                     // NOTE: size must be at least one to avoid exception upon bitmap creation
                     tileSize = grid.tileSize.width.toInt().coerceAtLeast(1),
                     initialValuesBuilder = {
+                        val normalized = grid.normalize(coordinates)
                         scroll(normalized.x, normalized.y, Offset.Zero)
                     }
                 ).apply {

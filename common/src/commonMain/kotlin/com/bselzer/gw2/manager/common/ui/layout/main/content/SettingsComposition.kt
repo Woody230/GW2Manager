@@ -116,7 +116,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                 }
             )
         ).Projection(modifier = state.openOnClick()) {
-            // TODO desktop only: lazy column inside alert dialog crash https://github.com/JetBrains/compose-jb/issues/1111
+            // TODO Desktop: lazy column inside alert dialog crash https://github.com/JetBrains/compose-jb/issues/1111
             SingleChoiceProjector(
                 interactor = SingleChoiceInteractor(
                     selected = languageLogic.selected(),

@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2022-06-10T20:53:33.846Z"
+    "generated": "2022-06-12T02:19:35.751Z"
   },
   "libraries": [
     {
@@ -2284,6 +2284,27 @@
       },
       "name": "Android Preferences DataStore Core",
       "website": "https://developer.android.com/jetpack/androidx/releases/datastore#1.0.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "ovh.plrapps:mapcompose",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Pierre Laurence"
+        }
+      ],
+      "artifactVersion": "2.1.0",
+      "description": "A Jetpack Compose Android library to display tiled maps, with support for markers, paths, and rotation",
+      "scm": {
+        "connection": "scm:git@github.com:p-lr/MapCompose.git",
+        "url": "https://github.com/p-lr/MapCompose",
+        "developerConnection": "scm:git@github.com:p-lr/MapCompose.git"
+      },
+      "name": "MapCompose",
+      "website": "https://github.com/p-lr/MapCompose",
       "licenses": [
         "Apache-2.0"
       ]

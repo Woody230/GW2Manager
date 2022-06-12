@@ -79,7 +79,7 @@ class TileRepository(
     /**
      * Updates the [TileGridRequest] for the given [zoom] level and the tiles associated with it.
      */
-    suspend fun updateGridRequest(continent: Continent, floor: Floor, zoom: Int): TileGridRequest {
+    fun updateGridRequest(continent: Continent, floor: Floor, zoom: Int): TileGridRequest {
         Logger.d { "Grid | Updating grid at zoom level $zoom for continent ${continent.id} and floor ${floor.id}." }
 
         val gridRequest = getGridRequest(continent, floor, zoom)

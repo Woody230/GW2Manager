@@ -111,6 +111,7 @@ kotlin {
 
                 // Compose
                 api("androidx.activity:activity-compose:1.4.0")
+                api("ovh.plrapps:mapcompose:2.1.0")
 
                 // HTTP Client
                 api("io.ktor:ktor-client-okhttp:${Versions.KTOR}")

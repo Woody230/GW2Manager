@@ -86,13 +86,13 @@ class ViewerViewModel(
     /**
      * The coordinates to scroll to for the configured map.
      */
-    private val scrollToRegionCoordinates: Pair<Int, Int>
+    val scrollToRegionCoordinates: Pair<Int, Int>
         @Composable
         get() {
             val region = repositories.selectedWorld.floor?.regions?.values?.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
             val map = region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scrollTo } ?: return Pair(0, 0)
             val topLeft = map.continentRectangle.point1
-            return grid.scale(topLeft.x.toInt(), topLeft.y.toInt())
+            return grid.boundedScaleAbsolutePosition(topLeft.x.toInt(), topLeft.y.toInt())
         }
 
     /**
@@ -135,7 +135,7 @@ class ViewerViewModel(
                 val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / objectiveRuins.size
 
                 // Scale the coordinates to the zoom level and remove excluded bounds.
-                val coordinates = grid.scale(x.toInt(), y.toInt())
+                val coordinates = grid.boundedScaleAbsolutePosition(x.toInt(), y.toInt())
 
                 val bonus = borderland.bonuses.firstOrNull { bonus -> bonus.type.enumValueOrNull() == WvwMapBonusType.BLOODLUST }
                 val owner = bonus?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
@@ -160,7 +160,7 @@ class ViewerViewModel(
 
                 // Scale the objective coordinates to the zoom level and remove excluded bounds.
                 val position = objective.position()
-                val coordinates = grid.scale(position.x.toInt(), position.y.toInt())
+                val coordinates = grid.boundedScaleAbsolutePosition(position.x.toInt(), position.y.toInt())
 
                 // Get the progression level associated with the current number of yaks delivered to the objective.
                 val level = upgrade?.level(fromMatch.yaksDelivered)

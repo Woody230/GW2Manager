@@ -81,10 +81,10 @@ class MapRepository(
     /**
      * Requests an update for the contents associated with the [tile].
      */
-    override suspend fun request(tile: Tile) {
-        val gridRequest = repositories.tile.gridRequests[zoom] ?: return
-        val tileRequest = gridRequest.tileRequests.firstOrNull { tileRequest -> tileRequest.id() == tile.id() } ?: return
-        repositories.tile.updateTile(tileRequest)
+    override suspend fun request(tile: Tile): Tile {
+        val gridRequest = repositories.tile.gridRequests[zoom] ?: return tile
+        val tileRequest = gridRequest.tileRequests.firstOrNull { tileRequest -> tileRequest.id() == tile.id() } ?: return tile
+        return repositories.tile.updateTile(tileRequest)
     }
 
     /**

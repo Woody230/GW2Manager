@@ -27,5 +27,5 @@ interface MapData {
     /**
      * Requests an update for the contents associated with the [tile].
      */
-    suspend fun request(tile: Tile)
+    suspend fun request(tile: Tile): Tile
 }

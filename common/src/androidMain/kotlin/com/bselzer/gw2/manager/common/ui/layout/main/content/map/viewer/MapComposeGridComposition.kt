@@ -99,7 +99,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                     // NOTE: size must be at least one to avoid exception upon bitmap creation
                     tileSize = grid.tileSize.width.toInt().coerceAtLeast(1),
                     initialValuesBuilder = {
-                        scroll(normalized.x, normalized.y)
+                        scroll(normalized.x, normalized.y, Offset.Zero)
                     }
                 ).apply {
                     addLayer(tileStreamProvider)

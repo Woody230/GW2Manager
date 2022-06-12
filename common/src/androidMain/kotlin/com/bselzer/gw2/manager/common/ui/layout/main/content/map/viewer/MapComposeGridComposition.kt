@@ -95,6 +95,8 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                     levelCount = 1,
                     fullWidth = grid.size.width.toInt(),
                     fullHeight = grid.size.height.toInt(),
+
+                    // NOTE: size must be at least one to avoid exception upon bitmap creation
                     tileSize = grid.tileSize.width.toInt().coerceAtLeast(1),
                     initialValuesBuilder = {
                         scroll(normalized.x, normalized.y)

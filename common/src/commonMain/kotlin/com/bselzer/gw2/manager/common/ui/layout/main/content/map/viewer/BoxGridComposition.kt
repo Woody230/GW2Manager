@@ -44,8 +44,8 @@ class BoxGridComposition(model: ViewerViewModel) : GridComposition(model) {
     private fun Bloodlust.Bloodlust() {
         // Displace the coordinates so that it aligns with the center of the image.
         val (width, height) = bloodlustSize
-        val displacedX = x - width / 2
-        val displacedY = y - height / 2
+        val displacedX = position.x - width / 2
+        val displacedY = position.y - height / 2
         Bloodlust(
             modifier = Modifier.absoluteOffset(
                 x = displacedX.toDp(),
@@ -58,8 +58,8 @@ class BoxGridComposition(model: ViewerViewModel) : GridComposition(model) {
     private fun ObjectiveIcon.Objective() {
         // Displace the coordinates so that it aligns with the center of the image.
         val (width, height) = objectiveSize
-        val displacedX = x - width / 2
-        val displacedY = y - height / 2
+        val displacedX = position.x - width / 2
+        val displacedY = position.y - height / 2
         Objective(
             modifier = Modifier.absoluteOffset(
                 displacedX.toDp(),

@@ -60,7 +60,7 @@ abstract class GridComposition(protected val model: ViewerViewModel) {
             painter = BitmapPainter(bitmap),
             contentDescription = AppResources.strings.wvw_tile.localized(),
             modifier = Modifier
-                .size(width.toDp(), height.toDp())
+                .size(size.width.toDp(), size.height.toDp())
                 .clickable(
                     // Disable the ripple so that the illusion of a contiguous map is not broken.
                     interactionSource = remember { MutableInteractionSource() },

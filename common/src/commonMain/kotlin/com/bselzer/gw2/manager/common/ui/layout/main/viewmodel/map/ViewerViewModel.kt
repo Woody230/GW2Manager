@@ -23,6 +23,8 @@ import com.bselzer.gw2.v2.model.extension.wvw.tiers
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
+import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
+import com.bselzer.gw2.v2.tile.model.position.TexturePosition
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
@@ -86,13 +88,12 @@ class ViewerViewModel(
     /**
      * The coordinates to scroll to for the configured map.
      */
-    val scrollToRegionCoordinates: Pair<Int, Int>
+    val scrollToRegionCoordinates: BoundedPosition
         @Composable
         get() {
             val region = repositories.selectedWorld.floor?.regions?.values?.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
-            val map = region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scrollTo } ?: return Pair(0, 0)
-            val topLeft = map.continentRectangle.point1
-            return grid.boundedScaleAbsolutePosition(topLeft.x.toInt(), topLeft.y.toInt())
+            val map = region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scrollTo } ?: return BoundedPosition()
+            return grid.bounded(map.continentRectangle.topLeft)
         }
 
     /**
@@ -103,8 +104,8 @@ class ViewerViewModel(
         if (shouldScrollToRegion.value) {
             val coordinates = scrollToRegionCoordinates
             rememberCoroutineScope().launch {
-                horizontalScroll.animateScrollTo(coordinates.first)
-                verticalScroll.animateScrollTo(coordinates.second)
+                horizontalScroll.animateScrollTo(coordinates.x.toInt())
+                verticalScroll.animateScrollTo(coordinates.y.toInt())
                 shouldScrollToRegion.value = false
             }
         }
@@ -133,18 +134,17 @@ class ViewerViewModel(
                 // Use the center of all of the ruins as the position of the bloodlust icon.
                 val x = objectiveRuins.sumOf { ruin -> ruin.coordinates.x } / objectiveRuins.size
                 val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / objectiveRuins.size
-
-                // Scale the coordinates to the zoom level and remove excluded bounds.
-                val coordinates = grid.boundedScaleAbsolutePosition(x.toInt(), y.toInt())
+                val position = TexturePosition(x, y)
 
                 val bonus = borderland.bonuses.firstOrNull { bonus -> bonus.type.enumValueOrNull() == WvwMapBonusType.BLOODLUST }
                 val owner = bonus?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
                 Bloodlust(
                     link = configuration.wvw.bloodlust.iconLink.asImageUrl(),
                     color = configuration.wvw.color(owner = owner),
-                    x = coordinates.first,
-                    y = coordinates.second,
                     description = AppResources.strings.bloodlust_for.format(owner.stringDesc()),
+
+                    // Scale the coordinates to the zoom level and remove excluded bounds.
+                    position = grid.bounded(position)
                 )
             }
         }
@@ -158,9 +158,7 @@ class ViewerViewModel(
                 val upgrade = upgrades[objective.upgradeId]
                 val tiers = upgrade?.tiers(fromMatch.yaksDelivered)?.flatMap { tier -> tier.upgrades } ?: emptyList()
 
-                // Scale the objective coordinates to the zoom level and remove excluded bounds.
                 val position = objective.position()
-                val coordinates = grid.boundedScaleAbsolutePosition(position.x.toInt(), position.y.toInt())
 
                 // Get the progression level associated with the current number of yaks delivered to the objective.
                 val level = upgrade?.level(fromMatch.yaksDelivered)
@@ -173,8 +171,9 @@ class ViewerViewModel(
 
                 ObjectiveIcon(
                     objective = objective,
-                    x = coordinates.first,
-                    y = coordinates.second,
+
+                    // Scale the objective coordinates to the zoom level and remove excluded bounds.
+                    position = grid.bounded(position),
 
                     // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
                     link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink ?: "" }.asImageUrl(),
@@ -209,7 +208,7 @@ class ViewerViewModel(
             }
 
             // Render from bottom right to top left so that overlap is consistent.
-            val comparator = compareByDescending<ObjectiveIcon> { objective -> objective.y }.thenByDescending { objective -> objective.x }
+            val comparator = compareByDescending<ObjectiveIcon> { objective -> objective.position.y }.thenByDescending { objective -> objective.position.x }
             return models.sortedWith(comparator)
         }
 

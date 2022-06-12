@@ -6,6 +6,7 @@ import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.tile.cache.metadata.id
+import com.bselzer.gw2.v2.tile.model.position.GridPosition
 import com.bselzer.gw2.v2.tile.model.request.TileGridRequest
 import com.bselzer.gw2.v2.tile.model.request.TileRequest
 import com.bselzer.gw2.v2.tile.model.response.Tile
@@ -64,7 +65,7 @@ class TileRepository(
      * Updates the tile associated with the [TileRequest].
      */
     suspend fun updateTile(tileRequest: TileRequest) = database.transaction().use {
-        Logger.d { "Grid | Updating tile at [${tileRequest.gridX},${tileRequest.gridY}] for zoom level ${tileRequest.zoom}." }
+        Logger.d { "Grid | Updating tile at ${tileRequest.gridPosition} for zoom level ${tileRequest.zoom}." }
         getById(
             id = tileRequest.id(),
             requestSingle = {
@@ -127,7 +128,10 @@ class TileRepository(
             // Cut off unneeded tiles.
             val level = configuration.wvw.map.levels.firstOrNull { level -> level.zoom == zoom }
             if (level != null) {
-                return request.bounded(startX = level.startX, startY = level.startY, endX = level.endX, endY = level.endY)
+                return request.bounded(
+                    topLeft = GridPosition(x = level.startX, y = level.startY),
+                    bottomRight = GridPosition(x = level.endX, y = level.endY)
+                )
             } else {
                 Logger.w { "Unable to create a bounded request for zoom level $zoom" }
             }

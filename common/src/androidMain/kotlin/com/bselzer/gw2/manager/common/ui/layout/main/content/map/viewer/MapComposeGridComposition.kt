@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shape
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
+import com.bselzer.gw2.v2.tile.model.position.GridPosition
 import com.bselzer.ktx.value.identifier.Identifier
 import com.bselzer.ktx.value.identifier.identifier
 import ovh.plrapps.mapcompose.api.*
@@ -41,11 +42,11 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
             objectiveIcons.forEach { objective ->
                 val (width, height) = objectiveSize
-                val (normalizedX, normalizedY) = grid.boundedNormalizeAbsolutePosition(objective.x, objective.y)
+                val normalized = grid.normalize(objective.position)
                 state.addIdentifiableMarker(
                     id = objective.objective.id,
-                    x = normalizedX,
-                    y = normalizedY,
+                    x = normalized.x,
+                    y = normalized.y,
                     absoluteOffset = Offset(-width / 2f, -height / 2f),
                 ) {
                     objective.Objective(Modifier)
@@ -54,11 +55,11 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
             bloodlusts.forEach { bloodlust ->
                 val (width, height) = bloodlustSize
-                val (normalizedX, normalizedY) = grid.boundedNormalizeAbsolutePosition(bloodlust.x, bloodlust.y)
+                val normalized = grid.normalize(bloodlust.position)
                 state.addIdentifiableMarker(
                     id = bloodlust.link.toString().identifier(),
-                    x = normalizedX,
-                    y = normalizedY,
+                    x = normalized.x,
+                    y = normalized.y,
                     absoluteOffset = Offset(-width / 2f, -height / 2f),
                 ) {
                     bloodlust.Bloodlust(Modifier)
@@ -69,32 +70,34 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
     private val tileStreamProvider = model.run {
         TileStreamProvider { y, x, zoom ->
-            val boundedX = grid.startX + x
-            val boundedY = grid.startY + y
+            val bounded = GridPosition(x = grid.topLeft.x + x, y = grid.topLeft.y + y)
 
             // NOTE: Must use the grid zoom since we are treating each zoom level as its own map and not using levels.
-            val tile = request(grid.getTileOrDefault(boundedX, boundedY, grid.zoom))
-            ByteArrayInputStream(tile.content)
+            val tile = request(grid.getTileOrDefault(bounded, grid.zoom))
+            if (tile.content.isEmpty()) {
+                null
+            } else {
+                ByteArrayInputStream(tile.content)
+            }
         }
     }
 
     private val mapState: MapState
         @Composable
         get() = model.run {
-            val (scrollX, scrollY) = scrollToRegionCoordinates
-            remember(grid.width, grid.height) {
+            val normalized = grid.normalize(scrollToRegionCoordinates)
+            remember(grid.size, grid.tileSize) {
                 /**
                  * NOTE: treating each zoom level as its own map since the actual map contents need to be bounded
                  *  without the bounds, there would otherwise be a lot of blank space as zoom levels are increased
                  */
                 MapState(
                     levelCount = 1,
-                    fullWidth = grid.width,
-                    fullHeight = grid.height,
-                    tileSize = grid.tileWidth,
+                    fullWidth = grid.size.width.toInt(),
+                    fullHeight = grid.size.height.toInt(),
+                    tileSize = grid.tileSize.width.toInt().coerceAtLeast(1),
                     initialValuesBuilder = {
-                        val (normalizedX, normalizedY) = grid.normalizeAbsolutePosition(scrollX, scrollY)
-                        scroll(normalizedX, normalizedY)
+                        scroll(normalized.x, normalized.y)
                     }
                 ).apply {
                     addLayer(tileStreamProvider)

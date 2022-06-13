@@ -14,6 +14,7 @@ import com.bselzer.gw2.v2.model.continent.map.ContinentMap
 import com.bselzer.gw2.v2.model.map.MapId
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
+import com.bselzer.gw2.v2.model.wvw.map.WvwMap
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.compose.nullState
@@ -63,10 +64,18 @@ class SelectedWorldRepository(
     override val floor: Floor?
         get() = repositories.map.getFloor(mapId)
 
-    override val maps: Map<MapId, ContinentMap>
+    override val continentMaps: Map<MapId, ContinentMap>
         get() {
             val floor = floor ?: return emptyMap()
             return floor.regions.values.flatMap { region -> region.maps.values }.associateBy { map -> map.id }
+        }
+
+    @Suppress("UNCHECKED_CAST")
+    override val matchMaps: Map<WvwMap, com.bselzer.gw2.v2.model.map.Map>
+        get() {
+            val match = match ?: return emptyMap()
+            val maps = match.maps.associateWith { map -> repositories.map.getMap(map.id) }
+            return maps.filterValues { map -> map != null } as Map<WvwMap, com.bselzer.gw2.v2.model.map.Map>
         }
 
     private val _worldId = mutableStateOf<WorldId?>(null)

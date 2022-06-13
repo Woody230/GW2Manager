@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -221,6 +222,20 @@ abstract class GridComposition(protected val model: ViewerViewModel) {
             fontSize = 12.sp,
             color = Color.White,
             modifier = modifier.wrapContentSize()
+        )
+    }
+
+    /**
+     * Lays out the label for displaying the map owner or name.
+     */
+    @Composable
+    protected fun MapLabel.Label(modifier: Modifier) {
+        val width = width.coerceAtLeast(100.0).toDp()
+        Text(
+            modifier = Modifier.width(width).then(modifier),
+            text = description.localized(),
+            fontWeight = FontWeight.ExtraBold,
+            color = color,
         )
     }
 }

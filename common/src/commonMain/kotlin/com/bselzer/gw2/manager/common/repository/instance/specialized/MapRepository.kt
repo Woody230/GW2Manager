@@ -64,6 +64,11 @@ class MapRepository(
     fun getFloor(mapId: MapId?): Floor? = repositories.continent.getWvwContinent(mapId).second
 
     /**
+     * Gets the map for the given [mapId].
+     */
+    fun getMap(mapId: MapId) = repositories.continent.maps[mapId]
+
+    /**
      * Updates the grid with the current zoom level for the continent and floor associated with the map with id [mapId].
      */
     suspend fun updateContinent(mapId: MapId?) {

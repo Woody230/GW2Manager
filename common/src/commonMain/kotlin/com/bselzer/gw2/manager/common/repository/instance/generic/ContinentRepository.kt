@@ -9,7 +9,9 @@ import com.bselzer.gw2.v2.model.continent.ContinentId
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.continent.floor.FloorId
 import com.bselzer.gw2.v2.model.map.MapId
+import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.kodein.db.operation.getById
+import com.bselzer.ktx.kodein.db.operation.putMissingById
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.coroutineScope
@@ -100,6 +102,26 @@ class ContinentRepository(
             translator = Gw2Translators.floor,
             defaults = listOf(floor),
             requestTranslated = { missing, language -> clients.gw2.continent.floors(continentId, missing, language) }
+        )
+
+        val mapIds = floor.regions.values.flatMap { region -> region.maps.keys }
+        updateMaps(mapIds, floorId)
+    }
+
+    private suspend fun updateMaps(mapIds: Collection<MapId>, floorId: FloorId) = database.transaction().use {
+        Logger.d { "Continent | Updating ${mapIds.size} maps in floor $floorId." }
+
+        val maps = putMissingById(
+            requestIds = { mapIds },
+            requestById = { missingIds -> clients.gw2.map.maps(missingIds) }
+        )
+
+        maps.putInto(_maps)
+
+        repositories.translation.updateTranslations(
+            translator = Gw2Translators.map,
+            defaults = maps.values,
+            requestTranslated = { missing, language -> clients.gw2.map.maps(missing, language) }
         )
     }
 }

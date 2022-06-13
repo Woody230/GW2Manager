@@ -16,10 +16,7 @@ import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
-import com.bselzer.gw2.v2.model.extension.wvw.level
-import com.bselzer.gw2.v2.model.extension.wvw.objective
-import com.bselzer.gw2.v2.model.extension.wvw.position
-import com.bselzer.gw2.v2.model.extension.wvw.tiers
+import com.bselzer.gw2.v2.model.extension.wvw.*
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
@@ -91,7 +88,7 @@ class ViewerViewModel(
     val scrollToRegionCoordinates: BoundedPosition
         @Composable
         get() {
-            val map = maps.values.firstOrNull { map -> map.name == configuration.wvw.map.scrollTo } ?: return BoundedPosition()
+            val map = continentMaps.values.firstOrNull { map -> map.name == configuration.wvw.map.scrollTo } ?: return BoundedPosition()
             return grid.bounded(map.continentRectangle.topLeft)
         }
 
@@ -109,6 +106,25 @@ class ViewerViewModel(
             }
         }
     }
+
+    val mapLabels: Collection<MapLabel>
+        get() = matchMaps.map { (wvwMap, map) ->
+            val type = wvwMap.type.enumValueOrNull()
+            val owner = type?.owner() ?: WvwObjectiveOwner.NEUTRAL
+            MapLabel(
+                color = configuration.wvw.color(owner),
+                position = grid.bounded(map.continentRectangle.topLeft),
+                width = map.continentRectangle.topRight.x - map.continentRectangle.topLeft.x,
+                description = when {
+                    // If there are worlds then display them.
+                    match?.linkedWorlds(owner)?.isNotEmpty() == true -> displayableLinkedWorlds(owner)
+
+                    // Otherwise fall back to the map name.
+                    type != null -> type.stringDesc()
+                    else -> map.name.desc()
+                }
+            )
+        }
 
     val bloodlusts: Collection<Bloodlust>
         get() {

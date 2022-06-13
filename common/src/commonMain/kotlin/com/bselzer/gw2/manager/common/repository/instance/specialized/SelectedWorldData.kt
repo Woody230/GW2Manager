@@ -6,6 +6,7 @@ import com.bselzer.gw2.v2.model.continent.map.ContinentMap
 import com.bselzer.gw2.v2.model.map.MapId
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
+import com.bselzer.gw2.v2.model.wvw.map.WvwMap
 
 interface SelectedWorldData : MapData, MatchData {
     /**
@@ -31,7 +32,12 @@ interface SelectedWorldData : MapData, MatchData {
     /**
      * The maps within the regions of the [floor] for the current match.
      */
-    val maps: Map<MapId, ContinentMap>
+    val continentMaps: Map<MapId, ContinentMap>
+
+    /**
+     * The maps defined in the current match mapped to their full details.
+     */
+    val matchMaps: Map<WvwMap, com.bselzer.gw2.v2.model.map.Map>
 
     /**
      * Updates the grid to the new [zoom] level with the current match's map.

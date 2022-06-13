@@ -9,6 +9,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shape
 import com.arkivanov.essenty.lifecycle.doOnPause
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.Bloodlust
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.MapLabel
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.ObjectiveIcon
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
@@ -32,7 +33,16 @@ import java.io.ByteArrayInputStream
  */
 @OptIn(ExperimentalClusteringApi::class)
 class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model) {
-    private val lazyLoaderId = "default"
+    private companion object {
+        const val lazyLoaderId = "default"
+
+        // Objectives should be highest prioritized.
+        const val objectivePriority = 10f
+
+        // Bloodlusts are of similar priority to objectives.
+        const val bloodlustPriority = objectivePriority - 1
+    }
+
 
     @Composable
     override fun ViewerViewModel.Content(modifier: Modifier) {
@@ -55,11 +65,12 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
     @Composable
     private fun ViewerViewModel.GridEffects(state: MapState) {
-        LaunchedEffect(objectiveIcons.size, bloodlusts.size) {
+        LaunchedEffect(state, objectiveIcons, bloodlusts, mapLabels) {
             state.removeAllMarkers()
 
             objectiveIcons.forEach { objective -> Objective(objective, state) }
             bloodlusts.forEach { bloodlust -> Bloodlust(bloodlust, state) }
+            mapLabels.forEach { label -> MapLabel(label, state) }
         }
     }
 
@@ -70,6 +81,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             id = objective.objective.id,
             x = normalized.x,
             y = normalized.y,
+            zIndex = objectivePriority,
 
             // Displace the coordinates so that it aligns with the center of the image.
             absoluteOffset = Offset(-width / 2f, -height / 2f),
@@ -85,11 +97,26 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             id = bloodlust.link.toString().identifier(),
             x = normalized.x,
             y = normalized.y,
+            zIndex = bloodlustPriority,
 
             // Displace the coordinates so that it aligns with the center of the image.
             absoluteOffset = Offset(-width / 2f, -height / 2f),
         ) {
             bloodlust.Bloodlust(Modifier)
+        }
+    }
+
+    private fun ViewerViewModel.MapLabel(label: MapLabel, state: MapState) {
+        val normalized = grid.normalize(label.position)
+        state.addIdentifiableMarker(
+            x = normalized.x,
+            y = normalized.y,
+
+            // Provide a slight buffer between the top of the map and the label.
+            // This is particularly needed for red borderlands where the top camp will overlap with the text normally.
+            absoluteOffset = Offset(x = 0f, y = -50f)
+        ) {
+            label.Label(Modifier)
         }
     }
 

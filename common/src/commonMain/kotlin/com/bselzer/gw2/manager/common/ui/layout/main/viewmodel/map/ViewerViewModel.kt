@@ -121,7 +121,7 @@ class ViewerViewModel(
 
                     // Otherwise fall back to the map name.
                     type != null -> type.stringDesc()
-                    else -> repositories.translation.translate(map.name).desc()
+                    else -> map.name.translated().desc()
                 }
             )
         }
@@ -193,7 +193,7 @@ class ViewerViewModel(
                     // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
                     link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink ?: "" }.asImageUrl(),
 
-                    description = repositories.translation.translate(objective.name).desc(),
+                    description = objective.name.translated().desc(),
                     color = configuration.wvw.color(fromMatch),
                     progression = ObjectiveProgression(
                         enabled = progression != null,
@@ -237,7 +237,7 @@ class ViewerViewModel(
             val fromMatch = match.objective(objective)
             val owner = fromMatch?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
             val type = objective.type.enumValueOrNull() ?: WvwObjectiveType.GENERIC
-            val name = repositories.translation.translate(objective.name)
+            val name = objective.name.translated()
             SelectedObjective(
                 title = AppResources.strings.selected_objective.format(name.desc(), owner.stringDesc(), type.stringDesc()),
                 subtitle = fromMatch?.lastFlippedAt?.let { lastFlippedAt ->

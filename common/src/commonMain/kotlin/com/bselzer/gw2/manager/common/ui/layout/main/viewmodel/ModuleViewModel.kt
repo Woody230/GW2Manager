@@ -42,7 +42,7 @@ class ModuleViewModel(
      */
     private fun worldSubtitle(id: WorldId, world: World?): StringDesc = when {
         // If we can locate the world, then display the choice.
-        world != null -> repositories.translation.translate(world.name.value).desc()
+        world != null -> world.name.value.translated().desc()
 
         // If the user has not selected a world, then use the default message a preference displays.
         id.isDefault -> KtxResources.strings.not_set.desc()

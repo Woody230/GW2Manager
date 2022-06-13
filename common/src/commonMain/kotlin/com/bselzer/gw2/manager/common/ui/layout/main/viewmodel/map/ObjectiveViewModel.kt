@@ -77,14 +77,14 @@ class ObjectiveViewModel(
             val link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink }
             ObjectiveIcon(
                 link = link?.asImageUrl(),
-                description = repositories.translation.translate(objective.name).desc(),
+                description = objective.name.translated().desc(),
                 color = configuration.wvw.color(fromMatch),
             )
         }
 
     val overview: Overview?
         get() = objective?.let { objective ->
-            val name = repositories.translation.translate(objective.name)
+            val name = objective.name.translated()
             val type = objective.type.enumValueOrNull() ?: WvwObjectiveType.GENERIC
             Overview(
                 name = AppResources.strings.overview_name.format(name, type.stringDesc()),
@@ -119,7 +119,7 @@ class ObjectiveViewModel(
                 upgrade = upgrade?.let { upgrade ->
                     val level = upgrade.level(yaksDelivered)
 
-                    val tier = upgrade.tier(yaksDelivered)?.name?.let { name -> repositories.translation.translate(name) } ?: AppResources.strings.no_upgrade.desc()
+                    val tier = upgrade.tier(yaksDelivered)?.name?.translated() ?: AppResources.strings.no_upgrade.desc()
                     AppResources.strings.upgrade_tier.desc() to AppResources.strings.upgrade_tier_level.format(tier, level, upgrade.tiers.size)
                 }
             )
@@ -141,7 +141,7 @@ class ObjectiveViewModel(
             // Since we need to use the size when making the request, this is an appropriate case of passing the size in the model.
             val size = 256
             val request = clients.emblem.requestEmblem(guildId.value, size = size, EmblemRequestOptions.MAXIMIZE_BACKGROUND_ALPHA)
-            val name = repositories.translation.translate(guild.name)
+            val name = guild.name.translated()
             return Claim(
                 claimedAt = configuration.wvw.claimedAt(claimedAt),
                 claimedBy = AppResources.strings.claimed_by.format(name),
@@ -171,7 +171,7 @@ class ObjectiveViewModel(
             val alpha = configuration.alpha(condition = progressed.contains(tier))
 
             val yakRatio = yakRatios.getOrElse(index) { Pair(0, 0) }
-            val tierName = repositories.translation.translate(tier.name)
+            val tierName = tier.name.translated()
             UpgradeTier(
                 icon = TierDescriptor(
                     link = progression.iconLink.asImageUrl(),
@@ -181,9 +181,9 @@ class ObjectiveViewModel(
 
                 upgrades = tier.upgrades.map { upgrade ->
                     Upgrade(
-                        name = repositories.translation.translate(upgrade.name).desc(),
+                        name = upgrade.name.translated().desc(),
                         link = upgrade.iconLink.value.asImageUrl(),
-                        description = repositories.translation.translate(upgrade.description).desc(),
+                        description = upgrade.description.translated().desc(),
                         alpha = flowOf(alpha),
                     )
                 }
@@ -249,9 +249,9 @@ class ObjectiveViewModel(
                     }
 
                     Upgrade(
-                        name = repositories.translation.translate(guildUpgrade.name).desc(),
+                        name = guildUpgrade.name.translated().desc(),
                         link = guildUpgrade.iconLink.value.asImageUrl(),
-                        description = repositories.translation.translate(guildUpgrade.description).desc(),
+                        description = guildUpgrade.description.translated().desc(),
 
                         // If the upgrade is slotted then provide full opacity.
                         alpha = flowOf(configuration.alpha(condition = fromMatch?.guildUpgradeIds?.contains(guildUpgradeId) == true))

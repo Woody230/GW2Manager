@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.instance.generic.GuildRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.TranslateData
 import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
@@ -34,7 +35,7 @@ import me.tatarka.inject.annotations.Inject
 class WvwMatchRepository(
     dependencies: RepositoryDependencies,
     private val repositories: Repositories
-) : RepositoryDependencies by dependencies, MatchData {
+) : RepositoryDependencies by dependencies, MatchData, TranslateData by repositories.translation {
     @Singleton
     @Inject
     data class Repositories(
@@ -82,7 +83,7 @@ class WvwMatchRepository(
         // Finally, translate and combine.
         return sortedWorlds.joinToString(
             separator = "/",
-            transform = { name -> repositories.translation.translate(name) }
+            transform = { name -> name.translated() }
         ).desc()
     }
 

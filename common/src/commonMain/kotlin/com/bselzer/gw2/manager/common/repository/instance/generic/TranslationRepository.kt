@@ -26,15 +26,15 @@ import com.bselzer.gw2.v2.model.enumeration.Language as EnumLanguage
 @Inject
 class TranslationRepository(
     dependencies: RepositoryDependencies,
-) : RepositoryDependencies by dependencies {
+) : RepositoryDependencies by dependencies, TranslateData {
     private val listeners: MutableList<(Locale) -> Unit> = mutableListOf()
     private val _translations = mutableStateMapOf<String, String>()
     val translations: Map<String, String> = _translations
 
     /**
-     * @return the translated text associated with the [default] text, or the [default] if a translation does not exist
+     * @return the translated text associated with the given default text, or the default text if a translation does not exist
      */
-    fun translate(default: String): String = translations[default] ?: default
+    override fun String.translated(): String = translations[this] ?: this
 
     /**
      * Adds a listener to be notified of locale changes.

@@ -121,7 +121,7 @@ class ViewerViewModel(
 
                     // Otherwise fall back to the map name.
                     type != null -> type.stringDesc()
-                    else -> map.name.desc()
+                    else -> repositories.translation.translate(map.name).desc()
                 }
             )
         }

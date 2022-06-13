@@ -164,7 +164,8 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                         scroll(normalized.x, normalized.y, Offset.Zero)
                     }
                 ).apply {
-                    addLayer(tileStreamProvider)
+                    // Unlike a normal map, rotation does not provide much value and accidentally rotating would be more of a likely hindrance.
+                    disableRotation()
 
                     addLazyLoader(lazyLoaderId, padding = lazyLoaderPadding)
                     setPreloadingPadding(padding = grid.tileSize.width.toInt())
@@ -174,8 +175,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                         model.selected.value = null
                     }
 
-                    // Unlike a normal map, rotation does not provide much value and accidentally rotating would be more of a likely hindrance.
-                    disableRotation()
+                    addLayer(tileStreamProvider)
                 }
             }
         }

@@ -73,7 +73,7 @@
             <Claim icon="https://assets.gw2dat.com/1304078.png" />
         </Objectives>
         <Map bounded="true" continentId="2" floorId="3" refreshGrid="false" region="World vs. World" scrollEnabled="true" scrollTo="Eternal Battlegrounds">
-            <Zoom default="4" max="5" min="3" />
+            <Zoom default="3" max="5" min="2" />
             <Level endX="14" endY="15" startX="5" startY="8" zoom="4" />
             <Level endX="29" endY="30" startX="11" startY="17" zoom="5" />
         </Map>

@@ -8,9 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shape
 import com.arkivanov.essenty.lifecycle.doOnPause
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.Bloodlust
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.ObjectiveIcon
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
 import com.bselzer.gw2.v2.tile.model.position.GridPosition
+import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.value.identifier.Identifier
 import com.bselzer.ktx.value.identifier.identifier
@@ -55,31 +58,38 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         LaunchedEffect(objectiveIcons, bloodlusts) {
             state.removeAllMarkers()
 
-            objectiveIcons.forEach { objective ->
-                val (width, height) = objectiveSize
-                val normalized = grid.normalize(objective.position)
-                state.addIdentifiableMarker(
-                    id = objective.objective.id,
-                    x = normalized.x,
-                    y = normalized.y,
-                    absoluteOffset = Offset(-width / 2f, -height / 2f),
-                ) {
-                    objective.Objective(Modifier)
-                }
-            }
+            objectiveIcons.forEach { objective -> Objective(objective, state) }
+            bloodlusts.forEach { bloodlust -> Bloodlust(bloodlust, state) }
+        }
+    }
 
-            bloodlusts.forEach { bloodlust ->
-                val (width, height) = bloodlustSize
-                val normalized = grid.normalize(bloodlust.position)
-                state.addIdentifiableMarker(
-                    id = bloodlust.link.toString().identifier(),
-                    x = normalized.x,
-                    y = normalized.y,
-                    absoluteOffset = Offset(-width / 2f, -height / 2f),
-                ) {
-                    bloodlust.Bloodlust(Modifier)
-                }
-            }
+    private fun ViewerViewModel.Objective(objective: ObjectiveIcon, state: MapState) {
+        val (width, height) = objectiveSize
+        val normalized = grid.normalize(objective.position)
+        state.addIdentifiableMarker(
+            id = objective.objective.id,
+            x = normalized.x,
+            y = normalized.y,
+
+            // Displace the coordinates so that it aligns with the center of the image.
+            absoluteOffset = Offset(-width / 2f, -height / 2f),
+        ) {
+            objective.Objective(Modifier)
+        }
+    }
+
+    private fun ViewerViewModel.Bloodlust(bloodlust: Bloodlust, state: MapState) {
+        val (width, height) = bloodlustSize
+        val normalized = grid.normalize(bloodlust.position)
+        state.addIdentifiableMarker(
+            id = bloodlust.link.toString().identifier(),
+            x = normalized.x,
+            y = normalized.y,
+
+            // Displace the coordinates so that it aligns with the center of the image.
+            absoluteOffset = Offset(-width / 2f, -height / 2f),
+        ) {
+            bloodlust.Bloodlust(Modifier)
         }
     }
 
@@ -109,6 +119,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                 scrollToRegionCoordinates
             }
 
+            val lazyLoaderPadding = grid.tileSize.width.toDp()
             remember(grid.size, grid.tileSize) {
                 /**
                  * NOTE: treating each zoom level as its own map since the actual map contents need to be bounded
@@ -127,7 +138,14 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                     }
                 ).apply {
                     addLayer(tileStreamProvider)
-                    addLazyLoader(lazyLoaderId)
+
+                    addLazyLoader(lazyLoaderId, padding = lazyLoaderPadding)
+                    setPreloadingPadding(padding = grid.tileSize.width.toInt())
+
+                    onTap { x, y ->
+                        // Clear the objective pop-up.
+                        model.selected.value = null
+                    }
 
                     // Unlike a normal map, rotation does not provide much value and accidentally rotating would be more of a likely hindrance.
                     disableRotation()

@@ -190,6 +190,7 @@ abstract class GridComposition(protected val model: ViewerViewModel) {
             description = description,
             color = color
         ).Content(
+            useProgressIndicator = true,
             modifier = modifier.combinedClickable(
                 onLongClick = {
                     // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.

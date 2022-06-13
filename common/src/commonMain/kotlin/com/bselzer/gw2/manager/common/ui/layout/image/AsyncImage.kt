@@ -13,6 +13,7 @@ import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImagePresenter
 import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageProjector
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
+import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorInteractor
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
@@ -31,7 +32,8 @@ data class AsyncImage(
 
 @Composable
 fun AsyncImage.Content(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    useProgressIndicator: Boolean = false
 ) {
     val link = when (image) {
         is ImageDescUrl -> {
@@ -50,7 +52,8 @@ fun AsyncImage.Content(
             interactor = AsyncImageInteractor(
                 url = link,
                 getImage = { url -> dependencies.repositories.image.getImage(url) },
-                contentDescription = description?.localized()
+                contentDescription = description?.localized(),
+                loadingProgress = if (useProgressIndicator) ProgressIndicatorInteractor.Default else null
             ),
             presenter = AsyncImagePresenter(
                 image = ImagePresenter(

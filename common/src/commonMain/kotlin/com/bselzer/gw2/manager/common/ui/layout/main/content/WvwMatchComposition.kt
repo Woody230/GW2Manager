@@ -117,7 +117,7 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                 image = chart.background,
                 width = width,
                 height = height,
-            ).Content()
+            ).Content(useProgressIndicator = true)
 
             chart.slices.forEach { slice ->
                 AsyncImage(
@@ -126,6 +126,7 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                     height = height,
                     description = slice.description
                 ).Content(
+                    useProgressIndicator = true,
                     modifier = Modifier.clip(ArcShape(slice.startAngle, slice.endAngle)),
                 )
             }

@@ -55,7 +55,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
     @Composable
     private fun ViewerViewModel.GridEffects(state: MapState) {
-        LaunchedEffect(objectiveIcons, bloodlusts) {
+        LaunchedEffect(objectiveIcons.size, bloodlusts.size) {
             state.removeAllMarkers()
 
             objectiveIcons.forEach { objective -> Objective(objective, state) }
@@ -127,8 +127,8 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                  */
                 MapState(
                     levelCount = 1,
-                    fullWidth = grid.size.width.toInt(),
-                    fullHeight = grid.size.height.toInt(),
+                    fullWidth = grid.size.width.toInt().coerceAtLeast(1),
+                    fullHeight = grid.size.height.toInt().coerceAtLeast(1),
 
                     // NOTE: size must be at least one to avoid exception upon bitmap creation
                     tileSize = grid.tileSize.width.toInt().coerceAtLeast(1),

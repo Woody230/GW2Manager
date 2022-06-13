@@ -51,7 +51,7 @@ class WvwMatchViewModel(
     /**
      * The maps to create charts for.
      */
-    private val maps: Collection<WvwMapType> = listOf(
+    private val mapTypes: Collection<WvwMapType> = listOf(
         WvwMapType.ETERNAL_BATTLEGROUNDS,
         WvwMapType.BLUE_BORDERLANDS,
         WvwMapType.GREEN_BORDERLANDS,
@@ -73,7 +73,7 @@ class WvwMatchViewModel(
     val charts: Collection<Charts>
         get() = run {
             // Maintain a consistent map order.
-            val charts = borderlandCharts.entries.sortedBy { entry -> maps.indexOf(entry.key) }.toMutableList()
+            val charts = borderlandCharts.entries.sortedBy { entry -> mapTypes.indexOf(entry.key) }.toMutableList()
 
             // Add the total charts first as the match overview.
             charts.add(0, object : Map.Entry<WvwMapType?, List<Chart>> {

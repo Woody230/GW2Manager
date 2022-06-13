@@ -2,6 +2,8 @@ package com.bselzer.gw2.manager.common.repository.instance.specialized
 
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
+import com.bselzer.gw2.v2.model.continent.map.ContinentMap
+import com.bselzer.gw2.v2.model.map.MapId
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
 
@@ -22,9 +24,14 @@ interface SelectedWorldData : MapData, MatchData {
     val continent: Continent?
 
     /**
-     * The floor for the current match.
+     * The floor within the [continent] for the current match.
      */
     val floor: Floor?
+
+    /**
+     * The maps within the regions of the [floor] for the current match.
+     */
+    val maps: Map<MapId, ContinentMap>
 
     /**
      * Updates the grid to the new [zoom] level with the current match's map.

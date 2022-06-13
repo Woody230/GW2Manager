@@ -91,8 +91,7 @@ class ViewerViewModel(
     val scrollToRegionCoordinates: BoundedPosition
         @Composable
         get() {
-            val region = repositories.selectedWorld.floor?.regions?.values?.firstOrNull { region -> region.name == configuration.wvw.map.regionName }
-            val map = region?.maps?.values?.firstOrNull { map -> map.name == configuration.wvw.map.scrollTo } ?: return BoundedPosition()
+            val map = maps.values.firstOrNull { map -> map.name == configuration.wvw.map.scrollTo } ?: return BoundedPosition()
             return grid.bounded(map.continentRectangle.topLeft)
         }
 

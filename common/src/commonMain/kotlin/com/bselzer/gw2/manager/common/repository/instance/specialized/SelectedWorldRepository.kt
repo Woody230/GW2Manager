@@ -10,6 +10,7 @@ import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRep
 import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
+import com.bselzer.gw2.v2.model.continent.map.ContinentMap
 import com.bselzer.gw2.v2.model.map.MapId
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
@@ -61,6 +62,12 @@ class SelectedWorldRepository(
      */
     override val floor: Floor?
         get() = repositories.map.getFloor(mapId)
+
+    override val maps: Map<MapId, ContinentMap>
+        get() {
+            val floor = floor ?: return emptyMap()
+            return floor.regions.values.flatMap { region -> region.maps.values }.associateBy { map -> map.id }
+        }
 
     private val _worldId = mutableStateOf<WorldId?>(null)
     override val worldId: WorldId?

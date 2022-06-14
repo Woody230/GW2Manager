@@ -17,25 +17,44 @@ class CommonPreference(settings: SuspendSettings) {
     /**
      * The version of this application.
      */
-    val appVersion: Setting<Int> = IntSetting(settings = settings, key = "ApplicationVersion")
+    val appVersion: Setting<Int> = IntSetting(
+        settings = settings,
+        key = "ApplicationVersion"
+    )
 
     /**
      * The GW2 build version.
      */
-    val buildNumber: Setting<Int> = IntSetting(settings = settings, key = "BuildNumber")
+    val buildNumber: Setting<Int> = IntSetting(
+        settings = settings,
+        key = "BuildNumber"
+    )
 
     /**
      * The GW2 API token or api key.
      */
-    val token: Setting<String> = StringSetting(settings = settings, key = "Token")
+    val token: Setting<String> = StringSetting(
+        settings = settings,
+        key = "Token"
+    )
 
     /**
      * The UI theme.
      */
-    val theme: Setting<Theme> = SerializableSetting(settings = settings, key = "Theme", defaultValue = Theme.LIGHT, serializer = serializer())
+    val theme: Setting<Theme> = SerializableSetting(
+        settings = settings,
+        key = "Theme",
+        defaultValue = Theme.LIGHT,
+        serializer = serializer()
+    )
 
     /**
      * The locale indicating the language to display information in.
      */
-    val locale: Setting<Locale> = SerializableSetting(settings = settings, key = "Locale", defaultValue = Localizer.ENGLISH, LocaleSerializer())
+    val locale: Setting<Locale> = SerializableSetting(
+        settings = settings,
+        key = "Locale",
+        defaultValue = Localizer.ENGLISH,
+        LocaleSerializer()
+    )
 }

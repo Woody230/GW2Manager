@@ -15,7 +15,13 @@ class WvwMap(
      * Whether the whole grid should be refreshed instead of requesting tiles as needed.
      */
     @XmlSerialName(value = "refreshGrid", namespace = "", prefix = "")
-    val refreshGrid: Boolean = false,
+    val refreshGrid: Boolean = true,
+
+    /**
+     * Whether the legacy grid UI should be used instead of MapCompose.
+     */
+    @XmlSerialName(value = "legacyGrid", namespace = "", prefix = "")
+    val legacyGrid: Boolean = true,
 
     /**
      * The zoom information.

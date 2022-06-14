@@ -46,7 +46,19 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
     @Composable
     override fun ViewerViewModel.Content(modifier: Modifier) {
-        val state = mapState.also { state -> GridEffects(state) }
+        mapState?.let { state ->
+            LifecycleEffects(state)
+            GridEffects(state)
+
+            MapUI(
+                modifier = Modifier.fillMaxSize().then(modifier),
+                state = state
+            )
+        }
+    }
+
+    @Composable
+    private fun ViewerViewModel.LifecycleEffects(state: MapState) {
         LaunchedEffect(state) {
             lifecycle.doOnPause(isOneTime = true) {
                 CoroutineScope(Dispatchers.Default).launch {
@@ -56,11 +68,6 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                 }
             }
         }
-
-        MapUI(
-            modifier = Modifier.fillMaxSize().then(modifier),
-            state = state
-        )
     }
 
     @Composable
@@ -134,7 +141,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         }
     }
 
-    private val mapState: MapState
+    private val mapState: MapState?
         @Composable
         get() = model.run {
             // Use the coordinates saved from leaving this screen if they exist.
@@ -146,7 +153,16 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                 scrollToRegionCoordinates
             }
 
-            val lazyLoaderPadding = grid.tileSize.width.toDp()
+            val width = grid.size.width.toInt()
+            val height = grid.size.height.toInt()
+            val tileWidth = grid.tileSize.width.toInt()
+
+            // NOTE: coercing a defaulted grid with a min of 1 will cause an exception so just wait for the grid to be properly initialized
+            if (width <= 0 || height <= 0 || tileWidth <= 0) {
+                return@run null
+            }
+
+            val lazyLoaderPadding = width.toDp()
             remember(grid.size, grid.tileSize) {
                 /**
                  * NOTE: treating each zoom level as its own map since the actual map contents need to be bounded
@@ -154,11 +170,11 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                  */
                 MapState(
                     levelCount = 1,
-                    fullWidth = grid.size.width.toInt().coerceAtLeast(1),
-                    fullHeight = grid.size.height.toInt().coerceAtLeast(1),
+                    fullWidth = width,
+                    fullHeight = height,
 
                     // NOTE: size must be at least one to avoid exception upon bitmap creation
-                    tileSize = grid.tileSize.width.toInt().coerceAtLeast(1),
+                    tileSize = tileWidth,
                     initialValuesBuilder = {
                         val normalized = grid.normalize(coordinates)
                         scroll(normalized.x, normalized.y, Offset.Zero)
@@ -168,7 +184,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                     disableRotation()
 
                     addLazyLoader(lazyLoaderId, padding = lazyLoaderPadding)
-                    setPreloadingPadding(padding = grid.tileSize.width.toInt())
+                    setPreloadingPadding(padding = tileWidth)
 
                     onTap { x, y ->
                         // Clear the objective pop-up.

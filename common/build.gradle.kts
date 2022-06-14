@@ -144,7 +144,7 @@ android {
         testInstrumentationRunner = Metadata.TEST_INSTRUMENTATION_RUNNER
     }
     compileOptions {
-        isCoreLibraryDesugaringEnabled
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = Metadata.ANDROID_JAVA_VERSION
         targetCompatibility = Metadata.ANDROID_JAVA_VERSION
     }

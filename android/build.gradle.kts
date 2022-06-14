@@ -18,7 +18,7 @@ android {
         versionCode = Metadata.VERSION_CODE
     }
     compileOptions {
-        isCoreLibraryDesugaringEnabled
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = Metadata.ANDROID_JAVA_VERSION
         targetCompatibility = Metadata.ANDROID_JAVA_VERSION
     }

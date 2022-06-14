@@ -72,7 +72,9 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
     @Composable
     private fun ViewerViewModel.GridEffects(state: MapState) {
-        LaunchedEffect(state, objectiveIcons, bloodlusts, mapLabels) {
+        LaunchedEffect(state) {
+            Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objectives, ${bloodlusts.size} bloodlusts, and ${mapLabels.size} map labels." }
+
             state.removeAllMarkers()
 
             objectiveIcons.forEach { objective -> Objective(objective, state) }
@@ -163,7 +165,9 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             }
 
             val lazyLoaderPadding = width.toDp()
-            remember(grid.size, grid.tileSize) {
+
+            // TODO observing the objectives/bloodlusts/labels here instead of with the effect to be able to refresh the markers
+            remember(grid.size, grid.tileSize, objectiveIcons, bloodlusts, mapLabels) {
                 /**
                  * NOTE: treating each zoom level as its own map since the actual map contents need to be bounded
                  *  without the bounds, there would otherwise be a lot of blank space as zoom levels are increased

@@ -6,12 +6,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.AppResources
+import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MapConfig
@@ -31,6 +32,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewMod
 import com.bselzer.gw2.v2.tile.model.response.Tile
 import com.bselzer.ktx.compose.image.ui.layout.asImageBitmap
 import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.datetime.format.minuteFormat
 import kotlin.time.Duration
@@ -40,12 +42,15 @@ expect fun PlatformGridComposition(model: ViewerViewModel): GridComposition
 /**
  * The composition for laying out the grid of tiles.
  */
-abstract class GridComposition(protected val model: ViewerViewModel) {
+abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<ViewerViewModel>(model) {
     @Composable
     fun Content(modifier: Modifier) = model.Content(modifier)
 
     @Composable
     protected abstract fun ViewerViewModel.Content(modifier: Modifier)
+
+    @Composable
+    override fun ViewerViewModel.Content() = Content(Modifier)
 
     protected val objectiveSize: IntSize = IntSize(64, 64)
     protected val bloodlustSize: IntSize = objectiveSize
@@ -230,12 +235,16 @@ abstract class GridComposition(protected val model: ViewerViewModel) {
      */
     @Composable
     protected fun MapLabel.Label(modifier: Modifier) {
-        val width = width.coerceAtLeast(100.0).toDp()
-        Text(
-            modifier = Modifier.width(width).then(modifier),
-            text = description.localized(),
-            fontWeight = FontWeight.ExtraBold,
-            color = color,
-        )
+        BackgroundImage(
+            modifier = modifier,
+            painter = relativeBackgroundPainter,
+            presenter = relativeBackgroundPresenter.copy(alignment = Alignment.TopCenter)
+        ) {
+            Text(
+                text = description.localized(),
+                fontWeight = FontWeight.ExtraBold,
+                color = color,
+            )
+        }
     }
 }

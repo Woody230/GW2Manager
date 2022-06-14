@@ -111,10 +111,12 @@ class ViewerViewModel(
         get() = matchMaps.map { (wvwMap, map) ->
             val type = wvwMap.type.enumValueOrNull()
             val owner = type?.owner() ?: WvwObjectiveOwner.NEUTRAL
+            val topLeft = grid.bounded(map.continentRectangle.topLeft)
+            val topRight = grid.bounded(map.continentRectangle.topRight)
             MapLabel(
                 color = configuration.wvw.color(owner),
-                position = grid.bounded(map.continentRectangle.topLeft),
-                width = map.continentRectangle.topRight.x - map.continentRectangle.topLeft.x,
+                position = topLeft,
+                width = topRight.x - topLeft.x,
                 description = when {
                     // If there are worlds then display them.
                     match?.linkedWorlds(owner)?.isNotEmpty() == true -> displayableLinkedWorlds(owner)

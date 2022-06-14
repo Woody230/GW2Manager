@@ -131,14 +131,20 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
     private val tileStreamProvider = model.run {
         TileStreamProvider { y, x, zoom ->
-            val bounded = GridPosition(x = grid.topLeft.x + x, y = grid.topLeft.y + y)
+            try {
+                val bounded = GridPosition(x = grid.topLeft.x + x, y = grid.topLeft.y + y)
 
-            // NOTE: Must use the grid zoom since we are treating each zoom level as its own map and not using levels.
-            val tile = request(grid.getTileOrDefault(bounded, grid.zoom))
-            if (tile.content.isEmpty()) {
+                // NOTE: Must use the grid zoom since we are treating each zoom level as its own map and not using levels.
+                val tile = request(grid.getTileOrDefault(bounded, grid.zoom))
+                if (tile.content.isEmpty()) {
+                    null
+                } else {
+                    ByteArrayInputStream(tile.content)
+                }
+            } catch (ex: Exception) {
+                // May be in the process of releasing the database, which will cause an exception to be thrown.
+                Logger.e(ex) { "Failed to get the tile at [$x, $y] for zoom level ${grid.zoom}." }
                 null
-            } else {
-                ByteArrayInputStream(tile.content)
             }
         }
     }

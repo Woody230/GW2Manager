@@ -119,9 +119,10 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             x = normalized.x,
             y = normalized.y,
 
-            // Provide a slight buffer between the top of the map and the label.
+            // Provide a buffer between the top of the map and the label.
             // This is particularly needed for red borderlands where the top camp will overlap with the text normally.
-            absoluteOffset = Offset(x = 0f, y = -50f)
+            relativeOffset = Offset(0f, -1f),
+            absoluteOffset = Offset.Zero,
         ) {
             label.Label(Modifier)
         }

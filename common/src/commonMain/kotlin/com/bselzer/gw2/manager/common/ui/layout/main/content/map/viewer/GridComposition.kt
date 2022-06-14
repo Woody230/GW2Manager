@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -241,6 +242,8 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
             presenter = relativeBackgroundPresenter.copy(alignment = Alignment.TopCenter)
         ) {
             Text(
+                // Only span the size of the map at most.
+                modifier = Modifier.widthIn(max = width.toDp()),
                 text = description.localized(),
                 fontWeight = FontWeight.ExtraBold,
                 color = color,

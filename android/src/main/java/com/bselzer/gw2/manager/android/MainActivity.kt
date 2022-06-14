@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Ensure the previous database lock is cleared before recreating in case onDestroy() does not complete.
+        release()
+
         // Must keep the datastore in the application so that there is only one active at a time.
         val datastore = with(application) {
             val initializer = this as AppInitializer
@@ -44,14 +47,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        release()
+    }
 
-        try {
-            // Close the database so that it isn't locked anymore.
-            // Otherwise, an exception will be thrown upon recreation of the activity.
-            dependencies?.database?.close()
-        } catch (ex: Exception) {
-            Logger.e(ex) { "Failed to close the LevelDB database." }
-        }
+    private fun release() = try {
+        // Close the database so that it isn't locked anymore.
+        // Otherwise, an exception will be thrown upon recreation of the activity.
+        dependencies?.database?.close()
+    } catch (ex: Exception) {
+        Logger.e(ex) { "Failed to close the LevelDB database." }
     }
 
     private fun AppDependencies.createContext() = run {

@@ -15,6 +15,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewMod
 import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
 import com.bselzer.gw2.v2.tile.model.position.GridPosition
 import com.bselzer.ktx.compose.ui.unit.toDp
+import com.bselzer.ktx.compose.ui.unit.toPx
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.value.identifier.Identifier
 import com.bselzer.ktx.value.identifier.identifier
@@ -72,19 +73,20 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
     @Composable
     private fun ViewerViewModel.GridEffects(state: MapState) {
+        val objectiveWidth = objectiveSize.width.toPx()
+        val objectiveHeight = objectiveSize.height.toPx()
         LaunchedEffect(state, objectiveIcons, bloodlusts, mapLabels) {
             Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objectives, ${bloodlusts.size} bloodlusts, and ${mapLabels.size} map labels." }
 
             state.removeAllMarkers()
 
-            objectiveIcons.forEach { objective -> Objective(objective, state) }
+            objectiveIcons.forEach { objective -> Objective(objective, state, objectiveWidth, objectiveHeight) }
             bloodlusts.forEach { bloodlust -> Bloodlust(bloodlust, state) }
             mapLabels.forEach { label -> MapLabel(label, state) }
         }
     }
 
-    private fun ViewerViewModel.Objective(objective: ObjectiveIcon, state: MapState) {
-        val (width, height) = objectiveSize
+    private fun ViewerViewModel.Objective(objective: ObjectiveIcon, state: MapState, width: Float, height: Float) {
         val normalized = grid.normalize(objective.position)
         state.addIdentifiableMarker(
             x = normalized.x,
@@ -92,6 +94,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             zIndex = objectivePriority,
 
             // Displace the coordinates so that it aligns with the center of the image.
+            // Not using relative offset because the timer coming in/out of visibility will push the objective.
             absoluteOffset = Offset(-width / 2f, -height / 2f),
         ) {
             objective.Objective(Modifier)
@@ -99,7 +102,6 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     }
 
     private fun ViewerViewModel.Bloodlust(bloodlust: Bloodlust, state: MapState) {
-        val (width, height) = bloodlustSize
         val normalized = grid.normalize(bloodlust.position)
         state.addIdentifiableMarker(
             x = normalized.x,
@@ -107,7 +109,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             zIndex = bloodlustPriority,
 
             // Displace the coordinates so that it aligns with the center of the image.
-            absoluteOffset = Offset(-width / 2f, -height / 2f),
+            relativeOffset = Offset(-0.5f, -0.5f)
         ) {
             bloodlust.Bloodlust(Modifier)
         }
@@ -122,7 +124,6 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             // Provide a buffer between the top of the map and the label.
             // This is particularly needed for red borderlands where the top camp will overlap with the text normally.
             relativeOffset = Offset(0f, -1f),
-            absoluteOffset = Offset.Zero,
         ) {
             label.Label(Modifier)
         }
@@ -222,7 +223,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         x: Double,
         y: Double,
         relativeOffset: Offset = Offset.Zero,
-        absoluteOffset: Offset,
+        absoluteOffset: Offset = Offset.Zero,
         zIndex: Float = 0f,
         clickable: Boolean = false,
         clipShape: Shape? = null,

@@ -18,7 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.arkivanov.decompose.router.bringToFront
@@ -53,8 +54,12 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
     @Composable
     override fun ViewerViewModel.Content() = Content(Modifier)
 
-    protected val objectiveSize: IntSize = IntSize(64, 64)
-    protected val bloodlustSize: IntSize = objectiveSize
+    protected companion object {
+        val objectiveSize: DpSize = DpSize(32.dp, 32.dp)
+        val bloodlustSize: DpSize = objectiveSize
+        val indicatorSize: DpSize = DpSize(16.dp, 16.dp)
+    }
+
 
     /**
      * Lays out an individual tile within the grid.
@@ -85,8 +90,7 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
     @Composable
     protected fun Bloodlust.Bloodlust(modifier: Modifier) = AsyncImage(
         image = link,
-        width = bloodlustSize.width,
-        height = bloodlustSize.height,
+        size = bloodlustSize,
         color = color,
         description = description
     ).Content(modifier)
@@ -102,8 +106,6 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
 
         // Overlay the objective image onto the map image.
         Image(
-            width = objectiveSize.width,
-            height = objectiveSize.height,
             modifier = Modifier.constrainAs(icon) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
@@ -153,8 +155,7 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
         enabled = enabled,
         image = link,
         description = description,
-        width = 32,
-        height = 32,
+        size = indicatorSize,
     ).Content(modifier = modifier)
 
     /**
@@ -165,8 +166,7 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
         enabled = enabled,
         image = link,
         description = description,
-        width = 32,
-        height = 32,
+        size = indicatorSize,
         color = color
     ).Content(modifier = modifier)
 
@@ -178,8 +178,7 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
         enabled = enabled,
         image = link,
         description = description,
-        width = 32,
-        height = 32,
+        size = indicatorSize,
         color = color
     ).Content(modifier = modifier)
 
@@ -188,11 +187,10 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
      */
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    protected fun ObjectiveIcon.Image(modifier: Modifier, width: Int, height: Int) {
+    protected fun ObjectiveIcon.Image(modifier: Modifier) {
         val mapRouter = LocalMapRouter.current
         AsyncImage(
-            width = width,
-            height = height,
+            size = objectiveSize,
             image = link,
             description = description,
             color = color

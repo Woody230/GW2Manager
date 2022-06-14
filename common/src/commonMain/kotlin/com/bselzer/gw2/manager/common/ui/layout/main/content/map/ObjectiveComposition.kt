@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -40,6 +41,7 @@ import com.bselzer.ktx.compose.ui.layout.merge.TriState
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
+import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.function.collection.buildArray
 import com.bselzer.ktx.resource.KtxResources
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -62,6 +64,12 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             GUILD_IMPROVEMENTS -> Gw2Resources.strings.guild_improvements
             GUILD_TACTICS -> Gw2Resources.strings.guild_tactics
         }.desc()
+    }
+
+    private companion object {
+        val objectiveSize: DpSize = DpSize(50.dp, 50.dp)
+        val tierSize: DpSize = DpSize(75.dp, 75.dp)
+        val upgradeSize: DpSize = DpSize(50.dp, 50.dp)
     }
 
     // TODO standardize capitalization of text, particularly for anything from the api -- for example, for French fortified is not capitalized while secured/reinforced are
@@ -178,8 +186,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
                     AsyncImage(
                         image = icon.link,
                         description = icon.description,
-                        width = 128,
-                        height = 128,
+                        size = objectiveSize,
                         color = icon.color
                     ).Content()
                 }
@@ -367,8 +374,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
 
         AsyncImage(
             image = claim.link,
-            width = claim.size,
-            height = claim.size,
+            size = DpSize(claim.size.toDp(), claim.size.toDp()),
             description = claim.description
         ).Content()
     }
@@ -382,8 +388,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             val (iconRef, descriptorRef, expansionRef) = createRefs()
             AsyncImage(
                 image = icon.link,
-                width = 172,
-                height = 172,
+                size = tierSize,
                 color = icon.color,
                 alpha = icon.alpha.collectAsState(DefaultAlpha).value
             ).Content(Modifier.constrainAs(iconRef) {
@@ -427,8 +432,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
     ) {
         AsyncImage(
             image = link,
-            width = 128,
-            height = 128,
+            size = upgradeSize,
             alpha = alpha.collectAsState(DefaultAlpha).value
         ).Content()
 

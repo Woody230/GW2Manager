@@ -12,6 +12,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.Bloodlust
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.ObjectiveIcon
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.ktx.compose.ui.unit.toDp
+import com.bselzer.ktx.compose.ui.unit.toPx
 
 /**
  * A composition for laying out the grid of tiles using a box to hold the scrolling capabilities.
@@ -44,8 +45,8 @@ class BoxGridComposition(model: ViewerViewModel) : GridComposition(model) {
     private fun Bloodlust.Bloodlust() {
         // Displace the coordinates so that it aligns with the center of the image.
         val (width, height) = bloodlustSize
-        val displacedX = position.x - width / 2
-        val displacedY = position.y - height / 2
+        val displacedX = position.x - width.toPx() / 2
+        val displacedY = position.y - height.toPx() / 2
         Bloodlust(
             modifier = Modifier.absoluteOffset(
                 x = displacedX.toDp(),
@@ -58,8 +59,8 @@ class BoxGridComposition(model: ViewerViewModel) : GridComposition(model) {
     private fun ObjectiveIcon.Objective() {
         // Displace the coordinates so that it aligns with the center of the image.
         val (width, height) = objectiveSize
-        val displacedX = position.x - width / 2
-        val displacedY = position.y - height / 2
+        val displacedX = position.x - width.toPx() / 2
+        val displacedY = position.y - height.toPx() / 2
         Objective(
             modifier = Modifier.absoluteOffset(
                 displacedX.toDp(),

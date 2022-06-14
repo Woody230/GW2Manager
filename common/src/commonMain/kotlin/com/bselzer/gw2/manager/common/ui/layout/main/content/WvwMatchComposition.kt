@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -34,6 +35,10 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 
 class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMatchViewModel>(model) {
+    private companion object {
+        val pieSize = DpSize(256.dp, 256.dp)
+    }
+
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     override fun WvwMatchViewModel.Content() = BackgroundImage(
@@ -110,20 +115,16 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
      */
     @Composable
     private fun WvwMatchViewModel.PieChart(chart: Chart) {
-        val width = 512
-        val height = 512
         Box {
             AsyncImage(
                 image = chart.background,
-                width = width,
-                height = height,
+                size = pieSize,
             ).Content(useProgressIndicator = true)
 
             chart.slices.forEach { slice ->
                 AsyncImage(
                     image = slice.image,
-                    width = width,
-                    height = height,
+                    size = pieSize,
                     description = slice.description
                 ).Content(
                     useProgressIndicator = true,
@@ -135,8 +136,7 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
             chart.slices.map { slice -> slice.startAngle }.forEach { angle ->
                 AsyncImage(
                     image = chart.divider,
-                    width = width,
-                    height = height,
+                    size = pieSize,
                 ).Content(
                     modifier = Modifier.rotate(degrees = angle),
                 )

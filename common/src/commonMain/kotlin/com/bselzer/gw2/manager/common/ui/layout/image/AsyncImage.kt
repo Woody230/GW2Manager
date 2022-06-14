@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.DpSize
 import com.bselzer.gw2.manager.common.dependency.LocalDependencies
 import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageInteractor
 import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImagePresenter
@@ -14,7 +15,6 @@ import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageProjector
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorInteractor
-import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.image.ImageDesc
@@ -23,8 +23,7 @@ import dev.icerock.moko.resources.desc.image.ImageDescUrl
 data class AsyncImage(
     val enabled: Boolean = true,
     val image: ImageDesc?,
-    val width: Int,
-    val height: Int,
+    val size: DpSize,
     val color: Color? = null,
     val description: StringDesc? = null,
     val alpha: Float = DefaultAlpha
@@ -65,10 +64,7 @@ fun AsyncImage.Content(
                 )
             )
         ).Projection(
-            modifier = modifier.size(
-                width = width.toDp(),
-                height = height.toDp()
-            )
+            modifier = modifier.size(size)
         )
     }
 }

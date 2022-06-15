@@ -5,6 +5,7 @@
     <string name="claimed_at">Revendication à %1$s le %2$s</string>
     <string name="claimed_by">Revendication de %1$s</string>
     <string name="continents_description">Cartes, régions, niveaux, dalles</string>
+    <string name="default_zoom_level">Niveau de Zoom par Défaut</string>
     <string name="flipped_at">Capturé à %1$s le %2$s</string>
     <string name="guild_emblem">Emblème de guilde pour %1$s</string>
     <string name="guilds_description">Améliorations</string>

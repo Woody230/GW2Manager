@@ -6,6 +6,7 @@
     <string name="claimed_at">Claimed at %1$s on %2$s</string>
     <string name="claimed_by">Claimed by %1$s</string>
     <string name="continents_description">Maps, regions, floors, tiles</string>
+    <string name="default_zoom_level">Default Zoom Level</string>
     <string name="flipped_at">Flipped at %1$s on %2$s</string>
     <string name="guild_emblem">Guild emblem for %1$s</string>
     <string name="guilds_description">Upgrades</string>

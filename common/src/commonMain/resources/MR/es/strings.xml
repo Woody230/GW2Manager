@@ -5,6 +5,7 @@
     <string name="claimed_at">Reclamado a la %1$s del %2$s</string>
     <string name="claimed_by">Reclamado por %1$s</string>
     <string name="continents_description">Mapas, regiones, niveles, teselas</string>
+    <string name="default_zoom_level">Nivel de Zoom Predeterminado</string>
     <string name="flipped_at">Invertido a la %1$s del %2$s</string>
     <string name="guild_emblem">Emblema del clan para %1$s</string>
     <string name="guilds_description">Mejoras</string>

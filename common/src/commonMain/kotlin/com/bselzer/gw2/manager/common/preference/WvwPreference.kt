@@ -1,10 +1,8 @@
 package com.bselzer.gw2.manager.common.preference
 
+import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.v2.model.world.WorldId
-import com.bselzer.ktx.settings.setting.InitialDurationSetting
-import com.bselzer.ktx.settings.setting.IntIdentifierSetting
-import com.bselzer.ktx.settings.setting.SerializableSetting
-import com.bselzer.ktx.settings.setting.Setting
+import com.bselzer.ktx.settings.setting.*
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlinx.datetime.Instant
@@ -12,7 +10,7 @@ import kotlinx.serialization.serializer
 import kotlin.time.DurationUnit
 
 @OptIn(ExperimentalSettingsApi::class)
-class WvwPreference(settings: SuspendSettings) {
+class WvwPreference(settings: SuspendSettings, configuration: Configuration) {
     /**
      * The data refresh interval.
      */
@@ -26,7 +24,7 @@ class WvwPreference(settings: SuspendSettings) {
     /**
      * The last data refresh date/time.
      */
-    val lastRefresh: SerializableSetting<Instant> = SerializableSetting(
+    val lastRefresh: Setting<Instant> = SerializableSetting(
         settings = settings,
         key = "WvwLastRefresh",
         defaultValue = Instant.DISTANT_FUTURE, serializer()
@@ -39,5 +37,26 @@ class WvwPreference(settings: SuspendSettings) {
         settings = settings,
         key = "SelectedWorld",
         create = { WorldId(it) }
+    )
+
+    /*
+    /**
+     * The objective owners mapped to the color to display images and text in.
+     */
+    val colors: Setting<Map<WvwObjectiveOwner, Color>> = SerializableSetting(
+        settings = settings,
+        key = "BorderlandColors",
+        defaultValue = configuration.wvw.objectives.colors.associate { color -> color.owner to Hex(color.type).color() },
+        serializer = serializer()
+    )
+    */
+
+    /**
+     * The default zoom level to use when initially loading the grid.
+     */
+    val zoom: Setting<Int> = IntSetting(
+        settings = settings,
+        key = "GridZoom",
+        defaultValue = configuration.wvw.map.zoom.default,
     )
 }

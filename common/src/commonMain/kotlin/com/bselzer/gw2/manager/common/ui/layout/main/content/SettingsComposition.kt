@@ -1,12 +1,15 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
@@ -23,6 +26,8 @@ import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceIn
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
+import com.bselzer.ktx.compose.ui.layout.picker.IntegerPickerInteractor
+import com.bselzer.ktx.compose.ui.layout.picker.PickerProjector
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.PreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
@@ -190,7 +195,12 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
             title = TextPresenter(color = MaterialTheme.colors.primary)
         )
     ).Projection {
-        RefreshInterval()
+        spacedPreferenceColumnProjector().Projection(
+            content = buildArray {
+                add { RefreshInterval() }
+                add { Zoom() }
+            }
+        )
     }
 
     @Composable
@@ -223,5 +233,43 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                 )
             ),
         ).Projection(modifier = state.openOnClick())
+    }
+
+    @Composable
+    private fun SettingsViewModel.Zoom() {
+        val state = rememberDialogState()
+        AlertDialogPreferenceProjector(
+            interactor = AlertDialogPreferenceInteractor(
+                preference = PreferenceInteractor(
+                    painter = zoomResources.image.painter(),
+                    title = zoomResources.title.localized(),
+                    subtitle = zoomResources.subtitle.localized()
+                ),
+                dialog = AlertDialogInteractor.Builder(state) {
+                    zoomLogic.clearInput()
+                }.triText().build {
+                    title = zoomResources.title.localized()
+                    closeOnPositive { zoomLogic.onSave() }
+                    closeOnNeutral { zoomLogic.onReset() }
+                }
+            )
+        ).Projection(
+            modifier = state.openOnClick()
+        ) {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                PickerProjector(
+                    interactor = IntegerPickerInteractor(
+                        selected = zoomLogic.amount,
+                        range = zoomLogic.amountRange,
+                        onSelectionChanged = zoomLogic.onValueChange,
+                        upIcon = upIconInteractor(),
+                        downIcon = downIconInteractor()
+                    )
+                ).Projection()
+            }
+        }
     }
 }

@@ -165,10 +165,10 @@ abstract class SingletonAppDependencies(
     @Singleton
     @Provides
     @Inject
-    fun preferences(settings: SuspendSettings): Preferences = Preferences(
+    fun preferences(settings: SuspendSettings, configuration: Configuration): Preferences = Preferences(
         settings = settings,
         common = CommonPreference(settings),
-        wvw = WvwPreference(settings)
+        wvw = WvwPreference(settings, configuration)
     )
 
     @Singleton

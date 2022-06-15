@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Descriptor
 import com.bselzer.gw2.manager.common.ui.layout.splash.model.initialization.Initializer
@@ -41,7 +42,7 @@ class InitializationViewModel(
     // TODO add build number if needed
     private val initializers: Collection<Initializer>
         @Composable
-        get() = listOf(initializeLanguage, initializeTheme, migration, initializeWvwRefresh)
+        get() = listOf(initializeLanguage, initializeTheme, migration, initializeWvwRefresh, initializeWvwZoom)
 
     private val initializeLanguage
         get() = Initializer(
@@ -121,5 +122,15 @@ class InitializationViewModel(
             if (!preferences.wvw.lastRefresh.exists()) {
                 repositories.selectedWorld.forceRefresh()
             }
+        }
+
+    private val initializeWvwZoom
+        get() = Initializer(
+            title = Gw2Resources.strings.wvw.desc(),
+            subtitle = AppResources.strings.default_zoom_level.desc()
+        ) {
+            // Replace the configured default with the user's preference.
+            val zoom = preferences.wvw.zoom.get()
+            repositories.selectedWorld.updateZoom(zoom)
         }
 }

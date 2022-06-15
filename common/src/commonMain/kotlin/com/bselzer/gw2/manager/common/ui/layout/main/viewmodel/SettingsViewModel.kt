@@ -209,4 +209,35 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
             updateSelection = { language.value = it },
             resetSelection = { language.value = null }
         )
+
+    private val zoom: MutableState<Int?> = mutableStateOf(null)
+    val zoomResources
+        @Composable
+        get() = ZoomResources(
+            image = Gw2Resources.images.gift_of_exploration,
+            title = AppResources.strings.default_zoom_level.desc(),
+            subtitle = preferences.wvw.zoom.safeState().value.toString().desc(),
+        )
+
+    val zoomLogic: ZoomLogic
+        get() {
+            val range = repositories.selectedWorld.zoomRange
+            return ZoomLogic(
+                // TODO default to the actual preference instead of initial?
+                amount = zoom.value ?: preferences.wvw.zoom.defaultValue,
+                amountRange = range,
+                onValueChange = { zoom.value = it.coerceIn(range) },
+                onSave = {
+                    zoom.value?.let { updateZoom(it) }
+                },
+                onReset = { updateZoom(preferences.wvw.zoom.defaultValue) },
+                clearInput = { zoom.value = null }
+            )
+        }
+
+    private suspend fun updateZoom(zoom: Int) {
+        val bounded = zoom.coerceIn(repositories.selectedWorld.zoomRange)
+        preferences.wvw.zoom.set(bounded)
+        repositories.selectedWorld.updateZoom(bounded)
+    }
 }

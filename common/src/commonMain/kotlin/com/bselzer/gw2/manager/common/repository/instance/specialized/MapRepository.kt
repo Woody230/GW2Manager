@@ -13,8 +13,6 @@ import com.bselzer.gw2.v2.tile.model.response.Tile
 import com.bselzer.gw2.v2.tile.model.response.TileGrid
 import com.bselzer.ktx.logging.Logger
 import me.tatarka.inject.annotations.Inject
-import kotlin.math.max
-import kotlin.math.min
 
 @Singleton
 @Inject
@@ -97,8 +95,7 @@ class MapRepository(
      */
     suspend fun updateZoom(zoom: Int, mapId: MapId?) {
         // Must keep the zoom bounded within the configured range.
-        val bounded = max(zoomRange.first, min(zoomRange.last, zoom))
-        _zoom.value = bounded
+        _zoom.value = zoom.coerceIn(zoomRange)
 
         updateGrid(zoom, mapId)
     }

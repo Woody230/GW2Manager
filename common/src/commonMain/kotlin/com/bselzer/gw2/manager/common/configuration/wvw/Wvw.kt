@@ -1,13 +1,8 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
-import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.AppResources
-import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
-import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
-import com.bselzer.ktx.compose.ui.graphics.color.Hex
-import com.bselzer.ktx.compose.ui.graphics.color.color
 import com.bselzer.ktx.datetime.format.FormatStyle
 import com.bselzer.ktx.datetime.format.FormatStyleDateTimeFormatter
 import com.bselzer.ktx.datetime.format.PatternDateTimeFormatter
@@ -38,16 +33,6 @@ class Wvw(
     fun objective(objective: WvwObjective?) = objective?.let {
         objectives.objectives.firstOrNull { it.type == objective.type.enumValueOrNull() }
     }
-
-    /**
-     * @return the color associated with the endpoint objective
-     */
-    fun color(objective: WvwMapObjective?): Color = color(objective?.owner?.enumValueOrNull())
-
-    /**
-     * @return the color associated with an objective [owner]
-     */
-    fun color(owner: WvwObjectiveOwner?, default: String = "#888888") = Hex(objectives.hex(owner = owner ?: WvwObjectiveOwner.NEUTRAL, default = default)).color()
 
     @Transient
     private val timeFormatter = FormatStyleDateTimeFormatter(dateStyle = null, timeStyle = FormatStyle.SHORT)

@@ -42,8 +42,13 @@ class ColorRepository(
     private val _colors = mutableStateMapOf<WvwObjectiveOwner, Color>()
     val colors: Map<WvwObjectiveOwner, Color> = _colors
 
-    override fun getColor(objective: WvwMapObjective?): Color = getColor(objective?.owner?.enumValueOrNull())
-    override fun getColor(owner: WvwObjectiveOwner?): Color = colors[owner] ?: defaultColor
+    override fun WvwMapObjective?.color(): Color {
+        val owner = this?.owner?.enumValueOrNull()
+        return owner.color()
+    }
+
+    override fun WvwObjectiveOwner?.color(): Color = colors[this] ?: defaultColor
+
     override suspend fun setPreferenceColor(owner: WvwObjectiveOwner, color: Color) = lock.withLock {
         Logger.d { "Color | Updating $owner to $color equivalent to ${color.hex()}" }
         _colors[owner] = color

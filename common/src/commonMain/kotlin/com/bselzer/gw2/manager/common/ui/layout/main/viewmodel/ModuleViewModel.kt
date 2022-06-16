@@ -32,7 +32,7 @@ class ModuleViewModel(
             return WorldResources(
                 title = Gw2Resources.strings.world.desc(),
                 subtitle = worldSubtitle(selectedId, world),
-                color = configuration.wvw.color(owner),
+                color = owner.color(),
                 image = Gw2Resources.images.rank_dolyak,
             )
         }

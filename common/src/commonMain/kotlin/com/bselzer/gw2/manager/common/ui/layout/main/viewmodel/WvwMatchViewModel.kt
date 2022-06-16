@@ -45,7 +45,7 @@ class WvwMatchViewModel(
      */
     val defaultCharts = Charts(
         title = "".desc(),
-        color = configuration.wvw.color(WvwObjectiveOwner.NEUTRAL),
+        color = WvwObjectiveOwner.NEUTRAL.color(),
         charts = emptyList()
     )
 
@@ -67,7 +67,7 @@ class WvwMatchViewModel(
                 Charts(
                     // Use the map type as the title, otherwise default to the match overview for the null type that was added.
                     title = entry.key?.stringDesc() ?: KtxResources.strings.overview.desc(),
-                    color = configuration.wvw.color(entry.key?.owner()),
+                    color = entry.key?.owner().color(),
                     charts = entry.value
                 )
             }
@@ -131,7 +131,7 @@ class WvwMatchViewModel(
         owners.forEach { owner ->
             val amount = data?.get(owner) ?: 0
             ChartData(
-                color = configuration.wvw.color(owner),
+                color = owner.color(),
                 data = amount.toString().desc(),
                 owner = repositories.selectedWorld.displayableLinkedWorlds(owner)
             ).addTo(this)

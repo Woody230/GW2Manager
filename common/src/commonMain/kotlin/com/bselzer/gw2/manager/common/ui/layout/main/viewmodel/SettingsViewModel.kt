@@ -252,14 +252,14 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context), 
             val owner = map.owner()
             ColorResources(
                 image = KtxResources.images.ic_color_lens,
-                title = AppResources.strings.borderlands_color.format(map.stringDesc()),
-                subtitle = getColor(owner).hex(),
+                title = AppResources.strings.borderlands_color.format(owner.stringDesc()),
+                subtitle = owner.color().hex(),
                 dialogInput = (color.value ?: "").desc(),
                 dialogSubtitle = AppResources.strings.hexadecimal_color.desc(),
                 failure = AppResources.strings.color_failure.desc()
             ) to ColorLogic(
                 // Reusing the same underlying state since only one dialog will be active at a time.
-                updateInput = { color.value = it },
+                updateInput = { color.value = it.trim() },
                 clearInput = { color.value = null },
                 onReset = { resetPreferenceColor(owner) },
                 onSave = {

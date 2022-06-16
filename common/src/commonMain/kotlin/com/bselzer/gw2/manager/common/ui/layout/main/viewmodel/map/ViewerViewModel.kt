@@ -114,7 +114,7 @@ class ViewerViewModel(
             val topLeft = grid.bounded(map.continentRectangle.topLeft)
             val topRight = grid.bounded(map.continentRectangle.topRight)
             MapLabel(
-                color = configuration.wvw.color(owner),
+                color = owner.color(),
                 position = topLeft,
                 width = topRight.x - topLeft.x,
                 description = when {
@@ -157,7 +157,7 @@ class ViewerViewModel(
                 val owner = bonus?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
                 Bloodlust(
                     link = configuration.wvw.bloodlust.iconLink.asImageUrl(),
-                    color = configuration.wvw.color(owner = owner),
+                    color = owner.color(),
                     description = AppResources.strings.bloodlust_for.format(owner.stringDesc()),
 
                     // Scale the coordinates to the zoom level and remove excluded bounds.
@@ -196,7 +196,7 @@ class ViewerViewModel(
                     link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink ?: "" }.asImageUrl(),
 
                     description = objective.name.translated().desc(),
-                    color = configuration.wvw.color(fromMatch),
+                    color = fromMatch.color(),
                     progression = ObjectiveProgression(
                         enabled = progression != null,
                         description = level?.let { AppResources.strings.upgrade_level.format(level) },

@@ -21,9 +21,8 @@ interface ColorData {
     /**
      * Gets the [Color] for the current owner of the objective.
      */
-    fun getColor(objective: WvwMapObjective?): Color
-
-    fun getColor(owner: WvwObjectiveOwner?): Color
+    fun WvwMapObjective?.color(): Color
+    fun WvwObjectiveOwner?.color(): Color
 
     suspend fun setPreferenceColor(owner: WvwObjectiveOwner, color: Color)
     suspend fun setPreferenceColors()

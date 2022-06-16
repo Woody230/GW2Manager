@@ -78,7 +78,7 @@ class ObjectiveViewModel(
             ObjectiveIcon(
                 link = link?.asImageUrl(),
                 description = objective.name.translated().desc(),
-                color = configuration.wvw.color(fromMatch),
+                color = fromMatch.color(),
             )
         }
 
@@ -94,13 +94,13 @@ class ObjectiveViewModel(
                 map = objective.mapType.enumValueOrNull()?.let { mapType ->
                     MapInfo(
                         name = mapType.stringDesc(),
-                        color = configuration.wvw.color(owner = mapType.owner())
+                        color = mapType.owner().color()
                     )
                 },
                 owner = fromMatch?.owner?.enumValueOrNull()?.let { owner ->
                     Owner(
                         name = repositories.selectedWorld.displayableLinkedWorlds(owner),
-                        color = configuration.wvw.color(owner)
+                        color = owner.color()
                     )
                 }
             )

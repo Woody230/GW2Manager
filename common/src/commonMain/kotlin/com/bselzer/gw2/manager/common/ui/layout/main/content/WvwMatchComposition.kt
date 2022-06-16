@@ -125,7 +125,8 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                 AsyncImage(
                     image = slice.image,
                     size = pieSize,
-                    description = slice.description
+                    description = slice.description,
+                    color = slice.color
                 ).Content(
                     useProgressIndicator = true,
                     modifier = Modifier.clip(ArcShape(slice.startAngle, slice.endAngle)),

@@ -24,6 +24,11 @@ interface ColorData {
     fun WvwMapObjective?.color(): Color
     fun WvwObjectiveOwner?.color(): Color
 
+    /**
+     * @return true if the owner is using the default (configured) color instead of a user defined (preference) color
+     */
+    fun WvwObjectiveOwner.hasConfiguredColor(): Boolean
+
     suspend fun setPreferenceColor(owner: WvwObjectiveOwner, color: Color)
     suspend fun setPreferenceColors()
     suspend fun resetPreferenceColor(owner: WvwObjectiveOwner)

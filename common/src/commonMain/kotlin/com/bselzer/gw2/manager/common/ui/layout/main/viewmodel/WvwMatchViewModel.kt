@@ -147,7 +147,8 @@ class WvwMatchViewModel(
             description = AppResources.strings.neutral_slice.desc(),
             startAngle = 0f,
             endAngle = 0f,
-            image = configuration.wvw.chart.neutralLink.asImageUrl()
+            image = configuration.wvw.chart.neutralLink.asImageUrl(),
+            color = WvwObjectiveOwner.NEUTRAL.color()
         ).addTo(this)
 
         // Add the owned slices.
@@ -157,21 +158,32 @@ class WvwMatchViewModel(
             val amount = data?.get(owner) ?: 0
             val angle = if (total <= 0) 120f else amount / total * 360f
 
+            val hasConfiguredColor = owner.hasConfiguredColor()
             ChartSlice(
                 description = AppResources.strings.owned_slice.format(angle, owner.stringDesc()),
                 startAngle = startAngle,
                 endAngle = startAngle + angle,
-                image = when (owner) {
-                    WvwObjectiveOwner.RED -> configuration.wvw.chart.redLink
-                    WvwObjectiveOwner.BLUE -> configuration.wvw.chart.blueLink
-                    WvwObjectiveOwner.GREEN -> configuration.wvw.chart.greenLink
-                    WvwObjectiveOwner.NEUTRAL -> configuration.wvw.chart.neutralLink
-                }.asImageUrl()
+
+                // If using the default color, then use the same color slice as it is in game.
+                image = if (hasConfiguredColor) {
+                    owner.link().asImageUrl()
+                } else {
+                    // Otherwise, change the tint using the blank neutral slice.
+                    configuration.wvw.chart.neutralLink.asImageUrl()
+                },
+                color = if (hasConfiguredColor) null else owner.color()
             ).addTo(this)
 
             // Set up the next slice.
             startAngle += angle
         }
+    }
+
+    private fun WvwObjectiveOwner.link() = when (this) {
+        WvwObjectiveOwner.RED -> configuration.wvw.chart.redLink
+        WvwObjectiveOwner.BLUE -> configuration.wvw.chart.blueLink
+        WvwObjectiveOwner.GREEN -> configuration.wvw.chart.greenLink
+        WvwObjectiveOwner.NEUTRAL -> configuration.wvw.chart.neutralLink
     }
 
     /**

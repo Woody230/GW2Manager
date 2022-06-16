@@ -20,6 +20,23 @@ A desktop version (via JVM and for Windows only) is able to be ran but there are
 
 Most backend logic within this project is hidden behind by the [GW2Wrapper](https://github.com/Woody230/GW2Wrapper) project.
 
+## Release Notes
+
+### v1.1.0
+* Enable lazy loading of the map.
+* Enable team labels over each borderland on the map.
+* Enable support for French, German, and Spanish.
+* Enable selection of the default zoom level.
+* Enable selection of team colors.
+* Backend overhaul to be able to support multiplatform capabilities with desktop.
+
+### v1.0.1
+* Reset the scroll offset when changing the objective detail pages.
+* Remember that the objective detail section was displayed when opening the navigation drawer.
+
+### v1.0.0
+* Initial Android release.
+
 ## Pre-v1.0.0 Test Run
 
 [2021-12-10](https://www.youtube.com/watch?v=9VRWnw46moY) using an in-progress version of the app

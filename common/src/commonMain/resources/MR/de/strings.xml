@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="bloodlust_for">Blutgier für %1$s</string>
+    <string name="borderlands_color">%1$s Farbe</string>
     <string name="claimed">Beansprucht</string>
     <string name="claimed_at">Beansprucht bei %1$s Uhr am %2$s</string>
     <string name="claimed_by">Beansprucht von %1$s</string>
+    <string name="color_failure">Kann nicht von ARGB konvertieren.</string>
     <string name="continents_description">Karte, regionen, ebenen, kacheln</string>
     <string name="default_zoom_level">Standard-Zoomstufe</string>
     <string name="flipped_at">Genommen bei %1$s Uhr am %2$s</string>

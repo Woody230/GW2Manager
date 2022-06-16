@@ -27,6 +27,8 @@ import com.bselzer.gw2.v2.model.enumeration.Language as EnumLanguage
 class TranslationRepository(
     dependencies: RepositoryDependencies,
 ) : RepositoryDependencies by dependencies, TranslateData {
+    override val languages = listOf(Localizer.ENGLISH, Localizer.FRENCH, Localizer.GERMAN, Localizer.SPANISH)
+
     private val listeners: MutableList<(Locale) -> Unit> = mutableListOf()
     private val _translations = mutableStateMapOf<String, String>()
     val translations: Map<String, String> = _translations
@@ -43,18 +45,22 @@ class TranslationRepository(
         listeners.add(listener)
     }
 
-    fun updateLocale(locale: Locale) = CoroutineScope(Dispatchers.Main).launch {
-        Logger.i { "Translation | Locale | Updating to '$locale'." }
-        preferences.common.locale.set(locale)
-        setLocale(locale)
+    override fun updateLocale(locale: Locale) {
+        CoroutineScope(Dispatchers.Main).launch {
+            Logger.i { "Translation | Locale | Updating to '$locale'." }
+            preferences.common.locale.set(locale)
+            setLocale(locale)
+        }
     }
 
-    fun resetLocale() = CoroutineScope(Dispatchers.Main).launch {
-        val default = preferences.common.locale.defaultValue
-        Logger.i { "Translation | Locale | Resetting to '$default'." }
+    override fun resetLocale() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val default = preferences.common.locale.defaultValue
+            Logger.i { "Translation | Locale | Resetting to '$default'." }
 
-        preferences.common.locale.remove()
-        setLocale(default)
+            preferences.common.locale.remove()
+            setLocale(default)
+        }
     }
 
     private fun setLocale(locale: Locale) {

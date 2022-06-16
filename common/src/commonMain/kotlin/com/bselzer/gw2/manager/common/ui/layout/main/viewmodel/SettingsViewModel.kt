@@ -6,17 +6,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
+import com.bselzer.gw2.manager.common.repository.instance.generic.ColorData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.*
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
+import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.resource.Gw2Resources
+import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.gw2.v2.scope.core.Permission
+import com.bselzer.ktx.compose.ui.graphics.color.Hex
+import com.bselzer.ktx.compose.ui.graphics.color.colorOrNull
+import com.bselzer.ktx.compose.ui.graphics.color.hex
 import com.bselzer.ktx.datetime.format.DurationBound
 import com.bselzer.ktx.intent.browser.Browser
 import com.bselzer.ktx.intl.Locale
-import com.bselzer.ktx.intl.Localizer
 import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
@@ -28,6 +33,7 @@ import com.bselzer.ktx.settings.compose.safeState
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
+import dev.icerock.moko.resources.format
 import kotlinx.coroutines.launch
 import org.kodein.db.asModelSequence
 import org.kodein.db.find
@@ -35,7 +41,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
+class SettingsViewModel(context: AppComponentContext) : MainViewModel(context), ColorData by context.repositories.color {
     override val title: StringDesc = KtxResources.strings.settings.desc()
 
     val themeResources
@@ -198,14 +204,12 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     val languageLogic
         get() = LanguageLogic(
-            values = listOf(Localizer.ENGLISH, Localizer.FRENCH, Localizer.GERMAN, Localizer.SPANISH),
+            values = languages,
             selected = { language.value ?: preferences.common.locale.safeState().value },
             onSave = {
-                language.value?.let { locale ->
-                    repositories.translation.updateLocale(locale)
-                }
+                language.value?.let { locale -> updateLocale(locale) }
             },
-            onReset = { repositories.translation.resetLocale() },
+            onReset = { resetLocale() },
             updateSelection = { language.value = it },
             resetSelection = { language.value = null }
         )
@@ -240,4 +244,34 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
         preferences.wvw.zoom.set(bounded)
         repositories.selectedWorld.updateZoom(bounded)
     }
+
+    private val color: MutableState<String?> = mutableStateOf(null)
+    val colors: Map<ColorResources, ColorLogic>
+        @Composable
+        get() = mapTypes.associate { map ->
+            val owner = map.owner()
+            ColorResources(
+                image = KtxResources.images.ic_color_lens,
+                title = AppResources.strings.borderlands_color.format(map.stringDesc()),
+                subtitle = getColor(owner).hex(),
+                dialogInput = (color.value ?: "").desc(),
+                dialogSubtitle = AppResources.strings.hexadecimal_color.desc(),
+                failure = AppResources.strings.color_failure.desc()
+            ) to ColorLogic(
+                // Reusing the same underlying state since only one dialog will be active at a time.
+                updateInput = { color.value = it },
+                clearInput = { color.value = null },
+                onReset = { resetPreferenceColor(owner) },
+                onSave = {
+                    val input = color.value
+                    if (input.isNullOrBlank()) {
+                        return@ColorLogic false
+                    }
+
+                    val color = Hex(input).colorOrNull() ?: return@ColorLogic false
+                    setPreferenceColor(owner, color)
+                    true
+                },
+            )
+        }
 }

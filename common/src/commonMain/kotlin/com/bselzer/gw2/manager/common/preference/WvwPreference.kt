@@ -1,11 +1,17 @@
 package com.bselzer.gw2.manager.common.preference
 
+import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.configuration.Configuration
+import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.world.WorldId
+import com.bselzer.ktx.compose.ui.graphics.color.Hex
+import com.bselzer.ktx.compose.ui.graphics.color.color
+import com.bselzer.ktx.serialization.compose.serializer.ColorSerializer
 import com.bselzer.ktx.settings.setting.*
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlinx.datetime.Instant
+import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
 import kotlin.time.DurationUnit
 
@@ -39,7 +45,6 @@ class WvwPreference(settings: SuspendSettings, configuration: Configuration) {
         create = { WorldId(it) }
     )
 
-    /*
     /**
      * The objective owners mapped to the color to display images and text in.
      */
@@ -47,9 +52,10 @@ class WvwPreference(settings: SuspendSettings, configuration: Configuration) {
         settings = settings,
         key = "BorderlandColors",
         defaultValue = configuration.wvw.objectives.colors.associate { color -> color.owner to Hex(color.type).color() },
-        serializer = serializer()
+        serializer = SerializersModule {
+            contextual(Color::class, ColorSerializer())
+        }.serializer()
     )
-    */
 
     /**
      * The default zoom level to use when initially loading the grid.

@@ -1,0 +1,77 @@
+package com.bselzer.gw2.manager.common.repository.instance.generic
+
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.ui.graphics.Color
+import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
+import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.v2.model.enumeration.WvwMapType
+import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
+import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
+import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
+import com.bselzer.ktx.compose.ui.graphics.color.Hex
+import com.bselzer.ktx.compose.ui.graphics.color.color
+import com.bselzer.ktx.compose.ui.graphics.color.hex
+import com.bselzer.ktx.logging.Logger
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import me.tatarka.inject.annotations.Inject
+
+@Singleton
+@Inject
+class ColorRepository(
+    dependencies: RepositoryDependencies
+) : RepositoryDependencies by dependencies, ColorData {
+    override val mapTypes = listOf(
+        WvwMapType.ETERNAL_BATTLEGROUNDS,
+        WvwMapType.BLUE_BORDERLANDS,
+        WvwMapType.GREEN_BORDERLANDS,
+        WvwMapType.RED_BORDERLANDS
+    )
+
+    override val owners: List<WvwObjectiveOwner> = listOf(
+        WvwObjectiveOwner.BLUE,
+        WvwObjectiveOwner.GREEN,
+        WvwObjectiveOwner.RED
+    )
+
+    private val lock = Mutex()
+
+    override val defaultColor: Color
+        get() = colors[WvwObjectiveOwner.NEUTRAL] ?: Hex("#888888").color()
+
+    private val _colors = mutableStateMapOf<WvwObjectiveOwner, Color>()
+    val colors: Map<WvwObjectiveOwner, Color> = _colors
+
+    override fun getColor(objective: WvwMapObjective?): Color = getColor(objective?.owner?.enumValueOrNull())
+    override fun getColor(owner: WvwObjectiveOwner?): Color = colors[owner] ?: defaultColor
+    override suspend fun setPreferenceColor(owner: WvwObjectiveOwner, color: Color) = lock.withLock {
+        Logger.d { "Color | Updating $owner to $color equivalent to ${color.hex()}" }
+        _colors[owner] = color
+
+        val colors = preferences.wvw.colors.get().toMutableMap()
+        colors[owner] = color
+        preferences.wvw.colors.set(colors)
+    }
+
+    override suspend fun setPreferenceColors() = lock.withLock {
+        Logger.d { "Color | Updating with preference colors." }
+
+        // In case there is a mixing of defaults and preferences set, need to merge them together.
+        val colors = preferences.wvw.colors.defaultValue + preferences.wvw.colors.get()
+        colors.forEach { (owner, color) ->
+            _colors[owner] = color
+        }
+    }
+
+    override suspend fun resetPreferenceColor(owner: WvwObjectiveOwner): Unit = lock.withLock {
+        Logger.d { "Color | Resetting $owner." }
+
+        val colors = preferences.wvw.colors.get().toMutableMap()
+        colors.remove(owner)
+        preferences.wvw.colors.set(colors)
+
+        preferences.wvw.colors.defaultValue[owner]?.let { defaultColor ->
+            _colors[owner] = defaultColor
+        }
+    }
+}

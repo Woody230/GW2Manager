@@ -190,6 +190,7 @@ abstract class SingletonAppDependencies(
     @Provides
     @Inject
     fun repositories(
+        color: ColorRepository,
         continent: ContinentRepository,
         guild: GuildRepository,
         image: ImageRepository,
@@ -198,6 +199,7 @@ abstract class SingletonAppDependencies(
         world: WorldRepository,
         selectedWorld: SelectedWorldRepository,
     ): Repositories = object : Repositories {
+        override val color: ColorRepository = color
         override val continent: ContinentRepository = continent
         override val guild: GuildRepository = guild
         override val image: ImageRepository = image

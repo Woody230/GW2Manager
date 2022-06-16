@@ -2,15 +2,18 @@
 <resources>
     <string name="app_name">Pack Yak</string>
     <string name="bloodlust_for">Bloodlust for %1$s</string>
+    <string name="borderlands_color">%1$s Color</string>
     <string name="claimed">Claimed</string>
     <string name="claimed_at">Claimed at %1$s on %2$s</string>
     <string name="claimed_by">Claimed by %1$s</string>
+    <string name="color_failure">Unable to convert from ARGB.</string>
     <string name="continents_description">Maps, regions, floors, tiles</string>
     <string name="default_zoom_level">Default Zoom Level</string>
     <string name="flipped_at">Flipped at %1$s on %2$s</string>
     <string name="guild_emblem">Guild emblem for %1$s</string>
     <string name="guilds_description">Upgrades</string>
     <string name="held_for">Held for %1$s</string>
+    <string name="hexadecimal_color">ARGB</string>
     <string name="hold_for">Hold for %1$s</string>
     <string name="images_description">Icons, map tiles</string>
     <string name="images">Images</string>

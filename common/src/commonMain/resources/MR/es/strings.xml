@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="bloodlust_for">Sed de sangre por %1$s</string>
+    <string name="borderlands_color">Color de %1$s</string>
     <string name="claimed">Reclamado</string>
     <string name="claimed_at">Reclamado a la %1$s del %2$s</string>
     <string name="claimed_by">Reclamado por %1$s</string>
+    <string name="color_failure">No se puede convertir de ARGB.</string>
     <string name="continents_description">Mapas, regiones, niveles, teselas</string>
     <string name="default_zoom_level">Nivel de Zoom Predeterminado</string>
     <string name="flipped_at">Invertido a la %1$s del %2$s</string>

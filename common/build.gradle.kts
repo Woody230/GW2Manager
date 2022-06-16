@@ -70,6 +70,7 @@ kotlin {
                 api("com.bselzer.ktx:library:${Versions.EXTENSION}")
                 api("com.bselzer.ktx:logging:${Versions.EXTENSION}")
                 api("com.bselzer.ktx:serialization:${Versions.EXTENSION}")
+                api("com.bselzer.ktx:serialization-compose:${Versions.EXTENSION}")
                 api("com.bselzer.ktx:settings-compose:${Versions.EXTENSION}")
 
                 // GW2 API Wrapper

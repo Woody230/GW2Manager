@@ -42,7 +42,7 @@ class InitializationViewModel(
     // TODO add build number if needed
     private val initializers: Collection<Initializer>
         @Composable
-        get() = listOf(initializeLanguage, initializeTheme, migration, initializeWvwRefresh, initializeWvwZoom)
+        get() = listOf(initializeLanguage, initializeTheme, initializeColors, migration, initializeWvwRefresh, initializeWvwZoom)
 
     private val initializeLanguage
         get() = Initializer(
@@ -50,7 +50,7 @@ class InitializationViewModel(
             subtitle = KtxResources.strings.language.desc()
         ) {
             val locale = if (!preferences.common.locale.exists()) {
-                val languages = listOf(Localizer.GERMAN, Localizer.ENGLISH, Localizer.FRENCH, Localizer.SPANISH).associateBy { locale -> locale.toComposeLocale().language }
+                val languages = languages.associateBy { locale -> locale.toComposeLocale().language }
                 val system = DefaultLocale.toComposeLocale().language
                 Logger.d { "Initialization | Locale | System language is $system." }
 
@@ -59,7 +59,7 @@ class InitializationViewModel(
                 preferences.common.locale.get()
             }
 
-            repositories.translation.updateLocale(locale)
+            updateLocale(locale)
         }
 
     private val initializeTheme
@@ -72,6 +72,14 @@ class InitializationViewModel(
             ) {
                 preferences.common.theme.initialize(initialTheme)
             }
+        }
+
+    private val initializeColors
+        get() = Initializer(
+            title = KtxResources.strings.settings.desc(),
+            subtitle = KtxResources.strings.color.desc()
+        ) {
+            repositories.color.setPreferenceColors()
         }
 
     private val migration

@@ -1,6 +1,7 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.AppResources
+import com.bselzer.gw2.manager.common.repository.instance.generic.ColorData
 import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
@@ -30,7 +31,7 @@ import dev.icerock.moko.resources.format
 class WvwMatchViewModel(
     context: AppComponentContext,
     private val showDialog: (DialogConfig) -> Unit
-) : MainViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
+) : MainViewModel(context), SelectedWorldData by context.repositories.selectedWorld, ColorData by context.repositories.color {
     override val title: StringDesc = Gw2Resources.strings.match.desc()
 
     override val actions: List<AppBarAction>
@@ -38,25 +39,6 @@ class WvwMatchViewModel(
             refreshAction(),
             WorldSelectionAction(showDialog)
         )
-
-    /**
-     * The team color of the owner to create charts for.
-     */
-    private val owners: Collection<WvwObjectiveOwner> = listOf(
-        WvwObjectiveOwner.BLUE,
-        WvwObjectiveOwner.GREEN,
-        WvwObjectiveOwner.RED
-    )
-
-    /**
-     * The maps to create charts for.
-     */
-    private val mapTypes: Collection<WvwMapType> = listOf(
-        WvwMapType.ETERNAL_BATTLEGROUNDS,
-        WvwMapType.BLUE_BORDERLANDS,
-        WvwMapType.GREEN_BORDERLANDS,
-        WvwMapType.RED_BORDERLANDS
-    )
 
     /**
      * The default charts to use when attempting to index into the [charts].

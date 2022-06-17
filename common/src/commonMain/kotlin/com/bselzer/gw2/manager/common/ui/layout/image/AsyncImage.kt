@@ -29,10 +29,15 @@ data class AsyncImage(
     val alpha: Float = DefaultAlpha
 )
 
+enum class ProgressIndication {
+    ENABLED,
+    DISABLED
+}
+
 @Composable
 fun AsyncImage.Content(
     modifier: Modifier = Modifier,
-    useProgressIndicator: Boolean = false
+    progressIndication: ProgressIndication = ProgressIndication.ENABLED
 ) {
     val link = when (image) {
         is ImageDescUrl -> {
@@ -52,7 +57,7 @@ fun AsyncImage.Content(
                 url = link,
                 getImage = { url -> dependencies.repositories.image.getImage(url) },
                 contentDescription = description?.localized(),
-                loadingProgress = if (useProgressIndicator) ProgressIndicatorInteractor.Default else null
+                loadingProgress = if (progressIndication == ProgressIndication.ENABLED) ProgressIndicatorInteractor.Default else null
             ),
             presenter = AsyncImagePresenter(
                 image = ImagePresenter(

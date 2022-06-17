@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
+import com.bselzer.gw2.manager.common.ui.layout.image.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Chart
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.ChartData
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchViewModel
@@ -119,7 +120,7 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
             AsyncImage(
                 image = chart.background,
                 size = pieSize,
-            ).Content(useProgressIndicator = true)
+            ).Content()
 
             chart.slices.forEach { slice ->
                 AsyncImage(
@@ -128,7 +129,6 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                     description = slice.description,
                     color = slice.color
                 ).Content(
-                    useProgressIndicator = true,
                     modifier = Modifier.clip(ArcShape(slice.startAngle, slice.endAngle)),
                 )
             }
@@ -139,6 +139,7 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                     image = chart.divider,
                     size = pieSize,
                 ).Content(
+                    progressIndication = ProgressIndication.DISABLED,
                     modifier = Modifier.rotate(degrees = angle),
                 )
             }

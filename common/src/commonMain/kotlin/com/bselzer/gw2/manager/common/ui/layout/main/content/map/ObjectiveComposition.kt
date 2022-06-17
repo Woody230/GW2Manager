@@ -23,6 +23,7 @@ import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
+import com.bselzer.gw2.manager.common.ui.layout.image.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective.*
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveViewModel
 import com.bselzer.gw2.manager.common.ui.theme.Theme
@@ -188,7 +189,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
                         description = icon.description,
                         size = objectiveSize,
                         color = icon.color
-                    ).Content()
+                    ).Content(progressIndication = ProgressIndication.ENABLED)
                 }
             }
 
@@ -376,7 +377,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             image = claim.link,
             size = DpSize(claim.size.toDp(), claim.size.toDp()),
             description = claim.description
-        ).Content()
+        ).Content(progressIndication = ProgressIndication.ENABLED)
     }
 
     /**
@@ -391,11 +392,14 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
                 size = tierSize,
                 color = icon.color,
                 alpha = icon.alpha.collectAsState(DefaultAlpha).value
-            ).Content(Modifier.constrainAs(iconRef) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                bottom.linkTo(parent.bottom)
-            })
+            ).Content(
+                progressIndication = ProgressIndication.ENABLED,
+                modifier = Modifier.constrainAs(iconRef) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    bottom.linkTo(parent.bottom)
+                }
+            )
 
             Text(
                 text = icon.description.collectAsState("".desc()).value.localized().capitalize(LocalLocale.current),
@@ -434,7 +438,7 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             image = link,
             size = upgradeSize,
             alpha = alpha.collectAsState(DefaultAlpha).value
-        ).Content()
+        ).Content(progressIndication = ProgressIndication.ENABLED)
 
         Spacer(modifier = Modifier.width(25.dp))
         Column {

@@ -27,6 +27,7 @@ import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
+import com.bselzer.gw2.manager.common.ui.layout.image.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MapConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.content.map.LocalMapRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.*
@@ -93,7 +94,10 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
         size = bloodlustSize,
         color = color,
         description = description
-    ).Content(modifier)
+    ).Content(
+        progressIndication = ProgressIndication.DISABLED,
+        modifier = modifier
+    )
 
     /**
      * Lays out the individual objective on the map.
@@ -156,7 +160,10 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
         image = link,
         description = description,
         size = indicatorSize,
-    ).Content(modifier = modifier)
+    ).Content(
+        progressIndication = ProgressIndication.DISABLED,
+        modifier = modifier
+    )
 
     /**
      * Lays out the indicators for the objective's upgrade progression level.
@@ -168,7 +175,10 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
         description = description,
         size = indicatorSize,
         color = color
-    ).Content(modifier = modifier)
+    ).Content(
+        progressIndication = ProgressIndication.DISABLED,
+        modifier = modifier
+    )
 
     /**
      * Lays out the indicator for the objective's permanent or temporary waypoint if it exists.
@@ -180,7 +190,10 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
         description = description,
         size = indicatorSize,
         color = color
-    ).Content(modifier = modifier)
+    ).Content(
+        progressIndication = ProgressIndication.DISABLED,
+        modifier = modifier
+    )
 
     /**
      * Lays out the image of the objective.
@@ -195,6 +208,7 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
             description = description,
             color = color
         ).Content(
+            progressIndication = ProgressIndication.DISABLED,
             modifier = modifier.combinedClickable(
                 onLongClick = {
                     // Swap pages to display all of the information instead of the limited information that normally comes with the pop-up.

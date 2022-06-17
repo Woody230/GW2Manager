@@ -60,28 +60,26 @@ class MainActivity : AppCompatActivity() {
         dependencies = null
     }
 
-    private fun AppDependencies.createContext() = run {
-        Gw2ComponentContext(
-            dependencies = this,
+    private fun AppDependencies.createContext() = Gw2ComponentContext(
+        dependencies = this,
 
-            // Not using androidx.lifecycle.ViewModel so there is no instance keeper passed.
-            // https://github.com/arkivanov/Essenty#instancekeeper
-            component = DefaultComponentContext(
-                // Establish the connection between the activity's lifecycle and essenty's lifecycle.
-                // https://github.com/arkivanov/Essenty#lifecyle
-                // https://arkivanov.github.io/Decompose/component/lifecycle/
-                lifecycle = essentyLifecycle(),
+        // Not using androidx.lifecycle.ViewModel so there is no instance keeper passed.
+        // https://github.com/arkivanov/Essenty#instancekeeper
+        component = DefaultComponentContext(
+            // Establish the connection between the activity's lifecycle and essenty's lifecycle.
+            // https://github.com/arkivanov/Essenty#lifecyle
+            // https://arkivanov.github.io/Decompose/component/lifecycle/
+            lifecycle = essentyLifecycle(),
 
-                // Establish the connection between the activity's SavedStateRegistry and essenty's state keeper.
-                // https://github.com/arkivanov/Essenty#statekeeper
-                // https://arkivanov.github.io/Decompose/component/state-preservation/
-                stateKeeper = stateKeeper(),
+            // Establish the connection between the activity's SavedStateRegistry and essenty's state keeper.
+            // https://github.com/arkivanov/Essenty#statekeeper
+            // https://arkivanov.github.io/Decompose/component/state-preservation/
+            stateKeeper = stateKeeper(),
 
-                // Establish the connection between the activity's OnBackPressedDispatcher and essenty's handler.
-                // https://github.com/arkivanov/Essenty#backpresseddispatcher
-                // https://arkivanov.github.io/Decompose/component/back-button/
-                backPressedHandler = BackPressedHandler(onBackPressedDispatcher)
-            )
+            // Establish the connection between the activity's OnBackPressedDispatcher and essenty's handler.
+            // https://github.com/arkivanov/Essenty#backpresseddispatcher
+            // https://arkivanov.github.io/Decompose/component/back-button/
+            backPressedHandler = BackPressedHandler(onBackPressedDispatcher)
         )
-    }
+    )
 }

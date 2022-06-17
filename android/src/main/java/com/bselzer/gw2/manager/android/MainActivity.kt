@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.decompose.router.bringToFront
 import com.arkivanov.essenty.backpressed.BackPressedHandler
 import com.arkivanov.essenty.lifecycle.essentyLifecycle
 import com.arkivanov.essenty.statekeeper.stateKeeper
@@ -12,6 +13,7 @@ import com.bselzer.gw2.manager.common.dependency.AppDependencies
 import com.bselzer.gw2.manager.common.ui.base.Gw2ComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.host.content.HostComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.HostViewModel
+import com.bselzer.gw2.manager.common.ui.layout.splash.configuration.SplashConfig
 import com.bselzer.ktx.logging.Logger
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +40,10 @@ class MainActivity : AppCompatActivity() {
         // Initialize the component context before composing to avoid potentially creating on another thread.
         // https://arkivanov.github.io/Decompose/component/overview/#root-componentcontext-in-jetpackjetbrains-compose
         val host = HostViewModel(app.dependencies.createContext())
+
+        // Normally the router state is saved and no splash screen will be displayed upon recreation.
+        // Therefore we must ensure that initialization reoccurs by explicitly setting the config.
+        host.splashRouter.bringToFront(SplashConfig.InitializationConfig)
 
         setContent {
             app.Content {

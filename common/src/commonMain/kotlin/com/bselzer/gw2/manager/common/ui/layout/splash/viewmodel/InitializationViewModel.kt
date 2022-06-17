@@ -26,7 +26,7 @@ class InitializationViewModel(
     @Composable
     fun Initialize(onFinish: () -> Unit) {
         val initializers = initializers
-        LaunchedEffect(true) {
+        LaunchedEffect(this) {
             initializers.forEach { initializer ->
                 description.value = initializer.descriptor
                 initializer.block()

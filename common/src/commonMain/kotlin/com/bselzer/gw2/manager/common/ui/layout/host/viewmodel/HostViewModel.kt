@@ -86,7 +86,7 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
             }
         }
 
-        // Otherwise see if the page can handle the press press.
+        // Otherwise see if the page can handle the backpress.
         mainRouter.activeChild.instance.onBackPressed() -> true
 
         // Otherwise if we aren't on the module page then go back to it.

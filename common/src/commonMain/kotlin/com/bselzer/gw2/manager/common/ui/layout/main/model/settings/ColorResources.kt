@@ -10,5 +10,6 @@ data class ColorResources(
     val subtitle: Hex,
     val dialogInput: StringDesc,
     val dialogSubtitle: StringDesc,
-    val failure: StringDesc
+    val failure: StringDesc,
+    val hasValidInput: Boolean
 )

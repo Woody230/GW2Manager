@@ -159,6 +159,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
 
                         val host = LocalSnackbarHostState.current
                         val failure = tokenResources.failure.localized()
+                        positiveEnabled = tokenResources.dialogInput.localized().isNotBlank()
                         closeOnPositive {
                             if (!tokenLogic.onSave()) {
                                 host.showSnackbar(message = failure, duration = SnackbarDuration.Long)
@@ -326,6 +327,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
 
                         val host = LocalSnackbarHostState.current
                         val failure = resources.failure.localized()
+                        positiveEnabled = resources.hasValidInput
                         closeOnPositive {
                             if (!logic.onSave()) {
                                 host.showSnackbar(message = failure, duration = SnackbarDuration.Long)

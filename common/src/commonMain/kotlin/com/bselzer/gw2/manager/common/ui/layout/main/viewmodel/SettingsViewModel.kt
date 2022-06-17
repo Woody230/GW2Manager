@@ -269,24 +269,21 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
         @Composable
         get() = mapTypes.associate { map ->
             val owner = map.owner()
+            val input = color.value ?: ""
             ColorResources(
                 image = KtxResources.images.ic_color_lens,
                 title = AppResources.strings.borderlands_color.format(owner.stringDesc()),
                 subtitle = owner.color().hex(),
-                dialogInput = (color.value ?: "").desc(),
+                dialogInput = input.desc(),
                 dialogSubtitle = AppResources.strings.hexadecimal_color.desc(),
-                failure = AppResources.strings.color_failure.desc()
+                failure = AppResources.strings.color_failure.desc(),
+                hasValidInput = Hex(input).colorOrNull() != null
             ) to ColorLogic(
                 // Reusing the same underlying state since only one dialog will be active at a time.
                 updateInput = { color.value = it.trim() },
                 clearInput = { color.value = null },
                 onReset = { resetPreferenceColor(owner) },
                 onSave = {
-                    val input = color.value
-                    if (input.isNullOrBlank()) {
-                        return@ColorLogic false
-                    }
-
                     val color = Hex(input).colorOrNull() ?: return@ColorLogic false
                     setPreferenceColor(owner, color)
                     true

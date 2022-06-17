@@ -61,6 +61,8 @@ class WorldSelectionComposition(
                     // NOTE Not using triText so currently resetting is disabled.
                     selection.onReset()
                 }
+
+                positiveEnabled = selection.selected != null
                 closeOnPositive {
                     // TODO keep open if world not selected and force show dialog on launch if no selection?
                     val world = selection.selected

@@ -56,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         dependencies?.database?.close()
     } catch (ex: Exception) {
         Logger.e(ex) { "Failed to close the LevelDB database." }
+    } finally {
+        dependencies = null
     }
 
     private fun AppDependencies.createContext() = run {

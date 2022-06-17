@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.android
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.router.bringToFront
 import com.arkivanov.essenty.backpressed.BackPressedHandler
@@ -33,9 +34,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Initialize dependencies before composing since they won't change.
-        val app = AndroidApp(this, datastore).apply {
-            this@MainActivity.dependencies = dependencies
-        }
+        val app = AndroidApp(context = this, scope = lifecycleScope, datastore = datastore)
+        dependencies = app.dependencies
 
         // Initialize the component context before composing to avoid potentially creating on another thread.
         // https://arkivanov.github.io/Decompose/component/overview/#root-componentcontext-in-jetpackjetbrains-compose

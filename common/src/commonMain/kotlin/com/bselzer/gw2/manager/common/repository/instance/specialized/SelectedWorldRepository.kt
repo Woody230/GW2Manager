@@ -19,7 +19,9 @@ import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.compose.nullState
 import com.bselzer.ktx.settings.compose.safeState
-import kotlinx.coroutines.*
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
@@ -42,7 +44,7 @@ class SelectedWorldRepository(
 
     init {
         repositories.translation.addListener {
-            CoroutineScope(Dispatchers.Default).launch {
+            scope.launch {
                 forceRefresh()
             }
         }
@@ -90,7 +92,7 @@ class SelectedWorldRepository(
             repositories.map.refreshGrid = value
 
             if (value) {
-                CoroutineScope(Dispatchers.Default).launch {
+                scope.launch {
                     repositories.map.updateGrid(mapId)
                 }
             }

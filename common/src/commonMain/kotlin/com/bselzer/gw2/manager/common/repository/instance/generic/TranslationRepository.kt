@@ -13,8 +13,6 @@ import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.value.identifier.Identifiable
 import com.bselzer.ktx.value.identifier.Identifier
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -46,7 +44,7 @@ class TranslationRepository(
     }
 
     override fun updateLocale(locale: Locale) {
-        CoroutineScope(Dispatchers.Main).launch {
+        scope.launch {
             Logger.i { "Translation | Locale | Updating to '$locale'." }
             preferences.common.locale.set(locale)
             setLocale(locale)
@@ -54,7 +52,7 @@ class TranslationRepository(
     }
 
     override fun resetLocale() {
-        CoroutineScope(Dispatchers.Main).launch {
+        scope.launch {
             val default = preferences.common.locale.defaultValue
             Logger.i { "Translation | Locale | Resetting to '$default'." }
 

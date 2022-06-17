@@ -24,8 +24,6 @@ import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
@@ -139,7 +137,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     /**
      * Clears all of the cache [clears].
      */
-    private fun clearCaches(clears: Collection<ClearLogic>) = CoroutineScope(Dispatchers.Default).launch {
+    private fun clearCaches(clears: Collection<ClearLogic>) = scope.launch {
         database.transaction().use {
             clears.forEach { clear -> clear.perform(this) }
             Logger.d { "Cache | Clearing ${clears.map { logic -> logic.type }}" }

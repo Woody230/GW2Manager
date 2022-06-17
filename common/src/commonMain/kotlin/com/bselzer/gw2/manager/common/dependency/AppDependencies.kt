@@ -31,6 +31,7 @@ import com.mikepenz.aboutlibraries.entity.Library
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import io.ktor.client.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.serializer
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Inject
@@ -56,6 +57,7 @@ interface AppDependencies {
     val libraries: List<Library>
     val preferences: Preferences
     val repositories: Repositories
+    val scope: CoroutineScope
 
     fun initialize()
 }
@@ -65,6 +67,11 @@ interface AppDependencies {
 @Component
 abstract class SingletonAppDependencies(
     private val debugMode: IsDebug,
+
+    /**
+     * The scope of the application's lifecycle.
+     */
+    private val lifecycleScope: CoroutineScope,
 
     /**
      * The location of the database.
@@ -89,6 +96,10 @@ abstract class SingletonAppDependencies(
             Logger.enableDebugging()
         }
     }
+
+    @Singleton
+    @Provides
+    fun scope(): CoroutineScope = lifecycleScope
 
     @Singleton
     @Provides
@@ -179,11 +190,13 @@ abstract class SingletonAppDependencies(
         configuration: Configuration,
         database: DB,
         preferences: Preferences,
+        scope: CoroutineScope
     ): RepositoryDependencies = object : RepositoryDependencies {
         override val clients: Clients = clients
         override val configuration: Configuration = configuration
         override val database: DB = database
         override val preferences: Preferences = preferences
+        override val scope: CoroutineScope = scope
     }
 
     @Singleton

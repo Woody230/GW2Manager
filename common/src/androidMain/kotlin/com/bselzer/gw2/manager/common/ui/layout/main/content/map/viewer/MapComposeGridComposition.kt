@@ -20,8 +20,6 @@ import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.compose.safeState
 import com.bselzer.ktx.value.identifier.Identifier
 import com.bselzer.ktx.value.identifier.identifier
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ovh.plrapps.mapcompose.api.*
 import ovh.plrapps.mapcompose.core.TileStreamProvider
@@ -63,7 +61,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     private fun ViewerViewModel.LifecycleEffects(state: MapState) {
         LaunchedEffect(state) {
             lifecycle.doOnPause(isOneTime = true) {
-                CoroutineScope(Dispatchers.Default).launch {
+                scope.launch {
                     Logger.d { "Grid | Scroll | Saving as [${state.scroll.x},${state.scroll.y}]." }
                     horizontalScroll.scrollTo(state.scroll.x.toInt())
                     verticalScroll.scrollTo(state.scroll.y.toInt())

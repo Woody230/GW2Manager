@@ -11,6 +11,7 @@ import com.russhwolf.settings.datastore.DataStoreSettings
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.*
+import kotlinx.coroutines.CoroutineScope
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import okhttp3.Request
@@ -21,9 +22,11 @@ import okio.Buffer
 @OptIn(ExperimentalSettingsImplementation::class, ExperimentalSettingsImplementation::class, ExperimentalSettingsApi::class)
 class AndroidApp(
     context: Context,
+    scope: CoroutineScope,
     datastore: DataStore<Preferences>
 ) : App(
     debugMode = BuildConfig.DEBUG,
+    scope = scope,
     httpClient = httpClient(),
     databaseDirectory = context.filesDir.absolutePath,
     settings = DataStoreSettings(datastore)

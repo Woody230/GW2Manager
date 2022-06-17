@@ -27,8 +27,6 @@ import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.format
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -44,7 +42,7 @@ class ObjectiveViewModel(
         lifecycle.doOnResume {
             val guildId = guildId
             if (!guildId.isDefault) {
-                CoroutineScope(Dispatchers.Default).launch {
+                scope.launch {
                     repositories.guild.updateGuild(guildId)
                 }
             }

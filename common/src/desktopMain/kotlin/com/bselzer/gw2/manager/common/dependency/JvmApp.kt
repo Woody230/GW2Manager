@@ -9,6 +9,8 @@ import com.russhwolf.settings.coroutines.toSuspendSettings
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
 import okhttp3.Request
@@ -21,6 +23,7 @@ import kotlin.io.path.Path
 
 @OptIn(ExperimentalSettingsImplementation::class, ExperimentalSettingsApi::class)
 class JvmApp : App(
+    scope = CoroutineScope(Dispatchers.Main),
     httpClient = httpClient(),
     databaseDirectory = databaseDirectory(),
     settings = JvmPreferencesSettings(Preferences.userRoot()).toSuspendSettings(),

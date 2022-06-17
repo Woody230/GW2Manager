@@ -10,8 +10,6 @@ import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import dev.icerock.moko.resources.desc.desc
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(context) {
@@ -49,12 +47,12 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
                     worlds.firstOrNull { world -> world.id == it }
                 },
                 onSave = { selection ->
-                    CoroutineScope(Dispatchers.Main).launch {
+                    scope.launch {
                         preferences.wvw.selectedWorld.set(selection.id)
                     }
                 },
                 onReset = {
-                    CoroutineScope(Dispatchers.Main).launch {
+                    scope.launch {
                         preferences.wvw.selectedWorld.remove()
                     }
                 },

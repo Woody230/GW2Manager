@@ -17,6 +17,7 @@ import com.bselzer.gw2.v2.tile.model.position.GridPosition
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.compose.ui.unit.toPx
 import com.bselzer.ktx.logging.Logger
+import com.bselzer.ktx.settings.compose.safeState
 import com.bselzer.ktx.value.identifier.Identifier
 import com.bselzer.ktx.value.identifier.identifier
 import kotlinx.coroutines.CoroutineScope
@@ -75,6 +76,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     private fun ViewerViewModel.GridEffects(state: MapState) {
         val objectiveWidth = objectiveSize.width.toPx()
         val objectiveHeight = objectiveSize.height.toPx()
+        val shouldShowMapLabel = preferences.wvw.showMapLabel.safeState().value
         LaunchedEffect(state, objectiveIcons, bloodlusts, mapLabels) {
             Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objectives, ${bloodlusts.size} bloodlusts, and ${mapLabels.size} map labels." }
 
@@ -82,7 +84,10 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
             objectiveIcons.forEach { objective -> Objective(objective, state, objectiveWidth, objectiveHeight) }
             bloodlusts.forEach { bloodlust -> Bloodlust(bloodlust, state) }
-            mapLabels.forEach { label -> MapLabel(label, state) }
+
+            if (shouldShowMapLabel) {
+                mapLabels.forEach { label -> MapLabel(label, state) }
+            }
         }
     }
 

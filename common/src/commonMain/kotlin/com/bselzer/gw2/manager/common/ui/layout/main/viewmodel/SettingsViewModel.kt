@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
-import com.bselzer.gw2.manager.common.repository.instance.generic.ColorData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.*
 import com.bselzer.gw2.manager.common.ui.theme.Theme
@@ -41,7 +40,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-class SettingsViewModel(context: AppComponentContext) : MainViewModel(context), ColorData by context.repositories.color {
+class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     override val title: StringDesc = KtxResources.strings.settings.desc()
 
     val themeResources
@@ -244,6 +243,26 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context), 
         preferences.wvw.zoom.set(bounded)
         repositories.selectedWorld.updateZoom(bounded)
     }
+
+    val mapLabelResources
+        @Composable
+        get() = MapLabelResources(
+            image = Gw2Resources.images.gift_of_exploration,
+            title = AppResources.strings.team_label.desc(),
+            subtitle = preferences.wvw.showMapLabel.safeState().value.stringResource().desc()
+        )
+
+    val mapLabelLogic
+        @Composable
+        get() = run {
+            val scope = rememberCoroutineScope()
+            MapLabelLogic(
+                checked = preferences.wvw.showMapLabel.safeState().value,
+                onCheckedChange = { checked ->
+                    scope.launch { preferences.wvw.showMapLabel.set(checked) }
+                }
+            )
+        }
 
     private val color: MutableState<String?> = mutableStateOf(null)
     val colors: Map<ColorResources, ColorLogic>

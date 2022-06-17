@@ -65,4 +65,13 @@ class WvwPreference(settings: SuspendSettings, configuration: Configuration) {
         key = "GridZoom",
         defaultValue = configuration.wvw.map.zoom.default,
     )
+
+    /**
+     * Whether the map label over the borderlands should be displayed.
+     */
+    val showMapLabel: Setting<Boolean> = BooleanSetting(
+        settings = settings,
+        key = "ShowMapLabel",
+        defaultValue = true,
+    )
 }

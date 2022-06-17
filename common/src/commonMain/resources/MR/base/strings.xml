@@ -25,6 +25,7 @@
     <string name="owned_slice">%1$s degree slice for %2$s</string>
     <string name="permanent_waypoint">Permanent Waypoint</string>
     <string name="selected_objective">%1$s (%2$s %3$s)</string>
+    <string name="team_label">Team Label</string>
     <string name="temporary_waypoint">Emergency Waypoint</string>
     <string name="token_description">Your account API key or token.</string>
     <string name="token_failure">Unable to save the token.</string>

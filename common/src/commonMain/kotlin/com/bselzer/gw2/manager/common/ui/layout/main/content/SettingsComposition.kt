@@ -203,6 +203,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
             content = buildArray {
                 add { RefreshInterval() }
                 add { Zoom() }
+                add { MapLabel() }
 
                 colors.forEach { (resources, logic) ->
                     add { Color(resources, logic) }
@@ -280,6 +281,21 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
             }
         }
     }
+
+    @Composable
+    private fun SettingsViewModel.MapLabel() = SwitchPreferenceProjector(
+        interactor = SwitchPreferenceInteractor(
+            preference = PreferenceInteractor(
+                painter = mapLabelResources.image.painter(),
+                title = mapLabelResources.title.localized(),
+                subtitle = mapLabelResources.subtitle.localized()
+            ),
+            switch = SwitchInteractor(
+                checked = mapLabelLogic.checked,
+                onCheckedChange = mapLabelLogic.onCheckedChange
+            )
+        )
+    ).Projection()
 
     @Composable
     private fun Color(resources: ColorResources, logic: ColorLogic) {

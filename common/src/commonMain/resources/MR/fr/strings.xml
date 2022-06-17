@@ -22,6 +22,7 @@
     <string name="owned_slice">Tranche de %1$s degrés pour le %2$s</string>
     <string name="permanent_waypoint">Point de Passage Permanent</string>
     <string name="selected_objective">%1$s (%3$s %2$s)</string>
+    <string name="team_label">Étiquette d’Équipe</string>
     <string name="temporary_waypoint">Point de Passage d’Urgence</string>
     <string name="token_description">La clé API de votre compte.</string>
     <string name="token_failure">Impossible d’enregistrer la clé API.</string>

@@ -32,22 +32,65 @@ Unofficial initial desktop release.
 * Sélection des couleurs de l'équipe.
 
 ## v1.0.1
+
 * Reset the scroll offset when changing the objective detail pages.
 * Remember that the objective detail section was displayed when opening the navigation drawer.
 
 ## v1.0.0
+
 * Initial Android release.
 
-# About This App
+# App Name
+
+## en-US
+
+Pack Yak for Guild Wars 2
+
+## de-DE
+
+Pack Yak für Guild Wars 2
+
+## es-ES
+
+Pack Yak para Guild Wars 2
+
+## fr-FR
+
+Pack Yak pour Guild Wars 2
+
+# About This App (Short Description)
 
 ## v1.0.0 - v1.1.0
 
 ### en-US
+
+* World vs World viewer for Guild Wars 2
+
+### de-DE
+
+* Welt gegen Welt betrachter für Guild Wars 2
+
+### es-ES
+
+* Visualizador de Mundo contra Mundo para Guild Wars 2
+
+### fr-FR
+
+* Visualiseur Monde contre Monde pour Guild Wars 2
+
+# About This App (Full Description)
+
+## v1.0.0 - v1.1.0
+
+### en-US
+
 * Observe the World vs. World map with multiple zoom levels.
 * Observe statistics and upgrades about individual objectives.
 * Observe match statistics overall and for each individual borderland.
 
-* © 2021 NCSOFT Corporation. All rights reserved. NCSOFT, ArenaNet, the interlocking NC logo, Aion, Lineage II, Guild Wars, Guild Wars 2: Heart of Thorns, Guild Wars 2: Path of Fire, Blade & Soul, and all associated logos, designs, and composite marks are trademarks or registered trademarks of NCSOFT Corporation. All other trademarks are the property of their respective owners.
+* © 2021 NCSOFT Corporation. All rights reserved. NCSOFT, ArenaNet, the interlocking NC logo, Aion, Lineage II, Guild Wars, Guild Wars 2: Heart of Thorns, Guild Wars 2: Path
+  of Fire, Blade & Soul, and all associated logos, designs, and composite marks are trademarks or registered trademarks of NCSOFT Corporation. All other trademarks are the
+  property of their respective owners.
 
 ### de-DE
 * Beobachten die Welt gegen Welt karte mit mehreren zoomstufen.

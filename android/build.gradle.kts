@@ -26,6 +26,7 @@ android {
         compose = true
     }
 
+    appBundle()
     signing()
     proguard()
 
@@ -37,6 +38,15 @@ android {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}")
     implementation(project(":common"))
+}
+
+fun com.android.build.gradle.internal.dsl.BaseAppModuleExtension.appBundle() {
+    bundle {
+        // Need to disable language split otherwise if the user tries to swap languages then a change is not immediate for non-GW2 strings because they aren't downloaded.
+        language {
+            enableSplit = false
+        }
+    }
 }
 
 fun com.android.build.gradle.internal.dsl.BaseAppModuleExtension.proguard() {

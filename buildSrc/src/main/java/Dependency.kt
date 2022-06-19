@@ -1,15 +1,15 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 import org.gradle.api.JavaVersion
-import org.gradle.api.Project
 
 object Versions {
     const val KOTLIN = "1.6.10"
+    const val WRAPPER = "2.0.1"
+    const val EXTENSION = "4.0.1"
+
     const val COMPOSE = "1.1.0"
     const val RESOURCE = "0.19.0"
     const val LIBRARY = "10.0.0"
-    const val WRAPPER = "2.0.0"
     const val KODEIN_DB = "0.9.0-beta"
-    const val EXTENSION = "4.0.0"
     const val KTOR = "2.0.0"
     const val SETTINGS = "0.8.1"
     const val DECOMPOSE = "0.5.2"
@@ -40,6 +40,3 @@ object LocalProperty {
     const val KEY_PASSWORD = "keyPassword"
     const val KEY_ALIAS = "keyAlias"
 }
-
-fun Project.hasStoreFile() = gradleLocalProperties(rootDir).containsKey(LocalProperty.STORE_FILE)
-fun Project.localProperty(name: String) = gradleLocalProperties(rootDir).getProperty(name) ?: throw NotImplementedError("Set the $name in local properties.")

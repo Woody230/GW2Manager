@@ -26,5 +26,7 @@ allprojects {
         mavenCentral()
         mavenLocal()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+        maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     }
 }

@@ -57,7 +57,7 @@ fun com.android.build.gradle.internal.dsl.BaseAppModuleExtension.proguard() {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             ndk.debugSymbolLevel = "FULL"
 
-            if (project.hasStoreFile()) {
+            if (project.hasLocalProperty(LocalProperty.STORE_FILE)) {
                 signingConfig = signingConfigs.getByName("release")
             }
         }
@@ -65,7 +65,7 @@ fun com.android.build.gradle.internal.dsl.BaseAppModuleExtension.proguard() {
 }
 
 fun com.android.build.gradle.internal.dsl.BaseAppModuleExtension.signing() {
-    if (project.hasStoreFile()) {
+    if (project.hasLocalProperty(LocalProperty.STORE_FILE)) {
         signingConfigs {
             create("release") {
                 storeFile = project.file(project.localProperty(LocalProperty.STORE_FILE))

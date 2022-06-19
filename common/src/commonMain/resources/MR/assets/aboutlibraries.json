@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2022-06-18T02:32:14.575Z"
+    "generated": "2022-06-19T02:05:33.116Z"
   },
   "libraries": [
     {
@@ -651,106 +651,134 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-intl-cache-android-debug",
+      "uniqueId": "io.github.woody230:v2-intl-cache-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-intl-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-intl-android-debug",
+      "uniqueId": "io.github.woody230:v2-intl-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-intl",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:function-android-debug",
+      "uniqueId": "io.github.woody230:function-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-function",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-client-android-debug",
+      "uniqueId": "io.github.woody230:v2-client-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-client",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-android-debug",
+      "uniqueId": "io.github.woody230:v2-model-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:datetime-android-debug",
+      "uniqueId": "io.github.woody230:datetime-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-datetime",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:intl-android-debug",
+      "uniqueId": "io.github.woody230:intl-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-intl",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -816,16 +844,20 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:serialization-android-debug",
+      "uniqueId": "io.github.woody230:serialization-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -873,46 +905,58 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-scope-android-debug",
+      "uniqueId": "io.github.woody230:v2-scope-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-scope",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:value-android-debug",
+      "uniqueId": "io.github.woody230:value-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-value",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:geometry-android-debug",
+      "uniqueId": "io.github.woody230:geometry-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-geometry",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -1178,16 +1222,20 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:kodein-db-android-debug",
+      "uniqueId": "io.github.woody230:kodein-db-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-kodein-db",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -1273,52 +1321,64 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:library-android-debug",
+      "uniqueId": "io.github.woody230:library-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-library",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-resource-android-debug",
+      "uniqueId": "io.github.woody230:compose-resource-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-android-debug",
+      "uniqueId": "io.github.woody230:compose-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-constraint-layout-android-debug",
+      "uniqueId": "io.github.woody230:compose-constraint-layout-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1328,9 +1388,13 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-constraint-layout",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -1496,31 +1560,39 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:resource-android-debug",
+      "uniqueId": "io.github.woody230:resource-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:intent-android-debug",
+      "uniqueId": "io.github.woody230:intent-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-intent",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -1655,61 +1727,77 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-image-android-debug",
+      "uniqueId": "io.github.woody230:compose-image-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-image",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:settings-compose-android-debug",
+      "uniqueId": "io.github.woody230:settings-compose-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-settings-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:serialization-compose-android-debug",
+      "uniqueId": "io.github.woody230:serialization-compose-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-serialization-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:settings-android-debug",
+      "uniqueId": "io.github.woody230:settings-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-settings",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -2623,7 +2711,7 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-accompanist-android-debug",
+      "uniqueId": "io.github.woody230:compose-accompanist-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2636,159 +2724,203 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-accompanist",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:coroutine-android-debug",
+      "uniqueId": "io.github.woody230:coroutine-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-coroutine",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-resource-android-debug",
+      "uniqueId": "io.github.woody230:v2-resource-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-resource",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-enumeration-android-debug",
+      "uniqueId": "io.github.woody230:v2-model-enumeration-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model-enumeration",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:asset-cdn-android-debug",
+      "uniqueId": "io.github.woody230:asset-cdn-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-asset-cdn",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-cache-android-debug",
+      "uniqueId": "io.github.woody230:v2-cache-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-extension-android-debug",
+      "uniqueId": "io.github.woody230:v2-model-extension-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model-extension",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-tile-cache-android-debug",
+      "uniqueId": "io.github.woody230:v2-tile-cache-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-tile-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-tile-android-debug",
+      "uniqueId": "io.github.woody230:v2-tile-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-tile",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:logging-android-debug",
+      "uniqueId": "io.github.woody230:logging-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-logging",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-emblem-android-debug",
+      "uniqueId": "io.github.woody230:v2-emblem-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-emblem",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
@@ -3236,232 +3368,292 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-intl-cache-android",
+      "uniqueId": "io.github.woody230:v2-intl-cache-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-intl-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-intl-android",
+      "uniqueId": "io.github.woody230:v2-intl-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-intl",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:function-android",
+      "uniqueId": "io.github.woody230:function-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-function",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-client-android",
+      "uniqueId": "io.github.woody230:v2-client-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-client",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-android",
+      "uniqueId": "io.github.woody230:v2-model-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:datetime-android",
+      "uniqueId": "io.github.woody230:datetime-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-datetime",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:intl-android",
+      "uniqueId": "io.github.woody230:intl-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-intl",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:serialization-android",
+      "uniqueId": "io.github.woody230:serialization-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-scope-android",
+      "uniqueId": "io.github.woody230:v2-scope-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-scope",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:value-android",
+      "uniqueId": "io.github.woody230:value-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-value",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:geometry-android",
+      "uniqueId": "io.github.woody230:geometry-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-geometry",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:kodein-db-android",
+      "uniqueId": "io.github.woody230:kodein-db-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-kodein-db",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:library-android",
+      "uniqueId": "io.github.woody230:library-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-library",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-resource-android",
+      "uniqueId": "io.github.woody230:compose-resource-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-android",
+      "uniqueId": "io.github.woody230:compose-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-constraint-layout-android",
+      "uniqueId": "io.github.woody230:compose-constraint-layout-android",
       "funding": [],
       "developers": [
         {
@@ -3471,39 +3663,51 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-constraint-layout",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:resource-android",
+      "uniqueId": "io.github.woody230:resource-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:intent-android",
+      "uniqueId": "io.github.woody230:intent-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-intent",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -3638,61 +3842,77 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-image-android",
+      "uniqueId": "io.github.woody230:compose-image-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-image",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:settings-compose-android",
+      "uniqueId": "io.github.woody230:settings-compose-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-settings-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:serialization-compose-android",
+      "uniqueId": "io.github.woody230:serialization-compose-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-serialization-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:settings-android",
+      "uniqueId": "io.github.woody230:settings-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-settings",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -3902,7 +4122,7 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-accompanist-android",
+      "uniqueId": "io.github.woody230:compose-accompanist-android",
       "funding": [],
       "developers": [
         {
@@ -3915,159 +4135,203 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-accompanist",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:coroutine-android",
+      "uniqueId": "io.github.woody230:coroutine-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-coroutine",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-resource-android",
+      "uniqueId": "io.github.woody230:v2-resource-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-resource",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-enumeration-android",
+      "uniqueId": "io.github.woody230:v2-model-enumeration-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model-enumeration",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:asset-cdn-android",
+      "uniqueId": "io.github.woody230:asset-cdn-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-asset-cdn",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-cache-android",
+      "uniqueId": "io.github.woody230:v2-cache-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-extension-android",
+      "uniqueId": "io.github.woody230:v2-model-extension-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model-extension",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-tile-cache-android",
+      "uniqueId": "io.github.woody230:v2-tile-cache-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-tile-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-tile-android",
+      "uniqueId": "io.github.woody230:v2-tile-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-tile",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:logging-android",
+      "uniqueId": "io.github.woody230:logging-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-logging",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-emblem-android",
+      "uniqueId": "io.github.woody230:v2-emblem-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-emblem",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
@@ -4154,7 +4418,7 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-accompanist-jvm",
+      "uniqueId": "io.github.woody230:compose-accompanist-jvm",
       "funding": [],
       "developers": [
         {
@@ -4167,9 +4431,13 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-accompanist",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -4525,52 +4793,64 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:library-jvm",
+      "uniqueId": "io.github.woody230:library-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-library",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-resource-jvm",
+      "uniqueId": "io.github.woody230:compose-resource-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-jvm",
+      "uniqueId": "io.github.woody230:compose-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-constraint-layout-jvm",
+      "uniqueId": "io.github.woody230:compose-constraint-layout-jvm",
       "funding": [],
       "developers": [
         {
@@ -4580,9 +4860,13 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-constraint-layout",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -4610,31 +4894,39 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:function-jvm",
+      "uniqueId": "io.github.woody230:function-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-function",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:intl-jvm",
+      "uniqueId": "io.github.woody230:intl-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-intl",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -4792,31 +5084,39 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:resource-jvm",
+      "uniqueId": "io.github.woody230:resource-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:intent-jvm",
+      "uniqueId": "io.github.woody230:intent-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-intent",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -4843,91 +5143,115 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-image-jvm",
+      "uniqueId": "io.github.woody230:compose-image-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-image",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:kodein-db-jvm",
+      "uniqueId": "io.github.woody230:kodein-db-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-kodein-db",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:value-jvm",
+      "uniqueId": "io.github.woody230:value-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-value",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:settings-compose-jvm",
+      "uniqueId": "io.github.woody230:settings-compose-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-settings-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:serialization-compose-jvm",
+      "uniqueId": "io.github.woody230:serialization-compose-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-serialization-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:settings-jvm",
+      "uniqueId": "io.github.woody230:settings-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-settings",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5118,106 +5442,134 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:coroutine-jvm",
+      "uniqueId": "io.github.woody230:coroutine-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-coroutine",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-intl-cache-jvm",
+      "uniqueId": "io.github.woody230:v2-intl-cache-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-intl-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-intl-jvm",
+      "uniqueId": "io.github.woody230:v2-intl-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-intl",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-client-jvm",
+      "uniqueId": "io.github.woody230:v2-client-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-client",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-jvm",
+      "uniqueId": "io.github.woody230:v2-model-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:datetime-jvm",
+      "uniqueId": "io.github.woody230:datetime-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-datetime",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:serialization-jvm",
+      "uniqueId": "io.github.woody230:serialization-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5265,166 +5617,210 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-scope-jvm",
+      "uniqueId": "io.github.woody230:v2-scope-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-scope",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:geometry-jvm",
+      "uniqueId": "io.github.woody230:geometry-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-geometry",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-resource-jvm",
+      "uniqueId": "io.github.woody230:v2-resource-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-resource",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-enumeration-jvm",
+      "uniqueId": "io.github.woody230:v2-model-enumeration-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model-enumeration",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:asset-cdn-jvm",
+      "uniqueId": "io.github.woody230:asset-cdn-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-asset-cdn",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-cache-jvm",
+      "uniqueId": "io.github.woody230:v2-cache-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-extension-jvm",
+      "uniqueId": "io.github.woody230:v2-model-extension-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model-extension",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-tile-cache-jvm",
+      "uniqueId": "io.github.woody230:v2-tile-cache-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-tile-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-tile-jvm",
+      "uniqueId": "io.github.woody230:v2-tile-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-tile",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:logging-jvm",
+      "uniqueId": "io.github.woody230:logging-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-logging",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-emblem-jvm",
+      "uniqueId": "io.github.woody230:v2-emblem-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-emblem",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5638,7 +6034,7 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-accompanist",
+      "uniqueId": "io.github.woody230:ktx-compose-accompanist",
       "funding": [],
       "developers": [
         {
@@ -5651,9 +6047,13 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-accompanist",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5987,52 +6387,64 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:library",
+      "uniqueId": "io.github.woody230:ktx-library",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-library",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-resource",
+      "uniqueId": "io.github.woody230:ktx-compose-resource",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose",
+      "uniqueId": "io.github.woody230:ktx-compose",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-constraint-layout",
+      "uniqueId": "io.github.woody230:ktx-compose-constraint-layout",
       "funding": [],
       "developers": [
         {
@@ -6042,9 +6454,13 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-constraint-layout",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6092,31 +6508,39 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:function",
+      "uniqueId": "io.github.woody230:ktx-function",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-function",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:intl",
+      "uniqueId": "io.github.woody230:ktx-intl",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-intl",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6162,31 +6586,39 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:resource",
+      "uniqueId": "io.github.woody230:ktx-resource",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:intent",
+      "uniqueId": "io.github.woody230:ktx-intent",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-intent",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6321,16 +6753,20 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:compose-image",
+      "uniqueId": "io.github.woody230:ktx-compose-image",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-compose-image",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6496,16 +6932,20 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:kodein-db",
+      "uniqueId": "io.github.woody230:ktx-kodein-db",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-kodein-db",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6591,61 +7031,77 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:value",
+      "uniqueId": "io.github.woody230:ktx-value",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-value",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:settings-compose",
+      "uniqueId": "io.github.woody230:ktx-settings-compose",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-settings-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:serialization-compose",
+      "uniqueId": "io.github.woody230:ktx-serialization-compose",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-serialization-compose",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:settings",
+      "uniqueId": "io.github.woody230:ktx-settings",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-settings",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6858,106 +7314,134 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:coroutine",
+      "uniqueId": "io.github.woody230:ktx-coroutine",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-coroutine",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-intl-cache",
+      "uniqueId": "io.github.woody230:gw2-v2-intl-cache",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-intl-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-intl",
+      "uniqueId": "io.github.woody230:gw2-v2-intl",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-intl",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-client",
+      "uniqueId": "io.github.woody230:gw2-v2-client",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-client",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model",
+      "uniqueId": "io.github.woody230:gw2-v2-model",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:datetime",
+      "uniqueId": "io.github.woody230:ktx-datetime",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-datetime",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:serialization",
+      "uniqueId": "io.github.woody230:ktx-serialization",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -7005,31 +7489,39 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-scope",
+      "uniqueId": "io.github.woody230:gw2-v2-scope",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-scope",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:geometry",
+      "uniqueId": "io.github.woody230:ktx-geometry",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-geometry",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -7095,136 +7587,172 @@
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-resource",
+      "uniqueId": "io.github.woody230:gw2-v2-resource",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-resource",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-enumeration",
+      "uniqueId": "io.github.woody230:gw2-v2-model-enumeration",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model-enumeration",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:asset-cdn",
+      "uniqueId": "io.github.woody230:gw2-asset-cdn",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-asset-cdn",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-cache",
+      "uniqueId": "io.github.woody230:gw2-v2-cache",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-model-extension",
+      "uniqueId": "io.github.woody230:gw2-v2-model-extension",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-model-extension",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-tile-cache",
+      "uniqueId": "io.github.woody230:gw2-v2-tile-cache",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-tile-cache",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-tile",
+      "uniqueId": "io.github.woody230:gw2-v2-tile",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-tile",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.ktx:logging",
+      "uniqueId": "io.github.woody230:ktx-logging",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.0",
-      "description": "",
+      "artifactVersion": "4.0.1",
+      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
       "name": "ktx-logging",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "com.bselzer.gw2:v2-emblem",
+      "uniqueId": "io.github.woody230:gw2-v2-emblem",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.0",
-      "description": "",
+      "artifactVersion": "2.0.1",
+      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
       "name": "gw2-v2-emblem",
+      "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]

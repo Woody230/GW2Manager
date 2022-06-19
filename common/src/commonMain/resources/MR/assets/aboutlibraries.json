@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2022-06-19T02:05:33.116Z"
+    "generated": "2022-06-19T18:02:01.963Z"
   },
   "libraries": [
     {
@@ -51,57 +51,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.7.0",
+      "artifactVersion": "1.8.0",
       "description": "Kotlin extensions for 'core' artifact",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Core Kotlin Extensions",
-      "website": "https://developer.android.com/jetpack/androidx/releases/core#1.7.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains.kotlin:kotlin-stdlib",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "Kotlin Team"
-        }
-      ],
-      "artifactVersion": "1.6.21",
-      "description": "Kotlin Standard Library for JVM",
-      "scm": {
-        "connection": "scm:git:https://github.com/JetBrains/kotlin.git",
-        "url": "https://github.com/JetBrains/kotlin",
-        "developerConnection": "scm:git:https://github.com/JetBrains/kotlin.git"
-      },
-      "name": "Kotlin Stdlib",
-      "website": "https://kotlinlang.org/",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains:annotations",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "http://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "13.0",
-      "description": "A set of annotations used for code inspection support and code documentation.",
-      "scm": {
-        "connection": "scm:git:https://github.com/JetBrains/intellij-community.git",
-        "url": "https://github.com/JetBrains/intellij-community"
-      },
-      "name": "IntelliJ IDEA Annotations",
-      "website": "http://www.jetbrains.org",
+      "website": "https://developer.android.com/jetpack/androidx/releases/core#1.8.0",
       "licenses": [
         "Apache-2.0"
       ]
@@ -114,14 +71,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.7.0",
+      "artifactVersion": "1.8.0",
       "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren't a part of the framework APIs. Compatible on devices running API 14 or later.",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Support compat",
-      "website": "https://developer.android.com/jetpack/androidx/releases/core#1.7.0",
+      "website": "https://developer.android.com/jetpack/androidx/releases/core#1.8.0",
       "licenses": [
         "Apache-2.0"
       ]
@@ -262,6 +219,49 @@
       },
       "name": "Experimental annotation",
       "website": "https://developer.android.com/jetpack/androidx/releases/annotation#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.jetbrains.kotlin:kotlin-stdlib",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "Kotlin Team"
+        }
+      ],
+      "artifactVersion": "1.6.21",
+      "description": "Kotlin Standard Library for JVM",
+      "scm": {
+        "connection": "scm:git:https://github.com/JetBrains/kotlin.git",
+        "url": "https://github.com/JetBrains/kotlin",
+        "developerConnection": "scm:git:https://github.com/JetBrains/kotlin.git"
+      },
+      "name": "Kotlin Stdlib",
+      "website": "https://kotlinlang.org/",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.jetbrains:annotations",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "http://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "13.0",
+      "description": "A set of annotations used for code inspection support and code documentation.",
+      "scm": {
+        "connection": "scm:git:https://github.com/JetBrains/intellij-community.git",
+        "url": "https://github.com/JetBrains/intellij-community"
+      },
+      "name": "IntelliJ IDEA Annotations",
+      "website": "http://www.jetbrains.org",
       "licenses": [
         "Apache-2.0"
       ]
@@ -651,7 +651,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-intl-cache-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-intl-cache-android-debug",
       "funding": [],
       "developers": [
         {
@@ -663,14 +663,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl-cache",
+      "name": "v2-intl-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-intl-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-intl-android-debug",
       "funding": [],
       "developers": [
         {
@@ -682,14 +682,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl",
+      "name": "v2-intl",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:function-android-debug",
+      "uniqueId": "io.github.woody230.ktx:function-android-debug",
       "funding": [],
       "developers": [
         {
@@ -701,14 +701,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-function",
+      "name": "function",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-client-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-client-android-debug",
       "funding": [],
       "developers": [
         {
@@ -720,14 +720,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-client",
+      "name": "v2-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-model-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-model-android-debug",
       "funding": [],
       "developers": [
         {
@@ -739,14 +739,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model",
+      "name": "v2-model",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:datetime-android-debug",
+      "uniqueId": "io.github.woody230.ktx:datetime-android-debug",
       "funding": [],
       "developers": [
         {
@@ -758,14 +758,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-datetime",
+      "name": "datetime",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:intl-android-debug",
+      "uniqueId": "io.github.woody230.ktx:intl-android-debug",
       "funding": [],
       "developers": [
         {
@@ -777,7 +777,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-intl",
+      "name": "intl",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -844,7 +844,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:serialization-android-debug",
+      "uniqueId": "io.github.woody230.ktx:serialization-android-debug",
       "funding": [],
       "developers": [
         {
@@ -856,7 +856,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-serialization",
+      "name": "serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -905,7 +905,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-scope-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-scope-android-debug",
       "funding": [],
       "developers": [
         {
@@ -917,14 +917,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-scope",
+      "name": "v2-scope",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:value-android-debug",
+      "uniqueId": "io.github.woody230.ktx:value-android-debug",
       "funding": [],
       "developers": [
         {
@@ -936,14 +936,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-value",
+      "name": "value",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:geometry-android-debug",
+      "uniqueId": "io.github.woody230.ktx:geometry-android-debug",
       "funding": [],
       "developers": [
         {
@@ -955,7 +955,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-geometry",
+      "name": "geometry",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1222,7 +1222,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:kodein-db-android-debug",
+      "uniqueId": "io.github.woody230.ktx:kodein-db-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1234,7 +1234,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-kodein-db",
+      "name": "kodein-db",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1321,7 +1321,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:library-android-debug",
+      "uniqueId": "io.github.woody230.ktx:library-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1333,14 +1333,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-library",
+      "name": "library",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-resource-android-debug",
+      "uniqueId": "io.github.woody230.ktx:compose-resource-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1352,14 +1352,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-resource",
+      "name": "compose-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-android-debug",
+      "uniqueId": "io.github.woody230.ktx:compose-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1371,14 +1371,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose",
+      "name": "compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-constraint-layout-android-debug",
+      "uniqueId": "io.github.woody230.ktx:compose-constraint-layout-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1393,7 +1393,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-constraint-layout",
+      "name": "compose-constraint-layout",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1560,7 +1560,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:resource-android-debug",
+      "uniqueId": "io.github.woody230.ktx:resource-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1572,14 +1572,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-resource",
+      "name": "resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:intent-android-debug",
+      "uniqueId": "io.github.woody230.ktx:intent-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1591,7 +1591,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-intent",
+      "name": "intent",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1727,7 +1727,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-image-android-debug",
+      "uniqueId": "io.github.woody230.ktx:compose-image-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1739,14 +1739,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-image",
+      "name": "compose-image",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:settings-compose-android-debug",
+      "uniqueId": "io.github.woody230.ktx:settings-compose-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1758,14 +1758,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-settings-compose",
+      "name": "settings-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:serialization-compose-android-debug",
+      "uniqueId": "io.github.woody230.ktx:serialization-compose-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1777,14 +1777,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-serialization-compose",
+      "name": "serialization-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:settings-android-debug",
+      "uniqueId": "io.github.woody230.ktx:settings-android-debug",
       "funding": [],
       "developers": [
         {
@@ -1796,7 +1796,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-settings",
+      "name": "settings",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1888,14 +1888,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.4.1",
+      "artifactVersion": "1.4.2",
       "description": "The Support Library is a static library that you can add to your Android application in order to use APIs that are either not available for older platform versions or utility APIs that aren't a part of the framework APIs. Compatible on devices running API 14 or later.",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Android AppCompat Library",
-      "website": "https://developer.android.com/jetpack/androidx/releases/appcompat#1.4.1",
+      "website": "https://developer.android.com/jetpack/androidx/releases/appcompat#1.4.2",
       "licenses": [
         "Apache-2.0"
       ]
@@ -2028,14 +2028,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.4.1",
+      "artifactVersion": "1.4.2",
       "description": "The Resources Library is a static library that you can add to your Android application in order to use resource APIs that backport the latest APIs to older versions of the platform. Compatible on devices running API 14 or later.",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Android Resources Library",
-      "website": "https://developer.android.com/jetpack/androidx/releases/appcompat#1.4.1",
+      "website": "https://developer.android.com/jetpack/androidx/releases/appcompat#1.4.2",
       "licenses": [
         "Apache-2.0"
       ]
@@ -2711,7 +2711,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-accompanist-android-debug",
+      "uniqueId": "io.github.woody230.ktx:compose-accompanist-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2729,14 +2729,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-accompanist",
+      "name": "compose-accompanist",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:coroutine-android-debug",
+      "uniqueId": "io.github.woody230.ktx:coroutine-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2748,14 +2748,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-coroutine",
+      "name": "coroutine",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-resource-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-resource-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2767,14 +2767,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-resource",
+      "name": "v2-resource",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-model-enumeration-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-model-enumeration-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2786,14 +2786,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model-enumeration",
+      "name": "v2-model-enumeration",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:asset-cdn-android-debug",
+      "uniqueId": "io.github.woody230.gw2:asset-cdn-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2805,14 +2805,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-asset-cdn",
+      "name": "asset-cdn",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-cache-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-cache-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2824,14 +2824,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-cache",
+      "name": "v2-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-model-extension-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-model-extension-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2843,14 +2843,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model-extension",
+      "name": "v2-model-extension",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-tile-cache-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-cache-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2862,14 +2862,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile-cache",
+      "name": "v2-tile-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-tile-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2881,14 +2881,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile",
+      "name": "v2-tile",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:logging-android-debug",
+      "uniqueId": "io.github.woody230.ktx:logging-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2900,14 +2900,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-logging",
+      "name": "logging",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-emblem-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-emblem-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2919,7 +2919,7 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-emblem",
+      "name": "v2-emblem",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -3368,7 +3368,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-intl-cache-android",
+      "uniqueId": "io.github.woody230.gw2:v2-intl-cache-android",
       "funding": [],
       "developers": [
         {
@@ -3380,14 +3380,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl-cache",
+      "name": "v2-intl-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-intl-android",
+      "uniqueId": "io.github.woody230.gw2:v2-intl-android",
       "funding": [],
       "developers": [
         {
@@ -3399,14 +3399,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl",
+      "name": "v2-intl",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:function-android",
+      "uniqueId": "io.github.woody230.ktx:function-android",
       "funding": [],
       "developers": [
         {
@@ -3418,14 +3418,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-function",
+      "name": "function",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-client-android",
+      "uniqueId": "io.github.woody230.gw2:v2-client-android",
       "funding": [],
       "developers": [
         {
@@ -3437,14 +3437,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-client",
+      "name": "v2-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-model-android",
+      "uniqueId": "io.github.woody230.gw2:v2-model-android",
       "funding": [],
       "developers": [
         {
@@ -3456,14 +3456,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model",
+      "name": "v2-model",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:datetime-android",
+      "uniqueId": "io.github.woody230.ktx:datetime-android",
       "funding": [],
       "developers": [
         {
@@ -3475,14 +3475,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-datetime",
+      "name": "datetime",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:intl-android",
+      "uniqueId": "io.github.woody230.ktx:intl-android",
       "funding": [],
       "developers": [
         {
@@ -3494,14 +3494,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-intl",
+      "name": "intl",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:serialization-android",
+      "uniqueId": "io.github.woody230.ktx:serialization-android",
       "funding": [],
       "developers": [
         {
@@ -3513,14 +3513,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-serialization",
+      "name": "serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-scope-android",
+      "uniqueId": "io.github.woody230.gw2:v2-scope-android",
       "funding": [],
       "developers": [
         {
@@ -3532,14 +3532,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-scope",
+      "name": "v2-scope",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:value-android",
+      "uniqueId": "io.github.woody230.ktx:value-android",
       "funding": [],
       "developers": [
         {
@@ -3551,14 +3551,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-value",
+      "name": "value",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:geometry-android",
+      "uniqueId": "io.github.woody230.ktx:geometry-android",
       "funding": [],
       "developers": [
         {
@@ -3570,14 +3570,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-geometry",
+      "name": "geometry",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:kodein-db-android",
+      "uniqueId": "io.github.woody230.ktx:kodein-db-android",
       "funding": [],
       "developers": [
         {
@@ -3589,14 +3589,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-kodein-db",
+      "name": "kodein-db",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:library-android",
+      "uniqueId": "io.github.woody230.ktx:library-android",
       "funding": [],
       "developers": [
         {
@@ -3608,14 +3608,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-library",
+      "name": "library",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-resource-android",
+      "uniqueId": "io.github.woody230.ktx:compose-resource-android",
       "funding": [],
       "developers": [
         {
@@ -3627,14 +3627,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-resource",
+      "name": "compose-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-android",
+      "uniqueId": "io.github.woody230.ktx:compose-android",
       "funding": [],
       "developers": [
         {
@@ -3646,14 +3646,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose",
+      "name": "compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-constraint-layout-android",
+      "uniqueId": "io.github.woody230.ktx:compose-constraint-layout-android",
       "funding": [],
       "developers": [
         {
@@ -3668,14 +3668,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-constraint-layout",
+      "name": "compose-constraint-layout",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:resource-android",
+      "uniqueId": "io.github.woody230.ktx:resource-android",
       "funding": [],
       "developers": [
         {
@@ -3687,14 +3687,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-resource",
+      "name": "resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:intent-android",
+      "uniqueId": "io.github.woody230.ktx:intent-android",
       "funding": [],
       "developers": [
         {
@@ -3706,7 +3706,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-intent",
+      "name": "intent",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3842,7 +3842,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-image-android",
+      "uniqueId": "io.github.woody230.ktx:compose-image-android",
       "funding": [],
       "developers": [
         {
@@ -3854,14 +3854,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-image",
+      "name": "compose-image",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:settings-compose-android",
+      "uniqueId": "io.github.woody230.ktx:settings-compose-android",
       "funding": [],
       "developers": [
         {
@@ -3873,14 +3873,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-settings-compose",
+      "name": "settings-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:serialization-compose-android",
+      "uniqueId": "io.github.woody230.ktx:serialization-compose-android",
       "funding": [],
       "developers": [
         {
@@ -3892,14 +3892,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-serialization-compose",
+      "name": "serialization-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:settings-android",
+      "uniqueId": "io.github.woody230.ktx:settings-android",
       "funding": [],
       "developers": [
         {
@@ -3911,7 +3911,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-settings",
+      "name": "settings",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4122,7 +4122,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-accompanist-android",
+      "uniqueId": "io.github.woody230.ktx:compose-accompanist-android",
       "funding": [],
       "developers": [
         {
@@ -4140,14 +4140,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-accompanist",
+      "name": "compose-accompanist",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:coroutine-android",
+      "uniqueId": "io.github.woody230.ktx:coroutine-android",
       "funding": [],
       "developers": [
         {
@@ -4159,14 +4159,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-coroutine",
+      "name": "coroutine",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-resource-android",
+      "uniqueId": "io.github.woody230.gw2:v2-resource-android",
       "funding": [],
       "developers": [
         {
@@ -4178,14 +4178,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-resource",
+      "name": "v2-resource",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-model-enumeration-android",
+      "uniqueId": "io.github.woody230.gw2:v2-model-enumeration-android",
       "funding": [],
       "developers": [
         {
@@ -4197,14 +4197,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model-enumeration",
+      "name": "v2-model-enumeration",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:asset-cdn-android",
+      "uniqueId": "io.github.woody230.gw2:asset-cdn-android",
       "funding": [],
       "developers": [
         {
@@ -4216,14 +4216,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-asset-cdn",
+      "name": "asset-cdn",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-cache-android",
+      "uniqueId": "io.github.woody230.gw2:v2-cache-android",
       "funding": [],
       "developers": [
         {
@@ -4235,14 +4235,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-cache",
+      "name": "v2-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-model-extension-android",
+      "uniqueId": "io.github.woody230.gw2:v2-model-extension-android",
       "funding": [],
       "developers": [
         {
@@ -4254,14 +4254,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model-extension",
+      "name": "v2-model-extension",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-tile-cache-android",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-cache-android",
       "funding": [],
       "developers": [
         {
@@ -4273,14 +4273,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile-cache",
+      "name": "v2-tile-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-tile-android",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-android",
       "funding": [],
       "developers": [
         {
@@ -4292,14 +4292,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile",
+      "name": "v2-tile",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:logging-android",
+      "uniqueId": "io.github.woody230.ktx:logging-android",
       "funding": [],
       "developers": [
         {
@@ -4311,14 +4311,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-logging",
+      "name": "logging",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-emblem-android",
+      "uniqueId": "io.github.woody230.gw2:v2-emblem-android",
       "funding": [],
       "developers": [
         {
@@ -4330,7 +4330,7 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-emblem",
+      "name": "v2-emblem",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -4418,7 +4418,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-accompanist-jvm",
+      "uniqueId": "io.github.woody230.ktx:compose-accompanist-jvm",
       "funding": [],
       "developers": [
         {
@@ -4436,7 +4436,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-accompanist",
+      "name": "compose-accompanist",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4793,7 +4793,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:library-jvm",
+      "uniqueId": "io.github.woody230.ktx:library-jvm",
       "funding": [],
       "developers": [
         {
@@ -4805,14 +4805,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-library",
+      "name": "library",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-resource-jvm",
+      "uniqueId": "io.github.woody230.ktx:compose-resource-jvm",
       "funding": [],
       "developers": [
         {
@@ -4824,14 +4824,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-resource",
+      "name": "compose-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-jvm",
+      "uniqueId": "io.github.woody230.ktx:compose-jvm",
       "funding": [],
       "developers": [
         {
@@ -4843,14 +4843,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose",
+      "name": "compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-constraint-layout-jvm",
+      "uniqueId": "io.github.woody230.ktx:compose-constraint-layout-jvm",
       "funding": [],
       "developers": [
         {
@@ -4865,7 +4865,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-constraint-layout",
+      "name": "compose-constraint-layout",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4894,7 +4894,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:function-jvm",
+      "uniqueId": "io.github.woody230.ktx:function-jvm",
       "funding": [],
       "developers": [
         {
@@ -4906,14 +4906,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-function",
+      "name": "function",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:intl-jvm",
+      "uniqueId": "io.github.woody230.ktx:intl-jvm",
       "funding": [],
       "developers": [
         {
@@ -4925,7 +4925,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-intl",
+      "name": "intl",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5084,7 +5084,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:resource-jvm",
+      "uniqueId": "io.github.woody230.ktx:resource-jvm",
       "funding": [],
       "developers": [
         {
@@ -5096,14 +5096,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-resource",
+      "name": "resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:intent-jvm",
+      "uniqueId": "io.github.woody230.ktx:intent-jvm",
       "funding": [],
       "developers": [
         {
@@ -5115,7 +5115,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-intent",
+      "name": "intent",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5143,7 +5143,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:compose-image-jvm",
+      "uniqueId": "io.github.woody230.ktx:compose-image-jvm",
       "funding": [],
       "developers": [
         {
@@ -5155,14 +5155,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-image",
+      "name": "compose-image",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:kodein-db-jvm",
+      "uniqueId": "io.github.woody230.ktx:kodein-db-jvm",
       "funding": [],
       "developers": [
         {
@@ -5174,14 +5174,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-kodein-db",
+      "name": "kodein-db",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:value-jvm",
+      "uniqueId": "io.github.woody230.ktx:value-jvm",
       "funding": [],
       "developers": [
         {
@@ -5193,14 +5193,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-value",
+      "name": "value",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:settings-compose-jvm",
+      "uniqueId": "io.github.woody230.ktx:settings-compose-jvm",
       "funding": [],
       "developers": [
         {
@@ -5212,14 +5212,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-settings-compose",
+      "name": "settings-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:serialization-compose-jvm",
+      "uniqueId": "io.github.woody230.ktx:serialization-compose-jvm",
       "funding": [],
       "developers": [
         {
@@ -5231,14 +5231,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-serialization-compose",
+      "name": "serialization-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:settings-jvm",
+      "uniqueId": "io.github.woody230.ktx:settings-jvm",
       "funding": [],
       "developers": [
         {
@@ -5250,7 +5250,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-settings",
+      "name": "settings",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5442,7 +5442,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:coroutine-jvm",
+      "uniqueId": "io.github.woody230.ktx:coroutine-jvm",
       "funding": [],
       "developers": [
         {
@@ -5454,14 +5454,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-coroutine",
+      "name": "coroutine",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-intl-cache-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-intl-cache-jvm",
       "funding": [],
       "developers": [
         {
@@ -5473,14 +5473,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl-cache",
+      "name": "v2-intl-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-intl-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-intl-jvm",
       "funding": [],
       "developers": [
         {
@@ -5492,14 +5492,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl",
+      "name": "v2-intl",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-client-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-client-jvm",
       "funding": [],
       "developers": [
         {
@@ -5511,14 +5511,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-client",
+      "name": "v2-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-model-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-model-jvm",
       "funding": [],
       "developers": [
         {
@@ -5530,14 +5530,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model",
+      "name": "v2-model",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:datetime-jvm",
+      "uniqueId": "io.github.woody230.ktx:datetime-jvm",
       "funding": [],
       "developers": [
         {
@@ -5549,14 +5549,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-datetime",
+      "name": "datetime",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:serialization-jvm",
+      "uniqueId": "io.github.woody230.ktx:serialization-jvm",
       "funding": [],
       "developers": [
         {
@@ -5568,7 +5568,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-serialization",
+      "name": "serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5617,7 +5617,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-scope-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-scope-jvm",
       "funding": [],
       "developers": [
         {
@@ -5629,14 +5629,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-scope",
+      "name": "v2-scope",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:geometry-jvm",
+      "uniqueId": "io.github.woody230.ktx:geometry-jvm",
       "funding": [],
       "developers": [
         {
@@ -5648,14 +5648,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-geometry",
+      "name": "geometry",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-resource-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-resource-jvm",
       "funding": [],
       "developers": [
         {
@@ -5667,14 +5667,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-resource",
+      "name": "v2-resource",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-model-enumeration-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-model-enumeration-jvm",
       "funding": [],
       "developers": [
         {
@@ -5686,14 +5686,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model-enumeration",
+      "name": "v2-model-enumeration",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:asset-cdn-jvm",
+      "uniqueId": "io.github.woody230.gw2:asset-cdn-jvm",
       "funding": [],
       "developers": [
         {
@@ -5705,14 +5705,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-asset-cdn",
+      "name": "asset-cdn",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-cache-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-cache-jvm",
       "funding": [],
       "developers": [
         {
@@ -5724,14 +5724,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-cache",
+      "name": "v2-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-model-extension-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-model-extension-jvm",
       "funding": [],
       "developers": [
         {
@@ -5743,14 +5743,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model-extension",
+      "name": "v2-model-extension",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-tile-cache-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-cache-jvm",
       "funding": [],
       "developers": [
         {
@@ -5762,14 +5762,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile-cache",
+      "name": "v2-tile-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-tile-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-jvm",
       "funding": [],
       "developers": [
         {
@@ -5781,14 +5781,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile",
+      "name": "v2-tile",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:logging-jvm",
+      "uniqueId": "io.github.woody230.ktx:logging-jvm",
       "funding": [],
       "developers": [
         {
@@ -5800,14 +5800,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-logging",
+      "name": "logging",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:v2-emblem-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-emblem-jvm",
       "funding": [],
       "developers": [
         {
@@ -5819,7 +5819,7 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-emblem",
+      "name": "v2-emblem",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -6034,7 +6034,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-compose-accompanist",
+      "uniqueId": "io.github.woody230.ktx:compose-accompanist",
       "funding": [],
       "developers": [
         {
@@ -6052,7 +6052,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-accompanist",
+      "name": "compose-accompanist",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6387,7 +6387,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-library",
+      "uniqueId": "io.github.woody230.ktx:library",
       "funding": [],
       "developers": [
         {
@@ -6399,14 +6399,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-library",
+      "name": "library",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-compose-resource",
+      "uniqueId": "io.github.woody230.ktx:compose-resource",
       "funding": [],
       "developers": [
         {
@@ -6418,14 +6418,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-resource",
+      "name": "compose-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-compose",
+      "uniqueId": "io.github.woody230.ktx:compose",
       "funding": [],
       "developers": [
         {
@@ -6437,14 +6437,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose",
+      "name": "compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-compose-constraint-layout",
+      "uniqueId": "io.github.woody230.ktx:compose-constraint-layout",
       "funding": [],
       "developers": [
         {
@@ -6459,7 +6459,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-constraint-layout",
+      "name": "compose-constraint-layout",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6508,7 +6508,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-function",
+      "uniqueId": "io.github.woody230.ktx:function",
       "funding": [],
       "developers": [
         {
@@ -6520,14 +6520,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-function",
+      "name": "function",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-intl",
+      "uniqueId": "io.github.woody230.ktx:intl",
       "funding": [],
       "developers": [
         {
@@ -6539,7 +6539,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-intl",
+      "name": "intl",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6586,7 +6586,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-resource",
+      "uniqueId": "io.github.woody230.ktx:resource",
       "funding": [],
       "developers": [
         {
@@ -6598,14 +6598,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-resource",
+      "name": "resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-intent",
+      "uniqueId": "io.github.woody230.ktx:intent",
       "funding": [],
       "developers": [
         {
@@ -6617,7 +6617,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-intent",
+      "name": "intent",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6753,7 +6753,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-compose-image",
+      "uniqueId": "io.github.woody230.ktx:compose-image",
       "funding": [],
       "developers": [
         {
@@ -6765,7 +6765,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-image",
+      "name": "compose-image",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6932,7 +6932,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-kodein-db",
+      "uniqueId": "io.github.woody230.ktx:kodein-db",
       "funding": [],
       "developers": [
         {
@@ -6944,7 +6944,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-kodein-db",
+      "name": "kodein-db",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7031,7 +7031,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-value",
+      "uniqueId": "io.github.woody230.ktx:value",
       "funding": [],
       "developers": [
         {
@@ -7043,14 +7043,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-value",
+      "name": "value",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-settings-compose",
+      "uniqueId": "io.github.woody230.ktx:settings-compose",
       "funding": [],
       "developers": [
         {
@@ -7062,14 +7062,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-settings-compose",
+      "name": "settings-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-serialization-compose",
+      "uniqueId": "io.github.woody230.ktx:serialization-compose",
       "funding": [],
       "developers": [
         {
@@ -7081,14 +7081,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-serialization-compose",
+      "name": "serialization-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-settings",
+      "uniqueId": "io.github.woody230.ktx:settings",
       "funding": [],
       "developers": [
         {
@@ -7100,7 +7100,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-settings",
+      "name": "settings",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7314,7 +7314,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-coroutine",
+      "uniqueId": "io.github.woody230.ktx:coroutine",
       "funding": [],
       "developers": [
         {
@@ -7326,14 +7326,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-coroutine",
+      "name": "coroutine",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-intl-cache",
+      "uniqueId": "io.github.woody230.gw2:v2-intl-cache",
       "funding": [],
       "developers": [
         {
@@ -7345,14 +7345,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl-cache",
+      "name": "v2-intl-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-intl",
+      "uniqueId": "io.github.woody230.gw2:v2-intl",
       "funding": [],
       "developers": [
         {
@@ -7364,14 +7364,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl",
+      "name": "v2-intl",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-client",
+      "uniqueId": "io.github.woody230.gw2:v2-client",
       "funding": [],
       "developers": [
         {
@@ -7383,14 +7383,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-client",
+      "name": "v2-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-model",
+      "uniqueId": "io.github.woody230.gw2:v2-model",
       "funding": [],
       "developers": [
         {
@@ -7402,14 +7402,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model",
+      "name": "v2-model",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-datetime",
+      "uniqueId": "io.github.woody230.ktx:datetime",
       "funding": [],
       "developers": [
         {
@@ -7421,14 +7421,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-datetime",
+      "name": "datetime",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-serialization",
+      "uniqueId": "io.github.woody230.ktx:serialization",
       "funding": [],
       "developers": [
         {
@@ -7440,7 +7440,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-serialization",
+      "name": "serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7489,7 +7489,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-scope",
+      "uniqueId": "io.github.woody230.gw2:v2-scope",
       "funding": [],
       "developers": [
         {
@@ -7501,14 +7501,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-scope",
+      "name": "v2-scope",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-geometry",
+      "uniqueId": "io.github.woody230.ktx:geometry",
       "funding": [],
       "developers": [
         {
@@ -7520,7 +7520,7 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-geometry",
+      "name": "geometry",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7587,7 +7587,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-resource",
+      "uniqueId": "io.github.woody230.gw2:v2-resource",
       "funding": [],
       "developers": [
         {
@@ -7599,14 +7599,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-resource",
+      "name": "v2-resource",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-model-enumeration",
+      "uniqueId": "io.github.woody230.gw2:v2-model-enumeration",
       "funding": [],
       "developers": [
         {
@@ -7618,14 +7618,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model-enumeration",
+      "name": "v2-model-enumeration",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-asset-cdn",
+      "uniqueId": "io.github.woody230.gw2:asset-cdn",
       "funding": [],
       "developers": [
         {
@@ -7637,14 +7637,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-asset-cdn",
+      "name": "asset-cdn",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-cache",
+      "uniqueId": "io.github.woody230.gw2:v2-cache",
       "funding": [],
       "developers": [
         {
@@ -7656,14 +7656,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-cache",
+      "name": "v2-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-model-extension",
+      "uniqueId": "io.github.woody230.gw2:v2-model-extension",
       "funding": [],
       "developers": [
         {
@@ -7675,14 +7675,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-model-extension",
+      "name": "v2-model-extension",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-tile-cache",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-cache",
       "funding": [],
       "developers": [
         {
@@ -7694,14 +7694,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile-cache",
+      "name": "v2-tile-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-tile",
+      "uniqueId": "io.github.woody230.gw2:v2-tile",
       "funding": [],
       "developers": [
         {
@@ -7713,14 +7713,14 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile",
+      "name": "v2-tile",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:ktx-logging",
+      "uniqueId": "io.github.woody230.ktx:logging",
       "funding": [],
       "developers": [
         {
@@ -7732,14 +7732,14 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-logging",
+      "name": "logging",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230:gw2-v2-emblem",
+      "uniqueId": "io.github.woody230.gw2:v2-emblem",
       "funding": [],
       "developers": [
         {
@@ -7751,7 +7751,7 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-emblem",
+      "name": "v2-emblem",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"

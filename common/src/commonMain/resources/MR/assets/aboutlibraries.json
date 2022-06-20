@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2022-06-19T18:02:01.963Z"
+    "generated": "2022-06-20T14:03:02.053Z"
   },
   "libraries": [
     {
@@ -658,12 +658,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-intl-cache",
+      "name": "gw2-v2-intl-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -677,12 +677,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-intl",
+      "name": "gw2-v2-intl",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -696,12 +696,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "function",
+      "name": "ktx-function",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -715,12 +715,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-client",
+      "name": "gw2-v2-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -734,12 +734,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model",
+      "name": "gw2-v2-model",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -753,12 +753,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "datetime",
+      "name": "ktx-datetime",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -772,12 +772,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Internationalization through locale support.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "intl",
+      "name": "ktx-intl",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -851,12 +851,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.serialization extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "serialization",
+      "name": "ktx-serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -912,12 +912,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-scope",
+      "name": "gw2-v2-scope",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -931,12 +931,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Value class extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "value",
+      "name": "ktx-value",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -950,12 +950,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "geometry",
+      "name": "ktx-geometry",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1229,12 +1229,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Kodein-DB caching framework extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "kodein-db",
+      "name": "ktx-kodein-db",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1328,12 +1328,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Jetbrains Compose extensions for AboutLibraries.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "library",
+      "name": "ktx-library",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1347,12 +1347,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-resource",
+      "name": "ktx-compose-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1366,12 +1366,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose",
+      "name": "ktx-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1388,12 +1388,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-constraint-layout",
+      "name": "ktx-compose-constraint-layout",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1567,12 +1567,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "resource",
+      "name": "ktx-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1586,12 +1586,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "intent",
+      "name": "ktx-intent",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1734,12 +1734,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Jetbrains Compose image fetching and displaying.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-image",
+      "name": "ktx-compose-image",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1753,12 +1753,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "settings-compose",
+      "name": "ktx-settings-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1772,12 +1772,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.serialization extension for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "serialization-compose",
+      "name": "ktx-serialization-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1791,12 +1791,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "settings",
+      "name": "ktx-settings",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -2724,12 +2724,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-accompanist",
+      "name": "ktx-compose-accompanist",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -2743,12 +2743,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "coroutine",
+      "name": "ktx-coroutine",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -2762,12 +2762,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-resource",
+      "name": "gw2-v2-resource",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -2781,12 +2781,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model-enumeration",
+      "name": "gw2-v2-model-enumeration",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -2800,12 +2800,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "asset-cdn",
+      "name": "gw2-asset-cdn",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -2819,12 +2819,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-cache",
+      "name": "gw2-v2-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -2838,12 +2838,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model-extension",
+      "name": "gw2-v2-model-extension",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -2857,12 +2857,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework extensions for v2-tile.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-tile-cache",
+      "name": "gw2-v2-tile-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -2876,12 +2876,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-tile",
+      "name": "gw2-v2-tile",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -2895,12 +2895,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "logging",
+      "name": "ktx-logging",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -2914,12 +2914,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-emblem",
+      "name": "gw2-v2-emblem",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -3375,12 +3375,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-intl-cache",
+      "name": "gw2-v2-intl-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -3394,12 +3394,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-intl",
+      "name": "gw2-v2-intl",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -3413,12 +3413,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "function",
+      "name": "ktx-function",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3432,12 +3432,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-client",
+      "name": "gw2-v2-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -3451,12 +3451,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model",
+      "name": "gw2-v2-model",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -3470,12 +3470,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "datetime",
+      "name": "ktx-datetime",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3489,12 +3489,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Internationalization through locale support.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "intl",
+      "name": "ktx-intl",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3508,12 +3508,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.serialization extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "serialization",
+      "name": "ktx-serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3527,12 +3527,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-scope",
+      "name": "gw2-v2-scope",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -3546,12 +3546,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Value class extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "value",
+      "name": "ktx-value",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3565,12 +3565,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "geometry",
+      "name": "ktx-geometry",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3584,12 +3584,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Kodein-DB caching framework extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "kodein-db",
+      "name": "ktx-kodein-db",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3603,12 +3603,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Jetbrains Compose extensions for AboutLibraries.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "library",
+      "name": "ktx-library",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3622,12 +3622,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-resource",
+      "name": "ktx-compose-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3641,12 +3641,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose",
+      "name": "ktx-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3663,12 +3663,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-constraint-layout",
+      "name": "ktx-compose-constraint-layout",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3682,12 +3682,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "resource",
+      "name": "ktx-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3701,12 +3701,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "intent",
+      "name": "ktx-intent",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3849,12 +3849,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Jetbrains Compose image fetching and displaying.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-image",
+      "name": "ktx-compose-image",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3868,12 +3868,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "settings-compose",
+      "name": "ktx-settings-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3887,12 +3887,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.serialization extension for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "serialization-compose",
+      "name": "ktx-serialization-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3906,12 +3906,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "settings",
+      "name": "ktx-settings",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4135,12 +4135,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-accompanist",
+      "name": "ktx-compose-accompanist",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4154,12 +4154,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "coroutine",
+      "name": "ktx-coroutine",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4173,12 +4173,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-resource",
+      "name": "gw2-v2-resource",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -4192,12 +4192,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model-enumeration",
+      "name": "gw2-v2-model-enumeration",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -4211,12 +4211,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "asset-cdn",
+      "name": "gw2-asset-cdn",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -4230,12 +4230,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-cache",
+      "name": "gw2-v2-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -4249,12 +4249,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model-extension",
+      "name": "gw2-v2-model-extension",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -4268,12 +4268,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework extensions for v2-tile.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-tile-cache",
+      "name": "gw2-v2-tile-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -4287,12 +4287,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-tile",
+      "name": "gw2-v2-tile",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -4306,12 +4306,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "logging",
+      "name": "ktx-logging",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4325,12 +4325,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-emblem",
+      "name": "gw2-v2-emblem",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -4431,12 +4431,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-accompanist",
+      "name": "ktx-compose-accompanist",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4800,12 +4800,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Jetbrains Compose extensions for AboutLibraries.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "library",
+      "name": "ktx-library",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4819,12 +4819,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-resource",
+      "name": "ktx-compose-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4838,12 +4838,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose",
+      "name": "ktx-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4860,12 +4860,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-constraint-layout",
+      "name": "ktx-compose-constraint-layout",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4901,12 +4901,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "function",
+      "name": "ktx-function",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4920,12 +4920,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Internationalization through locale support.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "intl",
+      "name": "ktx-intl",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5091,12 +5091,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "resource",
+      "name": "ktx-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5110,12 +5110,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "intent",
+      "name": "ktx-intent",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5150,12 +5150,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Jetbrains Compose image fetching and displaying.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-image",
+      "name": "ktx-compose-image",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5169,12 +5169,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Kodein-DB caching framework extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "kodein-db",
+      "name": "ktx-kodein-db",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5188,12 +5188,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Value class extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "value",
+      "name": "ktx-value",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5207,12 +5207,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "settings-compose",
+      "name": "ktx-settings-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5226,12 +5226,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.serialization extension for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "serialization-compose",
+      "name": "ktx-serialization-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5245,12 +5245,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "settings",
+      "name": "ktx-settings",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5449,12 +5449,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "coroutine",
+      "name": "ktx-coroutine",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5468,12 +5468,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-intl-cache",
+      "name": "gw2-v2-intl-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5487,12 +5487,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-intl",
+      "name": "gw2-v2-intl",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5506,12 +5506,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-client",
+      "name": "gw2-v2-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5525,12 +5525,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model",
+      "name": "gw2-v2-model",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5544,12 +5544,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "datetime",
+      "name": "ktx-datetime",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5563,12 +5563,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.serialization extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "serialization",
+      "name": "ktx-serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5624,12 +5624,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-scope",
+      "name": "gw2-v2-scope",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5643,12 +5643,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "geometry",
+      "name": "ktx-geometry",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5662,12 +5662,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-resource",
+      "name": "gw2-v2-resource",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5681,12 +5681,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model-enumeration",
+      "name": "gw2-v2-model-enumeration",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5700,12 +5700,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "asset-cdn",
+      "name": "gw2-asset-cdn",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5719,12 +5719,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-cache",
+      "name": "gw2-v2-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5738,12 +5738,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model-extension",
+      "name": "gw2-v2-model-extension",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5757,12 +5757,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework extensions for v2-tile.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-tile-cache",
+      "name": "gw2-v2-tile-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5776,12 +5776,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-tile",
+      "name": "gw2-v2-tile",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5795,12 +5795,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "logging",
+      "name": "ktx-logging",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5814,12 +5814,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-emblem",
+      "name": "gw2-v2-emblem",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -6047,12 +6047,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-accompanist",
+      "name": "ktx-compose-accompanist",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6394,12 +6394,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Jetbrains Compose extensions for AboutLibraries.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "library",
+      "name": "ktx-library",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6413,12 +6413,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-resource",
+      "name": "ktx-compose-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6432,12 +6432,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose",
+      "name": "ktx-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6454,12 +6454,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-constraint-layout",
+      "name": "ktx-compose-constraint-layout",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6515,12 +6515,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "function",
+      "name": "ktx-function",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6534,12 +6534,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Internationalization through locale support.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "intl",
+      "name": "ktx-intl",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6593,12 +6593,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "resource",
+      "name": "ktx-resource",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6612,12 +6612,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "intent",
+      "name": "ktx-intent",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6760,12 +6760,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Jetbrains Compose image fetching and displaying.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "compose-image",
+      "name": "ktx-compose-image",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6939,12 +6939,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Kodein-DB caching framework extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "kodein-db",
+      "name": "ktx-kodein-db",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7038,12 +7038,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Value class extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "value",
+      "name": "ktx-value",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7057,12 +7057,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "settings-compose",
+      "name": "ktx-settings-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7076,12 +7076,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.serialization extension for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "serialization-compose",
+      "name": "ktx-serialization-compose",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7095,12 +7095,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "settings",
+      "name": "ktx-settings",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7321,12 +7321,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "coroutine",
+      "name": "ktx-coroutine",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7340,12 +7340,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-intl-cache",
+      "name": "gw2-v2-intl-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7359,12 +7359,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-intl",
+      "name": "gw2-v2-intl",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7378,12 +7378,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-client",
+      "name": "gw2-v2-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7397,12 +7397,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model",
+      "name": "gw2-v2-model",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7416,12 +7416,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "datetime",
+      "name": "ktx-datetime",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7435,12 +7435,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "kotlinx.serialization extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "serialization",
+      "name": "ktx-serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7496,12 +7496,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-scope",
+      "name": "gw2-v2-scope",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7515,12 +7515,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "geometry",
+      "name": "ktx-geometry",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7594,12 +7594,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-resource",
+      "name": "gw2-v2-resource",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7613,12 +7613,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model-enumeration",
+      "name": "gw2-v2-model-enumeration",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7632,12 +7632,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "asset-cdn",
+      "name": "gw2-asset-cdn",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7651,12 +7651,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-cache",
+      "name": "gw2-v2-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7670,12 +7670,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-model-extension",
+      "name": "gw2-v2-model-extension",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7689,12 +7689,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Kodein-DB caching framework extensions for v2-tile.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-tile-cache",
+      "name": "gw2-v2-tile-cache",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7708,12 +7708,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-tile",
+      "name": "gw2-v2-tile",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7727,12 +7727,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.0.1",
-      "description": "Extensions for the Kotlin standard library and third-party libraries.",
+      "artifactVersion": "4.1.0",
+      "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "logging",
+      "name": "ktx-logging",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7746,12 +7746,12 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.0.1",
-      "description": "Kotlin Multiplatform wrapper of the GW2 API.",
+      "artifactVersion": "2.0.2",
+      "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "v2-emblem",
+      "name": "gw2-v2-emblem",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"

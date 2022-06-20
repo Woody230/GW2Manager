@@ -3,8 +3,8 @@ import org.gradle.api.JavaVersion
 
 object Versions {
     const val KOTLIN = "1.6.10"
-    const val WRAPPER = "2.0.1"
-    const val EXTENSION = "4.0.1"
+    const val WRAPPER = "2.0.2"
+    const val EXTENSION = "4.1.0"
 
     const val COMPOSE = "1.1.0"
     const val RESOURCE = "0.19.0"
@@ -21,8 +21,8 @@ object Versions {
 object Metadata {
     const val DEBUG = false
     const val PACKAGE_NAME = "com.bselzer.gw2.manager"
-    const val VERSION_NAME = "1.1.1"
-    const val VERSION_CODE = 6
+    const val VERSION_NAME = "1.1.2"
+    const val VERSION_CODE = 7
     const val ANDROID_JVM_TARGET = "8"
     const val DESKTOP_JVM_TARGET = "11"
     const val COMPILE_SDK = 31

@@ -1,7 +1,7 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.AppResources
-import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldData
+import com.bselzer.gw2.manager.common.repository.data.specific.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.SelectedWorldRefreshAction.Companion.refreshAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.module.WorldResources

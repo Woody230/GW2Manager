@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.repository.instance.generic
+package com.bselzer.gw2.manager.common.repository.data.generic
 
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.v2.model.enumeration.WvwMapType

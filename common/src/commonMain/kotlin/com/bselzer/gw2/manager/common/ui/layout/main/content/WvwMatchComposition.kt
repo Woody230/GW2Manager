@@ -1,6 +1,9 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -12,23 +15,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
-import com.bselzer.gw2.manager.common.ui.layout.image.Content
-import com.bselzer.gw2.manager.common.ui.layout.image.ProgressIndication
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Chart
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.ChartData
+import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchViewModel
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.ui.geometry.shape.ArcShape
 import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -36,10 +28,6 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 
 class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMatchViewModel>(model) {
-    private companion object {
-        val pieSize = DpSize(256.dp, 256.dp)
-    }
-
     @OptIn(ExperimentalPagerApi::class)
     @Composable
     override fun WvwMatchViewModel.Content() = BackgroundImage(
@@ -92,7 +80,7 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Spacer(modifier = Modifier.height(5.dp))
-                    PieChart(chart = selectedCharts.charts.toList()[index])
+                    ChartComposition(model = selectedCharts.charts.toList()[index]).Content()
                     Spacer(modifier = Modifier.height(5.dp))
                 }
             }
@@ -109,86 +97,5 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
                 }
             )
         }
-    }
-
-    /**
-     * Lays out a pie chart with the data describing it.
-     */
-    @Composable
-    private fun WvwMatchViewModel.PieChart(chart: Chart) {
-        Box {
-            AsyncImage(
-                image = chart.background,
-                size = pieSize,
-            ).Content()
-
-            chart.slices.forEach { slice ->
-                AsyncImage(
-                    image = slice.image,
-                    size = pieSize,
-                    description = slice.description,
-                    color = slice.color
-                ).Content(
-                    modifier = Modifier.clip(ArcShape(slice.startAngle, slice.endAngle)),
-                )
-            }
-
-            // Add the dividers between the slices.
-            chart.slices.map { slice -> slice.startAngle }.forEach { angle ->
-                AsyncImage(
-                    image = chart.divider,
-                    size = pieSize,
-                ).Content(
-                    progressIndication = ProgressIndication.DISABLED,
-                    modifier = Modifier.rotate(degrees = angle),
-                )
-            }
-        }
-
-        ChartDescription(chart = chart)
-    }
-
-    /**
-     * Lays out a description of the chart with its associated data.
-     */
-    @Composable
-    private fun WvwMatchViewModel.ChartDescription(chart: Chart) = BackgroundImage(
-        painter = relativeBackgroundPainter,
-        presenter = relativeBackgroundPresenter
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = chart.title.localized(),
-                fontWeight = FontWeight.Bold,
-                fontSize = 32.sp,
-                textAlign = TextAlign.Center
-            )
-
-            // Show the data representing each slice.
-            chart.data.forEach { data -> ChartData(data) }
-        }
-    }
-
-    /**
-     * Lays out the data associated with a slice.
-     */
-    @Composable
-    private fun WvwMatchViewModel.ChartData(data: ChartData) {
-        Text(
-            text = data.owner.localized(),
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-            color = data.color,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = data.data.localized(),
-            fontSize = 16.sp,
-            textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.height(3.dp))
     }
 }

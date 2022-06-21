@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.manager.common.repository.data.generic.ColorData
 import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull

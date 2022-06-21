@@ -4,8 +4,9 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.manager.common.repository.data.generic.TranslateData
+import com.bselzer.gw2.manager.common.repository.data.specific.MatchData
 import com.bselzer.gw2.manager.common.repository.instance.generic.GuildRepository
-import com.bselzer.gw2.manager.common.repository.instance.generic.TranslateData
 import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators

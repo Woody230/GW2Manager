@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.repository.instance.specialized
+package com.bselzer.gw2.manager.common.repository.data.specific
 
 import com.bselzer.gw2.v2.tile.model.response.Tile
 import com.bselzer.gw2.v2.tile.model.response.TileGrid

@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.repository.instance.specialized
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.manager.common.repository.data.specific.MapData
 import com.bselzer.gw2.manager.common.repository.instance.generic.ContinentRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.TileRepository
 import com.bselzer.gw2.v2.model.continent.Continent

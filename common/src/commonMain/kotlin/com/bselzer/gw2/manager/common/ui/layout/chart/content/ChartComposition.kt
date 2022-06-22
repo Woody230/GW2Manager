@@ -9,9 +9,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.chart.model.ChartData
 import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartViewModel
@@ -21,11 +19,26 @@ import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.gw2.manager.common.ui.layout.image.ProgressIndication
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.geometry.shape.ArcShape
+import com.bselzer.ktx.compose.ui.layout.ApplicationSize
 
 class ChartComposition(
     model: ChartViewModel,
-    private val size: DpSize = DpSize(256.dp, 256.dp)
 ) : ViewModelComposition<ChartViewModel>(model) {
+    private companion object {
+        val size: DpSize
+            @Composable
+            get() {
+                val preferred = DpSize(256.dp, 256.dp)
+                val applicationSize = ApplicationSize.current
+
+                val fillPercentage = 0.5f
+                val width = preferred.width.coerceAtMost(applicationSize.width * fillPercentage)
+                val height = preferred.height.coerceAtMost(applicationSize.height * fillPercentage)
+                val size = min(width, height)
+                return DpSize(size, size)
+            }
+    }
+
     @Composable
     override fun ChartViewModel.Content() = Column(
         horizontalAlignment = Alignment.CenterHorizontally

@@ -1,17 +1,18 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content.map
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScrollableTabRow
+import androidx.compose.material.Tab
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.DefaultAlpha
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -21,6 +22,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
+import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
+import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.gw2.manager.common.ui.layout.image.ProgressIndication
@@ -31,7 +34,6 @@ import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.resource.ui.layout.icon.expansionIconInteractor
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
-import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextInteractor
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextPresenter
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextProjector
@@ -76,9 +78,8 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
     // TODO standardize capitalization of text, particularly for anything from the api -- for example, for French fortified is not capitalized while secured/reinforced are
 
     @Composable
-    override fun ObjectiveViewModel.Content() = BackgroundImage(
+    override fun ObjectiveViewModel.Content() = AbsoluteBackgroundImage(
         modifier = Modifier.fillMaxSize(),
-        painter = absoluteBackgroundPainter
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -288,26 +289,13 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
      * Lays out a card wrapping the underlying [content].
      */
     @Composable
-    private fun InfoCard(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
-        val border = 3.dp
-        Card(
-            elevation = 10.dp,
-            shape = RectangleShape,
-            modifier = Modifier
-                .fillMaxWidth(.90f)
-                .wrapContentHeight()
-                .border(width = border, color = Color.Black)
-                .padding(all = border)
-                .then(modifier)
-        ) {
-            BackgroundImage(
-                painter = relativeBackgroundPainter,
-                presenter = relativeBackgroundPresenter,
-                contentAlignment = Alignment.Center,
-                content = content
-            )
-        }
-    }
+    private fun InfoCard(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) = BorderedCard(
+        content = content,
+        modifier = Modifier
+            .fillMaxWidth(.90f)
+            .wrapContentHeight()
+            .then(modifier)
+    )
 
     /**
      * Lays out the overview of information about the selected objective.

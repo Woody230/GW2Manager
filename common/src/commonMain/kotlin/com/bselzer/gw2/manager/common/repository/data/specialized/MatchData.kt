@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.repository.data.specific
+package com.bselzer.gw2.manager.common.repository.data.specialized
 
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade

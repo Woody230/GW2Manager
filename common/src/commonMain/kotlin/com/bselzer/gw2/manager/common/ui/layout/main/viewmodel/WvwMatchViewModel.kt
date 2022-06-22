@@ -1,6 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
-import com.bselzer.gw2.manager.common.repository.data.specific.SelectedWorldData
+import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig

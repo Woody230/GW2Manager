@@ -11,10 +11,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
+import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.content.map.viewer.PlatformGridComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 
 class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerViewModel>(model) {
     @Composable
@@ -50,10 +50,8 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
     @Composable
     private fun ViewerViewModel.SelectedObjectiveLabel(modifier: Modifier) {
         val selected = selectedObjective ?: return
-        BackgroundImage(
+        RelativeBackgroundImage(
             modifier = modifier,
-            painter = relativeBackgroundPainter,
-            presenter = relativeBackgroundPresenter
         ) {
             Column(modifier = Modifier.padding(horizontal = 5.dp)) {
                 val textSize = 16.sp

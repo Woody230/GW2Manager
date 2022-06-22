@@ -15,19 +15,21 @@ import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.chart.model.ChartData
 import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartViewModel
+import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.gw2.manager.common.ui.layout.image.ProgressIndication
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.geometry.shape.ArcShape
-import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 
 class ChartComposition(
     model: ChartViewModel,
     private val size: DpSize = DpSize(256.dp, 256.dp)
 ) : ViewModelComposition<ChartViewModel>(model) {
     @Composable
-    override fun ChartViewModel.Content() {
+    override fun ChartViewModel.Content() = Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         PieChart()
         ChartDescription()
     }
@@ -66,9 +68,8 @@ class ChartComposition(
      * Lays out a description of the chart with its associated data.
      */
     @Composable
-    private fun ChartViewModel.ChartDescription() = BackgroundImage(
-        painter = relativeBackgroundPainter,
-        presenter = relativeBackgroundPresenter
+    private fun ChartViewModel.ChartDescription() = BorderedCard(
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),

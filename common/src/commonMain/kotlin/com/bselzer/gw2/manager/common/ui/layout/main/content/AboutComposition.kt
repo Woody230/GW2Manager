@@ -6,9 +6,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.AboutViewModel
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
@@ -16,10 +16,8 @@ import com.bselzer.ktx.function.collection.buildArray
 
 class AboutComposition(model: AboutViewModel) : MainChildComposition<AboutViewModel>(model) {
     @Composable
-    override fun AboutViewModel.Content() = BackgroundImage(
+    override fun AboutViewModel.Content() = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize(),
-        painter = relativeBackgroundPainter,
-        presenter = relativeBackgroundPresenter
     ) {
         spacedColumnProjector(thickness = padding).Projection(
             modifier = Modifier

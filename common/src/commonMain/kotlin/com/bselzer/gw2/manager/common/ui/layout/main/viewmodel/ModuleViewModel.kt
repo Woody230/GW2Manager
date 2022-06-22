@@ -1,11 +1,13 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.AppResources
-import com.bselzer.gw2.manager.common.repository.data.specific.SelectedWorldData
+import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.SelectedWorldRefreshAction.Companion.refreshAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.module.WorldResources
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
+import com.bselzer.gw2.v2.model.extension.wvw.objectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
@@ -50,4 +52,17 @@ class ModuleViewModel(
         // We know that a world has been selected but it currently doesn't exist for some reason.
         else -> KtxResources.strings.unknown.desc()
     }
+
+    /**
+     * The overview for the selected world's match.
+     */
+    val overview: ChartViewModel?
+        get() = match?.objectiveOwnerCount()?.let { count ->
+            ChartViewModel(
+                context = this,
+                data = count.victoryPoints,
+                title = Gw2Resources.strings.victory_points.desc()
+            )
+        }
+
 }

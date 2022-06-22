@@ -2,16 +2,8 @@ package com.bselzer.gw2.manager.common.ui.base
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.bselzer.gw2.manager.common.AppResources
-import com.bselzer.gw2.manager.common.dependency.LocalTheme
-import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.ui.layout.background.image.backgroundImagePresenter
-import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 
 abstract class ViewModelComposition<Model : ViewModel>(protected val model: Model) {
     /**
@@ -28,30 +20,4 @@ abstract class ViewModelComposition<Model : ViewModel>(protected val model: Mode
 
     protected val padding: Dp = 25.dp
     protected val paddingValues: PaddingValues = PaddingValues(all = padding)
-
-    /**
-     * The painter for an image that will typically have text on it.
-     */
-    protected val relativeBackgroundPainter: Painter
-        @Composable
-        get() = if (LocalTheme.current == Theme.DARK) {
-            AppResources.images.bloodstone_night_no_fire.painter()
-        } else {
-            AppResources.images.ice.painter()
-        }
-
-    /**
-     * The painter for an image that will typically NOT have text on it.
-     */
-    protected val absoluteBackgroundPainter: Painter
-        @Composable
-        get() = AppResources.images.two_sylvari.painter()
-
-    protected val relativeBackgroundPresenter
-        @Composable
-        get() = backgroundImagePresenter() merge ImagePresenter(alignment = Alignment.Center)
-
-    protected val absoluteBackgroundPresenter
-        @Composable
-        get() = backgroundImagePresenter()
 }

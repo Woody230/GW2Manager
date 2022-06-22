@@ -6,9 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
-import com.bselzer.gw2.manager.common.repository.data.specific.MapData
-import com.bselzer.gw2.manager.common.repository.data.specific.MatchData
-import com.bselzer.gw2.manager.common.repository.data.specific.SelectedWorldData
+import com.bselzer.gw2.manager.common.repository.data.specialized.MapData
+import com.bselzer.gw2.manager.common.repository.data.specialized.MatchData
+import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.model.continent.Continent

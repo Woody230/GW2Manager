@@ -9,11 +9,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
+import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
+import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalSplashRouter
 import com.bselzer.gw2.manager.common.ui.layout.splash.configuration.SplashConfig
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationViewModel
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
@@ -37,11 +38,9 @@ class InitializationComposition(model: InitializationViewModel) : ViewModelCompo
     }
 
     @Composable
-    private fun InitializationViewModel.Container() = BackgroundImage(
+    private fun InitializationViewModel.Container() = AbsoluteBackgroundImage(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
-        painter = absoluteBackgroundPainter,
-        presenter = absoluteBackgroundPresenter
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -53,11 +52,9 @@ class InitializationComposition(model: InitializationViewModel) : ViewModelCompo
 
     @Composable
     private fun InitializationViewModel.Progress() {
-        BackgroundImage(
+        RelativeBackgroundImage(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center,
-            painter = relativeBackgroundPainter,
-            presenter = relativeBackgroundPresenter
         ) {
             DescriptionProjector(
                 interactor = DescriptionInteractor(

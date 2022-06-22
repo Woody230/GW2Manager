@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.buildAnnotatedString
+import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.ColorLogic
 import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.ColorResources
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
@@ -29,7 +30,6 @@ import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
 import com.bselzer.ktx.compose.ui.layout.alertdialog.rememberDialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
-import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.picker.IntegerPickerInteractor
 import com.bselzer.ktx.compose.ui.layout.picker.PickerProjector
@@ -57,10 +57,8 @@ import kotlin.time.DurationUnit
 
 class SettingsComposition(model: SettingsViewModel) : MainChildComposition<SettingsViewModel>(model) {
     @Composable
-    override fun SettingsViewModel.Content() = BackgroundImage(
+    override fun SettingsViewModel.Content() = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize(),
-        painter = relativeBackgroundPainter,
-        presenter = relativeBackgroundPresenter
     ) {
         Preferences()
     }

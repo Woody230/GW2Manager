@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
+import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchViewModel
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -30,10 +30,8 @@ import com.google.accompanist.pager.rememberPagerState
 class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMatchViewModel>(model) {
     @OptIn(ExperimentalPagerApi::class)
     @Composable
-    override fun WvwMatchViewModel.Content() = BackgroundImage(
+    override fun WvwMatchViewModel.Content() = AbsoluteBackgroundImage(
         modifier = Modifier.fillMaxSize(),
-        painter = absoluteBackgroundPainter,
-        presenter = absoluteBackgroundPresenter
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (tabs, pager, indicators) = createRefs()

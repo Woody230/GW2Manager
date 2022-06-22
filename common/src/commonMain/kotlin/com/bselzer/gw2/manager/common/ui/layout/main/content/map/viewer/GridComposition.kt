@@ -25,6 +25,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
+import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.gw2.manager.common.ui.layout.image.ProgressIndication
@@ -35,7 +36,6 @@ import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewMod
 import com.bselzer.gw2.v2.tile.model.response.Tile
 import com.bselzer.ktx.compose.image.ui.layout.asImageBitmap
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.datetime.format.minuteFormat
 import kotlin.time.Duration
@@ -246,19 +246,16 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
      * Lays out the label for displaying the map owner or name.
      */
     @Composable
-    protected fun MapLabel.Label(modifier: Modifier) {
-        BackgroundImage(
-            modifier = modifier,
-            painter = relativeBackgroundPainter,
-            presenter = relativeBackgroundPresenter.copy(alignment = Alignment.TopCenter)
-        ) {
-            Text(
-                // Only span the size of the map at most.
-                modifier = Modifier.widthIn(max = width.toDp()),
-                text = description.localized(),
-                fontWeight = FontWeight.ExtraBold,
-                color = color,
-            )
-        }
+    protected fun MapLabel.Label(modifier: Modifier) = RelativeBackgroundImage(
+        modifier = modifier,
+        contentAlignment = Alignment.TopCenter,
+    ) {
+        Text(
+            // Only span the size of the map at most.
+            modifier = Modifier.widthIn(max = width.toDp()),
+            text = description.localized(),
+            fontWeight = FontWeight.ExtraBold,
+            color = color,
+        )
     }
 }

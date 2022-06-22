@@ -58,6 +58,7 @@ class WvwMatchViewModel(
 
             charts.map { entry ->
                 Charts(
+                    // TODO use linked worlds instead for title? or just main world?
                     // Use the map type as the title, otherwise default to the match overview for the null type that was added.
                     title = entry.key?.stringDesc() ?: KtxResources.strings.overview.desc(),
                     color = entry.key?.owner().color(),

@@ -19,7 +19,7 @@ import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 private val relativeBackgroundPainter: Painter
     @Composable
     get() = if (LocalTheme.current == Theme.DARK) {
-        AppResources.images.bloodstone_night_no_fire.painter()
+        AppResources.images.bloodstone_night.painter()
     } else {
         AppResources.images.ice.painter()
     }

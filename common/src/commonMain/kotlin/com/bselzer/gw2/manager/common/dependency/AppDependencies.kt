@@ -207,6 +207,7 @@ abstract class SingletonAppDependencies(
         continent: ContinentRepository,
         guild: GuildRepository,
         image: ImageRepository,
+        owner: OwnerRepository,
         tile: TileRepository,
         translation: TranslationRepository,
         world: WorldRepository,
@@ -216,6 +217,7 @@ abstract class SingletonAppDependencies(
         override val continent: ContinentRepository = continent
         override val guild: GuildRepository = guild
         override val image: ImageRepository = image
+        override val owner: OwnerRepository = owner
         override val tile: TileRepository = tile
         override val translation: TranslationRepository = translation
         override val world: WorldRepository = world

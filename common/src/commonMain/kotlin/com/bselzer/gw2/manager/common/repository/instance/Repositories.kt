@@ -8,6 +8,7 @@ interface Repositories {
     val continent: ContinentRepository
     val guild: GuildRepository
     val image: ImageRepository
+    val owner: OwnerRepository
     val tile: TileRepository
     val translation: TranslationRepository
     val world: WorldRepository

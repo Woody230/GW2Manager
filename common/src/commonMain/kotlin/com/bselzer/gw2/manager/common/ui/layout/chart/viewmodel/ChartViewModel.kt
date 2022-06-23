@@ -56,12 +56,11 @@ class ChartViewModel(
 
     private val ownerSlices: Collection<ChartSlice>
         get() {
-            // Using float for total to avoid int division.
             val total = data.total().toFloat()
             var startAngle = 0f
             return owners.map { owner ->
                 val amount = data?.get(owner) ?: 0
-                val angle = if (total <= 0) 120f else amount / total * 360f
+                val angle = if (total <= 0) 360f / owners.size else amount / total * 360f
 
                 val hasConfiguredColor = owner.hasConfiguredColor()
                 ChartSlice(
@@ -90,9 +89,4 @@ class ChartViewModel(
         WvwObjectiveOwner.GREEN -> configuration.wvw.chart.greenLink
         WvwObjectiveOwner.NEUTRAL -> configuration.wvw.chart.neutralLink
     }
-
-    /**
-     * Gets the sum of all the values in the map whose owner exists in the collection of [owners] to create a chart for.
-     */
-    private fun Map<out WvwObjectiveOwner?, Int>?.total() = this?.filterKeys { owner -> owners.contains(owner) }?.values?.sum() ?: 0
 }

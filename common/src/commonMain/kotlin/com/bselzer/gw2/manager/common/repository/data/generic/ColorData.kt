@@ -1,21 +1,10 @@
 package com.bselzer.gw2.manager.common.repository.data.generic
 
 import androidx.compose.ui.graphics.Color
-import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
 
 interface ColorData {
-    /**
-     * The supported map types.
-     */
-    val mapTypes: List<WvwMapType>
-
-    /**
-     * The supported objective owners.
-     */
-    val owners: List<WvwObjectiveOwner>
-
     val defaultColor: Color
 
     /**

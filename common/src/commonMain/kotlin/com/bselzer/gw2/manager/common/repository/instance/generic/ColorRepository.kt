@@ -5,7 +5,6 @@ import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.ColorData
-import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
 import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
@@ -22,19 +21,6 @@ import me.tatarka.inject.annotations.Inject
 class ColorRepository(
     dependencies: RepositoryDependencies
 ) : RepositoryDependencies by dependencies, ColorData {
-    override val mapTypes = listOf(
-        WvwMapType.ETERNAL_BATTLEGROUNDS,
-        WvwMapType.BLUE_BORDERLANDS,
-        WvwMapType.GREEN_BORDERLANDS,
-        WvwMapType.RED_BORDERLANDS
-    )
-
-    override val owners: List<WvwObjectiveOwner> = listOf(
-        WvwObjectiveOwner.BLUE,
-        WvwObjectiveOwner.GREEN,
-        WvwObjectiveOwner.RED
-    )
-
     private val lock = Mutex()
 
     override val defaultColor: Color

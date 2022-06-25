@@ -135,7 +135,7 @@ class WvwMatchViewModel(
      */
     private fun ObjectiveOwnerCount?.scoreProgression() = progression(
         data = this?.scores,
-        title = Gw2Resources.strings.total_score.desc(),
+        title = Gw2Resources.strings.war_score.desc(),
         icon = Gw2Resources.images.war_score.asImageDesc()
     )
 
@@ -144,7 +144,7 @@ class WvwMatchViewModel(
      */
     private fun ObjectiveOwnerCount?.killProgression() = progression(
         data = this?.kills,
-        title = Gw2Resources.strings.total_kills.desc(),
+        title = Gw2Resources.strings.kills.desc(),
         icon = Gw2Resources.images.enemy_dead.asImageDesc()
     )
 
@@ -153,7 +153,7 @@ class WvwMatchViewModel(
      */
     private fun ObjectiveOwnerCount?.deathProgression() = progression(
         data = this?.deaths,
-        title = Gw2Resources.strings.total_deaths.desc(),
+        title = Gw2Resources.strings.deaths.desc(),
         icon = Gw2Resources.images.ally_dead.asImageDesc()
     )
 

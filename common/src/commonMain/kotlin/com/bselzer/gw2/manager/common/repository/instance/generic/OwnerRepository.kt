@@ -4,6 +4,7 @@ import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.OwnerData
 import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
+import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import me.tatarka.inject.annotations.Inject
 
 @Singleton
@@ -16,10 +17,17 @@ class OwnerRepository : OwnerData {
         WvwMapType.RED_BORDERLANDS
     )
 
-    override val owners: List<WvwObjectiveOwner> = listOf(
+    override val owners = listOf(
         WvwObjectiveOwner.BLUE,
         WvwObjectiveOwner.GREEN,
         WvwObjectiveOwner.RED
+    )
+
+    override val objectiveTypes = listOf(
+        WvwObjectiveType.CAMP,
+        WvwObjectiveType.TOWER,
+        WvwObjectiveType.KEEP,
+        WvwObjectiveType.CASTLE
     )
 
     /**

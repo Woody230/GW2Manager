@@ -11,13 +11,15 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progress
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progression
 import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
+import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
-import com.bselzer.gw2.v2.model.extension.wvw.ObjectiveOwnerCount
-import com.bselzer.gw2.v2.model.extension.wvw.WvwMatchObjectiveOwnerCount
+import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
+import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
+import com.bselzer.ktx.function.collection.addTo
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -74,8 +76,15 @@ class WvwMatchViewModel(
     private val overviewProgressions: List<Progression>
         get() {
             val count = match?.objectiveOwnerCount() ?: return emptyList()
-            return with(count) {
-                listOf(vpProgression(), pptProgression(), scoreProgression(), killProgression(), deathProgression())
+            return buildList {
+                with(count) {
+                    add(vpProgression())
+                    add(pptProgression())
+                    add(scoreProgression())
+                    add(killProgression())
+                    add(deathProgression())
+                    addAll(contestedAreaProgressions())
+                }
             }
         }
 
@@ -87,7 +96,13 @@ class WvwMatchViewModel(
             val maps = match?.maps ?: emptyList()
             maps.associateBy { map -> map.type.enumValueOrNull() }.mapValues { (type, map) ->
                 with(map.objectiveOwnerCount()) {
-                    listOf(pptProgression(), scoreProgression(), killProgression(), deathProgression())
+                    buildList {
+                        add(pptProgression())
+                        add(scoreProgression())
+                        add(killProgression())
+                        add(deathProgression())
+                        addAll(contestedAreaProgressions())
+                    }
                 }
             }
         }
@@ -116,6 +131,33 @@ class WvwMatchViewModel(
      * The progression for the total number of deaths given the entire match.
      */
     private fun ObjectiveOwnerCount?.deathProgression() = progression(this?.deaths, Gw2Resources.strings.total_deaths.desc())
+
+    /**
+     * The progressions for the count of each of the [objectiveTypes].
+     */
+    private fun ObjectiveOwnerCount?.contestedAreaProgressions(): List<Progression> = buildList {
+        val areas = this@contestedAreaProgressions?.contestedAreas?.byType ?: return@buildList
+        areas.filter(objectiveTypes, owners).forEach { counts ->
+            val total = counts.sumOf { count -> count.objectives }.toFloat()
+            val type = counts.firstOrNull()?.type ?: WvwObjectiveType.GENERIC
+            Progression(
+                title = type.stringDesc(),
+                progress = counts.map { count ->
+                    val amount = count.objectives
+                    val owner = count.owner
+                    Progress(
+                        color = owner.color(),
+                        amount = amount,
+                        owner = owner.stringDesc(),
+                        percentage = when {
+                            total <= 0 -> 1f / counts.size
+                            else -> amount / total
+                        }
+                    )
+                }
+            ).addTo(this)
+        }
+    }
 
     private fun progression(data: Map<out WvwObjectiveOwner?, Int>?, title: StringDesc): Progression {
         val total = data.total().toFloat()

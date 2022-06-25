@@ -11,7 +11,6 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progress
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progression
 import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
-import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
@@ -139,9 +138,15 @@ class WvwMatchViewModel(
         val areas = this@contestedAreaProgressions?.contestedAreas?.byType ?: return@buildList
         areas.filter(objectiveTypes, owners).forEach { counts ->
             val total = counts.sumOf { count -> count.objectives }.toFloat()
-            val type = counts.firstOrNull()?.type ?: WvwObjectiveType.GENERIC
+
+            // Stonemist Castle only exists in Eternal Battlegrounds so it shouldn't be displayed in the other borderlands.
+            // Also, if we are pending objectives then don't bother showing the progression until we have at least 1 to showcase.
+            if (total <= 0) {
+                return@forEach
+            }
+
             Progression(
-                title = type.stringDesc(),
+                title = counts.type.stringDesc(),
                 progress = counts.map { count ->
                     val amount = count.objectives
                     val owner = count.owner

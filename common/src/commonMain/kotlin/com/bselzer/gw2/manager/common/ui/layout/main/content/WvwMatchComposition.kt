@@ -13,8 +13,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
+import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
+import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.DataSet
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progress
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progression
@@ -22,6 +25,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchViewModel
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
+import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 import com.bselzer.ktx.function.collection.buildArray
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -107,16 +111,32 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
             content = buildArray {
                 progressions.forEach { progression ->
                     add {
-                        Text(
-                            text = progression.title.localized(),
-                            fontWeight = FontWeight.Bold,
-                            style = MaterialTheme.typography.h6,
-                        )
-
+                        progression.Header()
                         progression.Progress()
                     }
                 }
             }
+        )
+    }
+
+    /**
+     * Lays out the header icon and title indicating the type of progress.
+     */
+    @Composable
+    private fun Progression.Header() = Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AsyncImage(
+            image = icon,
+            size = DpSize(25.dp, 25.dp)
+        ).Content()
+
+        Spacer(width = 5.dp)
+
+        Text(
+            text = title.localized(),
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.h6,
         )
     }
 
@@ -128,7 +148,7 @@ class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMa
         modifier = Modifier.fillMaxWidth()
     ) {
         progress.forEach { progress ->
-            val percentage = progress.percentage.coerceAtLeast(0.1f)
+            val percentage = progress.percentage.coerceAtLeast(0.05f)
             progress.Progress(
                 modifier = Modifier.weight(percentage)
             )

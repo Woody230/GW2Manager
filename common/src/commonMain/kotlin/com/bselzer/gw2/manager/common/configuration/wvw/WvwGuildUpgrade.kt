@@ -25,6 +25,6 @@ class WvwGuildUpgrade(
      */
     @Transient
     val objectiveTypes: Collection<WvwObjectiveType> = with(JsonContext) {
-        availability.split(',').mapNotNull { type -> type.enumValueOrNull<WvwObjectiveType>() }
+        availability.split(',').mapNotNull { type -> type.decodeOrNull<WvwObjectiveType>() }
     }
 }

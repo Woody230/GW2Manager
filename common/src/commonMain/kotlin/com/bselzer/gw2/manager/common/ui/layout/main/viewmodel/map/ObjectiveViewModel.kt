@@ -9,7 +9,7 @@ import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfi
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective.*
 import com.bselzer.gw2.v2.emblem.request.EmblemRequestOptions
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
-import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
+import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.*
 import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.GuildId
@@ -83,19 +83,19 @@ class ObjectiveViewModel(
     val overview: Overview?
         get() = objective?.let { objective ->
             val name = objective.name.translated()
-            val type = objective.type.enumValueOrNull() ?: WvwObjectiveType.GENERIC
+            val type = objective.type.decodeOrNull() ?: WvwObjectiveType.GENERIC
             Overview(
                 name = AppResources.strings.overview_name.format(name, type.stringDesc()),
                 flipped = fromMatch?.lastFlippedAt?.let { lastFlippedAt ->
                     configuration.wvw.flippedAt(lastFlippedAt)
                 },
-                map = objective.mapType.enumValueOrNull()?.let { mapType ->
+                map = objective.mapType.decodeOrNull()?.let { mapType ->
                     MapInfo(
                         name = mapType.stringDesc(),
                         color = mapType.owner().color()
                     )
                 },
-                owner = fromMatch?.owner?.enumValueOrNull()?.let { owner ->
+                owner = fromMatch?.owner?.decodeOrNull()?.let { owner ->
                     Owner(
                         name = repositories.selectedWorld.displayableLinkedWorlds(owner),
                         color = owner.color()
@@ -238,7 +238,7 @@ class ObjectiveViewModel(
                     },
                 ),
 
-                upgrades = tier.upgrades.filter { upgrade -> upgrade.objectiveTypes.contains(objective.type.enumValueOrNull()) }.mapNotNull { upgrade ->
+                upgrades = tier.upgrades.filter { upgrade -> upgrade.objectiveTypes.contains(objective.type.decodeOrNull()) }.mapNotNull { upgrade ->
                     val guildUpgradeId = GuildUpgradeId(upgrade.id)
                     val guildUpgrade = guildUpgrades[guildUpgradeId]
                     if (guildUpgrade == null) {

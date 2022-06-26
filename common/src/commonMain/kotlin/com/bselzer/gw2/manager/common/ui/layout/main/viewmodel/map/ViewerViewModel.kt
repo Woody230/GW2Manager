@@ -15,7 +15,7 @@ import com.bselzer.gw2.v2.model.enumeration.WvwMapBonusType
 import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
-import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
+import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.*
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.resource.Gw2Resources
@@ -108,7 +108,7 @@ class ViewerViewModel(
 
     val mapLabels: Collection<MapLabel>
         get() = matchMaps.map { (wvwMap, map) ->
-            val type = wvwMap.type.enumValueOrNull()
+            val type = wvwMap.type.decodeOrNull()
             val owner = type?.owner() ?: WvwObjectiveOwner.NEUTRAL
             val topLeft = grid.bounded(map.continentRectangle.topLeft)
             val topRight = grid.bounded(map.continentRectangle.topRight)
@@ -131,11 +131,11 @@ class ViewerViewModel(
         get() {
             val match = match ?: return emptyList()
             val borderlands = match.maps.filter { map ->
-                map.type.enumValueOrNull().isOneOf(WvwMapType.BLUE_BORDERLANDS, WvwMapType.RED_BORDERLANDS, WvwMapType.GREEN_BORDERLANDS)
+                map.type.decodeOrNull().isOneOf(WvwMapType.BLUE_BORDERLANDS, WvwMapType.RED_BORDERLANDS, WvwMapType.GREEN_BORDERLANDS)
             }
 
             return borderlands.mapNotNull { borderland ->
-                val matchRuins = borderland.objectives.filter { objective -> objective.type.enumValueOrNull() == WvwObjectiveType.RUINS }
+                val matchRuins = borderland.objectives.filter { objective -> objective.type.decodeOrNull() == WvwObjectiveType.RUINS }
                 if (matchRuins.isEmpty()) {
                     Logger.w { "There are no ruins on map ${borderland.id}." }
                     return@mapNotNull null
@@ -152,8 +152,8 @@ class ViewerViewModel(
                 val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / objectiveRuins.size
                 val position = TexturePosition(x, y)
 
-                val bonus = borderland.bonuses.firstOrNull { bonus -> bonus.type.enumValueOrNull() == WvwMapBonusType.BLOODLUST }
-                val owner = bonus?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
+                val bonus = borderland.bonuses.firstOrNull { bonus -> bonus.type.decodeOrNull() == WvwMapBonusType.BLOODLUST }
+                val owner = bonus?.owner?.decodeOrNull() ?: WvwObjectiveOwner.NEUTRAL
                 Bloodlust(
                     link = configuration.wvw.bloodlust.iconLink.asImageUrl(),
                     color = owner.color(),
@@ -236,8 +236,8 @@ class ViewerViewModel(
         get() = run {
             val objective = selected.value ?: return@run null
             val fromMatch = match.objective(objective)
-            val owner = fromMatch?.owner?.enumValueOrNull() ?: WvwObjectiveOwner.NEUTRAL
-            val type = objective.type.enumValueOrNull() ?: WvwObjectiveType.GENERIC
+            val owner = fromMatch?.owner?.decodeOrNull() ?: WvwObjectiveOwner.NEUTRAL
+            val type = objective.type.decodeOrNull() ?: WvwObjectiveType.GENERIC
             val name = objective.name.translated()
             SelectedObjective(
                 title = AppResources.strings.selected_objective.format(name.desc(), owner.stringDesc(), type.stringDesc()),

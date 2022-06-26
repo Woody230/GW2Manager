@@ -1,7 +1,7 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
 import com.bselzer.gw2.manager.common.AppResources
-import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
+import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.ktx.datetime.format.FormatStyle
 import com.bselzer.ktx.datetime.format.FormatStyleDateTimeFormatter
@@ -28,13 +28,16 @@ class Wvw(
     val chart: WvwChart = WvwChart(),
 
     @XmlSerialName(value = "ContestedAreas", namespace = "", prefix = "")
-    val contestedAreas: WvwContestedAreas = WvwContestedAreas()
+    val contestedAreas: WvwContestedAreas = WvwContestedAreas(),
+
+    @XmlSerialName(value = "Supported", namespace = "", prefix = "")
+    val supported: WvwSupported = WvwSupported()
 ) {
     /**
      * @return the objective from the configuration associated with the endpoint objective
      */
     fun objective(objective: WvwObjective?) = objective?.let {
-        objectives.objectives.firstOrNull { it.type == objective.type.enumValueOrNull() }
+        objectives.objectives.firstOrNull { it.type == objective.type.decodeOrNull() }
     }
 
     @Transient

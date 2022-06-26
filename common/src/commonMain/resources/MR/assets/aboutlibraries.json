@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2022-06-26T11:40:49.569Z"
+    "generated": "2022-06-26T18:15:57.272Z"
   },
   "libraries": [
     {
@@ -658,7 +658,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -677,7 +677,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -696,7 +696,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -715,7 +715,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -734,7 +734,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -753,7 +753,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -772,7 +772,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Internationalization through locale support.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -851,7 +851,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.serialization extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -912,7 +912,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -931,7 +931,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Value class extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -950,7 +950,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1229,7 +1229,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Kodein-DB caching framework extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1328,7 +1328,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Jetbrains Compose extensions for AboutLibraries.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1347,7 +1347,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1366,7 +1366,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1388,7 +1388,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1567,7 +1567,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1586,7 +1586,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1734,7 +1734,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Jetbrains Compose image fetching and displaying.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1753,7 +1753,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "multiplatform-settings extensions for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1772,7 +1772,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.serialization extension for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -1791,7 +1791,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -2564,6 +2564,51 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:compose-accompanist-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Google"
+        },
+        {
+          "name": "Chris Banes"
+        },
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-accompanist",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.ui:ui-tooling-preview",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Tooling API",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.arkivanov.decompose:decompose-android-debug",
       "funding": [],
       "developers": [
@@ -2711,31 +2756,6 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:compose-accompanist-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Google"
-        },
-        {
-          "name": "Chris Banes"
-        },
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.1.0",
-      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-compose-accompanist",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "io.github.woody230.ktx:coroutine-android-debug",
       "funding": [],
       "developers": [
@@ -2743,7 +2763,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -2762,7 +2782,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -2781,7 +2801,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -2800,7 +2820,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -2819,7 +2839,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -2838,7 +2858,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -2857,7 +2877,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework extensions for v2-tile.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -2876,7 +2896,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -2895,7 +2915,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -2914,7 +2934,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -2983,26 +3003,6 @@
       "website": "http://kodein.org",
       "licenses": [
         "MIT"
-      ]
-    },
-    {
-      "uniqueId": "androidx.compose.ui:ui-tooling-preview",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Tooling API",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.1.0",
-      "licenses": [
-        "Apache-2.0"
       ]
     },
     {
@@ -3375,7 +3375,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3394,7 +3394,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3413,7 +3413,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3432,7 +3432,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3451,7 +3451,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3470,7 +3470,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3489,7 +3489,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Internationalization through locale support.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3508,7 +3508,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.serialization extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3527,7 +3527,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3546,7 +3546,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Value class extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3565,7 +3565,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3584,7 +3584,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Kodein-DB caching framework extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3603,7 +3603,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Jetbrains Compose extensions for AboutLibraries.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3622,7 +3622,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3641,7 +3641,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3663,7 +3663,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3682,7 +3682,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3701,7 +3701,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3849,7 +3849,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Jetbrains Compose image fetching and displaying.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3868,7 +3868,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "multiplatform-settings extensions for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3887,7 +3887,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.serialization extension for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3906,7 +3906,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -3970,6 +3970,31 @@
       },
       "name": "Multiplatform Settings",
       "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-accompanist-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Google"
+        },
+        {
+          "name": "Chris Banes"
+        },
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-accompanist",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -4122,31 +4147,6 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:compose-accompanist-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Google"
-        },
-        {
-          "name": "Chris Banes"
-        },
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "4.1.0",
-      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-compose-accompanist",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "io.github.woody230.ktx:coroutine-android",
       "funding": [],
       "developers": [
@@ -4154,7 +4154,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4173,7 +4173,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4192,7 +4192,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4211,7 +4211,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4230,7 +4230,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4249,7 +4249,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4268,7 +4268,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework extensions for v2-tile.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4287,7 +4287,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4306,7 +4306,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4325,7 +4325,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4431,7 +4431,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4800,7 +4800,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Jetbrains Compose extensions for AboutLibraries.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4819,7 +4819,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4838,7 +4838,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4860,7 +4860,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4901,7 +4901,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4920,7 +4920,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Internationalization through locale support.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5091,7 +5091,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5110,7 +5110,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5150,7 +5150,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Jetbrains Compose image fetching and displaying.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5169,7 +5169,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Kodein-DB caching framework extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5188,7 +5188,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Value class extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5207,7 +5207,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "multiplatform-settings extensions for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5226,7 +5226,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.serialization extension for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5245,7 +5245,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5449,7 +5449,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5468,7 +5468,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5487,7 +5487,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5506,7 +5506,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5525,7 +5525,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5544,7 +5544,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5563,7 +5563,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.serialization extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5624,7 +5624,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5643,7 +5643,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5662,7 +5662,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5681,7 +5681,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5700,7 +5700,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5719,7 +5719,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5738,7 +5738,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5757,7 +5757,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework extensions for v2-tile.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5776,7 +5776,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -5795,7 +5795,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5814,7 +5814,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -6047,7 +6047,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6394,7 +6394,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Jetbrains Compose extensions for AboutLibraries.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6413,7 +6413,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6432,7 +6432,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6454,7 +6454,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6515,7 +6515,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6534,7 +6534,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Internationalization through locale support.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6593,7 +6593,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6612,7 +6612,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6760,7 +6760,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Jetbrains Compose image fetching and displaying.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6939,7 +6939,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Kodein-DB caching framework extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7038,7 +7038,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Value class extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7057,7 +7057,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "multiplatform-settings extensions for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7076,7 +7076,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.serialization extension for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7095,7 +7095,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7321,7 +7321,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7340,7 +7340,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7359,7 +7359,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7378,7 +7378,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7397,7 +7397,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7416,7 +7416,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7435,7 +7435,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "kotlinx.serialization extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7496,7 +7496,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7515,7 +7515,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7594,7 +7594,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7613,7 +7613,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7632,7 +7632,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7651,7 +7651,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7670,7 +7670,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7689,7 +7689,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Kodein-DB caching framework extensions for v2-tile.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7708,7 +7708,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -7727,7 +7727,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "4.1.0",
+      "artifactVersion": "5.0.0",
       "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7746,7 +7746,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "2.1.0",
+      "artifactVersion": "3.0.0",
       "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"

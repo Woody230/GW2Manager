@@ -11,7 +11,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progress
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progression
 import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
-import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
+import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveOwnerCount
@@ -96,7 +96,7 @@ class WvwMatchViewModel(
     private val borderlandProgressions: Map<WvwMapType?, List<Progression>>
         get() = run {
             val maps = match?.maps ?: emptyList()
-            maps.associateBy { map -> map.type.enumValueOrNull() }.mapValues { (type, map) ->
+            maps.associateBy { map -> map.type.decodeOrNull() }.mapValues { (type, map) ->
                 with(map.objectiveOwnerCount()) {
                     buildList {
                         add(pptProgression())

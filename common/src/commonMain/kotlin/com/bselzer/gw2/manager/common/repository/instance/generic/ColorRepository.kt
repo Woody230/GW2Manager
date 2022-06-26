@@ -6,7 +6,7 @@ import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.ColorData
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
-import com.bselzer.gw2.v2.model.enumeration.extension.enumValueOrNull
+import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
 import com.bselzer.ktx.compose.ui.graphics.color.color
@@ -30,7 +30,7 @@ class ColorRepository(
     val colors: Map<WvwObjectiveOwner, Color> = _colors
 
     override fun WvwMapObjective?.color(): Color {
-        val owner = this?.owner?.enumValueOrNull()
+        val owner = this?.owner?.decodeOrNull()
         return owner.color()
     }
 

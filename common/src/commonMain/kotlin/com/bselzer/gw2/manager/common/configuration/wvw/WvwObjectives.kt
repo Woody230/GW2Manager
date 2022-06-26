@@ -1,6 +1,8 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
+import com.bselzer.ktx.compose.ui.graphics.color.Hex
+import com.bselzer.ktx.compose.ui.graphics.color.color
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
@@ -11,10 +13,10 @@ class WvwObjectives(
      */
     @XmlSerialName(value = "Color", namespace = "", prefix = "")
     val colors: List<WvwColor> = listOf(
-        WvwColor(owner = WvwObjectiveOwner.NEUTRAL, type = "#888888"),
-        WvwColor(owner = WvwObjectiveOwner.RED, type = "#ff0000"),
-        WvwColor(owner = WvwObjectiveOwner.GREEN, type = "#00ff00"),
-        WvwColor(owner = WvwObjectiveOwner.BLUE, type = "#0000ff")
+        WvwColor(owner = WvwObjectiveOwner.NEUTRAL, type = Hex("#888888").color()),
+        WvwColor(owner = WvwObjectiveOwner.RED, type = Hex("#ff0000").color()),
+        WvwColor(owner = WvwObjectiveOwner.GREEN, type = Hex("#00ff00").color()),
+        WvwColor(owner = WvwObjectiveOwner.BLUE, type = Hex("#0000ff").color())
     ),
 
     /**
@@ -46,14 +48,4 @@ class WvwObjectives(
      */
     @XmlSerialName(value = "Claim", namespace = "", prefix = "")
     val claim: WvwGuildClaim = WvwGuildClaim(),
-) {
-    /**
-     * @return the color associated with the [owner], or the [default] if it does not exist
-     */
-    fun hex(owner: WvwObjectiveOwner, default: String): String = hex(owner) ?: default
-
-    /**
-     * @return the color associated with the [owner], or null if it does not exist
-     */
-    fun hex(owner: WvwObjectiveOwner): String? = colors.firstOrNull { color -> color.owner == owner }?.type
-}
+)

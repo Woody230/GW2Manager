@@ -24,8 +24,6 @@ import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
 import com.bselzer.gw2.v2.tile.model.position.TexturePosition
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
-import com.bselzer.ktx.compose.ui.graphics.color.Hex
-import com.bselzer.ktx.compose.ui.graphics.color.color
 import com.bselzer.ktx.function.objects.isOneOf
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
@@ -181,9 +179,9 @@ class ViewerViewModel(
                 val progression = level?.let { configuration.wvw.objectives.progressions.getOrNull(level) }
 
                 // See if any of the progressed tiers has a permanent waypoint upgrade, or the tactic for the temporary waypoint.
-                val hasWaypointUpgrade = tiers.any { tier -> configuration.wvw.objectives.waypoint.upgradeNameRegex.matches(tier.name) }
+                val hasWaypointUpgrade = tiers.any { tier -> configuration.wvw.objectives.waypoint.upgradeName.matches(tier.name) }
                 val hasWaypointTactic = fromMatch.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }
-                    .any { tactic -> configuration.wvw.objectives.waypoint.guild.upgradeNameRegex.matches(tactic.name) }
+                    .any { tactic -> configuration.wvw.objectives.waypoint.guild.upgradeName.matches(tactic.name) }
 
                 ObjectiveIcon(
                     objective = objective,
@@ -214,7 +212,10 @@ class ViewerViewModel(
                             hasWaypointTactic -> AppResources.strings.temporary_waypoint.desc()
                             else -> null
                         },
-                        color = if (hasWaypointTactic && !hasWaypointUpgrade) Hex(configuration.wvw.objectives.waypoint.guild.color).color() else null
+                        color = when {
+                            hasWaypointTactic && !hasWaypointUpgrade -> configuration.wvw.objectives.waypoint.guild.color
+                            else -> null
+                        }
                     ),
                     immunity = ObjectiveImmunity(
                         duration = fromConfig?.immunity,

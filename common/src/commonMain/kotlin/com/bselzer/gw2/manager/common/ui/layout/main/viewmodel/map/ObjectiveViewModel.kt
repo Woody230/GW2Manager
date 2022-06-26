@@ -204,7 +204,6 @@ class ObjectiveViewModel(
         val objective = objective ?: return emptyList()
         return map { tier ->
             val startTime = fromMatch?.claimedAt
-            val holdingPeriod = tier.holdingPeriod
             val initialAlpha = configuration.alpha(condition = startTime != null)
             val alpha = MutableStateFlow(initialAlpha)
 
@@ -213,7 +212,7 @@ class ObjectiveViewModel(
                 startTime = startTime ?: Instant.DISTANT_PAST,
 
                 // If there is no start time then there must be no claim so the tier will be locked indefinitely.
-                duration = if (startTime == null) Duration.INFINITE else holdingPeriod
+                duration = if (startTime == null) Duration.INFINITE else tier.hold
             ).onStart {
                 alpha.value = initialAlpha
             }.onCompletion {
@@ -232,7 +231,7 @@ class ObjectiveViewModel(
                             // Note that the holding period starts from the claim time, NOT from the capture time.
                             // If there is remaining time then display it, otherwise display the amount of time that was needed for this tier to unlock.
                             val holdFor = AppResources.strings.hold_for.format(remaining.minuteFormat())
-                            val heldFor = AppResources.strings.held_for.format(tier.holdingPeriod.minuteFormat())
+                            val heldFor = AppResources.strings.held_for.format(tier.hold.minuteFormat())
                             if (remaining.isPositive()) holdFor else heldFor
                         }
                     },

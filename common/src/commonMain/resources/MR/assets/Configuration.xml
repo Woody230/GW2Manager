@@ -81,15 +81,14 @@
         <Chart background="https://assets.gw2dat.com/157384.png" blue="https://assets.gw2dat.com/157385.png" divider="https://assets.gw2dat.com/157386.png"
             green="https://assets.gw2dat.com/157387.png" neutral="https://assets.gw2dat.com/733278.png" red="https://assets.gw2dat.com/157388.png" />
         <ContestedAreas>
-            <!-- TODO neutral links -->
-            <Objective blue="https://assets.gw2dat.com/157377.png" green="https://assets.gw2dat.com/157378.png" neutral="" red="https://assets.gw2dat.com/157379.png"
-                type="Camp" />
-            <Objective blue="https://assets.gw2dat.com/157402.png" green="https://assets.gw2dat.com/157403.png" neutral="" red="https://assets.gw2dat.com/157404.png"
-                type="Tower" />
-            <Objective blue="https://assets.gw2dat.com/157394.png" green="https://assets.gw2dat.com/157395.png" neutral="" red="https://assets.gw2dat.com/157396.png"
-                type="Keep" />
-            <Objective blue="https://assets.gw2dat.com/157381.png" green="https://assets.gw2dat.com/157382.png" neutral="" red="https://assets.gw2dat.com/157383.png"
-                type="Castle" />
+            <Objective blue="https://assets.gw2dat.com/157377.png" green="https://assets.gw2dat.com/157378.png"
+                neutral="https://woody230.github.io/GW2Manager-CDN/Icons/Contested_Camp_Neutral.png" red="https://assets.gw2dat.com/157379.png" type="Camp" />
+            <Objective blue="https://assets.gw2dat.com/157402.png" green="https://assets.gw2dat.com/157403.png"
+                neutral="https://woody230.github.io/GW2Manager-CDN/Icons/Contested_Tower_Neutral.png" red="https://assets.gw2dat.com/157404.png" type="Tower" />
+            <Objective blue="https://assets.gw2dat.com/157394.png" green="https://assets.gw2dat.com/157395.png"
+                neutral="https://woody230.github.io/GW2Manager-CDN/Icons/Contested_Keep_Neutral.png" red="https://assets.gw2dat.com/157396.png" type="Keep" />
+            <Objective blue="https://assets.gw2dat.com/157381.png" green="https://assets.gw2dat.com/157382.png"
+                neutral="https://woody230.github.io/GW2Manager-CDN/Icons/Contested_Castle_Neutral.png" red="https://assets.gw2dat.com/157383.png" type="Castle" />
         </ContestedAreas>
     </WorldVsWorld>
 </Configuration>

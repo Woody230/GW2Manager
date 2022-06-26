@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.image
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,9 +17,6 @@ import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
-import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularSize
-import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PreferredHeight
-import com.bselzer.ktx.compose.ui.layout.modifier.presentable.PreferredWidth
 import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorInteractor
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.ImageResource
@@ -51,10 +49,6 @@ fun AsyncImage.Content(
     }
 
     val presenter = ImagePresenter(
-        modifier = ModularSize(
-            width = PreferredWidth(size.width),
-            height = PreferredHeight(size.height),
-        ),
         alpha = alpha,
         contentScale = ContentScale.Fit,
 
@@ -62,14 +56,15 @@ fun AsyncImage.Content(
         colorFilter = color?.let { filterColor -> ColorFilter.lighting(filterColor, Color.Transparent) }
     )
 
+    val combinedModifier = modifier.size(size)
     when (image) {
         is ImageDescUrl -> {
             if (image.url.isNotBlank()) {
-                Link(modifier, image.url, progressIndication, presenter)
+                Link(combinedModifier, image.url, progressIndication, presenter)
             }
         }
         is ImageDescResource -> {
-            Resource(modifier, image.resource, presenter)
+            Resource(combinedModifier, image.resource, presenter)
         }
         else -> {
             Logger.w { "Expected image to be for an ImageDescUrl or ImageDescResource but found $image." }
@@ -99,7 +94,9 @@ private fun AsyncImage.Link(
 ) {
     val dependencies = LocalDependencies.current
     AsyncImageProjector(
-        presenter = AsyncImagePresenter(image = presenter),
+        presenter = AsyncImagePresenter(
+            image = presenter
+        ),
 
         // TODO placeholder drawables for certain images?
         interactor = AsyncImageInteractor(

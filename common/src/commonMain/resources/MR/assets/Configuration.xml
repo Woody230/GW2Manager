@@ -2,7 +2,7 @@
 <Configuration transparency="0.5"> <!-- TODO config versioning -->
     <!-- TODO cache clearing based on build number/app version -->
     <WorldVsWorld>
-        <Supported mapTypes="Center,BlueHome,GreenHome,RedHome" objectiveTypes="Camp|Tower|Keep|Castle" owners="Blue|Green|Red" />
+        <Supported mapTypes="Center|BlueHome|GreenHome|RedHome" objectiveTypes="Camp|Tower|Keep|Castle" owners="Blue|Green|Red" />
         <Objectives>
             <!-- Colors -->
             <Color owner="Red" type="#ff4d4d" />

@@ -40,6 +40,7 @@ class ContestedAreasViewModel(
         val (link, color) = type.link(owner)
 
         // TODO in game the alpha would be at reduced opacity if there are no objectives -- should that be mimicked?
+        // TODO use yellow color used in game?
         return ContestedObjective(
             link = link,
             color = color,

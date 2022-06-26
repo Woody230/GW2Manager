@@ -31,6 +31,7 @@ class ContestedAreasViewModel(
         val ppt = sumOf { count -> count.pointsPerTick }.coerceAtLeast(0)
         return ContestedObjectives(
             ppt = "+$ppt".desc(),
+            color = owner.color(),
             objectives = map { count -> count.contestedObjective() }
         )
     }

@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjective
@@ -34,12 +35,15 @@ class ContestedAreasComposition(
     }
 
     @Composable
-    private fun ContestedObjectives.Content(modifier: Modifier) = Row(modifier) {
+    private fun ContestedObjectives.Content(modifier: Modifier) = Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         objectives.forEach { objective ->
             objective.Content(Modifier)
         }
 
-        // TODO ppt
+        Text(text = ppt.localized(), color = color, fontSize = 32.sp)
     }
 
     @Composable

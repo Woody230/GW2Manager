@@ -238,7 +238,7 @@ class ObjectiveViewModel(
                     },
                 ),
 
-                upgrades = tier.upgrades.filter { upgrade -> upgrade.objectiveTypes.contains(objective.type.decodeOrNull()) }.mapNotNull { upgrade ->
+                upgrades = tier.upgrades.filter { upgrade -> upgrade.availability.contains(objective.type.decodeOrNull()) }.mapNotNull { upgrade ->
                     val guildUpgradeId = GuildUpgradeId(upgrade.id)
                     val guildUpgrade = guildUpgrades[guildUpgradeId]
                     if (guildUpgrade == null) {

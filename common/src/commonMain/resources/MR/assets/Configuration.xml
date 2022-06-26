@@ -28,36 +28,36 @@
             <!-- Guild Upgrade -->
             <GuildUpgrades>
                 <ImprovementTier hold="10m" icon="https://assets.gw2dat.com/1025208.png">
-                    <Improvement name="Sabotage Depot" availability="Camp,Tower,Keep,Castle" id="306" />
-                    <Improvement name="Hardened Gates" availability="Tower,Keep,Castle" id="389" />
+                    <Improvement name="Sabotage Depot" availability="Camp|Tower|Keep|Castle" id="306" />
+                    <Improvement name="Hardened Gates" availability="Tower|Keep|Castle" id="389" />
                     <Improvement name="Armored Dolyaks" availability="Camp" id="307" />
                     <Improvement name="Packed Dolyaks" availability="Camp" id="365" />
                     <Improvement name="Speedy Dolyaks" availability="Camp" id="562" />
                 </ImprovementTier>
                 <ImprovementTier hold="30m" icon="https://assets.gw2dat.com/1025210.png">
-                    <Improvement name="Iron Guards" availability="Tower,Keep,Castle" id="147" />
-                    <Improvement name="Hardened Siege" availability="Tower,Keep,Castle" id="329" />
+                    <Improvement name="Iron Guards" availability="Tower|Keep|Castle" id="147" />
+                    <Improvement name="Hardened Siege" availability="Tower|Keep|Castle" id="329" />
                 </ImprovementTier>
                 <ImprovementTier hold="60m" icon="https://assets.gw2dat.com/1025212.png">
-                    <Improvement name="Auto Turrets" availability="Tower,Keep,Castle" id="183" />
+                    <Improvement name="Auto Turrets" availability="Tower|Keep|Castle" id="183" />
                     <Improvement name="Watchtower" availability="Tower" id="583" />
                     <Improvement name="Presence of the Keep" availability="Keep" id="418" />
                     <Improvement name="Cloaking Waters" availability="Castle" id="168" />
                 </ImprovementTier>
                 <TacticTier hold="10m" icon="https://assets.gw2dat.com/1025208.png">
-                    <Tactic name="Minor Supply Drop" availability="Camp,Tower,Keep,Castle" id="483" />
-                    <Tactic name="Chilling Fog" availability="Camp,Tower,Keep,Castle" id="559" />
+                    <Tactic name="Minor Supply Drop" availability="Camp|Tower|Keep|Castle" id="483" />
+                    <Tactic name="Chilling Fog" availability="Camp|Tower|Keep|Castle" id="559" />
                     <Tactic name="Invulnerable Dolyaks" availability="Camp" id="383" />
                     <Tactic name="Dune Roller" availability="Camp" id="222" />
                 </TacticTier>
                 <TacticTier hold="30m" icon="https://assets.gw2dat.com/1025210.png">
-                    <Tactic name="Centaur Banner" availability="Tower,Keep,Castle" id="345" />
-                    <Tactic name="Turtle Banner" availability="Tower,Keep,Castle" id="399" />
-                    <Tactic name="Dragon Banner" availability="Tower,Keep,Castle" id="590" />
+                    <Tactic name="Centaur Banner" availability="Tower|Keep|Castle" id="345" />
+                    <Tactic name="Turtle Banner" availability="Tower|Keep|Castle" id="399" />
+                    <Tactic name="Dragon Banner" availability="Tower|Keep|Castle" id="590" />
                 </TacticTier>
                 <TacticTier hold="60m" icon="https://assets.gw2dat.com/1025212.png">
-                    <Tactic name="Emergency Waypoint" availability="Tower,Keep,Castle" id="178" />
-                    <Tactic name="Invulnerable Fortifications" availability="Tower,Keep,Castle" id="513" />
+                    <Tactic name="Emergency Waypoint" availability="Tower|Keep|Castle" id="178" />
+                    <Tactic name="Invulnerable Fortifications" availability="Tower|Keep|Castle" id="513" />
                     <Tactic name="Airship Defense" availability="Castle" id="298" />
                 </TacticTier>
             </GuildUpgrades>

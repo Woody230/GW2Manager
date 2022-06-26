@@ -25,7 +25,10 @@ class Wvw(
     val bloodlust: WvwBloodlust = WvwBloodlust(),
 
     @XmlSerialName(value = "Chart", namespace = "", prefix = "")
-    val chart: WvwChart = WvwChart()
+    val chart: WvwChart = WvwChart(),
+
+    @XmlSerialName(value = "ContestedAreas", namespace = "", prefix = "")
+    val contestedAreas: WvwContestedAreas = WvwContestedAreas()
 ) {
     /**
      * @return the objective from the configuration associated with the endpoint objective

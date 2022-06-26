@@ -34,7 +34,7 @@ class ColorRepository(
         return owner.color()
     }
 
-    override fun WvwObjectiveOwner.hasConfiguredColor(): Boolean = _colors[this] == preferences.wvw.colors.defaultValue[this]
+    override fun WvwObjectiveOwner.hasDefaultColor(): Boolean = _colors[this] == preferences.wvw.colors.defaultValue[this]
 
     override fun WvwObjectiveOwner?.color(): Color = colors[this] ?: defaultColor
 

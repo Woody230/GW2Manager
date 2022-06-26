@@ -62,20 +62,20 @@ class ChartViewModel(
                 val amount = data?.get(owner) ?: 0
                 val angle = if (total <= 0) 360f / owners.size else amount / total * 360f
 
-                val hasConfiguredColor = owner.hasConfiguredColor()
+                val hasDefaultColor = owner.hasDefaultColor()
                 ChartSlice(
                     description = AppResources.strings.owned_slice.format(angle, owner.stringDesc()),
                     startAngle = startAngle,
                     endAngle = startAngle + angle,
 
                     // If using the default color, then use the same color slice as it is in game.
-                    image = if (hasConfiguredColor) {
+                    image = if (hasDefaultColor) {
                         owner.link().asImageUrl()
                     } else {
                         // Otherwise, change the tint using the blank neutral slice.
                         configuration.wvw.chart.neutralLink.asImageUrl()
                     },
-                    color = if (hasConfiguredColor) null else owner.color()
+                    color = if (hasDefaultColor) null else owner.color()
                 ).also {
                     // Set up the next slice.
                     startAngle += angle

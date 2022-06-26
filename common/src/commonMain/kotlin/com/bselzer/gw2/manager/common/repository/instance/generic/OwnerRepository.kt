@@ -10,6 +10,7 @@ import me.tatarka.inject.annotations.Inject
 @Singleton
 @Inject
 class OwnerRepository : OwnerData {
+    // TODO move to configuration
     override val mapTypes = listOf(
         WvwMapType.ETERNAL_BATTLEGROUNDS,
         WvwMapType.BLUE_BORDERLANDS,

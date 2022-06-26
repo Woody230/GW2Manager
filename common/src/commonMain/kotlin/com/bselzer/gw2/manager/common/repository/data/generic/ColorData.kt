@@ -16,7 +16,7 @@ interface ColorData {
     /**
      * @return true if the owner is using the default (configured) color instead of a user defined (preference) color
      */
-    fun WvwObjectiveOwner.hasConfiguredColor(): Boolean
+    fun WvwObjectiveOwner.hasDefaultColor(): Boolean
 
     suspend fun setPreferenceColor(owner: WvwObjectiveOwner, color: Color)
     suspend fun setPreferenceColors()

@@ -27,28 +27,25 @@ class ContestedAreasComposition(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column {
-            // TODO constrain
             contestedObjectives.forEach { contestedObjectives ->
-                contestedObjectives.Content(Modifier)
+                contestedObjectives.Content()
             }
         }
     }
 
     @Composable
-    private fun ContestedObjectives.Content(modifier: Modifier) = Row(
-        modifier = modifier,
+    private fun ContestedObjectives.Content() = Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         objectives.forEach { objective ->
-            objective.Content(Modifier)
+            objective.Content()
         }
 
         Text(text = ppt.localized(), color = color, fontSize = 32.sp)
     }
 
     @Composable
-    private fun ContestedObjective.Content(modifier: Modifier) = Column(
-        modifier = modifier,
+    private fun ContestedObjective.Content() = Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(

@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjective
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjectives
@@ -19,11 +18,9 @@ import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.ktx.compose.resource.strings.localized
 
-class ContestedAreasComposition(
-    model: ContestedAreasViewModel
-) : ViewModelComposition<ContestedAreasViewModel>(model) {
+interface ContestedAreasComposition<Model : ContestedAreasViewModel> {
     @Composable
-    override fun ContestedAreasViewModel.Content() = BorderedCard(
+    fun Model.ContestedAreasContent() = BorderedCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column {

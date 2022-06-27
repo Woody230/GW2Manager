@@ -47,7 +47,7 @@ class DrawerComposition(
     @Composable
     private fun DrawerViewModel.wvwSection() = DrawerSectionInteractor(
         title = TextInteractor(text = wvwTitle.localized()),
-        components = listOf(wvwMap.interactor(), wvwMatch.interactor())
+        components = listOf(wvwMap.interactor(), wvwMatchContestedAreas.interactor(), wvwMatchStatistics.interactor())
     )
 
     @Composable

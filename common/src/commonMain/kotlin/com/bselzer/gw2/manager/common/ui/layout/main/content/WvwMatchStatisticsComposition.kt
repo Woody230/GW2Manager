@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.content.match
+package com.bselzer.gw2.manager.common.ui.layout.main.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,27 +10,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.bselzer.gw2.manager.common.ui.layout.borderlands.content.BorderlandsComposition
-import com.bselzer.gw2.manager.common.ui.layout.borderlands.model.DataSet
+import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progress
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progression
-import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.match.StatisticsViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchStatisticsViewModel
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 import com.bselzer.ktx.function.collection.buildArray
 
-class StatisticsComposition(
-    model: StatisticsViewModel
-) : BorderlandsComposition<StatisticsViewModel, List<Progression>>(model) {
+class WvwMatchStatisticsComposition(
+    model: WvwMatchStatisticsViewModel
+) : WvwMatchComposition<WvwMatchStatisticsViewModel, List<Progression>>(model) {
+    @Composable
+    override fun WvwMatchStatisticsViewModel.Content() = RelativeBackgroundImage(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        BorderlandsContent()
+    }
+
     /**
      * Lays out the information about a particular statistic for each owner.
      */
     @Composable
-    override fun DataSet<List<Progression>>.Content() = Column(
+    override fun List<Progression>.Content() = Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
         spacedColumnProjector(
@@ -39,7 +45,7 @@ class StatisticsComposition(
         ).Projection(
             modifier = Modifier.fillMaxWidth(),
             content = buildArray {
-                data.forEach { progression ->
+                this@Content.forEach { progression ->
                     add {
                         progression.Header()
                         progression.Progress()

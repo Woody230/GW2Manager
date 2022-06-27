@@ -1,7 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.borderlands.viewmodel
 
-import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.base.ViewModel
+import com.bselzer.gw2.manager.common.dependency.ViewModelDependencies
 import com.bselzer.gw2.manager.common.ui.layout.borderlands.model.DataSet
 import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
@@ -13,15 +12,26 @@ import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.desc
 
-abstract class BorderlandsViewModel<T>(
-    context: AppComponentContext,
-    private val match: WvwMatch
-) : ViewModel(context) {
+interface BorderlandsViewModel<T> : ViewModelDependencies {
+    /**
+     * The match to generate [DataSet]s for.
+     */
+    val match: WvwMatch
+
+    /**
+     * The [DataSet]s for the [overviewData] and [borderlandData].
+     */
     val dataSets: List<DataSet<T>>
         get() = listOf(overviewDataSet) + borderlandsDataSets
 
-    protected abstract val defaultData: T
+    /**
+     * The data to use when unable to locate a [DataSet] from [dataSets].
+     */
+    val defaultData: T
 
+    /**
+     * The [DataSet] for the [defaultData].
+     */
     val defaultDataSet: DataSet<T>
         get() = DataSet(
             title = "".desc(),
@@ -29,8 +39,14 @@ abstract class BorderlandsViewModel<T>(
             data = defaultData
         )
 
-    protected abstract val overviewData: (WvwMatch) -> T
+    /**
+     * The data to use for the combination of all [borderlandData].
+     */
+    val overviewData: (WvwMatch) -> T
 
+    /**
+     * The [DataSet] for the [overviewData].
+     */
     private val overviewDataSet: DataSet<T>
         get() = DataSet(
             title = KtxResources.strings.overview.desc(),
@@ -38,8 +54,15 @@ abstract class BorderlandsViewModel<T>(
             data = overviewData(match)
         )
 
-    protected abstract val borderlandData: (WvwMap) -> T
+    /**
+     * The data to use for a specific borderland.
+     */
+    val borderlandData: (WvwMap) -> T
 
+    /**
+     * The type of [WvwMap] mapped to the associated [borderlandData].
+     * Only maps with a type in the [mapTypes] are considered.
+     */
     @Suppress("UNCHECKED_CAST")
     private val borderlandsData: Map<WvwMapType, T>
         get() {
@@ -47,6 +70,9 @@ abstract class BorderlandsViewModel<T>(
             return data as Map<WvwMapType, T>
         }
 
+    /**
+     * The [DataSet]s for the [borderlandsData].
+     */
     private val borderlandsDataSets: List<DataSet<T>>
         get() {
             val sorted = borderlandsData.entries.sortedBy { (type, _) -> mapTypes.indexOf(type) }

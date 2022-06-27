@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.dependency
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.gw2.manager.common.AppResources
+import com.bselzer.gw2.manager.common.configuration.AppConfiguration
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
@@ -119,10 +120,10 @@ abstract class SingletonAppDependencies(
             val content = AppResources.assets.Configuration.readText()
             XML {
                 this.unknownChildHandler = LoggingUnknownChildHandler()
-            }.decodeFromString(serializer(), content)
+            }.decodeFromString(serializer<AppConfiguration>(), content)
         } catch (ex: Exception) {
             Logger.e(ex, "Unable to create the configuration.")
-            Configuration()
+            AppConfiguration()
         }
     }
 

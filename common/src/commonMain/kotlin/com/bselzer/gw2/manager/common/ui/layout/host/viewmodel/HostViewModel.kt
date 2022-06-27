@@ -30,6 +30,11 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
         }
     )
 
+    // TODO better way to handle this?
+    private val showDialog: (DialogConfig) -> Unit = { config ->
+        dialogRouter.bringToFront(config)
+    }
+
     val mainRouter: Router<MainConfig, MainViewModel> = context.createRouter(
         initialStack = { listOf(MainConfig.ModuleConfig) },
         configurationClass = MainConfig::class,
@@ -41,13 +46,9 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
                 MainConfig.LicenseConfig -> LicenseViewModel(context)
                 MainConfig.ModuleConfig -> ModuleViewModel(context)
                 MainConfig.SettingsConfig -> SettingsViewModel(context)
-                MainConfig.WvwMapConfig -> WvwMapViewModel(context) { config ->
-                    dialogRouter.bringToFront(config)
-                }
-                MainConfig.WvwMatchConfig -> WvwMatchViewModel(context) { config ->
-                    // TODO is it appropriate to pass delegate here?
-                    dialogRouter.bringToFront(config)
-                }
+                MainConfig.WvwMapConfig -> WvwMapViewModel(context, showDialog)
+                MainConfig.WvwMatchContestedAreasConfig -> WvwMatchContestedAreasViewModel(context, showDialog)
+                MainConfig.WvwMatchStatisticsConfig -> WvwMatchStatisticsViewModel(context, showDialog)
             }
         }
     )

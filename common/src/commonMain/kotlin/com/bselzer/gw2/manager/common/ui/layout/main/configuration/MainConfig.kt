@@ -23,5 +23,8 @@ sealed class MainConfig : Configuration {
     object WvwMapConfig : MainConfig()
 
     @Parcelize
-    object WvwMatchConfig : MainConfig()
+    object WvwMatchContestedAreasConfig : MainConfig()
+
+    @Parcelize
+    object WvwMatchStatisticsConfig : MainConfig()
 }

@@ -2,28 +2,31 @@ package com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel
 
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.configuration.wvw.WvwContestedAreasObjective
-import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.base.ViewModel
+import com.bselzer.gw2.manager.common.dependency.ViewModelDependencies
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjective
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjectives
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
+import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreas
 import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreasCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreasCountByOwner
-import com.bselzer.gw2.v2.model.extension.wvw.objectiveOwnerCount
-import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.resource.strings.stringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.ImageDesc
 import dev.icerock.moko.resources.desc.image.asImageUrl
 
-class ContestedAreasViewModel(
-    context: AppComponentContext,
-    private val match: WvwMatch
-) : ViewModel(context) {
+interface ContestedAreasViewModel : ViewModelDependencies {
+    /**
+     * The contested areas to create the [ContestedObjectives] for.
+     */
+    val contestedAreas: ContestedAreas
+
+    /**
+     * The counts and points per tick for the objectives with a [WvwObjectiveType] in [objectiveTypes] associated with a specific [WvwObjectiveOwner] in [owners].
+     */
     val contestedObjectives: List<ContestedObjectives>
         get() {
-            val byOwner: List<ContestedAreasCountByOwner> = match.objectiveOwnerCount().contestedAreas.byOwner.filter(owners, objectiveTypes)
+            val byOwner: List<ContestedAreasCountByOwner> = contestedAreas.byOwner.filter(owners, objectiveTypes)
             return byOwner.map { counts -> counts.contestedObjectives() }
         }
 

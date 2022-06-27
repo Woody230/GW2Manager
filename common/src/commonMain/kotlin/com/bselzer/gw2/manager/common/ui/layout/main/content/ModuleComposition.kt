@@ -12,7 +12,6 @@ import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
-import com.bselzer.gw2.manager.common.ui.layout.contestedarea.content.ContestedAreasComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel
@@ -36,7 +35,6 @@ class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleVie
             content = buildArray {
                 add { SelectedWorld() }
                 add { Overview() }
-                add { ContestedAreas() }
             }
         )
     }
@@ -68,14 +66,6 @@ class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleVie
     @Composable
     private fun ModuleViewModel.Overview() = overview?.let { overview ->
         ChartComposition(model = overview).Content()
-    }
-
-    /**
-     * Lays out the contested areas for the selected world's match.
-     */
-    @Composable
-    private fun ModuleViewModel.ContestedAreas() = contestedAreas?.let { contestedAreas ->
-        ContestedAreasComposition(model = contestedAreas).Content()
     }
 
     /**

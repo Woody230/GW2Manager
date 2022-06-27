@@ -24,10 +24,16 @@ class DrawerViewModel(
         configuration = MainConfig.WvwMapConfig
     )
 
-    val wvwMatch = DrawerComponent(
+    val wvwMatchContestedAreas = DrawerComponent(
         icon = Gw2Resources.images.rank_dolyak,
-        description = Gw2Resources.strings.match.desc(),
-        configuration = MainConfig.WvwMatchConfig
+        description = Gw2Resources.strings.contested_areas.desc(),
+        configuration = MainConfig.WvwMatchContestedAreasConfig
+    )
+
+    val wvwMatchStatistics = DrawerComponent(
+        icon = Gw2Resources.images.rank_dolyak,
+        description = KtxResources.strings.statistics.desc(),
+        configuration = MainConfig.WvwMatchStatisticsConfig
     )
 
     val settings = DrawerComponent(

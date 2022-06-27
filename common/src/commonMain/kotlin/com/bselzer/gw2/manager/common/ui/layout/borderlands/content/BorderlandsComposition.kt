@@ -11,7 +11,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.borderlands.model.DataSet
 import com.bselzer.gw2.manager.common.ui.layout.borderlands.viewmodel.BorderlandsViewModel
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
@@ -23,20 +22,22 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-abstract class BorderlandsComposition<Model, Data>(
-    model: Model
-) : ViewModelComposition<Model>(model) where Model : BorderlandsViewModel<Data> {
+interface BorderlandsComposition<Model, Data> where Model : BorderlandsViewModel<Data> {
     @Composable
-    override fun Model.Content() = RelativeBackgroundImage(
+    fun Model.BorderlandsContent() = Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // TODO legend that maps colors to worlds below the pager (add home icon?)
+        val state = rememberPagerState()
+        PagerTabs(state)
+        Pager(state)
+    }
+
+    @Composable
+    fun Model.Content() = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize(),
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            val state = rememberPagerState()
-            PagerTabs(state)
-            Pager(state)
-        }
+
     }
 
     @Composable
@@ -78,12 +79,12 @@ abstract class BorderlandsComposition<Model, Data>(
         ) {
             Spacer(modifier = Modifier.height(5.dp))
 
-            dataSets.getOrElse(index) { defaultDataSet }.Content()
+            dataSets.getOrElse(index) { defaultDataSet }.data.Content()
 
             Spacer(modifier = Modifier.height(5.dp))
         }
     }
 
     @Composable
-    protected abstract fun DataSet<Data>.Content()
+    fun Data.Content()
 }

@@ -1,7 +1,7 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.match
+package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.borderlands.viewmodel.BorderlandsViewModel
+import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progress
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progression
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
@@ -14,16 +14,19 @@ import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.ktx.function.collection.addTo
+import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.ImageDesc
 import dev.icerock.moko.resources.desc.image.asImageDesc
 import dev.icerock.moko.resources.desc.image.asImageUrl
 
-class StatisticsViewModel(
+class WvwMatchStatisticsViewModel(
     context: AppComponentContext,
-    match: WvwMatch
-) : BorderlandsViewModel<List<Progression>>(context, match) {
+    showDialog: (DialogConfig) -> Unit
+) : WvwMatchViewModel<List<Progression>>(context, showDialog) {
+    override val title: StringDesc = KtxResources.strings.statistics.desc()
+
     override val defaultData: List<Progression> = emptyList()
 
     override val overviewData: (WvwMatch) -> List<Progression> = { match ->

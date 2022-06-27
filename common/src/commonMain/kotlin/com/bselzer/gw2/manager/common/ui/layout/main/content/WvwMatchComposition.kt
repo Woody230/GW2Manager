@@ -1,14 +1,8 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content
 
-import androidx.compose.runtime.Composable
-import com.bselzer.gw2.manager.common.ui.layout.main.content.match.StatisticsComposition
+import com.bselzer.gw2.manager.common.ui.layout.borderlands.content.BorderlandsComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchViewModel
 
-class WvwMatchComposition(model: WvwMatchViewModel) : MainChildComposition<WvwMatchViewModel>(model) {
-    @Composable
-    override fun WvwMatchViewModel.Content() {
-        statistics?.let { statistics ->
-            StatisticsComposition(statistics).Content()
-        }
-    }
-}
+sealed class WvwMatchComposition<Model : WvwMatchViewModel<Data>, Data>(
+    model: Model
+) : MainChildComposition<Model>(model), BorderlandsComposition<Model, Data>

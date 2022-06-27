@@ -7,6 +7,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progression
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
+import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreasCountByType
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveOwnerCount
 import com.bselzer.gw2.v2.model.wvw.map.WvwMap
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
@@ -53,8 +54,7 @@ class StatisticsViewModel(
     /**
      * The progression for the number of points earned per tick.
      */
-    private fun ObjectiveOwnerCount?.pptProgression() = progression(
-        data = this?.pointsPerTick,
+    private fun ObjectiveOwnerCount?.pptProgression() = this?.pointsPerTick.progression(
         title = Gw2Resources.strings.points_per_tick.desc(),
 
         // The PPT icon is just a smaller war score icon (16x16 compared to 32x32).
@@ -65,8 +65,7 @@ class StatisticsViewModel(
     /**
      * The progression for the number of victory points earned for the entire match.
      */
-    private fun WvwMatchObjectiveOwnerCount?.vpProgression() = progression(
-        data = this?.victoryPoints,
+    private fun WvwMatchObjectiveOwnerCount?.vpProgression() = this?.victoryPoints.progression(
         title = Gw2Resources.strings.victory_points.desc(),
         icon = Gw2Resources.images.victory_points.asImageDesc()
     )
@@ -74,8 +73,7 @@ class StatisticsViewModel(
     /**
      * The progression for the total score earned for the entire match.
      */
-    private fun ObjectiveOwnerCount?.scoreProgression() = progression(
-        data = this?.scores,
+    private fun ObjectiveOwnerCount?.scoreProgression() = this?.scores.progression(
         title = Gw2Resources.strings.war_score.desc(),
         icon = Gw2Resources.images.war_score.asImageDesc()
     )
@@ -83,8 +81,7 @@ class StatisticsViewModel(
     /**
      * The progression for the total number of kills earned for the entire match.
      */
-    private fun ObjectiveOwnerCount?.killProgression() = progression(
-        data = this?.kills,
+    private fun ObjectiveOwnerCount?.killProgression() = this?.kills.progression(
         title = Gw2Resources.strings.kills.desc(),
         icon = Gw2Resources.images.enemy_dead.asImageDesc()
     )
@@ -92,31 +89,37 @@ class StatisticsViewModel(
     /**
      * The progression for the total number of deaths given the entire match.
      */
-    private fun ObjectiveOwnerCount?.deathProgression() = progression(
-        data = this?.deaths,
+    private fun ObjectiveOwnerCount?.deathProgression() = this?.deaths.progression(
         title = Gw2Resources.strings.deaths.desc(),
         icon = Gw2Resources.images.ally_dead.asImageDesc()
     )
 
-    private fun progression(data: Map<out WvwObjectiveOwner?, Int>?, title: StringDesc, icon: ImageDesc): Progression {
-        val total = data.total().toFloat()
+    private fun Map<out WvwObjectiveOwner?, Int>?.progression(title: StringDesc, icon: ImageDesc): Progression {
+        val total = total().toFloat()
         return Progression(
             title = title,
             icon = icon,
             progress = owners.map { owner ->
-                val amount = data?.get(owner) ?: 0
-                Progress(
-                    color = owner.color(),
-                    amount = amount,
-                    owner = owner.stringDesc(),
-                    percentage = when {
-                        total <= 0 -> 1f / owners.size
-                        else -> amount / total
-                    }
-                )
+                val amount = this?.get(owner) ?: 0
+                owner.progress(amount, total, owners.size)
             }
         )
     }
+
+    /**
+     * Represents the owner's progress as a ratio of the [amount] to the [total].
+     * If the total is <= 0, then progress is evenly split amongst the [count] owners.
+     */
+    private fun WvwObjectiveOwner.progress(amount: Int, total: Float, count: Int) = Progress(
+        color = color(),
+        amount = amount,
+        owner = stringDesc(),
+        percentage = when {
+            total <= 0 -> 1f / count
+            else -> amount / total
+        }
+    )
+
 
     /**
      * The progressions for the count of each of the [objectiveTypes].
@@ -132,26 +135,21 @@ class StatisticsViewModel(
                 return@forEach
             }
 
-            val type = counts.type
-            val objectives = repositories.selectedWorld.objectives
-            val link = objectives[counts.sample?.id]?.iconLink
-            Progression(
-                title = type.stringDesc(),
-                icon = link?.value?.asImageUrl(),
-                progress = counts.map { count ->
-                    val amount = count.size
-                    val owner = count.owner
-                    Progress(
-                        color = owner.color(),
-                        amount = amount,
-                        owner = owner.stringDesc(),
-                        percentage = when {
-                            total <= 0 -> 1f / counts.size
-                            else -> amount / total
-                        }
-                    )
-                }
-            ).addTo(this)
+            counts.progression(total).addTo(this)
         }
+    }
+
+    private fun ContestedAreasCountByType.progression(total: Float): Progression {
+        val objectives = repositories.selectedWorld.objectives
+        val link = objectives[sample?.id]?.iconLink
+        return Progression(
+            title = type.stringDesc(),
+            icon = link?.value?.asImageUrl(),
+            progress = counts.map { count ->
+                val amount = count.size
+                val owner = count.owner
+                owner.progress(amount, total, counts.size)
+            }
+        )
     }
 }

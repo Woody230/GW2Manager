@@ -30,6 +30,12 @@ class DrawerViewModel(
         configuration = MainConfig.WvwMatchContestedAreasConfig
     )
 
+    val wvwMatchOverview = DrawerComponent(
+        icon = Gw2Resources.images.rank_dolyak,
+        description = KtxResources.strings.overview.desc(),
+        configuration = MainConfig.WvwMatchOverviewConfig
+    )
+
     val wvwMatchStatistics = DrawerComponent(
         icon = Gw2Resources.images.rank_dolyak,
         description = KtxResources.strings.statistics.desc(),

@@ -29,8 +29,6 @@ class DrawerComposition(
             confirmStateChange = confirmStateChange,
             state = state,
             container = ColumnInteractor.Divided,
-
-            // TODO add module? on desktop only way to get back would be by adding back handler for escape
             sections = listOf(wvwSection(), settingsSection(), aboutSection())
         )
     }
@@ -47,7 +45,7 @@ class DrawerComposition(
     @Composable
     private fun DrawerViewModel.wvwSection() = DrawerSectionInteractor(
         title = TextInteractor(text = wvwTitle.localized()),
-        components = listOf(wvwMap.interactor(), wvwMatchContestedAreas.interactor(), wvwMatchStatistics.interactor())
+        components = listOf(wvwMap.interactor(), wvwMatchContestedAreas.interactor(), wvwMatchOverview.interactor(), wvwMatchStatistics.interactor())
     )
 
     @Composable

@@ -36,7 +36,7 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
     }
 
     val mainRouter: Router<MainConfig, MainViewModel> = context.createRouter(
-        initialStack = { listOf(MainConfig.ModuleConfig) },
+        initialStack = { listOf(MainConfig.WvwMatchOverviewConfig) },
         configurationClass = MainConfig::class,
         key = "Main",
         childFactory = { state, context ->
@@ -44,7 +44,7 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
                 MainConfig.AboutConfig -> AboutViewModel(context)
                 MainConfig.CacheConfig -> CacheViewModel(context)
                 MainConfig.LicenseConfig -> LicenseViewModel(context)
-                MainConfig.ModuleConfig -> ModuleViewModel(context)
+                MainConfig.WvwMatchOverviewConfig -> WvwMatchOverviewViewModel(context)
                 MainConfig.SettingsConfig -> SettingsViewModel(context)
                 MainConfig.WvwMapConfig -> WvwMapViewModel(context, showDialog)
                 MainConfig.WvwMatchContestedAreasConfig -> WvwMatchContestedAreasViewModel(context, showDialog)
@@ -90,9 +90,9 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
         // Otherwise see if the page can handle the backpress.
         mainRouter.activeChild.instance.onBackPressed() -> true
 
-        // Otherwise if we aren't on the module page then go back to it.
-        mainRouter.activeChild.instance !is ModuleViewModel -> {
-            mainRouter.bringToFront(MainConfig.ModuleConfig)
+        // Otherwise if we aren't on the overview page then go back to it.
+        mainRouter.activeChild.instance !is WvwMatchOverviewViewModel -> {
+            mainRouter.bringToFront(MainConfig.WvwMatchOverviewConfig)
             true
         }
 

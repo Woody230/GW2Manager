@@ -14,7 +14,7 @@ sealed class MainConfig : Configuration {
     object LicenseConfig : MainConfig()
 
     @Parcelize
-    object ModuleConfig : MainConfig()
+    object WvwMatchOverviewConfig : MainConfig()
 
     @Parcelize
     object SettingsConfig : MainConfig()

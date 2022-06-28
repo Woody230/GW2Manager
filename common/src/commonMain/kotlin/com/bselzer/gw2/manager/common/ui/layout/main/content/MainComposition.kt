@@ -36,10 +36,10 @@ class MainComposition : RouterComposition<MainConfig, MainViewModel>(
         is AboutViewModel -> AboutComposition(this)
         is CacheViewModel -> CacheComposition(this)
         is LicenseViewModel -> LicenseComposition(this)
-        is ModuleViewModel -> ModuleComposition(this)
         is SettingsViewModel -> SettingsComposition(this)
         is WvwMapViewModel -> WvwMapComposition(this)
         is WvwMatchContestedAreasViewModel -> WvwMatchContestedAreasComposition(this)
+        is WvwMatchOverviewViewModel -> WvwMatchOverviewComposition(this)
         is WvwMatchStatisticsViewModel -> WvwMatchStatisticsComposition(this)
     }
 }

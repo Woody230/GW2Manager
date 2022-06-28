@@ -14,7 +14,7 @@ import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
-import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.ModuleViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchOverviewViewModel
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.preference.section.spacedPreferenceColumnProjector
@@ -24,9 +24,9 @@ import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.function.collection.buildArray
 
-class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleViewModel>(model) {
+class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildComposition<WvwMatchOverviewViewModel>(model) {
     @Composable
-    override fun ModuleViewModel.Content() = AbsoluteBackgroundImage(
+    override fun WvwMatchOverviewViewModel.Content() = AbsoluteBackgroundImage(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter,
     ) {
@@ -43,7 +43,7 @@ class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleVie
      * Lays out the selected world with the ability to show the dialog for a new selection.
      */
     @Composable
-    private fun ModuleViewModel.SelectedWorld() = ModuleCard {
+    private fun WvwMatchOverviewViewModel.SelectedWorld() = ModuleCard {
         val dialogRouter = LocalDialogRouter.current
         TextPreferenceProjector(
             interactor = TextPreferenceInteractor(
@@ -64,7 +64,7 @@ class ModuleComposition(model: ModuleViewModel) : MainChildComposition<ModuleVie
      * Lays out the overview for the selected world's match.
      */
     @Composable
-    private fun ModuleViewModel.Overview() = overview?.let { overview ->
+    private fun WvwMatchOverviewViewModel.Overview() = overview?.let { overview ->
         ChartComposition(model = overview).Content()
     }
 

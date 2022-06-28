@@ -1,6 +1,5 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
-import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartViewModel
@@ -16,10 +15,10 @@ import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 
-class ModuleViewModel(
+class WvwMatchOverviewViewModel(
     context: AppComponentContext
 ) : MainViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
-    override val title: StringDesc = AppResources.strings.app_name.desc()
+    override val title: StringDesc = KtxResources.strings.overview.desc()
 
     override val actions
         get() = listOf(refreshAction())

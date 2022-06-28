@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.bselzer.gw2.manager.common.ui.layout.borderlands.content.BorderlandsComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
@@ -24,7 +25,7 @@ import com.bselzer.ktx.function.collection.buildArray
 
 class WvwMatchStatisticsComposition(
     model: WvwMatchStatisticsViewModel
-) : WvwMatchComposition<WvwMatchStatisticsViewModel, List<Progression>>(model) {
+) : MainChildComposition<WvwMatchStatisticsViewModel>(model), BorderlandsComposition<WvwMatchStatisticsViewModel, List<Progression>> {
     @Composable
     override fun WvwMatchStatisticsViewModel.Content() = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize()

@@ -2,6 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartDataViewModel
 import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.SelectedWorldRefreshAction.Companion.refreshAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.module.WorldResources
@@ -55,9 +56,20 @@ class WvwMatchOverviewViewModel(
     /**
      * The overview for the selected world's match.
      */
-    val overview: ChartViewModel?
+    val chart: ChartViewModel?
         get() = match?.objectiveOwnerCount()?.let { count ->
             ChartViewModel(
+                context = this,
+                data = count.victoryPoints,
+            )
+        }
+
+    /**
+     * The description of the [chart] overview for the selected world's match.
+     */
+    val chartDescription: ChartDataViewModel?
+        get() = match?.objectiveOwnerCount()?.let { count ->
+            ChartDataViewModel(
                 context = this,
                 data = count.victoryPoints,
                 title = Gw2Resources.strings.victory_points.desc()

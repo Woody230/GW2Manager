@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
+import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartDataComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
@@ -64,8 +65,16 @@ class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildC
      * Lays out the overview for the selected world's match.
      */
     @Composable
-    private fun WvwMatchOverviewViewModel.Overview() = overview?.let { overview ->
-        ChartComposition(model = overview).Content()
+    private fun WvwMatchOverviewViewModel.Overview() = Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        chart?.let { chart ->
+            ChartComposition(model = chart).Content()
+        }
+
+        chartDescription?.let { description ->
+            ChartDataComposition(model = description).Content()
+        }
     }
 
     /**

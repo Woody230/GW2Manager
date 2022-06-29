@@ -15,6 +15,7 @@ import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
+import dev.icerock.moko.resources.desc.image.asImageDesc
 
 class WvwMatchOverviewViewModel(
     context: AppComponentContext
@@ -72,7 +73,8 @@ class WvwMatchOverviewViewModel(
             ChartDataViewModel(
                 context = this,
                 data = count.victoryPoints,
-                title = Gw2Resources.strings.victory_points.desc()
+                title = Gw2Resources.strings.victory_points.desc(),
+                icon = Gw2Resources.images.victory_points.asImageDesc()
             )
         }
 }

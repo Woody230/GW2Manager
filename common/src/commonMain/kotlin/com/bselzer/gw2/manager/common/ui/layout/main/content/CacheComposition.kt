@@ -21,8 +21,8 @@ import com.bselzer.ktx.function.collection.buildArray
 class CacheComposition(model: CacheViewModel) : MainChildComposition<CacheViewModel>(model) {
 
     @Composable
-    override fun CacheViewModel.Content() = RelativeBackgroundImage(
-        modifier = Modifier.fillMaxSize(),
+    override fun CacheViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
+        modifier = Modifier.fillMaxSize().then(modifier),
     ) {
         spacedColumnProjector(thickness = padding).Projection(
             modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState()),

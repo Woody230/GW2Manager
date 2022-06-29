@@ -23,8 +23,8 @@ class ChartDataComposition(
     model: ChartDataViewModel
 ) : ViewModelComposition<ChartDataViewModel>(model) {
     @Composable
-    override fun ChartDataViewModel.Content() = BorderedCard(
-        modifier = Modifier.fillMaxWidth()
+    override fun ChartDataViewModel.Content(modifier: Modifier) = BorderedCard(
+        modifier = Modifier.fillMaxWidth().then(modifier)
     ) {
         dataSet.ChartDescription()
     }

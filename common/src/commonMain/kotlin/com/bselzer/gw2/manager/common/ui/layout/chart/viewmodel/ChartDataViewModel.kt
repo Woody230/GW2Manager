@@ -8,15 +8,18 @@ import com.bselzer.gw2.manager.common.ui.layout.chart.model.ChartDataSet
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
+import dev.icerock.moko.resources.desc.image.ImageDesc
 
 class ChartDataViewModel(
     context: AppComponentContext,
     private val data: Map<out WvwObjectiveOwner?, Int>?,
     private val title: StringDesc,
+    private val icon: ImageDesc,
 ) : ViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
     val dataSet: ChartDataSet
         get() = ChartDataSet(
             title = title,
+            icon = icon,
             data = chartData
         )
 

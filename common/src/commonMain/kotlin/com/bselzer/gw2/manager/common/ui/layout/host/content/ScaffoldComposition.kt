@@ -24,13 +24,14 @@ import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostInteractor
 
 class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<ScaffoldViewModel>(model) {
     @Composable
-    override fun ScaffoldViewModel.Content() {
+    override fun ScaffoldViewModel.Content(modifier: Modifier) {
         val drawer = DrawerComposition(drawer)
         scaffoldInteractor(
             drawer = drawer.interactor(),
             snackbarHost = SnackbarHostInteractor()
         ) { interactor ->
             Scaffold(
+                modifier = modifier,
                 scaffoldInteractor = interactor,
                 drawerPresenter = drawer.presenter(),
                 mainComposition = MainComposition()
@@ -40,6 +41,7 @@ class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<Scaff
 
     @Composable
     private fun ScaffoldViewModel.Scaffold(
+        modifier: Modifier,
         scaffoldInteractor: ScaffoldInteractor,
         drawerPresenter: ModalDrawerPresenter,
         mainComposition: MainComposition
@@ -55,7 +57,7 @@ class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<Scaff
         presenter = ScaffoldPresenter(
             drawer = drawerPresenter
         )
-    ).Projection(modifier = Modifier.fillMaxSize()) {
+    ).Projection(modifier = Modifier.fillMaxSize().then(modifier)) {
         mainComposition.Content()
         DialogComposition().Content()
         Splash()

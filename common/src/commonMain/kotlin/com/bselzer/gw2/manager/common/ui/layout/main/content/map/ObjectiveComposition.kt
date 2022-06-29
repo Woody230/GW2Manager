@@ -78,8 +78,8 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
     // TODO standardize capitalization of text, particularly for anything from the api -- for example, for French fortified is not capitalized while secured/reinforced are
 
     @Composable
-    override fun ObjectiveViewModel.Content() = AbsoluteBackgroundImage(
-        modifier = Modifier.fillMaxSize(),
+    override fun ObjectiveViewModel.Content(modifier: Modifier) = AbsoluteBackgroundImage(
+        modifier = Modifier.fillMaxSize().then(modifier),
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

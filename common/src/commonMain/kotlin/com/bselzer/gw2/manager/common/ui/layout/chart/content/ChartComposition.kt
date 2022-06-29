@@ -38,10 +38,12 @@ class ChartComposition(
     }
 
     @Composable
-    override fun ChartViewModel.Content() = chart.PieChart()
+    override fun ChartViewModel.Content(modifier: Modifier) = chart.PieChart(modifier)
 
     @Composable
-    private fun Chart.PieChart() = Box {
+    private fun Chart.PieChart(modifier: Modifier) = Box(
+        modifier = modifier
+    ) {
         // Add the background behind everything else.
         Background()
 

@@ -27,8 +27,8 @@ class WvwMatchStatisticsComposition(
     model: WvwMatchStatisticsViewModel
 ) : MainChildComposition<WvwMatchStatisticsViewModel>(model), BorderlandsComposition<WvwMatchStatisticsViewModel, List<Progression>> {
     @Composable
-    override fun WvwMatchStatisticsViewModel.Content() = RelativeBackgroundImage(
-        modifier = Modifier.fillMaxSize()
+    override fun WvwMatchStatisticsViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
+        modifier = Modifier.fillMaxSize().then(modifier)
     ) {
         BorderlandsContent()
     }

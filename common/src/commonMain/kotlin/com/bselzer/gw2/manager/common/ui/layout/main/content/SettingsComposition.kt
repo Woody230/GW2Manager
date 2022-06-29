@@ -57,8 +57,8 @@ import kotlin.time.DurationUnit
 
 class SettingsComposition(model: SettingsViewModel) : MainChildComposition<SettingsViewModel>(model) {
     @Composable
-    override fun SettingsViewModel.Content() = RelativeBackgroundImage(
-        modifier = Modifier.fillMaxSize(),
+    override fun SettingsViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
+        modifier = Modifier.fillMaxSize().then(modifier),
     ) {
         Preferences()
     }

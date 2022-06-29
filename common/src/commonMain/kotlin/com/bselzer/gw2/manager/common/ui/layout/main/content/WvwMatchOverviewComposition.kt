@@ -27,8 +27,8 @@ import com.bselzer.ktx.function.collection.buildArray
 
 class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildComposition<WvwMatchOverviewViewModel>(model) {
     @Composable
-    override fun WvwMatchOverviewViewModel.Content() = AbsoluteBackgroundImage(
-        modifier = Modifier.fillMaxSize(),
+    override fun WvwMatchOverviewViewModel.Content(modifier: Modifier) = AbsoluteBackgroundImage(
+        modifier = Modifier.fillMaxSize().then(modifier),
         contentAlignment = Alignment.TopCenter,
     ) {
         spacedPreferenceColumnProjector().Projection(

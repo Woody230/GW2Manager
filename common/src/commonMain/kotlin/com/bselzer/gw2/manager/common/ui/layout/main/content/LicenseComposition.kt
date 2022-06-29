@@ -15,8 +15,8 @@ import com.bselzer.ktx.library.LibraryProjector
 
 class LicenseComposition(model: LicenseViewModel) : MainChildComposition<LicenseViewModel>(model) {
     @Composable
-    override fun LicenseViewModel.Content() = RelativeBackgroundImage(
-        modifier = Modifier.fillMaxSize(),
+    override fun LicenseViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
+        modifier = Modifier.fillMaxSize().then(modifier),
     ) {
         Libraries()
     }

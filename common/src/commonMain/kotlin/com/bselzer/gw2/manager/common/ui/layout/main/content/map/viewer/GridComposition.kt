@@ -46,15 +46,6 @@ expect fun PlatformGridComposition(model: ViewerViewModel): GridComposition
  * The composition for laying out the grid of tiles.
  */
 abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<ViewerViewModel>(model) {
-    @Composable
-    fun Content(modifier: Modifier) = model.Content(modifier)
-
-    @Composable
-    protected abstract fun ViewerViewModel.Content(modifier: Modifier)
-
-    @Composable
-    override fun ViewerViewModel.Content() = Content(Modifier)
-
     protected companion object {
         val objectiveSize: DpSize = DpSize(32.dp, 32.dp)
         val bloodlustSize: DpSize = objectiveSize

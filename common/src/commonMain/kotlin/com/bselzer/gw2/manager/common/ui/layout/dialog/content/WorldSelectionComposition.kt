@@ -23,11 +23,11 @@ class WorldSelectionComposition(
     model: WorldSelectionViewModel
 ) : ViewModelComposition<WorldSelectionViewModel>(model) {
     @Composable
-    override fun WorldSelectionViewModel.Content() {
+    override fun WorldSelectionViewModel.Content(modifier: Modifier) {
         if (noWorlds.enabled) {
             NoWorldsMessage()
         } else {
-            SelectionDialog()
+            SelectionDialog(modifier)
         }
     }
 
@@ -45,7 +45,7 @@ class WorldSelectionComposition(
     }
 
     @Composable
-    private fun WorldSelectionViewModel.SelectionDialog() {
+    private fun WorldSelectionViewModel.SelectionDialog(modifier: Modifier) {
         val dialogRouter = LocalDialogRouter.current
         val selection = selection
         AlertDialogProjector(
@@ -73,6 +73,8 @@ class WorldSelectionComposition(
                 }
             }
         ).Projection(
+            modifier = modifier,
+
             // TODO use regular dialog instead of constrained -- title bounces with the choices
             constrained = true
         ) {

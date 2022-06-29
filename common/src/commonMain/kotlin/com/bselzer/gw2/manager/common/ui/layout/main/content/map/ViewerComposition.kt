@@ -18,11 +18,11 @@ import com.bselzer.ktx.compose.resource.strings.localized
 
 class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerViewModel>(model) {
     @Composable
-    override fun ViewerViewModel.Content() {
+    override fun ViewerViewModel.Content(modifier: Modifier) {
         // NOTE: Intentionally not using a background in case the device size is large enough that the map doesn't match the full size.
 
         ConstraintLayout(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize().then(modifier)
         ) {
             val (map, selectedObjective) = createRefs()
             PlatformGridComposition(model).Content(

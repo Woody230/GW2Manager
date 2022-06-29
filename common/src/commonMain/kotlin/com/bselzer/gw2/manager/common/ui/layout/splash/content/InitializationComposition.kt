@@ -23,9 +23,9 @@ import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
 class InitializationComposition(model: InitializationViewModel) : ViewModelComposition<InitializationViewModel>(model) {
     @Composable
-    override fun InitializationViewModel.Content() {
+    override fun InitializationViewModel.Content(modifier: Modifier) {
         Initialize()
-        Container()
+        Container(modifier)
     }
 
     @Composable
@@ -38,8 +38,8 @@ class InitializationComposition(model: InitializationViewModel) : ViewModelCompo
     }
 
     @Composable
-    private fun InitializationViewModel.Container() = AbsoluteBackgroundImage(
-        modifier = Modifier.fillMaxSize(),
+    private fun InitializationViewModel.Container(modifier: Modifier) = AbsoluteBackgroundImage(
+        modifier = Modifier.fillMaxSize().then(modifier),
         contentAlignment = Alignment.Center,
     ) {
         Column(

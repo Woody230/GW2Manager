@@ -16,8 +16,8 @@ class WvwMatchContestedAreasComposition(
     BorderlandsComposition<WvwMatchContestedAreasViewModel, ObjectiveOwnerCount>,
     ContestedAreasComposition<ContestedAreasViewModel> {
     @Composable
-    override fun WvwMatchContestedAreasViewModel.Content() = AbsoluteBackgroundImage(
-        modifier = Modifier.fillMaxSize()
+    override fun WvwMatchContestedAreasViewModel.Content(modifier: Modifier) = AbsoluteBackgroundImage(
+        modifier = Modifier.fillMaxSize().then(modifier)
     ) {
         BorderlandsContent()
     }

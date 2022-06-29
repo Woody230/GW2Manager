@@ -16,8 +16,8 @@ import com.bselzer.ktx.function.collection.buildArray
 
 class AboutComposition(model: AboutViewModel) : MainChildComposition<AboutViewModel>(model) {
     @Composable
-    override fun AboutViewModel.Content() = RelativeBackgroundImage(
-        modifier = Modifier.fillMaxSize(),
+    override fun AboutViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
+        modifier = Modifier.fillMaxSize().then(modifier),
     ) {
         spacedColumnProjector(thickness = padding).Projection(
             modifier = Modifier

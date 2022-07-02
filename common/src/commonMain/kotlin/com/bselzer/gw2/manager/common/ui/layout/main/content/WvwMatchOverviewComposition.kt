@@ -12,8 +12,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.router.bringToFront
+import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
+import com.bselzer.gw2.manager.common.ui.layout.contestedarea.content.ContestedAreasComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
@@ -25,7 +27,8 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.match.overview.OwnerO
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchOverviewViewModel
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.ui.layout.preference.section.spacedPreferenceColumnProjector
+import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
+import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceProjector
@@ -33,7 +36,10 @@ import com.bselzer.ktx.compose.ui.layout.row.spacedRowProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.function.collection.buildArray
 
-class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildComposition<WvwMatchOverviewViewModel>(model) {
+class WvwMatchOverviewComposition(
+    model: WvwMatchOverviewViewModel
+) : MainChildComposition<WvwMatchOverviewViewModel>(model),
+    ContestedAreasComposition<WvwMatchOverviewViewModel> {
     private companion object {
         val dataIconSize = DpSize(16.dp, 16.dp)
         val indicatorSize = DpSize(32.dp, 32.dp)
@@ -44,13 +50,21 @@ class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildC
         modifier = Modifier.fillMaxSize().then(modifier),
         contentAlignment = Alignment.TopCenter,
     ) {
-        spacedPreferenceColumnProjector().Projection(
+        spacedColumnProjector(
+            thickness = 5.dp,
+            presenter = ColumnPresenter.CenteredHorizontally
+        ).Projection(
             modifier = Modifier.verticalScroll(rememberScrollState()).padding(paddingValues),
             content = buildArray {
                 add { SelectedWorld() }
 
+                chart?.let { chart ->
+                    add { ChartComposition(model = chart).Content() }
+                }
+
                 if (overviews.any()) {
                     add { Overview() }
+                    add { ContestedAreas() }
                 }
             }
         )
@@ -77,6 +91,13 @@ class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildC
         })
     }
 
+    @Composable
+    private fun WvwMatchOverviewViewModel.ContestedAreas() = BorderedCard(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        ContestedAreasContent()
+    }
+
     /**
      * Lays out the overview for the selected world's match.
      */
@@ -85,16 +106,6 @@ class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildC
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            /*
-            chart?.let { chart ->
-                ChartComposition(model = chart).Content()
-            }
-
-            chartDescription?.let { description ->
-                ChartDataComposition(model = description).Content()
-            }
-             */
-
             overviews.forEach { overview -> overview.Overview() }
         }
     }
@@ -117,6 +128,7 @@ class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildC
     @Composable
     private fun OwnerOverview.Name() = Text(
         text = owner.name.localized(),
+        fontWeight = FontWeight.Bold,
         color = owner.color,
     )
 

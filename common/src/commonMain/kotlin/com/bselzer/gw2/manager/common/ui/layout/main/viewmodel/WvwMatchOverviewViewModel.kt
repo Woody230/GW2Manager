@@ -3,8 +3,8 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartDataViewModel
 import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartViewModel
+import com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel.ContestedAreasViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.SelectedWorldRefreshAction.Companion.refreshAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.overview.*
 import com.bselzer.gw2.v2.model.enumeration.WvwMapBonusType
@@ -12,6 +12,7 @@ import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
+import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreas
 import com.bselzer.gw2.v2.model.extension.wvw.linkedWorlds
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.owner
@@ -29,7 +30,9 @@ import dev.icerock.moko.resources.format
 
 class WvwMatchOverviewViewModel(
     context: AppComponentContext
-) : MainViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
+) : MainViewModel(context),
+    SelectedWorldData by context.repositories.selectedWorld,
+    ContestedAreasViewModel {
     override val title: StringDesc = KtxResources.strings.overview.desc()
 
     override val actions
@@ -76,18 +79,6 @@ class WvwMatchOverviewViewModel(
         }
 
     /**
-     * The description of the [chart] overview for the selected world's match.
-     */
-    val chartDescription: ChartDataViewModel?
-        get() = match?.objectiveOwnerCount()?.let { count ->
-            ChartDataViewModel(
-                context = this,
-                data = count.victoryPoints,
-                title = Gw2Resources.strings.victory_points.desc(),
-            )
-        }
-
-    /**
      * The data and indicator overview for each of the [owners].
      */
     val overviews: List<OwnerOverview>
@@ -106,6 +97,12 @@ class WvwMatchOverviewViewModel(
             }
         }
 
+    override val contestedAreas: ContestedAreas
+        get() {
+            val count = match?.objectiveOwnerCount() ?: ObjectiveOwnerCount
+            return count.contestedAreas
+        }
+
     private fun WvwObjectiveOwner.owner(): Owner = Owner(
         name = displayableLinkedWorlds(this),
         color = color()
@@ -119,7 +116,7 @@ class WvwMatchOverviewViewModel(
 
     private fun ObjectiveOwnerCount.pointsPerTick(owner: WvwObjectiveOwner): Data = Data(
         data = pointsPerTick.getCoerced(owner).toString().desc(),
-        icon = configuration.wvw.icons.pointsPerTick.asImageUrl(),
+        icon = Gw2Resources.images.war_score.asImageDesc(),
         description = Gw2Resources.strings.points_per_tick.desc(),
     )
 

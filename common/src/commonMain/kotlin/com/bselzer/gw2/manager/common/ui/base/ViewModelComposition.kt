@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.bselzer.ktx.compose.ui.layout.ApplicationSize
 
 abstract class ViewModelComposition<Model : ViewModel>(protected val model: Model) {
     /**
@@ -21,4 +22,11 @@ abstract class ViewModelComposition<Model : ViewModel>(protected val model: Mode
 
     protected val padding: Dp = 25.dp
     protected val paddingValues: PaddingValues = PaddingValues(all = padding)
+
+    /**
+     * Depending on rotation or window size, adjust whether to display horizontally or vertically.
+     */
+    protected val shouldLayoutHorizontally
+        @Composable
+        get() = ApplicationSize.current.width > ApplicationSize.current.height
 }

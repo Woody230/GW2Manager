@@ -1,11 +1,10 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content
 
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.layout.borderlands.content.BorderlandsComposition
 import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
@@ -13,7 +12,7 @@ import com.bselzer.gw2.manager.common.ui.layout.contestedarea.content.ContestedA
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel.ContestedAreasViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchContestedAreasViewModel
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
-import com.bselzer.ktx.compose.ui.layout.ApplicationSize
+import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 
 class WvwMatchContestedAreasComposition(
     model: WvwMatchContestedAreasViewModel
@@ -22,7 +21,7 @@ class WvwMatchContestedAreasComposition(
     ContestedAreasComposition<ContestedAreasViewModel> {
     @Composable
     override fun WvwMatchContestedAreasViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
-        modifier = Modifier.fillMaxSize().then(modifier)
+        modifier = Modifier.fillMaxSize().then(modifier),
     ) {
         BorderlandsContent()
     }
@@ -39,10 +38,14 @@ class WvwMatchContestedAreasComposition(
             model.ContestedAreasContent()
         }
 
-        // Depending on rotation or window size, adjust whether to display horizontally or vertically.
-        if (ApplicationSize.current.width > ApplicationSize.current.height) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+        if (shouldLayoutHorizontally) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 chart()
+                Spacer(width = 20.dp)
                 contestedAreas()
             }
         } else {

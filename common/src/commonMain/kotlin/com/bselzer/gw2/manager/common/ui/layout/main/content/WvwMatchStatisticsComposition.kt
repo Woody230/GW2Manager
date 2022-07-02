@@ -37,7 +37,7 @@ class WvwMatchStatisticsComposition(
      * Lays out the information about a particular statistic for each owner.
      */
     @Composable
-    override fun List<Progression>.Content() = Column(
+    override fun ColumnScope.Content(index: Int, data: List<Progression>) = Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
         spacedColumnProjector(
@@ -46,7 +46,7 @@ class WvwMatchStatisticsComposition(
         ).Projection(
             modifier = Modifier.fillMaxWidth(),
             content = buildArray {
-                this@Content.forEach { progression ->
+                data.forEach { progression ->
                     add {
                         progression.Header()
                         progression.Progress()

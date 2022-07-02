@@ -24,7 +24,7 @@ import dev.icerock.moko.resources.desc.image.asImageUrl
 class WvwMatchStatisticsViewModel(
     context: AppComponentContext,
     showDialog: (DialogConfig) -> Unit
-) : WvwMatchViewModel<List<Progression>>(context, showDialog) {
+) : WvwMatchBorderlandsViewModel<List<Progression>>(context, showDialog) {
     override val title: StringDesc = KtxResources.strings.statistics.desc()
 
     override val defaultData: List<Progression> = emptyList()

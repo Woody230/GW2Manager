@@ -55,6 +55,17 @@ interface BorderlandsViewModel<T> : ViewModelDependencies {
         )
 
     /**
+     * The type of [WvwMap] mapped to the associated [WvwMap].
+     * Only maps with a type in the [mapTypes] are considered.
+     */
+    @Suppress("UNCHECKED_CAST")
+    val maps: Map<WvwMapType, WvwMap>
+        get() {
+            val data = match.maps.associateBy { map -> map.type.decodeOrNull() }.filterKeys { type -> type != null && mapTypes.contains(type) }
+            return data as Map<WvwMapType, WvwMap>
+        }
+
+    /**
      * The data to use for a specific borderland.
      */
     val borderlandData: (WvwMap) -> T
@@ -65,10 +76,7 @@ interface BorderlandsViewModel<T> : ViewModelDependencies {
      */
     @Suppress("UNCHECKED_CAST")
     private val borderlandsData: Map<WvwMapType, T>
-        get() {
-            val data = match.maps.associate { map -> map.type.decodeOrNull() to borderlandData(map) }.filterKeys { type -> type != null && mapTypes.contains(type) }
-            return data as Map<WvwMapType, T>
-        }
+        get() = maps.mapValues { (_, map) -> borderlandData(map) }
 
     /**
      * The [DataSet]s for the [borderlandsData].

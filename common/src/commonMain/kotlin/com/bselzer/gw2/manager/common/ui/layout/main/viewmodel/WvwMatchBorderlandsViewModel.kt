@@ -9,7 +9,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.action.SelectedWorldR
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.WorldSelectionAction
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 
-sealed class WvwMatchViewModel<T>(
+sealed class WvwMatchBorderlandsViewModel<T>(
     context: AppComponentContext,
     private val showDialog: (DialogConfig) -> Unit
 ) : MainViewModel(context), BorderlandsViewModel<T>, SelectedWorldData by context.repositories.selectedWorld {

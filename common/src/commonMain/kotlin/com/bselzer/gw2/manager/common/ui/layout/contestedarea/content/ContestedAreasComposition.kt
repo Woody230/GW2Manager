@@ -2,7 +2,6 @@ package com.bselzer.gw2.manager.common.ui.layout.contestedarea.content
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -10,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjective
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjectives
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel.ContestedAreasViewModel
@@ -20,13 +18,11 @@ import com.bselzer.ktx.compose.resource.strings.localized
 
 interface ContestedAreasComposition<Model : ContestedAreasViewModel> {
     @Composable
-    fun Model.ContestedAreasContent() = BorderedCard(
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column {
-            contestedObjectives.forEach { contestedObjectives ->
-                contestedObjectives.Content()
-            }
+    fun Model.ContestedAreasContent(
+        modifier: Modifier = Modifier
+    ) = Column(modifier) {
+        contestedObjectives.forEach { contestedObjectives ->
+            contestedObjectives.Content()
         }
     }
 

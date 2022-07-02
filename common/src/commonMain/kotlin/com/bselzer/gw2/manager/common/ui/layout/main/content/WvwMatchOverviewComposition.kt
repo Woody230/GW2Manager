@@ -149,7 +149,7 @@ class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildC
     @Composable
     private fun Home.Icon() = AsyncImage(
         image = icon,
-        description = null, // TODO description
+        description = description,
         size = indicatorSize,
         color = color
     ).Content()
@@ -157,7 +157,7 @@ class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildC
     @Composable
     private fun Bloodlust.Icon() = AsyncImage(
         image = icon,
-        description = null, // TODO description
+        description = description,
         size = indicatorSize,
         color = color
     ).Content()
@@ -169,6 +169,7 @@ class WvwMatchOverviewComposition(model: WvwMatchOverviewViewModel) : MainChildC
         AsyncImage(
             image = icon,
             description = description,
+            color = color,
             size = dataIconSize
         ).Content()
 

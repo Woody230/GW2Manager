@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartDataViewModel
@@ -18,11 +19,13 @@ import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.resource.Gw2Resources
+import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageDesc
 import dev.icerock.moko.resources.desc.image.asImageUrl
+import dev.icerock.moko.resources.format
 
 class WvwMatchOverviewViewModel(
     context: AppComponentContext
@@ -123,7 +126,8 @@ class WvwMatchOverviewViewModel(
     private fun ObjectiveOwnerCount.warScore(owner: WvwObjectiveOwner): Data = Data(
         data = scores.getCoerced(owner).toString().desc(),
         icon = configuration.wvw.icons.warScore.asImageUrl(),
-        description = Gw2Resources.strings.war_score.desc()
+        description = Gw2Resources.strings.war_score.desc(),
+        color = owner.color()
     )
 
     private fun Map<WvwObjectiveOwner, Int>.getCoerced(owner: WvwObjectiveOwner) = this[owner]?.coerceAtLeast(0) ?: 0
@@ -137,7 +141,8 @@ class WvwMatchOverviewViewModel(
         false -> null
         true -> Home(
             icon = configuration.wvw.icons.home.asImageUrl(),
-            color = owner.color()
+            color = owner.color(),
+            description = AppResources.strings.home_world.desc()
         )
     }
 
@@ -148,7 +153,8 @@ class WvwMatchOverviewViewModel(
         val mapOwner = map.type.decodeOrNull()?.owner() ?: WvwObjectiveOwner.NEUTRAL
         Bloodlust(
             icon = configuration.wvw.icons.bloodlust.asImageUrl(),
-            color = mapOwner.color()
+            color = mapOwner.color(),
+            description = AppResources.strings.bloodlust_for.format(mapOwner.stringDesc())
         )
     }
 

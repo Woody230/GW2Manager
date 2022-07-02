@@ -15,6 +15,7 @@
     <string name="held_for">Held for %1$s</string>
     <string name="hexadecimal_color">ARGB</string>
     <string name="hold_for">Hold for %1$s</string>
+    <string name="home_world">Home World</string>
     <string name="images_description">Icons, map tiles</string>
     <string name="images">Images</string>
     <string name="neutral_slice">Neutral Slice</string>

@@ -1,11 +1,9 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.layout.borderlands.content.BorderlandsComposition
 import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
@@ -25,12 +23,7 @@ class WvwMatchContestedAreasComposition(
     override fun WvwMatchContestedAreasViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize().then(modifier)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            BorderlandsContent()
-        }
+        BorderlandsContent()
     }
 
     @Composable

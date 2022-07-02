@@ -2,8 +2,8 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progress
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progression
+import com.bselzer.gw2.manager.common.ui.layout.main.model.match.statistics.Progress
+import com.bselzer.gw2.manager.common.ui.layout.main.model.match.statistics.Progression
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount

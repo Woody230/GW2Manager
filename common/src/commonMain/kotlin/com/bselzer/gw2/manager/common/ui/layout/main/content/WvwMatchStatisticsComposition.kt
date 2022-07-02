@@ -14,8 +14,8 @@ import com.bselzer.gw2.manager.common.ui.layout.borderlands.content.BorderlandsC
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progress
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.Progression
+import com.bselzer.gw2.manager.common.ui.layout.main.model.match.statistics.Progress
+import com.bselzer.gw2.manager.common.ui.layout.main.model.match.statistics.Progression
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchStatisticsViewModel
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter

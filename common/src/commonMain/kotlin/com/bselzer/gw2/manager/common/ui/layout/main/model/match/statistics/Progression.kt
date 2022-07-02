@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.match
+package com.bselzer.gw2.manager.common.ui.layout.main.model.match.statistics
 
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.image.ImageDesc

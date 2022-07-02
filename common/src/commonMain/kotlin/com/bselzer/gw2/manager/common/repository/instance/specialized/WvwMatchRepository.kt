@@ -83,7 +83,7 @@ class WvwMatchRepository(
 
         // Finally, translate and combine.
         return sortedWorlds.joinToString(
-            separator = "/",
+            separator = ", ",
             transform = { name -> name.translated() }
         ).desc()
     }

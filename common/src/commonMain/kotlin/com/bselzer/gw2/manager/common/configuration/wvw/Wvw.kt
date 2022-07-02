@@ -15,6 +15,12 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 @Serializable
 class Wvw(
+    @XmlSerialName(value = "Icons", namespace = "", prefix = "")
+    val icons: WvwIcons = WvwIcons(),
+
+    @XmlSerialName(value = "Supported", namespace = "", prefix = "")
+    val supported: WvwSupported = WvwSupported(),
+
     @XmlSerialName(value = "Objectives", namespace = "", prefix = "")
     val objectives: WvwObjectives = WvwObjectives(),
 
@@ -29,9 +35,6 @@ class Wvw(
 
     @XmlSerialName(value = "ContestedAreas", namespace = "", prefix = "")
     val contestedAreas: WvwContestedAreas = WvwContestedAreas(),
-
-    @XmlSerialName(value = "Supported", namespace = "", prefix = "")
-    val supported: WvwSupported = WvwSupported()
 ) {
     /**
      * @return the objective from the configuration associated with the endpoint objective

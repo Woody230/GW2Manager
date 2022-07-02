@@ -12,7 +12,6 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.GeneralAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.*
 import com.bselzer.gw2.v2.model.enumeration.WvwMapBonusType
-import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
@@ -24,7 +23,6 @@ import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
 import com.bselzer.gw2.v2.tile.model.position.TexturePosition
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
-import com.bselzer.ktx.function.objects.isOneOf
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -125,13 +123,10 @@ class ViewerViewModel(
             )
         }
 
-    val bloodlusts: Collection<Bloodlust>
+    val bloodlustIcons: Collection<Bloodlust>
         get() {
             val match = match ?: return emptyList()
-            val borderlands = match.maps.filter { map ->
-                map.type.decodeOrNull().isOneOf(WvwMapType.BLUE_BORDERLANDS, WvwMapType.RED_BORDERLANDS, WvwMapType.GREEN_BORDERLANDS)
-            }
-
+            val borderlands = match.maps.filter { map -> mapTypes.contains(map.type.decodeOrNull()) }
             return borderlands.mapNotNull { borderland ->
                 val matchRuins = borderland.objectives.filter { objective -> objective.type.decodeOrNull() == WvwObjectiveType.RUINS }
                 if (matchRuins.isEmpty()) {

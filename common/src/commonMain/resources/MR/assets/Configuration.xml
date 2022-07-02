@@ -2,7 +2,11 @@
 <Configuration transparency="0.5"> <!-- TODO config versioning -->
     <!-- TODO cache clearing based on build number/app version -->
     <WorldVsWorld>
+        <!-- Bloodlust icon is without the yellow background. -->
+        <Icons bloodlust="https://assets.gw2dat.com/358475.png" home="https://assets.gw2dat.com/156646.png" pointsPerTick="https://assets.gw2dat.com/1459698.png"
+            warScore="https://assets.gw2dat.com/1459698.png" />
         <Supported mapTypes="Center|BlueHome|GreenHome|RedHome" objectiveTypes="Camp|Tower|Keep|Castle" owners="Blue|Green|Red" />
+
         <Objectives>
             <!-- Colors -->
             <Color owner="Red" type="#ff4d4d" />
@@ -73,14 +77,19 @@
             <!-- Guild Claim -->
             <Claim icon="https://assets.gw2dat.com/1304078.png" />
         </Objectives>
+
         <Map bounded="true" continentId="2" floorId="3" legacyGrid="false" refreshGrid="false" region="World vs. World" scrollEnabled="true" scrollTo="Eternal Battlegrounds">
             <Zoom default="4" max="5" min="3" />
             <Level endX="14" endY="15" startX="5" startY="8" zoom="4" />
             <Level endX="29" endY="30" startX="11" startY="17" zoom="5" />
         </Map>
+
+        <!-- This icon includes the yellow background. -->
         <Bloodlust icon="https://assets.gw2dat.com/638740.png" />
+
         <Chart background="https://assets.gw2dat.com/157384.png" blue="https://assets.gw2dat.com/157385.png" divider="https://assets.gw2dat.com/157386.png"
             green="https://assets.gw2dat.com/157387.png" neutral="https://assets.gw2dat.com/733278.png" red="https://assets.gw2dat.com/157388.png" />
+
         <ContestedAreas>
             <Objective blue="https://assets.gw2dat.com/157377.png" green="https://assets.gw2dat.com/157378.png"
                 neutral="https://woody230.github.io/GW2Manager-CDN/Icons/Contested_Camp_Neutral.png" red="https://assets.gw2dat.com/157379.png" type="Camp" />

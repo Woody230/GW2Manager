@@ -75,13 +75,13 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         val objectiveWidth = objectiveSize.width.toPx()
         val objectiveHeight = objectiveSize.height.toPx()
         val shouldShowMapLabel = preferences.wvw.showMapLabel.safeState().value
-        LaunchedEffect(state, objectiveIcons, bloodlusts, mapLabels) {
-            Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objectives, ${bloodlusts.size} bloodlusts, and ${mapLabels.size} map labels." }
+        LaunchedEffect(state, objectiveIcons, bloodlustIcons, mapLabels) {
+            Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objectives, ${bloodlustIcons.size} bloodlusts, and ${mapLabels.size} map labels." }
 
             state.removeAllMarkers()
 
             objectiveIcons.forEach { objective -> Objective(objective, state, objectiveWidth, objectiveHeight) }
-            bloodlusts.forEach { bloodlust -> Bloodlust(bloodlust, state) }
+            bloodlustIcons.forEach { bloodlust -> Bloodlust(bloodlust, state) }
 
             if (shouldShowMapLabel) {
                 mapLabels.forEach { label -> MapLabel(label, state) }

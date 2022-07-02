@@ -30,7 +30,7 @@ class BoxGridComposition(model: ViewerViewModel) : GridComposition(model) {
 
             if (grid.rows.isNotEmpty()) {
                 objectiveIcons.forEach { objective -> objective.Objective() }
-                bloodlusts.forEach { bloodlust -> bloodlust.Bloodlust() }
+                bloodlustIcons.forEach { bloodlust -> bloodlust.Bloodlust() }
             }
         }
 

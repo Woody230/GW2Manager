@@ -9,7 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstrainScope
+import androidx.constraintlayout.compose.ConstrainedLayoutReference
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintLayoutScope
 import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjective
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedPointsPerTick
@@ -22,53 +25,81 @@ interface ContestedAreasComposition<Model : ContestedAreasViewModel> {
     @Composable
     fun Model.ContestedAreasContent(
         modifier: Modifier = Modifier
+    ) = ConstraintLayout(
+        modifier = modifier,
     ) {
-        ConstraintLayout(
-            modifier = modifier,
-        ) {
-            val refs = contestedObjectives.map { objectives -> objectives.map { createRef() } }
-            contestedObjectives.forEachIndexed { column, objectives ->
-                objectives.forEachIndexed { row, objective ->
-                    val ref = refs[column][row]
-                    objective.Content(modifier = Modifier.constrainAs(ref) {
-                        val topRef = if (row == 0) parent.top else refs[column][row - 1].bottom
-                        top.linkTo(topRef)
+        val refs = contestedObjectives.map { objectives -> objectives.map { createRef() } }
+        PointsPerTick(scope = this, refs = refs)
+        Objectives(scope = this, refs = refs)
+    }
 
-                        val startRef = when {
-                            // First cell
-                            row == 0 && column == 0 -> parent.start
+    @Composable
+    private fun ContestedAreasViewModel.PointsPerTick(
+        scope: ConstraintLayoutScope,
+        refs: List<List<ConstrainedLayoutReference>>
+    ) = with(scope) {
+        pointsPerTick.forEachIndexed { row, pointsPerTick ->
+            val startMargin = if (ShouldLayoutHorizontally) 20.dp else 10.dp
+            pointsPerTick.Content(modifier = Modifier.constrainAs(createRef()) {
+                // Add points per tick after the last column.
+                val objectiveRef = refs[contestedObjectives.lastIndex][row]
+                start.linkTo(objectiveRef.end, margin = startMargin)
 
-                            // Top row cell => end of previous cell in row
-                            row == 0 -> refs[column - 1][row].end
+                // Center within the row.
+                top.linkTo(objectiveRef.top)
+                bottom.linkTo(objectiveRef.bottom)
+            })
+        }
+    }
 
-                            // Start of previous cell in column
-                            else -> refs[column][row - 1].start
-                        }
-
-                        val startMargin = when {
-                            // Add margin only to intermediary top row cells
-                            row == 0 && column != 0 -> 5.dp
-                            else -> 0.dp
-                        }
-
-                        start.linkTo(startRef, startMargin)
-                    })
-                }
-            }
-
-            pointsPerTick.forEachIndexed { row, pointsPerTick ->
-                val startMargin = if (ShouldLayoutHorizontally) 20.dp else 10.dp
-                pointsPerTick.Content(modifier = Modifier.constrainAs(createRef()) {
-                    // Add points per tick after the last column.
-                    val objectiveRef = refs[contestedObjectives.lastIndex][row]
-                    start.linkTo(objectiveRef.end, margin = startMargin)
-
-                    // Center within the row.
-                    top.linkTo(objectiveRef.top)
-                    bottom.linkTo(objectiveRef.bottom)
+    @Composable
+    private fun ContestedAreasViewModel.Objectives(
+        scope: ConstraintLayoutScope,
+        refs: List<List<ConstrainedLayoutReference>>
+    ) = with(scope) {
+        contestedObjectives.forEachIndexed { column, objectives ->
+            objectives.forEachIndexed { row, objective ->
+                val ref = refs[column][row]
+                objective.Content(modifier = Modifier.constrainAs(ref) {
+                    linkObjectiveTop(column, row, refs)
+                    linkObjectiveStart(column, row, refs)
                 })
             }
         }
+    }
+
+    private fun ConstrainScope.linkObjectiveTop(
+        column: Int,
+        row: Int,
+        refs: List<List<ConstrainedLayoutReference>>
+    ) {
+        val topRef = if (row == 0) parent.top else refs[column][row - 1].bottom
+        top.linkTo(topRef)
+    }
+
+    private fun ConstrainScope.linkObjectiveStart(
+        column: Int,
+        row: Int,
+        refs: List<List<ConstrainedLayoutReference>>
+    ) {
+        val startRef = when {
+            // First cell
+            row == 0 && column == 0 -> parent.start
+
+            // Top row cell => end of previous cell in row
+            row == 0 -> refs[column - 1][row].end
+
+            // Start of previous cell in column
+            else -> refs[column][row - 1].start
+        }
+
+        val startMargin = when {
+            // Add margin only to intermediary top row cells
+            row == 0 && column != 0 -> 5.dp
+            else -> 0.dp
+        }
+
+        start.linkTo(startRef, startMargin)
     }
 
     @Composable

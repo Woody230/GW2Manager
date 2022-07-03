@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -7,11 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.content.ContestedAreasComposition
+import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalMainRouter
+import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.content.match.overview.OwnerOverviewComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.content.match.overview.SelectedWorldComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchOverviewViewModel
@@ -68,7 +72,8 @@ class WvwMatchOverviewComposition(
 
     @Composable
     private fun WvwMatchOverviewViewModel.Chart() = chart?.let { chart ->
-        ChartComposition(model = chart).Content()
+        val modifier = Modifier.routeOnClick(MainConfig.WvwMatchStatisticsConfig)
+        ChartComposition(model = chart).Content(modifier = modifier)
     }
 
     @Composable
@@ -80,21 +85,27 @@ class WvwMatchOverviewComposition(
 
     @Composable
     private fun WvwMatchOverviewViewModel.ContestedAreas() = BorderedCard(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().routeOnClick(MainConfig.WvwMatchContestedAreasConfig)
     ) {
         ContestedAreasContent()
     }
 
     @Composable
     private fun WvwMatchOverviewViewModel.Overview() = BorderedCard(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().routeOnClick(MainConfig.WvwMatchStatisticsConfig)
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
         ) {
             overviews.forEach { overview ->
                 OwnerOverviewComposition(overview).Content()
             }
         }
+    }
+
+    @Composable
+    private fun Modifier.routeOnClick(config: MainConfig): Modifier {
+        val router = LocalMainRouter.current
+        return clickable { router.bringToFront(config) }
     }
 }

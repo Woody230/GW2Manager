@@ -38,7 +38,6 @@ class OwnerOverviewComposition(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // TODO on click => go to statistics or contested areas
         Column(
             modifier = Modifier.weight(1f)
         ) {

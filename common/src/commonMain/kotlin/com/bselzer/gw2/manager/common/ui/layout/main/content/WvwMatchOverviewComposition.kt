@@ -72,7 +72,7 @@ class WvwMatchOverviewComposition(
     }
 
     @Composable
-    private fun WvwMatchOverviewViewModel.Chart() = chart?.let { chart ->
+    private fun WvwMatchOverviewViewModel.Chart() {
         val modifier = Modifier.routeOnClick(MainConfig.WvwMatchStatisticsConfig)
         ChartComposition(model = chart).Content(modifier = modifier)
     }

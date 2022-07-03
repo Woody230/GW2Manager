@@ -1,6 +1,8 @@
 package com.bselzer.gw2.manager.common.repository.data.specialized
 
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
+import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
+import com.bselzer.gw2.v2.model.extension.wvw.count.WvwSkirmishObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
@@ -12,6 +14,9 @@ import dev.icerock.moko.resources.desc.StringDesc
 
 interface MatchData {
     val match: WvwMatch?
+    val count: WvwMatchObjectiveOwnerCount
+    val lastSkirmish: WvwSkirmishObjectiveOwnerCount
+
     val objectives: Map<WvwMapObjectiveId, WvwObjective>
     val upgrades: Map<WvwUpgradeId, WvwUpgrade>
     val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade>

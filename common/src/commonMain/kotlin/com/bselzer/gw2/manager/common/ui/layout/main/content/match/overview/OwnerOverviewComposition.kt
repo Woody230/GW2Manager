@@ -38,6 +38,7 @@ class OwnerOverviewComposition(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // TODO constraint layout
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -62,7 +63,8 @@ class OwnerOverviewComposition(
         content = buildArray {
             add { victoryPoints.DataPoint() }
             add { pointsPerTick.DataPoint() }
-            add { warScore.DataPoint() }
+            add { skirmishWarScore.DataPoint() }
+            add { totalWarScore.DataPoint() }
         }
     )
 

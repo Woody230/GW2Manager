@@ -11,10 +11,9 @@ import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRep
 import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
-import com.bselzer.gw2.v2.model.extension.wvw.guildUpgradeIds
-import com.bselzer.gw2.v2.model.extension.wvw.linkedWorlds
-import com.bselzer.gw2.v2.model.extension.wvw.mainWorld
-import com.bselzer.gw2.v2.model.extension.wvw.objectiveIds
+import com.bselzer.gw2.v2.model.extension.wvw.*
+import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
+import com.bselzer.gw2.v2.model.extension.wvw.count.WvwSkirmishObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
@@ -48,6 +47,12 @@ class WvwMatchRepository(
     private val _match = mutableStateOf<WvwMatch?>(null)
     override val match: WvwMatch?
         get() = _match.value
+
+    override val count: WvwMatchObjectiveOwnerCount
+        get() = match?.objectiveOwnerCount() ?: WvwMatchObjectiveOwnerCount()
+
+    override val lastSkirmish: WvwSkirmishObjectiveOwnerCount
+        get() = match?.skirmishObjectiveOwnerCounts()?.maxByOrNull { (id, _) -> id }?.value ?: WvwSkirmishObjectiveOwnerCount()
 
     private val _objectives = mutableStateMapOf<WvwMapObjectiveId, WvwObjective>()
     override val objectives: Map<WvwMapObjectiveId, WvwObjective> = _objectives

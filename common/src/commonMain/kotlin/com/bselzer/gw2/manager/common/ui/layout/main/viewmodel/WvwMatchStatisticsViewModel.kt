@@ -10,10 +10,8 @@ import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerScore
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
-import com.bselzer.gw2.v2.model.extension.wvw.count.WvwSkirmishObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreasCountByType
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveOwnerCount
-import com.bselzer.gw2.v2.model.extension.wvw.skirmishObjectiveOwnerCounts
 import com.bselzer.gw2.v2.model.wvw.map.WvwMap
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
@@ -33,20 +31,11 @@ class WvwMatchStatisticsViewModel(
 
     override val defaultData: List<Progression> = emptyList()
 
-    private val lastSkirmish: WvwSkirmishObjectiveOwnerCount?
-        get() = match.skirmishObjectiveOwnerCounts().maxByOrNull { (id, _) -> id }?.value
-
-    override fun overviewData(): List<Progression> = with(
-        match.objectiveOwnerCount()
-    ) {
+    override fun overviewData(): List<Progression> = with(count) {
         buildList {
             add(vpProgression())
             add(pptProgression())
-
-            lastSkirmish?.let { lastSkirmish ->
-                add(lastSkirmish.skirmishScoreProgression())
-            }
-
+            add(lastSkirmish.skirmishScoreProgression())
             add(totalScoreProgression())
             add(killProgression())
             add(deathProgression())
@@ -60,13 +49,10 @@ class WvwMatchStatisticsViewModel(
         buildList {
             add(pptProgression())
 
-            lastSkirmish?.mapScores?.get(map.type.decodeOrNull())?.let { scores ->
-                val count = object : ObjectiveOwnerScore {
-                    override val scores: Map<WvwObjectiveOwner, Int> = scores
-                }
-
-                add(count.skirmishScoreProgression())
+            val mapScore = object : ObjectiveOwnerScore {
+                override val scores: Map<WvwObjectiveOwner, Int> = lastSkirmish.mapScores[map.type.decodeOrNull()] ?: emptyMap()
             }
+            add(mapScore.skirmishScoreProgression())
 
             add(totalScoreProgression())
             add(killProgression())

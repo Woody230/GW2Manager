@@ -65,6 +65,7 @@ class WvwMatchStatisticsComposition(
     ) {
         AsyncImage(
             image = icon,
+            color = color,
             size = DpSize(25.dp, 25.dp)
         ).Content()
 

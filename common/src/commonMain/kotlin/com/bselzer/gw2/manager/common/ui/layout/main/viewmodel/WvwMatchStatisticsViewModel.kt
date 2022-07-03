@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
+import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.statistics.Progress
@@ -61,7 +62,6 @@ class WvwMatchStatisticsViewModel(
         title = Gw2Resources.strings.points_per_tick.desc(),
 
         // The PPT icon is just a smaller war score icon (16x16 compared to 32x32).
-        // Normally the war score icon would be tinted to match the team color though.
         icon = Gw2Resources.images.war_score.asImageDesc()
     )
 
@@ -76,10 +76,16 @@ class WvwMatchStatisticsViewModel(
     /**
      * The progression for the total score earned for the entire match.
      */
-    private fun ObjectiveOwnerCount?.scoreProgression() = this?.scores.progression(
-        title = Gw2Resources.strings.war_score.desc(),
-        icon = Gw2Resources.images.war_score.asImageDesc()
-    )
+    private fun ObjectiveOwnerCount?.scoreProgression(): Progression {
+        val winner = this?.scores?.maxByOrNull { score -> score.value }?.key
+        return this?.scores.progression(
+            title = Gw2Resources.strings.war_score.desc(),
+            icon = if (winner == null) Gw2Resources.images.war_score.asImageDesc() else configuration.wvw.icons.warScore.asImageUrl(),
+
+            // Tint to help distinguish between this and the PPT icon which is inherently the same.
+            color = winner?.color()
+        )
+    }
 
     /**
      * The progression for the total number of kills earned for the entire match.
@@ -97,11 +103,16 @@ class WvwMatchStatisticsViewModel(
         icon = Gw2Resources.images.ally_dead.asImageDesc()
     )
 
-    private fun Map<out WvwObjectiveOwner?, Int>?.progression(title: StringDesc, icon: ImageDesc): Progression {
+    private fun Map<out WvwObjectiveOwner?, Int>?.progression(
+        title: StringDesc,
+        icon: ImageDesc,
+        color: Color? = null
+    ): Progression {
         val total = total().toFloat()
         return Progression(
             title = title,
             icon = icon,
+            color = color,
             progress = owners.map { owner ->
                 val amount = this?.get(owner) ?: 0
                 owner.progress(amount, total, owners.size)
@@ -148,10 +159,13 @@ class WvwMatchStatisticsViewModel(
         return Progression(
             title = type.stringDesc(),
             icon = link?.value?.asImageUrl(),
-            progress = counts.map { count ->
+
+            // Tint with the winner.
+            color = maxByOrNull { count -> count.size }?.owner.color(),
+            progress = map { count ->
                 val amount = count.size
                 val owner = count.owner
-                owner.progress(amount, total, counts.size)
+                owner.progress(amount, total, size)
             }
         )
     }

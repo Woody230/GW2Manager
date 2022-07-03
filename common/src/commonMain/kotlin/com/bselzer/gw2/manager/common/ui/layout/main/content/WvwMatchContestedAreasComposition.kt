@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.borderlands.content.BorderlandsComposition
 import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
@@ -38,7 +39,7 @@ class WvwMatchContestedAreasComposition(
             model.ContestedAreasContent()
         }
 
-        if (shouldLayoutHorizontally) {
+        if (ShouldLayoutHorizontally) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,

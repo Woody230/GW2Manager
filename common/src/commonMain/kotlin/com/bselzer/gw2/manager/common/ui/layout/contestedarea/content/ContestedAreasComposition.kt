@@ -9,12 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjective
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjectives
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel.ContestedAreasViewModel
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 
 interface ContestedAreasComposition<Model : ContestedAreasViewModel> {
     @Composable
@@ -34,20 +36,43 @@ interface ContestedAreasComposition<Model : ContestedAreasViewModel> {
             objective.Content()
         }
 
+        if (ShouldLayoutHorizontally) {
+            Spacer(width = 20.dp)
+        }
+
         Text(text = ppt.localized(), color = color, fontSize = 32.sp)
     }
 
     @Composable
-    private fun ContestedObjective.Content() = Column(
+    private fun ContestedObjective.Content() = when (ShouldLayoutHorizontally) {
+        true -> HorizontalContent()
+        false -> VerticalContent()
+    }
+
+    @Composable
+    private fun ContestedObjective.HorizontalContent() = Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon()
+        Count()
+    }
+
+    @Composable
+    private fun ContestedObjective.VerticalContent() = Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AsyncImage(
-            image = link,
-            color = color,
-            description = description,
-            size = DpSize(50.dp, 50.dp),
-        ).Content()
-
-        Text(text = count.localized())
+        Icon()
+        Count()
     }
+
+    @Composable
+    private fun ContestedObjective.Icon() = AsyncImage(
+        image = link,
+        color = color,
+        description = description,
+        size = DpSize(50.dp, 50.dp),
+    ).Content()
+
+    @Composable
+    private fun ContestedObjective.Count() = Text(text = count.localized())
 }

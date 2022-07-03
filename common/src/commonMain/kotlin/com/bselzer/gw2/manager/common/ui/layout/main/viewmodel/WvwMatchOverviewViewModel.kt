@@ -121,6 +121,7 @@ class WvwMatchOverviewViewModel(
     )
 
     private fun ObjectiveOwnerCount.warScore(owner: WvwObjectiveOwner): Data = Data(
+        // TODO current skirmish war score instead?
         data = scores.getCoerced(owner).toString().desc(),
         icon = configuration.wvw.icons.warScore.asImageUrl(),
         description = Gw2Resources.strings.war_score.desc(),

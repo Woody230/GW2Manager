@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjective
-import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjectives
+import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedPointsPerTick
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel.ContestedAreasViewModel
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
@@ -22,25 +22,29 @@ interface ContestedAreasComposition<Model : ContestedAreasViewModel> {
     @Composable
     fun Model.ContestedAreasContent(
         modifier: Modifier = Modifier
-    ) = Column(modifier) {
-        contestedObjectives.forEach { contestedObjectives ->
-            contestedObjectives.Content()
-        }
-    }
-
-    @Composable
-    private fun ContestedObjectives.Content() = Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        objectives.forEach { objective ->
-            objective.Content()
-        }
+    ) = Row(modifier) {
+        contestedObjectives.forEach { objectives -> objectives.Content() }
 
         if (ShouldLayoutHorizontally) {
             Spacer(width = 20.dp)
         }
 
-        Text(text = ppt.localized(), color = color, fontSize = 32.sp)
+        pointsPerTick.Content()
+    }
+
+    @Composable
+    @JvmName("pptContent")
+    private fun List<ContestedPointsPerTick>.Content() = Column {
+        forEach { ppt -> ppt.Content() }
+    }
+
+    @Composable
+    private fun ContestedPointsPerTick.Content() = Text(text = ppt.localized(), color = color, fontSize = 32.sp)
+
+    @Composable
+    @JvmName("objectiveContent")
+    private fun List<ContestedObjective>.Content() = Column {
+        forEach { objective -> objective.Content() }
     }
 
     @Composable

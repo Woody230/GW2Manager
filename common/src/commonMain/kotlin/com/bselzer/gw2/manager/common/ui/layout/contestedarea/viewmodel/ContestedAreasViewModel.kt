@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.configuration.wvw.WvwContestedAreasObjective
 import com.bselzer.gw2.manager.common.dependency.ViewModelDependencies
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjective
-import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjectives
+import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedPointsPerTick
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreas
@@ -17,25 +17,32 @@ import dev.icerock.moko.resources.desc.image.asImageUrl
 
 interface ContestedAreasViewModel : ViewModelDependencies {
     /**
-     * The contested areas to create the [ContestedObjectives] for.
+     * The contested areas to create the [contestedObjectives] for.
      */
     val contestedAreas: ContestedAreas
 
     /**
-     * The counts and points per tick for the objectives with a [WvwObjectiveType] in [objectiveTypes] associated with a specific [WvwObjectiveOwner] in [owners].
+     * The counts for the objectives with a [WvwObjectiveType] in [objectiveTypes] associated with a specific [WvwObjectiveOwner] in [owners].
+     *
+     * The objectives are grouped by type and should consequently be laid out in columns.
      */
-    val contestedObjectives: List<ContestedObjectives>
+    val contestedObjectives: List<List<ContestedObjective>>
         get() {
-            val byOwner: List<ContestedAreasCountByOwner> = contestedAreas.byOwner.filter(owners, objectiveTypes)
-            return byOwner.map { counts -> counts.contestedObjectives() }
+            val byType = contestedAreas.byType.filter(objectiveTypes, owners).map { byType -> byType.counts }
+            return byType.map { counts -> counts.map { count -> count.contestedObjective() } }
         }
 
-    private fun ContestedAreasCountByOwner.contestedObjectives(): ContestedObjectives {
+    /**
+     * The points per tick for the objectives with a [WvwObjectiveType] in [objectiveTypes] associated with a specific [WvwObjectiveOwner] in [owners].
+     */
+    val pointsPerTick: List<ContestedPointsPerTick>
+        get() = contestedAreas.byOwner.filter(owners, objectiveTypes).map { byOwner -> byOwner.pointsPerTick() }
+
+    private fun ContestedAreasCountByOwner.pointsPerTick(): ContestedPointsPerTick {
         val ppt = sumOf { count -> count.pointsPerTick }.coerceAtLeast(0)
-        return ContestedObjectives(
+        return ContestedPointsPerTick(
             ppt = "+$ppt".desc(),
             color = owner.color(),
-            objectives = map { count -> count.contestedObjective() }
         )
     }
 

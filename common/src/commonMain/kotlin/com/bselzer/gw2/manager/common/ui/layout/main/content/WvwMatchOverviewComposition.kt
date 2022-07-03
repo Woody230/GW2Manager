@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.router.bringToFront
+import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
@@ -54,17 +55,34 @@ class WvwMatchOverviewComposition(
             thickness = 5.dp,
             presenter = ColumnPresenter.CenteredHorizontally
         ).Projection(
-            modifier = Modifier.verticalScroll(rememberScrollState()).padding(paddingValues),
+            modifier = Modifier.verticalScroll(rememberScrollState()),
             content = buildArray {
                 add { SelectedWorld() }
 
-                chart?.let { chart ->
-                    add { ChartComposition(model = chart).Content() }
-                }
+                // TODO on click => go to statistics or contested areas
+                if (ShouldLayoutHorizontally) {
+                    if (overviews.any()) {
+                        add {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                chart?.let { chart ->
+                                    ChartComposition(model = chart).Content()
+                                }
 
-                if (overviews.any()) {
-                    add { Overview() }
-                    add { ContestedAreas() }
+                                Overview()
+                            }
+                        }
+
+                        add { ContestedAreas() }
+                    }
+                } else {
+                    chart?.let { chart ->
+                        add { ChartComposition(model = chart).Content() }
+                    }
+
+                    if (overviews.any()) {
+                        add { Overview() }
+                        add { ContestedAreas() }
+                    }
                 }
             }
         )

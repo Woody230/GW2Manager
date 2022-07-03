@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedObjective
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.model.ContestedPointsPerTick
@@ -16,45 +17,81 @@ import com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel.Conteste
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 
 interface ContestedAreasComposition<Model : ContestedAreasViewModel> {
     @Composable
     fun Model.ContestedAreasContent(
         modifier: Modifier = Modifier
-    ) = Row(modifier) {
-        contestedObjectives.forEach { objectives -> objectives.Content() }
+    ) {
+        ConstraintLayout(
+            modifier = modifier,
+        ) {
+            val refs = contestedObjectives.map { objectives -> objectives.map { createRef() } }
+            contestedObjectives.forEachIndexed { column, objectives ->
+                objectives.forEachIndexed { row, objective ->
+                    val ref = refs[column][row]
+                    objective.Content(modifier = Modifier.constrainAs(ref) {
+                        val topRef = if (row == 0) parent.top else refs[column][row - 1].bottom
+                        top.linkTo(topRef)
 
-        if (ShouldLayoutHorizontally) {
-            Spacer(width = 20.dp)
+                        val startRef = when {
+                            // First cell
+                            row == 0 && column == 0 -> parent.start
+
+                            // Top row cell => end of previous cell in row
+                            row == 0 -> refs[column - 1][row].end
+
+                            // Start of previous cell in column
+                            else -> refs[column][row - 1].start
+                        }
+
+                        val startMargin = when {
+                            // Add margin only to intermediary top row cells
+                            row == 0 && column != 0 -> 5.dp
+                            else -> 0.dp
+                        }
+
+                        start.linkTo(startRef, startMargin)
+                    })
+                }
+            }
+
+            pointsPerTick.forEachIndexed { row, pointsPerTick ->
+                val startMargin = if (ShouldLayoutHorizontally) 20.dp else 10.dp
+                pointsPerTick.Content(modifier = Modifier.constrainAs(createRef()) {
+                    // Add points per tick after the last column.
+                    val objectiveRef = refs[contestedObjectives.lastIndex][row]
+                    start.linkTo(objectiveRef.end, margin = startMargin)
+
+                    // Center within the row.
+                    top.linkTo(objectiveRef.top)
+                    bottom.linkTo(objectiveRef.bottom)
+                })
+            }
         }
-
-        pointsPerTick.Content()
     }
 
     @Composable
-    @JvmName("pptContent")
-    private fun List<ContestedPointsPerTick>.Content() = Column {
-        forEach { ppt -> ppt.Content() }
+    private fun ContestedPointsPerTick.Content(modifier: Modifier) = Text(
+        modifier = modifier,
+        text = ppt.localized(),
+        color = color,
+        fontSize = 32.sp
+    )
+
+    @Composable
+    private fun ContestedObjective.Content(
+        modifier: Modifier
+    ) = when (ShouldLayoutHorizontally) {
+        true -> HorizontalContent(modifier)
+        false -> VerticalContent(modifier)
     }
 
     @Composable
-    private fun ContestedPointsPerTick.Content() = Text(text = ppt.localized(), color = color, fontSize = 32.sp)
-
-    @Composable
-    @JvmName("objectiveContent")
-    private fun List<ContestedObjective>.Content() = Column {
-        forEach { objective -> objective.Content() }
-    }
-
-    @Composable
-    private fun ContestedObjective.Content() = when (ShouldLayoutHorizontally) {
-        true -> HorizontalContent()
-        false -> VerticalContent()
-    }
-
-    @Composable
-    private fun ContestedObjective.HorizontalContent() = Row(
+    private fun ContestedObjective.HorizontalContent(
+        modifier: Modifier
+    ) = Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon()
@@ -62,7 +99,10 @@ interface ContestedAreasComposition<Model : ContestedAreasViewModel> {
     }
 
     @Composable
-    private fun ContestedObjective.VerticalContent() = Column(
+    private fun ContestedObjective.VerticalContent(
+        modifier: Modifier
+    ) = Column(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon()

@@ -32,11 +32,13 @@ class WvwMatchOverviewComposition(
         modifier = Modifier.fillMaxSize().then(modifier),
         contentAlignment = Alignment.TopCenter,
     ) {
+        val spacing = if (ShouldLayoutHorizontally) 5.dp else 15.dp
+        val padding = PaddingValues(vertical = if (ShouldLayoutHorizontally) 0.dp else 20.dp)
         spacedColumnProjector(
-            thickness = 5.dp,
+            thickness = spacing,
             presenter = ColumnPresenter.CenteredHorizontally
         ).Projection(
-            modifier = Modifier.verticalScroll(rememberScrollState()),
+            modifier = Modifier.verticalScroll(rememberScrollState()).padding(padding),
             content = buildContent()
         )
     }
@@ -65,7 +67,6 @@ class WvwMatchOverviewComposition(
 
     @Composable
     private fun WvwMatchOverviewViewModel.verticalContent(): List<@Composable ColumnScope.() -> Unit> = buildList {
-        add { Chart() }
         add { Overview() }
         add { ContestedAreas() }
     }

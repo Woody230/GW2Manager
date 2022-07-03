@@ -20,5 +20,5 @@ sealed class WvwMatchBorderlandsViewModel<T>(
         )
 
     override val match: WvwMatch
-        get() = repositories.selectedWorld.match ?: WvwMatch()
+        get() = repositories.selectedWorld.match
 }

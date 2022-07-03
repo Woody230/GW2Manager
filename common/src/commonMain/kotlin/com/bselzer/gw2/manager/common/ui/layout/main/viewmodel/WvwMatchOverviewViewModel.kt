@@ -44,7 +44,7 @@ class WvwMatchOverviewViewModel(
     val selectedWorld: WorldResources
         get() {
             val selectedId = world?.id ?: WorldId(0)
-            val owner = match?.owner(selectedId) ?: WvwObjectiveOwner.NEUTRAL
+            val owner = match.owner(selectedId)
             return WorldResources(
                 title = Gw2Resources.strings.world.desc(),
                 subtitle = worldSubtitle(selectedId, world),
@@ -87,8 +87,8 @@ class WvwMatchOverviewViewModel(
                 skirmishWarScore = lastSkirmish.skirmishWarScore(owner),
                 totalWarScore = count.totalWarScore(owner),
                 owner = owner.owner(),
-                home = match?.home(owner),
-                bloodlusts = match?.bloodlusts(owner) ?: emptyList()
+                home = match.home(owner),
+                bloodlusts = match.bloodlusts(owner)
             )
         }
 
@@ -100,33 +100,33 @@ class WvwMatchOverviewViewModel(
         color = color()
     )
 
-    private fun WvwMatchObjectiveOwnerCount?.victoryPoints(owner: WvwObjectiveOwner): Data = Data(
-        data = this?.victoryPoints.getCoerced(owner).toString().desc(),
+    private fun WvwMatchObjectiveOwnerCount.victoryPoints(owner: WvwObjectiveOwner): Data = Data(
+        data = victoryPoints.getCoerced(owner).toString().desc(),
         icon = Gw2Resources.images.victory_points.asImageDesc(),
         description = Gw2Resources.strings.victory_points.desc(),
     )
 
-    private fun ObjectiveOwnerCount?.pointsPerTick(owner: WvwObjectiveOwner): Data = Data(
-        data = this?.pointsPerTick.getCoerced(owner).toString().desc(),
+    private fun ObjectiveOwnerCount.pointsPerTick(owner: WvwObjectiveOwner): Data = Data(
+        data = pointsPerTick.getCoerced(owner).toString().desc(),
         icon = Gw2Resources.images.war_score.asImageDesc(),
         description = Gw2Resources.strings.points_per_tick.desc(),
     )
 
-    private fun WvwSkirmishObjectiveOwnerCount?.skirmishWarScore(owner: WvwObjectiveOwner): Data = Data(
-        data = this?.scores.getCoerced(owner).toString().desc(),
+    private fun WvwSkirmishObjectiveOwnerCount.skirmishWarScore(owner: WvwObjectiveOwner): Data = Data(
+        data = scores.getCoerced(owner).toString().desc(),
         icon = configuration.wvw.icons.warScore.asImageUrl(),
         description = Gw2Resources.strings.skirmish_score.desc(),
         color = owner.color()
     )
 
-    private fun ObjectiveOwnerCount?.totalWarScore(owner: WvwObjectiveOwner): Data = Data(
-        data = this?.scores.getCoerced(owner).toString().desc(),
+    private fun ObjectiveOwnerCount.totalWarScore(owner: WvwObjectiveOwner): Data = Data(
+        data = scores.getCoerced(owner).toString().desc(),
         icon = configuration.wvw.icons.warScore.asImageUrl(),
         description = Gw2Resources.strings.total_score.desc(),
         color = owner.color()
     )
 
-    private fun Map<WvwObjectiveOwner, Int>?.getCoerced(owner: WvwObjectiveOwner) = this?.get(owner)?.coerceAtLeast(0) ?: 0
+    private fun Map<WvwObjectiveOwner, Int>.getCoerced(owner: WvwObjectiveOwner) = this[owner]?.coerceAtLeast(0) ?: 0
 
     /**
      * Creates the [Home] if the user's selected world matches one of the [owner]'s worlds.

@@ -55,7 +55,7 @@ class SelectedWorldRepository(
 
     private val lock = Mutex()
     private val mapId: MapId?
-        get() = repositories.match.match?.mapId()
+        get() = repositories.match.match.mapId()
 
     /**
      * The continent for the current match.
@@ -78,7 +78,6 @@ class SelectedWorldRepository(
     @Suppress("UNCHECKED_CAST")
     override val matchMaps: Map<WvwMap, com.bselzer.gw2.v2.model.map.Map>
         get() {
-            val match = match ?: return emptyMap()
             val maps = match.maps.associateWith { map -> repositories.map.getMap(map.id) }
             return maps.filterValues { map -> map != null } as Map<WvwMap, com.bselzer.gw2.v2.model.map.Map>
         }

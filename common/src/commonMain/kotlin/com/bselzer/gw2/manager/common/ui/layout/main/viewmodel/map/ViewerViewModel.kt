@@ -114,7 +114,7 @@ class ViewerViewModel(
                 width = topRight.x - topLeft.x,
                 description = when {
                     // If there are worlds then display them.
-                    match?.linkedWorlds(owner)?.isNotEmpty() == true -> displayableLinkedWorlds(owner)
+                    match.linkedWorlds(owner).isNotEmpty() -> displayableLinkedWorlds(owner)
 
                     // Otherwise fall back to the map name.
                     type != null -> type.stringDesc()
@@ -125,7 +125,6 @@ class ViewerViewModel(
 
     val bloodlustIcons: Collection<Bloodlust>
         get() {
-            val match = match ?: return emptyList()
             val borderlands = match.maps.filter { map -> mapTypes.contains(map.type.decodeOrNull()) }
             return borderlands.mapNotNull { borderland ->
                 val matchRuins = borderland.objectives.filter { objective -> objective.type.decodeOrNull() == WvwObjectiveType.RUINS }
@@ -160,7 +159,6 @@ class ViewerViewModel(
 
     val objectiveIcons: Collection<ObjectiveIcon>
         get() {
-            val match = match ?: return emptyList()
             val models = objectives.values.mapNotNull { objective ->
                 val fromConfig = configuration.wvw.objective(objective)
                 val fromMatch = match.objective(objective) ?: return@mapNotNull null

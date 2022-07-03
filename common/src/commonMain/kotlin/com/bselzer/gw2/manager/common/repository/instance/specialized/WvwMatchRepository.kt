@@ -45,14 +45,14 @@ class WvwMatchRepository(
     )
 
     private val _match = mutableStateOf<WvwMatch?>(null)
-    override val match: WvwMatch?
-        get() = _match.value
+    override val match: WvwMatch
+        get() = _match.value ?: WvwMatch()
 
     override val count: WvwMatchObjectiveOwnerCount
-        get() = match?.objectiveOwnerCount() ?: WvwMatchObjectiveOwnerCount()
+        get() = match.objectiveOwnerCount()
 
     override val lastSkirmish: WvwSkirmishObjectiveOwnerCount
-        get() = match?.skirmishObjectiveOwnerCounts()?.maxByOrNull { (id, _) -> id }?.value ?: WvwSkirmishObjectiveOwnerCount()
+        get() = match.skirmishObjectiveOwnerCounts().maxByOrNull { (id, _) -> id }?.value ?: WvwSkirmishObjectiveOwnerCount()
 
     private val _objectives = mutableStateMapOf<WvwMapObjectiveId, WvwObjective>()
     override val objectives: Map<WvwMapObjectiveId, WvwObjective> = _objectives
@@ -67,7 +67,7 @@ class WvwMatchRepository(
      */
     override fun displayableLinkedWorlds(owner: WvwObjectiveOwner): StringDesc {
         val worlds = repositories.world.worlds
-        val linkedIds = match?.linkedWorlds(owner) ?: emptyList()
+        val linkedIds = match.linkedWorlds(owner)
         val linkedWorlds: Collection<String> = linkedIds.mapNotNull { worldId -> worlds[worldId]?.name?.value }
 
         // Default to using the owner if there are no worlds.
@@ -76,7 +76,7 @@ class WvwMatchRepository(
         }
 
         // Make sure that the main world is first.
-        val mainWorld: String? = match?.mainWorld(owner)?.let { worldId -> worlds[worldId]?.name?.value }
+        val mainWorld: String? = match.mainWorld(owner)?.let { worldId -> worlds[worldId]?.name?.value }
         val sortedWorlds = if (mainWorld == null) {
             linkedWorlds
         } else {

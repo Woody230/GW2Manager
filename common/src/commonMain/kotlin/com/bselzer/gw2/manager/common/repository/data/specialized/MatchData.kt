@@ -13,7 +13,7 @@ import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgradeId
 import dev.icerock.moko.resources.desc.StringDesc
 
 interface MatchData {
-    val match: WvwMatch?
+    val match: WvwMatch
     val count: WvwMatchObjectiveOwnerCount
     val lastSkirmish: WvwSkirmishObjectiveOwnerCount
 

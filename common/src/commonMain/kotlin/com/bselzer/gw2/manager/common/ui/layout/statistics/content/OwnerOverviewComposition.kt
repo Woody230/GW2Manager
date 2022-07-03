@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.content.match.overview
+package com.bselzer.gw2.manager.common.ui.layout.statistics.content
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,10 +12,10 @@ import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.image.Content
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.overview.Bloodlust
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.overview.Data
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.overview.Home
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.overview.OwnerOverview
+import com.bselzer.gw2.manager.common.ui.layout.statistics.model.overview.Bloodlust
+import com.bselzer.gw2.manager.common.ui.layout.statistics.model.overview.Data
+import com.bselzer.gw2.manager.common.ui.layout.statistics.model.overview.Home
+import com.bselzer.gw2.manager.common.ui.layout.statistics.model.overview.OwnerOverview
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.row.spacedRowProjector
 import com.bselzer.ktx.function.collection.buildArray

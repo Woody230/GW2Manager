@@ -25,7 +25,7 @@ import com.bselzer.ktx.function.collection.buildArray
 
 class WvwMatchStatisticsComposition(
     model: WvwMatchStatisticsViewModel
-) : MainChildComposition<WvwMatchStatisticsViewModel>(model), BorderlandsComposition<WvwMatchStatisticsViewModel, List<Progression>> {
+) : MainChildComposition<WvwMatchStatisticsViewModel>(model), BorderlandsComposition<List<Progression>> {
     @Composable
     override fun WvwMatchStatisticsViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize().then(modifier)

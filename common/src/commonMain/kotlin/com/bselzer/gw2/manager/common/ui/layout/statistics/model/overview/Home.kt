@@ -1,11 +1,11 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.match.overview
+package com.bselzer.gw2.manager.common.ui.layout.statistics.model.overview
 
 import androidx.compose.ui.graphics.Color
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.image.ImageDesc
 
-data class Bloodlust(
+data class Home(
     val icon: ImageDesc,
     val color: Color,
-    val description: StringDesc,
+    val description: StringDesc
 )

@@ -10,7 +10,6 @@ import com.bselzer.gw2.manager.common.ui.layout.borderlands.content.BorderlandsC
 import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.content.ContestedAreasComposition
-import com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel.ContestedAreasViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchContestedAreasViewModel
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
 import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
@@ -18,8 +17,8 @@ import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 class WvwMatchContestedAreasComposition(
     model: WvwMatchContestedAreasViewModel
 ) : MainChildComposition<WvwMatchContestedAreasViewModel>(model),
-    BorderlandsComposition<WvwMatchContestedAreasViewModel, ObjectiveOwnerCount>,
-    ContestedAreasComposition<ContestedAreasViewModel> {
+    BorderlandsComposition<ObjectiveOwnerCount>,
+    ContestedAreasComposition {
     @Composable
     override fun WvwMatchContestedAreasViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize().then(modifier),

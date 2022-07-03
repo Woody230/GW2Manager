@@ -16,9 +16,9 @@ import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.content.ContestedAreasComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalMainRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
-import com.bselzer.gw2.manager.common.ui.layout.main.content.match.overview.OwnerOverviewComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.content.match.overview.SelectedWorldComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchOverviewViewModel
+import com.bselzer.gw2.manager.common.ui.layout.statistics.content.OwnerOverviewsComposition
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.function.collection.buildArray
@@ -26,7 +26,8 @@ import com.bselzer.ktx.function.collection.buildArray
 class WvwMatchOverviewComposition(
     model: WvwMatchOverviewViewModel
 ) : MainChildComposition<WvwMatchOverviewViewModel>(model),
-    ContestedAreasComposition<WvwMatchOverviewViewModel> {
+    OwnerOverviewsComposition,
+    ContestedAreasComposition {
     @Composable
     override fun WvwMatchOverviewViewModel.Content(modifier: Modifier) = AbsoluteBackgroundImage(
         modifier = Modifier.fillMaxSize().then(modifier),
@@ -95,13 +96,7 @@ class WvwMatchOverviewComposition(
     private fun WvwMatchOverviewViewModel.Overview() = BorderedCard(
         modifier = Modifier.fillMaxWidth().routeOnClick(MainConfig.WvwMatchStatisticsConfig)
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            overviews.forEach { overview ->
-                OwnerOverviewComposition(overview).Content()
-            }
-        }
+        OwnerOverviewsContent()
     }
 
     @Composable

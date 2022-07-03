@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel.ContestedAreasViewModel
 
-interface ContestedAreasComposition<Model : ContestedAreasViewModel> {
+interface ContestedAreasComposition {
     @Composable
-    fun Model.ContestedAreasContent(
+    fun ContestedAreasViewModel.ContestedAreasContent(
         modifier: Modifier = Modifier
     ) = ConstraintLayout(
         modifier = modifier,

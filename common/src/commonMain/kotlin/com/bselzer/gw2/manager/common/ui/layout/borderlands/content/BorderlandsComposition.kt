@@ -23,9 +23,9 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-interface BorderlandsComposition<Model, Data> where Model : BorderlandsViewModel<Data> {
+interface BorderlandsComposition<Data> {
     @Composable
-    fun Model.BorderlandsContent(modifier: Modifier = Modifier) = Column(
+    fun BorderlandsViewModel<Data>.BorderlandsContent(modifier: Modifier = Modifier) = Column(
         modifier = modifier
     ) {
         // TODO legend that maps colors to worlds below the pager (add home icon?)
@@ -35,7 +35,7 @@ interface BorderlandsComposition<Model, Data> where Model : BorderlandsViewModel
     }
 
     @Composable
-    private fun Model.PagerTabs(state: PagerState) = ScrollableTabRow(
+    private fun BorderlandsViewModel<Data>.PagerTabs(state: PagerState) = ScrollableTabRow(
         selectedTabIndex = state.currentPage,
         modifier = Modifier.fillMaxWidth(),
         indicator = { tabPositions ->
@@ -66,7 +66,7 @@ interface BorderlandsComposition<Model, Data> where Model : BorderlandsViewModel
     }
 
     @Composable
-    private fun Model.Pager(state: PagerState) = HorizontalPager(
+    private fun BorderlandsViewModel<Data>.Pager(state: PagerState) = HorizontalPager(
         count = dataSets.size,
         state = state,
         verticalAlignment = Alignment.Top,

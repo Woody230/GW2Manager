@@ -42,7 +42,7 @@ interface BorderlandsViewModel<T> : ViewModelDependencies {
     /**
      * The data to use for the combination of all [borderlandData].
      */
-    val overviewData: (WvwMatch) -> T
+    fun overviewData(): T
 
     /**
      * The [DataSet] for the [overviewData].
@@ -51,7 +51,7 @@ interface BorderlandsViewModel<T> : ViewModelDependencies {
         get() = DataSet(
             title = KtxResources.strings.overview.desc(),
             color = null,
-            data = overviewData(match)
+            data = overviewData()
         )
 
     /**
@@ -68,7 +68,7 @@ interface BorderlandsViewModel<T> : ViewModelDependencies {
     /**
      * The data to use for a specific borderland.
      */
-    val borderlandData: (WvwMap) -> T
+    fun borderlandData(map: WvwMap): T
 
     /**
      * The type of [WvwMap] mapped to the associated [borderlandData].

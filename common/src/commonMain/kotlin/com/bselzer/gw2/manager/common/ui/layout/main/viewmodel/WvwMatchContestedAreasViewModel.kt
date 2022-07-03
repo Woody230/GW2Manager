@@ -10,7 +10,6 @@ import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMapObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreas
 import com.bselzer.gw2.v2.model.wvw.map.WvwMap
-import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -23,9 +22,9 @@ class WvwMatchContestedAreasViewModel(
 
     override val defaultData: ObjectiveOwnerCount = ObjectiveOwnerCount
 
-    override val overviewData: (WvwMatch) -> ObjectiveOwnerCount = { match -> WvwMatchObjectiveOwnerCount(match) }
+    override fun overviewData(): ObjectiveOwnerCount = WvwMatchObjectiveOwnerCount(match)
 
-    override val borderlandData: (WvwMap) -> ObjectiveOwnerCount = { map -> WvwMapObjectiveOwnerCount(map) }
+    override fun borderlandData(map: WvwMap): ObjectiveOwnerCount = WvwMapObjectiveOwnerCount(map)
 
     fun ObjectiveOwnerCount.toContestedAreasModel(): ContestedAreasViewModel = object : ContestedAreasViewModel,
         ViewModelDependencies by this@WvwMatchContestedAreasViewModel {
@@ -38,7 +37,7 @@ class WvwMatchContestedAreasViewModel(
     private val overviewChart: ChartViewModel
         get() = ChartViewModel(
             context = this,
-            data = overviewData(match).pointsPerTick
+            data = overviewData().pointsPerTick
         )
 
     private val borderlandsCharts: List<ChartViewModel>

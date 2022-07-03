@@ -6,12 +6,15 @@ import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfi
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.statistics.Progress
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.statistics.Progression
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
+import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
+import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerScore
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
+import com.bselzer.gw2.v2.model.extension.wvw.count.WvwSkirmishObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreasCountByType
 import com.bselzer.gw2.v2.model.extension.wvw.objectiveOwnerCount
+import com.bselzer.gw2.v2.model.extension.wvw.skirmishObjectiveOwnerCounts
 import com.bselzer.gw2.v2.model.wvw.map.WvwMap
-import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.ktx.function.collection.addTo
@@ -30,28 +33,45 @@ class WvwMatchStatisticsViewModel(
 
     override val defaultData: List<Progression> = emptyList()
 
-    override val overviewData: (WvwMatch) -> List<Progression> = { match ->
-        with(match.objectiveOwnerCount()) {
-            buildList {
-                add(vpProgression())
-                add(pptProgression())
-                add(scoreProgression())
-                add(killProgression())
-                add(deathProgression())
-                addAll(contestedAreaProgressions())
+    private val lastSkirmish: WvwSkirmishObjectiveOwnerCount?
+        get() = match.skirmishObjectiveOwnerCounts().maxByOrNull { (id, _) -> id }?.value
+
+    override fun overviewData(): List<Progression> = with(
+        match.objectiveOwnerCount()
+    ) {
+        buildList {
+            add(vpProgression())
+            add(pptProgression())
+
+            lastSkirmish?.let { lastSkirmish ->
+                add(lastSkirmish.skirmishScoreProgression())
             }
+
+            add(totalScoreProgression())
+            add(killProgression())
+            add(deathProgression())
+            addAll(contestedAreaProgressions())
         }
     }
 
-    override val borderlandData: (WvwMap) -> List<Progression> = { map ->
-        with(map.objectiveOwnerCount()) {
-            buildList {
-                add(pptProgression())
-                add(scoreProgression())
-                add(killProgression())
-                add(deathProgression())
-                addAll(contestedAreaProgressions())
+    override fun borderlandData(map: WvwMap): List<Progression> = with(
+        map.objectiveOwnerCount()
+    ) {
+        buildList {
+            add(pptProgression())
+
+            lastSkirmish?.mapScores?.get(map.type.decodeOrNull())?.let { scores ->
+                val count = object : ObjectiveOwnerScore {
+                    override val scores: Map<WvwObjectiveOwner, Int> = scores
+                }
+
+                add(count.skirmishScoreProgression())
             }
+
+            add(totalScoreProgression())
+            add(killProgression())
+            add(deathProgression())
+            addAll(contestedAreaProgressions())
         }
     }
 
@@ -73,19 +93,28 @@ class WvwMatchStatisticsViewModel(
         icon = Gw2Resources.images.victory_points.asImageDesc()
     )
 
-    /**
-     * The progression for the total score earned for the entire match.
-     */
-    private fun ObjectiveOwnerCount?.scoreProgression(): Progression {
+    private fun ObjectiveOwnerScore?.scoreProgression(
+        title: StringDesc
+    ): Progression {
         val winner = this?.scores?.maxByOrNull { score -> score.value }?.key
         return this?.scores.progression(
-            title = Gw2Resources.strings.war_score.desc(),
+            title = title,
             icon = if (winner == null) Gw2Resources.images.war_score.asImageDesc() else configuration.wvw.icons.warScore.asImageUrl(),
 
             // Tint to help distinguish between this and the PPT icon which is inherently the same.
             color = winner?.color()
         )
     }
+
+    /**
+     * The progression for the total score earned for the entire match.
+     */
+    private fun ObjectiveOwnerScore?.skirmishScoreProgression(): Progression = scoreProgression(Gw2Resources.strings.skirmish_score.desc())
+
+    /**
+     * The progression for the total score earned for the entire match.
+     */
+    private fun ObjectiveOwnerCount?.totalScoreProgression(): Progression = scoreProgression(Gw2Resources.strings.total_score.desc())
 
     /**
      * The progression for the total number of kills earned for the entire match.

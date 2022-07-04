@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.content.map
+package com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective
 
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.resource.KtxResources

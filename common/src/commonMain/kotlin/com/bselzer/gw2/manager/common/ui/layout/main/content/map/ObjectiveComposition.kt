@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.*
+import com.bselzer.gw2.manager.common.ui.layout.custom.objective.content.ClaimComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective.*
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveViewModel
 import com.bselzer.gw2.manager.common.ui.theme.Theme
@@ -40,7 +41,6 @@ import com.bselzer.ktx.compose.ui.layout.merge.TriState
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
-import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.function.collection.buildArray
 import com.bselzer.ktx.resource.KtxResources
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -202,9 +202,11 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
                 }
             }
 
-            claim?.let { claim ->
+            if (claim.exists) {
                 add {
-                    InfoCard { Claim(claim) }
+                    InfoCard {
+                        ClaimComposition(claim).Content()
+                    }
                 }
             }
         }
@@ -344,24 +346,6 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             data.yaks,
             data.upgrade
         ).forEach { pair -> pair.Row() }
-    }
-
-    /**
-     * Lays out the guild claim information.
-     */
-    @Composable
-    private fun Claim(claim: Claim) = Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(text = claim.claimedAt.localized(), textAlign = TextAlign.Center)
-        Text(text = claim.claimedBy.localized(), textAlign = TextAlign.Center)
-
-        AsyncImage(
-            image = claim.link,
-            size = DpSize(claim.size.toDp(), claim.size.toDp()),
-            description = claim.description
-        ).Content(progressIndication = ProgressIndication.ENABLED)
     }
 
     /**

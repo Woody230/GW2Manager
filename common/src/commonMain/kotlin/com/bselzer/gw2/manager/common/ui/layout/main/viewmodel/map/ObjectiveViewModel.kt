@@ -1,18 +1,15 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map
 
 import androidx.compose.ui.graphics.DefaultAlpha
-import com.arkivanov.essenty.lifecycle.doOnResume
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.wvw.WvwGuildUpgradeTier
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.layout.custom.objective.viewmodel.ClaimViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective.*
-import com.bselzer.gw2.v2.emblem.request.EmblemRequestOptions
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.*
-import com.bselzer.gw2.v2.model.guild.Guild
-import com.bselzer.gw2.v2.model.guild.GuildId
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
 import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
 import com.bselzer.gw2.v2.model.wvw.objective.WvwMapObjectiveId
@@ -28,7 +25,6 @@ import dev.icerock.moko.resources.desc.desc
 import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.format
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlin.time.Duration
@@ -38,17 +34,6 @@ class ObjectiveViewModel(
     private val id: WvwMapObjectiveId,
     showDialog: (DialogConfig) -> Unit
 ) : MapViewModel(context, showDialog) {
-    init {
-        lifecycle.doOnResume {
-            val guildId = guildId
-            if (!guildId.isDefault) {
-                scope.launch {
-                    repositories.guild.updateGuild(guildId)
-                }
-            }
-        }
-    }
-
     override val title: StringDesc = Gw2Resources.strings.objective.desc()
 
     private val objective: WvwObjective?
@@ -62,12 +47,6 @@ class ObjectiveViewModel(
 
     private val upgrade: WvwUpgrade?
         get() = upgrades[objective?.upgradeId]
-
-    private val guildId: GuildId
-        get() = fromMatch?.claimedBy ?: GuildId()
-
-    private val guild: Guild?
-        get() = repositories.guild.guilds[guildId]
 
     val icon: ObjectiveIcon?
         get() = objective?.let { objective ->
@@ -123,31 +102,8 @@ class ObjectiveViewModel(
             )
         }
 
-    /**
-     * The guild claiming the objective.
-     */
-    val claim: Claim?
-        get() {
-            val claimedAt = fromMatch?.claimedAt ?: return null
-
-            val guild = guild
-            if (guild == null) {
-                Logger.w("Attempting to find the claim for a missing guild with id $guildId")
-                return null
-            }
-
-            // Since we need to use the size when making the request, this is an appropriate case of passing the size in the model.
-            val size = 256
-            val request = clients.emblem.requestEmblem(guildId.value, size = size, EmblemRequestOptions.MAXIMIZE_BACKGROUND_ALPHA)
-            val name = guild.name.translated()
-            return Claim(
-                claimedAt = configuration.wvw.claimedAt(claimedAt),
-                claimedBy = AppResources.strings.claimed_by.format(name),
-                link = clients.emblem.emblemUrl(request).asImageUrl(),
-                description = AppResources.strings.guild_emblem.format(name),
-                size = size
-            )
-        }
+    val claim: ClaimViewModel
+        get() = ClaimViewModel(context = this, objective = fromMatch)
 
     val shouldShowUpgradeTiers: Boolean
         get() = automaticUpgradeTiers.any { tier -> tier.upgrades.isNotEmpty() }

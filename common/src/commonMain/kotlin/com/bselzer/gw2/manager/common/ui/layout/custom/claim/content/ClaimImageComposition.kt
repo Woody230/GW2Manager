@@ -4,22 +4,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
-import com.bselzer.gw2.manager.common.ui.layout.common.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
+import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.common.ProgressIndication
-import com.bselzer.gw2.manager.common.ui.layout.custom.claim.viewmodel.ClaimIndicatorViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.claim.viewmodel.ClaimImageViewModel
 import com.bselzer.ktx.compose.ui.unit.toDp
 
-class ClaimIndicatorComposition(
-    model: ClaimIndicatorViewModel
-) : ViewModelComposition<ClaimIndicatorViewModel>(model) {
+class ClaimImageComposition(
+    model: ClaimImageViewModel
+) : ViewModelComposition<ClaimImageViewModel>(model) {
     @Composable
-    override fun ClaimIndicatorViewModel.Content(modifier: Modifier) = AsyncImage(
+    override fun ClaimImageViewModel.Content(modifier: Modifier) = ImageImpl(
         image = link,
-        size = DpSize(size.toDp(), size.toDp()),
         description = description
     ).Content(
         modifier = modifier,
+        size = DpSize(size.toDp(), size.toDp()),
         progressIndication = ProgressIndication.ENABLED
     )
 }

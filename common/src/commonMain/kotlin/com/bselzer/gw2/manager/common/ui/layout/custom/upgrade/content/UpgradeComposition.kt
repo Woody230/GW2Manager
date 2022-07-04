@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
-import com.bselzer.gw2.manager.common.ui.layout.common.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
+import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.common.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.custom.upgrade.model.Upgrade
 import com.bselzer.ktx.compose.resource.strings.localized
@@ -34,11 +34,13 @@ class UpgradeComposition(
     }
 
     @Composable
-    private fun Upgrade.Icon() = AsyncImage(
+    private fun Upgrade.Icon() = ImageImpl(
         image = link,
-        size = DpSize(50.dp, 50.dp),
         alpha = alpha.collectAsState(DefaultAlpha).value
-    ).Content(progressIndication = ProgressIndication.ENABLED)
+    ).Content(
+        progressIndication = ProgressIndication.ENABLED,
+        size = DpSize(50.dp, 50.dp),
+    )
 
     @Composable
     private fun Upgrade.Description() = Column {

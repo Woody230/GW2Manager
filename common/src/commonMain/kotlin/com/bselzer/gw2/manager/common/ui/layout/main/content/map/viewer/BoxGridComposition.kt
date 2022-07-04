@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.Bloodlust
-import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.ObjectiveIcon
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.compose.ui.unit.toPx
@@ -56,7 +56,7 @@ class BoxGridComposition(model: ViewerViewModel) : GridComposition(model) {
     }
 
     @Composable
-    private fun ObjectiveIcon.Objective() {
+    private fun DetailedIconViewModel.Objective() {
         // Displace the coordinates so that it aligns with the center of the image.
         val (width, height) = objectiveSize
         val displacedX = position.x - width.toPx() / 2

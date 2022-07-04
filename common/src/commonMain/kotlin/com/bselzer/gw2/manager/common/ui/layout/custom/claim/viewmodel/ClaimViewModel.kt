@@ -55,6 +55,6 @@ class ClaimViewModel(
     private fun claim(at: Instant, guild: Guild): Claim = Claim(
         claimedAt = configuration.wvw.claimedAt(at),
         claimedBy = AppResources.strings.claimed_by.format(guild.name.translated()),
-        icon = ClaimIndicatorViewModel(context = this, guild = guild)
+        icon = ClaimImageViewModel(context = this, guild = guild)
     )
 }

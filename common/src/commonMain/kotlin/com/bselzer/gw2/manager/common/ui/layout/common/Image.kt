@@ -25,14 +25,35 @@ import dev.icerock.moko.resources.desc.image.ImageDesc
 import dev.icerock.moko.resources.desc.image.ImageDescResource
 import dev.icerock.moko.resources.desc.image.ImageDescUrl
 
-data class AsyncImage(
-    val enabled: Boolean = true,
-    val image: ImageDesc?,
-    val size: DpSize,
-    val color: Color? = null,
-    val description: StringDesc? = null,
-    val alpha: Float = DefaultAlpha
-)
+data class ImageImpl(
+    override val enabled: Boolean = true,
+    override val image: ImageDesc?,
+    override val color: Color? = null,
+    override val description: StringDesc? = null,
+    override val alpha: Float = DefaultAlpha
+) : Image
+
+interface ImageAdapter : Image {
+    override val enabled: Boolean
+        get() = true
+
+    override val color: Color?
+        get() = null
+
+    override val description: StringDesc?
+        get() = null
+
+    override val alpha: Float
+        get() = DefaultAlpha
+}
+
+interface Image {
+    val enabled: Boolean
+    val image: ImageDesc?
+    val color: Color?
+    val description: StringDesc?
+    val alpha: Float
+}
 
 enum class ProgressIndication {
     ENABLED,
@@ -40,8 +61,9 @@ enum class ProgressIndication {
 }
 
 @Composable
-fun AsyncImage.Content(
+fun Image.Content(
     modifier: Modifier = Modifier,
+    size: DpSize,
     progressIndication: ProgressIndication = ProgressIndication.ENABLED
 ) {
     if (!enabled) {
@@ -57,7 +79,7 @@ fun AsyncImage.Content(
     )
 
     val combinedModifier = modifier.size(size)
-    when (image) {
+    when (val image = image) {
         is ImageDescUrl -> {
             if (image.url.isNotBlank()) {
                 Link(combinedModifier, image.url, progressIndication, presenter)
@@ -73,7 +95,7 @@ fun AsyncImage.Content(
 }
 
 @Composable
-private fun AsyncImage.Resource(
+private fun Image.Resource(
     modifier: Modifier,
     resource: ImageResource,
     presenter: ImagePresenter,
@@ -86,7 +108,7 @@ private fun AsyncImage.Resource(
 ).Projection(modifier = modifier)
 
 @Composable
-private fun AsyncImage.Link(
+private fun Image.Link(
     modifier: Modifier,
     link: String,
     progressIndication: ProgressIndication,

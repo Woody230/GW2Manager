@@ -10,8 +10,8 @@ import androidx.compose.ui.unit.coerceAtMost
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
-import com.bselzer.gw2.manager.common.ui.layout.common.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
+import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.common.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.model.Chart
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.model.ChartSlice
@@ -55,29 +55,28 @@ class ChartComposition(
     }
 
     @Composable
-    private fun Chart.Background() = AsyncImage(
+    private fun Chart.Background() = ImageImpl(
         image = background,
-        size = size,
-    ).Content()
+    ).Content(size = size)
 
     @Composable
-    private fun ChartSlice.Image() = AsyncImage(
+    private fun ChartSlice.Image() = ImageImpl(
         image = image,
-        size = size,
         description = description,
         color = color
     ).Content(
+        size = size,
         modifier = Modifier.clip(
             shape = ArcShape(startAngle, endAngle)
         ),
     )
 
     @Composable
-    private fun Chart.Divider(angle: Float) = AsyncImage(
+    private fun Chart.Divider(angle: Float) = ImageImpl(
         image = divider,
-        size = size,
     ).Content(
         progressIndication = ProgressIndication.DISABLED,
         modifier = Modifier.rotate(degrees = angle),
+        size = size
     )
 }

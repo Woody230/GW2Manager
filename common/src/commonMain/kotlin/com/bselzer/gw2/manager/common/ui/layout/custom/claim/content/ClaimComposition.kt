@@ -39,5 +39,5 @@ class ClaimComposition(
     private fun Claim.ClaimedBy() = Text(text = claimedBy.localized(), textAlign = TextAlign.Center)
 
     @Composable
-    private fun Claim.Icon() = ClaimIndicatorComposition(icon).Content()
+    private fun Claim.Icon() = ClaimImageComposition(icon).Content()
 }

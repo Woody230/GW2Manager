@@ -11,7 +11,7 @@ import dev.icerock.moko.resources.desc.image.ImageDesc
 import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.format
 
-class ClaimIndicatorViewModel(
+class ClaimImageViewModel(
     context: AppComponentContext,
     guild: Guild
 ) : ViewModel(context) {

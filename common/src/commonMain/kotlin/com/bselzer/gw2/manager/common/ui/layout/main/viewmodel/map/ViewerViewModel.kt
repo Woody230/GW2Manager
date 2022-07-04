@@ -7,15 +7,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.essenty.lifecycle.subscribe
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.GeneralAction
-import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.*
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.Bloodlust
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.MapLabel
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.SelectedObjective
 import com.bselzer.gw2.v2.model.enumeration.WvwMapBonusType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
-import com.bselzer.gw2.v2.model.extension.wvw.*
+import com.bselzer.gw2.v2.model.extension.wvw.linkedWorlds
+import com.bselzer.gw2.v2.model.extension.wvw.objective
+import com.bselzer.gw2.v2.model.extension.wvw.owner
+import com.bselzer.gw2.v2.model.extension.wvw.position
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
@@ -157,69 +163,20 @@ class ViewerViewModel(
             }
         }
 
-    val objectiveIcons: Collection<ObjectiveIcon>
-        get() {
-            val models = objectives.values.mapNotNull { objective ->
-                val fromConfig = configuration.wvw.objective(objective)
-                val fromMatch = match.objective(objective) ?: return@mapNotNull null
-                val upgrade = upgrades[objective.upgradeId]
-                val tiers = upgrade?.tiers(fromMatch.yaksDelivered)?.flatMap { tier -> tier.upgrades } ?: emptyList()
+    // Render from bottom right to top left so that overlap is consistent.
+    private val comparator = compareByDescending<WvwObjective> { objective -> objective.position().y }.thenByDescending { objective -> objective.position().y }
+    val objectiveIcons: List<DetailedIconViewModel>
+        get() = objectives.values.sortedWith(comparator).mapNotNull { objective ->
+            val matchObjective = match.objective(objective) ?: return@mapNotNull null
+            DetailedIconViewModel(
+                context = this,
+                objective = objective,
+                matchObjective = matchObjective,
+                upgrade = upgrades[objective.upgradeId],
 
-                val position = objective.position()
-
-                // Get the progression level associated with the current number of yaks delivered to the objective.
-                val level = upgrade?.level(fromMatch.yaksDelivered)
-                val progression = level?.let { configuration.wvw.objectives.progressions.getOrNull(level) }
-
-                // See if any of the progressed tiers has a permanent waypoint upgrade, or the tactic for the temporary waypoint.
-                val hasWaypointUpgrade = tiers.any { tier -> configuration.wvw.objectives.waypoint.upgradeName.matches(tier.name) }
-                val hasWaypointTactic = fromMatch.guildUpgradeIds.mapNotNull { id -> guildUpgrades[id] }
-                    .any { tactic -> configuration.wvw.objectives.waypoint.guild.upgradeName.matches(tactic.name) }
-
-                ObjectiveIcon(
-                    objective = objective,
-
-                    // Scale the objective coordinates to the zoom level and remove excluded bounds.
-                    position = grid.bounded(position),
-
-                    // Use a default link when the icon link doesn't exist. The link won't exist for atypical types such as Spawn/Mercenary.
-                    link = objective.iconLink.value.ifBlank { fromConfig?.defaultIconLink ?: "" }.asImageUrl(),
-
-                    description = objective.name.translated().desc(),
-                    color = fromMatch.color(),
-                    progression = ObjectiveProgression(
-                        enabled = progression != null,
-                        description = level?.let { AppResources.strings.upgrade_level.format(level) },
-                        link = progression?.indicatorLink?.asImageUrl(),
-                    ),
-                    claim = ObjectiveClaim(
-                        enabled = !fromMatch.claimedBy?.value.isNullOrBlank(),
-                        description = AppResources.strings.claimed.desc(),
-                        link = configuration.wvw.objectives.claim.iconLink?.asImageUrl(),
-                    ),
-                    waypoint = ObjectiveWaypoint(
-                        enabled = hasWaypointUpgrade || hasWaypointTactic,
-                        link = configuration.wvw.objectives.waypoint.iconLink?.asImageUrl(),
-                        description = when {
-                            hasWaypointUpgrade -> AppResources.strings.permanent_waypoint.desc()
-                            hasWaypointTactic -> AppResources.strings.temporary_waypoint.desc()
-                            else -> null
-                        },
-                        color = when {
-                            hasWaypointTactic && !hasWaypointUpgrade -> configuration.wvw.objectives.waypoint.guild.color
-                            else -> null
-                        }
-                    ),
-                    immunity = ObjectiveImmunity(
-                        duration = fromConfig?.immunity,
-                        startTime = fromMatch.lastFlippedAt,
-                    )
-                )
-            }
-
-            // Render from bottom right to top left so that overlap is consistent.
-            val comparator = compareByDescending<ObjectiveIcon> { objective -> objective.position.y }.thenByDescending { objective -> objective.position.x }
-            return models.sortedWith(comparator)
+                // Scale the objective coordinates to the zoom level and remove excluded bounds.
+                position = grid.bounded(objective.position())
+            )
         }
 
     /**

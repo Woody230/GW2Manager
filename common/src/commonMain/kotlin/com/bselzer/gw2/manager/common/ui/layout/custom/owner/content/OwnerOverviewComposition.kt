@@ -10,8 +10,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
-import com.bselzer.gw2.manager.common.ui.layout.common.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
+import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Bloodlust
 import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Data
 import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Home
@@ -84,31 +84,32 @@ class OwnerOverviewComposition(
     )
 
     @Composable
-    private fun Home.Icon() = AsyncImage(
+    private fun Home.Icon() = ImageImpl(
         image = icon,
         description = description,
-        size = indicatorSize,
         color = color
-    ).Content()
+    ).Content(
+        size = indicatorSize,
+    )
 
     @Composable
-    private fun Bloodlust.Icon() = AsyncImage(
+    private fun Bloodlust.Icon() = ImageImpl(
         image = icon,
         description = description,
-        size = indicatorSize,
         color = color
-    ).Content()
+    ).Content(
+        size = indicatorSize,
+    )
 
     @Composable
     private fun Data.DataPoint() = Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        AsyncImage(
+        ImageImpl(
             image = icon,
             description = description,
             color = color,
-            size = dataIconSize
-        ).Content()
+        ).Content(size = dataIconSize)
 
         Text(text = data.localized())
     }

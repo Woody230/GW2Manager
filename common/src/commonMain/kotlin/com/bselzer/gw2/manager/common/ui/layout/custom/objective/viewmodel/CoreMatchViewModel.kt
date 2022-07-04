@@ -42,5 +42,4 @@ class CoreMatchViewModel(
             color = owner.color()
         )
     }
-
 }

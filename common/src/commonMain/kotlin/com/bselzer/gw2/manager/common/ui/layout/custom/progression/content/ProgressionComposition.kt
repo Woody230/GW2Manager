@@ -11,8 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
-import com.bselzer.gw2.manager.common.ui.layout.common.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
+import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progress
 import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progression
 import com.bselzer.ktx.compose.resource.strings.localized
@@ -36,11 +36,12 @@ class ProgressionComposition(
     private fun Progression.Header() = Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        AsyncImage(
+        ImageImpl(
             image = icon,
             color = color,
+        ).Content(
             size = DpSize(25.dp, 25.dp)
-        ).Content()
+        )
 
         Spacer(width = 5.dp)
 

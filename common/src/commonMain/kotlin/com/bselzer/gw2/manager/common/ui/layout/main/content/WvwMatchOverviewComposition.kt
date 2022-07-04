@@ -14,10 +14,10 @@ import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.content.ContestedAreasComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.content.WorldPreferenceComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.content.OwnerOverviewsComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalMainRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
-import com.bselzer.gw2.manager.common.ui.layout.main.content.match.overview.SelectedWorldComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchOverviewViewModel
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
@@ -26,6 +26,7 @@ import com.bselzer.ktx.function.collection.buildArray
 class WvwMatchOverviewComposition(
     model: WvwMatchOverviewViewModel
 ) : MainChildComposition<WvwMatchOverviewViewModel>(model),
+    WorldPreferenceComposition,
     OwnerOverviewsComposition,
     ContestedAreasComposition {
     @Composable
@@ -82,7 +83,7 @@ class WvwMatchOverviewComposition(
     private fun WvwMatchOverviewViewModel.SelectedWorld() = BorderedCard(
         modifier = Modifier.fillMaxWidth()
     ) {
-        SelectedWorldComposition(selectedWorld).Content()
+        WorldPreferenceContent()
     }
 
     @Composable

@@ -10,13 +10,16 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.theme.Th
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.resource.KtxResources
+import com.bselzer.ktx.settings.setting.Setting
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.launch
 
 class ThemeViewModel(
     context: AppComponentContext
 ) : ViewModel(context) {
-    val resources
+    private val setting: Setting<Theme> = preferences.common.theme
+
+    val resources: ThemeResources
         @Composable
         get() = ThemeResources(
             image = when (LocalTheme.current) {
@@ -30,7 +33,7 @@ class ThemeViewModel(
             }.desc()
         )
 
-    val logic
+    val logic: ThemeLogic
         @Composable
         get() = run {
             val scope = rememberCoroutineScope()
@@ -39,7 +42,7 @@ class ThemeViewModel(
                 onCheckedChange = { checked ->
                     scope.launch {
                         val theme = if (checked) Theme.DARK else Theme.LIGHT
-                        preferences.common.theme.set(theme)
+                        setting.set(theme)
                     }
                 }
             )

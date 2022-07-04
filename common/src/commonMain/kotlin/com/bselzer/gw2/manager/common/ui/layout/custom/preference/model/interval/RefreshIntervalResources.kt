@@ -4,7 +4,7 @@ import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlin.time.DurationUnit
 
-data class WvwIntervalResources(
+data class RefreshIntervalResources(
     val image: ImageResource,
     val title: StringDesc,
     val subtitle: StringDesc,

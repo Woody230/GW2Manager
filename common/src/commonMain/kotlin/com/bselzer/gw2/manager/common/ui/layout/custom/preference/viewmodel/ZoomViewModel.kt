@@ -10,11 +10,13 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.Zoom
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.ZoomResources
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.settings.compose.safeState
+import com.bselzer.ktx.settings.setting.Setting
 import dev.icerock.moko.resources.desc.desc
 
 class ZoomViewModel(
     context: AppComponentContext
 ) : ViewModel(context) {
+    private val setting: Setting<Int> = preferences.wvw.zoom
     private val intermediary: MutableState<Int?> = mutableStateOf(null)
 
     val resources: ZoomResources
@@ -22,7 +24,7 @@ class ZoomViewModel(
         get() = ZoomResources(
             image = Gw2Resources.images.gift_of_exploration,
             title = AppResources.strings.default_zoom_level.desc(),
-            subtitle = preferences.wvw.zoom.safeState().value.toString().desc(),
+            subtitle = setting.safeState().value.toString().desc(),
         )
 
     val logic: ZoomLogic
@@ -30,20 +32,20 @@ class ZoomViewModel(
             val range = repositories.selectedWorld.zoomRange
             return ZoomLogic(
                 // TODO default to the actual preference instead of initial?
-                amount = intermediary.value ?: preferences.wvw.zoom.defaultValue,
+                amount = intermediary.value ?: setting.defaultValue,
                 amountRange = range,
                 onValueChange = { intermediary.value = it.coerceIn(range) },
                 onSave = {
                     intermediary.value?.let { updateZoom(it) }
                 },
-                onReset = { updateZoom(preferences.wvw.zoom.defaultValue) },
+                onReset = { updateZoom(setting.defaultValue) },
                 clearInput = { intermediary.value = null }
             )
         }
 
     private suspend fun updateZoom(zoom: Int) {
         val bounded = zoom.coerceIn(repositories.selectedWorld.zoomRange)
-        preferences.wvw.zoom.set(bounded)
+        setting.set(bounded)
         repositories.selectedWorld.updateZoom(bounded)
     }
 }

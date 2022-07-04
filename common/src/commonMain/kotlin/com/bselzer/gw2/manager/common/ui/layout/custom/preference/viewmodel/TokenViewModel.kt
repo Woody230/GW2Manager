@@ -16,6 +16,7 @@ import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
 import com.bselzer.ktx.settings.compose.nullState
+import com.bselzer.ktx.settings.setting.Setting
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
@@ -23,8 +24,9 @@ import org.kodein.db.asModelSequence
 import org.kodein.db.find
 
 class TokenViewModel(
-    context: AppComponentContext
+    context: AppComponentContext,
 ) : ViewModel(context) {
+    private val setting: Setting<String> = preferences.common.token
     private val intermediary = mutableStateOf<Token?>(null)
 
     val resources
@@ -41,7 +43,7 @@ class TokenViewModel(
 
     @Composable
     private fun subtitle(): StringDesc {
-        val token = preferences.common.token.nullState().value
+        val token = setting.nullState().value
         return when {
             token.isNullOrBlank() -> KtxResources.strings.not_set.desc()
             else -> {
@@ -58,7 +60,7 @@ class TokenViewModel(
     val logic = TokenLogic(
         updateInput = { value -> intermediary.value = value?.let { Token(it.trim()) } },
         clearInput = { intermediary.value = null },
-        onReset = { preferences.common.token.remove() },
+        onReset = { setting.remove() },
         onClickHyperlink = { Browser.open(it) },
         onSave = ::onSave
     )
@@ -109,7 +111,7 @@ class TokenViewModel(
             put(tokenInfo)
         }
 
-        preferences.common.token.set(token.value)
+        setting.set(token.value)
         Logger.i { "Set client token to $token" }
 
         preferences.wvw.selectedWorld.initialize(account.world)

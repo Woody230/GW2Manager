@@ -12,20 +12,10 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.preference.content.*
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triText
-import com.bselzer.ktx.compose.resource.ui.layout.icon.downIconInteractor
-import com.bselzer.ktx.compose.resource.ui.layout.icon.upIconInteractor
-import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
-import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
 import com.bselzer.ktx.compose.ui.layout.alertdialog.rememberDialogState
-import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
-import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
-import com.bselzer.ktx.compose.ui.layout.preference.duration.DurationPreferenceInteractor
-import com.bselzer.ktx.compose.ui.layout.preference.duration.DurationPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.preference.section.*
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.function.collection.buildArray
-import kotlin.time.DurationUnit
 
 class SettingsComposition(model: SettingsViewModel) : MainChildComposition<SettingsViewModel>(model) {
     @Composable
@@ -59,56 +49,33 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
 
     @Composable
     private fun SettingsViewModel.WvwSection() = PreferenceSectionProjector(
-        interactor = PreferenceSectionInteractor(
-            title = wvwResources.title.localized(),
-            painter = wvwResources.image.painter(),
-        ),
-        presenter = PreferenceSectionPresenter(
-            title = TextPresenter(color = MaterialTheme.colors.primary)
-        )
+        interactor = wvwSectionInteractor(),
+        presenter = wvwSectionPresenter()
     ).Projection {
-        spacedPreferenceColumnProjector().Projection(
-            content = buildArray {
-                add { RefreshInterval() }
-                add { ZoomComposition(zoom, rememberDialogState()).Content() }
-                add { MapLabelComposition(mapLabel).Content() }
-
-                colors.forEach { color ->
-                    add { ColorComposition(color, rememberDialogState()).Content() }
-                }
-            }
-        )
+        WvwSectionContent()
     }
 
     @Composable
-    private fun SettingsViewModel.RefreshInterval() {
-        val state = rememberDialogState()
-        val labels: Map<DurationUnit, String> = intervalLogic.units.associateWith { unit -> wvwResources.interval.label(unit).localized() }
-        DurationPreferenceProjector(
-            interactor = DurationPreferenceInteractor(
-                amount = intervalLogic.amount,
-                unit = intervalLogic.unit,
-                amountRange = intervalLogic.amountRange,
-                onValueChange = intervalLogic.onValueChange,
-                units = intervalLogic.units,
-                unitLabel = { unit -> labels[unit] ?: "" },
-                upIcon = upIconInteractor(),
-                downIcon = downIconInteractor(),
-                preference = AlertDialogPreferenceInteractor(
-                    preference = PreferenceInteractor(
-                        painter = wvwResources.interval.image.painter(),
-                        title = wvwResources.interval.title.localized(),
-                        subtitle = wvwResources.interval.subtitle.localized()
-                    ),
-                    dialog = AlertDialogInteractor.Builder(state) {
-                        intervalLogic.clearInput()
-                    }.triText().build {
-                        title = wvwResources.interval.title.localized()
-                        closeOnPositive { intervalLogic.onSave() }
-                        closeOnNeutral { intervalLogic.onReset() }
-                    }
-                )
-            ),
-        ).Projection(modifier = state.openOnClick())
-    }
+    private fun SettingsViewModel.wvwSectionInteractor() = PreferenceSectionInteractor(
+        title = wvwResources.title.localized(),
+        painter = wvwResources.image.painter(),
+    )
+
+    @Composable
+    private fun SettingsViewModel.wvwSectionPresenter() = PreferenceSectionPresenter(
+        title = TextPresenter(color = MaterialTheme.colors.primary)
+    )
+
+    @Composable
+    private fun SettingsViewModel.WvwSectionContent() = spacedPreferenceColumnProjector().Projection(
+        content = buildArray {
+            add { RefreshIntervalComposition(refreshInterval, rememberDialogState()).Content() }
+            add { ZoomComposition(zoom, rememberDialogState()).Content() }
+            add { MapLabelComposition(mapLabel).Content() }
+
+            colors.forEach { color ->
+                add { ColorComposition(color, rememberDialogState()).Content() }
+            }
+        }
+    )
 }

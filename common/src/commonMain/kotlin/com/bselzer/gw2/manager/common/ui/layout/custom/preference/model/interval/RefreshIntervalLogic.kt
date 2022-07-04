@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.interva
 
 import kotlin.time.DurationUnit
 
-data class WvwIntervalLogic(
+data class RefreshIntervalLogic(
     val amount: Int,
     val unit: DurationUnit,
     val amountRange: IntRange,

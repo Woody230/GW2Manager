@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.manager.common.repository.data.generic.GuildData
 import com.bselzer.gw2.manager.common.repository.data.generic.TranslateData
 import com.bselzer.gw2.manager.common.repository.data.specialized.MatchData
 import com.bselzer.gw2.manager.common.repository.instance.generic.GuildRepository
@@ -15,7 +16,6 @@ import com.bselzer.gw2.v2.model.extension.wvw.*
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwSkirmishObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
-import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.model.wvw.objective.WvwMapObjectiveId
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
@@ -35,7 +35,9 @@ import me.tatarka.inject.annotations.Inject
 class WvwMatchRepository(
     dependencies: RepositoryDependencies,
     private val repositories: Repositories
-) : RepositoryDependencies by dependencies, MatchData, TranslateData by repositories.translation {
+) : RepositoryDependencies by dependencies, MatchData,
+    GuildData by repositories.guild,
+    TranslateData by repositories.translation {
     @Singleton
     @Inject
     data class Repositories(
@@ -59,8 +61,6 @@ class WvwMatchRepository(
 
     private val _upgrades = mutableStateMapOf<WvwUpgradeId, WvwUpgrade>()
     override val upgrades: Map<WvwUpgradeId, WvwUpgrade> = _upgrades
-
-    override val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = repositories.guild.guildUpgrades
 
     /**
      * @return the displayable names for the linked worlds associated with the objective [owner]

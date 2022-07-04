@@ -1,42 +1,36 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content.map
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
-import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.*
-import com.bselzer.gw2.manager.common.ui.layout.custom.objective.content.ClaimComposition
-import com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective.*
+import com.bselzer.gw2.manager.common.ui.layout.custom.claim.content.ClaimComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.upgrade.content.UpgradeTiersComposition
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective.CoreData
+import com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective.Overview
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveViewModel
-import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.icon.expansionIconInteractor
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextInteractor
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextPresenter
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextProjector
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
-import com.bselzer.ktx.compose.ui.layout.icon.IconProjector
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
@@ -115,14 +109,15 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             state = pagerState,
             verticalAlignment = Alignment.Top,
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .verticalScroll(verticalScroll)
         ) { index ->
+            val modifier = Modifier.fillMaxWidth()
             when (tabs[index]) {
                 ObjectiveTabType.DETAILS -> DetailsColumn()
-                ObjectiveTabType.AUTOMATIC_UPGRADES -> AutomaticUpgradeColumn()
-                ObjectiveTabType.GUILD_IMPROVEMENTS -> GuildUpgradeColumn(tiers = improvementTiers)
-                ObjectiveTabType.GUILD_TACTICS -> GuildUpgradeColumn(tiers = tacticTiers)
+                ObjectiveTabType.AUTOMATIC_UPGRADES -> UpgradeTiersComposition(automaticUpgradeTiers).Content(modifier = modifier)
+                ObjectiveTabType.GUILD_IMPROVEMENTS -> UpgradeTiersComposition(improvementTiers).Content(modifier = modifier)
+                ObjectiveTabType.GUILD_TACTICS -> UpgradeTiersComposition(tacticTiers).Content(modifier = modifier)
             }
         }
 
@@ -140,15 +135,15 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
         add(ObjectiveTabType.DETAILS)
 
         // Only add the remaining tabs if they have been enabled and their applicable data is available.
-        if (shouldShowUpgradeTiers) {
+        if (automaticUpgradeTiers.shouldShowTiers) {
             add(ObjectiveTabType.AUTOMATIC_UPGRADES)
         }
 
-        if (shouldShowImprovementTiers) {
+        if (improvementTiers.shouldShowTiers) {
             add(ObjectiveTabType.GUILD_IMPROVEMENTS)
         }
 
-        if (shouldShowTacticTiers) {
+        if (tacticTiers.shouldShowTiers) {
             add(ObjectiveTabType.GUILD_TACTICS)
         }
     }
@@ -213,77 +208,6 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
     )
 
     /**
-     * Lays out the column for automatic upgrades.
-     */
-    @Composable
-    private fun ObjectiveViewModel.AutomaticUpgradeColumn() = ContentColumn(
-        content = buildArray {
-            automaticUpgradeTiers.forEach { tier ->
-                add {
-                    upgradeTierCard(
-                        icon = tier.icon,
-                        upgrades = tier.upgrades
-                    )
-                }
-            }
-        }
-    )
-
-    /**
-     * Lays out the column for guild upgrades.
-     */
-    @Composable
-    private fun GuildUpgradeColumn(tiers: Collection<GuildUpgradeTier>) = ContentColumn(
-        content = buildArray {
-            tiers.map { tier ->
-                add {
-                    upgradeTierCard(
-                        // Tier image is completely white so it must be converted to black for light mode.
-                        icon = tier.icon.copy(color = if (LocalTheme.current == Theme.LIGHT) Color.Black else tier.icon.color),
-                        upgrades = tier.upgrades,
-                    )
-                }
-            }
-        }
-    )
-
-    /**
-     * Lays out a card wrapping the tier header with the ability to expand to display the associated upgrades.
-     */
-    @Composable
-    private fun upgradeTierCard(
-        icon: TierDescriptor,
-        upgrades: Collection<Upgrade>,
-    ) {
-        val isExpanded = remember { mutableStateOf(false) }
-        InfoCard(
-            modifier = Modifier.clickable {
-                isExpanded.value = !isExpanded.value
-            }
-        ) {
-            spacedColumnProjector(
-                thickness = 15.dp,
-                presenter = ColumnPresenter(prepend = TriState.TRUE, append = TriState.TRUE)
-            ).Projection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 15.dp, end = 5.dp),
-                content = buildArray {
-                    // TODO (un)lock icon?
-                    add { upgradeTier(icon = icon, isExpanded = isExpanded.value) }
-
-                    if (isExpanded.value) {
-                        // Only show the upgrade content when expanded to save space.
-                        upgrades.forEach { upgrade ->
-                            add { upgrade.Content() }
-                        }
-                    }
-                }
-            )
-        }
-    }
-
-    /**
      * Lays out a card wrapping the underlying [content].
      */
     @Composable
@@ -346,72 +270,5 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             data.yaks,
             data.upgrade
         ).forEach { pair -> pair.Row() }
-    }
-
-    /**
-     * Lays out the header representing a tier of upgrades.
-     */
-    @Composable
-    private fun upgradeTier(icon: TierDescriptor, isExpanded: Boolean) {
-        ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-            val (iconRef, descriptorRef, expansionRef) = createRefs()
-            AsyncImage(
-                image = icon.link,
-                size = tierSize,
-                color = icon.color,
-                alpha = icon.alpha.collectAsState(DefaultAlpha).value
-            ).Content(
-                progressIndication = ProgressIndication.ENABLED,
-                modifier = Modifier.constrainAs(iconRef) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    bottom.linkTo(parent.bottom)
-                }
-            )
-
-            Text(
-                text = icon.description.collectAsState("".desc()).value.localized().capitalize(LocalLocale.current),
-                style = MaterialTheme.typography.h6,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.constrainAs(descriptorRef) {
-                    top.linkTo(parent.top)
-                    start.linkTo(iconRef.end, margin = 5.dp)
-                    end.linkTo(expansionRef.start, margin = 5.dp)
-                    bottom.linkTo(parent.bottom)
-                    width = Dimension.fillToConstraints
-                }
-            )
-
-            IconProjector(
-                interactor = expansionIconInteractor(isExpanded)
-            ).Projection(
-                modifier = Modifier.constrainAs(expansionRef) {
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                }
-            )
-        }
-    }
-
-    /**
-     * Lays out the image and description of an individual upgrade.
-     */
-    @Composable
-    private fun Upgrade.Content() = Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        AsyncImage(
-            image = link,
-            size = upgradeSize,
-            alpha = alpha.collectAsState(DefaultAlpha).value
-        ).Content(progressIndication = ProgressIndication.ENABLED)
-
-        Spacer(modifier = Modifier.width(25.dp))
-        Column {
-            Text(text = name.localized(), style = MaterialTheme.typography.subtitle1)
-            Text(text = description.localized(), style = MaterialTheme.typography.body2)
-        }
     }
 }

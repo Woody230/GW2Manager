@@ -1,10 +1,10 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.objective.viewmodel
+package com.bselzer.gw2.manager.common.ui.layout.custom.claim.viewmodel
 
 import com.arkivanov.essenty.lifecycle.doOnResume
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
-import com.bselzer.gw2.manager.common.ui.layout.custom.objective.model.Claim
+import com.bselzer.gw2.manager.common.ui.layout.custom.claim.model.Claim
 import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.GuildId
 import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective

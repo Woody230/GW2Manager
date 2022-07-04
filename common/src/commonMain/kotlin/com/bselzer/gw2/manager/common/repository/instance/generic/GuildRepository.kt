@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
+import com.bselzer.gw2.manager.common.repository.data.generic.GuildData
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
 import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.GuildId
@@ -20,7 +21,7 @@ import me.tatarka.inject.annotations.Inject
 class GuildRepository(
     dependencies: RepositoryDependencies,
     private val repositories: Repositories,
-) : RepositoryDependencies by dependencies {
+) : RepositoryDependencies by dependencies, GuildData {
     @Singleton
     @Inject
     data class Repositories(
@@ -28,10 +29,10 @@ class GuildRepository(
     )
 
     private val _guilds = mutableStateMapOf<GuildId, Guild>()
-    val guilds: Map<GuildId, Guild> = _guilds
+    override val guilds: Map<GuildId, Guild> = _guilds
 
     private val _guildUpgrades = mutableStateMapOf<GuildUpgradeId, GuildUpgrade>()
-    val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = _guildUpgrades
+    override val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = _guildUpgrades
 
     suspend fun updateGuild(guildId: GuildId) = database.transaction().use {
         Logger.d { "Guild | Updating guild $guildId." }

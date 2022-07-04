@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.objective.content
+package com.bselzer.gw2.manager.common.ui.layout.custom.claim.content
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,7 +7,7 @@ import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
 import com.bselzer.gw2.manager.common.ui.layout.common.ProgressIndication
-import com.bselzer.gw2.manager.common.ui.layout.custom.objective.viewmodel.ClaimIndicatorViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.claim.viewmodel.ClaimIndicatorViewModel
 import com.bselzer.ktx.compose.ui.unit.toDp
 
 class ClaimIndicatorComposition(

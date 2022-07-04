@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.objective.viewmodel
+package com.bselzer.gw2.manager.common.ui.layout.custom.claim.viewmodel
 
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext

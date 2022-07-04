@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.objective.content
+package com.bselzer.gw2.manager.common.ui.layout.custom.claim.content
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
@@ -7,8 +7,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
-import com.bselzer.gw2.manager.common.ui.layout.custom.objective.model.Claim
-import com.bselzer.gw2.manager.common.ui.layout.custom.objective.viewmodel.ClaimViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.claim.model.Claim
+import com.bselzer.gw2.manager.common.ui.layout.custom.claim.viewmodel.ClaimViewModel
 import com.bselzer.ktx.compose.resource.strings.localized
 
 /**

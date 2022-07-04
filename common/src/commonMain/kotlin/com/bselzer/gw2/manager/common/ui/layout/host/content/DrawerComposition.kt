@@ -9,6 +9,7 @@ import com.bselzer.gw2.manager.common.ui.layout.host.model.drawer.DrawerComponen
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.DrawerViewModel
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.compose.resource.ui.layout.text.textInteractor
 import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.component.DrawerComponentInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerInteractor
@@ -60,7 +61,6 @@ class DrawerComposition(
 
     @Composable
     private fun DrawerComponent.interactor(): DrawerComponentInteractor {
-        val localized: String = description.localized()
         val mainRouter = LocalMainRouter.current
         val scope = rememberCoroutineScope()
         return DrawerComponentInteractor(
@@ -69,7 +69,7 @@ class DrawerComposition(
                 painter = icon.painter(),
                 contentDescription = null
             ),
-            text = TextInteractor(text = localized),
+            text = description.textInteractor(),
             modifier = Clickable {
                 // Change the current page to the selected destination and close the drawer.
                 mainRouter.bringToFront(configuration)

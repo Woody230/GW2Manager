@@ -11,12 +11,10 @@ import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.buildAnnotatedString
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.content.ColorComposition
-import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.color.ColorLogic
-import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.color.ColorResources
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.content.ThemeComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
 import com.bselzer.gw2.manager.common.ui.theme.ThemedColorFilter
 import com.bselzer.ktx.compose.resource.images.painter
@@ -24,8 +22,6 @@ import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triText
 import com.bselzer.ktx.compose.resource.ui.layout.icon.downIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.upIconInteractor
-import com.bselzer.ktx.compose.resource.ui.layout.text.textInteractor
-import com.bselzer.ktx.compose.ui.graphics.color.colorOrNull
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
 import com.bselzer.ktx.compose.ui.layout.alertdialog.rememberDialogState
@@ -45,7 +41,6 @@ import com.bselzer.ktx.compose.ui.layout.preference.section.*
 import com.bselzer.ktx.compose.ui.layout.preference.switch.SwitchPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.switch.SwitchPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferenceInteractor
-import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.switch.SwitchInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
@@ -76,7 +71,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
     @Composable
     private fun SettingsViewModel.CommonSection() = spacedPreferenceColumnProjector().Projection(
         content = buildArray {
-            add { ThemePreference() }
+            add { ThemeComposition(theme).Content() }
             add { LanguagePreference() }
 
             /* TODO enable token preference when needed
@@ -84,21 +79,6 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
              */
         }
     )
-
-    @Composable
-    private fun SettingsViewModel.ThemePreference() = SwitchPreferenceProjector(
-        interactor = SwitchPreferenceInteractor(
-            preference = PreferenceInteractor(
-                painter = themeResources.image.painter(),
-                title = themeResources.title.localized(),
-                subtitle = themeResources.subtitle.localized()
-            ),
-            switch = SwitchInteractor(
-                checked = themeLogic.checked,
-                onCheckedChange = themeLogic.onCheckedChange
-            )
-        )
-    ).Projection()
 
     @Composable
     private fun SettingsViewModel.LanguagePreference() {
@@ -296,50 +276,4 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
             )
         )
     ).Projection()
-
-    @Composable
-    private fun Color(resources: ColorResources, logic: ColorLogic) {
-        val state = rememberDialogState()
-        val selected = resources.subtitle.colorOrNull()
-        val colorFilter = if (selected == null) ThemedColorFilter else ColorFilter.tint(color = selected)
-        TextFieldPreferenceProjector(
-            presenter = TextFieldPreferencePresenter(
-                preference = AlertDialogPreferencePresenter(
-                    preference = PreferencePresenter(
-                        // Color image is by default harder to see in dark mode.
-                        image = ImagePresenter(colorFilter = colorFilter)
-                    )
-                ),
-            ),
-            interactor = TextFieldPreferenceInteractor(
-                preference = AlertDialogPreferenceInteractor(
-                    preference = PreferenceInteractor(
-                        painter = resources.image.painter(),
-                        title = resources.title.localized(),
-                        subtitle = resources.subtitle.value
-                    ),
-                    dialog = AlertDialogInteractor.Builder(state) {
-                        logic.clearInput()
-                    }.triText().build {
-                        title = resources.title.localized()
-                        closeOnNeutral { logic.onReset() }
-
-                        val host = LocalSnackbarHostState.current
-                        val failure = resources.failure.localized()
-                        positiveEnabled = resources.hasValidInput
-                        closeOnPositive {
-                            if (!logic.onSave()) {
-                                host.showSnackbar(message = failure, duration = SnackbarDuration.Long)
-                            }
-                        }
-                    }
-                ),
-                inputDescription = resources.dialogSubtitle.textInteractor(),
-                input = TextFieldInteractor(
-                    value = resources.dialogInput.localized(),
-                    onValueChange = { logic.updateInput(it) }
-                )
-            )
-        ).Projection(modifier = state.openOnClick())
-    }
 }

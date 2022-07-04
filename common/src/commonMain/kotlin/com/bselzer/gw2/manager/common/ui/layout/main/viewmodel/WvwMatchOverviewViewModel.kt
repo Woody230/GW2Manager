@@ -16,7 +16,6 @@ class WvwMatchOverviewViewModel(
     context: AppComponentContext
 ) : MainViewModel(context),
     SelectedWorldData by context.repositories.selectedWorld,
-    WorldViewModel,
     OwnerOverviewsViewModel,
     ContestedAreasViewModel {
     override val title: StringDesc = KtxResources.strings.overview.desc()
@@ -38,4 +37,7 @@ class WvwMatchOverviewViewModel(
 
     override val contestedAreas: ContestedAreas
         get() = count.contestedAreas
+
+    val selectedWorld: WorldViewModel
+        get() = WorldViewModel(context = this)
 }

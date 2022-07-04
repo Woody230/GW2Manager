@@ -26,7 +26,6 @@ import com.bselzer.ktx.function.collection.buildArray
 class WvwMatchOverviewComposition(
     model: WvwMatchOverviewViewModel
 ) : MainChildComposition<WvwMatchOverviewViewModel>(model),
-    WorldComposition,
     OwnerOverviewsComposition,
     ContestedAreasComposition {
     @Composable
@@ -92,7 +91,7 @@ class WvwMatchOverviewComposition(
     private fun WvwMatchOverviewViewModel.SelectedWorld() = BorderedCard(
         modifier = Modifier.fillMaxWidth()
     ) {
-        WorldPreference()
+        WorldComposition(selectedWorld).Content()
     }
 
     @Composable

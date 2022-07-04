@@ -1,20 +1,20 @@
 package com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel
 
-import com.bselzer.gw2.manager.common.dependency.ViewModelDependencies
+import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
+import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.base.ViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.WorldResources
 import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
-import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 
-interface WorldViewModel : ViewModelDependencies {
-    val world: World?
-    val match: WvwMatch
-
+class WorldViewModel(
+    context: AppComponentContext,
+) : ViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
     /**
      * Creates the state for the module displaying the user's choice of world.
      */

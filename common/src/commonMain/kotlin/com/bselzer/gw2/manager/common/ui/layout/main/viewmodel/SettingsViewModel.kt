@@ -5,7 +5,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.AppResources
-import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.WvwResources
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.interval.WvwIntervalLogic
@@ -16,12 +15,10 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.MapL
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.MapLabelResources
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.ZoomLogic
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.ZoomResources
-import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.theme.ThemeLogic
-import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.theme.ThemeResources
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.token.TokenLogic
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.token.TokenResources
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.ColorViewModel
-import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.ThemeViewModel
 import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.resource.Gw2Resources
@@ -50,34 +47,8 @@ import kotlin.time.toDuration
 class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
     override val title: StringDesc = KtxResources.strings.settings.desc()
 
-    val themeResources
-        @Composable
-        get() = ThemeResources(
-            image = when (LocalTheme.current) {
-                Theme.LIGHT -> Gw2Resources.images.sunrise
-                Theme.DARK -> Gw2Resources.images.twilight
-            },
-            title = KtxResources.strings.theme.desc(),
-            subtitle = when (LocalTheme.current) {
-                Theme.LIGHT -> KtxResources.strings.light
-                Theme.DARK -> KtxResources.strings.dark
-            }.desc()
-        )
-
-    val themeLogic
-        @Composable
-        get() = run {
-            val scope = rememberCoroutineScope()
-            ThemeLogic(
-                checked = LocalTheme.current != Theme.LIGHT,
-                onCheckedChange = { checked ->
-                    scope.launch {
-                        val theme = if (checked) Theme.DARK else Theme.LIGHT
-                        preferences.common.theme.set(theme)
-                    }
-                }
-            )
-        }
+    val theme: ThemeViewModel
+        get() = ThemeViewModel(context = this)
 
     private val token = mutableStateOf<Token?>(null)
     val tokenResources

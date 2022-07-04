@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.match.statistics
+package com.bselzer.gw2.manager.common.ui.layout.statistics.model.data
 
 import androidx.compose.ui.graphics.Color
 import dev.icerock.moko.resources.desc.StringDesc

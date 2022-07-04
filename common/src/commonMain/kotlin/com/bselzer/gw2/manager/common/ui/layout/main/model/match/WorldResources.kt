@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.match.overview
+package com.bselzer.gw2.manager.common.ui.layout.main.model.match
 
 import androidx.compose.ui.graphics.Color
 import dev.icerock.moko.resources.ImageResource

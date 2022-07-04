@@ -8,7 +8,7 @@ import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
-import com.bselzer.gw2.manager.common.ui.layout.main.model.match.overview.WorldResources
+import com.bselzer.gw2.manager.common.ui.layout.main.model.match.WorldResources
 import com.bselzer.ktx.compose.resource.images.painter
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceInteractor

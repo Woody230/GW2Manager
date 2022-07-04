@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.custom.borderlands.content.BorderlandsComposition
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.content.ProgressionsComposition
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.data.Progression
+import com.bselzer.gw2.manager.common.ui.layout.custom.progression.content.ProgressionsComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progression
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchStatisticsViewModel
 
 class WvwMatchStatisticsComposition(

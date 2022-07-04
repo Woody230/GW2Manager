@@ -1,10 +1,10 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.statistics.content
+package com.bselzer.gw2.manager.common.ui.layout.custom.owner.content
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.viewmodel.OwnerOverviewsViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.viewmodel.OwnerOverviewsViewModel
 
 interface OwnerOverviewsComposition {
     @Composable

@@ -1,9 +1,9 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.statistics.viewmodel
+package com.bselzer.gw2.manager.common.ui.layout.custom.owner.viewmodel
 
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.ViewModelDependencies
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.overview.*
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.*
 import com.bselzer.gw2.v2.model.enumeration.WvwMapBonusType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull

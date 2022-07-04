@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.overview
+package com.bselzer.gw2.manager.common.ui.layout.custom.owner.model
 
 data class OwnerOverview(
     val victoryPoints: Data,

@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.statistics.content
+package com.bselzer.gw2.manager.common.ui.layout.custom.progression.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.data.Progress
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.data.Progression
+import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progress
+import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progression
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
 

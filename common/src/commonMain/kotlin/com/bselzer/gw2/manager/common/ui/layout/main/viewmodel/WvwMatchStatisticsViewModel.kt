@@ -2,8 +2,8 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.data.Progress
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.data.Progression
+import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progress
+import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progression
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull

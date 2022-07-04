@@ -14,8 +14,8 @@ import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.content.ContestedAreasComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.content.OwnerOverviewsComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.content.WorldComposition
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.content.OwnerOverviewsComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalMainRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchOverviewViewModel

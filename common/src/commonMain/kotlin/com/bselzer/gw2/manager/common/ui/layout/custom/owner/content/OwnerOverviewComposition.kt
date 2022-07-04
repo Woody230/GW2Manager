@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.statistics.content
+package com.bselzer.gw2.manager.common.ui.layout.custom.owner.content
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,10 +12,10 @@ import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.AsyncImage
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.overview.Bloodlust
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.overview.Data
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.overview.Home
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.overview.OwnerOverview
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Bloodlust
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Data
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Home
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.OwnerOverview
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.row.spacedRowProjector
 import com.bselzer.ktx.function.collection.buildArray

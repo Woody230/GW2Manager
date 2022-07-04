@@ -1,10 +1,10 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.statistics.content
+package com.bselzer.gw2.manager.common.ui.layout.custom.progression.content
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
-import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.model.data.Progression
+import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progression
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.function.collection.buildArray
 

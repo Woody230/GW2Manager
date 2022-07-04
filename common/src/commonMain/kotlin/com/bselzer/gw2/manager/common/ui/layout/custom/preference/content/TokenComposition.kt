@@ -1,0 +1,110 @@
+package com.bselzer.gw2.manager.common.ui.layout.custom.preference.content
+
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
+import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.TokenViewModel
+import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triText
+import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
+import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
+import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
+import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
+import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
+import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferenceInteractor
+import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferenceProjector
+import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
+import com.bselzer.ktx.compose.ui.layout.text.hyperlink
+import com.bselzer.ktx.compose.ui.layout.textfield.TextFieldInteractor
+import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
+
+class TokenComposition(
+    model: TokenViewModel,
+    private val state: MutableState<DialogState>,
+) : ViewModelComposition<TokenViewModel>(model) {
+    private companion object {
+        const val TAG = "applications"
+    }
+
+    @Composable
+    override fun TokenViewModel.Content(modifier: Modifier) {
+        projector().Projection(modifier = state.openOnClick().then(modifier))
+    }
+
+    @Composable
+    private fun TokenViewModel.projector() = TextFieldPreferenceProjector(
+        interactor = interactor()
+    )
+
+    @Composable
+    private fun TokenViewModel.interactor() = TextFieldPreferenceInteractor(
+        preference = AlertDialogPreferenceInteractor(
+            preference = preferenceInteractor(),
+            dialog = dialogInteractor(),
+        ),
+        inputDescription = inputDescription(),
+        input = input()
+    )
+
+    @Composable
+    private fun TokenViewModel.preferenceInteractor() = PreferenceInteractor(
+        painter = resources.image.painter(),
+        title = resources.title.localized(),
+        subtitle = resources.subtitle.localized()
+    )
+
+    @Composable
+    private fun TokenViewModel.dialogInteractor() = AlertDialogInteractor.Builder(state) {
+        logic.clearInput()
+    }.triText().build {
+        title = resources.title.localized()
+        closeOnNeutral { logic.onReset() }
+        positive(scope = this)
+    }
+
+    @Composable
+    private fun TokenViewModel.positive(scope: AlertDialogInteractor.Builder) = with(scope) {
+        val host = LocalSnackbarHostState.current
+        val failure = resources.failure.localized()
+        positiveEnabled = resources.dialogInput.localized().isNotBlank()
+        closeOnPositive {
+            if (!logic.onSave()) {
+                host.showSnackbar(message = failure, duration = SnackbarDuration.Long)
+            }
+        }
+    }
+
+    @Composable
+    private fun TokenViewModel.inputDescription() = TextInteractor(
+        text = inputDescriptionText(),
+        onClickOffset = { offset, text -> onClickOffset(offset, text) }
+    )
+
+    @Composable
+    private fun TokenViewModel.inputDescriptionText() = buildAnnotatedString {
+        hyperlink(
+            text = resources.dialogSubtitle.localized(),
+            tag = TAG,
+            hyperlink = resources.hyperlink.localized()
+        )
+    }
+
+    private fun TokenViewModel.onClickOffset(offset: Int, text: AnnotatedString) {
+        val range = text.getStringAnnotations(tag = TAG, start = offset, end = offset).firstOrNull()
+        if (range != null) {
+            // Open the link in the user's browser.
+            logic.onClickHyperlink(range.item)
+        }
+    }
+
+    @Composable
+    private fun TokenViewModel.input() = TextFieldInteractor(
+        value = resources.dialogInput.localized(),
+        onValueChange = { logic.updateInput(it) }
+    )
+}

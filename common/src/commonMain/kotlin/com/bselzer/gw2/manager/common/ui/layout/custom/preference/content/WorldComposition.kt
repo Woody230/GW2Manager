@@ -21,7 +21,9 @@ class WorldComposition(
     model: WorldViewModel
 ) : ViewModelComposition<WorldViewModel>(model) {
     @Composable
-    override fun WorldViewModel.Content(modifier: Modifier) = worldResources.projector().Projection(modifier.combinedModifier())
+    override fun WorldViewModel.Content(modifier: Modifier) {
+        worldResources.projector().Projection(modifier.combinedModifier())
+    }
 
     @Composable
     private fun WorldResources.projector() = TextPreferenceProjector(

@@ -16,7 +16,6 @@ import com.bselzer.ktx.compose.ui.graphics.color.colorOrNull
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
-import com.bselzer.ktx.compose.ui.layout.alertdialog.rememberDialogState
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.PreferencePresenter
@@ -29,32 +28,28 @@ import com.bselzer.ktx.compose.ui.layout.textfield.TextFieldInteractor
 import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
 
 class ColorComposition(
-    model: ColorViewModel
+    model: ColorViewModel,
+    private val state: MutableState<DialogState>
 ) : ModelComposition<ColorViewModel>(model) {
     @Composable
     override fun ColorViewModel.Content(modifier: Modifier) {
-        val state = rememberDialogState()
-        projector(state).Projection(modifier = state.openOnClick())
+        projector().Projection(modifier = state.openOnClick().then(modifier))
     }
 
     @Composable
-    private fun ColorViewModel.projector(
-        state: MutableState<DialogState>
-    ) = TextFieldPreferenceProjector(
+    private fun ColorViewModel.projector() = TextFieldPreferenceProjector(
         presenter = presenter(),
-        interactor = interactor(state)
+        interactor = interactor()
     )
 
     @Composable
-    private fun ColorViewModel.interactor(
-        state: MutableState<DialogState>
-    ) = TextFieldPreferenceInteractor(
+    private fun ColorViewModel.interactor() = TextFieldPreferenceInteractor(
         preference = AlertDialogPreferenceInteractor(
             preference = preferenceInteractor(),
-            dialog = dialogInteractor(state)
+            dialog = dialogInteractor()
         ),
         inputDescription = resources.dialogSubtitle.textInteractor(),
-        input = textFieldInteractor()
+        input = input()
     )
 
     @Composable
@@ -79,24 +74,12 @@ class ColorComposition(
     )
 
     @Composable
-    private fun ColorViewModel.dialogInteractor(
-        state: MutableState<DialogState>
-    ) = dialogInteractorBuilder(state).triText().build {
-        title = resources.title.localized()
-        neutral(scope = this)
-        positive(scope = this)
-    }
-
-    @Composable
-    private fun ColorViewModel.dialogInteractorBuilder(
-        state: MutableState<DialogState>
-    ) = AlertDialogInteractor.Builder(state) {
+    private fun ColorViewModel.dialogInteractor() = AlertDialogInteractor.Builder(state) {
         logic.clearInput()
-    }
-
-    @Composable
-    private fun ColorViewModel.neutral(scope: AlertDialogInteractor.Builder) = with(scope) {
+    }.triText().build {
+        title = resources.title.localized()
         closeOnNeutral { logic.onReset() }
+        positive(scope = this)
     }
 
     @Composable
@@ -112,7 +95,7 @@ class ColorComposition(
     }
 
     @Composable
-    private fun ColorViewModel.textFieldInteractor() = TextFieldInteractor(
+    private fun ColorViewModel.input() = TextFieldInteractor(
         value = resources.dialogInput.localized(),
         onValueChange = { logic.updateInput(it) }
     )

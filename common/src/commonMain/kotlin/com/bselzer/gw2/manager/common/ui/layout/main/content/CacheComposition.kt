@@ -24,37 +24,46 @@ class CacheComposition(model: CacheViewModel) : MainChildComposition<CacheViewMo
     override fun CacheViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize().then(modifier),
     ) {
-        spacedColumnProjector(thickness = padding).Projection(
-            modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState()),
-            content = buildArray {
-                resources.forEach { resource ->
-                    add { Projection(resource) }
-                }
-            }
-        )
+        Caches()
     }
 
     @Composable
-    private fun CacheViewModel.interactor(resource: ClearResources) = CheckboxPreferenceInteractor(
-        checkbox = CheckboxInteractor(
-            checked = isSelected(resource.type),
-            onCheckedChange = { checked ->
-                if (checked) {
-                    select(resource.type)
-                } else {
-                    deselect(resource.type)
-                }
+    private fun CacheViewModel.Caches() = spacedColumnProjector(
+        thickness = padding
+    ).Projection(
+        modifier = Modifier.padding(paddingValues).verticalScroll(rememberScrollState()),
+        content = buildArray {
+            resources.forEach { resource ->
+                add { projector(resource).Projection() }
             }
-        ),
-        preference = PreferenceInteractor(
-            painter = resource.image.painter(),
-            title = resource.title.localized(),
-            subtitle = resource.subtitle.localized()
+        }
+    )
+
+
+    @Composable
+    private fun CacheViewModel.projector(resource: ClearResources) = CheckboxPreferenceProjector(
+        interactor = CheckboxPreferenceInteractor(
+            checkbox = checkboxInteractor(resource),
+            preference = preferenceInteractor(resource)
         )
     )
 
     @Composable
-    private fun CacheViewModel.Projection(cache: ClearResources) = CheckboxPreferenceProjector(
-        interactor = interactor(cache),
-    ).Projection()
+    private fun CacheViewModel.checkboxInteractor(resource: ClearResources) = CheckboxInteractor(
+        checked = isSelected(resource.type),
+        onCheckedChange = { checked ->
+            if (checked) {
+                select(resource.type)
+            } else {
+                deselect(resource.type)
+            }
+        }
+    )
+
+    @Composable
+    private fun preferenceInteractor(resource: ClearResources) = PreferenceInteractor(
+        painter = resource.image.painter(),
+        title = resource.title.localized(),
+        subtitle = resource.subtitle.localized()
+    )
 }

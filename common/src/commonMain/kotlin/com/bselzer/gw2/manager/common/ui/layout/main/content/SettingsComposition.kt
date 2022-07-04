@@ -62,7 +62,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
     )
 
     @Composable
-    private fun SettingsViewModel.wvwSectionPresenter() = PreferenceSectionPresenter(
+    private fun wvwSectionPresenter() = PreferenceSectionPresenter(
         title = TextPresenter(color = MaterialTheme.colors.primary)
     )
 

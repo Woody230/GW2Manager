@@ -19,18 +19,23 @@ class AboutComposition(model: AboutViewModel) : MainChildComposition<AboutViewMo
     override fun AboutViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize().then(modifier),
     ) {
-        spacedColumnProjector(thickness = padding).Projection(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .verticalScroll(rememberScrollState()),
-            content = buildArray {
-                add { VersionName() }
-                add { VersionCode() }
-                add { LegalNotice() }
-            }
-        )
+        AppDescription()
     }
+
+    @Composable
+    private fun AboutViewModel.AppDescription() = spacedColumnProjector(
+        thickness = padding
+    ).Projection(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .verticalScroll(rememberScrollState()),
+        content = buildArray {
+            add { VersionName() }
+            add { VersionCode() }
+            add { LegalNotice() }
+        }
+    )
 
     @Composable
     private fun AboutViewModel.VersionCode() = DescriptionProjector(

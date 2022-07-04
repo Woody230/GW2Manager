@@ -18,22 +18,28 @@ class LicenseComposition(model: LicenseViewModel) : MainChildComposition<License
     override fun LicenseViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize().then(modifier),
     ) {
-        Libraries()
+        projector().Projection(modifier = Modifier.padding(8.dp))
     }
 
     @Composable
-    private fun LicenseViewModel.Libraries() = LibraryProjector(
-        interactor = LibraryInteractor(
-            libraries = libraries
-        ),
-        presenter = LibraryPresenter(
-            container = CardPresenter(
-                // Use the relative background instead.
-                backgroundColor = Color.Transparent,
+    private fun LicenseViewModel.projector() = LibraryProjector(
+        interactor = interactor(),
+        presenter = presenter()
+    )
 
-                // Disable the shadow.
-                elevation = 0.dp
-            )
+    @Composable
+    private fun LicenseViewModel.interactor() = LibraryInteractor(
+        libraries = libraries
+    )
+
+    @Composable
+    private fun presenter() = LibraryPresenter(
+        container = CardPresenter(
+            // Use the relative background instead.
+            backgroundColor = Color.Transparent,
+
+            // Disable the shadow.
+            elevation = 0.dp
         )
-    ).Projection(modifier = Modifier.padding(8.dp))
+    )
 }

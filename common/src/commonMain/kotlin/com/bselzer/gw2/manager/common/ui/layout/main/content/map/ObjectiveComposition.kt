@@ -22,11 +22,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
-import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
-import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
-import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
-import com.bselzer.gw2.manager.common.ui.layout.image.Content
-import com.bselzer.gw2.manager.common.ui.layout.image.ProgressIndication
+import com.bselzer.gw2.manager.common.ui.layout.common.*
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective.*
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveViewModel
 import com.bselzer.gw2.manager.common.ui.theme.Theme

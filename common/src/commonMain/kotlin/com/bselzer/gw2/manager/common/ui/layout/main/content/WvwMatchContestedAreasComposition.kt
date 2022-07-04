@@ -6,10 +6,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
-import com.bselzer.gw2.manager.common.ui.layout.borderlands.content.BorderlandsComposition
-import com.bselzer.gw2.manager.common.ui.layout.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
-import com.bselzer.gw2.manager.common.ui.layout.contestedarea.content.ContestedAreasComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.borderlands.content.BorderlandsComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.chart.content.ChartComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.content.ContestedAreasComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchContestedAreasViewModel
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
 import com.bselzer.ktx.compose.ui.layout.spacer.Spacer

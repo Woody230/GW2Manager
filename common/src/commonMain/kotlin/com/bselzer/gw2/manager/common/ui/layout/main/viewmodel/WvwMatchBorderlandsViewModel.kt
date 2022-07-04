@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.borderlands.viewmodel.BorderlandsViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.borderlands.viewmodel.BorderlandsViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.SelectedWorldRefreshAction.Companion.refreshAction

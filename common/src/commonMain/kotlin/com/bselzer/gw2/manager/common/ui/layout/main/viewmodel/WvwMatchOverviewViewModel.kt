@@ -2,11 +2,11 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartViewModel
-import com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel.ContestedAreasViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.chart.viewmodel.ChartViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.viewmodel.ContestedAreasViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.viewmodel.OwnerOverviewsViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.SelectedWorldRefreshAction.Companion.refreshAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.match.WorldResources
-import com.bselzer.gw2.manager.common.ui.layout.statistics.viewmodel.OwnerOverviewsViewModel
 import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreas
 import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.model.world.World

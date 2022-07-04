@@ -25,10 +25,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
+import com.bselzer.gw2.manager.common.ui.layout.common.AsyncImage
+import com.bselzer.gw2.manager.common.ui.layout.common.Content
+import com.bselzer.gw2.manager.common.ui.layout.common.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
-import com.bselzer.gw2.manager.common.ui.layout.image.AsyncImage
-import com.bselzer.gw2.manager.common.ui.layout.image.Content
-import com.bselzer.gw2.manager.common.ui.layout.image.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MapConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.content.map.LocalMapRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.*

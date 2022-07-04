@@ -2,8 +2,8 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.dependency.ViewModelDependencies
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.chart.viewmodel.ChartViewModel
-import com.bselzer.gw2.manager.common.ui.layout.contestedarea.viewmodel.ContestedAreasViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.chart.viewmodel.ChartViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.viewmodel.ContestedAreasViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.v2.model.extension.wvw.count.ObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMapObjectiveOwnerCount

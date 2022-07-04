@@ -24,13 +24,16 @@ class WvwMatchOverviewViewModel(
     override val actions
         get() = listOf(refreshAction())
 
-    /**
-     * The overview for the selected world's match.
-     */
-    val chart: ChartViewModel
+    val vpChart: ChartViewModel
         get() = ChartViewModel(
             context = this,
             data = count.victoryPoints,
+        )
+
+    val pptChart: ChartViewModel
+        get() = ChartViewModel(
+            context = this,
+            data = count.pointsPerTick
         )
 
     override val contestedAreas: ContestedAreas

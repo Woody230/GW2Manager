@@ -49,22 +49,25 @@ class WvwMatchOverviewComposition(
     private fun WvwMatchOverviewViewModel.buildContent(): Array<@Composable ColumnScope.() -> Unit> = buildArray {
         add { SelectedWorld() }
 
-        if (overviews.any()) {
-            val content = if (ShouldLayoutHorizontally) horizontalContent() else verticalContent()
-            addAll(content)
-        }
+        val content = if (ShouldLayoutHorizontally) horizontalContent() else verticalContent()
+        addAll(content)
     }
 
     @Composable
     private fun WvwMatchOverviewViewModel.horizontalContent(): List<@Composable ColumnScope.() -> Unit> = buildList {
         add {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Chart()
+                VictoryPointChart()
                 Overview()
             }
         }
 
-        add { ContestedAreas() }
+        add {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                PointsPerTickChart()
+                ContestedAreas()
+            }
+        }
     }
 
     @Composable
@@ -74,9 +77,15 @@ class WvwMatchOverviewComposition(
     }
 
     @Composable
-    private fun WvwMatchOverviewViewModel.Chart() {
+    private fun WvwMatchOverviewViewModel.VictoryPointChart() {
         val modifier = Modifier.routeOnClick(MainConfig.WvwMatchStatisticsConfig)
-        ChartComposition(model = chart).Content(modifier = modifier)
+        ChartComposition(model = vpChart).Content(modifier = modifier)
+    }
+
+    @Composable
+    private fun WvwMatchOverviewViewModel.PointsPerTickChart() {
+        val modifier = Modifier.routeOnClick(MainConfig.WvwMatchContestedAreasConfig)
+        ChartComposition(model = pptChart).Content(modifier = modifier)
     }
 
     @Composable

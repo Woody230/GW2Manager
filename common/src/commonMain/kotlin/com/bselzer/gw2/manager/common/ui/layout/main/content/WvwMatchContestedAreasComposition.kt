@@ -28,29 +28,47 @@ class WvwMatchContestedAreasComposition(
 
     @Composable
     override fun ColumnScope.Content(index: Int, data: ObjectiveOwnerCount) = with(model) {
-        val chart: @Composable () -> Unit = {
-            val model = charts.getOrNull(index)
-            model?.let { ChartComposition(model).Content() }
-        }
-
-        val contestedAreas: @Composable () -> Unit = {
-            val model = data.toContestedAreasModel()
-            model.ContestedAreasContent()
-        }
-
         if (ShouldLayoutHorizontally) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                chart()
-                Spacer(width = 20.dp)
-                contestedAreas()
-            }
+            HorizontalContent(index, data)
         } else {
-            chart()
-            contestedAreas()
+            VerticalContent(index, data)
         }
+    }
+
+    @Composable
+    private fun WvwMatchContestedAreasViewModel.HorizontalContent(
+        index: Int, data: ObjectiveOwnerCount
+    ) = Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Chart(index)
+        Spacer(width = 20.dp)
+        ContestedAreas(data)
+    }
+
+    @Composable
+    private fun WvwMatchContestedAreasViewModel.VerticalContent(
+        index: Int, data: ObjectiveOwnerCount
+    ) = Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Chart(index)
+        ContestedAreas(data)
+    }
+
+    @Composable
+    private fun WvwMatchContestedAreasViewModel.Chart(index: Int) {
+        val model = charts.getOrNull(index)
+        model?.let { ChartComposition(model).Content() }
+    }
+
+    @Composable
+    private fun WvwMatchContestedAreasViewModel.ContestedAreas(
+        data: ObjectiveOwnerCount
+    ) {
+        val model = data.toContestedAreasModel()
+        model.ContestedAreasContent()
     }
 }

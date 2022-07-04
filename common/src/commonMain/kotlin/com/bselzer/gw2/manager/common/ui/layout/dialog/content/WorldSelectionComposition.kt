@@ -45,55 +45,68 @@ class WorldSelectionComposition(
     }
 
     @Composable
-    private fun WorldSelectionViewModel.SelectionDialog(modifier: Modifier) {
+    private fun WorldSelectionViewModel.SelectionDialog(
+        modifier: Modifier
+    ) = AlertDialogProjector(
+        interactor = interactor()
+    ).Projection(
+        modifier = modifier,
+
+        // TODO use regular dialog instead of constrained -- title bounces with the choices
+        constrained = true
+    ) {
+        SelectionChoice()
+    }
+
+    @Composable
+    private fun WorldSelectionViewModel.interactor() = interactorBuilder().biText().build {
+        title = selection.title.localized()
+        neutral()
+        positive()
+    }
+
+    @Composable
+    private fun WorldSelectionViewModel.interactorBuilder() = run {
         val dialogRouter = LocalDialogRouter.current
-        val selection = selection
-        AlertDialogProjector(
-            interactor = AlertDialogInteractor.Builder {
-                // Don't show the dialog anymore when the world has been selected.
-                dialogRouter.bringToFront(DialogConfig.NoDialogConfig)
+        AlertDialogInteractor.Builder {
+            // Don't show the dialog anymore when the world has been selected.
+            dialogRouter.bringToFront(DialogConfig.NoDialogConfig)
 
-                // Reset the choice so that it does not persist when the dialog is reopened.
-                selection.resetSelected()
-            }.biText().build {
-                title = selection.title.localized()
-                closeOnNeutral {
-                    // NOTE Not using triText so currently resetting is disabled.
-                    selection.onReset()
-                }
+            // Reset the choice so that it does not persist when the dialog is reopened.
+            selection.resetSelected()
+        }
+    }
 
-                positiveEnabled = selection.selected != null
-                closeOnPositive {
-                    // TODO keep open if world not selected and force show dialog on launch if no selection?
-                    val world = selection.selected
-                    if (world != null) {
-                        Logger.d("Setting world to $world")
-                        selection.onSave(world)
-                    }
-                }
+    @Composable
+    private fun AlertDialogInteractor.Builder.neutral() = with(model) {
+        closeOnNeutral {
+            // NOTE Not using triText so currently resetting is disabled.
+            selection.onReset()
+        }
+    }
+
+    @Composable
+    private fun AlertDialogInteractor.Builder.positive() = with(model) {
+        positiveEnabled = selection.selected != null
+        closeOnPositive {
+            // TODO keep open if world not selected and force show dialog on launch if no selection?
+            val world = selection.selected
+            if (world != null) {
+                Logger.d("Setting world to $world")
+                selection.onSave(world)
             }
-        ).Projection(
-            modifier = modifier,
-
-            // TODO use regular dialog instead of constrained -- title bounces with the choices
-            constrained = true
-        ) {
-            SelectionChoice()
         }
     }
 
     // TODO preferably, choice should be scrolled to when dialog gets opened
     // TODO if current selected does not exist, do not allow cancellation
     @Composable
-    private fun WorldSelectionViewModel.SelectionChoice() {
-        val selection = selection
-        SingleChoiceProjector(
-            interactor = SingleChoiceInteractor(
-                selected = selection.selected,
-                values = selection.values,
-                getLabel = selection.getLabel,
-                onSelection = { world -> selection.setSelected(world) }
-            )
-        ).Projection(modifier = Modifier.fillMaxHeight())
-    }
+    private fun WorldSelectionViewModel.SelectionChoice() = SingleChoiceProjector(
+        interactor = SingleChoiceInteractor(
+            selected = selection.selected,
+            values = selection.values,
+            getLabel = selection.getLabel,
+            onSelection = { world -> selection.setSelected(world) }
+        )
+    ).Projection(modifier = Modifier.fillMaxHeight())
 }

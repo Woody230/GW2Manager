@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content.map
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,33 +19,17 @@ import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.custom.objective.content.ObjectiveOverviewComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.upgrade.content.UpgradeTiersComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveViewModel
-import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.resource.KtxResources
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
-import dev.icerock.moko.resources.desc.StringDesc
-import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalPagerApi::class)
 class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<ObjectiveViewModel>(model) {
-    private enum class ObjectiveTabType {
-        DETAILS,
-        AUTOMATIC_UPGRADES,
-        GUILD_IMPROVEMENTS,
-        GUILD_TACTICS;
-
-        fun stringDesc(): StringDesc = when (this) {
-            DETAILS -> KtxResources.strings.details
-            AUTOMATIC_UPGRADES -> Gw2Resources.strings.automatic_upgrades
-            GUILD_IMPROVEMENTS -> Gw2Resources.strings.guild_improvements
-            GUILD_TACTICS -> Gw2Resources.strings.guild_tactics
-        }.desc()
-    }
 
     // TODO standardize capitalization of text, particularly for anything from the api -- for example, for French fortified is not capitalized while secured/reinforced are
-
     @Composable
     override fun ObjectiveViewModel.Content(modifier: Modifier) = AbsoluteBackgroundImage(
         modifier = Modifier.fillMaxSize().then(modifier),
@@ -53,56 +38,82 @@ class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<Obj
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Pager()
+            val state = rememberPagerState()
+            val selectedIndex = state.currentPage
+
+            PagerTabs(selectedIndex, state)
+            Pager(state, selectedIndex)
         }
     }
 
-    @OptIn(ExperimentalPagerApi::class)
     @Composable
-    private fun ObjectiveViewModel.Pager() {
-        val scope = rememberCoroutineScope()
-        val pagerState = rememberPagerState()
-        val selectedIndex = pagerState.currentPage
-        val tabs = currentTabs()
-        ScrollableTabRow(
-            selectedTabIndex = selectedIndex,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            tabs.forEachIndexed { index, tab ->
-                Tab(
-                    text = { Text(text = tab.stringDesc().localized()) },
-                    selected = index == selectedIndex,
-                    onClick = {
-                        scope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
-                )
-            }
-        }
-
+    private fun ObjectiveViewModel.Pager(
+        state: PagerState,
+        selectedIndex: Int
+    ) {
         val verticalScroll = rememberScrollState()
+        verticalScroll.ResetOnPageChange(selectedIndex)
+
         HorizontalPager(
-            count = tabs.size,
-            state = pagerState,
+            count = currentTabs().size,
+            state = state,
             verticalAlignment = Alignment.Top,
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(verticalScroll)
         ) { index ->
-            val modifier = Modifier.fillMaxWidth()
-            when (tabs[index]) {
-                ObjectiveTabType.DETAILS -> ObjectiveOverviewComposition(overview).Content(modifier = modifier)
-                ObjectiveTabType.AUTOMATIC_UPGRADES -> UpgradeTiersComposition(automaticUpgradeTiers).Content(modifier = modifier)
-                ObjectiveTabType.GUILD_IMPROVEMENTS -> UpgradeTiersComposition(improvementTiers).Content(modifier = modifier)
-                ObjectiveTabType.GUILD_TACTICS -> UpgradeTiersComposition(tacticTiers).Content(modifier = modifier)
-            }
+            PagerContent(index)
         }
+    }
 
-        LaunchedEffect(selectedIndex) {
-            // Reset to the top of the page when changing pages.
-            verticalScroll.animateScrollTo(0)
+    @Composable
+    private fun ObjectiveViewModel.PagerContent(index: Int) {
+        val modifier = Modifier.fillMaxWidth()
+        when (currentTabs()[index]) {
+            ObjectiveTabType.DETAILS -> ObjectiveOverviewComposition(overview).Content(modifier = modifier)
+            ObjectiveTabType.AUTOMATIC_UPGRADES -> UpgradeTiersComposition(automaticUpgradeTiers).Content(modifier = modifier)
+            ObjectiveTabType.GUILD_IMPROVEMENTS -> UpgradeTiersComposition(improvementTiers).Content(modifier = modifier)
+            ObjectiveTabType.GUILD_TACTICS -> UpgradeTiersComposition(tacticTiers).Content(modifier = modifier)
         }
+    }
+
+    @Composable
+    private fun ScrollState.ResetOnPageChange(
+        selectedIndex: Int
+    ) = LaunchedEffect(selectedIndex) {
+        // Reset to the top of the page when changing pages.
+        animateScrollTo(0)
+    }
+
+
+    @Composable
+    private fun ObjectiveViewModel.PagerTabs(
+        selectedIndex: Int,
+        state: PagerState
+    ) = ScrollableTabRow(
+        selectedTabIndex = selectedIndex,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        currentTabs().forEachIndexed { index, type ->
+            PagerTab(type, index, selectedIndex, state)
+        }
+    }
+
+    @Composable
+    private fun PagerTab(
+        type: ObjectiveTabType,
+        index: Int,
+        selectedIndex: Int,
+        state: PagerState
+    ) {
+        val scope = rememberCoroutineScope()
+        Tab(
+            text = { Text(text = type.stringDesc().localized()) },
+            selected = index == selectedIndex,
+            onClick = {
+                scope.launch { state.animateScrollToPage(index) }
+            },
+        )
     }
 
     /**

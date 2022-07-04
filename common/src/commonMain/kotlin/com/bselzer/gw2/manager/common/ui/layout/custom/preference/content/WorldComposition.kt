@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.WorldResources
-import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.WorldPreferenceViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.WorldViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
 import com.bselzer.ktx.compose.resource.images.painter
@@ -16,11 +16,11 @@ import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 
-interface WorldPreferenceComposition {
+interface WorldComposition {
     @Composable
-    fun WorldPreferenceViewModel.WorldPreferenceContent(
+    fun WorldViewModel.WorldPreference(
         modifier: Modifier = Modifier
-    ) = resources.projector().Projection(modifier.combinedModifier())
+    ) = worldResources.projector().Projection(modifier.combinedModifier())
 
     @Composable
     private fun WorldResources.projector() = TextPreferenceProjector(

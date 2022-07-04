@@ -69,6 +69,6 @@ class WvwMatchContestedAreasComposition(
         data: ObjectiveOwnerCount
     ) {
         val model = data.toContestedAreasModel()
-        model.ContestedAreasContent()
+        model.ContestedAreas()
     }
 }

@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.settings
+package com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.color
 
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
 import dev.icerock.moko.resources.ImageResource

@@ -11,14 +11,14 @@ import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 
-interface WorldPreferenceViewModel : ViewModelDependencies {
+interface WorldViewModel : ViewModelDependencies {
     val world: World?
     val match: WvwMatch
 
     /**
      * Creates the state for the module displaying the user's choice of world.
      */
-    val resources: WorldResources
+    val worldResources: WorldResources
         get() {
             val selectedId = world?.id ?: WorldId(0)
             val owner = match.owner(selectedId)

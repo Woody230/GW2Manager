@@ -7,11 +7,11 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.viewmodel.C
 
 interface ContestedAreasComposition {
     @Composable
-    fun ContestedAreasViewModel.ContestedAreasContent(
+    fun ContestedAreasViewModel.ContestedAreas(
         modifier: Modifier = Modifier
     ) = ConstraintLayout(
         modifier = modifier,
     ) {
-        ConstrainedComposition(model = this@ContestedAreasContent, constraintScope = this).Content()
+        ConstrainedComposition(model = this@ContestedAreas, constraintScope = this).Content()
     }
 }

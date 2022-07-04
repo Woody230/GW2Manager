@@ -14,7 +14,7 @@ import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.content.ChartComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.content.ContestedAreasComposition
-import com.bselzer.gw2.manager.common.ui.layout.custom.preference.content.WorldPreferenceComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.content.WorldComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.content.OwnerOverviewsComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalMainRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
@@ -26,7 +26,7 @@ import com.bselzer.ktx.function.collection.buildArray
 class WvwMatchOverviewComposition(
     model: WvwMatchOverviewViewModel
 ) : MainChildComposition<WvwMatchOverviewViewModel>(model),
-    WorldPreferenceComposition,
+    WorldComposition,
     OwnerOverviewsComposition,
     ContestedAreasComposition {
     @Composable
@@ -65,7 +65,7 @@ class WvwMatchOverviewComposition(
         add {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 PointsPerTickChart()
-                ContestedAreas()
+                ContestedArea()
             }
         }
     }
@@ -73,7 +73,7 @@ class WvwMatchOverviewComposition(
     @Composable
     private fun WvwMatchOverviewViewModel.verticalContent(): List<@Composable ColumnScope.() -> Unit> = buildList {
         add { Overview() }
-        add { ContestedAreas() }
+        add { ContestedArea() }
     }
 
     @Composable
@@ -92,21 +92,21 @@ class WvwMatchOverviewComposition(
     private fun WvwMatchOverviewViewModel.SelectedWorld() = BorderedCard(
         modifier = Modifier.fillMaxWidth()
     ) {
-        WorldPreferenceContent()
+        WorldPreference()
     }
 
     @Composable
-    private fun WvwMatchOverviewViewModel.ContestedAreas() = BorderedCard(
+    private fun WvwMatchOverviewViewModel.ContestedArea() = BorderedCard(
         modifier = Modifier.fillMaxWidth().routeOnClick(MainConfig.WvwMatchContestedAreasConfig)
     ) {
-        ContestedAreasContent()
+        ContestedAreas()
     }
 
     @Composable
     private fun WvwMatchOverviewViewModel.Overview() = BorderedCard(
         modifier = Modifier.fillMaxWidth().routeOnClick(MainConfig.WvwMatchStatisticsConfig)
     ) {
-        OwnerOverviewsContent()
+        OwnerOverviews()
     }
 
     @Composable

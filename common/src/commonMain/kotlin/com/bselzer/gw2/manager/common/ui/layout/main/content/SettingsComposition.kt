@@ -14,8 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.buildAnnotatedString
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
-import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.ColorLogic
-import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.ColorResources
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.content.ColorComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.color.ColorLogic
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.color.ColorResources
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
 import com.bselzer.gw2.manager.common.ui.theme.ThemedColorFilter
 import com.bselzer.ktx.compose.resource.images.painter
@@ -204,8 +205,8 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
                 add { Zoom() }
                 add { MapLabel() }
 
-                colors.forEach { (resources, logic) ->
-                    add { Color(resources, logic) }
+                colors.forEach { color ->
+                    add { ColorComposition(color).Content() }
                 }
             }
         )

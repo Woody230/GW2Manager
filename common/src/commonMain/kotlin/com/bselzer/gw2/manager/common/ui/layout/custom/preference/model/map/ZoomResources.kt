@@ -1,10 +1,10 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.settings
+package com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map
 
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.desc.StringDesc
 
-data class WvwResources(
+data class ZoomResources(
     val image: ImageResource,
     val title: StringDesc,
-    val interval: WvwIntervalResources
+    val subtitle: StringDesc
 )

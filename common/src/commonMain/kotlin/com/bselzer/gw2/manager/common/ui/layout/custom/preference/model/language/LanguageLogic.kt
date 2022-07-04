@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.settings
+package com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.language
 
 import androidx.compose.runtime.Composable
 import com.bselzer.ktx.intl.Locale

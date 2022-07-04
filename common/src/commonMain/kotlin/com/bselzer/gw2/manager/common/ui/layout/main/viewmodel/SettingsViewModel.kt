@@ -7,17 +7,25 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.*
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.WvwResources
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.interval.WvwIntervalLogic
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.interval.WvwIntervalResources
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.language.LanguageLogic
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.language.LanguageResources
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.MapLabelLogic
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.MapLabelResources
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.ZoomLogic
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.ZoomResources
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.theme.ThemeLogic
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.theme.ThemeResources
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.token.TokenLogic
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.token.TokenResources
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.ColorViewModel
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
-import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.resource.Gw2Resources
-import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.gw2.v2.scope.core.Permission
-import com.bselzer.ktx.compose.ui.graphics.color.Hex
-import com.bselzer.ktx.compose.ui.graphics.color.colorOrNull
-import com.bselzer.ktx.compose.ui.graphics.color.hex
 import com.bselzer.ktx.datetime.format.DurationBound
 import com.bselzer.ktx.intent.browser.Browser
 import com.bselzer.ktx.intl.Locale
@@ -32,7 +40,6 @@ import com.bselzer.ktx.settings.compose.safeState
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
-import dev.icerock.moko.resources.format
 import kotlinx.coroutines.launch
 import org.kodein.db.asModelSequence
 import org.kodein.db.find
@@ -264,30 +271,11 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
             )
         }
 
-    private val color: MutableState<String?> = mutableStateOf(null)
-    val colors: Map<ColorResources, ColorLogic>
-        @Composable
-        get() = mapTypes.associate { map ->
-            val owner = map.owner()
-            val input = color.value ?: ""
-            ColorResources(
-                image = KtxResources.images.ic_color_lens,
-                title = AppResources.strings.borderlands_color.format(owner.stringDesc()),
-                subtitle = owner.color().hex(),
-                dialogInput = input.desc(),
-                dialogSubtitle = AppResources.strings.hexadecimal_color.desc(),
-                failure = AppResources.strings.color_failure.desc(),
-                hasValidInput = Hex(input).colorOrNull() != null
-            ) to ColorLogic(
-                // Reusing the same underlying state since only one dialog will be active at a time.
-                updateInput = { color.value = it.trim() },
-                clearInput = { color.value = null },
-                onReset = { resetPreferenceColor(owner) },
-                onSave = {
-                    val color = Hex(input).colorOrNull() ?: return@ColorLogic false
-                    setPreferenceColor(owner, color)
-                    true
-                },
+    val colors: List<ColorViewModel>
+        get() = mapTypes.map { mapType ->
+            ColorViewModel(
+                context = this,
+                mapType = mapType
             )
         }
 }

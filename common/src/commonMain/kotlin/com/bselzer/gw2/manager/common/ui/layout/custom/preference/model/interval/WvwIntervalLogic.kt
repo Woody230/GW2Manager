@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.main.model.settings
+package com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.interval
 
 import kotlin.time.DurationUnit
 

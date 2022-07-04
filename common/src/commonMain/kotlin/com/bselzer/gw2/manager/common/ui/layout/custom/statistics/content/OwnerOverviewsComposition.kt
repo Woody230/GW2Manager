@@ -8,7 +8,7 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.viewmodel.Owne
 
 interface OwnerOverviewsComposition {
     @Composable
-    fun OwnerOverviewsViewModel.OwnerOverviewsContent(
+    fun OwnerOverviewsViewModel.OwnerOverviews(
         modifier: Modifier = Modifier
     ) = Column(
         modifier = Modifier.fillMaxWidth()

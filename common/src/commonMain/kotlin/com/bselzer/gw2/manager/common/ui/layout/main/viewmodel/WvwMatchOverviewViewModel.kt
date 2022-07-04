@@ -4,7 +4,7 @@ import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldD
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.viewmodel.ChartViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.viewmodel.ContestedAreasViewModel
-import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.WorldPreferenceViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.WorldViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.statistics.viewmodel.OwnerOverviewsViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.SelectedWorldRefreshAction.Companion.refreshAction
 import com.bselzer.gw2.v2.model.extension.wvw.count.contestedarea.ContestedAreas
@@ -16,7 +16,7 @@ class WvwMatchOverviewViewModel(
     context: AppComponentContext
 ) : MainViewModel(context),
     SelectedWorldData by context.repositories.selectedWorld,
-    WorldPreferenceViewModel,
+    WorldViewModel,
     OwnerOverviewsViewModel,
     ContestedAreasViewModel {
     override val title: StringDesc = KtxResources.strings.overview.desc()

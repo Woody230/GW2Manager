@@ -3,7 +3,12 @@ package com.bselzer.gw2.manager.common.ui.layout.custom.owner.viewmodel
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.ViewModelDependencies
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
-import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.*
+import com.bselzer.gw2.manager.common.ui.layout.common.Image
+import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Data
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Home
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Owner
+import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.OwnerOverview
 import com.bselzer.gw2.v2.model.enumeration.WvwMapBonusType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
@@ -44,28 +49,36 @@ interface OwnerOverviewsViewModel : ViewModelDependencies, SelectedWorldData {
 
     private fun WvwMatchObjectiveOwnerCount.victoryPoints(owner: WvwObjectiveOwner): Data = Data(
         data = victoryPoints.getCoerced(owner).toString().desc(),
-        icon = Gw2Resources.images.victory_points.asImageDesc(),
-        description = Gw2Resources.strings.victory_points.desc(),
+        image = ImageImpl(
+            image = Gw2Resources.images.victory_points.asImageDesc(),
+            description = Gw2Resources.strings.victory_points.desc()
+        )
     )
 
     private fun ObjectiveOwnerCount.pointsPerTick(owner: WvwObjectiveOwner): Data = Data(
         data = pointsPerTick.getCoerced(owner).toString().desc(),
-        icon = Gw2Resources.images.war_score.asImageDesc(),
-        description = Gw2Resources.strings.points_per_tick.desc(),
+        image = ImageImpl(
+            image = Gw2Resources.images.war_score.asImageDesc(),
+            description = Gw2Resources.strings.points_per_tick.desc()
+        )
     )
 
     private fun WvwSkirmishObjectiveOwnerCount.skirmishWarScore(owner: WvwObjectiveOwner): Data = Data(
         data = scores.getCoerced(owner).toString().desc(),
-        icon = configuration.wvw.icons.warScore.asImageUrl(),
-        description = Gw2Resources.strings.skirmish_score.desc(),
-        color = owner.color()
+        image = ImageImpl(
+            image = configuration.wvw.icons.warScore.asImageUrl(),
+            description = Gw2Resources.strings.skirmish_score.desc(),
+            color = owner.color()
+        )
     )
 
     private fun ObjectiveOwnerCount.totalWarScore(owner: WvwObjectiveOwner): Data = Data(
         data = scores.getCoerced(owner).toString().desc(),
-        icon = configuration.wvw.icons.warScore.asImageUrl(),
-        description = Gw2Resources.strings.total_score.desc(),
-        color = owner.color()
+        image = ImageImpl(
+            image = configuration.wvw.icons.warScore.asImageUrl(),
+            description = Gw2Resources.strings.total_score.desc(),
+            color = owner.color()
+        )
     )
 
     private fun Map<WvwObjectiveOwner, Int>.getCoerced(owner: WvwObjectiveOwner) = this[owner]?.coerceAtLeast(0) ?: 0
@@ -73,12 +86,12 @@ interface OwnerOverviewsViewModel : ViewModelDependencies, SelectedWorldData {
     /**
      * Creates the [Home] if the user's selected world matches one of the [owner]'s worlds.
      */
-    private fun WvwMatch.home(owner: WvwObjectiveOwner): Home? = when (
+    private fun WvwMatch.home(owner: WvwObjectiveOwner): Image? = when (
         linkedWorlds(owner).contains(worldId)
     ) {
         false -> null
-        true -> Home(
-            icon = configuration.wvw.icons.home.asImageUrl(),
+        true -> ImageImpl(
+            image = configuration.wvw.icons.home.asImageUrl(),
             color = owner.color(),
             description = AppResources.strings.home_world.desc()
         )
@@ -87,10 +100,10 @@ interface OwnerOverviewsViewModel : ViewModelDependencies, SelectedWorldData {
     /**
      * Creates the bloodlust icons associated with the maps that the given [owner] controls.
      */
-    private fun WvwMatch.bloodlusts(owner: WvwObjectiveOwner): List<Bloodlust> = bloodlustedMaps(owner).map { map ->
+    private fun WvwMatch.bloodlusts(owner: WvwObjectiveOwner): List<Image> = bloodlustedMaps(owner).map { map ->
         val mapOwner = map.type.decodeOrNull()?.owner() ?: WvwObjectiveOwner.NEUTRAL
-        Bloodlust(
-            icon = configuration.wvw.icons.bloodlust.asImageUrl(),
+        ImageImpl(
+            image = configuration.wvw.icons.bloodlust.asImageUrl(),
             color = mapOwner.color(),
             description = AppResources.strings.bloodlust_for.format(mapOwner.stringDesc())
         )

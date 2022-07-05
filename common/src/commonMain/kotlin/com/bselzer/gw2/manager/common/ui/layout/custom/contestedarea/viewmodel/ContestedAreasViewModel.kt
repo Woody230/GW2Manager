@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.viewmodel
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.configuration.wvw.WvwContestedAreasObjective
 import com.bselzer.gw2.manager.common.dependency.ViewModelDependencies
+import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.model.ContestedObjective
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.model.ContestedPointsPerTick
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
@@ -52,10 +53,13 @@ interface ContestedAreasViewModel : ViewModelDependencies {
         // TODO in game the alpha would be at reduced opacity if there are no objectives -- should that be mimicked?
         // TODO use yellow color used in game?
         return ContestedObjective(
-            link = link,
-            color = color,
-            description = type.stringDesc(),
-            count = "x$size".desc()
+            count = "x$size".desc(),
+            image = ImageImpl(
+
+                image = link,
+                color = color,
+                description = type.stringDesc(),
+            ),
         )
     }
 

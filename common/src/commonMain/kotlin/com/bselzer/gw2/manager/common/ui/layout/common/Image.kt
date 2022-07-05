@@ -24,6 +24,7 @@ import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.image.ImageDesc
 import dev.icerock.moko.resources.desc.image.ImageDescResource
 import dev.icerock.moko.resources.desc.image.ImageDescUrl
+import dev.icerock.moko.resources.desc.image.asImageUrl
 
 data class ImageImpl(
     override val enabled: Boolean = true,
@@ -59,6 +60,8 @@ enum class ProgressIndication {
     ENABLED,
     DISABLED
 }
+
+fun String.image(): Image = ImageImpl(image = asImageUrl())
 
 @Composable
 fun Image.Content(

@@ -1,13 +1,9 @@
 package com.bselzer.gw2.manager.common.ui.layout.custom.chart.model
 
-import androidx.compose.ui.graphics.Color
-import dev.icerock.moko.resources.desc.StringDesc
-import dev.icerock.moko.resources.desc.image.ImageDesc
+import com.bselzer.gw2.manager.common.ui.layout.common.Image
 
 data class ChartSlice(
-    val description: StringDesc,
+    val image: Image,
     val startAngle: Float,
     val endAngle: Float,
-    val image: ImageDesc,
-    val color: Color?
 )

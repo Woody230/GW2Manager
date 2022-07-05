@@ -2,6 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progress
 import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progression
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
@@ -68,7 +69,7 @@ class WvwMatchStatisticsViewModel(
         title = Gw2Resources.strings.points_per_tick.desc(),
 
         // The PPT icon is just a smaller war score icon (16x16 compared to 32x32).
-        icon = Gw2Resources.images.war_score.asImageDesc()
+        image = Gw2Resources.images.war_score.asImageDesc()
     )
 
     /**
@@ -76,7 +77,7 @@ class WvwMatchStatisticsViewModel(
      */
     private fun WvwMatchObjectiveOwnerCount?.vpProgression() = this?.victoryPoints.progression(
         title = Gw2Resources.strings.victory_points.desc(),
-        icon = Gw2Resources.images.victory_points.asImageDesc()
+        image = Gw2Resources.images.victory_points.asImageDesc()
     )
 
     private fun ObjectiveOwnerScore?.scoreProgression(
@@ -85,7 +86,7 @@ class WvwMatchStatisticsViewModel(
         val winner = this?.scores?.maxByOrNull { score -> score.value }?.key
         return this?.scores.progression(
             title = title,
-            icon = if (winner == null) Gw2Resources.images.war_score.asImageDesc() else configuration.wvw.icons.warScore.asImageUrl(),
+            image = if (winner == null) Gw2Resources.images.war_score.asImageDesc() else configuration.wvw.icons.warScore.asImageUrl(),
 
             // Tint to help distinguish between this and the PPT icon which is inherently the same.
             color = winner?.color()
@@ -107,7 +108,7 @@ class WvwMatchStatisticsViewModel(
      */
     private fun ObjectiveOwnerCount?.killProgression() = this?.kills.progression(
         title = Gw2Resources.strings.kills.desc(),
-        icon = Gw2Resources.images.enemy_dead.asImageDesc()
+        image = Gw2Resources.images.enemy_dead.asImageDesc()
     )
 
     /**
@@ -115,19 +116,18 @@ class WvwMatchStatisticsViewModel(
      */
     private fun ObjectiveOwnerCount?.deathProgression() = this?.deaths.progression(
         title = Gw2Resources.strings.deaths.desc(),
-        icon = Gw2Resources.images.ally_dead.asImageDesc()
+        image = Gw2Resources.images.ally_dead.asImageDesc()
     )
 
     private fun Map<out WvwObjectiveOwner?, Int>?.progression(
         title: StringDesc,
-        icon: ImageDesc,
+        image: ImageDesc,
         color: Color? = null
     ): Progression {
         val total = total().toFloat()
         return Progression(
             title = title,
-            icon = icon,
-            color = color,
+            image = ImageImpl(image = image, color = color),
             progress = owners.map { owner ->
                 val amount = this?.get(owner) ?: 0
                 owner.progress(amount, total, owners.size)
@@ -173,10 +173,12 @@ class WvwMatchStatisticsViewModel(
         val link = objectives[sample?.id]?.iconLink
         return Progression(
             title = type.stringDesc(),
-            icon = link?.value?.asImageUrl(),
+            image = ImageImpl(
+                image = link?.value?.asImageUrl(),
 
-            // Tint with the winner.
-            color = maxByOrNull { count -> count.size }?.owner.color(),
+                // Tint with the winner.
+                color = maxByOrNull { count -> count.size }?.owner.color()
+            ),
             progress = map { count ->
                 val amount = count.size
                 val owner = count.owner

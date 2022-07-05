@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
-import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.model.ContestedObjective
 import com.bselzer.ktx.compose.resource.strings.localized
 
@@ -49,13 +48,7 @@ class ObjectiveComposition(
     }
 
     @Composable
-    private fun ContestedObjective.Icon() = ImageImpl(
-        image = link,
-        color = color,
-        description = description,
-    ).Content(
-        size = DpSize(50.dp, 50.dp)
-    )
+    private fun ContestedObjective.Icon() = image.Content(size = DpSize(50.dp, 50.dp))
 
     @Composable
     private fun ContestedObjective.Count() = Text(text = count.localized())

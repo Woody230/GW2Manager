@@ -11,10 +11,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
-import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
-import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Bloodlust
 import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Data
-import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Home
 import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.OwnerOverview
 import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.row.spacedRowProjector
@@ -74,43 +71,20 @@ class OwnerOverviewComposition(
     ).Projection(
         content = buildArray {
             home?.let { home ->
-                add { home.Icon() }
+                add { home.Content(size = indicatorSize) }
             }
 
             bloodlusts.forEach { bloodlust ->
-                add { bloodlust.Icon() }
+                add { bloodlust.Content(size = indicatorSize) }
             }
         }
-    )
-
-    @Composable
-    private fun Home.Icon() = ImageImpl(
-        image = icon,
-        description = description,
-        color = color
-    ).Content(
-        size = indicatorSize,
-    )
-
-    @Composable
-    private fun Bloodlust.Icon() = ImageImpl(
-        image = icon,
-        description = description,
-        color = color
-    ).Content(
-        size = indicatorSize,
     )
 
     @Composable
     private fun Data.DataPoint() = Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ImageImpl(
-            image = icon,
-            description = description,
-            color = color,
-        ).Content(size = dataIconSize)
-
+        image.Content(size = dataIconSize)
         Text(text = data.localized())
     }
 }

@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
-import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.common.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.model.Chart
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.model.ChartSlice
@@ -45,7 +44,7 @@ class ChartComposition(
         modifier = modifier
     ) {
         // Add the background behind everything else.
-        Background()
+        background.Content(size = size)
 
         // Overlay the slices over the background.
         slices.forEach { slice -> slice.Image() }
@@ -55,16 +54,7 @@ class ChartComposition(
     }
 
     @Composable
-    private fun Chart.Background() = ImageImpl(
-        image = background,
-    ).Content(size = size)
-
-    @Composable
-    private fun ChartSlice.Image() = ImageImpl(
-        image = image,
-        description = description,
-        color = color
-    ).Content(
+    private fun ChartSlice.Image() = image.Content(
         size = size,
         modifier = Modifier.clip(
             shape = ArcShape(startAngle, endAngle)
@@ -72,9 +62,7 @@ class ChartComposition(
     )
 
     @Composable
-    private fun Chart.Divider(angle: Float) = ImageImpl(
-        image = divider,
-    ).Content(
+    private fun Chart.Divider(angle: Float) = divider.Content(
         progressIndication = ProgressIndication.DISABLED,
         modifier = Modifier.rotate(degrees = angle),
         size = size

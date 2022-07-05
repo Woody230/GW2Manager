@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.BloodlustViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.BloodlustViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.compose.ui.unit.toPx

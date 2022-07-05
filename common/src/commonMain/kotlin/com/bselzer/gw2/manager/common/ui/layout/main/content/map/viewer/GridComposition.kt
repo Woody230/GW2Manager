@@ -4,15 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.router.bringToFront
@@ -20,13 +16,12 @@ import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
 import com.bselzer.gw2.manager.common.ui.layout.common.ProgressIndication
-import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.content.DetailedIconComposition
-import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.BloodlustViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MapConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.content.map.LocalMapRouter
-import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.MapLabel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.BloodlustViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.MapLabelViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.gw2.v2.tile.model.response.Tile
 import com.bselzer.ktx.compose.image.ui.layout.asImageBitmap
@@ -101,16 +96,5 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
      * Lays out the label for displaying the map owner or name.
      */
     @Composable
-    protected fun MapLabel.Label(modifier: Modifier) = RelativeBackgroundImage(
-        modifier = modifier,
-        contentAlignment = Alignment.TopCenter,
-    ) {
-        Text(
-            // Only span the size of the map at most.
-            modifier = Modifier.widthIn(max = width.toDp()),
-            text = description.localized(),
-            fontWeight = FontWeight.ExtraBold,
-            color = color,
-        )
-    }
+    protected fun MapLabelViewModel.Label(modifier: Modifier) = MapLabelComposition(this).Content(modifier = modifier)
 }

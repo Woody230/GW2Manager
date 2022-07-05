@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Shape
 import com.arkivanov.essenty.lifecycle.doOnPause
-import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.BloodlustViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
-import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.MapLabel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.BloodlustViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.MapLabelViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
 import com.bselzer.gw2.v2.tile.model.position.GridPosition
@@ -118,7 +118,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         }
     }
 
-    private fun ViewerViewModel.MapLabel(label: MapLabel, state: MapState) {
+    private fun ViewerViewModel.MapLabel(label: MapLabelViewModel, state: MapState) {
         val normalized = grid.normalize(label.position)
         state.addIdentifiableMarker(
             x = normalized.x,

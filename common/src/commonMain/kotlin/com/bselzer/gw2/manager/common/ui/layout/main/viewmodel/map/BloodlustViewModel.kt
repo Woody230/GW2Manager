@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel
+package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map
 
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData

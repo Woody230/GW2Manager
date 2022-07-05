@@ -7,19 +7,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.essenty.lifecycle.subscribe
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.BloodlustViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.GeneralAction
-import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.MapLabel
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.SelectedObjective
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
-import com.bselzer.gw2.v2.model.extension.wvw.linkedWorlds
 import com.bselzer.gw2.v2.model.extension.wvw.objective
-import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.model.extension.wvw.position
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.resource.Gw2Resources
@@ -104,24 +100,12 @@ class ViewerViewModel(
         }
     }
 
-    val mapLabels: Collection<MapLabel>
+    val mapLabels: Collection<MapLabelViewModel>
         get() = matchMaps.map { (wvwMap, map) ->
-            val type = wvwMap.type.decodeOrNull()
-            val owner = type?.owner() ?: WvwObjectiveOwner.NEUTRAL
-            val topLeft = grid.bounded(map.continentRectangle.topLeft)
-            val topRight = grid.bounded(map.continentRectangle.topRight)
-            MapLabel(
-                color = owner.color(),
-                position = topLeft,
-                width = topRight.x - topLeft.x,
-                description = when {
-                    // If there are worlds then display them.
-                    match.linkedWorlds(owner).isNotEmpty() -> displayableLinkedWorlds(owner)
-
-                    // Otherwise fall back to the map name.
-                    type != null -> type.stringDesc()
-                    else -> map.name.translated().desc()
-                }
+            MapLabelViewModel(
+                context = this,
+                wvwMap = wvwMap,
+                map = map
             )
         }
 

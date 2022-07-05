@@ -7,14 +7,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.essenty.lifecycle.subscribe
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.BloodlustViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.GeneralAction
-import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.Bloodlust
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.MapLabel
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.SelectedObjective
-import com.bselzer.gw2.v2.model.enumeration.WvwMapBonusType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
@@ -26,13 +25,10 @@ import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
-import com.bselzer.gw2.v2.tile.model.position.TexturePosition
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
-import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
-import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.format
 import kotlinx.coroutines.launch
 
@@ -129,38 +125,10 @@ class ViewerViewModel(
             )
         }
 
-    val bloodlustIcons: Collection<Bloodlust>
+    val bloodlustIcons: Collection<BloodlustViewModel>
         get() {
             val borderlands = match.maps.filter { map -> mapTypes.contains(map.type.decodeOrNull()) }
-            return borderlands.mapNotNull { borderland ->
-                val matchRuins = borderland.objectives.filter { objective -> objective.type.decodeOrNull() == WvwObjectiveType.RUINS }
-                if (matchRuins.isEmpty()) {
-                    Logger.w { "There are no ruins on map ${borderland.id}." }
-                    return@mapNotNull null
-                }
-
-                val objectiveRuins = matchRuins.mapNotNull { matchRuin -> objectives[matchRuin.id] }
-                if (objectiveRuins.size != matchRuins.size) {
-                    Logger.w { "Mismatch between the number of ruins in the match and objectives on map ${borderland.id}." }
-                    return@mapNotNull null
-                }
-
-                // Use the center of all of the ruins as the position of the bloodlust icon.
-                val x = objectiveRuins.sumOf { ruin -> ruin.coordinates.x } / objectiveRuins.size
-                val y = objectiveRuins.sumOf { ruin -> ruin.coordinates.y } / objectiveRuins.size
-                val position = TexturePosition(x, y)
-
-                val bonus = borderland.bonuses.firstOrNull { bonus -> bonus.type.decodeOrNull() == WvwMapBonusType.BLOODLUST }
-                val owner = bonus?.owner?.decodeOrNull() ?: WvwObjectiveOwner.NEUTRAL
-                Bloodlust(
-                    link = configuration.wvw.bloodlust.iconLink.asImageUrl(),
-                    color = owner.color(),
-                    description = AppResources.strings.bloodlust_for.format(owner.stringDesc()),
-
-                    // Scale the coordinates to the zoom level and remove excluded bounds.
-                    position = grid.bounded(position)
-                )
-            }
+            return borderlands.map { borderland -> BloodlustViewModel(context = this, borderland = borderland) }.filter { bloodlust -> bloodlust.exists }
         }
 
     // Render from bottom right to top left so that overlap is consistent.

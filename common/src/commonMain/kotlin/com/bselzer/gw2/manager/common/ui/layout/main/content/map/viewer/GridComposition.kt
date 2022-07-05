@@ -19,14 +19,13 @@ import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
-import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.common.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.content.DetailedIconComposition
+import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.BloodlustViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MapConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.content.map.LocalMapRouter
-import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.Bloodlust
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.MapLabel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.gw2.v2.tile.model.response.Tile
@@ -72,14 +71,10 @@ abstract class GridComposition(model: ViewerViewModel) : ViewModelComposition<Vi
      * Lays out the image indicating the owner of bloodlust.
      */
     @Composable
-    protected fun Bloodlust.Bloodlust(modifier: Modifier) = ImageImpl(
-        image = link,
-        color = color,
-        description = description
-    ).Content(
+    protected fun BloodlustViewModel.Bloodlust(modifier: Modifier) = image.Content(
         progressIndication = ProgressIndication.DISABLED,
         modifier = modifier,
-        size = bloodlustSize,
+        size = bloodlustSize
     )
 
     /**

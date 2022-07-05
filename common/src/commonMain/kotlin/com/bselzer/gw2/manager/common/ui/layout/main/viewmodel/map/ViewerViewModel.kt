@@ -5,27 +5,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.essenty.lifecycle.subscribe
-import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.GeneralAction
-import com.bselzer.gw2.manager.common.ui.layout.main.model.map.viewer.SelectedObjective
-import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
-import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.extension.wvw.position
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.resource.Gw2Resources
-import com.bselzer.gw2.v2.resource.strings.stringDesc
 import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
 import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
-import dev.icerock.moko.resources.format
 import kotlinx.coroutines.launch
 
 class ViewerViewModel(
@@ -135,18 +129,8 @@ class ViewerViewModel(
      * The objective selected by the user on the map.
      */
     val selected = mutableStateOf<WvwObjective?>(null)
-    val selectedObjective: SelectedObjective?
-        get() = run {
-            val objective = selected.value ?: return@run null
-            val fromMatch = match.objective(objective)
-            val owner = fromMatch?.owner?.decodeOrNull() ?: WvwObjectiveOwner.NEUTRAL
-            val type = objective.type.decodeOrNull() ?: WvwObjectiveType.GENERIC
-            val name = objective.name.translated()
-            SelectedObjective(
-                title = AppResources.strings.selected_objective.format(name.desc(), owner.stringDesc(), type.stringDesc()),
-                subtitle = fromMatch?.lastFlippedAt?.let { lastFlippedAt ->
-                    configuration.wvw.flippedAt(lastFlippedAt)
-                }
-            )
+    val selectedLabel: SelectedLabelViewModel?
+        get() = selected.value?.let { objective ->
+            SelectedLabelViewModel(context = this, selected = objective)
         }
 }

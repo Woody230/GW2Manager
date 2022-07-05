@@ -1,20 +1,13 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content.map
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
-import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.content.map.viewer.PlatformGridComposition
+import com.bselzer.gw2.manager.common.ui.layout.main.content.map.viewer.SelectedLabelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
-import com.bselzer.ktx.compose.resource.strings.localized
 
 class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerViewModel>(model) {
     @Composable
@@ -49,17 +42,7 @@ class ViewerComposition(model: ViewerViewModel) : ViewModelComposition<ViewerVie
      */
     @Composable
     private fun ViewerViewModel.SelectedObjectiveLabel(modifier: Modifier) {
-        val selected = selectedObjective ?: return
-        RelativeBackgroundImage(
-            modifier = modifier,
-        ) {
-            Column(modifier = Modifier.padding(horizontal = 5.dp)) {
-                val textSize = 16.sp
-                Text(text = selected.title.localized(), fontSize = textSize, fontWeight = FontWeight.Bold)
-                selected.subtitle?.let { subtitle ->
-                    Text(text = subtitle.localized(), fontSize = textSize)
-                }
-            }
-        }
+        val selected = selectedLabel ?: return
+        SelectedLabelComposition(selected).Content(modifier = modifier)
     }
 }

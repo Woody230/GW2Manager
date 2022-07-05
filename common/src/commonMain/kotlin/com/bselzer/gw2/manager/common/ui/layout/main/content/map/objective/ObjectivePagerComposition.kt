@@ -2,6 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.main.content.map.objective
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ScrollableTabRow
@@ -46,7 +47,7 @@ class ObjectivePagerComposition constructor(
         count = currentTabs.size,
         state = state,
         verticalAlignment = Alignment.Top,
-        modifier = Modifier.verticalScroll(verticalScroll)
+        modifier = Modifier.fillMaxSize().verticalScroll(verticalScroll)
     ) { index ->
         PagerContent(index)
     }

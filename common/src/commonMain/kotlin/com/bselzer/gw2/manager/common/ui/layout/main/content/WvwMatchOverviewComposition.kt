@@ -105,6 +105,7 @@ class WvwMatchOverviewComposition(
     private fun WvwMatchOverviewViewModel.Overview() = BorderedCard(
         modifier = Modifier.fillMaxWidth().routeOnClick(MainConfig.WvwMatchStatisticsConfig)
     ) {
+        // TODO constraint layout to keep data in same horizontal position
         OwnerOverviews()
     }
 

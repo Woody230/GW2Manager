@@ -60,18 +60,28 @@ kotlin {
                 api("com.arkivanov.decompose:extensions-compose-jetbrains:${Versions.DECOMPOSE}")
 
                 // Extensions
-                api("io.github.woody230.ktx:compose-resource:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-aboutlibraries:${Versions.EXTENSION}")
                 api("io.github.woody230.ktx:compose-accompanist:${Versions.EXTENSION}")
-                api("io.github.woody230.ktx:compose-image:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-resource:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-serialization:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-settings:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-ui-geometry:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-ui-graphics:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-ui-intl:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-ui-text:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-ui-unit:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-ui-layout-common:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:compose-ui-layout-custom:${Versions.EXTENSION}")
                 api("io.github.woody230.ktx:coroutine:${Versions.EXTENSION}")
                 api("io.github.woody230.ktx:function:${Versions.EXTENSION}")
                 api("io.github.woody230.ktx:intent:${Versions.EXTENSION}")
                 api("io.github.woody230.ktx:intl:${Versions.EXTENSION}")
-                api("io.github.woody230.ktx:library:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:intl-serialization:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:image-kodein-db:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:image-ktor-client:${Versions.EXTENSION}")
                 api("io.github.woody230.ktx:logging:${Versions.EXTENSION}")
                 api("io.github.woody230.ktx:serialization:${Versions.EXTENSION}")
-                api("io.github.woody230.ktx:serialization-compose:${Versions.EXTENSION}")
-                api("io.github.woody230.ktx:settings-compose:${Versions.EXTENSION}")
+                api("io.github.woody230.ktx:serialization-xml:${Versions.EXTENSION}")
 
                 // GW2 API Wrapper
                 api("io.github.woody230.gw2:asset-cdn:${Versions.WRAPPER}")
@@ -82,13 +92,13 @@ kotlin {
                 api("io.github.woody230.gw2:v2-model-enumeration:${Versions.WRAPPER}")
                 api("io.github.woody230.gw2:v2-resource:${Versions.WRAPPER}")
                 api("io.github.woody230.gw2:v2-scope:${Versions.WRAPPER}")
-                api("io.github.woody230.gw2:v2-tile:${Versions.WRAPPER}")
+                api("io.github.woody230.gw2:v2-tile-client:${Versions.WRAPPER}")
                 api("io.github.woody230.gw2:v2-emblem:${Versions.WRAPPER}")
 
                 // GW2 Database
-                api("io.github.woody230.gw2:v2-cache:${Versions.WRAPPER}")
-                api("io.github.woody230.gw2:v2-intl-cache:${Versions.WRAPPER}")
-                api("io.github.woody230.gw2:v2-tile-cache:${Versions.WRAPPER}")
+                api("io.github.woody230.gw2:v2-model-kodein-db:${Versions.WRAPPER}")
+                api("io.github.woody230.gw2:v2-intl-kodein-db:${Versions.WRAPPER}")
+                api("io.github.woody230.gw2:v2-tile-kodein-db:${Versions.WRAPPER}")
                 api("org.kodein.db:kodein-db:${Versions.KODEIN_DB}")
                 api("org.kodein.db:kodein-db-serializer-kotlinx:${Versions.KODEIN_DB}")
             }
@@ -104,14 +114,14 @@ kotlin {
                 api("androidx.core:core-ktx:1.8.0")
                 api("androidx.appcompat:appcompat:1.4.2")
                 api("com.google.android.material:material:1.6.1")
-                api("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+                api("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
 
                 // Settings
                 api("com.russhwolf:multiplatform-settings-datastore:${Versions.SETTINGS}")
                 api("androidx.datastore:datastore-preferences:1.0.0")
 
                 // Compose
-                api("androidx.activity:activity-compose:1.4.0")
+                api("androidx.activity:activity-compose:1.5.0")
                 api("ovh.plrapps:mapcompose:2.1.0")
 
                 // HTTP Client

@@ -20,8 +20,8 @@ import com.bselzer.gw2.v2.model.world.WorldId
 import com.bselzer.gw2.v2.model.wvw.map.WvwMap
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.ktx.logging.Logger
-import com.bselzer.ktx.settings.compose.nullState
-import com.bselzer.ktx.settings.compose.safeState
+import com.bselzer.ktx.settings.nullState
+import com.bselzer.ktx.settings.safeState
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -3,7 +3,7 @@ package com.bselzer.gw2.manager.common.preference
 import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.intl.Locale
 import com.bselzer.ktx.intl.Localizer
-import com.bselzer.ktx.intl.serialization.LocaleSerializer
+import com.bselzer.ktx.serialization.serializer.LocaleSerializer
 import com.bselzer.ktx.settings.setting.IntSetting
 import com.bselzer.ktx.settings.setting.SerializableSetting
 import com.bselzer.ktx.settings.setting.Setting

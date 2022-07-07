@@ -5,11 +5,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.MainViewModel
-import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.text.textInteractor
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
+import com.bselzer.ktx.compose.ui.layout.snackbarhost.LocalSnackbarHostState
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
-import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
+import com.bselzer.ktx.compose.ui.layout.text.textInteractor
+import com.bselzer.ktx.resource.strings.localized
 import kotlinx.coroutines.launch
 
 abstract class MainChildComposition<Model>(model: Model) : ViewModelComposition<Model>(model) where Model : MainViewModel {

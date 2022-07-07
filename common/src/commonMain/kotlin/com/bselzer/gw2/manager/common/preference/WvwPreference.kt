@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.configuration.Configuration
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.world.WorldId
-import com.bselzer.ktx.serialization.compose.serializer.ColorSerializer
+import com.bselzer.ktx.serialization.serializer.ColorSerializer
 import com.bselzer.ktx.settings.setting.*
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings

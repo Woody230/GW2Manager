@@ -2,8 +2,8 @@ package com.bselzer.gw2.manager.common.ui.layout.main.model.action
 
 import androidx.compose.runtime.Composable
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
-import com.bselzer.ktx.compose.resource.ui.layout.icon.refreshIconInteractor
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
+import com.bselzer.ktx.compose.ui.layout.icon.refreshIconInteractor
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.CoroutineScope
 

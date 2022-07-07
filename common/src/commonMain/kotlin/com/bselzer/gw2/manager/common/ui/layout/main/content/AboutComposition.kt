@@ -8,11 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.AboutViewModel
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
 import com.bselzer.ktx.function.collection.buildArray
+import com.bselzer.ktx.resource.strings.localized
 
 class AboutComposition(model: AboutViewModel) : MainChildComposition<AboutViewModel>(model) {
     @Composable

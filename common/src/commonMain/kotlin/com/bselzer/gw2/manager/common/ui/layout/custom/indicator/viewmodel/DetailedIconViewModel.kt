@@ -2,10 +2,10 @@ package com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel
 
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
+import com.bselzer.gw2.v2.model.tile.position.BoundedPosition
 import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
-import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
 
 class DetailedIconViewModel(
     context: AppComponentContext,

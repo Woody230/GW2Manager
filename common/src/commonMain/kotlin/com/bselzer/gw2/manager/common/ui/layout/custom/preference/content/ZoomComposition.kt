@@ -8,19 +8,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.ZoomViewModel
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triText
-import com.bselzer.ktx.compose.resource.ui.layout.icon.downIconInteractor
-import com.bselzer.ktx.compose.resource.ui.layout.icon.upIconInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
+import com.bselzer.ktx.compose.ui.layout.alertdialog.triText
+import com.bselzer.ktx.compose.ui.layout.icon.downIconInteractor
+import com.bselzer.ktx.compose.ui.layout.icon.upIconInteractor
 import com.bselzer.ktx.compose.ui.layout.picker.IntegerPickerInteractor
 import com.bselzer.ktx.compose.ui.layout.picker.PickerProjector
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceProjector
+import com.bselzer.ktx.resource.images.painter
+import com.bselzer.ktx.resource.strings.localized
 
 class ZoomComposition(
     model: ZoomViewModel,

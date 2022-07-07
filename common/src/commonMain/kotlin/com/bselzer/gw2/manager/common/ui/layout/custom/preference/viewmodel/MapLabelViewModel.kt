@@ -9,7 +9,7 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.MapL
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.map.MapLabelResources
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.resource.strings.stringResource
-import com.bselzer.ktx.settings.compose.safeState
+import com.bselzer.ktx.settings.safeState
 import com.bselzer.ktx.settings.setting.Setting
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.launch

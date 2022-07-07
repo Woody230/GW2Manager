@@ -7,7 +7,6 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.objective.model.CoreData
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextInteractor
 import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextPresenter
@@ -15,6 +14,7 @@ import com.bselzer.ktx.compose.ui.layout.centeredtext.CenteredTextProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
+import com.bselzer.ktx.resource.strings.localized
 import dev.icerock.moko.resources.desc.StringDesc
 
 class CoreComposition(

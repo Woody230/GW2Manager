@@ -1,6 +1,6 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
-import com.bselzer.ktx.datetime.serialization.DurationSerializer
+import com.bselzer.ktx.serialization.serializer.DurationSerializer
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 import kotlin.time.Duration

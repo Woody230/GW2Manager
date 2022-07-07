@@ -18,7 +18,7 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.objective.content.Objecti
 import com.bselzer.gw2.manager.common.ui.layout.custom.upgrade.content.UpgradeTiersComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.model.map.objective.ObjectiveTabType
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveViewModel
-import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.resource.strings.localized
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState

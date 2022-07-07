@@ -9,10 +9,10 @@ import com.bselzer.gw2.v2.model.continent.ContinentId
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.continent.floor.FloorId
 import com.bselzer.gw2.v2.model.map.MapId
+import com.bselzer.ktx.db.operation.getById
+import com.bselzer.ktx.db.operation.putMissingById
+import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
-import com.bselzer.ktx.kodein.db.operation.getById
-import com.bselzer.ktx.kodein.db.operation.putMissingById
-import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch

@@ -9,16 +9,16 @@ import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.DpSize
 import com.bselzer.gw2.manager.common.dependency.LocalDependencies
-import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageInteractor
-import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImagePresenter
-import com.bselzer.ktx.compose.image.ui.layout.async.AsyncImageProjector
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
+import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImageInteractor
+import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImagePresenter
+import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImageProjector
 import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorInteractor
 import com.bselzer.ktx.logging.Logger
+import com.bselzer.ktx.resource.images.painter
+import com.bselzer.ktx.resource.strings.localized
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.image.ImageDesc
@@ -126,7 +126,7 @@ private fun Image.Link(
         // TODO placeholder drawables for certain images?
         interactor = AsyncImageInteractor(
             url = link,
-            getImage = { url -> dependencies.repositories.image.getImage(url) },
+            getImage = { url -> dependencies.repositories.image.getImage(url).content },
             contentDescription = description?.localized(),
             loadingProgress = if (progressIndication == ProgressIndication.ENABLED) ProgressIndicatorInteractor.Default else null
         ),

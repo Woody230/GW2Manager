@@ -10,12 +10,12 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.WorldRes
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.WorldViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.text.TextPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
+import com.bselzer.ktx.resource.images.painter
+import com.bselzer.ktx.resource.strings.localized
 
 class WorldComposition(
     model: WorldViewModel

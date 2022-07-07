@@ -10,9 +10,9 @@ import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.linkedWorlds
 import com.bselzer.gw2.v2.model.extension.wvw.owner
 import com.bselzer.gw2.v2.model.map.Map
+import com.bselzer.gw2.v2.model.tile.position.BoundedPosition
 import com.bselzer.gw2.v2.model.wvw.map.WvwMap
 import com.bselzer.gw2.v2.resource.strings.stringDesc
-import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 

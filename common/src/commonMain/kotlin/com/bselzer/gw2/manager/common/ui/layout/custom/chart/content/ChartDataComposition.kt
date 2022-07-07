@@ -17,7 +17,7 @@ import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.model.ChartData
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.model.ChartDataSet
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.viewmodel.ChartDataViewModel
-import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.resource.strings.localized
 
 class ChartDataComposition(
     model: ChartDataViewModel

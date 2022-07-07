@@ -7,11 +7,11 @@ import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.language.LanguageLogic
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.language.LanguageResources
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.intl.Locale
 import com.bselzer.ktx.resource.KtxResources
+import com.bselzer.ktx.resource.strings.localized
 import com.bselzer.ktx.resource.strings.stringResourceOrNull
-import com.bselzer.ktx.settings.compose.safeState
+import com.bselzer.ktx.settings.safeState
 import com.bselzer.ktx.settings.setting.Setting
 import dev.icerock.moko.resources.desc.desc
 

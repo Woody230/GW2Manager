@@ -12,14 +12,14 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.upgrade.model.UpgradeTier
-import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.icon.expansionIconInteractor
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.compose.ui.layout.icon.IconProjector
+import com.bselzer.ktx.compose.ui.layout.icon.expansionIconInteractor
 import com.bselzer.ktx.compose.ui.layout.merge.TriState
 import com.bselzer.ktx.function.collection.buildArray
+import com.bselzer.ktx.resource.strings.localized
 import dev.icerock.moko.resources.desc.desc
 
 class UpgradeTierComposition(

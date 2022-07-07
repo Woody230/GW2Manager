@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.objective.model.CoreMatchData
-import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.resource.strings.localized
 
 class CoreMatchComposition(
     model: CoreMatchData

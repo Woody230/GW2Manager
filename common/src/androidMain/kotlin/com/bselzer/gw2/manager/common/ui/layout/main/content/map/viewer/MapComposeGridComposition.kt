@@ -12,12 +12,12 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.Detai
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.BloodlustViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.MapLabelViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
-import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
-import com.bselzer.gw2.v2.tile.model.position.GridPosition
+import com.bselzer.gw2.v2.model.tile.position.BoundedPosition
+import com.bselzer.gw2.v2.model.tile.position.GridPosition
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.compose.ui.unit.toPx
 import com.bselzer.ktx.logging.Logger
-import com.bselzer.ktx.settings.compose.safeState
+import com.bselzer.ktx.settings.safeState
 import com.bselzer.ktx.value.identifier.Identifier
 import com.bselzer.ktx.value.identifier.identifier
 import kotlinx.coroutines.launch

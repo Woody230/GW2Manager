@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.SelectedLabelViewModel
-import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.resource.strings.localized
 
 class SelectedLabelComposition(
     model: SelectedLabelViewModel

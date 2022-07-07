@@ -9,14 +9,14 @@ import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.CacheViewModel
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.checkbox.CheckboxInteractor
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.checkbox.CheckboxPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.checkbox.CheckboxPreferenceProjector
 import com.bselzer.ktx.function.collection.buildArray
+import com.bselzer.ktx.resource.images.painter
+import com.bselzer.ktx.resource.strings.localized
 
 class CacheComposition(model: CacheViewModel) : MainChildComposition<CacheViewModel>(model) {
 

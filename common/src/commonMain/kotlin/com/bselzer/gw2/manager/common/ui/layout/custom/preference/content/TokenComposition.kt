@@ -8,20 +8,20 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.TokenViewModel
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triText
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
+import com.bselzer.ktx.compose.ui.layout.alertdialog.triText
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferenceProjector
+import com.bselzer.ktx.compose.ui.layout.snackbarhost.LocalSnackbarHostState
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
-import com.bselzer.ktx.compose.ui.layout.text.hyperlink
 import com.bselzer.ktx.compose.ui.layout.textfield.TextFieldInteractor
-import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
+import com.bselzer.ktx.compose.ui.text.hyperlink
+import com.bselzer.ktx.resource.images.painter
+import com.bselzer.ktx.resource.strings.localized
 
 class TokenComposition(
     model: TokenViewModel,

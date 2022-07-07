@@ -6,14 +6,12 @@ import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.LanguageViewModel
 import com.bselzer.gw2.manager.common.ui.theme.ThemedColorFilter
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.triText
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
+import com.bselzer.ktx.compose.ui.layout.alertdialog.triText
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.PreferencePresenter
@@ -21,6 +19,8 @@ import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPrefe
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceProjector
 import com.bselzer.ktx.intl.Locale
+import com.bselzer.ktx.resource.images.painter
+import com.bselzer.ktx.resource.strings.localized
 
 class LanguageComposition(
     model: LanguageViewModel,

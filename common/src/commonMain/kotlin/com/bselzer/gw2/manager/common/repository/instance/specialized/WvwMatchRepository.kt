@@ -22,9 +22,9 @@ import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgradeId
 import com.bselzer.gw2.v2.resource.strings.stringDesc
+import com.bselzer.ktx.db.operation.putMissingById
+import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
-import com.bselzer.ktx.kodein.db.operation.putMissingById
-import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc

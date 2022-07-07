@@ -13,9 +13,9 @@ import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
 import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Data
 import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.OwnerOverview
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.row.spacedRowProjector
 import com.bselzer.ktx.function.collection.buildArray
+import com.bselzer.ktx.resource.strings.localized
 
 /**
  * Lays out the overview for the selected world's match.

@@ -8,10 +8,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.LocalTheme
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.ui.layout.background.image.BackgroundImage
-import com.bselzer.ktx.compose.ui.layout.background.image.backgroundImagePresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
+import com.bselzer.ktx.compose.ui.layout.image.background.BackgroundImage
+import com.bselzer.ktx.compose.ui.layout.image.background.backgroundImagePresenter
+import com.bselzer.ktx.resource.images.painter
 
 /**
  * The painter for an image that will typically have text on it.

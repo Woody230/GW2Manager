@@ -1,7 +1,7 @@
 package com.bselzer.gw2.manager.common.repository.data.specialized
 
-import com.bselzer.gw2.v2.tile.model.response.Tile
-import com.bselzer.gw2.v2.tile.model.response.TileGrid
+import com.bselzer.gw2.v2.model.tile.response.Tile
+import com.bselzer.gw2.v2.model.tile.response.TileGrid
 
 interface MapData {
     /**

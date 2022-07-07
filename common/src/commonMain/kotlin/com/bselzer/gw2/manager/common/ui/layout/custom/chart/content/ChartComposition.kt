@@ -15,8 +15,8 @@ import com.bselzer.gw2.manager.common.ui.layout.common.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.model.Chart
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.model.ChartSlice
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.viewmodel.ChartViewModel
+import com.bselzer.ktx.compose.ui.ApplicationSize
 import com.bselzer.ktx.compose.ui.geometry.shape.ArcShape
-import com.bselzer.ktx.compose.ui.layout.ApplicationSize
 
 class ChartComposition(
     model: ChartViewModel,

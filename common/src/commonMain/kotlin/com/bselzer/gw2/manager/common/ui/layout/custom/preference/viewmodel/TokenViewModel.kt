@@ -11,11 +11,11 @@ import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.scope.core.Permission
+import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.intent.browser.Browser
-import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
-import com.bselzer.ktx.settings.compose.nullState
+import com.bselzer.ktx.settings.nullState
 import com.bselzer.ktx.settings.setting.Setting
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc

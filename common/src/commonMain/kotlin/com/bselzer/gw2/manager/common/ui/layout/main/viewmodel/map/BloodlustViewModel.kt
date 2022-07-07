@@ -10,10 +10,10 @@ import com.bselzer.gw2.v2.model.enumeration.WvwMapBonusType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveType
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
+import com.bselzer.gw2.v2.model.tile.position.BoundedPosition
+import com.bselzer.gw2.v2.model.tile.position.TexturePosition
 import com.bselzer.gw2.v2.model.wvw.map.WvwMap
 import com.bselzer.gw2.v2.resource.strings.stringDesc
-import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
-import com.bselzer.gw2.v2.tile.model.position.TexturePosition
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.image.asImageUrl
 import dev.icerock.moko.resources.format

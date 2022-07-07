@@ -12,7 +12,7 @@ import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.model.ContestedObjective
-import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.resource.strings.localized
 
 class ObjectiveComposition(
     objective: ContestedObjective

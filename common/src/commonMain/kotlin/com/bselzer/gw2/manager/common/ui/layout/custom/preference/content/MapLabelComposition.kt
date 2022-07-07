@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.MapLabelViewModel
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.switch.SwitchPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.switch.SwitchPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.switch.SwitchInteractor
+import com.bselzer.ktx.resource.images.painter
+import com.bselzer.ktx.resource.strings.localized
 
 class MapLabelComposition(
     model: MapLabelViewModel

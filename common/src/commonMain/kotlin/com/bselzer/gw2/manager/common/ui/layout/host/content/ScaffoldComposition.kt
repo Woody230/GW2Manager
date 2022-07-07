@@ -11,10 +11,10 @@ import com.bselzer.gw2.manager.common.ui.layout.dialog.content.DialogComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.ScaffoldViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.content.MainComposition
 import com.bselzer.gw2.manager.common.ui.layout.splash.content.SplashComposition
-import com.bselzer.ktx.compose.resource.ui.layout.icon.drawerNavigationIconInteractor
-import com.bselzer.ktx.compose.resource.ui.layout.icon.dropdownIconInteractor
 import com.bselzer.ktx.compose.ui.layout.appbar.top.TopAppBarInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerPresenter
+import com.bselzer.ktx.compose.ui.layout.icon.drawerNavigationIconInteractor
+import com.bselzer.ktx.compose.ui.layout.icon.dropdownIconInteractor
 import com.bselzer.ktx.compose.ui.layout.iconbutton.IconButtonInteractor
 import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldInteractor
 import com.bselzer.ktx.compose.ui.layout.scaffold.ScaffoldPresenter

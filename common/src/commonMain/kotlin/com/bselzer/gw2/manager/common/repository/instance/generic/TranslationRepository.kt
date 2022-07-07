@@ -4,13 +4,13 @@ import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.TranslateData
-import com.bselzer.gw2.v2.intl.cache.operation.putMissingTranslations
+import com.bselzer.gw2.v2.db.operation.putMissingTranslations
 import com.bselzer.gw2.v2.intl.translation.Translator
+import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.intl.DefaultLocale
 import com.bselzer.ktx.intl.Locale
 import com.bselzer.ktx.intl.Localizer
-import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.value.identifier.Identifiable
 import com.bselzer.ktx.value.identifier.Identifier

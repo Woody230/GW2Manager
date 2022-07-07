@@ -9,10 +9,10 @@ import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.GuildId
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
+import com.bselzer.ktx.db.operation.getById
+import com.bselzer.ktx.db.operation.putMissingById
+import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
-import com.bselzer.ktx.kodein.db.operation.getById
-import com.bselzer.ktx.kodein.db.operation.putMissingById
-import com.bselzer.ktx.kodein.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import me.tatarka.inject.annotations.Inject
 

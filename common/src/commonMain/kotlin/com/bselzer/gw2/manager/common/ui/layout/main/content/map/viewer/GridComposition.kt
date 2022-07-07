@@ -23,10 +23,10 @@ import com.bselzer.gw2.manager.common.ui.layout.main.content.map.LocalMapRouter
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.BloodlustViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.MapLabelViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
-import com.bselzer.gw2.v2.tile.model.response.Tile
-import com.bselzer.ktx.compose.image.ui.layout.asImageBitmap
-import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.gw2.v2.model.tile.response.Tile
+import com.bselzer.ktx.compose.ui.asImageBitmap
 import com.bselzer.ktx.compose.ui.unit.toDp
+import com.bselzer.ktx.resource.strings.localized
 
 expect fun PlatformGridComposition(model: ViewerViewModel): GridComposition
 

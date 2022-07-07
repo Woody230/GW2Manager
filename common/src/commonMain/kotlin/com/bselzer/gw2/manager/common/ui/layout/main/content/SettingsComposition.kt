@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.content.*
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.layout.alertdialog.rememberDialogState
 import com.bselzer.ktx.compose.ui.layout.preference.section.*
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.function.collection.buildArray
+import com.bselzer.ktx.resource.images.painter
+import com.bselzer.ktx.resource.strings.localized
 
 class SettingsComposition(model: SettingsViewModel) : MainChildComposition<SettingsViewModel>(model) {
     @Composable

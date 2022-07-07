@@ -6,8 +6,8 @@ import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
-import com.bselzer.ktx.kodein.db.operation.findAllOnce
-import com.bselzer.ktx.kodein.db.transaction.transaction
+import com.bselzer.ktx.db.operation.findAllOnce
+import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import me.tatarka.inject.annotations.Inject
 

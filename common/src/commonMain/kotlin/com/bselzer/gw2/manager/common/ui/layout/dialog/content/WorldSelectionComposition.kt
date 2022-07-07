@@ -10,14 +10,14 @@ import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.WorldSelectionViewModel
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalDialogRouter
-import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.alertdialog.biText
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogProjector
+import com.bselzer.ktx.compose.ui.layout.alertdialog.biText
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.singlechoice.SingleChoiceProjector
-import com.bselzer.ktx.compose.ui.notification.snackbar.LocalSnackbarHostState
+import com.bselzer.ktx.compose.ui.layout.snackbarhost.LocalSnackbarHostState
 import com.bselzer.ktx.logging.Logger
+import com.bselzer.ktx.resource.strings.localized
 
 class WorldSelectionComposition(
     model: WorldSelectionViewModel

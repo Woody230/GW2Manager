@@ -8,10 +8,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.LicenseViewModel
+import com.bselzer.ktx.compose.ui.layout.LibraryInteractor
+import com.bselzer.ktx.compose.ui.layout.LibraryPresenter
+import com.bselzer.ktx.compose.ui.layout.LibraryProjector
 import com.bselzer.ktx.compose.ui.layout.card.CardPresenter
-import com.bselzer.ktx.library.LibraryInteractor
-import com.bselzer.ktx.library.LibraryPresenter
-import com.bselzer.ktx.library.LibraryProjector
 
 class LicenseComposition(model: LicenseViewModel) : MainChildComposition<LicenseViewModel>(model) {
     @Composable

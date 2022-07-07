@@ -6,12 +6,12 @@ import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.specialized.MapData
 import com.bselzer.gw2.manager.common.repository.instance.generic.ContinentRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.TileRepository
+import com.bselzer.gw2.v2.db.metadata.id
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.map.MapId
-import com.bselzer.gw2.v2.tile.cache.metadata.id
-import com.bselzer.gw2.v2.tile.model.response.Tile
-import com.bselzer.gw2.v2.tile.model.response.TileGrid
+import com.bselzer.gw2.v2.model.tile.response.Tile
+import com.bselzer.gw2.v2.model.tile.response.TileGrid
 import com.bselzer.ktx.logging.Logger
 import me.tatarka.inject.annotations.Inject
 

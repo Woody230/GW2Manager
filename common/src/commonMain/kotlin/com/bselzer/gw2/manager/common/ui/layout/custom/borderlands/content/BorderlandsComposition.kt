@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bselzer.gw2.manager.common.ui.layout.custom.borderlands.model.DataSet
 import com.bselzer.gw2.manager.common.ui.layout.custom.borderlands.viewmodel.BorderlandsViewModel
-import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.resource.strings.localized
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState

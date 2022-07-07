@@ -9,8 +9,8 @@ import androidx.compose.ui.text.font.FontWeight
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.MapLabelViewModel
-import com.bselzer.ktx.compose.resource.strings.localized
 import com.bselzer.ktx.compose.ui.unit.toDp
+import com.bselzer.ktx.resource.strings.localized
 
 class MapLabelComposition(
     model: MapLabelViewModel

@@ -7,9 +7,6 @@ import androidx.compose.ui.text.font.FontWeight
 import com.arkivanov.decompose.router.bringToFront
 import com.bselzer.gw2.manager.common.ui.layout.host.model.drawer.DrawerComponent
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.DrawerViewModel
-import com.bselzer.ktx.compose.resource.images.painter
-import com.bselzer.ktx.compose.resource.strings.localized
-import com.bselzer.ktx.compose.resource.ui.layout.text.textInteractor
 import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.component.DrawerComponentInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerInteractor
@@ -20,6 +17,9 @@ import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.Clickable
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
+import com.bselzer.ktx.compose.ui.layout.text.textInteractor
+import com.bselzer.ktx.resource.images.painter
+import com.bselzer.ktx.resource.strings.localized
 
 class DrawerComposition(
     private val model: DrawerViewModel

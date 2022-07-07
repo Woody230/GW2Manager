@@ -3,7 +3,7 @@ package com.bselzer.gw2.manager.common.configuration.wvw
 import androidx.compose.ui.graphics.Color
 import com.bselzer.ktx.compose.ui.graphics.color.Hex
 import com.bselzer.ktx.compose.ui.graphics.color.color
-import com.bselzer.ktx.serialization.compose.serializer.ColorSerializer
+import com.bselzer.ktx.serialization.serializer.ColorSerializer
 import com.bselzer.ktx.serialization.serializer.RegexPatternSerializer
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName

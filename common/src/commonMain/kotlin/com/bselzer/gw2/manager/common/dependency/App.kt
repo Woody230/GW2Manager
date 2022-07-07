@@ -6,7 +6,7 @@ import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
 import com.bselzer.ktx.compose.ui.intl.ProvideLocale
 import com.bselzer.ktx.logging.Logger
-import com.bselzer.ktx.settings.compose.safeState
+import com.bselzer.ktx.settings.safeState
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
 import io.ktor.client.*

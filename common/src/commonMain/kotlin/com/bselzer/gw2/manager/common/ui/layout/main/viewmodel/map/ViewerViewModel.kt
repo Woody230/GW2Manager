@@ -13,11 +13,11 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.action.GeneralAction
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.extension.wvw.position
+import com.bselzer.gw2.v2.model.tile.position.BoundedPosition
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.resource.Gw2Resources
-import com.bselzer.gw2.v2.tile.model.position.BoundedPosition
-import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomInMapIconInteractor
-import com.bselzer.ktx.compose.resource.ui.layout.icon.zoomOutMapIconInteractor
+import com.bselzer.ktx.compose.ui.layout.icon.zoomInMapIconInteractor
+import com.bselzer.ktx.compose.ui.layout.icon.zoomOutMapIconInteractor
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.launch

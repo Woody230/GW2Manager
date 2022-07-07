@@ -9,7 +9,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.claim.model.Claim
 import com.bselzer.gw2.manager.common.ui.layout.custom.claim.viewmodel.ClaimViewModel
-import com.bselzer.ktx.compose.resource.strings.localized
+import com.bselzer.ktx.resource.strings.localized
 
 /**
  * Lays out the guild claiming the objective.

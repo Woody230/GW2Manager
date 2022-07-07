@@ -1,8 +1,7 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.ktx.library.distinct
-import com.bselzer.ktx.library.sorted
+import com.bselzer.ktx.aboutlibraries.sorted
 import com.bselzer.ktx.resource.KtxResources
 import com.mikepenz.aboutlibraries.entity.Library
 import dev.icerock.moko.resources.desc.StringDesc

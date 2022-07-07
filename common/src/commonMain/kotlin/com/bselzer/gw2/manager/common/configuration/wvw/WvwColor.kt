@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.configuration.wvw
 
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
-import com.bselzer.ktx.serialization.compose.serializer.ColorSerializer
+import com.bselzer.ktx.serialization.serializer.ColorSerializer
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlElement
 import nl.adaptivity.xmlutil.serialization.XmlSerialName

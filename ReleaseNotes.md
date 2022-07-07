@@ -1,5 +1,23 @@
 # Whats New
 
+## v1.2.0
+
+### en-US
+* Compact match statistics.
+* Added contested areas.
+
+### de-DE
+* Kompakte Match-Statistik.
+* Umkämpfte Gebiete hinzugefügt.
+
+### es-ES
+* Estadísticas de combate compactas.
+* Zonas Disputadas añadidas.
+
+### fr-FR
+* Statistiques de match compactes.
+* Ajout de zones contestées.
+
 ## v1.1.0
 Unofficial initial desktop release.
 

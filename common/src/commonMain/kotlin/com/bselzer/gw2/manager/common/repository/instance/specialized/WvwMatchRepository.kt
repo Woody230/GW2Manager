@@ -5,17 +5,22 @@ import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.GuildData
+import com.bselzer.gw2.manager.common.repository.data.generic.OwnerData
 import com.bselzer.gw2.manager.common.repository.data.generic.TranslateData
 import com.bselzer.gw2.manager.common.repository.data.specialized.MatchData
 import com.bselzer.gw2.manager.common.repository.instance.generic.GuildRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.OwnerRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
+import com.bselzer.gw2.v2.model.enumeration.WvwMapType
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
+import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.*
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwMatchObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.extension.wvw.count.WvwSkirmishObjectiveOwnerCount
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
+import com.bselzer.gw2.v2.model.wvw.map.WvwMap
 import com.bselzer.gw2.v2.model.wvw.match.WvwMatch
 import com.bselzer.gw2.v2.model.wvw.objective.WvwMapObjectiveId
 import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
@@ -35,13 +40,16 @@ import me.tatarka.inject.annotations.Inject
 class WvwMatchRepository(
     dependencies: RepositoryDependencies,
     private val repositories: Repositories
-) : RepositoryDependencies by dependencies, MatchData,
+) : RepositoryDependencies by dependencies,
+    MatchData,
     GuildData by repositories.guild,
+    OwnerData by repositories.owner,
     TranslateData by repositories.translation {
     @Singleton
     @Inject
     data class Repositories(
         val guild: GuildRepository,
+        val owner: OwnerRepository,
         val translation: TranslationRepository,
         val world: WorldRepository
     )
@@ -49,6 +57,14 @@ class WvwMatchRepository(
     private val _match = mutableStateOf<WvwMatch?>(null)
     override val match: WvwMatch
         get() = _match.value ?: WvwMatch()
+
+    @Suppress("UNCHECKED_CAST")
+    override val maps: Map<WvwMapType, WvwMap>
+        get() {
+            val sorted = match.maps.sortedBy { map -> mapTypes.indexOf(map.type.decodeOrNull()) }
+            val maps = sorted.associateBy { map -> map.type.decodeOrNull() }.filterKeys { type -> type != null && mapTypes.contains(type) }
+            return maps as Map<WvwMapType, WvwMap>
+        }
 
     override val count: WvwMatchObjectiveOwnerCount
         get() = match.objectiveOwnerCount()

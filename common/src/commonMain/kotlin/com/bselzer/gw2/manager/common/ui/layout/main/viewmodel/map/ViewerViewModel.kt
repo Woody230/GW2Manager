@@ -10,7 +10,6 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.Detai
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.GeneralAction
-import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
 import com.bselzer.gw2.v2.model.extension.wvw.objective
 import com.bselzer.gw2.v2.model.extension.wvw.position
 import com.bselzer.gw2.v2.model.tile.position.BoundedPosition
@@ -104,10 +103,7 @@ class ViewerViewModel(
         }
 
     val bloodlustIcons: Collection<BloodlustViewModel>
-        get() {
-            val borderlands = match.maps.filter { map -> mapTypes.contains(map.type.decodeOrNull()) }
-            return borderlands.map { borderland -> BloodlustViewModel(context = this, borderland = borderland) }.filter { bloodlust -> bloodlust.exists }
-        }
+        get() = maps.values.map { borderland -> BloodlustViewModel(context = this, borderland = borderland) }.filter { bloodlust -> bloodlust.exists }
 
     // Render from bottom right to top left so that overlap is consistent.
     private val comparator = compareByDescending<WvwObjective> { objective -> objective.position().y }.thenByDescending { objective -> objective.position().y }

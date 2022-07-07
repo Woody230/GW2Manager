@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2022-07-05T01:30:44.395Z"
+    "generated": "2022-07-07T00:29:48.603Z"
   },
   "libraries": [
     {
@@ -11,14 +11,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.4.0",
+      "artifactVersion": "1.5.0",
       "description": "Compose integration with Activity",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Activity Compose",
-      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.4.0",
+      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.5.0",
       "licenses": [
         "Apache-2.0"
       ]
@@ -31,14 +31,54 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.4.0",
+      "artifactVersion": "1.5.0",
       "description": "Kotlin extensions for 'activity' artifact",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Activity Kotlin Extensions",
-      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.4.0",
+      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.5.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.activity:activity",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.5.0",
+      "description": "Provides the base Activity subclass and the relevant hooks to build a composable structure on top.",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Activity",
+      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.5.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.lifecycle:lifecycle-viewmodel-savedstate",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "2.5.0",
+      "description": "Android Lifecycle ViewModel",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Android Lifecycle ViewModel with SavedState",
+      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.0",
       "licenses": [
         "Apache-2.0"
       ]
@@ -91,34 +131,34 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "2.4.1",
+      "artifactVersion": "2.5.0",
       "description": "Android Lifecycle Runtime",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Android Lifecycle Runtime",
-      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.4.1",
+      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.0",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "androidx.lifecycle:lifecycle-common",
+      "uniqueId": "androidx.arch.core:core-common",
       "funding": [],
       "developers": [
         {
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "2.4.1",
-      "description": "Android Lifecycle-Common",
+      "artifactVersion": "2.1.0",
+      "description": "Android Arch-Common",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+        "url": "http://source.android.com"
       },
-      "name": "Android Lifecycle-Common",
-      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.4.1",
+      "name": "Android Arch-Common",
+      "website": "https://developer.android.com/topic/libraries/architecture/index.html",
       "licenses": [
         "Apache-2.0"
       ]
@@ -144,21 +184,21 @@
       ]
     },
     {
-      "uniqueId": "androidx.arch.core:core-common",
+      "uniqueId": "androidx.lifecycle:lifecycle-common",
       "funding": [],
       "developers": [
         {
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "2.1.0",
-      "description": "Android Arch-Common",
+      "artifactVersion": "2.5.0",
+      "description": "Android Lifecycle-Common",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "http://source.android.com"
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
-      "name": "Android Arch-Common",
-      "website": "https://developer.android.com/topic/libraries/architecture/index.html",
+      "name": "Android Lifecycle-Common",
+      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.0",
       "licenses": [
         "Apache-2.0"
       ]
@@ -267,26 +307,6 @@
       ]
     },
     {
-      "uniqueId": "androidx.lifecycle:lifecycle-runtime-ktx",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "2.4.1",
-      "description": "Kotlin extensions for 'lifecycle' artifact",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Android Lifecycle Kotlin Extensions",
-      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.4.1",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "org.jetbrains.kotlinx:kotlinx-coroutines-android",
       "funding": [],
       "developers": [
@@ -371,21 +391,21 @@
       ]
     },
     {
-      "uniqueId": "androidx.lifecycle:lifecycle-viewmodel-ktx",
+      "uniqueId": "androidx.lifecycle:lifecycle-livedata-core",
       "funding": [],
       "developers": [
         {
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "2.3.1",
-      "description": "Kotlin extensions for 'viewmodel' artifact",
+      "artifactVersion": "2.5.0",
+      "description": "Android Lifecycle LiveData Core",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
-      "name": "Android Lifecycle ViewModel Kotlin Extensions",
-      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.3.1",
+      "name": "Android Lifecycle LiveData Core",
+      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.0",
       "licenses": [
         "Apache-2.0"
       ]
@@ -398,54 +418,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "2.3.1",
+      "artifactVersion": "2.5.0",
       "description": "Android Lifecycle ViewModel",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "Android Lifecycle ViewModel",
-      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.3.1",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.activity:activity",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.4.0",
-      "description": "Provides the base Activity subclass and the relevant hooks to build a composable structure on top.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Activity",
-      "website": "https://developer.android.com/jetpack/androidx/releases/activity#1.4.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.lifecycle:lifecycle-viewmodel-savedstate",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "2.3.1",
-      "description": "Android Lifecycle ViewModel",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Android Lifecycle ViewModel with SavedState",
-      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.3.1",
+      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.0",
       "licenses": [
         "Apache-2.0"
       ]
@@ -458,34 +438,54 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.1.0",
-      "description": "Provides the base Activity subclass and the relevant hooks to build a composable structure on top.",
+      "artifactVersion": "1.2.0",
+      "description": "Android Lifecycle Saved State",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
-      "name": "Activity",
-      "website": "https://developer.android.com/jetpack/androidx/releases/savedstate#1.1.0",
+      "name": "Saved State",
+      "website": "https://developer.android.com/jetpack/androidx/releases/savedstate#1.2.0",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "androidx.lifecycle:lifecycle-livedata-core",
+      "uniqueId": "androidx.lifecycle:lifecycle-runtime-ktx",
       "funding": [],
       "developers": [
         {
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "2.3.1",
-      "description": "Android Lifecycle LiveData Core",
+      "artifactVersion": "2.5.0",
+      "description": "Kotlin extensions for 'lifecycle' artifact",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
-      "name": "Android Lifecycle LiveData Core",
-      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.3.1",
+      "name": "Android Lifecycle Kotlin Extensions",
+      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.lifecycle:lifecycle-viewmodel-ktx",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "2.5.0",
+      "description": "Kotlin extensions for 'viewmodel' artifact",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Android Lifecycle ViewModel Kotlin Extensions",
+      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.0",
       "licenses": [
         "Apache-2.0"
       ]
@@ -498,14 +498,14 @@
           "name": "The Android Open Source Project"
         }
       ],
-      "artifactVersion": "1.1.0",
+      "artifactVersion": "1.2.0",
       "description": "Kotlin extensions for 'savedstate' artifact",
       "scm": {
         "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
         "url": "https://cs.android.com/androidx/platform/frameworks/support"
       },
       "name": "SavedState Kotlin Extensions",
-      "website": "https://developer.android.com/jetpack/androidx/releases/savedstate#1.1.0",
+      "website": "https://developer.android.com/jetpack/androidx/releases/savedstate#1.2.0",
       "licenses": [
         "Apache-2.0"
       ]
@@ -651,7 +651,536 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-intl-cache-android-debug",
+      "uniqueId": "io.github.woody230.ktx:compose-aboutlibraries-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Composable implementation of AboutLibraries using Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-aboutlibraries",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-resource-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Wrappers for strings and images using the compose and resource modules.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-common-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Common composable implementations for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-layout-common",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:function-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "General Kotlin standard library extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-function",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-constraint-layout-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        },
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-constraint-layout",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.foundation:foundation",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Higher level abstractions of the Compose UI primitives. This library is design system agnostic, providing the high-level building blocks for both application and design-system developers",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Foundation",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.animation:animation",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Compose animation library",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Animation",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.foundation:foundation-layout",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.0.0",
+      "description": "Compose layout implementations",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Layouts",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.0.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.animation:animation-core",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Animation engine and animation primitives that are the building blocks of the Compose animation library",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Animation Core",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.material:material",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Compose Material Design Components library",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Material Components",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.material:material-ripple",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Material ripple used to build interactive components",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Material Ripple",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.material:material-icons-core",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Compose Material Design core icons. This module contains the most commonly used set of Material icons.",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Material Icons Core",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.jetbrains.kotlinx:kotlinx-datetime-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "0.3.2",
+      "description": "Kotlin Datetime Library",
+      "scm": {
+        "url": "https://github.com/Kotlin/kotlinx-datetime"
+      },
+      "name": "kotlinx-datetime",
+      "website": "https://github.com/Kotlin/kotlinx-datetime",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.ui:ui-util",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Internal Compose utilities used by other modules",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Util",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Base extensions for laying out Jetbrains Compose UI.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-layout",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Extensions for Jetbrains Compose UI.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-intl-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Jetbrains Compose internationalization.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-intl",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:intl-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Internationalization.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-intl",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:resource-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "moko-resources extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:intent-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Based on Android intents.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-intent",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "dev.icerock.moko:resources-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Aleksey Mikhailov"
+        },
+        {
+          "name": "Vladislav Areshkin"
+        },
+        {
+          "name": "Andrey Tchernov"
+        },
+        {
+          "name": "Nagy Robert"
+        }
+      ],
+      "artifactVersion": "0.19.0",
+      "description": "Resources access for Kotlin Multiplatform development (mobile first)",
+      "scm": {
+        "connection": "scm:git:ssh://github.com/icerockdev/moko-resources.git",
+        "url": "https://github.com/icerockdev/moko-resources",
+        "developerConnection": "scm:git:ssh://github.com/icerockdev/moko-resources.git"
+      },
+      "name": "MOKO resources",
+      "website": "https://github.com/icerockdev/moko-resources",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "dev.icerock.moko:parcelize-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Aleksey Mikhailov"
+        },
+        {
+          "name": "Nagy Robert"
+        }
+      ],
+      "artifactVersion": "0.8.0",
+      "description": "@Parcelize support for android from common code in Kotlin Multiplatform",
+      "scm": {
+        "connection": "scm:git:ssh://github.com/icerockdev/moko-parcelize.git",
+        "url": "https://github.com/icerockdev/moko-parcelize",
+        "developerConnection": "scm:git:ssh://github.com/icerockdev/moko-parcelize.git"
+      },
+      "name": "MOKO parcelize",
+      "website": "https://github.com/icerockdev/moko-parcelize",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "dev.icerock.moko:graphics-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Aleksey Mikhailov"
+        },
+        {
+          "name": "Nagy Robert"
+        }
+      ],
+      "artifactVersion": "0.9.0",
+      "description": "Graphics primitives for mobile (android & ios) Kotlin Multiplatform development",
+      "scm": {
+        "connection": "scm:git:ssh://github.com/icerockdev/moko-graphics.git",
+        "url": "https://github.com/icerockdev/moko-graphics",
+        "developerConnection": "scm:git:ssh://github.com/icerockdev/moko-graphics.git"
+      },
+      "name": "MOKO graphics",
+      "website": "https://github.com/icerockdev/moko-graphics",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-custom-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Custom composable implementations for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-layout-custom",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:aboutlibraries-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "AboutLibraries extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-aboutlibraries",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.mikepenz:aboutlibraries-core-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Mike Penz"
+        }
+      ],
+      "artifactVersion": "10.0.0",
+      "description": "AboutLibraries automatically detects all dependencies of a project and collects their information including the license. Optionally visualising it via the provided ui components.",
+      "scm": {
+        "connection": "scm:git@github.com:mikepenz/AboutLibraries.git",
+        "url": "https://github.com/mikepenz/AboutLibraries",
+        "developerConnection": "scm:git@github.com:mikepenz/AboutLibraries.git"
+      },
+      "name": "AboutLibraries Library",
+      "website": "https://github.com/mikepenz/AboutLibraries",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.gw2:v2-intl-kodein-db-android-debug",
       "funding": [],
       "developers": [
         {
@@ -659,11 +1188,11 @@
         }
       ],
       "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
+      "description": "Kodein-DB extensions for v2-intl.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl-cache",
+      "name": "gw2-v2-intl-kodein-db",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -684,25 +1213,6 @@
       },
       "name": "gw2-v2-intl",
       "website": "https://github.com/Woody230/GW2Wrapper",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:function-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "General Kotlin standard library extensions.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-function",
-      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -746,7 +1256,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:datetime-android-debug",
+      "uniqueId": "io.github.woody230.ktx:serialization-android-debug",
       "funding": [],
       "developers": [
         {
@@ -754,30 +1264,11 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "kotlinx.datetime extensions",
+      "description": "kotlinx.serialization extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-datetime",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:intl-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Internationalization through locale support.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-intl",
+      "name": "ktx-serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -824,87 +1315,6 @@
       ]
     },
     {
-      "uniqueId": "org.jetbrains.kotlinx:kotlinx-datetime-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "0.3.2",
-      "description": "Kotlin Datetime Library",
-      "scm": {
-        "url": "https://github.com/Kotlin/kotlinx-datetime"
-      },
-      "name": "kotlinx-datetime",
-      "website": "https://github.com/Kotlin/kotlinx-datetime",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:serialization-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "kotlinx.serialization extensions",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-serialization",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.pdvrieze.xmlutil:serialization-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Paul de Vrieze"
-        }
-      ],
-      "artifactVersion": "0.84.0",
-      "description": "Component of the XMLUtil library",
-      "scm": {
-        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
-        "url": "https://github.com/pdvrieze/xmlutil",
-        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
-      },
-      "name": "project ':serialization'",
-      "website": "https://github.com/pdvrieze/xmlutil",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.pdvrieze.xmlutil:core-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Paul de Vrieze"
-        }
-      ],
-      "artifactVersion": "0.84.0",
-      "description": "Component of the XMLUtil library",
-      "scm": {
-        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
-        "url": "https://github.com/pdvrieze/xmlutil",
-        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
-      },
-      "name": "project ':core'",
-      "website": "https://github.com/pdvrieze/xmlutil",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "io.github.woody230.gw2:v2-scope-android-debug",
       "funding": [],
       "developers": [
@@ -924,6 +1334,44 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:datetime-serialization-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for kotlinx.datetime",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-datetime-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:datetime-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.datetime extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-datetime",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.ktx:value-android-debug",
       "funding": [],
       "developers": [
@@ -937,6 +1385,25 @@
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
       "name": "ktx-value",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:geometry-serialization-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for two and three dimensional geometrical objects.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-geometry-serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -1230,7 +1697,7 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Kodein-DB caching framework extensions.",
+      "description": "Kodein-DB extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
@@ -1318,526 +1785,6 @@
       "website": "http://kodein.org",
       "licenses": [
         "MIT"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:library-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Jetbrains Compose extensions for AboutLibraries.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-library",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:compose-resource-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Wrappers for strings and images using the compose and resource modules.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-compose-resource",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:compose-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-compose",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:compose-constraint-layout-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        },
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-compose-constraint-layout",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.compose.foundation:foundation",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Higher level abstractions of the Compose UI primitives. This library is design system agnostic, providing the high-level building blocks for both application and design-system developers",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Foundation",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.1.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.compose.animation:animation",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Compose animation library",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Animation",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.1.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.compose.foundation:foundation-layout",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.0.0",
-      "description": "Compose layout implementations",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Layouts",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.0.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.compose.animation:animation-core",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Animation engine and animation primitives that are the building blocks of the Compose animation library",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Animation Core",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-animation#1.1.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.compose.material:material",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Compose Material Design Components library",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Material Components",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.1.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.compose.material:material-ripple",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Material ripple used to build interactive components",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Material Ripple",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.1.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.compose.material:material-icons-core",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Compose Material Design core icons. This module contains the most commonly used set of Material icons.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Material Icons Core",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-material#1.1.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.compose.ui:ui-util",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Internal Compose utilities used by other modules",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Util",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.1.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:resource-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "moko-resources extensions",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-resource",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:intent-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Based on Android intents.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-intent",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "dev.icerock.moko:resources-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Aleksey Mikhailov"
-        },
-        {
-          "name": "Vladislav Areshkin"
-        },
-        {
-          "name": "Andrey Tchernov"
-        },
-        {
-          "name": "Nagy Robert"
-        }
-      ],
-      "artifactVersion": "0.19.0",
-      "description": "Resources access for Kotlin Multiplatform development (mobile first)",
-      "scm": {
-        "connection": "scm:git:ssh://github.com/icerockdev/moko-resources.git",
-        "url": "https://github.com/icerockdev/moko-resources",
-        "developerConnection": "scm:git:ssh://github.com/icerockdev/moko-resources.git"
-      },
-      "name": "MOKO resources",
-      "website": "https://github.com/icerockdev/moko-resources",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "dev.icerock.moko:parcelize-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Aleksey Mikhailov"
-        },
-        {
-          "name": "Nagy Robert"
-        }
-      ],
-      "artifactVersion": "0.8.0",
-      "description": "@Parcelize support for android from common code in Kotlin Multiplatform",
-      "scm": {
-        "connection": "scm:git:ssh://github.com/icerockdev/moko-parcelize.git",
-        "url": "https://github.com/icerockdev/moko-parcelize",
-        "developerConnection": "scm:git:ssh://github.com/icerockdev/moko-parcelize.git"
-      },
-      "name": "MOKO parcelize",
-      "website": "https://github.com/icerockdev/moko-parcelize",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "dev.icerock.moko:graphics-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Aleksey Mikhailov"
-        },
-        {
-          "name": "Nagy Robert"
-        }
-      ],
-      "artifactVersion": "0.9.0",
-      "description": "Graphics primitives for mobile (android & ios) Kotlin Multiplatform development",
-      "scm": {
-        "connection": "scm:git:ssh://github.com/icerockdev/moko-graphics.git",
-        "url": "https://github.com/icerockdev/moko-graphics",
-        "developerConnection": "scm:git:ssh://github.com/icerockdev/moko-graphics.git"
-      },
-      "name": "MOKO graphics",
-      "website": "https://github.com/icerockdev/moko-graphics",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "dev.icerock.moko:resources-compose-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Aleksey Mikhailov"
-        },
-        {
-          "name": "Vladislav Areshkin"
-        },
-        {
-          "name": "Andrey Tchernov"
-        },
-        {
-          "name": "Nagy Robert"
-        }
-      ],
-      "artifactVersion": "0.19.0",
-      "description": "Resources access for Kotlin Multiplatform development (mobile first)",
-      "scm": {
-        "connection": "scm:git:ssh://github.com/icerockdev/moko-resources.git",
-        "url": "https://github.com/icerockdev/moko-resources",
-        "developerConnection": "scm:git:ssh://github.com/icerockdev/moko-resources.git"
-      },
-      "name": "MOKO resources",
-      "website": "https://github.com/icerockdev/moko-resources",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.mikepenz:aboutlibraries-core-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Mike Penz"
-        }
-      ],
-      "artifactVersion": "10.0.0",
-      "description": "AboutLibraries automatically detects all dependencies of a project and collects their information including the license. Optionally visualising it via the provided ui components.",
-      "scm": {
-        "connection": "scm:git@github.com:mikepenz/AboutLibraries.git",
-        "url": "https://github.com/mikepenz/AboutLibraries",
-        "developerConnection": "scm:git@github.com:mikepenz/AboutLibraries.git"
-      },
-      "name": "AboutLibraries Library",
-      "website": "https://github.com/mikepenz/AboutLibraries",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:compose-image-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Jetbrains Compose image fetching and displaying.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-compose-image",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:settings-compose-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-settings-compose",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:serialization-compose-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "kotlinx.serialization extension for Jetbrains Compose classes",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-serialization-compose",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:settings-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "multiplatform-settings extensions",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-settings",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.russhwolf:multiplatform-settings-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Russell Wolf"
-        }
-      ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
-      "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
-      },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.russhwolf:multiplatform-settings-coroutines-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Russell Wolf"
-        }
-      ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
-      "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
-      },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
-      "licenses": [
-        "Apache-2.0"
       ]
     },
     {
@@ -2564,6 +2511,184 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:compose-accompanist-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Google"
+        },
+        {
+          "name": "Chris Banes"
+        },
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-accompanist",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-serialization-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization extension for Jetbrains Compose classes",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-graphics-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Graphics extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-graphics",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-settings-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-settings",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:settings-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "multiplatform-settings extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-settings",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings-coroutines-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-text-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Text extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-text",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "androidx.compose.ui:ui-tooling-preview",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Compose Tooling API",
+      "website": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.1.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "com.arkivanov.decompose:decompose-android-debug",
       "funding": [],
       "developers": [
@@ -2711,25 +2836,38 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:compose-accompanist-android-debug",
+      "uniqueId": "io.github.woody230.ktx:compose-ui-geometry-android-debug",
       "funding": [],
       "developers": [
-        {
-          "name": "Google"
-        },
-        {
-          "name": "Chris Banes"
-        },
         {
           "name": "Brandon Selzer"
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
+      "description": "Geometry extensions for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-accompanist",
+      "name": "ktx-compose-ui-geometry",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-unit-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Unit extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-unit",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -2793,6 +2931,101 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:intl-serialization-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for internationalization",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-intl-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-kodein-db-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Storing image content via Kodein-DB.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-kodein-db",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-model-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Image models.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-model",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-ktor-client-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Fetching image content via Ktor.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-ktor-client",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:logging-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Logging wrapper around Napier.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-logging",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.gw2:asset-cdn-android-debug",
       "funding": [],
       "developers": [
@@ -2812,7 +3045,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-cache-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-model-kodein-db-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2820,11 +3053,11 @@
         }
       ],
       "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework for v2-client.",
+      "description": "Kodein-DB extensions for v2-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-cache",
+      "name": "gw2-v2-model-kodein-db",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -2850,26 +3083,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-tile-cache-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework extensions for v2-tile.",
-      "scm": {
-        "url": "https://github.com/Woody230/GW2Wrapper"
-      },
-      "name": "gw2-v2-tile-cache",
-      "website": "https://github.com/Woody230/GW2Wrapper",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.gw2:v2-tile-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-client-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2881,14 +3095,52 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile",
+      "name": "gw2-v2-tile-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:logging-android-debug",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-model-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Tiling service models for Guild Wars 2 map images.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-tile-model",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.gw2:v2-tile-kodein-db-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Kodein-DB extensions for v2-tile-model.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-tile-kodein-db",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:serialization-xml-android-debug",
       "funding": [],
       "developers": [
         {
@@ -2896,12 +3148,54 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Logging wrapper around Napier.",
+      "description": "kotlinx.serialization extensions for pdvrieze.xmlutil",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-logging",
+      "name": "ktx-serialization-xml",
       "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.pdvrieze.xmlutil:serialization-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Paul de Vrieze"
+        }
+      ],
+      "artifactVersion": "0.84.0",
+      "description": "Component of the XMLUtil library",
+      "scm": {
+        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
+        "url": "https://github.com/pdvrieze/xmlutil",
+        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
+      },
+      "name": "project ':serialization'",
+      "website": "https://github.com/pdvrieze/xmlutil",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.pdvrieze.xmlutil:core-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Paul de Vrieze"
+        }
+      ],
+      "artifactVersion": "0.84.0",
+      "description": "Component of the XMLUtil library",
+      "scm": {
+        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
+        "url": "https://github.com/pdvrieze/xmlutil",
+        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
+      },
+      "name": "project ':core'",
+      "website": "https://github.com/pdvrieze/xmlutil",
       "licenses": [
         "Apache-2.0"
       ]
@@ -2986,26 +3280,6 @@
       ]
     },
     {
-      "uniqueId": "androidx.compose.ui:ui-tooling-preview",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Compose Tooling API",
-      "website": "https://developer.android.com/jetpack/androidx/releases/compose-ui#1.1.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "androidx.concurrent:concurrent-futures",
       "funding": [],
       "developers": [
@@ -3083,6 +3357,26 @@
       ]
     },
     {
+      "uniqueId": "androidx.lifecycle:lifecycle-common-java8",
+      "funding": [],
+      "developers": [
+        {
+          "name": "The Android Open Source Project"
+        }
+      ],
+      "artifactVersion": "2.5.0",
+      "description": "Android Lifecycle-Common for Java 8 Language",
+      "scm": {
+        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
+        "url": "https://cs.android.com/androidx/platform/frameworks/support"
+      },
+      "name": "Android Lifecycle-Common for Java 8 Language",
+      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.5.0",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "androidx.profileinstaller:profileinstaller",
       "funding": [],
       "developers": [
@@ -3118,26 +3412,6 @@
       },
       "name": "Android App Startup Runtime",
       "website": "https://developer.android.com/jetpack/androidx/releases/startup#1.0.0",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "androidx.lifecycle:lifecycle-common-java8",
-      "funding": [],
-      "developers": [
-        {
-          "name": "The Android Open Source Project"
-        }
-      ],
-      "artifactVersion": "2.4.1",
-      "description": "Android Lifecycle-Common for Java 8 Language",
-      "scm": {
-        "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
-        "url": "https://cs.android.com/androidx/platform/frameworks/support"
-      },
-      "name": "Android Lifecycle-Common for Java 8 Language",
-      "website": "https://developer.android.com/jetpack/androidx/releases/lifecycle#2.4.1",
       "licenses": [
         "Apache-2.0"
       ]
@@ -3203,66 +3477,6 @@
       },
       "name": "Kotlin Android Extensions Runtime",
       "website": "https://kotlinlang.org/",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.aakira:napier-android-debug",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://github.com/aakira",
-          "name": "aakira"
-        }
-      ],
-      "artifactVersion": "2.4.0",
-      "description": "Kotlin Multiplatform libraries that show logs in common module.",
-      "scm": {
-        "url": "https://github.com/aakira/Napier"
-      },
-      "name": "napier",
-      "website": "https://github.com/aakira/Napier",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains.kotlinx:kotlinx-coroutines-slf4j",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "1.6.1",
-      "description": "Coroutines support libraries for Kotlin",
-      "scm": {
-        "url": "https://github.com/Kotlin/kotlinx.coroutines"
-      },
-      "name": "kotlinx-coroutines-slf4j",
-      "website": "https://github.com/Kotlin/kotlinx.coroutines",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains.kotlinx:atomicfu-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "0.16.1",
-      "description": "AtomicFU utilities",
-      "scm": {
-        "url": "https://github.com/Kotlin/kotlinx.atomicfu"
-      },
-      "name": "atomicfu",
-      "website": "https://github.com/Kotlin/kotlinx.atomicfu",
       "licenses": [
         "Apache-2.0"
       ]
@@ -3348,6 +3562,66 @@
       ]
     },
     {
+      "uniqueId": "io.github.aakira:napier-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://github.com/aakira",
+          "name": "aakira"
+        }
+      ],
+      "artifactVersion": "2.4.0",
+      "description": "Kotlin Multiplatform libraries that show logs in common module.",
+      "scm": {
+        "url": "https://github.com/aakira/Napier"
+      },
+      "name": "napier",
+      "website": "https://github.com/aakira/Napier",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.jetbrains.kotlinx:kotlinx-coroutines-slf4j",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "1.6.1",
+      "description": "Coroutines support libraries for Kotlin",
+      "scm": {
+        "url": "https://github.com/Kotlin/kotlinx.coroutines"
+      },
+      "name": "kotlinx-coroutines-slf4j",
+      "website": "https://github.com/Kotlin/kotlinx.coroutines",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.jetbrains.kotlinx:atomicfu-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "0.16.1",
+      "description": "AtomicFU utilities",
+      "scm": {
+        "url": "https://github.com/Kotlin/kotlinx.atomicfu"
+      },
+      "name": "atomicfu",
+      "website": "https://github.com/Kotlin/kotlinx.atomicfu",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "org.jetbrains.kotlinx:kotlinx-serialization-cbor-jvm",
       "funding": [],
       "developers": [
@@ -3368,45 +3642,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-intl-cache-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
-      "scm": {
-        "url": "https://github.com/Woody230/GW2Wrapper"
-      },
-      "name": "gw2-v2-intl-cache",
-      "website": "https://github.com/Woody230/GW2Wrapper",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.gw2:v2-intl-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "3.0.0",
-      "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
-      "scm": {
-        "url": "https://github.com/Woody230/GW2Wrapper"
-      },
-      "name": "gw2-v2-intl",
-      "website": "https://github.com/Woody230/GW2Wrapper",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:function-android",
+      "uniqueId": "io.github.woody230.ktx:compose-aboutlibraries-android",
       "funding": [],
       "developers": [
         {
@@ -3414,201 +3650,11 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "General Kotlin standard library extensions.",
+      "description": "Composable implementation of AboutLibraries using Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-function",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.gw2:v2-client-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "3.0.0",
-      "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
-      "scm": {
-        "url": "https://github.com/Woody230/GW2Wrapper"
-      },
-      "name": "gw2-v2-client",
-      "website": "https://github.com/Woody230/GW2Wrapper",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.gw2:v2-model-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "3.0.0",
-      "description": "Guild Wars 2 API models for v2-client.",
-      "scm": {
-        "url": "https://github.com/Woody230/GW2Wrapper"
-      },
-      "name": "gw2-v2-model",
-      "website": "https://github.com/Woody230/GW2Wrapper",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:datetime-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "kotlinx.datetime extensions",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-datetime",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:intl-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Internationalization through locale support.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-intl",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:serialization-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "kotlinx.serialization extensions",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-serialization",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.gw2:v2-scope-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "3.0.0",
-      "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
-      "scm": {
-        "url": "https://github.com/Woody230/GW2Wrapper"
-      },
-      "name": "gw2-v2-scope",
-      "website": "https://github.com/Woody230/GW2Wrapper",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:value-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Value class extensions.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-value",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:geometry-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Two and three dimensional geometrical objects.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-geometry",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:kodein-db-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Kodein-DB caching framework extensions.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-kodein-db",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:library-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Jetbrains Compose extensions for AboutLibraries.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-library",
+      "name": "ktx-compose-aboutlibraries",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3634,7 +3680,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:compose-android",
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-common-android",
       "funding": [],
       "developers": [
         {
@@ -3642,11 +3688,30 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
+      "description": "Common composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose",
+      "name": "ktx-compose-ui-layout-common",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:function-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "General Kotlin standard library extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-function",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3669,6 +3734,82 @@
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
       "name": "ktx-compose-constraint-layout",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Base extensions for laying out Jetbrains Compose UI.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-layout",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Extensions for Jetbrains Compose UI.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-intl-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Jetbrains Compose internationalization.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-intl",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:intl-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Internationalization.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-intl",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3791,31 +3932,39 @@
       ]
     },
     {
-      "uniqueId": "dev.icerock.moko:resources-compose-android",
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-custom-android",
       "funding": [],
       "developers": [
         {
-          "name": "Aleksey Mikhailov"
-        },
-        {
-          "name": "Vladislav Areshkin"
-        },
-        {
-          "name": "Andrey Tchernov"
-        },
-        {
-          "name": "Nagy Robert"
+          "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "0.19.0",
-      "description": "Resources access for Kotlin Multiplatform development (mobile first)",
+      "artifactVersion": "5.0.0",
+      "description": "Custom composable implementations for Jetbrains Compose.",
       "scm": {
-        "connection": "scm:git:ssh://github.com/icerockdev/moko-resources.git",
-        "url": "https://github.com/icerockdev/moko-resources",
-        "developerConnection": "scm:git:ssh://github.com/icerockdev/moko-resources.git"
+        "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "MOKO resources",
-      "website": "https://github.com/icerockdev/moko-resources",
+      "name": "ktx-compose-ui-layout-custom",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:aboutlibraries-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "AboutLibraries extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-aboutlibraries",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -3842,7 +3991,83 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:compose-image-android",
+      "uniqueId": "io.github.woody230.gw2:v2-intl-kodein-db-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Kodein-DB extensions for v2-intl.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-intl-kodein-db",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.gw2:v2-intl-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-intl",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.gw2:v2-client-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-client",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.gw2:v2-model-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Guild Wars 2 API models for v2-client.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-model",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:serialization-android",
       "funding": [],
       "developers": [
         {
@@ -3850,18 +4075,37 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Jetbrains Compose image fetching and displaying.",
+      "description": "kotlinx.serialization extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-image",
+      "name": "ktx-serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:settings-compose-android",
+      "uniqueId": "io.github.woody230.gw2:v2-scope-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-scope",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:datetime-serialization-android",
       "funding": [],
       "developers": [
         {
@@ -3869,18 +4113,157 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
+      "description": "kotlinx.serialization for kotlinx.datetime",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-settings-compose",
+      "name": "ktx-datetime-serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:serialization-compose-android",
+      "uniqueId": "io.github.woody230.ktx:datetime-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.datetime extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-datetime",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:value-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Value class extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-value",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:geometry-serialization-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for two and three dimensional geometrical objects.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-geometry-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:geometry-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Two and three dimensional geometrical objects.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-geometry",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:kodein-db-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Kodein-DB extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-kodein-db",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings-datastore-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-accompanist-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Google"
+        },
+        {
+          "name": "Chris Banes"
+        },
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-accompanist",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-serialization-android",
       "funding": [],
       "developers": [
         {
@@ -3892,7 +4275,45 @@
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-serialization-compose",
+      "name": "ktx-compose-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-graphics-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Graphics extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-graphics",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-settings-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-settings",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -3956,20 +4377,20 @@
       ]
     },
     {
-      "uniqueId": "com.russhwolf:multiplatform-settings-datastore-android",
+      "uniqueId": "io.github.woody230.ktx:compose-ui-text-android",
       "funding": [],
       "developers": [
         {
-          "name": "Russell Wolf"
+          "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "artifactVersion": "5.0.0",
+      "description": "Text extensions for Jetbrains Compose.",
       "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
+        "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "name": "ktx-compose-ui-text",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -4122,25 +4543,38 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:compose-accompanist-android",
+      "uniqueId": "io.github.woody230.ktx:compose-ui-geometry-android",
       "funding": [],
       "developers": [
-        {
-          "name": "Google"
-        },
-        {
-          "name": "Chris Banes"
-        },
         {
           "name": "Brandon Selzer"
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
+      "description": "Geometry extensions for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-accompanist",
+      "name": "ktx-compose-ui-geometry",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-unit-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Unit extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-unit",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4204,6 +4638,101 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:intl-serialization-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for internationalization",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-intl-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-kodein-db-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Storing image content via Kodein-DB.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-kodein-db",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-model-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Image models.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-model",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-ktor-client-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Fetching image content via Ktor.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-ktor-client",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:logging-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Logging wrapper around Napier.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-logging",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.gw2:asset-cdn-android",
       "funding": [],
       "developers": [
@@ -4223,7 +4752,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-cache-android",
+      "uniqueId": "io.github.woody230.gw2:v2-model-kodein-db-android",
       "funding": [],
       "developers": [
         {
@@ -4231,11 +4760,11 @@
         }
       ],
       "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework for v2-client.",
+      "description": "Kodein-DB extensions for v2-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-cache",
+      "name": "gw2-v2-model-kodein-db",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -4261,26 +4790,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-tile-cache-android",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework extensions for v2-tile.",
-      "scm": {
-        "url": "https://github.com/Woody230/GW2Wrapper"
-      },
-      "name": "gw2-v2-tile-cache",
-      "website": "https://github.com/Woody230/GW2Wrapper",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.gw2:v2-tile-android",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-client-android",
       "funding": [],
       "developers": [
         {
@@ -4292,14 +4802,52 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile",
+      "name": "gw2-v2-tile-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:logging-android",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-model-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Tiling service models for Guild Wars 2 map images.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-tile-model",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.gw2:v2-tile-kodein-db-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Kodein-DB extensions for v2-tile-model.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-tile-kodein-db",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:serialization-xml-android",
       "funding": [],
       "developers": [
         {
@@ -4307,11 +4855,11 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Logging wrapper around Napier.",
+      "description": "kotlinx.serialization extensions for pdvrieze.xmlutil",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-logging",
+      "name": "ktx-serialization-xml",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4793,7 +5341,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:library-jvm",
+      "uniqueId": "io.github.woody230.ktx:compose-serialization-jvm",
       "funding": [],
       "developers": [
         {
@@ -4801,11 +5349,163 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Jetbrains Compose extensions for AboutLibraries.",
+      "description": "kotlinx.serialization extension for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-library",
+      "name": "ktx-compose-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-graphics-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Graphics extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-graphics",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-settings-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-settings",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:settings-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "multiplatform-settings extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-settings",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:value-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Value class extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-value",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings-coroutines-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-text-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Text extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-text",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-aboutlibraries-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Composable implementation of AboutLibraries using Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-aboutlibraries",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4831,7 +5531,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:compose-jvm",
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-common-jvm",
       "funding": [],
       "developers": [
         {
@@ -4839,11 +5539,11 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
+      "description": "Common composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose",
+      "name": "ktx-compose-ui-layout-common",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -4894,6 +5594,44 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Base extensions for laying out Jetbrains Compose UI.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-layout",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Extensions for Jetbrains Compose UI.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.ktx:function-jvm",
       "funding": [],
       "developers": [
@@ -4913,6 +5651,25 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-intl-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Jetbrains Compose internationalization.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-intl",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.ktx:intl-jvm",
       "funding": [],
       "developers": [
@@ -4921,7 +5678,7 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Internationalization through locale support.",
+      "description": "Internationalization.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
@@ -4932,75 +5689,39 @@
       ]
     },
     {
-      "uniqueId": "dev.icerock.moko:resources-compose-jvm",
+      "uniqueId": "io.github.woody230.ktx:resource-jvm",
       "funding": [],
       "developers": [
         {
-          "name": "Aleksey Mikhailov"
-        },
-        {
-          "name": "Vladislav Areshkin"
-        },
-        {
-          "name": "Andrey Tchernov"
-        },
-        {
-          "name": "Nagy Robert"
+          "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "0.19.0",
-      "description": "Resources access for Kotlin Multiplatform development (mobile first)",
+      "artifactVersion": "5.0.0",
+      "description": "moko-resources extensions",
       "scm": {
-        "connection": "scm:git:ssh://github.com/icerockdev/moko-resources.git",
-        "url": "https://github.com/icerockdev/moko-resources",
-        "developerConnection": "scm:git:ssh://github.com/icerockdev/moko-resources.git"
+        "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "MOKO resources",
-      "website": "https://github.com/icerockdev/moko-resources",
+      "name": "ktx-resource",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "org.jetbrains.compose.desktop:desktop-jvm",
+      "uniqueId": "io.github.woody230.ktx:intent-jvm",
       "funding": [],
       "developers": [
         {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "Compose Multiplatform Team"
+          "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "1.0.1",
-      "description": "Jetpack Compose desktop implementation",
+      "artifactVersion": "5.0.0",
+      "description": "Based on Android intents.",
       "scm": {
-        "connection": "scm:git:https://github.com/JetBrains/compose-jb.git",
-        "url": "https://github.com/JetBrains/compose-jb",
-        "developerConnection": "scm:git:https://github.com/JetBrains/compose-jb.git"
+        "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "Jetpack Compose desktop implementation",
-      "website": "https://github.com/JetBrains/compose-jb",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains.compose.ui:ui-tooling-preview-desktop",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "Compose Multiplatform Team"
-        }
-      ],
-      "artifactVersion": "1.1.0",
-      "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
-      "scm": {
-        "connection": "scm:git:https://github.com/JetBrains/compose-jb.git",
-        "url": "https://github.com/JetBrains/compose-jb",
-        "developerConnection": "scm:git:https://github.com/JetBrains/compose-jb.git"
-      },
-      "name": "Compose Tooling API",
-      "website": "https://github.com/JetBrains/compose-jb",
+      "name": "ktx-intent",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5084,7 +5805,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:resource-jvm",
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-custom-jvm",
       "funding": [],
       "developers": [
         {
@@ -5092,18 +5813,18 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "moko-resources extensions",
+      "description": "Custom composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-resource",
+      "name": "ktx-compose-ui-layout-custom",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:intent-jvm",
+      "uniqueId": "io.github.woody230.ktx:aboutlibraries-jvm",
       "funding": [],
       "developers": [
         {
@@ -5111,11 +5832,11 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Based on Android intents.",
+      "description": "AboutLibraries extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-intent",
+      "name": "ktx-aboutlibraries",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5143,7 +5864,29 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:compose-image-jvm",
+      "uniqueId": "org.jetbrains.compose.ui:ui-tooling-preview-desktop",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "Compose Multiplatform Team"
+        }
+      ],
+      "artifactVersion": "1.1.0",
+      "description": "Compose tooling library API. This library provides the API required to declare @Preview composables in user apps.",
+      "scm": {
+        "connection": "scm:git:https://github.com/JetBrains/compose-jb.git",
+        "url": "https://github.com/JetBrains/compose-jb",
+        "developerConnection": "scm:git:https://github.com/JetBrains/compose-jb.git"
+      },
+      "name": "Compose Tooling API",
+      "website": "https://github.com/JetBrains/compose-jb",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-geometry-jvm",
       "funding": [],
       "developers": [
         {
@@ -5151,18 +5894,18 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Jetbrains Compose image fetching and displaying.",
+      "description": "Geometry extensions for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose-image",
+      "name": "ktx-compose-ui-geometry",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:kodein-db-jvm",
+      "uniqueId": "io.github.woody230.ktx:compose-ui-unit-jvm",
       "funding": [],
       "developers": [
         {
@@ -5170,126 +5913,12 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Kodein-DB caching framework extensions.",
+      "description": "Unit extensions for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-kodein-db",
+      "name": "ktx-compose-ui-unit",
       "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:value-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Value class extensions.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-value",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:settings-compose-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-settings-compose",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:serialization-compose-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "kotlinx.serialization extension for Jetbrains Compose classes",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-serialization-compose",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:settings-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "multiplatform-settings extensions",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-settings",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.russhwolf:multiplatform-settings-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Russell Wolf"
-        }
-      ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
-      "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
-      },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.russhwolf:multiplatform-settings-coroutines-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Russell Wolf"
-        }
-      ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
-      "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
-      },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5461,7 +6090,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-intl-cache-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-intl-kodein-db-jvm",
       "funding": [],
       "developers": [
         {
@@ -5469,11 +6098,11 @@
         }
       ],
       "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
+      "description": "Kodein-DB extensions for v2-intl.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl-cache",
+      "name": "gw2-v2-intl-kodein-db",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5537,25 +6166,6 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:datetime-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "kotlinx.datetime extensions",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-datetime",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "io.github.woody230.ktx:serialization-jvm",
       "funding": [],
       "developers": [
@@ -5570,48 +6180,6 @@
       },
       "name": "ktx-serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.pdvrieze.xmlutil:serialization-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Paul de Vrieze"
-        }
-      ],
-      "artifactVersion": "0.84.0",
-      "description": "Component of the XMLUtil library",
-      "scm": {
-        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
-        "url": "https://github.com/pdvrieze/xmlutil",
-        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
-      },
-      "name": "project ':serialization'",
-      "website": "https://github.com/pdvrieze/xmlutil",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.pdvrieze.xmlutil:core-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Paul de Vrieze"
-        }
-      ],
-      "artifactVersion": "0.84.0",
-      "description": "Component of the XMLUtil library",
-      "scm": {
-        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
-        "url": "https://github.com/pdvrieze/xmlutil",
-        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
-      },
-      "name": "project ':core'",
-      "website": "https://github.com/pdvrieze/xmlutil",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5636,6 +6204,63 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:datetime-serialization-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for kotlinx.datetime",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-datetime-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:datetime-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.datetime extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-datetime",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:geometry-serialization-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for two and three dimensional geometrical objects.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-geometry-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.ktx:geometry-jvm",
       "funding": [],
       "developers": [
@@ -5649,6 +6274,25 @@
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
       "name": "ktx-geometry",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:kodein-db-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Kodein-DB extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-kodein-db",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -5693,6 +6337,101 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:intl-serialization-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for internationalization",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-intl-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-kodein-db-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Storing image content via Kodein-DB.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-kodein-db",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-model-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Image models.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-model",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-ktor-client-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Fetching image content via Ktor.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-ktor-client",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:logging-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Logging wrapper around Napier.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-logging",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.gw2:asset-cdn-jvm",
       "funding": [],
       "developers": [
@@ -5712,7 +6451,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-cache-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-model-kodein-db-jvm",
       "funding": [],
       "developers": [
         {
@@ -5720,11 +6459,11 @@
         }
       ],
       "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework for v2-client.",
+      "description": "Kodein-DB extensions for v2-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-cache",
+      "name": "gw2-v2-model-kodein-db",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -5750,26 +6489,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-tile-cache-jvm",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework extensions for v2-tile.",
-      "scm": {
-        "url": "https://github.com/Woody230/GW2Wrapper"
-      },
-      "name": "gw2-v2-tile-cache",
-      "website": "https://github.com/Woody230/GW2Wrapper",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.gw2:v2-tile-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-client-jvm",
       "funding": [],
       "developers": [
         {
@@ -5781,14 +6501,52 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile",
+      "name": "gw2-v2-tile-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:logging-jvm",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-model-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Tiling service models for Guild Wars 2 map images.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-tile-model",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.gw2:v2-tile-kodein-db-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Kodein-DB extensions for v2-tile-model.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-tile-kodein-db",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:serialization-xml-jvm",
       "funding": [],
       "developers": [
         {
@@ -5796,12 +6554,54 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Logging wrapper around Napier.",
+      "description": "kotlinx.serialization extensions for pdvrieze.xmlutil",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-logging",
+      "name": "ktx-serialization-xml",
       "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.pdvrieze.xmlutil:serialization-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Paul de Vrieze"
+        }
+      ],
+      "artifactVersion": "0.84.0",
+      "description": "Component of the XMLUtil library",
+      "scm": {
+        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
+        "url": "https://github.com/pdvrieze/xmlutil",
+        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
+      },
+      "name": "project ':serialization'",
+      "website": "https://github.com/pdvrieze/xmlutil",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.pdvrieze.xmlutil:core-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Paul de Vrieze"
+        }
+      ],
+      "artifactVersion": "0.84.0",
+      "description": "Component of the XMLUtil library",
+      "scm": {
+        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
+        "url": "https://github.com/pdvrieze/xmlutil",
+        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
+      },
+      "name": "project ':core'",
+      "website": "https://github.com/pdvrieze/xmlutil",
       "licenses": [
         "Apache-2.0"
       ]
@@ -5901,28 +6701,6 @@
       },
       "name": "napier",
       "website": "https://github.com/aakira/Napier",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains.skiko:skiko-jvm-runtime-macos-x64",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "Compose Multiplatform Team"
-        }
-      ],
-      "artifactVersion": "0.6.6",
-      "description": "Kotlin Skia bindings",
-      "scm": {
-        "connection": "scm:git:https://www.github.com/JetBrains/skiko.git",
-        "url": "https://www.github.com/JetBrains/skiko",
-        "developerConnection": "scm:git:https://www.github.com/JetBrains/skiko.git"
-      },
-      "name": "Skiko JVM Runtime for MacOS X64",
-      "website": "https://www.github.com/JetBrains/skiko",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6387,7 +7165,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:library",
+      "uniqueId": "io.github.woody230.ktx:compose-serialization",
       "funding": [],
       "developers": [
         {
@@ -6395,11 +7173,203 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Jetbrains Compose extensions for AboutLibraries.",
+      "description": "kotlinx.serialization extension for Jetbrains Compose classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-library",
+      "name": "ktx-compose-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-graphics",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Graphics extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-graphics",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.jetbrains.kotlinx:kotlinx-serialization-json",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "1.3.2",
+      "description": "Kotlin multiplatform serialization runtime library",
+      "scm": {
+        "url": "https://github.com/Kotlin/kotlinx.serialization"
+      },
+      "name": "kotlinx-serialization-json",
+      "website": "https://github.com/Kotlin/kotlinx.serialization",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.jetbrains.kotlinx:kotlinx-serialization-core",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "1.3.2",
+      "description": "Kotlin multiplatform serialization runtime library",
+      "scm": {
+        "url": "https://github.com/Kotlin/kotlinx.serialization"
+      },
+      "name": "kotlinx-serialization-core",
+      "website": "https://github.com/Kotlin/kotlinx.serialization",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-settings",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-settings",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:settings",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "multiplatform-settings extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-settings",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "com.russhwolf:multiplatform-settings-coroutines",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Russell Wolf"
+        }
+      ],
+      "artifactVersion": "0.8.1",
+      "description": "A Kotlin Multiplatform library for saving simple key-value data",
+      "scm": {
+        "url": "https://github.com/russhwolf/multiplatform-settings"
+      },
+      "name": "Multiplatform Settings",
+      "website": "https://github.com/russhwolf/multiplatform-settings",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:value",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Value class extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-value",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-text",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Text extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-text",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-aboutlibraries",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Composable implementation of AboutLibraries using Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-aboutlibraries",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6425,7 +7395,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:compose",
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-common",
       "funding": [],
       "developers": [
         {
@@ -6433,11 +7403,11 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Extensions, wrappers, and composable implementations for Jetbrains Compose.",
+      "description": "Common composable implementations for Jetbrains Compose.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-compose",
+      "name": "ktx-compose-ui-layout-common",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -6508,6 +7478,44 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Base extensions for laying out Jetbrains Compose UI.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-layout",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Extensions for Jetbrains Compose UI.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.ktx:function",
       "funding": [],
       "developers": [
@@ -6527,6 +7535,25 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-intl",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Jetbrains Compose internationalization.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-intl",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.ktx:intl",
       "funding": [],
       "developers": [
@@ -6535,52 +7562,12 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Internationalization through locale support.",
+      "description": "Internationalization.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
       "name": "ktx-intl",
       "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains.kotlinx:kotlinx-serialization-json",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "1.3.2",
-      "description": "Kotlin multiplatform serialization runtime library",
-      "scm": {
-        "url": "https://github.com/Kotlin/kotlinx.serialization"
-      },
-      "name": "kotlinx-serialization-json",
-      "website": "https://github.com/Kotlin/kotlinx.serialization",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.jetbrains.kotlinx:kotlinx-serialization-core",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "1.3.2",
-      "description": "Kotlin multiplatform serialization runtime library",
-      "scm": {
-        "url": "https://github.com/Kotlin/kotlinx.serialization"
-      },
-      "name": "kotlinx-serialization-core",
-      "website": "https://github.com/Kotlin/kotlinx.serialization",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6702,31 +7689,39 @@
       ]
     },
     {
-      "uniqueId": "dev.icerock.moko:resources-compose",
+      "uniqueId": "io.github.woody230.ktx:compose-ui-layout-custom",
       "funding": [],
       "developers": [
         {
-          "name": "Aleksey Mikhailov"
-        },
-        {
-          "name": "Vladislav Areshkin"
-        },
-        {
-          "name": "Andrey Tchernov"
-        },
-        {
-          "name": "Nagy Robert"
+          "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "0.19.0",
-      "description": "Resources access for Kotlin Multiplatform development (mobile first)",
+      "artifactVersion": "5.0.0",
+      "description": "Custom composable implementations for Jetbrains Compose.",
       "scm": {
-        "connection": "scm:git:ssh://github.com/icerockdev/moko-resources.git",
-        "url": "https://github.com/icerockdev/moko-resources",
-        "developerConnection": "scm:git:ssh://github.com/icerockdev/moko-resources.git"
+        "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "MOKO resources",
-      "website": "https://github.com/icerockdev/moko-resources",
+      "name": "ktx-compose-ui-layout-custom",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:aboutlibraries",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "AboutLibraries extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-aboutlibraries",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -6753,398 +7748,6 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:compose-image",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Jetbrains Compose image fetching and displaying.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-compose-image",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.ktor:ktor-client-core",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "2.0.1",
-      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
-      "scm": {
-        "url": "https://github.com/ktorio/ktor.git"
-      },
-      "name": "ktor-client-core",
-      "website": "https://github.com/ktorio/ktor",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.ktor:ktor-events",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "2.0.1",
-      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
-      "scm": {
-        "url": "https://github.com/ktorio/ktor.git"
-      },
-      "name": "ktor-events",
-      "website": "https://github.com/ktorio/ktor",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.ktor:ktor-http",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "2.0.1",
-      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
-      "scm": {
-        "url": "https://github.com/ktorio/ktor.git"
-      },
-      "name": "ktor-http",
-      "website": "https://github.com/ktorio/ktor",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.ktor:ktor-utils",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "2.0.1",
-      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
-      "scm": {
-        "url": "https://github.com/ktorio/ktor.git"
-      },
-      "name": "ktor-utils",
-      "website": "https://github.com/ktorio/ktor",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.ktor:ktor-io",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "2.0.1",
-      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
-      "scm": {
-        "url": "https://github.com/ktorio/ktor.git"
-      },
-      "name": "ktor-io",
-      "website": "https://github.com/ktorio/ktor",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.ktor:ktor-websocket-serialization",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "2.0.1",
-      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
-      "scm": {
-        "url": "https://github.com/ktorio/ktor.git"
-      },
-      "name": "ktor-websocket-serialization",
-      "website": "https://github.com/ktorio/ktor",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.ktor:ktor-serialization",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "2.0.1",
-      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
-      "scm": {
-        "url": "https://github.com/ktorio/ktor.git"
-      },
-      "name": "ktor-serialization",
-      "website": "https://github.com/ktorio/ktor",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.ktor:ktor-websockets",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "2.0.1",
-      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
-      "scm": {
-        "url": "https://github.com/ktorio/ktor.git"
-      },
-      "name": "ktor-websockets",
-      "website": "https://github.com/ktorio/ktor",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:kodein-db",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Kodein-DB caching framework extensions.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-kodein-db",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "org.kodein.db:kodein-db-api",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Kodein Koders"
-        }
-      ],
-      "artifactVersion": "0.9.0-beta",
-      "description": "Kodein-DB API library",
-      "scm": {
-        "connection": "https://github.com/Kodein-Framework/Kodein-DB.git",
-        "url": "https://github.com/Kodein-Framework/Kodein-DB"
-      },
-      "name": "kodein-db-api",
-      "website": "http://kodein.org",
-      "licenses": [
-        "MIT"
-      ]
-    },
-    {
-      "uniqueId": "org.kodein.db:kodein-leveldb-api",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Kodein Koders"
-        }
-      ],
-      "artifactVersion": "0.9.0-beta",
-      "description": "LevelDB API library",
-      "scm": {
-        "connection": "https://github.com/Kodein-Framework/Kodein-DB.git",
-        "url": "https://github.com/Kodein-Framework/Kodein-DB"
-      },
-      "name": "kodein-leveldb-api",
-      "website": "http://kodein.org",
-      "licenses": [
-        "MIT"
-      ]
-    },
-    {
-      "uniqueId": "org.kodein.log:kodein-log",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Kodein Koders"
-        }
-      ],
-      "artifactVersion": "0.11.1",
-      "description": "Kodein Log Library",
-      "scm": {
-        "connection": "https://github.com/Kodein-Framework/Kodein-Log.git",
-        "url": "https://github.com/Kodein-Framework/Kodein-Log"
-      },
-      "name": "Kodein-Log",
-      "website": "http://kodein.org",
-      "licenses": [
-        "MIT"
-      ]
-    },
-    {
-      "uniqueId": "org.kodein.memory:kodein-memory",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Kodein Koders"
-        }
-      ],
-      "artifactVersion": "0.10.2",
-      "description": "Kodein Memory Library",
-      "scm": {
-        "connection": "https://github.com/Kodein-Framework/Kodein-Memory.git",
-        "url": "https://github.com/Kodein-Framework/Kodein-Memory"
-      },
-      "name": "Kodein-Memory",
-      "website": "http://kodein.org",
-      "licenses": [
-        "MIT"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:value",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "Value class extensions.",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-value",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:settings-compose",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "multiplatform-settings extensions for Jetbrains Compose classes",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-settings-compose",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:serialization-compose",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "kotlinx.serialization extension for Jetbrains Compose classes",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-serialization-compose",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.ktx:settings",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "multiplatform-settings extensions",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-settings",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.russhwolf:multiplatform-settings",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Russell Wolf"
-        }
-      ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
-      "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
-      },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "com.russhwolf:multiplatform-settings-coroutines",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Russell Wolf"
-        }
-      ],
-      "artifactVersion": "0.8.1",
-      "description": "A Kotlin Multiplatform library for saving simple key-value data",
-      "scm": {
-        "url": "https://github.com/russhwolf/multiplatform-settings"
-      },
-      "name": "Multiplatform Settings",
-      "website": "https://github.com/russhwolf/multiplatform-settings",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "org.jetbrains.compose.ui:ui-tooling-preview",
       "funding": [],
       "developers": [
@@ -7162,6 +7765,44 @@
       },
       "name": "Compose Tooling API",
       "website": "https://github.com/JetBrains/compose-jb",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-geometry",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Geometry extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-geometry",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:compose-ui-unit",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Unit extensions for Jetbrains Compose.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-compose-ui-unit",
+      "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
@@ -7333,7 +7974,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-intl-cache",
+      "uniqueId": "io.github.woody230.gw2:v2-intl-kodein-db",
       "funding": [],
       "developers": [
         {
@@ -7341,11 +7982,11 @@
         }
       ],
       "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework extensions for storing v2-intl translations.",
+      "description": "Kodein-DB extensions for v2-intl.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-intl-cache",
+      "name": "gw2-v2-intl-kodein-db",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7409,25 +8050,6 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:datetime",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "5.0.0",
-      "description": "kotlinx.datetime extensions",
-      "scm": {
-        "url": "https://github.com/Woody230/KotlinExtensions"
-      },
-      "name": "ktx-datetime",
-      "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
       "uniqueId": "io.github.woody230.ktx:serialization",
       "funding": [],
       "developers": [
@@ -7442,48 +8064,6 @@
       },
       "name": "ktx-serialization",
       "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.pdvrieze.xmlutil:serialization",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Paul de Vrieze"
-        }
-      ],
-      "artifactVersion": "0.84.0",
-      "description": "Component of the XMLUtil library",
-      "scm": {
-        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
-        "url": "https://github.com/pdvrieze/xmlutil",
-        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
-      },
-      "name": "project ':serialization'",
-      "website": "https://github.com/pdvrieze/xmlutil",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.pdvrieze.xmlutil:core",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Paul de Vrieze"
-        }
-      ],
-      "artifactVersion": "0.84.0",
-      "description": "Component of the XMLUtil library",
-      "scm": {
-        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
-        "url": "https://github.com/pdvrieze/xmlutil",
-        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
-      },
-      "name": "project ':core'",
-      "website": "https://github.com/pdvrieze/xmlutil",
       "licenses": [
         "Apache-2.0"
       ]
@@ -7508,6 +8088,63 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:datetime-serialization",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for kotlinx.datetime",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-datetime-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:datetime",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.datetime extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-datetime",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:geometry-serialization",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for two and three dimensional geometrical objects.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-geometry-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.ktx:geometry",
       "funding": [],
       "developers": [
@@ -7522,26 +8159,6 @@
       },
       "name": "ktx-geometry",
       "website": "https://github.com/Woody230/KotlinExtensions",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.ktor:ktor-client-content-negotiation",
-      "funding": [],
-      "developers": [
-        {
-          "organisationUrl": "https://www.jetbrains.com",
-          "name": "JetBrains Team"
-        }
-      ],
-      "artifactVersion": "2.0.1",
-      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
-      "scm": {
-        "url": "https://github.com/ktorio/ktor.git"
-      },
-      "name": "ktor-client-content-negotiation",
-      "website": "https://github.com/ktorio/ktor",
       "licenses": [
         "Apache-2.0"
       ]
@@ -7587,6 +8204,285 @@
       ]
     },
     {
+      "uniqueId": "io.ktor:ktor-serialization",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "2.0.1",
+      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
+      "scm": {
+        "url": "https://github.com/ktorio/ktor.git"
+      },
+      "name": "ktor-serialization",
+      "website": "https://github.com/ktorio/ktor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.ktor:ktor-websockets",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "2.0.1",
+      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
+      "scm": {
+        "url": "https://github.com/ktorio/ktor.git"
+      },
+      "name": "ktor-websockets",
+      "website": "https://github.com/ktorio/ktor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.ktor:ktor-http",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "2.0.1",
+      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
+      "scm": {
+        "url": "https://github.com/ktorio/ktor.git"
+      },
+      "name": "ktor-http",
+      "website": "https://github.com/ktorio/ktor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.ktor:ktor-utils",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "2.0.1",
+      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
+      "scm": {
+        "url": "https://github.com/ktorio/ktor.git"
+      },
+      "name": "ktor-utils",
+      "website": "https://github.com/ktorio/ktor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.ktor:ktor-io",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "2.0.1",
+      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
+      "scm": {
+        "url": "https://github.com/ktorio/ktor.git"
+      },
+      "name": "ktor-io",
+      "website": "https://github.com/ktorio/ktor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.ktor:ktor-client-content-negotiation",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "2.0.1",
+      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
+      "scm": {
+        "url": "https://github.com/ktorio/ktor.git"
+      },
+      "name": "ktor-client-content-negotiation",
+      "website": "https://github.com/ktorio/ktor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.ktor:ktor-client-core",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "2.0.1",
+      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
+      "scm": {
+        "url": "https://github.com/ktorio/ktor.git"
+      },
+      "name": "ktor-client-core",
+      "website": "https://github.com/ktorio/ktor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.ktor:ktor-events",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "2.0.1",
+      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
+      "scm": {
+        "url": "https://github.com/ktorio/ktor.git"
+      },
+      "name": "ktor-events",
+      "website": "https://github.com/ktorio/ktor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.ktor:ktor-websocket-serialization",
+      "funding": [],
+      "developers": [
+        {
+          "organisationUrl": "https://www.jetbrains.com",
+          "name": "JetBrains Team"
+        }
+      ],
+      "artifactVersion": "2.0.1",
+      "description": "Ktor is a framework for quickly creating web applications in Kotlin with minimal effort.",
+      "scm": {
+        "url": "https://github.com/ktorio/ktor.git"
+      },
+      "name": "ktor-websocket-serialization",
+      "website": "https://github.com/ktorio/ktor",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:kodein-db",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Kodein-DB extensions.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-kodein-db",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "org.kodein.db:kodein-db-api",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Kodein Koders"
+        }
+      ],
+      "artifactVersion": "0.9.0-beta",
+      "description": "Kodein-DB API library",
+      "scm": {
+        "connection": "https://github.com/Kodein-Framework/Kodein-DB.git",
+        "url": "https://github.com/Kodein-Framework/Kodein-DB"
+      },
+      "name": "kodein-db-api",
+      "website": "http://kodein.org",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "org.kodein.db:kodein-leveldb-api",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Kodein Koders"
+        }
+      ],
+      "artifactVersion": "0.9.0-beta",
+      "description": "LevelDB API library",
+      "scm": {
+        "connection": "https://github.com/Kodein-Framework/Kodein-DB.git",
+        "url": "https://github.com/Kodein-Framework/Kodein-DB"
+      },
+      "name": "kodein-leveldb-api",
+      "website": "http://kodein.org",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "org.kodein.log:kodein-log",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Kodein Koders"
+        }
+      ],
+      "artifactVersion": "0.11.1",
+      "description": "Kodein Log Library",
+      "scm": {
+        "connection": "https://github.com/Kodein-Framework/Kodein-Log.git",
+        "url": "https://github.com/Kodein-Framework/Kodein-Log"
+      },
+      "name": "Kodein-Log",
+      "website": "http://kodein.org",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
+      "uniqueId": "org.kodein.memory:kodein-memory",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Kodein Koders"
+        }
+      ],
+      "artifactVersion": "0.10.2",
+      "description": "Kodein Memory Library",
+      "scm": {
+        "connection": "https://github.com/Kodein-Framework/Kodein-Memory.git",
+        "url": "https://github.com/Kodein-Framework/Kodein-Memory"
+      },
+      "name": "Kodein-Memory",
+      "website": "http://kodein.org",
+      "licenses": [
+        "MIT"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.gw2:v2-resource",
       "funding": [],
       "developers": [
@@ -7625,6 +8521,101 @@
       ]
     },
     {
+      "uniqueId": "io.github.woody230.ktx:intl-serialization",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "kotlinx.serialization for internationalization",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-intl-serialization",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-kodein-db",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Storing image content via Kodein-DB.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-kodein-db",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-model",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Image models.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-model",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:image-ktor-client",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Fetching image content via Ktor.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-image-ktor-client",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:logging",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.0.0",
+      "description": "Logging wrapper around Napier.",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "ktx-logging",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
       "uniqueId": "io.github.woody230.gw2:asset-cdn",
       "funding": [],
       "developers": [
@@ -7644,7 +8635,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-cache",
+      "uniqueId": "io.github.woody230.gw2:v2-model-kodein-db",
       "funding": [],
       "developers": [
         {
@@ -7652,11 +8643,11 @@
         }
       ],
       "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework for v2-client.",
+      "description": "Kodein-DB extensions for v2-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-cache",
+      "name": "gw2-v2-model-kodein-db",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
@@ -7682,26 +8673,7 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.gw2:v2-tile-cache",
-      "funding": [],
-      "developers": [
-        {
-          "name": "Brandon Selzer"
-        }
-      ],
-      "artifactVersion": "3.0.0",
-      "description": "Kodein-DB caching framework extensions for v2-tile.",
-      "scm": {
-        "url": "https://github.com/Woody230/GW2Wrapper"
-      },
-      "name": "gw2-v2-tile-cache",
-      "website": "https://github.com/Woody230/GW2Wrapper",
-      "licenses": [
-        "Apache-2.0"
-      ]
-    },
-    {
-      "uniqueId": "io.github.woody230.gw2:v2-tile",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-client",
       "funding": [],
       "developers": [
         {
@@ -7713,14 +8685,52 @@
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
       },
-      "name": "gw2-v2-tile",
+      "name": "gw2-v2-tile-client",
       "website": "https://github.com/Woody230/GW2Wrapper",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:logging",
+      "uniqueId": "io.github.woody230.gw2:v2-tile-model",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Tiling service models for Guild Wars 2 map images.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-tile-model",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.gw2:v2-tile-kodein-db",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "3.0.0",
+      "description": "Kodein-DB extensions for v2-tile-model.",
+      "scm": {
+        "url": "https://github.com/Woody230/GW2Wrapper"
+      },
+      "name": "gw2-v2-tile-kodein-db",
+      "website": "https://github.com/Woody230/GW2Wrapper",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:serialization-xml",
       "funding": [],
       "developers": [
         {
@@ -7728,12 +8738,54 @@
         }
       ],
       "artifactVersion": "5.0.0",
-      "description": "Logging wrapper around Napier.",
+      "description": "kotlinx.serialization extensions for pdvrieze.xmlutil",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "ktx-logging",
+      "name": "ktx-serialization-xml",
       "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.pdvrieze.xmlutil:serialization",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Paul de Vrieze"
+        }
+      ],
+      "artifactVersion": "0.84.0",
+      "description": "Component of the XMLUtil library",
+      "scm": {
+        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
+        "url": "https://github.com/pdvrieze/xmlutil",
+        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
+      },
+      "name": "project ':serialization'",
+      "website": "https://github.com/pdvrieze/xmlutil",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.pdvrieze.xmlutil:core",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Paul de Vrieze"
+        }
+      ],
+      "artifactVersion": "0.84.0",
+      "description": "Component of the XMLUtil library",
+      "scm": {
+        "connection": "scm:git:https://github.com/pdvrieze/xmlutil.git",
+        "url": "https://github.com/pdvrieze/xmlutil",
+        "developerConnection": "scm:git:https://github.com/pdvrieze/xmlutil.git"
+      },
+      "name": "project ':core'",
+      "website": "https://github.com/pdvrieze/xmlutil",
       "licenses": [
         "Apache-2.0"
       ]

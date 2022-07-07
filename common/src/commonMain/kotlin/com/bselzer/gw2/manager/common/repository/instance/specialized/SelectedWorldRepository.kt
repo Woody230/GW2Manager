@@ -78,7 +78,7 @@ class SelectedWorldRepository(
     @Suppress("UNCHECKED_CAST")
     override val matchMaps: Map<WvwMap, com.bselzer.gw2.v2.model.map.Map>
         get() {
-            val maps = match.maps.associateWith { map -> repositories.map.getMap(map.id) }
+            val maps = maps.values.associateWith { map -> repositories.map.getMap(map.id) }
             return maps.filterValues { map -> map != null } as Map<WvwMap, com.bselzer.gw2.v2.model.map.Map>
         }
 

@@ -29,6 +29,8 @@ import kotlinx.coroutines.launch
 class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     override val title: StringDesc = KtxResources.strings.cache.desc()
 
+    // TODO translation clearing
+
     private val deleteAction
         get() = GeneralAction(
             enabled = selected.any(),

@@ -21,8 +21,8 @@ object Versions {
 object Metadata {
     const val DEBUG = false
     const val PACKAGE_NAME = "com.bselzer.gw2.manager"
-    const val VERSION_NAME = "1.2.0"
-    const val VERSION_CODE = 7
+    const val VERSION_NAME = "1.2.1"
+    const val VERSION_CODE = 8
     const val ANDROID_JVM_TARGET = "8"
     const val DESKTOP_JVM_TARGET = "11"
     const val COMPILE_SDK = 31

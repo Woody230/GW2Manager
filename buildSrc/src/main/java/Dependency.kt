@@ -3,8 +3,8 @@ import org.gradle.api.JavaVersion
 
 object Versions {
     const val KOTLIN = "1.6.10"
-    const val WRAPPER = "3.0.0"
-    const val EXTENSION = "5.0.0"
+    const val WRAPPER = "3.1.0"
+    const val EXTENSION = "5.2.0"
 
     const val COMPOSE = "1.1.0"
     const val RESOURCE = "0.19.0"

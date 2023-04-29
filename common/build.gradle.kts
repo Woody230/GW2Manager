@@ -124,8 +124,10 @@ kotlin {
                 api("androidx.datastore:datastore-preferences:1.0.0")
 
                 // Compose
-                api("androidx.activity:activity-compose:1.5.0")
-                api("ovh.plrapps:mapcompose:2.1.0")
+                api("androidx.activity:activity-compose:1.7.1")
+
+                // TODO cannot update to latest due to missing method exception related to androidx/compose/animation/core/Animatable
+                api("ovh.plrapps:mapcompose:2.4.0")
 
                 // HTTP Client
                 api("io.ktor:ktor-client-okhttp:${Versions.KTOR}")

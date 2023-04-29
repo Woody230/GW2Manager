@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2023-04-29T10:05:39.954Z"
+    "generated": "2023-04-29T10:13:28.989Z"
   },
   "libraries": [
     {
@@ -7426,7 +7426,7 @@
           "name": "Evan Tatarka"
         }
       ],
-      "artifactVersion": "0.4.1",
+      "artifactVersion": "0.6.1",
       "description": "A compile-time dependency injection library for kotlin",
       "scm": {
         "connection": "https://github.com/evant/kotlin-inject.git",
@@ -7447,7 +7447,7 @@
           "name": "Evan Tatarka"
         }
       ],
-      "artifactVersion": "0.4.1",
+      "artifactVersion": "0.6.1",
       "description": "A compile-time dependency injection library for kotlin",
       "scm": {
         "connection": "https://github.com/evant/kotlin-inject.git",

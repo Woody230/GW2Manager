@@ -1,9 +1,8 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
-import com.arkivanov.decompose.router.Router
-import com.arkivanov.decompose.router.activeChild
-import com.arkivanov.decompose.router.bringToFront
+import com.arkivanov.decompose.router.stack.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.base.Router
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MapConfig
 import com.bselzer.gw2.manager.common.ui.layout.main.model.action.AppBarAction

@@ -18,7 +18,7 @@ class WvwMapComposition(model: WvwMapViewModel) : MainChildComposition<WvwMapVie
     }
 
     override val actions: @Composable () -> List<IconButtonInteractor> = {
-        val child = model.router.state.subscribeAsState().value.activeChild.instance
+        val child = model.router.childStack.subscribeAsState().value.active.instance
         child.actions.interactors()
     }
 }

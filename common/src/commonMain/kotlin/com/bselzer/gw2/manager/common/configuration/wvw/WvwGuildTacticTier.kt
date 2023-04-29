@@ -1,6 +1,6 @@
 package com.bselzer.gw2.manager.common.configuration.wvw
 
-import com.bselzer.ktx.serialization.serializer.DurationSerializer
+import com.bselzer.ktx.serialization.serializer.LenientDurationSerializer
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 import kotlin.time.Duration
@@ -10,7 +10,7 @@ class WvwGuildTacticTier(
     @XmlSerialName(value = "icon", namespace = "", prefix = "")
     override val iconLink: String = "",
 
-    @Serializable(with = DurationSerializer::class)
+    @Serializable(with = LenientDurationSerializer::class)
     @XmlSerialName(value = "hold", namespace = "", prefix = "")
     override val hold: Duration = Duration.INFINITE,
 

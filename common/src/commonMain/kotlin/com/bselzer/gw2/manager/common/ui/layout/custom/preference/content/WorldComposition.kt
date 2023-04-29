@@ -4,7 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import com.arkivanov.decompose.router.bringToFront
+import com.arkivanov.decompose.router.stack.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.WorldResources
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.WorldViewModel

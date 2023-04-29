@@ -2,16 +2,13 @@ package com.bselzer.gw2.manager.common.ui.base
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.extensions.compose.jetbrains.ChildContent
-import com.arkivanov.decompose.extensions.compose.jetbrains.Children
-import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.ChildAnimation
-import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfade
+import com.arkivanov.decompose.Child
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.StackAnimation
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.arkivanov.decompose.router.Router
 import com.bselzer.ktx.logging.Logger
 
-@OptIn(ExperimentalDecomposeApi::class)
 abstract class RouterComposition<Config : Configuration, Model : ViewModel>(
     private val router: @Composable () -> Router<Config, Model>
 ) {
@@ -31,7 +28,7 @@ abstract class RouterComposition<Config : Configuration, Model : ViewModel>(
      * Creates an animation to use when swapping between children.
      */
     @Composable
-    protected open fun animation(): ChildAnimation<Config, Model> = crossfade()
+    protected open fun animation(): StackAnimation<Config, Model> = stackAnimation()
 
     /**
      * Lays out the content for the currently active child's model and configuration.
@@ -45,10 +42,10 @@ abstract class RouterComposition<Config : Configuration, Model : ViewModel>(
     @Composable
     protected fun ChildContent(
         modifier: Modifier = Modifier,
-        content: ChildContent<Config, Model>
+        content: @Composable (Child.Created<Config, Model>) -> Unit
     ) = router().run {
         Children(
-            routerState = state,
+            stack = childStack,
             modifier = modifier,
             animation = animation(),
             content = content
@@ -59,7 +56,7 @@ abstract class RouterComposition<Config : Configuration, Model : ViewModel>(
      * @return the active child of the remembered router state
      */
     @Composable
-    protected fun rememberActiveChild() = router().state.subscribeAsState().run {
-        this.value.activeChild
+    protected fun rememberActiveChild() = router().childStack.subscribeAsState().run {
+        this.value.active
     }
 }

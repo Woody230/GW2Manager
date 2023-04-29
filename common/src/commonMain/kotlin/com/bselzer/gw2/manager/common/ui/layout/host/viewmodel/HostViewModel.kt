@@ -1,16 +1,23 @@
 package com.bselzer.gw2.manager.common.ui.layout.host.viewmodel
 
-import com.arkivanov.decompose.router.Router
-import com.arkivanov.decompose.router.activeChild
-import com.arkivanov.decompose.router.bringToFront
+import com.arkivanov.decompose.router.stack.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
+import com.bselzer.gw2.manager.common.ui.base.Router
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.DialogViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.NoDialogViewModel
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.WorldSelectionViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig
-import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.*
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.AboutViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.CacheViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.LicenseViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.MainViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.SettingsViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMapViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchContestedAreasViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchOverviewViewModel
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchStatisticsViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.configuration.SplashConfig
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.NoSplashViewModel

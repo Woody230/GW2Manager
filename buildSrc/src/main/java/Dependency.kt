@@ -13,7 +13,7 @@ object Versions {
     const val KODEIN_DB = "0.9.0-beta"
     const val KTOR = "2.3.0"
     const val SETTINGS = "1.0.0"
-    const val DECOMPOSE = "0.5.2"
+    const val DECOMPOSE = "1.0.0"
     const val DESUGAR = "1.1.5"
     const val BUILD_CONFIG = "0.13.3"
     const val INJECT = "0.6.1"

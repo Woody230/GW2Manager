@@ -5,8 +5,8 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.arkivanov.decompose.DefaultComponentContext
-import com.arkivanov.decompose.router.bringToFront
-import com.arkivanov.essenty.backpressed.BackPressedHandler
+import com.arkivanov.decompose.router.stack.bringToFront
+import com.arkivanov.essenty.backhandler.BackHandler
 import com.arkivanov.essenty.lifecycle.essentyLifecycle
 import com.arkivanov.essenty.statekeeper.stateKeeper
 import com.bselzer.gw2.manager.common.dependency.AndroidApp
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             // Establish the connection between the activity's OnBackPressedDispatcher and essenty's handler.
             // https://github.com/arkivanov/Essenty#backpresseddispatcher
             // https://arkivanov.github.io/Decompose/component/back-button/
-            backPressedHandler = BackPressedHandler(onBackPressedDispatcher)
+            backHandler = BackHandler(onBackPressedDispatcher)
         )
     )
 }

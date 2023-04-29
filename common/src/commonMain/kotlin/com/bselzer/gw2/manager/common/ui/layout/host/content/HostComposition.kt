@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.HostViewModel
 
@@ -27,6 +28,7 @@ class HostComposition(model: HostViewModel) : ViewModelComposition<HostViewModel
     @Composable
     private fun HostViewModel.registerOnBackPressed() {
         val scope = rememberCoroutineScope()
-        backPressedHandler.register { onBackPressed(scope) }
+        val callback = BackCallback { onBackPressed(scope) }
+        backHandler.register(callback)
     }
 }

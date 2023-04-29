@@ -2,7 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.host.content
 
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
-import com.arkivanov.decompose.router.Router
+import com.bselzer.gw2.manager.common.ui.base.Router
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.manager.common.ui.layout.dialog.viewmodel.DialogViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.configuration.MainConfig

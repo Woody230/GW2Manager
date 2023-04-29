@@ -1,3 +1,5 @@
+import Versions.COMPOSE_COMPILER
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -7,6 +9,7 @@ plugins {
 }
 
 android {
+    namespace = "${Metadata.PACKAGE_NAME}.android"
     compileSdk = Metadata.COMPILE_SDK
     sourceSets.getByName("main").manifest.srcFile(Metadata.ANDROID_MANIFEST_PATH)
     defaultConfig {
@@ -24,6 +27,18 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    composeOptions {
+        // https://mvnrepository.com/artifact/org.jetbrains.compose.compiler/compiler
+        // https://github.com/JetBrains/compose-multiplatform/blob/master/gradle-plugins/compose/src/main/kotlin/org/jetbrains/compose/ComposeCompilerCompatibility.kt
+        kotlinCompilerExtensionVersion = COMPOSE_COMPILER
+    }
+    testOptions {
+        unitTests {
+            androidResources {
+                isIncludeAndroidResources = true
+            }
+        }
     }
 
     appBundle()

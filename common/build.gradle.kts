@@ -1,5 +1,7 @@
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.*
-import org.jetbrains.compose.compose
+import Versions.COMPOSE_COMPILER
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 plugins {
     kotlin("multiplatform")
@@ -10,8 +12,8 @@ plugins {
     id("dev.icerock.mobile.multiplatform-resources")
     id("com.codingfeline.buildkonfig")
 
-    // NOTE ksp issue with 1.6.20 for kotlin-inject https://github.com/evant/kotlin-inject/issues/193
-    id("com.google.devtools.ksp") version "${Versions.KOTLIN}-1.0.4"
+    // NOTE ksp issue for kotlin-inject https://github.com/evant/kotlin-inject/issues/193
+    id("com.google.devtools.ksp") version "${Versions.KOTLIN}-1.0.9"
 }
 
 multiplatformResources {
@@ -36,6 +38,7 @@ buildkonfig {
 }
 
 kotlin {
+    jvmToolchain(Metadata.DESKTOP_JVM_TARGET.toInt())
     android {
         apply(plugin = "kotlin-parcelize")
     }
@@ -48,7 +51,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 // Dependency Injection
-                dependencies.add("kspMetadata", "me.tatarka.inject:kotlin-inject-compiler-ksp:${Versions.INJECT}")
+                dependencies.add("kspCommonMainMetadata", "me.tatarka.inject:kotlin-inject-compiler-ksp:${Versions.INJECT}")
                 api("me.tatarka.inject:kotlin-inject-runtime:${Versions.INJECT}")
 
                 // Compose
@@ -111,10 +114,10 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 // Android
-                api("androidx.core:core-ktx:1.8.0")
-                api("androidx.appcompat:appcompat:1.4.2")
-                api("com.google.android.material:material:1.6.1")
-                api("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
+                api("androidx.core:core-ktx:1.10.0")
+                api("androidx.appcompat:appcompat:1.6.1")
+                api("com.google.android.material:material:1.8.0")
+                api("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
 
                 // Settings
                 api("com.russhwolf:multiplatform-settings-datastore:${Versions.SETTINGS}")
@@ -128,7 +131,7 @@ kotlin {
                 api("io.ktor:ktor-client-okhttp:${Versions.KTOR}")
             }
         }
-        val androidTest by getting {
+        val androidUnitTest by getting {
             dependencies {
                 implementation("junit:junit:4.13.2")
             }
@@ -147,11 +150,10 @@ kotlin {
 }
 
 android {
+    namespace = "${Metadata.PACKAGE_NAME}.common"
     compileSdk = Metadata.COMPILE_SDK
-    sourceSets.getByName("main").manifest.srcFile(Metadata.COMMON_MANIFEST_PATH)
     defaultConfig {
         minSdk = Metadata.MIN_SDK
-        targetSdk = Metadata.TARGET_SDK
         testInstrumentationRunner = Metadata.TEST_INSTRUMENTATION_RUNNER
     }
     compileOptions {
@@ -161,6 +163,18 @@ android {
     }
     dependencies {
         coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}")
+    }
+    composeOptions {
+        // https://mvnrepository.com/artifact/org.jetbrains.compose.compiler/compiler
+        // https://github.com/JetBrains/compose-multiplatform/blob/master/gradle-plugins/compose/src/main/kotlin/org/jetbrains/compose/ComposeCompilerCompatibility.kt
+        kotlinCompilerExtensionVersion = COMPOSE_COMPILER
+    }
+    testOptions {
+        unitTests {
+            androidResources {
+                isIncludeAndroidResources = true
+            }
+        }
     }
 }
 
@@ -192,7 +206,7 @@ kotlin.sourceSets.commonMain {
     kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
 }
 tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().all {
-    if (name != "kspKotlinMetadata") {
-        dependsOn("kspKotlinMetadata")
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
     }
 }

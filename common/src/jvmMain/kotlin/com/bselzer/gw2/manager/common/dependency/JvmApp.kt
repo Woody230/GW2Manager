@@ -3,8 +3,7 @@ package com.bselzer.gw2.manager.common.dependency
 import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
-import com.russhwolf.settings.ExperimentalSettingsImplementation
-import com.russhwolf.settings.JvmPreferencesSettings
+import com.russhwolf.settings.PreferencesSettings
 import com.russhwolf.settings.coroutines.toSuspendSettings
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
@@ -21,12 +20,12 @@ import java.nio.file.Files
 import java.util.prefs.Preferences
 import kotlin.io.path.Path
 
-@OptIn(ExperimentalSettingsImplementation::class, ExperimentalSettingsApi::class)
+@OptIn(ExperimentalSettingsApi::class)
 class JvmApp : App(
     scope = CoroutineScope(Dispatchers.Main),
     httpClient = httpClient(),
     databaseDirectory = databaseDirectory(),
-    settings = JvmPreferencesSettings(Preferences.userRoot()).toSuspendSettings(),
+    settings = PreferencesSettings(Preferences.userRoot()).toSuspendSettings(),
 ) {
     private companion object {
         fun databaseDirectory(): String {

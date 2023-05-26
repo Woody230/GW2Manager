@@ -1,21 +1,13 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    id(libs.plugins.woody230.gradle.internal.multiplatform.asProvider().get().pluginId)
+    kotlin("jvm")
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
 }
 
-kotlin {
-    sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                implementation(project(":common"))
-                implementation(compose.desktop.currentOs)
-            }
-        }
-        val jvmTest by getting
-    }
+dependencies {
+    implementation(project(":common"))
+    implementation(compose.desktop.currentOs)
 }
 
 // TODO proguard
@@ -27,7 +19,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = PACKAGE_NAME
-            packageVersion = libs.versions.woody230.gw2.manager.name
+            packageVersion = libs.versions.woody230.gw2.manager.name.get()
         }
     }
 }

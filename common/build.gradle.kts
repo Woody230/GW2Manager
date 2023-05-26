@@ -22,23 +22,24 @@ plugins {
 }
 
 androidLibraryExtension {
-    namespace.category.set(Category.COMMON)
+    namespace.category.set(Metadata.CATEGORY)
+    buildConfig.set(true)
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = PackageName.COMMON
+    multiplatformResourcesPackage = "${Metadata.PACKAGE_NAME}.common"
     multiplatformResourcesClassName = "AppResources"
 }
 
 buildkonfig {
-    packageName = PackageName.BASE
+    packageName = Metadata.PACKAGE_NAME
     exposeObjectWithName = "BuildKonfig"
 
     defaultConfigs {
         boolean("DEBUG", false)
         string("VERSION_NAME", libs.versions.woody230.gw2.manager.name.get())
         int("VERSION_CODE", libs.versions.woody230.gw2.manager.code.get().toInt())
-        string("PACKAGE_NAME", PackageName.BASE)
+        string("PACKAGE_NAME", Metadata.PACKAGE_NAME)
     }
 }
 

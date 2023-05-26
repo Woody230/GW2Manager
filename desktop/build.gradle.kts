@@ -14,10 +14,10 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "${PackageName.DESKTOP}.MainKt"
+        mainClass = "${Metadata.PACKAGE_NAME}.desktop.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = PackageName.BASE
+            packageName = Metadata.PACKAGE_NAME
             packageVersion = libs.versions.woody230.gw2.manager.name.get()
         }
     }

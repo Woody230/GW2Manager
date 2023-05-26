@@ -3,7 +3,7 @@ package com.bselzer.gw2.manager.common.dependency
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.bselzer.gw2.manager.BuildKonfig
+import com.bselzer.gw2.manager.common.BuildConfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
@@ -25,7 +25,7 @@ class AndroidApp(
     scope: CoroutineScope,
     datastore: DataStore<Preferences>
 ) : App(
-    debugMode = BuildKonfig.DEBUG,
+    debugMode = BuildConfig.DEBUG,
     scope = scope,
     httpClient = httpClient(),
     databaseDirectory = context.filesDir.absolutePath,

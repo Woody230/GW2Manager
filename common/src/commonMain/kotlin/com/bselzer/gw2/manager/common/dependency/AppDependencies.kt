@@ -38,6 +38,7 @@ import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Inject
 import me.tatarka.inject.annotations.Provides
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
+import nl.adaptivity.xmlutil.serialization.DefaultXmlSerializationPolicy
 import nl.adaptivity.xmlutil.serialization.XML
 import org.kodein.db.DB
 import org.kodein.db.TypeTable
@@ -119,7 +120,10 @@ abstract class SingletonAppDependencies(
             // TODO attempt to get config from online location and default to bundled config if that fails
             val content = AppResources.assets.Configuration.readText()
             XML {
-                this.unknownChildHandler = LoggingUnknownChildHandler()
+                policy = DefaultXmlSerializationPolicy(
+                    pedantic = false,
+                    unknownChildHandler = LoggingUnknownChildHandler()
+                )
             }.decodeFromString(serializer<AppConfiguration>(), content)
         } catch (ex: Exception) {
             Logger.e(ex, "Unable to create the configuration.")

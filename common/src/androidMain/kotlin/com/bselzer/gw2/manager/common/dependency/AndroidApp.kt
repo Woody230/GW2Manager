@@ -3,14 +3,14 @@ package com.bselzer.gw2.manager.common.dependency
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.bselzer.gw2.manager.common.BuildConfig
+import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.datastore.DataStoreSettings
-import io.ktor.client.*
-import io.ktor.client.engine.okhttp.*
-import io.ktor.client.plugins.*
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.HttpResponseValidator
 import kotlinx.coroutines.CoroutineScope
 import okhttp3.OkHttpClient
 import okhttp3.Protocol
@@ -25,7 +25,7 @@ class AndroidApp(
     scope: CoroutineScope,
     datastore: DataStore<Preferences>
 ) : App(
-    debugMode = BuildConfig.DEBUG,
+    debugMode = BuildKonfig.DEBUG,
     scope = scope,
     httpClient = httpClient(),
     databaseDirectory = context.filesDir.absolutePath,

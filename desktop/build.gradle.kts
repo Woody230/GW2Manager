@@ -23,7 +23,7 @@ kotlin {
 compose.desktop {
     application {
         val PACKAGE_NAME = "com.bselzer.gw2.manager"
-        mainClass = "$PACKAGE_NAME.jvm.MainKt"
+        mainClass = "$PACKAGE_NAME.desktop.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = PACKAGE_NAME

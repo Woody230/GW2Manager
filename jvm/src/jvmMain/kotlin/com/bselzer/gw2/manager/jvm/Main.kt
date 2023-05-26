@@ -1,4 +1,4 @@
-package com.bselzer.gw2.manager.desktop
+package com.bselzer.gw2.manager.jvm
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application

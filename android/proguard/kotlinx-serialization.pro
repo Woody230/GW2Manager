@@ -1,13 +1,3 @@
-### kodein-db ###
-
-# Need to keep class names because the type table stores based on name.
--keepnames class ** { *; }
-
-# Needed for the System.loadLibrary("kodein-leveldb-jni") call.
--keep class org.kodein.db.** { native <methods>; }
-
-### kotlinx.serialization ###
-
 # Keep `Companion` object fields of serializable classes.
 # This avoids serializer lookup through `getDeclaredClasses` as done for named companion objects.
 -if @kotlinx.serialization.Serializable class **

@@ -2,16 +2,11 @@ import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose") version Versions.COMPOSE
+    id(libs.plugins.woody230.gradle.internal.multiplatform.asProvider().get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
 }
 
 kotlin {
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = Metadata.DESKTOP_JVM_TARGET
-        }
-    }
     sourceSets {
         val jvmMain by getting {
             dependencies {
@@ -27,11 +22,12 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "${Metadata.PACKAGE_NAME}.desktop.MainKt"
+        val PACKAGE_NAME = "com.bselzer.gw2.manager"
+        mainClass = "$PACKAGE_NAME.jvm.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = Metadata.PACKAGE_NAME
-            packageVersion = Metadata.VERSION_NAME
+            packageName = PACKAGE_NAME
+            packageVersion = libs.versions.woody230.gw2.manager.name
         }
     }
 }

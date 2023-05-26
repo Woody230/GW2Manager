@@ -3,16 +3,20 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 plugins {
-    id(libs.plugins.woody230.gradle.internal.aboutlibraries.get().pluginId)
+    // Order is important since there are checks on whether plugins exist.
     id(libs.plugins.woody230.gradle.internal.android.library.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.android.desugar.get().pluginId)
-    id(libs.plugins.woody230.gradle.internal.buildkonfig.get().pluginId)
-    id(libs.plugins.woody230.gradle.internal.moko.resources.get().pluginId)
-    id(libs.plugins.woody230.gradle.internal.kotlininject.get().pluginId)
+
     id(libs.plugins.woody230.gradle.internal.multiplatform.asProvider().get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.test.get().pluginId)
+
+    id(libs.plugins.woody230.gradle.internal.moko.resources.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.buildkonfig.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.kotlininject.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.aboutlibraries.get().pluginId)
+
     alias(libs.plugins.ktx.serialization)
 }
 

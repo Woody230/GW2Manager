@@ -27,7 +27,7 @@ compose-ui-util = { group = "org.jetbrains.compose.ui", name = "ui-util", versio
 decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
 decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose-jetbrains", version.ref = "decompose" }
 kodein-db = { group = "org.kodein.db", name = "kodein-db", version.ref = "kodein-db" }
-kodein-db-level = { group = "org.kodein.db", name = "kodein-leveldb-jni-jvm-windows", version.ref = "kodein-db" }
+kodein-db-level-windows = { group = "org.kodein.db", name = "kodein-leveldb-jni-jvm-windows", version.ref = "kodein-db" }
 kodein-db-serializer-ktx = { group = "org.kodein.db", name = "kodein-db-serializer-kotlinx", version.ref = "kodein-db" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 mapcompose = { group = "ovh.plrapps", name = "mapcompose", version = "2.4.0" }

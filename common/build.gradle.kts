@@ -73,6 +73,6 @@ multiplatformDependencies {
     }
     jvmMain {
         api(libs.ktor.client.okhttp)
-        api(libs.kodein.db.level)
+        api(libs.kodein.db.level.windows)
     }
 }

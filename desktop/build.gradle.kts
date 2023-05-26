@@ -14,11 +14,10 @@ dependencies {
 
 compose.desktop {
     application {
-        val PACKAGE_NAME = "com.bselzer.gw2.manager"
-        mainClass = "$PACKAGE_NAME.desktop.MainKt"
+        mainClass = "${PackageName.DESKTOP}.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = PACKAGE_NAME
+            packageName = PackageName.BASE
             packageVersion = libs.versions.woody230.gw2.manager.name.get()
         }
     }

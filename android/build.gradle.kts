@@ -8,7 +8,7 @@ plugins {
 }
 
 androidApplicationExtension {
-    namespace.category.set("gw2.manager")
+    namespace.category.set(Category.ANDROID)
     versionName.set(libs.versions.woody230.gw2.manager.name)
     versionCode.set(libs.versions.woody230.gw2.manager.code.get().toInt())
 }

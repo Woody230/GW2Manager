@@ -22,24 +22,23 @@ plugins {
 }
 
 androidLibraryExtension {
-    namespace.category.set("gw2.manager")
+    namespace.category.set(Category.COMMON)
 }
 
-val PACKAGE_NAME = "com.bselzer.gw2.manager"
 multiplatformResources {
-    multiplatformResourcesPackage = "$PACKAGE_NAME.common"
+    multiplatformResourcesPackage = PackageName.COMMON
     multiplatformResourcesClassName = "AppResources"
 }
 
 buildkonfig {
-    packageName = PACKAGE_NAME
+    packageName = PackageName.BASE
     exposeObjectWithName = "BuildKonfig"
 
     defaultConfigs {
         boolean("DEBUG", false)
         string("VERSION_NAME", libs.versions.woody230.gw2.manager.name.get())
         int("VERSION_CODE", libs.versions.woody230.gw2.manager.code.get().toInt())
-        string("PACKAGE_NAME", PACKAGE_NAME)
+        string("PACKAGE_NAME", PackageName.BASE)
     }
 }
 

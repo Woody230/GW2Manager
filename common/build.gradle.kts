@@ -1,7 +1,7 @@
+import com.bselzer.gradle.buildkonfig.boolean
+import com.bselzer.gradle.buildkonfig.int
+import com.bselzer.gradle.buildkonfig.string
 import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
-import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 plugins {
     // Order is important since there are checks on whether plugins exist.
@@ -36,10 +36,10 @@ buildkonfig {
     exposeObjectWithName = "BuildKonfig"
 
     defaultConfigs {
-        buildConfigField(BOOLEAN, "DEBUG", "false")
-        buildConfigField(STRING, "VERSION_NAME", libs.versions.woody230.gw2.manager.name.get())
-        buildConfigField(INT, "VERSION_CODE", libs.versions.woody230.gw2.manager.code.get())
-        buildConfigField(STRING, "PACKAGE_NAME", PACKAGE_NAME)
+        boolean("DEBUG", false)
+        string("VERSION_NAME", libs.versions.woody230.gw2.manager.name.get())
+        int("VERSION_CODE", libs.versions.woody230.gw2.manager.code.get().toInt())
+        string("PACKAGE_NAME", PACKAGE_NAME)
     }
 }
 

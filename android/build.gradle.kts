@@ -13,6 +13,17 @@ androidApplicationExtension {
     versionCode.set(libs.versions.woody230.gw2.manager.code.get().toInt())
 }
 
+android {
+    bundle {
+        language {
+            // Have all languages available, otherwise in-app language changes won't have the strings available because they aren't downloaded.
+            // https://developer.android.com/guide/app-bundle/configure-base#handling_language_changes
+            // TODO on demand language downloading https://developer.android.com/guide/playcore/feature-delivery/on-demand#lang_resources
+            enableSplit = false
+        }
+    }
+}
+
 dependencies {
     implementation(projects.common)
 }

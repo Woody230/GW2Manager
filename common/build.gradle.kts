@@ -44,14 +44,13 @@ buildkonfig {
 
 kotlin {
     android {
-        apply(plugin = "kotlin-parcelize")
+        apply(plugin = libs.plugins.kotlin.parcelize.get().pluginId)
     }
     sourceSets {
         val commonMain by getting {
             dependencies {
                 api(libs.bundles.compose)
                 api(libs.bundles.decompose)
-                api(libs.bundles.woody230.ktx)
                 api(libs.bundles.kodein.db)
                 api(libs.bundles.woody230.gw2)
                 api(libs.bundles.woody230.ktx)

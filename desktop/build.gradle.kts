@@ -1,12 +1,12 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    kotlin("jvm")
+    id(libs.plugins.kotlin.jvm.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(projects.common)
     implementation(compose.desktop.currentOs)
 }
 

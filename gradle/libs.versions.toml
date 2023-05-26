@@ -103,6 +103,9 @@ woody230-ktx = [
 
 # TODO can't NOT provide a version and use alias for plugins already in the classpath https://github.com/gradle/gradle/issues/17968
 [plugins]
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-parcelize = { id = "kotlin-parcelize" }
 ktx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 woody230-gradle-internal-aboutlibraries = { id = "io.github.woody230.gradle.internal.aboutlibraries", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-application = { id = "io.github.woody230.gradle.internal.android-application", version.ref = "woody230-gradle" }

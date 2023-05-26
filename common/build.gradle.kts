@@ -26,6 +26,13 @@ androidLibraryExtension {
     buildConfig.set(true)
 }
 
+android {
+    composeOptions {
+        // TODO need to add @NoLiveLiterals for GridComposition https://stackoverflow.com/a/71189923
+        useLiveLiterals = false
+    }
+}
+
 multiplatformResources {
     multiplatformResourcesPackage = "${Metadata.PACKAGE_NAME}.common"
     multiplatformResourcesClassName = "AppResources"
@@ -65,10 +72,7 @@ multiplatformDependencies {
         api(libs.androidx.core.ktx)
         api(libs.androidx.lifecycle.runtime)
         api(libs.ktor.client.okhttp)
-
-        // TODO cannot update to latest due to missing method exception related to androidx/compose/animation/core/Animatable
         api(libs.mapcompose)
-
         api(libs.settings.datastore)
     }
     jvmMain {

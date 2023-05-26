@@ -30,7 +30,10 @@ kodein-db = { group = "org.kodein.db", name = "kodein-db", version.ref = "kodein
 kodein-db-level-windows = { group = "org.kodein.db", name = "kodein-leveldb-jni-jvm-windows", version.ref = "kodein-db" }
 kodein-db-serializer-ktx = { group = "org.kodein.db", name = "kodein-db-serializer-kotlinx", version.ref = "kodein-db" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+
+# TODO cannot update to latest due to missing method exception related to androidx/compose/animation/core/Animatable
 mapcompose = { group = "ovh.plrapps", name = "mapcompose", version = "2.4.0" }
+
 settings-datastore = { group = "com.russhwolf", name = "multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
 woody230-gradle-internal-aboutlibraries-plugin = { group = "io.github.woody230.gradle.internal", name = "aboutlibraries-plugin", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-desugar-plugin = { group = "io.github.woody230.gradle.internal", name = "android-desugar-plugin", version.ref = "woody230-gradle" }

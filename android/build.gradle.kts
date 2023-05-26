@@ -1,93 +1,29 @@
-import Versions.COMPOSE_COMPILER
-
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    id("kotlin-parcelize")
-    id("org.jetbrains.kotlin.plugin.serialization") version Versions.KOTLIN
-    id("org.jetbrains.compose") version Versions.COMPOSE
+    id(libs.plugins.woody230.gradle.internal.android.application.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.android.desugar.get().pluginId)
+    id(libs.plugins.kotlin.android.get().pluginId)
+    id(libs.plugins.kotlin.parcelize.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
+    alias(libs.plugins.ktx.serialization)
+}
+
+androidApplicationExtension {
+    namespace.category.set(Metadata.CATEGORY)
+    versionName.set(libs.versions.woody230.gw2.manager.name)
+    versionCode.set(libs.versions.woody230.gw2.manager.code.get().toInt())
 }
 
 android {
-    namespace = "${Metadata.PACKAGE_NAME}.android"
-    compileSdk = Metadata.COMPILE_SDK
-    sourceSets.getByName("main").manifest.srcFile(Metadata.ANDROID_MANIFEST_PATH)
-    defaultConfig {
-        applicationId = "${Metadata.PACKAGE_NAME}.android"
-        minSdk = Metadata.MIN_SDK
-        targetSdk = Metadata.TARGET_SDK
-        testInstrumentationRunner = Metadata.TEST_INSTRUMENTATION_RUNNER
-        versionName = Metadata.VERSION_NAME
-        versionCode = Metadata.VERSION_CODE
-    }
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = Metadata.ANDROID_JAVA_VERSION
-        targetCompatibility = Metadata.ANDROID_JAVA_VERSION
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        // https://mvnrepository.com/artifact/org.jetbrains.compose.compiler/compiler
-        // https://github.com/JetBrains/compose-multiplatform/blob/master/gradle-plugins/compose/src/main/kotlin/org/jetbrains/compose/ComposeCompilerCompatibility.kt
-        kotlinCompilerExtensionVersion = COMPOSE_COMPILER
-    }
-    testOptions {
-        unitTests {
-            androidResources {
-                isIncludeAndroidResources = true
-            }
-        }
-    }
-
-    appBundle()
-    signing()
-    proguard()
-
-    kotlinOptions {
-        jvmTarget = Metadata.ANDROID_JVM_TARGET
-    }
-}
-
-dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${Versions.DESUGAR}")
-    implementation(project(":common"))
-}
-
-fun com.android.build.gradle.internal.dsl.BaseAppModuleExtension.appBundle() {
     bundle {
-        // Need to disable language split otherwise if the user tries to swap languages then a change is not immediate for non-GW2 strings because they aren't downloaded.
         language {
+            // Have all languages available, otherwise in-app language changes won't have the strings available because they aren't downloaded.
+            // https://developer.android.com/guide/app-bundle/configure-base#handling_language_changes
+            // TODO on demand language downloading https://developer.android.com/guide/playcore/feature-delivery/on-demand#lang_resources
             enableSplit = false
         }
     }
 }
 
-fun com.android.build.gradle.internal.dsl.BaseAppModuleExtension.proguard() {
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            ndk.debugSymbolLevel = "FULL"
-
-            if (project.hasLocalProperty(LocalProperty.STORE_FILE)) {
-                signingConfig = signingConfigs.getByName("release")
-            }
-        }
-    }
-}
-
-fun com.android.build.gradle.internal.dsl.BaseAppModuleExtension.signing() {
-    if (project.hasLocalProperty(LocalProperty.STORE_FILE)) {
-        signingConfigs {
-            create("release") {
-                storeFile = project.file(project.localProperty(LocalProperty.STORE_FILE))
-                storePassword = project.localProperty(LocalProperty.STORE_PASSWORD)
-                keyPassword = project.localProperty(LocalProperty.KEY_PASSWORD)
-                keyAlias = project.localProperty(LocalProperty.KEY_ALIAS)
-            }
-        }
-    }
+dependencies {
+    implementation(projects.common)
 }

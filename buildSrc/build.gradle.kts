@@ -5,9 +5,20 @@ plugins {
 repositories {
     google()
     mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
 }
 
 dependencies {
-    implementation(kotlin("gradle-plugin:1.8.10"))
-    implementation("com.android.tools.build:gradle:7.1.0")
+    implementation(libs.woody230.gradle.internal.aboutlibraries.plugin)
+    implementation(libs.woody230.gradle.internal.android.desugar.plugin)
+    implementation(libs.woody230.gradle.internal.android.plugin)
+    implementation(libs.woody230.gradle.internal.buildkonfig.plugin)
+    implementation(libs.woody230.gradle.internal.kotlininject.plugin)
+    implementation(libs.woody230.gradle.internal.moko.resources.plugin)
+    implementation(libs.woody230.gradle.internal.multiplatform.compose.plugin)
+    implementation(libs.woody230.gradle.internal.multiplatform.compose.test.plugin)
+    implementation(libs.woody230.gradle.internal.multiplatform.plugin)
+    implementation(libs.woody230.gradle.internal.multiplatform.publish.plugin)
+    implementation(libs.woody230.gradle.internal.multiplatform.test.plugin)
 }

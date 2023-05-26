@@ -1,3 +1,4 @@
+import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDependencies
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
@@ -46,37 +47,32 @@ kotlin {
     android {
         apply(plugin = libs.plugins.kotlin.parcelize.get().pluginId)
     }
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(libs.bundles.compose)
-                api(libs.bundles.decompose)
-                api(libs.bundles.kodein.db)
-                api(libs.bundles.woody230.gw2)
-                api(libs.bundles.woody230.ktx)
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                api(libs.android.material)
-                api(libs.androidx.activity.compose)
-                api(libs.androidx.appcompat)
-                api(libs.androidx.datastore)
-                api(libs.androidx.core.ktx)
-                api(libs.androidx.lifecycle.runtime)
-                api(libs.ktor.client.okhttp)
+}
 
-                // TODO cannot update to latest due to missing method exception related to androidx/compose/animation/core/Animatable
-                api(libs.mapcompose)
+multiplatformDependencies {
+    commonMain {
+        api(libs.bundles.compose)
+        api(libs.bundles.decompose)
+        api(libs.bundles.kodein.db)
+        api(libs.bundles.woody230.gw2)
+        api(libs.bundles.woody230.ktx)
+    }
+    androidMain {
+        api(libs.android.material)
+        api(libs.androidx.activity.compose)
+        api(libs.androidx.appcompat)
+        api(libs.androidx.datastore)
+        api(libs.androidx.core.ktx)
+        api(libs.androidx.lifecycle.runtime)
+        api(libs.ktor.client.okhttp)
 
-                api(libs.settings.datastore)
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
-                api(libs.ktor.client.okhttp)
-                api(libs.kodein.db.level)
-            }
-        }
+        // TODO cannot update to latest due to missing method exception related to androidx/compose/animation/core/Animatable
+        api(libs.mapcompose)
+
+        api(libs.settings.datastore)
+    }
+    jvmMain {
+        api(libs.ktor.client.okhttp)
+        api(libs.kodein.db.level)
     }
 }

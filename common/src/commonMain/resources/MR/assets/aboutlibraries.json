@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated": "2023-05-26T15:39:26.956Z"
+    "generated": "2023-05-31T19:43:53.912Z"
   },
   "libraries": [
     {
@@ -3562,7 +3562,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3581,7 +3581,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3600,7 +3600,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3619,7 +3619,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Build information from ArenaNet's assetcdn.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3638,7 +3638,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3657,7 +3657,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3676,7 +3676,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3695,7 +3695,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Ktor client for v2 endpoints of the Guild Wars 2 API.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3714,7 +3714,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3733,7 +3733,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3752,7 +3752,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3771,7 +3771,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild emblem image fetching from https://emblem.werdes.net/",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3790,7 +3790,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3809,7 +3809,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3828,7 +3828,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3847,7 +3847,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Internalization support by mapping translations from Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3866,7 +3866,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-intl.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3885,7 +3885,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-intl.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3904,7 +3904,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-intl.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3923,7 +3923,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-intl.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3942,7 +3942,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3961,7 +3961,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3980,7 +3980,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -3999,7 +3999,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4018,7 +4018,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4037,7 +4037,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4056,7 +4056,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Enumerations for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4075,7 +4075,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4094,7 +4094,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4113,7 +4113,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4132,7 +4132,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Extensions for Guild Wars 2 API models.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4151,7 +4151,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild Wars 2 API models for v2-client.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4170,7 +4170,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4189,7 +4189,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4208,7 +4208,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4227,7 +4227,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4246,7 +4246,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4265,7 +4265,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4284,7 +4284,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4303,7 +4303,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Guild Wars 2 moko-resources strings and images",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4322,7 +4322,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4341,7 +4341,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4360,7 +4360,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4379,7 +4379,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Annotations for permissions required to access Guild Wars 2 API endpoints.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4398,7 +4398,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4417,7 +4417,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4436,7 +4436,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4455,7 +4455,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Tiling service for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4474,7 +4474,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-tile-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4493,7 +4493,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-tile-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4512,7 +4512,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-tile-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4531,7 +4531,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Kodein-DB extensions for v2-tile-model.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4550,7 +4550,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Tiling service models for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4569,7 +4569,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Tiling service models for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4588,7 +4588,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Tiling service models for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4607,7 +4607,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "3.3.0",
+      "artifactVersion": "3.4.0",
       "description": "Tiling service models for Guild Wars 2 map images.",
       "scm": {
         "url": "https://github.com/Woody230/GW2Wrapper"
@@ -4626,7 +4626,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "AboutLibraries extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4645,7 +4645,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "AboutLibraries extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4664,7 +4664,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "AboutLibraries extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4683,7 +4683,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "AboutLibraries extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4702,7 +4702,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Composable implementation of AboutLibraries using Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4721,7 +4721,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Composable implementation of AboutLibraries using Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4740,7 +4740,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Composable implementation of AboutLibraries using Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4759,7 +4759,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Composable implementation of AboutLibraries using Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4784,7 +4784,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4809,7 +4809,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4834,7 +4834,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4859,7 +4859,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "A copy of Google's Accompanist (v0.23.1 and v0.2.1 Snapper) with multiplatform capability. Currently this only includes the pager and pager indicators.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4881,7 +4881,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4903,7 +4903,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4925,7 +4925,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4947,7 +4947,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "A copy of Android's ConstraintLayout (v2.1.3 core and v1.0.0 compose) with multiplatform capability.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4966,7 +4966,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -4985,7 +4985,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5004,7 +5004,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5023,7 +5023,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Wrappers for strings and images using the compose and resource modules.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5042,7 +5042,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization extension for Compose Multiplatform classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5061,7 +5061,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization extension for Compose Multiplatform classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5080,7 +5080,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization extension for Compose Multiplatform classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5099,7 +5099,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization extension for Compose Multiplatform classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5118,7 +5118,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "multiplatform-settings extensions for Compose Multiplatform classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5137,7 +5137,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "multiplatform-settings extensions for Compose Multiplatform classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5156,7 +5156,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "multiplatform-settings extensions for Compose Multiplatform classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5175,7 +5175,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "multiplatform-settings extensions for Compose Multiplatform classes",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5194,7 +5194,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Extensions for Compose Multiplatform UI.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5213,7 +5213,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Extensions for Compose Multiplatform UI.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5232,7 +5232,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Extensions for Compose Multiplatform UI.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5251,7 +5251,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Geometry extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5270,7 +5270,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Geometry extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5289,7 +5289,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Geometry extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5308,7 +5308,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Geometry extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5327,7 +5327,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Graphics extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5346,7 +5346,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Graphics extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5365,7 +5365,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Graphics extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5384,7 +5384,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Graphics extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5403,7 +5403,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Compose Multiplatform internationalization.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5422,7 +5422,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Compose Multiplatform internationalization.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5441,7 +5441,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Compose Multiplatform internationalization.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5460,7 +5460,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Compose Multiplatform internationalization.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5479,7 +5479,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Extensions for Compose Multiplatform UI.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5498,7 +5498,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Base extensions for laying out Compose Multiplatform UI.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5517,7 +5517,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Base extensions for laying out Compose Multiplatform UI.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5536,7 +5536,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Base extensions for laying out Compose Multiplatform UI.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5555,7 +5555,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Common composable implementations for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5574,7 +5574,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Common composable implementations for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5593,7 +5593,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Common composable implementations for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5612,7 +5612,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Common composable implementations for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5631,7 +5631,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Custom composable implementations for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5650,7 +5650,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Custom composable implementations for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5669,7 +5669,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Custom composable implementations for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5688,7 +5688,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Custom composable implementations for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5707,7 +5707,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Base extensions for laying out Compose Multiplatform UI.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5726,7 +5726,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Text extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5745,7 +5745,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Text extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5764,7 +5764,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Text extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5783,7 +5783,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Text extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5802,7 +5802,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Unit extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5821,7 +5821,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Unit extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5840,7 +5840,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Unit extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5859,7 +5859,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Unit extensions for Compose Multiplatform.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5878,7 +5878,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5897,7 +5897,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5916,7 +5916,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5935,7 +5935,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "coroutine extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5954,7 +5954,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5973,7 +5973,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -5992,7 +5992,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6011,7 +6011,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.datetime extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6030,7 +6030,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for kotlinx.datetime",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6049,7 +6049,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for kotlinx.datetime",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6068,7 +6068,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for kotlinx.datetime",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6087,7 +6087,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for kotlinx.datetime",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6106,7 +6106,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6125,7 +6125,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6144,7 +6144,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6163,7 +6163,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "General Kotlin standard library extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6182,7 +6182,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6201,7 +6201,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6220,7 +6220,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6239,7 +6239,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6258,7 +6258,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6277,7 +6277,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6296,7 +6296,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6315,7 +6315,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for two and three dimensional geometrical objects.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6334,7 +6334,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Storing image content via Kodein-DB.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6353,7 +6353,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Storing image content via Kodein-DB.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6372,7 +6372,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Storing image content via Kodein-DB.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6391,7 +6391,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Storing image content via Kodein-DB.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6410,7 +6410,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Fetching image content via Ktor.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6429,7 +6429,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Fetching image content via Ktor.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6448,7 +6448,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Fetching image content via Ktor.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6467,7 +6467,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Fetching image content via Ktor.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6486,7 +6486,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Image models.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6505,7 +6505,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Image models.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6524,7 +6524,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Image models.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6543,7 +6543,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Image models.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6562,7 +6562,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6581,7 +6581,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6600,7 +6600,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6619,7 +6619,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Based on Android intents.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6638,7 +6638,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Internationalization.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6657,7 +6657,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Internationalization.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6676,7 +6676,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Internationalization.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6695,7 +6695,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Internationalization.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6714,7 +6714,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for internationalization",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6733,7 +6733,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for internationalization",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6752,7 +6752,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for internationalization",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6771,7 +6771,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization for internationalization",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6790,7 +6790,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Kodein-DB extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6809,7 +6809,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Kodein-DB extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6828,7 +6828,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Kodein-DB extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6847,7 +6847,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Kodein-DB extensions.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6866,7 +6866,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6885,7 +6885,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6904,7 +6904,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6923,7 +6923,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Logging wrapper around Napier.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6942,7 +6942,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6961,7 +6961,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6980,7 +6980,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -6999,7 +6999,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "moko-resources extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7011,76 +7011,152 @@
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:serialization",
+      "uniqueId": "io.github.woody230.ktx:serialization-core",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
-      "description": "kotlinx.serialization extensions",
+      "artifactVersion": "5.5.0",
+      "description": "kotlinx.serialization core extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "Ktx Serialization",
+      "name": "Ktx Serialization Core",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:serialization-android",
+      "uniqueId": "io.github.woody230.ktx:serialization-core-android",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
-      "description": "kotlinx.serialization extensions",
+      "artifactVersion": "5.5.0",
+      "description": "kotlinx.serialization core extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "Ktx Serialization",
+      "name": "Ktx Serialization Core",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:serialization-android-debug",
+      "uniqueId": "io.github.woody230.ktx:serialization-core-android-debug",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
-      "description": "kotlinx.serialization extensions",
+      "artifactVersion": "5.5.0",
+      "description": "kotlinx.serialization core extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "Ktx Serialization",
+      "name": "Ktx Serialization Core",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
       ]
     },
     {
-      "uniqueId": "io.github.woody230.ktx:serialization-jvm",
+      "uniqueId": "io.github.woody230.ktx:serialization-core-jvm",
       "funding": [],
       "developers": [
         {
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
-      "description": "kotlinx.serialization extensions",
+      "artifactVersion": "5.5.0",
+      "description": "kotlinx.serialization core extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
       },
-      "name": "Ktx Serialization",
+      "name": "Ktx Serialization Core",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:serialization-json",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.5.0",
+      "description": "kotlinx.serialization json extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "Ktx Serialization Json",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:serialization-json-android",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.5.0",
+      "description": "kotlinx.serialization json extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "Ktx Serialization Json",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:serialization-json-android-debug",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.5.0",
+      "description": "kotlinx.serialization json extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "Ktx Serialization Json",
+      "website": "https://github.com/Woody230/KotlinExtensions",
+      "licenses": [
+        "Apache-2.0"
+      ]
+    },
+    {
+      "uniqueId": "io.github.woody230.ktx:serialization-json-jvm",
+      "funding": [],
+      "developers": [
+        {
+          "name": "Brandon Selzer"
+        }
+      ],
+      "artifactVersion": "5.5.0",
+      "description": "kotlinx.serialization json extensions",
+      "scm": {
+        "url": "https://github.com/Woody230/KotlinExtensions"
+      },
+      "name": "Ktx Serialization Json",
       "website": "https://github.com/Woody230/KotlinExtensions",
       "licenses": [
         "Apache-2.0"
@@ -7094,7 +7170,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization extensions for pdvrieze.xmlutil",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7113,7 +7189,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization extensions for pdvrieze.xmlutil",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7132,7 +7208,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization extensions for pdvrieze.xmlutil",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7151,7 +7227,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "kotlinx.serialization extensions for pdvrieze.xmlutil",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7170,7 +7246,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7189,7 +7265,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7208,7 +7284,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7227,7 +7303,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "multiplatform-settings extensions",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7246,7 +7322,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Value class wrappers for identifiers.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7265,7 +7341,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Value class wrappers for identifiers.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7284,7 +7360,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Value class wrappers for identifiers.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"
@@ -7303,7 +7379,7 @@
           "name": "Brandon Selzer"
         }
       ],
-      "artifactVersion": "5.4.0",
+      "artifactVersion": "5.5.0",
       "description": "Value class wrappers for identifiers.",
       "scm": {
         "url": "https://github.com/Woody230/KotlinExtensions"

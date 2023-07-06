@@ -1,5 +1,5 @@
 [versions]
-decompose = "1.0.0"
+decompose = "2.0.0"
 kodein-db = "0.9.0-beta"
 kotlin = "1.8.22"
 ktor = "2.3.0"

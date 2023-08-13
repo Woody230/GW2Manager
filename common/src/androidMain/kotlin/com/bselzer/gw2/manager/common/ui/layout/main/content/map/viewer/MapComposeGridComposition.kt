@@ -75,15 +75,32 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         val objectiveWidth = objectiveSize.width.toPx()
         val objectiveHeight = objectiveSize.height.toPx()
         val shouldShowMapLabel = preferences.wvw.showMapLabel.safeState().value
-        LaunchedEffect(state, objectiveIcons, bloodlustIcons, mapLabels) {
-            Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objectives, ${bloodlustIcons.size} bloodlusts, and ${mapLabels.size} map labels." }
 
-            state.removeAllMarkers()
+        fun removeMarkers(prefix: String) {
+            val markers = state.markerDerivedState().value.filter { marker -> marker.id.startsWith(prefix) }
+            markers.forEach { marker -> state.removeMarker(marker.id) }
+            Logger.d { "Grid | UI | Removing ${markers.size} $prefix markers." }
+        }
 
+        LaunchedEffect(state, objectiveIcons) {
+            removeMarkers(DetailedIconViewModel.ID_PREFIX)
+
+            Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objective markers." }
             objectiveIcons.forEach { objective -> Objective(objective, state, objectiveWidth, objectiveHeight) }
+        }
+
+        LaunchedEffect(state, bloodlustIcons) {
+            removeMarkers(BloodlustViewModel.ID_PREFIX)
+
+            Logger.d { "Grid | UI | Adding ${bloodlustIcons.size} bloodlust markers." }
             bloodlustIcons.forEach { bloodlust -> Bloodlust(bloodlust, state) }
+        }
+
+        LaunchedEffect(state, mapLabels) {
+            removeMarkers(MapLabelViewModel.ID_PREFIX)
 
             if (shouldShowMapLabel) {
+                Logger.d { "Grid | UI | Adding ${mapLabels.size} map label markers." }
                 mapLabels.forEach { label -> MapLabel(label, state) }
             }
         }

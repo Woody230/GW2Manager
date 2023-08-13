@@ -22,7 +22,11 @@ class BloodlustViewModel(
     context: AppComponentContext,
     borderland: WvwMap
 ) : ViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
-    val id: String = "bloodlust-${borderland.id}"
+    companion object {
+        const val ID_PREFIX = "bloodlust"
+    }
+
+    val id: String = "$ID_PREFIX-${borderland.id}"
 
     private val matchRuins = borderland.objectives.filter { objective -> objective.type.decodeOrNull() == WvwObjectiveType.RUINS }
     private val objectiveRuins = matchRuins.mapNotNull { matchRuin -> objectives[matchRuin.id] }

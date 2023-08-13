@@ -14,7 +14,11 @@ class DetailedIconViewModel(
     upgrade: WvwUpgrade?,
     val position: BoundedPosition,
 ) : ViewModel(context) {
-    val id: String = "objective-${objective.id}"
+    companion object {
+        const val ID_PREFIX = "objective"
+    }
+
+    val id: String = "$ID_PREFIX-${objective.id}"
 
     val image = ObjectiveImageViewModel(
         context = this,

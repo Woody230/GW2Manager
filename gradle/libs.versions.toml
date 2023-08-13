@@ -5,11 +5,11 @@ kotlin = "1.8.22"
 ktor = "2.3.0"
 multiplatform-compose = "1.4.1"
 multiplatform-settings = "1.0.0"
-woody230-gradle = "1.2.0"
-woody230-gw2 = "3.6.0"
-woody230-gw2-manager-name = "1.2.7"
-woody230-gw2-manager-code = "14"
-woody230-ktx = "5.7.0"
+woody230-gradle = "1.2.1"
+woody230-gw2 = "3.6.1"
+woody230-gw2-manager-name = "1.2.8"
+woody230-gw2-manager-code = "15"
+woody230-ktx = "6.0.0"
 
 [libraries]
 android-material = { group = "com.google.android.material", name = "material", version = "1.8.0" }

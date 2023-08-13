@@ -18,8 +18,6 @@ import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.compose.ui.unit.toPx
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.safeState
-import com.bselzer.ktx.value.identifier.Identifier
-import com.bselzer.ktx.value.identifier.identifier
 import kotlinx.coroutines.launch
 import ovh.plrapps.mapcompose.api.*
 import ovh.plrapps.mapcompose.core.TileStreamProvider
@@ -51,7 +49,9 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             GridEffects(state)
 
             MapUI(
-                modifier = Modifier.fillMaxSize().then(modifier),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .then(modifier),
                 state = state
             )
         }
@@ -92,6 +92,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     private fun ViewerViewModel.Objective(objective: DetailedIconViewModel, state: MapState, width: Float, height: Float) {
         val normalized = grid.normalize(objective.position)
         state.addIdentifiableMarker(
+            id = objective.id,
             x = normalized.x,
             y = normalized.y,
             zIndex = objectivePriority,
@@ -107,6 +108,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     private fun ViewerViewModel.Bloodlust(bloodlust: BloodlustViewModel, state: MapState) {
         val normalized = grid.normalize(bloodlust.position)
         state.addIdentifiableMarker(
+            id = bloodlust.id,
             x = normalized.x,
             y = normalized.y,
             zIndex = bloodlustPriority,
@@ -121,6 +123,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     private fun ViewerViewModel.MapLabel(label: MapLabelViewModel, state: MapState) {
         val normalized = grid.normalize(label.position)
         state.addIdentifiableMarker(
+            id = label.id,
             x = normalized.x,
             y = normalized.y,
 
@@ -207,14 +210,6 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             }
         }
 
-    private var _counter: Int = Int.MIN_VALUE
-    private val counterId: Identifier<String>
-        get() = synchronized(this) {
-            val id = _counter
-            _counter += 1
-            return id.toString().identifier()
-        }
-
     /**
      * Add a marker to the map, with defaults more reasonable for our purposes:
      *
@@ -228,7 +223,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
      * Lazy loading rendering strategy instead of eagerly rendering the marker.
      */
     private fun MapState.addIdentifiableMarker(
-        id: Identifier<String> = counterId,
+        id: String,
         x: Double,
         y: Double,
         relativeOffset: Offset = Offset.Zero,
@@ -239,7 +234,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         isConstrainedInBounds: Boolean = true,
         c: @Composable () -> Unit
     ) = addMarker(
-        id = id.value,
+        id = id,
         x = x,
         y = y,
         relativeOffset = relativeOffset,

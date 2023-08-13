@@ -14,6 +14,8 @@ class DetailedIconViewModel(
     upgrade: WvwUpgrade?,
     val position: BoundedPosition,
 ) : ViewModel(context) {
+    val id: String = "objective-${objective.id}"
+
     val image = ObjectiveImageViewModel(
         context = this,
         objective = objective,

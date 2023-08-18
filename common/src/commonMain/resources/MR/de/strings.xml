@@ -27,6 +27,7 @@
     <string name="temporary_waypoint">Notwegmarke</string>
     <string name="token_description">Der API-Schlüssel für Ihr Konto.</string>
     <string name="token_failure">Kann nicht speichern der API-Schlüssel.</string>
+    <string name="translations">Übersetzungen</string>
     <string name="upgrade_level">Auf stufe %1$s aufgewertet.</string>
     <string name="upgrade_tier">Ausbaustufe</string>
     <string name="wvw_description">Befestigungen, aufwertungen, welten</string>

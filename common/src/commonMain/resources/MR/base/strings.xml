@@ -31,6 +31,7 @@
     <string name="token_description">Your account API key or token.</string>
     <string name="token_failure">Unable to save the token.</string>
     <string name="token_hyperlink">https://account.arena.net/applications</string>
+    <string name="translations">Translations</string>
     <string name="upgrade_level">Upgraded to level %1$s.</string>
     <string name="upgrade_tier">Upgrade Tier</string>
     <string name="upgrade_tier_level">%1$s (%2$s/%3$s)</string>

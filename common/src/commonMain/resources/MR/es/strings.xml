@@ -27,6 +27,7 @@
     <string name="temporary_waypoint">Punto de Ruta de Emergencia</string>
     <string name="token_description">La clave API de su cuenta.</string>
     <string name="token_failure">No se puede guardar la clave API.</string>
+    <string name="translations">Traducciones</string>
     <string name="upgrade_level">Mejorado a nivel %1$s.</string>
     <string name="upgrade_tier">Nivel de Mejora</string>
     <string name="wvw_description">Objetivos, mejoras, mundos</string>

@@ -1,9 +1,15 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.content
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,10 +52,20 @@ class WvwMatchOverviewComposition(
 
     @Composable
     private fun WvwMatchOverviewViewModel.buildContent(): Array<@Composable ColumnScope.() -> Unit> = buildArray {
+        add { ApiStatus() }
         add { SelectedWorld() }
 
         val content = if (ShouldLayoutHorizontally) horizontalContent() else verticalContent()
         addAll(content)
+    }
+
+    @Composable
+    private fun WvwMatchOverviewViewModel.ApiStatus() {
+        BorderedCard(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("API Status: ${repositories.status.status.value}")
+        }
     }
 
     @Composable

@@ -1,6 +1,9 @@
 package com.bselzer.gw2.manager.common.repository.data.generic
 
 import androidx.compose.runtime.State
+import com.bselzer.ktx.resource.KtxResources
+import dev.icerock.moko.resources.desc.StringDesc
+import dev.icerock.moko.resources.desc.desc
 
 interface StatusData {
     val status: State<Gw2ApiStatus>
@@ -36,5 +39,10 @@ data class Gw2ApiStatus(
         if (message.isNotEmpty()) {
             append(" - $message")
         }
+    }
+
+    fun desc(): StringDesc = when (type) {
+        Gw2ApiStatusType.Available -> KtxResources.strings.available.desc()
+        Gw2ApiStatusType.Unavailable -> KtxResources.strings.unavailable.desc()
     }
 }

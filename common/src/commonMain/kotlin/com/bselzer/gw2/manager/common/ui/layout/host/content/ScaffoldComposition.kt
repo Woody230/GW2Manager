@@ -42,6 +42,7 @@ import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostInteractor
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostPresenter
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.resource.KtxResources
+import com.bselzer.ktx.settings.safeState
 import dev.icerock.moko.resources.format
 import com.bselzer.ktx.resource.strings.localized
 
@@ -91,8 +92,11 @@ class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<Scaff
 
     @Composable
     private fun ScaffoldViewModel.floatingActionButtonInteractor(): FloatingActionButtonInteractor? {
+        val isShowingOverview = LocalMainRouter.current.activeChild.instance is WvwMatchOverviewViewModel
+        val shouldShowStatus = preferences.common.showApiStatus.safeState().value
+
         // Only display the status on the overview screen.
-        if (LocalMainRouter.current.activeChild.instance !is WvwMatchOverviewViewModel) {
+        if (!isShowingOverview || !shouldShowStatus) {
             return null
         }
 

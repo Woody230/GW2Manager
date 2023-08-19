@@ -157,6 +157,8 @@ class SelectedWorldRepository(
             repositories.world.worlds.keys.randomOrNull()?.let { initialId ->
                 preferences.wvw.selectedWorld.initialize(initialId)
             }
+
+            repositories.status.updateStatus()
         } else {
             updateMatch(worldId)
         }

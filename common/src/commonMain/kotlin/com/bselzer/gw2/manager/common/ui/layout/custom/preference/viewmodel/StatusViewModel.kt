@@ -21,7 +21,7 @@ class StatusViewModel(
     val resources: StatusResources
         @Composable
         get() = StatusResources(
-            image = KtxResources.images.ic_settings,
+            image = KtxResources.images.ic_wifi,
             title = KtxResources.strings.api_status.desc(),
             subtitle = setting.safeState().value.stringResource().desc()
         )

@@ -20,6 +20,7 @@ import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.content.DialogComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.ScaffoldViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.content.MainComposition
+import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchOverviewViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.content.SplashComposition
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
@@ -42,7 +43,6 @@ import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostPresenter
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.format
-import com.bselzer.ktx.resource.strings.localized
 
 class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<ScaffoldViewModel>(model) {
     @Composable
@@ -89,7 +89,12 @@ class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<Scaff
     }
 
     @Composable
-    private fun ScaffoldViewModel.floatingActionButtonInteractor(): FloatingActionButtonInteractor {
+    private fun ScaffoldViewModel.floatingActionButtonInteractor(): FloatingActionButtonInteractor? {
+        // Only display the status on the overview screen.
+        if (LocalMainRouter.current.activeChild.instance !is WvwMatchOverviewViewModel) {
+            return null
+        }
+
         val status = repositories.status.status.value
         val message = when (status.type) {
             Gw2ApiStatusType.Available -> AppResources.strings.status_available_description.localized()

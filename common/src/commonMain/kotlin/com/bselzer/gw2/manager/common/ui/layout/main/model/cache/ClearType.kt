@@ -4,5 +4,6 @@ enum class ClearType {
     CONTINENT,
     GUILD,
     IMAGE,
+    TRANSLATIONS,
     WVW
 }

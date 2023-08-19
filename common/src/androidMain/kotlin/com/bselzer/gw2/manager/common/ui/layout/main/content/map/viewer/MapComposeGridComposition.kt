@@ -18,8 +18,6 @@ import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.compose.ui.unit.toPx
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.safeState
-import com.bselzer.ktx.value.identifier.Identifier
-import com.bselzer.ktx.value.identifier.identifier
 import kotlinx.coroutines.launch
 import ovh.plrapps.mapcompose.api.*
 import ovh.plrapps.mapcompose.core.TileStreamProvider
@@ -51,7 +49,9 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             GridEffects(state)
 
             MapUI(
-                modifier = Modifier.fillMaxSize().then(modifier),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .then(modifier),
                 state = state
             )
         }
@@ -75,15 +75,32 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         val objectiveWidth = objectiveSize.width.toPx()
         val objectiveHeight = objectiveSize.height.toPx()
         val shouldShowMapLabel = preferences.wvw.showMapLabel.safeState().value
-        LaunchedEffect(state, objectiveIcons, bloodlustIcons, mapLabels) {
-            Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objectives, ${bloodlustIcons.size} bloodlusts, and ${mapLabels.size} map labels." }
 
-            state.removeAllMarkers()
+        fun removeMarkers(prefix: String) {
+            val markers = state.markerDerivedState().value.filter { marker -> marker.id.startsWith(prefix) }
+            markers.forEach { marker -> state.removeMarker(marker.id) }
+            Logger.d { "Grid | UI | Removing ${markers.size} $prefix markers." }
+        }
 
+        LaunchedEffect(state, objectiveIcons) {
+            removeMarkers(DetailedIconViewModel.ID_PREFIX)
+
+            Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objective markers." }
             objectiveIcons.forEach { objective -> Objective(objective, state, objectiveWidth, objectiveHeight) }
+        }
+
+        LaunchedEffect(state, bloodlustIcons) {
+            removeMarkers(BloodlustViewModel.ID_PREFIX)
+
+            Logger.d { "Grid | UI | Adding ${bloodlustIcons.size} bloodlust markers." }
             bloodlustIcons.forEach { bloodlust -> Bloodlust(bloodlust, state) }
+        }
+
+        LaunchedEffect(state, mapLabels) {
+            removeMarkers(MapLabelViewModel.ID_PREFIX)
 
             if (shouldShowMapLabel) {
+                Logger.d { "Grid | UI | Adding ${mapLabels.size} map label markers." }
                 mapLabels.forEach { label -> MapLabel(label, state) }
             }
         }
@@ -92,6 +109,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     private fun ViewerViewModel.Objective(objective: DetailedIconViewModel, state: MapState, width: Float, height: Float) {
         val normalized = grid.normalize(objective.position)
         state.addIdentifiableMarker(
+            id = objective.id,
             x = normalized.x,
             y = normalized.y,
             zIndex = objectivePriority,
@@ -107,6 +125,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     private fun ViewerViewModel.Bloodlust(bloodlust: BloodlustViewModel, state: MapState) {
         val normalized = grid.normalize(bloodlust.position)
         state.addIdentifiableMarker(
+            id = bloodlust.id,
             x = normalized.x,
             y = normalized.y,
             zIndex = bloodlustPriority,
@@ -121,6 +140,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
     private fun ViewerViewModel.MapLabel(label: MapLabelViewModel, state: MapState) {
         val normalized = grid.normalize(label.position)
         state.addIdentifiableMarker(
+            id = label.id,
             x = normalized.x,
             y = normalized.y,
 
@@ -207,14 +227,6 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             }
         }
 
-    private var _counter: Int = Int.MIN_VALUE
-    private val counterId: Identifier<String>
-        get() = synchronized(this) {
-            val id = _counter
-            _counter += 1
-            return id.toString().identifier()
-        }
-
     /**
      * Add a marker to the map, with defaults more reasonable for our purposes:
      *
@@ -228,7 +240,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
      * Lazy loading rendering strategy instead of eagerly rendering the marker.
      */
     private fun MapState.addIdentifiableMarker(
-        id: Identifier<String> = counterId,
+        id: String,
         x: Double,
         y: Double,
         relativeOffset: Offset = Offset.Zero,
@@ -239,7 +251,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         isConstrainedInBounds: Boolean = true,
         c: @Composable () -> Unit
     ) = addMarker(
-        id = id.value,
+        id = id,
         x = x,
         y = y,
         relativeOffset = relativeOffset,

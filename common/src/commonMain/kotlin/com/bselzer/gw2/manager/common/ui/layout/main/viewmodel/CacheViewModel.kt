@@ -14,6 +14,7 @@ import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.gw2.v2.db.operation.clearContinent
 import com.bselzer.gw2.v2.db.operation.clearGuild
 import com.bselzer.gw2.v2.db.operation.clearTile
+import com.bselzer.gw2.v2.db.operation.clearTranslation
 import com.bselzer.gw2.v2.db.operation.clearWvw
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.compose.ui.layout.icon.deleteIconInteractor
@@ -97,6 +98,17 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         clearTile()
     }
 
+    private val translationResources = ClearResources(
+        type = ClearType.TRANSLATIONS,
+        image = Gw2Resources.images.experience_scroll,
+        title = AppResources.strings.translations.desc(),
+        subtitle = "".desc()
+    )
+
+    private val translationLogic = ClearLogic(type = ClearType.TRANSLATIONS) {
+        clearTranslation()
+    }
+
     private val wvwResources = ClearResources(
         type = ClearType.WVW,
         image = Gw2Resources.images.rank_dolyak,
@@ -110,10 +122,10 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     val resources
         @Composable
-        get() = listOf(continentResources, guildResources, imageResources, wvwResources)
+        get() = listOf(continentResources, guildResources, imageResources, translationResources, wvwResources)
 
     val clears
-        get() = listOf(continentLogic, guildLogic, imageLogic, wvwLogic)
+        get() = listOf(continentLogic, guildLogic, imageLogic, translationLogic, wvwLogic)
 
     private val selected: MutableMap<ClearType, ClearLogic> = mutableStateMapOf()
     fun select(type: ClearType) = selected.put(type, clears.first { clear -> clear.type == type })

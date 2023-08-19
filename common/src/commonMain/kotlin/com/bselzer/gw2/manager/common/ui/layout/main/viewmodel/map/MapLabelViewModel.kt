@@ -21,6 +21,11 @@ class MapLabelViewModel(
     wvwMap: WvwMap,
     map: Map
 ) : ViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
+    companion object {
+        const val ID_PREFIX = "map label"
+    }
+
+    val id: String = "$ID_PREFIX-${wvwMap.id}"
     private val type: WvwMapType? = wvwMap.type.decodeOrNull()
 
     private val owner: WvwObjectiveOwner = type?.owner() ?: WvwObjectiveOwner.NEUTRAL

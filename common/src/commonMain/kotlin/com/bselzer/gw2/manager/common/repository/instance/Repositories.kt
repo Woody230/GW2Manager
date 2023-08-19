@@ -1,6 +1,14 @@
 package com.bselzer.gw2.manager.common.repository.instance
 
-import com.bselzer.gw2.manager.common.repository.instance.generic.*
+import com.bselzer.gw2.manager.common.repository.instance.generic.ColorRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.ContinentRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.GuildRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.ImageRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.OwnerRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.StatusRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.TileRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRepository
+import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldRepository
 
 interface Repositories {
@@ -9,6 +17,7 @@ interface Repositories {
     val guild: GuildRepository
     val image: ImageRepository
     val owner: OwnerRepository
+    val status: StatusRepository
     val tile: TileRepository
     val translation: TranslationRepository
     val world: WorldRepository

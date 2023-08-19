@@ -4,6 +4,7 @@ import com.bselzer.gw2.manager.common.ui.theme.Theme
 import com.bselzer.ktx.intl.Locale
 import com.bselzer.ktx.intl.Localizer
 import com.bselzer.ktx.serialization.serializer.LocaleSerializer
+import com.bselzer.ktx.settings.setting.BooleanSetting
 import com.bselzer.ktx.settings.setting.IntSetting
 import com.bselzer.ktx.settings.setting.SerializableSetting
 import com.bselzer.ktx.settings.setting.Setting
@@ -56,5 +57,14 @@ class CommonPreference(settings: SuspendSettings) {
         key = "Locale",
         defaultValue = Localizer.ENGLISH,
         LocaleSerializer()
+    )
+
+    /**
+     * Whether the API status should be displayed.
+     */
+    val showApiStatus: Setting<Boolean> = BooleanSetting(
+        settings = settings,
+        key = "ShowApiStatus",
+        defaultValue = true
     )
 }

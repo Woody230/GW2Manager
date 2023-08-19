@@ -39,6 +39,7 @@ class SettingsComposition(model: SettingsViewModel) : MainChildComposition<Setti
         content = buildArray {
             add { ThemeComposition(theme).Content() }
             add { LanguageComposition(language, rememberDialogState()).Content() }
+            add { StatusComposition(status).Content() }
 
             // TODO enable token preference when needed
             if (false) {

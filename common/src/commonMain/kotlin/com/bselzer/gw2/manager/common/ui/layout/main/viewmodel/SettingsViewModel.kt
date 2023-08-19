@@ -1,7 +1,14 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.viewmodel
 
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
-import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.*
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.ColorViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.LanguageViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.MapLabelViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.RefreshIntervalViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.StatusViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.ThemeViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.TokenViewModel
+import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.ZoomViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.model.settings.WvwResources
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.datetime.format.DurationBound
@@ -52,4 +59,7 @@ class SettingsViewModel(context: AppComponentContext) : MainViewModel(context) {
                 mapType = mapType
             )
         }
+
+    val status: StatusViewModel
+        get() = StatusViewModel(context = this)
 }

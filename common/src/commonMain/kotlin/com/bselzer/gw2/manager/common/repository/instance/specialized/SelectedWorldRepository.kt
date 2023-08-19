@@ -9,6 +9,7 @@ import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.specialized.MapData
 import com.bselzer.gw2.manager.common.repository.data.specialized.MatchData
 import com.bselzer.gw2.manager.common.repository.data.specialized.SelectedWorldData
+import com.bselzer.gw2.manager.common.repository.instance.generic.StatusRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.v2.model.continent.Continent
@@ -42,6 +43,7 @@ class SelectedWorldRepository(
         val map: MapRepository,
         val match: WvwMatchRepository,
         val world: WorldRepository,
+        val status: StatusRepository,
         val translation: TranslationRepository,
     )
 
@@ -155,6 +157,8 @@ class SelectedWorldRepository(
             repositories.world.worlds.keys.randomOrNull()?.let { initialId ->
                 preferences.wvw.selectedWorld.initialize(initialId)
             }
+
+            repositories.status.updateStatus()
         } else {
             updateMatch(worldId)
         }
@@ -168,6 +172,8 @@ class SelectedWorldRepository(
         Logger.d { "Selected World | Update Match | Refreshing with world id $worldId." }
 
         val match = clients.gw2.wvw.match(worldId)
+        repositories.status.questionStatus(isSuccess = !match.id.isDefault)
+
         launch { repositories.map.updateContinent(match.mapId()) }
         launch { repositories.match.updateMatch(match) }
     }

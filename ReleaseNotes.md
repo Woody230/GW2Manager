@@ -1,5 +1,19 @@
 # Whats New
 
+## v1.3.0
+
+### en-US
+* Added an API status indicator.
+
+### de-DE
+* API-Statusanzeige hinzufügen.
+
+### es-ES
+* Se agregó un ícono de estado de la API.
+
+### fr-FR
+* Ajout d'une icône d'état de l'API.
+
 ## v1.2.0
 
 ### en-US
@@ -78,7 +92,7 @@ Pack Yak pour Guild Wars 2
 
 # About This App (Short Description)
 
-## v1.0.0 - v1.1.0
+## v1.0.0 - v1.3.0
 
 ### en-US
 
@@ -98,7 +112,7 @@ Pack Yak pour Guild Wars 2
 
 # About This App (Full Description)
 
-## v1.0.0 - v1.1.0
+## v1.0.0 - v1.3.0
 
 ### en-US
 

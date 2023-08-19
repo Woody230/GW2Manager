@@ -23,6 +23,8 @@
     <string name="owned_slice">Rebanada de %1$s grados para %2$s</string>
     <string name="permanent_waypoint">Punto de Ruta Permanente</string>
     <string name="selected_objective">%1$s (%3$s %2$s)</string>
+    <string name="status_available_description">Hizo una solicitud exitosa a la API GW2.</string>
+    <string name="status_unavailable_description">No se pudo hacer la solicitud a la API de GW2:\n\n%1$s</string>
     <string name="team_label">Etiqueta del Equipo</string>
     <string name="temporary_waypoint">Punto de Ruta de Emergencia</string>
     <string name="token_description">La clave API de su cuenta.</string>

@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.toUpperCase
+import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.repository.data.generic.Gw2ApiStatusType
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.dialog.content.DialogComposition
@@ -40,6 +41,7 @@ import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostInteractor
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostPresenter
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.resource.KtxResources
+import dev.icerock.moko.resources.format
 import com.bselzer.ktx.resource.strings.localized
 
 class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<ScaffoldViewModel>(model) {
@@ -90,8 +92,8 @@ class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<Scaff
     private fun ScaffoldViewModel.floatingActionButtonInteractor(): FloatingActionButtonInteractor {
         val status = repositories.status.status.value
         val message = when (status.type) {
-            Gw2ApiStatusType.Available -> "Successfully made the request to the GW2 API."
-            Gw2ApiStatusType.Unavailable -> "Failed to make the request to the GW2 API: \r\n\r\n ${status.message}"
+            Gw2ApiStatusType.Available -> AppResources.strings.status_available_description.localized()
+            Gw2ApiStatusType.Unavailable -> AppResources.strings.status_unavailable_description.format(status.message).localized()
         }
 
         var shouldShowSnackbar by remember { mutableStateOf(false) }

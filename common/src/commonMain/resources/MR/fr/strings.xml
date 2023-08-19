@@ -23,6 +23,8 @@
     <string name="owned_slice">Tranche de %1$s degrés pour le %2$s</string>
     <string name="permanent_waypoint">Point de Passage Permanent</string>
     <string name="selected_objective">%1$s (%3$s %2$s)</string>
+    <string name="status_available_description">Requête réussie à l’API GW2.</string>
+    <string name="status_unavailable_description">Échec de l’envoi de la requête à l’API GW2:\n\n%1$s</string>
     <string name="team_label">Étiquette d’Équipe</string>
     <string name="temporary_waypoint">Point de Passage d’Urgence</string>
     <string name="token_description">La clé API de votre compte.</string>

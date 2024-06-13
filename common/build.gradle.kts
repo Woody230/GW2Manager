@@ -13,7 +13,7 @@ plugins {
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.test.get().pluginId)
 
-    id(libs.plugins.woody230.gradle.internal.moko.resources.get().pluginId)
+    alias(libs.plugins.moko.resources)
     id(libs.plugins.woody230.gradle.internal.buildkonfig.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.kotlininject.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.aboutlibraries.get().pluginId)

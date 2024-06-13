@@ -34,8 +34,8 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = "${Metadata.PACKAGE_NAME}.common"
-    multiplatformResourcesClassName = "AppResources"
+    resourcesPackage = "${Metadata.PACKAGE_NAME}.common"
+    resourcesClassName = "AppResources"
 }
 
 buildkonfig {
@@ -51,7 +51,7 @@ buildkonfig {
 }
 
 kotlin {
-    android {
+    androidTarget {
         apply(plugin = libs.plugins.kotlin.parcelize.get().pluginId)
     }
 }

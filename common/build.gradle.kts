@@ -36,8 +36,8 @@ android {
 }
 
 multiplatformResources {
-    resourcesPackage = "${Metadata.PACKAGE_NAME}.common"
-    resourcesClassName = "AppResources"
+    resourcesPackage.set("${Metadata.PACKAGE_NAME}.common")
+    resourcesClassName.set("AppResources")
 }
 
 buildkonfig {

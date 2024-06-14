@@ -118,7 +118,7 @@ abstract class SingletonAppDependencies(
     fun configuration(): Configuration = with(AssetReader) {
         try {
             // TODO attempt to get config from online location and default to bundled config if that fails
-            val content = AppResources.assets.Configuration.readText()
+            val content = AppResources.assets.Configuration_xml.readText()
             XML {
                 policy = DefaultXmlSerializationPolicy(
                     pedantic = false,
@@ -173,7 +173,7 @@ abstract class SingletonAppDependencies(
     @Singleton
     @Provides
     fun libraries(): List<Library> = with(AssetReader) {
-        val content = AppResources.assets.aboutlibraries.readText()
+        val content = AppResources.assets.aboutlibraries_json.readText()
         Libs.Builder().withJson(content).build().libraries
     }
 

@@ -19,7 +19,7 @@ class WvwMatchStatisticsComposition(
     override fun WvwMatchStatisticsViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize().then(modifier)
     ) {
-        BorderlandsContent()
+        BorderlandsContent(Modifier)
     }
 
     /**

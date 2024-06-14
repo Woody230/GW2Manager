@@ -3,7 +3,6 @@ package com.bselzer.gw2.manager.common.repository.instance.specialized
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.GuildData
 import com.bselzer.gw2.manager.common.repository.data.generic.OwnerData
 import com.bselzer.gw2.manager.common.repository.data.generic.TranslateData
@@ -33,10 +32,7 @@ import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
-import me.tatarka.inject.annotations.Inject
 
-@Singleton
-@Inject
 class WvwMatchRepository(
     dependencies: RepositoryDependencies,
     private val repositories: Repositories
@@ -45,8 +41,6 @@ class WvwMatchRepository(
     GuildData by repositories.guild,
     OwnerData by repositories.owner,
     TranslateData by repositories.translation {
-    @Singleton
-    @Inject
     data class Repositories(
         val guild: GuildRepository,
         val owner: OwnerRepository,

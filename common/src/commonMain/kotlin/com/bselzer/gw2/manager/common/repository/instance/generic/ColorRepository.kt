@@ -3,7 +3,6 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.ui.graphics.Color
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.ColorData
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
 import com.bselzer.gw2.v2.model.enumeration.extension.decodeOrNull
@@ -14,10 +13,7 @@ import com.bselzer.ktx.compose.ui.graphics.color.hex
 import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import me.tatarka.inject.annotations.Inject
 
-@Singleton
-@Inject
 class ColorRepository(
     dependencies: RepositoryDependencies
 ) : RepositoryDependencies by dependencies, ColorData {

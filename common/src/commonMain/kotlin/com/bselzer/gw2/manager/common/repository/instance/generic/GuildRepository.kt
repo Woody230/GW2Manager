@@ -2,7 +2,6 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.GuildData
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
 import com.bselzer.gw2.v2.model.guild.Guild
@@ -14,16 +13,11 @@ import com.bselzer.ktx.db.operation.putMissingById
 import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.logging.Logger
-import me.tatarka.inject.annotations.Inject
 
-@Singleton
-@Inject
 class GuildRepository(
     dependencies: RepositoryDependencies,
     private val repositories: Repositories,
 ) : RepositoryDependencies by dependencies, GuildData {
-    @Singleton
-    @Inject
     data class Repositories(
         val translation: TranslationRepository
     )

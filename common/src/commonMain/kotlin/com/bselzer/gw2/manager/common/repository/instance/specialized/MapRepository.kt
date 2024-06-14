@@ -2,7 +2,6 @@ package com.bselzer.gw2.manager.common.repository.instance.specialized
 
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.specialized.MapData
 import com.bselzer.gw2.manager.common.repository.instance.generic.ContinentRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.TileRepository
@@ -13,16 +12,11 @@ import com.bselzer.gw2.v2.model.map.MapId
 import com.bselzer.gw2.v2.model.tile.response.Tile
 import com.bselzer.gw2.v2.model.tile.response.TileGrid
 import com.bselzer.ktx.logging.Logger
-import me.tatarka.inject.annotations.Inject
 
-@Singleton
-@Inject
 class MapRepository(
     dependencies: RepositoryDependencies,
     private val repositories: Repositories
 ) : RepositoryDependencies by dependencies, MapData {
-    @Singleton
-    @Inject
     data class Repositories(
         val continent: ContinentRepository,
         val tile: TileRepository

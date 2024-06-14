@@ -39,7 +39,7 @@ abstract class App(
      */
     settings: SuspendSettings,
 ) {
-    val dependencies: AppDependencies = SingletonAppDependencies::class.create(
+    val dependencies: AppDependencies = SingletonAppDependencies(
         debugMode = debugMode,
         lifecycleScope = scope,
         httpClient = httpClient,

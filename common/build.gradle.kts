@@ -18,7 +18,6 @@ plugins {
 
     alias(libs.plugins.moko.resources)
     id(libs.plugins.woody230.gradle.internal.buildkonfig.get().pluginId)
-    id(libs.plugins.woody230.gradle.internal.kotlininject.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.aboutlibraries.get().pluginId)
 
     alias(libs.plugins.ktx.serialization)

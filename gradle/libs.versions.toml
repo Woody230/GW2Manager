@@ -32,6 +32,7 @@ kodein-db-level-windows = { group = "org.kodein.db", name = "kodein-leveldb-jni-
 kodein-db-serializer-ktx = { group = "org.kodein.db", name = "kodein-db-serializer-kotlinx", version.ref = "kodein-db" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 mapcompose = { group = "ovh.plrapps", name = "mapcompose", version = "2.12.2" }
+moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 settings-datastore = { group = "com.russhwolf", name = "multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
 woody230-gradle-internal-aboutlibraries-plugin = { group = "io.github.woody230.gradle.internal", name = "aboutlibraries-plugin", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-desugar-plugin = { group = "io.github.woody230.gradle.internal", name = "android-desugar-plugin", version.ref = "woody230-gradle" }

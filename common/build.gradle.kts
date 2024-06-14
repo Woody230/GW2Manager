@@ -66,6 +66,7 @@ multiplatformDependencies {
         api(libs.bundles.kodein.db)
         api(libs.bundles.woody230.gw2)
         api(libs.bundles.woody230.ktx)
+        api(libs.moko.resources)
     }
     androidMain {
         api(libs.android.material)

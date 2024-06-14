@@ -120,10 +120,10 @@ abstract class SingletonAppDependencies(
             // TODO attempt to get config from online location and default to bundled config if that fails
             val content = AppResources.assets.Configuration_xml.readText()
             XML {
-                policy = DefaultXmlSerializationPolicy(
-                    pedantic = false,
+                policy = DefaultXmlSerializationPolicy.Builder().apply {
+                    pedantic = false
                     unknownChildHandler = LoggingUnknownChildHandler()
-                )
+                }.build()
             }.decodeFromString(serializer<AppConfiguration>(), content)
         } catch (ex: Exception) {
             Logger.e(ex, "Unable to create the configuration.")

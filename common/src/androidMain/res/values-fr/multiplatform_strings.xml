@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Pack Yak</string>
+	<string name="bloodlust_for">Soif de sang de %1$s</string>
+	<string name="borderlands_color">Couleur du %1$s</string>
+	<string name="claimed">Revendication</string>
+	<string name="claimed_at">Revendication à %1$s le %2$s</string>
+	<string name="claimed_by">Revendication de %1$s</string>
+	<string name="color_failure">Impossible de convertir à partir ARGB.</string>
+	<string name="continents_description">Cartes, régions, niveaux, dalles</string>
+	<string name="default_zoom_level">Niveau de Zoom par Défaut</string>
+	<string name="flipped_at">Capturé à %1$s le %2$s</string>
+	<string name="guild_emblem">Emblème de guilde pour %1$s</string>
+	<string name="guilds_description">Améliorations</string>
+	<string name="held_for">Tenu pour %1$s</string>
+	<string name="hold_for">Tenir pour %1$s</string>
+	<string name="home_world">Monde d’Origine</string>
+	<string name="images_description">Icônes, dalles de carte</string>
+	<string name="images">Images</string>
+	<string name="neutral_slice">Tranche Neutre</string>
+	<string name="no_claim">Aucune Revendication de Guilde</string>
+	<string name="no_upgrade">Pas Amélioré</string>
+	<string name="no_worlds">Mondes introuvable.</string>
+	<string name="owned_slice">Tranche de %1$s degrés pour le %2$s</string>
+	<string name="permanent_waypoint">Point de Passage Permanent</string>
+	<string name="selected_objective">%1$s (%3$s %2$s)</string>
+	<string name="status_available_description">Requête réussie à l’API GW2.</string>
+	<string name="status_unavailable_description">Échec de l’envoi de la requête à l’API GW2:\n\n%1$s</string>
+	<string name="team_label">Étiquette d’Équipe</string>
+	<string name="temporary_waypoint">Point de Passage d’Urgence</string>
+	<string name="token_description">La clé API de votre compte.</string>
+	<string name="token_failure">Impossible d’enregistrer la clé API.</string>
+	<string name="translations">Traductions</string>
+	<string name="upgrade_level">Amélioré au niveau %1$s.</string>
+	<string name="upgrade_tier">Niveau d’Amélioration</string>
+	<string name="wvw_description">Objectifs, améliorations, mondes</string>
+	<string name="wvw_tile">Dalles de carte</string>
+	<string name="yaks_delivered">Yaks Délivré</string>
+</resources>

@@ -3,7 +3,6 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.Gw2ApiStatus
 import com.bselzer.gw2.manager.common.repository.data.generic.Gw2ApiStatusType
 import com.bselzer.gw2.manager.common.repository.data.generic.StatusData
@@ -11,10 +10,7 @@ import com.bselzer.ktx.logging.Logger
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.isSuccess
-import me.tatarka.inject.annotations.Inject
 
-@Singleton
-@Inject
 class StatusRepository(
     dependencies: RepositoryDependencies,
 ) : RepositoryDependencies by dependencies, StatusData {

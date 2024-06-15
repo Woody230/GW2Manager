@@ -103,7 +103,7 @@ class WvwMatchOverviewComposition(
     private fun WvwMatchOverviewViewModel.ContestedArea() = BorderedCard(
         modifier = Modifier.fillMaxWidth().routeOnClick(MainConfig.WvwMatchContestedAreasConfig)
     ) {
-        ContestedAreas()
+        ContestedAreas(Modifier)
     }
 
     @Composable
@@ -111,12 +111,13 @@ class WvwMatchOverviewComposition(
         modifier = Modifier.fillMaxWidth().routeOnClick(MainConfig.WvwMatchStatisticsConfig)
     ) {
         // TODO constraint layout to keep data in same horizontal position
-        OwnerOverviews()
+        OwnerOverviews(Modifier)
     }
 
     @Composable
     private fun Modifier.routeOnClick(config: MainConfig): Modifier {
         val router = LocalMainRouter.current
-        return clickable { router.bringToFront(config) }
+        val modifier = Modifier.clickable { router.bringToFront(config) }
+        return this.then(modifier)
     }
 }

@@ -2,23 +2,17 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
 import com.bselzer.ktx.db.operation.findAllOnce
 import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
-import me.tatarka.inject.annotations.Inject
 
-@Singleton
-@Inject
 class WorldRepository(
     dependencies: RepositoryDependencies,
     private val repositories: Repositories
 ) : RepositoryDependencies by dependencies {
-    @Singleton
-    @Inject
     data class Repositories(
         val translation: TranslationRepository
     )

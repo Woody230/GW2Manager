@@ -9,7 +9,9 @@ import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
 import com.bselzer.gw2.manager.common.repository.instance.Repositories
 import com.bselzer.gw2.manager.common.repository.instance.generic.*
+import com.bselzer.gw2.manager.common.repository.instance.specialized.MapRepository
 import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldRepository
+import com.bselzer.gw2.manager.common.repository.instance.specialized.WvwMatchRepository
 import com.bselzer.gw2.v2.client.instance.ExceptionRecoveryMode
 import com.bselzer.gw2.v2.client.instance.Gw2Client
 import com.bselzer.gw2.v2.client.instance.Gw2ClientConfiguration
@@ -34,9 +36,6 @@ import com.russhwolf.settings.coroutines.SuspendSettings
 import io.ktor.client.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.serializer
-import me.tatarka.inject.annotations.Component
-import me.tatarka.inject.annotations.Inject
-import me.tatarka.inject.annotations.Provides
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.DefaultXmlSerializationPolicy
 import nl.adaptivity.xmlutil.serialization.XML
@@ -65,31 +64,83 @@ interface AppDependencies {
 }
 
 @OptIn(ExperimentalSettingsApi::class)
-@Singleton
-@Component
-abstract class SingletonAppDependencies(
-    private val debugMode: IsDebug,
+class SingletonAppDependencies(
+    debugMode: IsDebug,
 
     /**
      * The scope of the application's lifecycle.
      */
-    private val lifecycleScope: CoroutineScope,
+    lifecycleScope: CoroutineScope,
 
     /**
      * The location of the database.
      */
-    @get:Provides protected val databaseDirectory: DatabaseDirectory,
+    databaseDirectory: DatabaseDirectory,
 
     /**
      * The HTTP client for making network requests.
      */
-    @get:Provides protected val httpClient: HttpClient,
+    httpClient: HttpClient,
 
     /**
      * The preference settings.
      */
-    @get:Provides protected val settings: SuspendSettings,
+    settings: SuspendSettings,
 ) : AppDependencies {
+    override val build = BuildKonfig
+    override val isDebug = debugMode || build.DEBUG
+    override val clients = clients(httpClient)
+    override val scope = lifecycleScope
+    override val configuration = configuration()
+    override val database = database(databaseDirectory, isDebug)
+    override val libraries = libraries()
+    override val preferences = preferences(settings, configuration)
+
+    private val repositoryDependencies = repositoryDependencies(clients, configuration, database, preferences, scope)
+    private val colorRepository = ColorRepository(repositoryDependencies)
+    private val translationRepository = TranslationRepository(repositoryDependencies)
+    private val continentRepository = ContinentRepository(
+        repositoryDependencies,
+        ContinentRepository.Repositories(translationRepository)
+    )
+    private val guildRepository = GuildRepository(
+        repositoryDependencies,
+        GuildRepository.Repositories(translationRepository)
+    )
+    private val imageRepository = ImageRepository(repositoryDependencies)
+    private val ownerRepository = OwnerRepository(repositoryDependencies)
+    private val statusRepository = StatusRepository(repositoryDependencies)
+    private val tileRepository = TileRepository(repositoryDependencies)
+    private val worldRepository = WorldRepository(
+        repositoryDependencies,
+        WorldRepository.Repositories(translationRepository)
+    )
+    private val mapRepository = MapRepository(
+        repositoryDependencies,
+        MapRepository.Repositories(continentRepository, tileRepository)
+    )
+    private val matchRepository = WvwMatchRepository(
+        repositoryDependencies,
+        WvwMatchRepository.Repositories(guildRepository, ownerRepository, translationRepository, worldRepository)
+    )
+    private val selectedWorldRepository = SelectedWorldRepository(
+        repositoryDependencies,
+        SelectedWorldRepository.Repositories(mapRepository, matchRepository, worldRepository, statusRepository, translationRepository)
+    )
+
+    override val repositories: Repositories = repositories(
+        colorRepository,
+        continentRepository,
+        guildRepository,
+        imageRepository,
+        ownerRepository,
+        statusRepository,
+        tileRepository,
+        translationRepository,
+        worldRepository,
+        selectedWorldRepository
+    )
+
     override fun initialize() {
         Logger.clear()
 
@@ -99,31 +150,16 @@ abstract class SingletonAppDependencies(
         }
     }
 
-    @Singleton
-    @Provides
-    fun scope(): CoroutineScope = lifecycleScope
-
-    @Singleton
-    @Provides
-    @Inject
-    fun debugMode(build: BuildKonfig): IsDebug = debugMode || build.DEBUG
-
-    @Singleton
-    @Provides
-    fun buildKonfig(): BuildKonfig = BuildKonfig
-
     @OptIn(ExperimentalXmlUtilApi::class)
-    @Singleton
-    @Provides
     fun configuration(): Configuration = with(AssetReader) {
         try {
             // TODO attempt to get config from online location and default to bundled config if that fails
-            val content = AppResources.assets.Configuration.readText()
+            val content = AppResources.assets.Configuration_xml.readText()
             XML {
-                policy = DefaultXmlSerializationPolicy(
-                    pedantic = false,
+                policy = DefaultXmlSerializationPolicy.Builder().apply {
+                    pedantic = false
                     unknownChildHandler = LoggingUnknownChildHandler()
-                )
+                }.build()
             }.decodeFromString(serializer<AppConfiguration>(), content)
         } catch (ex: Exception) {
             Logger.e(ex, "Unable to create the configuration.")
@@ -131,9 +167,6 @@ abstract class SingletonAppDependencies(
         }
     }
 
-    @Singleton
-    @Provides
-    @Inject
     fun clients(httpClient: HttpClient): Clients = Clients(
         http = httpClient,
         gw2 = Gw2Client(
@@ -146,9 +179,6 @@ abstract class SingletonAppDependencies(
         asset = AssetCdnClient(httpClient)
     )
 
-    @Singleton
-    @Provides
-    @Inject
     fun database(
         databaseDirectory: DatabaseDirectory,
         isDebug: IsDebug
@@ -170,26 +200,18 @@ abstract class SingletonAppDependencies(
         FailOnBadClose(isDebug),
     )
 
-    @Singleton
-    @Provides
     fun libraries(): List<Library> = with(AssetReader) {
-        val content = AppResources.assets.aboutlibraries.readText()
+        val content = AppResources.assets.aboutlibraries_json.readText()
         Libs.Builder().withJson(content).build().libraries
     }
 
     @OptIn(ExperimentalSettingsApi::class)
-    @Singleton
-    @Provides
-    @Inject
     fun preferences(settings: SuspendSettings, configuration: Configuration): Preferences = Preferences(
         settings = settings,
         common = CommonPreference(settings),
         wvw = WvwPreference(settings, configuration)
     )
 
-    @Singleton
-    @Provides
-    @Inject
     fun repositoryDependencies(
         clients: Clients,
         configuration: Configuration,
@@ -204,9 +226,6 @@ abstract class SingletonAppDependencies(
         override val scope: CoroutineScope = scope
     }
 
-    @Singleton
-    @Provides
-    @Inject
     fun repositories(
         color: ColorRepository,
         continent: ContinentRepository,

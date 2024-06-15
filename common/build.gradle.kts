@@ -9,13 +9,15 @@ plugins {
     id(libs.plugins.woody230.gradle.internal.android.desugar.get().pluginId)
 
     id(libs.plugins.woody230.gradle.internal.multiplatform.asProvider().get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.android.target.get().pluginId)
+    //id(libs.plugins.woody230.gradle.internal.multiplatform.jvm.target.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.test.get().pluginId)
 
-    id(libs.plugins.woody230.gradle.internal.moko.resources.get().pluginId)
+    // TODO re-enable
+    //alias(libs.plugins.moko.resources)
     id(libs.plugins.woody230.gradle.internal.buildkonfig.get().pluginId)
-    id(libs.plugins.woody230.gradle.internal.kotlininject.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.aboutlibraries.get().pluginId)
 
     alias(libs.plugins.ktx.serialization)
@@ -33,10 +35,12 @@ android {
     }
 }
 
+/* TODO re-enable
 multiplatformResources {
-    multiplatformResourcesPackage = "${Metadata.PACKAGE_NAME}.common"
-    multiplatformResourcesClassName = "AppResources"
+    resourcesPackage.set("${Metadata.PACKAGE_NAME}.common")
+    resourcesClassName.set("AppResources")
 }
+ */
 
 buildkonfig {
     packageName = Metadata.PACKAGE_NAME
@@ -51,7 +55,7 @@ buildkonfig {
 }
 
 kotlin {
-    android {
+    androidTarget {
         apply(plugin = libs.plugins.kotlin.parcelize.get().pluginId)
     }
 }
@@ -63,6 +67,7 @@ multiplatformDependencies {
         api(libs.bundles.kodein.db)
         api(libs.bundles.woody230.gw2)
         api(libs.bundles.woody230.ktx)
+        api(libs.moko.resources)
     }
     androidMain {
         api(libs.android.material)
@@ -75,8 +80,10 @@ multiplatformDependencies {
         api(libs.mapcompose)
         api(libs.settings.datastore)
     }
+    /*
     jvmMain {
         api(libs.ktor.client.okhttp)
         api(libs.kodein.db.level.windows)
     }
+     */
 }

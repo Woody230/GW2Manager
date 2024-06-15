@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Pack Yak</string>
+	<string name="bloodlust_for">Sed de sangre por %1$s</string>
+	<string name="borderlands_color">Color de %1$s</string>
+	<string name="claimed">Reclamado</string>
+	<string name="claimed_at">Reclamado a la %1$s del %2$s</string>
+	<string name="claimed_by">Reclamado por %1$s</string>
+	<string name="color_failure">No se puede convertir de ARGB.</string>
+	<string name="continents_description">Mapas, regiones, niveles, teselas</string>
+	<string name="default_zoom_level">Nivel de Zoom Predeterminado</string>
+	<string name="flipped_at">Invertido a la %1$s del %2$s</string>
+	<string name="guild_emblem">Emblema del clan para %1$s</string>
+	<string name="guilds_description">Mejoras</string>
+	<string name="held_for">Mantenido durante %1$s</string>
+	<string name="hold_for">Mantener durante %1$s</string>
+	<string name="home_world">Mundo de Origen</string>
+	<string name="images_description">Iconos, teselas del mapa</string>
+	<string name="images">Imágenes</string>
+	<string name="neutral_slice">Rebanada Neutra</string>
+	<string name="no_claim">No hay Reclamación de Clan</string>
+	<string name="no_upgrade">No Mejorado</string>
+	<string name="no_worlds">Mundos no encontrados.</string>
+	<string name="owned_slice">Rebanada de %1$s grados para %2$s</string>
+	<string name="permanent_waypoint">Punto de Ruta Permanente</string>
+	<string name="selected_objective">%1$s (%3$s %2$s)</string>
+	<string name="status_available_description">Hizo una solicitud exitosa a la API GW2.</string>
+	<string name="status_unavailable_description">No se pudo hacer la solicitud a la API de GW2:\n\n%1$s</string>
+	<string name="team_label">Etiqueta del Equipo</string>
+	<string name="temporary_waypoint">Punto de Ruta de Emergencia</string>
+	<string name="token_description">La clave API de su cuenta.</string>
+	<string name="token_failure">No se puede guardar la clave API.</string>
+	<string name="translations">Traducciones</string>
+	<string name="upgrade_level">Mejorado a nivel %1$s.</string>
+	<string name="upgrade_tier">Nivel de Mejora</string>
+	<string name="wvw_description">Objetivos, mejoras, mundos</string>
+	<string name="wvw_tile">Teselas del mapa</string>
+	<string name="yaks_delivered">Yaks Entregados</string>
+</resources>

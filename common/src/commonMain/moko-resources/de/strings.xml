@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!-- TODO translatable attribute -->
+    <string name="app_name">Pack Yak</string>
+
     <string name="bloodlust_for">Blutgier für %1$s</string>
     <string name="borderlands_color">%1$s Farbe</string>
     <string name="claimed">Beansprucht</string>

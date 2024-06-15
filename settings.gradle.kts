@@ -8,10 +8,11 @@ pluginManagement {
 }
 
 plugins {
-    id("io.github.woody230.gradle.internal.bundled") version "1.2.1"
+    id("io.github.woody230.gradle.internal.bundled") version "1.3.0"
 }
 
 rootProject.name = "GW2Manager"
 include(":android")
-include(":desktop")
+// TODO re-enable
+// include(":desktop")
 include(":common")

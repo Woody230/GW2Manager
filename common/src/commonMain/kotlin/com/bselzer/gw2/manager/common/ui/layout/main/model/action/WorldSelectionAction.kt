@@ -1,7 +1,7 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.model.action
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.runtime.Composable
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.v2.resource.Gw2Resources
@@ -17,7 +17,7 @@ class WorldSelectionAction(
     override val enabled: Boolean = true
     override val icon: @Composable () -> IconInteractor = {
         IconInteractor(
-            painter = Icons.Filled.List.painter(),
+            painter = Icons.AutoMirrored.Filled.List.painter(),
             contentDescription = Gw2Resources.strings.world.localized(),
         )
     }

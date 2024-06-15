@@ -2,7 +2,6 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.v2.db.metadata.id
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
@@ -15,12 +14,9 @@ import com.bselzer.ktx.coroutine.sync.LockByKey
 import com.bselzer.ktx.db.operation.getById
 import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
-import me.tatarka.inject.annotations.Inject
 import org.kodein.db.Value
 import org.kodein.db.getById
 
-@Singleton
-@Inject
 class TileRepository(
     dependencies: RepositoryDependencies
 ) : RepositoryDependencies by dependencies {

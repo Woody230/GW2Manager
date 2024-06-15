@@ -1,13 +1,9 @@
 package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.OwnerData
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
-import me.tatarka.inject.annotations.Inject
 
-@Singleton
-@Inject
 class OwnerRepository(
     dependencies: RepositoryDependencies
 ) : RepositoryDependencies by dependencies, OwnerData {

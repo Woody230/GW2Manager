@@ -23,7 +23,7 @@ class WvwMatchContestedAreasComposition(
     override fun WvwMatchContestedAreasViewModel.Content(modifier: Modifier) = RelativeBackgroundImage(
         modifier = Modifier.fillMaxSize().then(modifier),
     ) {
-        BorderlandsContent()
+        BorderlandsContent(Modifier)
     }
 
     @Composable
@@ -69,6 +69,6 @@ class WvwMatchContestedAreasComposition(
         data: ObjectiveOwnerCount
     ) {
         val model = data.toContestedAreasModel()
-        model.ContestedAreas()
+        model.ContestedAreas(Modifier)
     }
 }

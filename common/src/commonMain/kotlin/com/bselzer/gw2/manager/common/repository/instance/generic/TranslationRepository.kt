@@ -2,7 +2,6 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.manager.common.dependency.Singleton
 import com.bselzer.gw2.manager.common.repository.data.generic.TranslateData
 import com.bselzer.gw2.v2.db.operation.putMissingTranslations
 import com.bselzer.gw2.v2.intl.translation.Translator
@@ -17,12 +16,9 @@ import com.bselzer.ktx.value.identifier.Identifier
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import me.tatarka.inject.annotations.Inject
 import com.bselzer.gw2.v2.client.model.Language as WrapperLanguage
 import com.bselzer.gw2.v2.model.enumeration.Language as EnumLanguage
 
-@Singleton
-@Inject
 class TranslationRepository(
     dependencies: RepositoryDependencies,
 ) : RepositoryDependencies by dependencies, TranslateData {

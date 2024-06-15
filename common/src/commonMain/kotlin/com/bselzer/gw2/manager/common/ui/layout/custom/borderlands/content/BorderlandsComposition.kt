@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 interface BorderlandsComposition<Data> {
     @Composable
-    fun BorderlandsViewModel<Data>.BorderlandsContent(modifier: Modifier = Modifier) = Column(
+    fun BorderlandsViewModel<Data>.BorderlandsContent(modifier: Modifier) = Column(
         modifier = modifier
     ) {
         // TODO legend that maps colors to worlds below the pager (add home icon?)

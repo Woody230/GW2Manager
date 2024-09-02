@@ -23,11 +23,12 @@ import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationV
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.NoSplashViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.SplashViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.serialization.serializer
 
 class HostViewModel(context: AppComponentContext) : ViewModel(context) {
     val dialogRouter: Router<DialogConfig, DialogViewModel> = context.createRouter(
         initialStack = { listOf(DialogConfig.NoDialogConfig) },
-        configurationClass = DialogConfig::class,
+        serializer = serializer(),
         key = "Dialog",
         childFactory = { state, context ->
             when (state) {
@@ -44,7 +45,7 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
 
     val mainRouter: Router<MainConfig, MainViewModel> = context.createRouter(
         initialStack = { listOf(MainConfig.WvwMatchOverviewConfig) },
-        configurationClass = MainConfig::class,
+        serializer = serializer(),
         key = "Main",
         childFactory = { state, context ->
             when (state) {
@@ -62,7 +63,7 @@ class HostViewModel(context: AppComponentContext) : ViewModel(context) {
 
     val splashRouter: Router<SplashConfig, SplashViewModel> = context.createRouter(
         initialStack = { listOf(SplashConfig.NoSplashConfig, SplashConfig.InitializationConfig) },
-        configurationClass = SplashConfig::class,
+        serializer = serializer(),
         key = "Splash",
         childFactory = { state, context ->
             when (state) {

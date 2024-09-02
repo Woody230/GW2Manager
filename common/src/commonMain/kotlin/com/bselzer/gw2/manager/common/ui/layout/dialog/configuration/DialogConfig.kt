@@ -1,12 +1,13 @@
 package com.bselzer.gw2.manager.common.ui.layout.dialog.configuration
 
-import com.arkivanov.essenty.parcelable.Parcelize
 import com.bselzer.gw2.manager.common.ui.base.Configuration
+import kotlinx.serialization.Serializable
 
+@Serializable
 sealed class DialogConfig : Configuration {
-    @Parcelize
+    @Serializable
     object NoDialogConfig : DialogConfig()
 
-    @Parcelize
+    @Serializable
     object WorldSelectionConfig : DialogConfig()
 }

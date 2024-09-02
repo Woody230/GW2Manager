@@ -7,7 +7,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.bselzer.gw2.manager.common.dependency.AppDependencies
 import com.bselzer.ktx.logging.Logger
-import kotlin.reflect.KClass
+import kotlinx.serialization.KSerializer
 
 class Gw2ComponentContext(
     dependencies: AppDependencies,
@@ -15,8 +15,8 @@ class Gw2ComponentContext(
 ) : AppComponentContext, AppDependencies by dependencies, ComponentContext by component {
     override fun <Config : Configuration, Model : ViewModel> createRouter(
         source: StackNavigation<Config>,
-        configurationClass: KClass<Config>,
         initialStack: () -> List<Config>,
+        serializer: KSerializer<Config>,
         key: String,
         handleBackButton: Boolean,
         childFactory: (configuration: Config, AppComponentContext) -> Model
@@ -24,7 +24,7 @@ class Gw2ComponentContext(
         val childStack = childStack(
             source = source,
             initialStack = initialStack,
-            configurationClass = configurationClass,
+            serializer = serializer,
             key = key,
             handleBackButton = handleBackButton,
         ) { configuration, componentContext ->

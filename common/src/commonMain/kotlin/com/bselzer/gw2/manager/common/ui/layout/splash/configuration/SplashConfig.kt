@@ -1,12 +1,13 @@
 package com.bselzer.gw2.manager.common.ui.layout.splash.configuration
 
-import com.arkivanov.essenty.parcelable.Parcelize
 import com.bselzer.gw2.manager.common.ui.base.Configuration
+import kotlinx.serialization.Serializable
 
+@Serializable
 sealed class SplashConfig : Configuration {
-    @Parcelize
+    @Serializable
     object NoSplashConfig : SplashConfig()
 
-    @Parcelize
+    @Serializable
     object InitializationConfig : SplashConfig()
 }

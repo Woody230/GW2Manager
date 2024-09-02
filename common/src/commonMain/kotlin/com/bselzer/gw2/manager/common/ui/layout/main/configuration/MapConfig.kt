@@ -1,12 +1,13 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.configuration
 
-import com.arkivanov.essenty.parcelable.Parcelize
 import com.bselzer.gw2.manager.common.ui.base.Configuration
+import kotlinx.serialization.Serializable
 
+@Serializable
 sealed class MapConfig : Configuration {
-    @Parcelize
+    @Serializable
     data class ObjectiveConfig(val id: String) : MapConfig()
 
-    @Parcelize
+    @Serializable
     object ViewerConfig : MapConfig()
 }

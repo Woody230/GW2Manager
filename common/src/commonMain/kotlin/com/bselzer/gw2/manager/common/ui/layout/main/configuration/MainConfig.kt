@@ -1,30 +1,31 @@
 package com.bselzer.gw2.manager.common.ui.layout.main.configuration
 
-import com.arkivanov.essenty.parcelable.Parcelize
 import com.bselzer.gw2.manager.common.ui.base.Configuration
+import kotlinx.serialization.Serializable
 
+@Serializable
 sealed class MainConfig : Configuration {
-    @Parcelize
+    @Serializable
     object AboutConfig : MainConfig()
 
-    @Parcelize
+    @Serializable
     object CacheConfig : MainConfig()
 
-    @Parcelize
+    @Serializable
     object LicenseConfig : MainConfig()
 
-    @Parcelize
+    @Serializable
     object WvwMatchOverviewConfig : MainConfig()
 
-    @Parcelize
+    @Serializable
     object SettingsConfig : MainConfig()
 
-    @Parcelize
+    @Serializable
     object WvwMapConfig : MainConfig()
 
-    @Parcelize
+    @Serializable
     object WvwMatchContestedAreasConfig : MainConfig()
 
-    @Parcelize
+    @Serializable
     object WvwMatchStatisticsConfig : MainConfig()
 }

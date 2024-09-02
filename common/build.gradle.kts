@@ -54,12 +54,6 @@ buildkonfig {
     }
 }
 
-kotlin {
-    androidTarget {
-        apply(plugin = libs.plugins.kotlin.parcelize.get().pluginId)
-    }
-}
-
 multiplatformDependencies {
     commonMain {
         api(libs.bundles.compose)

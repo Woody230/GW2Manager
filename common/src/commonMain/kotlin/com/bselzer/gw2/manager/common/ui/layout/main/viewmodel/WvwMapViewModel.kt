@@ -11,6 +11,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveView
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.gw2.v2.model.wvw.objective.WvwMapObjectiveId
 import dev.icerock.moko.resources.desc.StringDesc
+import kotlinx.serialization.serializer
 
 class WvwMapViewModel(
     context: AppComponentContext,
@@ -18,7 +19,7 @@ class WvwMapViewModel(
 ) : MainViewModel(context) {
     val router: Router<MapConfig, MapViewModel> = createRouter(
         initialStack = { listOf(MapConfig.ViewerConfig) },
-        configurationClass = MapConfig::class,
+        serializer = serializer(),
         key = "Map",
         childFactory = { state, context ->
             when (state) {

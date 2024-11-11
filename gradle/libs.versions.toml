@@ -1,24 +1,24 @@
 [versions]
 decompose = "3.1.0"
 kodein-db = "0.9.0-beta"
-kotlin = "2.0.20"
-ktor = "2.3.12"
-moko-resources = "0.24.1"
+kotlin = "2.0.21"
+ktor = "3.0.1"
+moko-resources = "0.24.3"
 multiplatform-compose = "1.6.11"
 multiplatform-settings = "1.1.1"
-woody230-gradle = "1.5.0"
-woody230-gw2 = "3.11.0"
-woody230-gw2-manager-name = "1.5.0"
-woody230-gw2-manager-code = "19"
-woody230-ktx = "6.5.0"
+woody230-gradle = "1.6.0"
+woody230-gw2 = "3.12.0"
+woody230-gw2-manager-name = "1.6.0"
+woody230-gw2-manager-code = "20"
+woody230-ktx = "6.6.0"
 
 [libraries]
 android-material = { group = "com.google.android.material", name = "material", version = "1.12.0" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.9.1" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.9.3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.0" }
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.13.1" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.15.0" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version = "1.1.1" }
-androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.8.4" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.8.7" }
 compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "multiplatform-compose" }
 compose-material = { group = "org.jetbrains.compose.material", name = "material", version.ref = "multiplatform-compose" }
 compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "multiplatform-compose" }

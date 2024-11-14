@@ -10,7 +10,10 @@ plugins {
 
     id(libs.plugins.woody230.gradle.internal.multiplatform.asProvider().get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.android.target.get().pluginId)
+
+    // TODO re-enable
     //id(libs.plugins.woody230.gradle.internal.multiplatform.jvm.target.get().pluginId)
+
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.test.get().pluginId)
@@ -56,6 +59,7 @@ buildkonfig {
 
 multiplatformDependencies {
     commonMain {
+        api(libs.bundles.coil)
         api(libs.bundles.compose)
         api(libs.bundles.decompose)
         api(libs.bundles.kodein.db)

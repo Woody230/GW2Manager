@@ -1,5 +1,6 @@
 package com.bselzer.gw2.manager.common.dependency
 
+import coil3.PlatformContext
 import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
@@ -26,6 +27,7 @@ class JvmApp : App(
     httpClient = httpClient(),
     databaseDirectory = databaseDirectory(),
     settings = PreferencesSettings(Preferences.userRoot()).toSuspendSettings(),
+    platformContext = PlatformContext.INSTANCE
 ) {
     private companion object {
         fun databaseDirectory(): String {

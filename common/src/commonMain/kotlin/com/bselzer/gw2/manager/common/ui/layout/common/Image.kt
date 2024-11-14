@@ -2,19 +2,25 @@ package com.bselzer.gw2.manager.common.ui.layout.common
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.DpSize
-import com.bselzer.gw2.manager.common.dependency.LocalDependencies
+import coil3.compose.AsyncImagePainter
+import coil3.compose.LocalPlatformContext
+import coil3.compose.rememberAsyncImagePainter
+import coil3.compose.rememberConstraintsSizeResolver
+import coil3.request.ImageRequest
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
-import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImagePresenter
-import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImageProjector
+import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImageResult
+import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImageStateInteractor
+import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImageStateProjector
 import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorInteractor
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.images.painter
@@ -117,20 +123,35 @@ private fun Image.Link(
     progressIndication: ProgressIndication,
     presenter: ImagePresenter
 ) {
-    val dependencies = LocalDependencies.current
-    AsyncImageProjector(
+    val size = rememberConstraintsSizeResolver()
+    val request = ImageRequest.Builder(LocalPlatformContext.current)
+        .data(link)
+        .size(size)
+        .build()
+
+    val painter = rememberAsyncImagePainter(
+        model = request,
+        contentScale = presenter.contentScale
+    )
+
+    val state = painter.state.collectAsState().value
+    AsyncImageStateProjector(
         presenter = AsyncImagePresenter(
             image = presenter
         ),
+        interactor = AsyncImageStateInteractor(
+            state = when (state) {
+                is AsyncImagePainter.State.Success -> AsyncImageResult.Success(painter)
+                is AsyncImagePainter.State.Error -> AsyncImageResult.Failed
+                else -> AsyncImageResult.Loading
+            },
 
-        // TODO placeholder drawables for certain images?
-        interactor = AsyncImageInteractor(
-            url = link,
-            getImage = { url -> dependencies.repositories.image.getImage(url).content },
             contentDescription = description?.localized(),
-            loadingProgress = if (progressIndication == ProgressIndication.ENABLED) ProgressIndicatorInteractor.Default else null
-        ),
+
+            // TODO placeholder drawables for certain images?
+            loadingProgress = if (progressIndication == ProgressIndication.ENABLED) ProgressIndicatorInteractor.Default else null,
+        )
     ).Projection(
-        modifier = modifier
+        modifier = modifier.then(size)
     )
 }

@@ -4,9 +4,7 @@ import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withLink
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.TokenViewModel
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
@@ -20,6 +18,7 @@ import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferenc
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.LocalSnackbarHostState
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.textfield.TextFieldInteractor
+import com.bselzer.ktx.compose.ui.text.withHyperlink
 import com.bselzer.ktx.resource.images.painter
 import com.bselzer.ktx.resource.strings.localized
 
@@ -82,16 +81,10 @@ class TokenComposition(
 
     @Composable
     private fun TokenViewModel.inputDescriptionText() = buildAnnotatedString {
-        val subtitle = resources.dialogSubtitle.localized()
-        val hyperlink = resources.hyperlink.localized()
-        val link = LinkAnnotation.Url(hyperlink) {
-            // Open the link in the user's browser.
-            logic.onClickHyperlink(hyperlink)
-        }
-
-        withLink(link) {
-            append(subtitle)
-        }
+       withHyperlink(
+            hypertext = resources.dialogSubtitle.localized(),
+            hyperlink = resources.hyperlink.localized()
+        )
     }
 
     @Composable

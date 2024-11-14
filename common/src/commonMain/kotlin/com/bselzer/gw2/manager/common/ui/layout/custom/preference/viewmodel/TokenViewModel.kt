@@ -61,7 +61,6 @@ class TokenViewModel(
         updateInput = { value -> intermediary.value = value?.let { Token(it.trim()) } },
         clearInput = { intermediary.value = null },
         onReset = { setting.remove() },
-        onClickHyperlink = { Browser.open(it) },
         onSave = ::onSave
     )
 

@@ -5,7 +5,6 @@ import com.bselzer.gw2.v2.db.operation.clearContinent
 import com.bselzer.gw2.v2.db.operation.clearGuild
 import com.bselzer.gw2.v2.db.operation.clearTile
 import com.bselzer.gw2.v2.db.operation.clearWvw
-import com.bselzer.ktx.db.operation.clearImage
 import com.bselzer.ktx.db.transaction.transaction
 
 class Migrate0To3(dependencies: AppDependencies) : Migration(dependencies) {
@@ -13,11 +12,13 @@ class Migrate0To3(dependencies: AppDependencies) : Migration(dependencies) {
     override val to: Int = 3
     override val reason: String = "Many model changes, including the use of value classes for ids."
 
-    override suspend fun migrate() = database.transaction().use {
+    override suspend fun migrate(): Unit = database.transaction().use {
         clearContinent()
         clearTile()
         clearGuild()
         clearWvw()
-        clearImage()
+
+        imageLoader.memoryCache?.clear()
+        imageLoader.diskCache?.clear()
     }
 }

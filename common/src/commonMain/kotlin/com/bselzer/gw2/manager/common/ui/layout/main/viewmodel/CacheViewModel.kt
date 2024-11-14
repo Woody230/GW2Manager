@@ -19,7 +19,6 @@ import com.bselzer.gw2.v2.db.operation.clearWvw
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.compose.ui.layout.icon.deleteIconInteractor
 import com.bselzer.ktx.compose.ui.layout.icon.triStateCheckboxIconInteractor
-import com.bselzer.ktx.db.operation.clearImage
 import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
@@ -94,8 +93,10 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         )
 
     private val imageLogic = ClearLogic(type = ClearType.IMAGE) {
-        clearImage()
         clearTile()
+
+        imageLoader.memoryCache?.clear()
+        imageLoader.diskCache?.clear()
     }
 
     private val translationResources = ClearResources(

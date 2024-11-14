@@ -2,6 +2,7 @@ package com.bselzer.gw2.manager.common.dependency
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import coil3.PlatformContext
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
 import com.bselzer.ktx.compose.ui.intl.ProvideLocale
@@ -38,6 +39,11 @@ abstract class App(
      * The preference settings.
      */
     settings: SuspendSettings,
+
+    /**
+     * The Coil platform context.
+     */
+    platformContext: PlatformContext
 ) {
     val dependencies: AppDependencies = SingletonAppDependencies(
         debugMode = debugMode,
@@ -45,6 +51,7 @@ abstract class App(
         httpClient = httpClient,
         databaseDirectory = databaseDirectory,
         settings = settings,
+        platformContext = platformContext
     )
 
     init {

@@ -24,7 +24,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.BloodlustView
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.MapLabelViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ViewerViewModel
 import com.bselzer.gw2.v2.model.tile.response.Tile
-import com.bselzer.ktx.compose.ui.asImageBitmap
+import com.bselzer.ktx.compose.ui.graphics.asImageBitmap
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.resource.strings.localized
 

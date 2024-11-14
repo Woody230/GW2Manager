@@ -29,8 +29,10 @@ class AndroidApp(
     scope = scope,
     httpClient = httpClient(),
     databaseDirectory = context.filesDir.absolutePath,
-    settings = DataStoreSettings(datastore)
+    settings = DataStoreSettings(datastore),
+    platformContext = context
 ) {
+
     private companion object {
         fun okHttpClient(): OkHttpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->

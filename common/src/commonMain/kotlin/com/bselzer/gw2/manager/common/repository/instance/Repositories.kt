@@ -3,7 +3,6 @@ package com.bselzer.gw2.manager.common.repository.instance
 import com.bselzer.gw2.manager.common.repository.instance.generic.ColorRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.ContinentRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.GuildRepository
-import com.bselzer.gw2.manager.common.repository.instance.generic.ImageRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.OwnerRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.StatusRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.TileRepository
@@ -15,7 +14,6 @@ interface Repositories {
     val color: ColorRepository
     val continent: ContinentRepository
     val guild: GuildRepository
-    val image: ImageRepository
     val owner: OwnerRepository
     val status: StatusRepository
     val tile: TileRepository

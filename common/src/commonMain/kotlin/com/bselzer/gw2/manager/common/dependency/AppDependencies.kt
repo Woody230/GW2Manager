@@ -1,5 +1,8 @@
 package com.bselzer.gw2.manager.common.dependency
 
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
 import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.gw2.manager.common.AppResources
@@ -22,9 +25,7 @@ import com.bselzer.gw2.v2.db.metadata.TranslationMetadataExtractor
 import com.bselzer.gw2.v2.db.type.gw2
 import com.bselzer.gw2.v2.emblem.client.EmblemClient
 import com.bselzer.gw2.v2.model.serialization.Modules
-import com.bselzer.ktx.client.ImageClient
 import com.bselzer.ktx.db.metadata.IdentifiableMetadataExtractor
-import com.bselzer.ktx.db.metadata.ImageMetadataExtractor
 import com.bselzer.ktx.db.value.IdentifierValueConverter
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.assets.AssetReader
@@ -58,6 +59,7 @@ interface AppDependencies {
     val libraries: List<Library>
     val preferences: Preferences
     val repositories: Repositories
+    val imageLoader: ImageLoader
     val scope: CoroutineScope
 
     fun initialize()
@@ -86,6 +88,11 @@ class SingletonAppDependencies(
      * The preference settings.
      */
     settings: SuspendSettings,
+
+    /**
+     * The Coil platform context.
+     */
+    platformContext: PlatformContext
 ) : AppDependencies {
     override val build = BuildKonfig
     override val isDebug = debugMode || build.DEBUG
@@ -95,6 +102,7 @@ class SingletonAppDependencies(
     override val database = database(databaseDirectory, isDebug)
     override val libraries = libraries()
     override val preferences = preferences(settings, configuration)
+    override val imageLoader: ImageLoader = SingletonImageLoader.get(platformContext)
 
     private val repositoryDependencies = repositoryDependencies(clients, configuration, database, preferences, scope)
     private val colorRepository = ColorRepository(repositoryDependencies)
@@ -107,7 +115,6 @@ class SingletonAppDependencies(
         repositoryDependencies,
         GuildRepository.Repositories(translationRepository)
     )
-    private val imageRepository = ImageRepository(repositoryDependencies)
     private val ownerRepository = OwnerRepository(repositoryDependencies)
     private val statusRepository = StatusRepository(repositoryDependencies)
     private val tileRepository = TileRepository(repositoryDependencies)
@@ -132,7 +139,6 @@ class SingletonAppDependencies(
         colorRepository,
         continentRepository,
         guildRepository,
-        imageRepository,
         ownerRepository,
         statusRepository,
         tileRepository,
@@ -174,7 +180,6 @@ class SingletonAppDependencies(
             configuration = Gw2ClientConfiguration(exceptionRecoveryMode = ExceptionRecoveryMode.DEFAULT)
         ),
         tile = TileClient(httpClient),
-        image = ImageClient(httpClient),
         emblem = EmblemClient(httpClient),
         asset = AssetCdnClient(httpClient)
     )
@@ -191,7 +196,6 @@ class SingletonAppDependencies(
         TileMetadataExtractor(),
         TileGridMetadataExtractor(),
         TranslationMetadataExtractor(),
-        ImageMetadataExtractor(),
         IdentifierValueConverter(),
         TypeTable { gw2() },
 
@@ -230,7 +234,6 @@ class SingletonAppDependencies(
         color: ColorRepository,
         continent: ContinentRepository,
         guild: GuildRepository,
-        image: ImageRepository,
         owner: OwnerRepository,
         status: StatusRepository,
         tile: TileRepository,
@@ -241,7 +244,6 @@ class SingletonAppDependencies(
         override val color: ColorRepository = color
         override val continent: ContinentRepository = continent
         override val guild: GuildRepository = guild
-        override val image: ImageRepository = image
         override val owner: OwnerRepository = owner
         override val status: StatusRepository = status
         override val tile: TileRepository = tile

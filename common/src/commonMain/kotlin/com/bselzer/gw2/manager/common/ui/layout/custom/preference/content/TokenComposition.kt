@@ -4,8 +4,9 @@ import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withLink
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.TokenViewModel
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
@@ -19,7 +20,6 @@ import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferenc
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.LocalSnackbarHostState
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.textfield.TextFieldInteractor
-import com.bselzer.ktx.compose.ui.text.hyperlink
 import com.bselzer.ktx.resource.images.painter
 import com.bselzer.ktx.resource.strings.localized
 
@@ -27,10 +27,6 @@ class TokenComposition(
     model: TokenViewModel,
     private val state: MutableState<DialogState>,
 ) : ViewModelComposition<TokenViewModel>(model) {
-    private companion object {
-        const val TAG = "applications"
-    }
-
     @Composable
     override fun TokenViewModel.Content(modifier: Modifier) {
         projector().Projection(modifier = state.openOnClick().then(modifier))
@@ -81,24 +77,20 @@ class TokenComposition(
 
     @Composable
     private fun TokenViewModel.inputDescription() = TextInteractor(
-        text = inputDescriptionText(),
-        onClickOffset = { offset, text -> onClickOffset(offset, text) }
+        text = inputDescriptionText()
     )
 
     @Composable
     private fun TokenViewModel.inputDescriptionText() = buildAnnotatedString {
-        hyperlink(
-            text = resources.dialogSubtitle.localized(),
-            tag = TAG,
-            hyperlink = resources.hyperlink.localized()
-        )
-    }
-
-    private fun TokenViewModel.onClickOffset(offset: Int, text: AnnotatedString) {
-        val range = text.getStringAnnotations(tag = TAG, start = offset, end = offset).firstOrNull()
-        if (range != null) {
+        val subtitle = resources.dialogSubtitle.localized()
+        val hyperlink = resources.hyperlink.localized()
+        val link = LinkAnnotation.Url(hyperlink) {
             // Open the link in the user's browser.
-            logic.onClickHyperlink(range.item)
+            logic.onClickHyperlink(hyperlink)
+        }
+
+        withLink(link) {
+            append(subtitle)
         }
     }
 

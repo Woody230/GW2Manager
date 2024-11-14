@@ -1,16 +1,17 @@
 [versions]
+coil = "3.0.2"
 decompose = "3.1.0"
 kodein-db = "0.9.0-beta"
 kotlin = "2.0.21"
 ktor = "3.0.1"
 moko-resources = "0.24.3"
-multiplatform-compose = "1.6.11"
+multiplatform-compose = "1.7.1"
 multiplatform-settings = "1.1.1"
 woody230-gradle = "1.6.0"
-woody230-gw2 = "3.12.0"
-woody230-gw2-manager-name = "1.6.0"
-woody230-gw2-manager-code = "20"
-woody230-ktx = "6.6.0"
+woody230-gw2 = "3.13.0"
+woody230-gw2-manager-name = "1.7.0"
+woody230-gw2-manager-code = "21"
+woody230-ktx = "7.0.0"
 
 [libraries]
 android-material = { group = "com.google.android.material", name = "material", version = "1.12.0" }
@@ -19,6 +20,8 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.15.0" }
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version = "1.1.1" }
 androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.8.7" }
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil"}
 compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "multiplatform-compose" }
 compose-material = { group = "org.jetbrains.compose.material", name = "material", version.ref = "multiplatform-compose" }
 compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "multiplatform-compose" }
@@ -73,13 +76,12 @@ woody230-ktx-function = { group = "io.github.woody230.ktx", name = "function", v
 woody230-ktx-intent = { group = "io.github.woody230.ktx", name = "intent", version.ref = "woody230-ktx" }
 woody230-ktx-intl = { group = "io.github.woody230.ktx", name = "intl", version.ref = "woody230-ktx" }
 woody230-ktx-intl-serialization = { group = "io.github.woody230.ktx", name = "intl-serialization", version.ref = "woody230-ktx" }
-woody230-ktx-image-kodein-db = { group = "io.github.woody230.ktx", name = "image-kodein-db", version.ref = "woody230-ktx" }
-woody230-ktx-image-ktor-client = { group = "io.github.woody230.ktx", name = "image-ktor-client", version.ref = "woody230-ktx" }
 woody230-ktx-logging = { group = "io.github.woody230.ktx", name = "logging", version.ref = "woody230-ktx" }
 woody230-ktx-serialization-json = { group = "io.github.woody230.ktx", name = "serialization-json", version.ref = "woody230-ktx" }
 woody230-ktx-serialization-xml = { group = "io.github.woody230.ktx", name = "serialization-xml", version.ref = "woody230-ktx" }
 
 [bundles]
+coil = ["coil-compose", "coil-network"]
 compose = ["compose-foundation", "compose-material", "compose-runtime", "compose-ui", "compose-ui-util", "compose-ui-preview"]
 decompose = ["decompose", "decompose-compose"]
 kodein-db = ["kodein-db", "kodein-db-serializer-ktx"]
@@ -96,8 +98,8 @@ woody230-ktx = [
     "woody230-ktx-compose-ui-graphics", "woody230-ktx-compose-ui-intl", "woody230-ktx-compose-ui-text",
     "woody230-ktx-compose-ui-unit", "woody230-ktx-compose-ui-layout-common", "woody230-ktx-compose-ui-layout-custom",
     "woody230-ktx-coroutine", "woody230-ktx-function", "woody230-ktx-intent",
-    "woody230-ktx-intl", "woody230-ktx-intl-serialization", "woody230-ktx-image-kodein-db",
-    "woody230-ktx-image-ktor-client", "woody230-ktx-logging", "woody230-ktx-serialization-json",
+    "woody230-ktx-intl", "woody230-ktx-intl-serialization",
+    "woody230-ktx-logging", "woody230-ktx-serialization-json",
     "woody230-ktx-serialization-xml"
 ]
 

@@ -35,6 +35,31 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
      * The state for displaying all worlds and the selection made by the user.
      */
     val selection: WorldSelection
+        get() = WorldSelection(
+            title = Gw2Resources.strings.worlds.desc(),
+            values = worlds,
+            getLabel = { world -> world.name.toString().translated() },
+            selected = resolvedId?.let {
+                worlds.firstOrNull { world -> world.id == it }
+            },
+            onSave = { selection ->
+                scope.launch {
+                    preferences.wvw.selectedWorld.set(selection.id)
+                }
+            },
+            onReset = {
+                scope.launch {
+                    preferences.wvw.selectedWorld.remove()
+                }
+            },
+            setSelected = {
+                Logger.d { "World | Selection | Selected $it" }
+                selected.value = it
+            },
+            resetSelected = { selected.value = null }
+        )
+
+    private val resolvedId: WorldId?
         get() {
             val resolvedId: WorldId?
 
@@ -50,28 +75,6 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
                 resolvedId = savedWorldId
             }
 
-            return WorldSelection(
-                title = Gw2Resources.strings.worlds.desc(),
-                values = worlds,
-                getLabel = { world -> world.name.toString().translated() },
-                selected = resolvedId?.let {
-                    worlds.firstOrNull { world -> world.id == it }
-                },
-                onSave = { selection ->
-                    scope.launch {
-                        preferences.wvw.selectedWorld.set(selection.id)
-                    }
-                },
-                onReset = {
-                    scope.launch {
-                        preferences.wvw.selectedWorld.remove()
-                    }
-                },
-                setSelected = {
-                    Logger.d { "World | Selection | Selected $it" }
-                    selected.value = it
-                },
-                resetSelected = { selected.value = null }
-            )
+            return resolvedId
         }
 }

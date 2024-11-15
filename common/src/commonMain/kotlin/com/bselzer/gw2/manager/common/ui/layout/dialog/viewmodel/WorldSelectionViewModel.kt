@@ -39,9 +39,7 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
             title = Gw2Resources.strings.worlds.desc(),
             values = worlds,
             getLabel = { world -> world.name.toString().translated() },
-            selected = resolvedId?.let {
-                worlds.firstOrNull { world -> world.id == it }
-            },
+            selected = resolvedWorld,
             onSave = { selection ->
                 scope.launch {
                     preferences.wvw.selectedWorld.set(selection.id)
@@ -59,6 +57,17 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
             resetSelected = { selected.value = null }
         )
 
+    private val resolvedWorld: World?
+        get() {
+            val worlds = worlds
+            val resolvedWorld = resolvedId?.let {
+                worlds.firstOrNull { world -> world.id == it }
+            }
+
+            Logger.d { "World | Selection | Resolved | $resolvedWorld "}
+            return resolvedWorld
+        }
+
     private val resolvedId: WorldId?
         get() {
             val resolvedId: WorldId?
@@ -66,12 +75,12 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
             // If the dialog has a selection then use it, otherwise use the saved selection.
             val selectedWorldId = selected.value?.id
             if (selectedWorldId != null) {
-                Logger.d { "World | Selection | Using dialog selected id of $selectedWorldId" }
+                Logger.d { "World | Selection | Resolved | Dialog selected id of $selectedWorldId" }
                 resolvedId = selectedWorldId
             }
             else {
                 val savedWorldId = repositories.selectedWorld.worldId
-                Logger.d { "World | Selection | Using saved id of $savedWorldId"}
+                Logger.d { "World | Selection | Resolved | Saved id of $savedWorldId"}
                 resolvedId = savedWorldId
             }
 

@@ -2,6 +2,7 @@ package com.bselzer.gw2.manager.common.configuration.wvw
 
 import com.bselzer.gw2.v2.client.model.Language
 import com.bselzer.gw2.v2.model.world.World
+import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.serialization.context.JsonContext
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
@@ -27,7 +28,8 @@ class WvwWorlds {
             language.value.decodeOrNull<com.bselzer.gw2.v2.model.enumeration.Language>()
         }
 
-        if (languageEnum == null || languageEnum == com.bselzer.gw2.v2.model.enumeration.Language.ENGLISH) {
+        Logger.d { "Translation | World | Language: ${language.value} / $languageEnum" }
+        if (languageEnum == null) {
             return emptyList()
         }
 

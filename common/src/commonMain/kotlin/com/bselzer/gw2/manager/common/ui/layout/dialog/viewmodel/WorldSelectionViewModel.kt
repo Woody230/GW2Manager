@@ -9,6 +9,7 @@ import com.bselzer.gw2.manager.common.ui.layout.dialog.model.worldselection.Worl
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
 import com.bselzer.gw2.v2.resource.Gw2Resources
+import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.launch
 
@@ -35,15 +36,25 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
      */
     val selection: WorldSelection
         get() {
-            val selectedWorldId = repositories.selectedWorld.worldId
+            val resolvedId: WorldId?
 
             // If the dialog has a selection then use it, otherwise use the saved selection.
-            val resolved: WorldId? = selected.value?.id ?: selectedWorldId
+            val selectedWorldId = selected.value?.id
+            if (selectedWorldId != null) {
+                Logger.d { "World | Selection | Using dialog selected id of $selectedWorldId" }
+                resolvedId = selectedWorldId
+            }
+            else {
+                val savedWorldId = repositories.selectedWorld.worldId
+                Logger.d { "World | Selection | Using saved id of $savedWorldId"}
+                resolvedId = savedWorldId
+            }
+
             return WorldSelection(
                 title = Gw2Resources.strings.worlds.desc(),
                 values = worlds,
                 getLabel = { world -> world.name.toString().translated() },
-                selected = resolved?.let {
+                selected = resolvedId?.let {
                     worlds.firstOrNull { world -> world.id == it }
                 },
                 onSave = { selection ->
@@ -56,7 +67,10 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
                         preferences.wvw.selectedWorld.remove()
                     }
                 },
-                setSelected = { selected.value = it },
+                setSelected = {
+                    Logger.d { "World | Selection | Selected $it" }
+                    selected.value = it
+                },
                 resetSelected = { selected.value = null }
             )
         }

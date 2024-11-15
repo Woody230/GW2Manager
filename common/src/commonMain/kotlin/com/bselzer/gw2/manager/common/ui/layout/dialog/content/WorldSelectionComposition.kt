@@ -91,7 +91,7 @@ class WorldSelectionComposition(
             // TODO keep open if world not selected and force show dialog on launch if no selection?
             val world = selection.selected
             if (world != null) {
-                Logger.d("Setting world to $world")
+                Logger.d("World | Selection | Setting world to $world")
                 selection.onSave(world)
             }
         }

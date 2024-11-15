@@ -9,8 +9,8 @@ multiplatform-compose = "1.7.1"
 multiplatform-settings = "1.1.1"
 woody230-gradle = "1.7.0"
 woody230-gw2 = "3.13.0"
-woody230-gw2-manager-name = "1.7.0"
-woody230-gw2-manager-code = "21"
+woody230-gw2-manager-name = "1.8.0"
+woody230-gw2-manager-code = "22"
 woody230-ktx = "7.0.0"
 
 [libraries]

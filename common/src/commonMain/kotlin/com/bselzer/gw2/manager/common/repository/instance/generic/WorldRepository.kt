@@ -23,11 +23,32 @@ class WorldRepository(
     suspend fun updateWorlds() = database.transaction().use {
         Logger.d { "World | Updating all worlds." }
 
-        val worlds = findAllOnce { clients.gw2.world.worlds() }.onEach { world -> _worlds[world.id] = world }
+        // TODO migrate to using new worlds from api
+        val worlds = when (configuration.wvw.worlds.hardcoded) {
+            false -> findAllOnce { clients.gw2.world.worlds() }
+            true -> configuration.wvw.worlds.worlds.map { hardcodedWorld ->
+                World(
+                    id = hardcodedWorld.id,
+                    name = hardcodedWorld.englishName
+                )
+            }
+        }
+
+        for (world in worlds) {
+            Logger.d { "World | Id = ${world.id}, Name = ${world.name}"}
+            _worlds[world.id] = world
+        }
+
         repositories.translation.updateTranslations(
             translator = Gw2Translators.world,
             defaults = worlds,
-            requestTranslated = { missing, language -> clients.gw2.world.worlds(missing, language) }
+            requestTranslated = { missing, language ->
+                // TODO migrate to using new worlds from api
+                when (configuration.wvw.worlds.hardcoded) {
+                    false -> clients.gw2.world.worlds(missing, language)
+                    true -> configuration.wvw.worlds.translatedModels(language)
+                }
+            }
         )
     }
 }

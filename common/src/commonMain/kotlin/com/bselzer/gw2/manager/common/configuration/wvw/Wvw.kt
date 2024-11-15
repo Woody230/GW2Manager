@@ -36,6 +36,9 @@ class Wvw(
 
     @XmlSerialName(value = "ContestedAreas", namespace = "", prefix = "")
     val contestedAreas: WvwContestedAreas = WvwContestedAreas(),
+
+    @XmlSerialName(value = "Worlds", namespace = "", prefix = "")
+    val worlds: WvwWorlds = WvwWorlds()
 ) {
     fun objective(objective: WvwObjective?) = objective?.let {
         objectives.objectives.firstOrNull { it.type == objective.type.decodeOrNull() }

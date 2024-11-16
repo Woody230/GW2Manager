@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.ui.layout.dialog.content
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
@@ -58,10 +59,16 @@ class WorldSelectionComposition(
     }
 
     @Composable
-    private fun WorldSelectionViewModel.interactor() = interactorBuilder().biText().build {
-        title = selection.title.localized()
-        neutral()
-        positive()
+    private fun WorldSelectionViewModel.interactor(): AlertDialogInteractor = run {
+        // The interactor isn't getting recomposed without using the key.
+        // This can block the user from selecting a new world if the saved world isn't available.
+        key(selection) {
+            interactorBuilder().biText().build {
+                title = selection.title.localized()
+                neutral()
+                positive()
+            }
+        }
     }
 
     @Composable

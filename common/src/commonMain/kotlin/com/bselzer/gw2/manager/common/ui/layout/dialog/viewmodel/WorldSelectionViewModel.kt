@@ -9,6 +9,7 @@ import com.bselzer.gw2.manager.common.ui.layout.dialog.model.worldselection.Worl
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
 import com.bselzer.gw2.v2.resource.Gw2Resources
+import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.launch
 
@@ -34,30 +35,55 @@ class WorldSelectionViewModel(context: AppComponentContext) : DialogViewModel(co
      * The state for displaying all worlds and the selection made by the user.
      */
     val selection: WorldSelection
+        get() = WorldSelection(
+            title = Gw2Resources.strings.worlds.desc(),
+            values = worlds,
+            getLabel = { world -> world.name.toString().translated() },
+            selected = resolvedWorld,
+            onSave = { selection ->
+                scope.launch {
+                    preferences.wvw.selectedWorld.set(selection.id)
+                }
+            },
+            onReset = {
+                scope.launch {
+                    preferences.wvw.selectedWorld.remove()
+                }
+            },
+            setSelected = {
+                Logger.d { "World | Selection | Selected $it" }
+                selected.value = it
+            },
+            resetSelected = { selected.value = null }
+        )
+
+    private val resolvedWorld: World?
         get() {
-            val selectedWorldId = repositories.selectedWorld.worldId
+            val worlds = worlds
+            val resolvedWorld = resolvedId?.let {
+                worlds.firstOrNull { world -> world.id == it }
+            }
+
+            Logger.d { "World | Selection | Resolved | $resolvedWorld "}
+            return resolvedWorld
+        }
+
+    private val resolvedId: WorldId?
+        get() {
+            val resolvedId: WorldId?
 
             // If the dialog has a selection then use it, otherwise use the saved selection.
-            val resolved: WorldId? = selected.value?.id ?: selectedWorldId
-            return WorldSelection(
-                title = Gw2Resources.strings.worlds.desc(),
-                values = worlds,
-                getLabel = { world -> world.name.toString().translated() },
-                selected = resolved?.let {
-                    worlds.firstOrNull { world -> world.id == it }
-                },
-                onSave = { selection ->
-                    scope.launch {
-                        preferences.wvw.selectedWorld.set(selection.id)
-                    }
-                },
-                onReset = {
-                    scope.launch {
-                        preferences.wvw.selectedWorld.remove()
-                    }
-                },
-                setSelected = { selected.value = it },
-                resetSelected = { selected.value = null }
-            )
+            val selectedWorldId = selected.value?.id
+            if (selectedWorldId != null) {
+                Logger.d { "World | Selection | Resolved | Dialog selected id of $selectedWorldId" }
+                resolvedId = selectedWorldId
+            }
+            else {
+                val savedWorldId = repositories.selectedWorld.worldId
+                Logger.d { "World | Selection | Resolved | Saved id of $savedWorldId"}
+                resolvedId = savedWorldId
+            }
+
+            return resolvedId
         }
 }

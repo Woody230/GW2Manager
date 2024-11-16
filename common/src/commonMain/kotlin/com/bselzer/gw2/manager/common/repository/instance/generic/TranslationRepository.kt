@@ -88,12 +88,18 @@ class TranslationRepository(
             return
         }
 
-        Logger.d { "Translation | Updating for ${defaults.size} models." }
+        val wrapperLanguage = WrapperLanguage(
+            // TODO get serial name extension for enums
+            // Encoding will surround the serial name with quotes, which we don't want.
+            Json.encodeToString(language).trim('"')
+        )
+
+        Logger.d { "Translation | Adding missing ${wrapperLanguage.value} translations for ${defaults.size} models." }
         database.transaction().use {
             putMissingTranslations(
                 translator = translator,
                 defaults = defaults,
-                language = WrapperLanguage(Json.encodeToString(language)),
+                language = wrapperLanguage,
                 requestTranslated = requestTranslated
             ).putInto(_translations)
         }

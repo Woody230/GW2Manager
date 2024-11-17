@@ -1,5 +1,19 @@
 # Whats New
 
+## v1.8.1
+
+### en-US
+* Updated the list of worlds (world restructuring).
+
+### de-DE
+* Die Liste der welten wurde aktualisiert (Welten-Umstrukturierung).
+
+### es-ES
+* Se ha actualizado la lista de mundos (reestructuración de mundos).
+
+### fr-FR
+* Mise à jour de la liste des mondes (restructuration des mondes).
+
 ## v1.3.0
 
 ### en-US

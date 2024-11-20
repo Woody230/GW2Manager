@@ -6,10 +6,8 @@ CREATE TABLE IF NOT EXISTS Guild (
     PRIMARY KEY (Id)
 );
 
-getById:
-SELECT * FROM Guild
-WHERE Id = :id
-LIMIT 1;
+getAll:
+SELECT * FROM Guild;
 
 insertOrReplace:
 REPLACE INTO Guild(

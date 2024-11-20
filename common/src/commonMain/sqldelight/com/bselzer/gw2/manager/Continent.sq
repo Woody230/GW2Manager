@@ -1,0 +1,20 @@
+import com.bselzer.gw2.v2.model.continent.Continent;
+import com.bselzer.gw2.v2.model.continent.ContinentId;
+
+CREATE TABLE IF NOT EXISTS Continent (
+    Id INTEGER AS ContinentId NOT NULL,
+    Model TEXT AS Continent NOT NULL,
+    PRIMARY KEY (Id)
+);
+
+getAll:
+SELECT * FROM Continent;
+
+insertOrReplace:
+REPLACE INTO Continent (
+    Id,
+    Model
+) VALUES :continent;
+
+deleteAll:
+DELETE FROM Continent;

@@ -1,0 +1,20 @@
+import com.bselzer.gw2.v2.model.continent.floor.Floor;
+import com.bselzer.gw2.v2.model.continent.floor.FloorId;
+
+CREATE TABLE IF NOT EXISTS Floor (
+    Id INTEGER AS FloorId NOT NULL,
+    Model TEXT AS Floor NOT NULL,
+    PRIMARY KEY (Id)
+);
+
+getAll:
+SELECT * FROM Floor;
+
+insertOrReplace:
+REPLACE INTO Floor(
+    Id,
+    Model
+) VALUES :floor;
+
+deleteAll:
+DELETE FROM Floor;

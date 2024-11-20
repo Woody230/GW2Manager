@@ -1,0 +1,20 @@
+import com.bselzer.gw2.v2.model.map.Map;
+import com.bselzer.gw2.v2.model.map.MapId;
+
+CREATE TABLE IF NOT EXISTS Map (
+    Id INTEGER AS MapId NOT NULL,
+    Model TEXT AS Map NOT NULL,
+    PRIMARY KEY (Id)
+);
+
+getAll:
+SELECT * FROM Map;
+
+insertOrReplace:
+REPLACE INTO Map (
+    Id,
+    Model
+) VALUES :map;
+
+deleteAll:
+DELETE FROM Map;

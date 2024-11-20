@@ -22,6 +22,7 @@ plugins {
     //alias(libs.plugins.moko.resources)
     id(libs.plugins.woody230.gradle.internal.buildkonfig.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.aboutlibraries.get().pluginId)
+    alias(libs.plugins.sqldelight)
 
     alias(libs.plugins.ktx.serialization)
 }
@@ -57,12 +58,19 @@ buildkonfig {
     }
 }
 
+sqldelight {
+    databases {
+        create("Pack Yak") {
+            packageName.set(Metadata.PACKAGE_NAME)
+        }
+    }
+}
+
 multiplatformDependencies {
     commonMain {
         api(libs.bundles.coil)
         api(libs.bundles.compose)
         api(libs.bundles.decompose)
-        api(libs.bundles.kodein.db)
         api(libs.bundles.woody230.gw2)
         api(libs.bundles.woody230.ktx)
         api(libs.moko.resources)
@@ -81,7 +89,6 @@ multiplatformDependencies {
     /*
     jvmMain {
         api(libs.ktor.client.okhttp)
-        api(libs.kodein.db.level.windows)
     }
      */
 }

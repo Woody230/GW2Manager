@@ -1,17 +1,17 @@
 [versions]
 coil = "3.0.2"
 decompose = "3.1.0"
-kodein-db = "0.9.0-beta"
 kotlin = "2.0.21"
 ktor = "3.0.1"
 moko-resources = "0.24.3"
 multiplatform-compose = "1.7.1"
 multiplatform-settings = "1.1.1"
+sqldelight = "2.0.2"
 woody230-gradle = "1.7.0"
-woody230-gw2 = "3.13.0"
-woody230-gw2-manager-name = "1.8.1"
-woody230-gw2-manager-code = "24"
-woody230-ktx = "7.0.0"
+woody230-gw2 = "4.0.0"
+woody230-gw2-manager-name = "1.9.0"
+woody230-gw2-manager-code = "25"
+woody230-ktx = "8.0.0"
 
 [libraries]
 android-material = { group = "com.google.android.material", name = "material", version = "1.12.0" }
@@ -30,13 +30,12 @@ compose-ui-preview = { group = "org.jetbrains.compose.ui", name = "ui-tooling-pr
 compose-ui-util = { group = "org.jetbrains.compose.ui", name = "ui-util", version.ref = "multiplatform-compose" }
 decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
 decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose", version.ref = "decompose" }
-kodein-db = { group = "org.kodein.db", name = "kodein-db", version.ref = "kodein-db" }
-kodein-db-level-windows = { group = "org.kodein.db", name = "kodein-leveldb-jni-jvm-windows", version.ref = "kodein-db" }
-kodein-db-serializer-ktx = { group = "org.kodein.db", name = "kodein-db-serializer-kotlinx", version.ref = "kodein-db" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 mapcompose = { group = "ovh.plrapps", name = "mapcompose", version = "2.12.12" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 settings-datastore = { group = "com.russhwolf", name = "multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
+sqldelight-android = { group = "app.cash.sqldelight", name="android-driver", version.ref = "sqldelight" }
+sqldelight-jvm = { group = "app.cash.sqldelight", name="sqlite-driver", version.ref = "sqldelight" }
 woody230-gradle-internal-aboutlibraries-plugin = { group = "io.github.woody230.gradle.internal", name = "aboutlibraries-plugin", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-desugar-plugin = { group = "io.github.woody230.gradle.internal", name = "android-desugar-plugin", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-plugin = { group = "io.github.woody230.gradle.internal", name = "android-plugin", version.ref = "woody230-gradle" }
@@ -50,15 +49,12 @@ woody230-gw2-assetcdn = { group = "io.github.woody230.gw2", name = "asset-cdn", 
 woody230-gw2-v2-client = { group = "io.github.woody230.gw2", name = "v2-client", version.ref = "woody230-gw2" }
 woody230-gw2-v2-emblem = { group = "io.github.woody230.gw2", name = "v2-emblem", version.ref = "woody230-gw2" }
 woody230-gw2-v2-intl = { group = "io.github.woody230.gw2", name = "v2-intl", version.ref = "woody230-gw2" }
-woody230-gw2-v2-kodein-db = { group = "io.github.woody230.gw2", name = "v2-intl-kodein-db", version.ref = "woody230-gw2" }
 woody230-gw2-v2-model = { group = "io.github.woody230.gw2", name = "v2-model", version.ref = "woody230-gw2" }
 woody230-gw2-v2-model-extension = { group = "io.github.woody230.gw2", name = "v2-model-extension", version.ref = "woody230-gw2" }
 woody230-gw2-v2-model-enumeration = { group = "io.github.woody230.gw2", name = "v2-model-enumeration", version.ref = "woody230-gw2" }
-woody230-gw2-v2-model-kodein-db = { group = "io.github.woody230.gw2", name = "v2-model-kodein-db", version.ref = "woody230-gw2" }
 woody230-gw2-v2-resource = { group = "io.github.woody230.gw2", name = "v2-resource", version.ref = "woody230-gw2" }
 woody230-gw2-v2-scope = { group = "io.github.woody230.gw2", name = "v2-scope", version.ref = "woody230-gw2" }
 woody230-gw2-v2-tile-client = { group = "io.github.woody230.gw2", name = "v2-tile-client", version.ref = "woody230-gw2" }
-woody230-gw2-v2-tile-kodein-db = { group = "io.github.woody230.gw2", name = "v2-tile-kodein-db", version.ref = "woody230-gw2" }
 woody230-ktx-compose-aboutlibraries = { group = "io.github.woody230.ktx", name = "compose-aboutlibraries", version.ref = "woody230-ktx" }
 woody230-ktx-compose-accompanist = { group = "io.github.woody230.ktx", name = "compose-accompanist", version.ref = "woody230-ktx" }
 woody230-ktx-compose-resource = { group = "io.github.woody230.ktx", name = "compose-resource", version.ref = "woody230-ktx" }
@@ -84,13 +80,11 @@ woody230-ktx-serialization-xml = { group = "io.github.woody230.ktx", name = "ser
 coil = ["coil-compose", "coil-network"]
 compose = ["compose-foundation", "compose-material", "compose-runtime", "compose-ui", "compose-ui-util", "compose-ui-preview"]
 decompose = ["decompose", "decompose-compose"]
-kodein-db = ["kodein-db", "kodein-db-serializer-ktx"]
 woody230-gw2 = [
     "woody230-gw2-assetcdn", "woody230-gw2-v2-client", "woody230-gw2-v2-emblem",
-    "woody230-gw2-v2-intl", "woody230-gw2-v2-kodein-db", "woody230-gw2-v2-model",
-    "woody230-gw2-v2-model-enumeration", "woody230-gw2-v2-model-extension", "woody230-gw2-v2-model-kodein-db",
-    "woody230-gw2-v2-resource", "woody230-gw2-v2-scope", "woody230-gw2-v2-tile-client",
-    "woody230-gw2-v2-tile-kodein-db"
+    "woody230-gw2-v2-intl", "woody230-gw2-v2-model",
+    "woody230-gw2-v2-model-enumeration", "woody230-gw2-v2-model-extension",
+    "woody230-gw2-v2-resource", "woody230-gw2-v2-scope", "woody230-gw2-v2-tile-client"
 ]
 woody230-ktx = [
     "woody230-ktx-compose-aboutlibraries", "woody230-ktx-compose-accompanist", "woody230-ktx-compose-resource",
@@ -109,6 +103,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 moko-resources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko-resources" }
+sqldelight = { id="app.cash.sqldelight", version.ref = "sqldelight" }
 woody230-gradle-internal-aboutlibraries = { id = "io.github.woody230.gradle.internal.aboutlibraries", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-application = { id = "io.github.woody230.gradle.internal.android-application", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-desugar = { id = "io.github.woody230.gradle.internal.android-desugar", version.ref = "woody230-gradle" }

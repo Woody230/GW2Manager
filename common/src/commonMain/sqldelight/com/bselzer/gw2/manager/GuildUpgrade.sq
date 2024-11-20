@@ -1,0 +1,24 @@
+import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId;
+import com.bselzer.gw2.v2.model.wrapper.ImageLink;
+
+CREATE TABLE IF NOT EXISTS GuildUpgrade (
+    Id INTEGER AS GuildUpgradeId NOT NULL,
+    Name TEXT NOT NULL,
+    Description TEXT NOT NULL,
+    IconLink TEXT AS ImageLink NOT NULL,
+    PRIMARY KEY(Id)
+);
+
+getAll:
+SELECT * FROM GuildUpgrade;
+
+insertOrReplace:
+REPLACE INTO GuildUpgrade (
+    Id,
+    Name,
+    Description,
+    IconLink
+) VALUES :guildUpgrade;
+
+deleteAll:
+DELETE FROM GuildUpgrade;

@@ -1,0 +1,21 @@
+import com.bselzer.gw2.v2.model.guild.GuildId;
+
+CREATE TABLE IF NOT EXISTS Guild (
+    Id TEXT AS GuildId NOT NULL,
+    Name TEXT NOT NULL,
+    PRIMARY KEY (Id)
+);
+
+getById:
+SELECT * FROM Guild
+WHERE Id = :id
+LIMIT 1;
+
+insertOrReplace:
+REPLACE INTO Guild(
+    Id,
+    Name
+) VALUES :guild;
+
+deleteAll:
+DELETE FROM Guild;

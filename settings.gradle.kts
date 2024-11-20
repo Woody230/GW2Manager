@@ -13,6 +13,5 @@ plugins {
 
 rootProject.name = "GW2Manager"
 include(":android")
-// TODO re-enable
-// include(":desktop")
+include(":desktop")
 include(":common")

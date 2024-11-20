@@ -58,7 +58,7 @@ buildkonfig {
 
 sqldelight {
     databases {
-        create("Pack Yak") {
+        create("PackYak") {
             packageName.set(Metadata.PACKAGE_NAME)
         }
     }
@@ -83,8 +83,10 @@ multiplatformDependencies {
         api(libs.ktor.client.okhttp)
         api(libs.mapcompose)
         api(libs.settings.datastore)
+        api(libs.sqldelight.android)
     }
     jvmMain {
         api(libs.ktor.client.okhttp)
+        api(libs.sqldelight.jvm)
     }
 }

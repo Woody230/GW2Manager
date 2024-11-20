@@ -58,7 +58,7 @@ buildkonfig {
 
 sqldelight {
     databases {
-        create("PackYak") {
+        create("AppDatabase") {
             packageName.set(Metadata.PACKAGE_NAME)
         }
     }

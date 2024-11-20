@@ -1,7 +1,9 @@
+import kotlin.Int;
+
 CREATE TABLE IF NOT EXISTS Tile (
-    Zoom INTEGER AS kotlin.Int NOT NULL,
-    X INTEGER AS kotlin.Int NOT NULL,
-    Y INTEGER AS kotlin.Int NOT NULL,
+    Zoom INTEGER AS Int NOT NULL,
+    X INTEGER AS Int NOT NULL,
+    Y INTEGER AS Int NOT NULL,
     Width REAL NOT NULL,
     Height REAL NOT NULL,
     Content BLOB NOT NULL,

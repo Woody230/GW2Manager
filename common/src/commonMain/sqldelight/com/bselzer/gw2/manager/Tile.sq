@@ -8,11 +8,12 @@ CREATE TABLE IF NOT EXISTS Tile (
     PRIMARY KEY (Zoom, X, Y)
 );
 
-getTileById:
+getById:
 SELECT * FROM Tile
-WHERE Zoom = ?
-AND X = ?
-AND Y = ?;
+WHERE Zoom = :zoom
+AND X = :x
+AND Y = :y
+LIMIT 1;
 
 insertOrReplace:
 REPLACE INTO Tile(
@@ -22,14 +23,7 @@ REPLACE INTO Tile(
     Width,
     Height,
     Content
-) VALUES (
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?
-);
+) VALUES :tile;
 
-deleteTiles:
+deleteAll:
 DELETE FROM Tile;

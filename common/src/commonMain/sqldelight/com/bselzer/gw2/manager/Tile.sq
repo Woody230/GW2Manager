@@ -14,5 +14,22 @@ WHERE Zoom = ?
 AND X = ?
 AND Y = ?;
 
+insertOrReplace:
+REPLACE INTO Tile(
+    Zoom,
+    X,
+    Y,
+    Width,
+    Height,
+    Content
+) VALUES (
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?
+);
+
 deleteTiles:
 DELETE FROM Tile;

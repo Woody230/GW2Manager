@@ -2,6 +2,7 @@ package com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import com.bselzer.gw2.manager.TokenPermission
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
@@ -105,11 +106,22 @@ class TokenViewModel(
                     Name = tokenInfo.name
                 )
             )
+
+            tokenInfo.permissions.forEach { permission ->
+                database.tokenPermissionQueries.deleteByToken(token)
+                database.tokenPermissionQueries.insertOrReplace(
+                    TokenPermission(
+                        TokenId = token,
+                        Name = permission
+                    )
+                )
+            }
         }
 
         setting.set(token)
         Logger.i { "Set client token to $token" }
 
+        // TODO account.wvw.teamId instead
         preferences.wvw.selectedWorld.initialize(account.world)
         return true
     }

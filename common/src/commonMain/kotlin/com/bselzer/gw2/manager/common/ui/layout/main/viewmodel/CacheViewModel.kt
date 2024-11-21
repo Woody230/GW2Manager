@@ -58,6 +58,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val continentLogic = ClearLogic(type = ClearType.CONTINENT) {
+        // TODO clear via repository so that snapshot is maintained
         database.continentQueries.deleteAll()
         database.floorQueries.deleteAll()
         database.mapQueries.deleteAll()
@@ -72,6 +73,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val guildLogic = ClearLogic(type = ClearType.GUILD) {
+        // TODO clear via repository so that snapshot is maintained
         database.guildQueries.deleteAll()
         database.guildUpgradeQueries.deleteAll()
     }
@@ -90,6 +92,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         )
 
     private val imageLogic = ClearLogic(type = ClearType.IMAGE) {
+        // TODO clear via repository so that snapshot is maintained
         database.tileQueries.deleteAll()
 
         imageLoader.memoryCache?.clear()
@@ -104,6 +107,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val translationLogic = ClearLogic(type = ClearType.TRANSLATIONS) {
+        // TODO clear via repository so that snapshot is maintained
         database.translationQueries.deleteAll()
     }
 
@@ -115,6 +119,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val wvwLogic = ClearLogic(type = ClearType.WVW) {
+        // TODO clear via repository so that snapshot is maintained
         database.wvwObjectiveQueries.deleteAll()
         database.wvwUpgradeQueries.deleteAll()
         database.wvwMatchQueries.deleteAll()

@@ -9,8 +9,10 @@ CREATE TABLE IF NOT EXISTS GuildUpgrade (
     PRIMARY KEY(Id)
 );
 
-getAll:
-SELECT * FROM GuildUpgrade;
+getById:
+SELECT * FROM GuildUpgrade
+WHERE Id = :id
+LIMIT 1;
 
 insertOrReplace:
 REPLACE INTO GuildUpgrade (

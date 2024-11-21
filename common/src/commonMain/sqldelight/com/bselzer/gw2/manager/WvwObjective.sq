@@ -1,0 +1,20 @@
+import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective;
+import com.bselzer.gw2.v2.model.wvw.objective.WvwObjectiveId;
+
+CREATE TABLE IF NOT EXISTS WvwObjective (
+    Id TEXT AS WvwObjectiveId NOT NULL,
+    Model TEXT AS WvwObjective NOT NULL,
+    PRIMARY KEY (Id)
+);
+
+getAll:
+SELECT * FROM WvwObjective;
+
+insertOrReplace:
+REPLACE INTO WvwObjective(
+    Id,
+    Model
+) VALUES :wvwObjective;
+
+deleteAll:
+SELECT * FROM WvwObjective;

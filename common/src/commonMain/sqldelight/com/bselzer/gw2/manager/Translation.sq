@@ -7,11 +7,8 @@ CREATE TABLE IF NOT EXISTS Translation (
     PRIMARY KEY (Defaulted, Language)
 );
 
-getById:
-SELECT * FROM Translation
-WHERE Defaulted = :defaulted
-AND Language = :language
-LIMIT 1;
+getAll:
+SELECT * FROM Translation;
 
 insertOrReplace:
 REPLACE INTO Translation(

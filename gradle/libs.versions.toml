@@ -34,6 +34,7 @@ ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.r
 mapcompose = { group = "ovh.plrapps", name = "mapcompose", version = "2.12.12" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 settings-datastore = { group = "com.russhwolf", name = "multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
+sqldelight-adapters = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
 sqldelight-android = { group = "app.cash.sqldelight", name="android-driver", version.ref = "sqldelight" }
 sqldelight-jvm = { group = "app.cash.sqldelight", name="sqlite-driver", version.ref = "sqldelight" }
 woody230-gradle-internal-aboutlibraries-plugin = { group = "io.github.woody230.gradle.internal", name = "aboutlibraries-plugin", version.ref = "woody230-gradle" }

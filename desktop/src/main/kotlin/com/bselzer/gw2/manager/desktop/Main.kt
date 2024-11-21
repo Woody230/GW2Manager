@@ -41,6 +41,6 @@ fun main() {
             }
         }
     } finally {
-        app.dependencies.database.close()
+        app.dependencies.sqlDriver.close()
     }
 }

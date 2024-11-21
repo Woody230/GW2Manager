@@ -3,6 +3,10 @@ package com.bselzer.gw2.manager.common.dependency
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import com.bselzer.gw2.manager.AppDatabase
+import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.gw2.manager.common.BuildConfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
@@ -28,7 +32,7 @@ class AndroidApp(
     debugMode = BuildConfig.DEBUG,
     scope = scope,
     httpClient = httpClient(),
-    databaseDirectory = context.filesDir.absolutePath,
+    sqlDriver = sqlDriver(context),
     settings = DataStoreSettings(datastore),
     platformContext = context
 ) {
@@ -61,5 +65,11 @@ class AndroidApp(
                 handleResponseExceptionWithRequest { cause, request -> Logger.e(cause) }
             }
         }
+
+        fun sqlDriver(context: Context): SqlDriver = AndroidSqliteDriver(
+            AppDatabase.Schema,
+            context,
+            BuildKonfig.DATABASE_NAME
+        )
     }
 }

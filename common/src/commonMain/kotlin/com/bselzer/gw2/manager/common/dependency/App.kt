@@ -2,6 +2,7 @@ package com.bselzer.gw2.manager.common.dependency
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import app.cash.sqldelight.db.SqlDriver
 import coil3.PlatformContext
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
@@ -31,9 +32,9 @@ abstract class App(
     httpClient: HttpClient,
 
     /**
-     * The location of the database.
+     * The SQL database driver.
      */
-    databaseDirectory: String,
+    sqlDriver: SqlDriver,
 
     /**
      * The preference settings.
@@ -49,7 +50,7 @@ abstract class App(
         debugMode = debugMode,
         lifecycleScope = scope,
         httpClient = httpClient,
-        databaseDirectory = databaseDirectory,
+        sqlDriver = sqlDriver,
         settings = settings,
         platformContext = platformContext
     )

@@ -1,13 +1,45 @@
 package com.bselzer.gw2.manager.common.dependency
 
+import app.cash.sqldelight.adapter.primitive.IntColumnAdapter
+import app.cash.sqldelight.db.SqlDriver
 import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
+import com.bselzer.gw2.manager.AppDatabase
 import com.bselzer.gw2.manager.BuildKonfig
+import com.bselzer.gw2.manager.Continent
+import com.bselzer.gw2.manager.Floor
+import com.bselzer.gw2.manager.Guild
+import com.bselzer.gw2.manager.GuildUpgrade
+import com.bselzer.gw2.manager.Map
+import com.bselzer.gw2.manager.Tile
+import com.bselzer.gw2.manager.Translation
+import com.bselzer.gw2.manager.World
+import com.bselzer.gw2.manager.WvwMatch
+import com.bselzer.gw2.manager.WvwObjective
+import com.bselzer.gw2.manager.WvwUpgrade
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.AppConfiguration
 import com.bselzer.gw2.manager.common.configuration.Configuration
+import com.bselzer.gw2.manager.common.database.adapter.continent.ContinentColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.continent.ContinentIdColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.floor.FloorColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.floor.FloorIdColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.guild.GuildIdColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.guild.upgrade.GuildUpgradeIdColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.common.ImageLinkColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.common.LanguageColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.map.MapColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.map.MapIdColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.world.WorldIdColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.world.WorldNameColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.wvw.match.WvwMatchColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.wvw.match.WvwMatchIdColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.wvw.objective.WvwObjectiveColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.wvw.objective.WvwObjectiveIdColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.wvw.upgrade.WvwUpgradeColumnAdapter
+import com.bselzer.gw2.manager.common.database.adapter.wvw.upgrade.WvwUpgradeIdColumnAdapter
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
 import com.bselzer.gw2.manager.common.repository.instance.Repositories
@@ -20,7 +52,6 @@ import com.bselzer.gw2.v2.client.instance.Gw2Client
 import com.bselzer.gw2.v2.client.instance.Gw2ClientConfiguration
 import com.bselzer.gw2.v2.client.instance.TileClient
 import com.bselzer.gw2.v2.emblem.client.EmblemClient
-import com.bselzer.gw2.v2.model.serialization.Modules
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.assets.AssetReader
 import com.bselzer.ktx.serialization.LoggingUnknownChildHandler
@@ -35,14 +66,14 @@ import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.DefaultXmlSerializationPolicy
 import nl.adaptivity.xmlutil.serialization.XML
 
-typealias DatabaseDirectory = String
 typealias IsDebug = Boolean
 
 interface AppDependencies {
     val build: BuildKonfig
     val clients: Clients
     val configuration: Configuration
-    val database: DB
+    val sqlDriver: SqlDriver
+    val database: AppDatabase
     val isDebug: IsDebug
     val libraries: List<Library>
     val preferences: Preferences
@@ -63,9 +94,9 @@ class SingletonAppDependencies(
     lifecycleScope: CoroutineScope,
 
     /**
-     * The location of the database.
+     * The SQL database driver.
      */
-    databaseDirectory: DatabaseDirectory,
+    sqlDriver: SqlDriver,
 
     /**
      * The HTTP client for making network requests.
@@ -87,7 +118,7 @@ class SingletonAppDependencies(
     override val clients = clients(httpClient)
     override val scope = lifecycleScope
     override val configuration = configuration()
-    override val database = database(databaseDirectory, isDebug)
+    override val database = database(sqlDriver)
     override val libraries = libraries()
     override val preferences = preferences(settings, configuration)
     override val imageLoader: ImageLoader = SingletonImageLoader.get(platformContext)
@@ -172,6 +203,53 @@ class SingletonAppDependencies(
         asset = AssetCdnClient(httpClient)
     )
 
+    fun database(sqlDriver: SqlDriver) = AppDatabase(
+        driver = sqlDriver,
+        ContinentAdapter = Continent.Adapter(
+            IdAdapter = ContinentIdColumnAdapter,
+            ModelAdapter = ContinentColumnAdapter,
+        ),
+        FloorAdapter = Floor.Adapter(
+            IdAdapter = FloorIdColumnAdapter,
+            ModelAdapter = FloorColumnAdapter
+        ),
+        GuildAdapter = Guild.Adapter(
+            IdAdapter = GuildIdColumnAdapter
+        ),
+        GuildUpgradeAdapter = GuildUpgrade.Adapter(
+            IdAdapter = GuildUpgradeIdColumnAdapter,
+            IconLinkAdapter = ImageLinkColumnAdapter
+        ),
+        MapAdapter = Map.Adapter(
+            IdAdapter = MapIdColumnAdapter,
+            ModelAdapter = MapColumnAdapter
+        ),
+        TileAdapter = Tile.Adapter(
+            ZoomAdapter = IntColumnAdapter,
+            XAdapter = IntColumnAdapter,
+            YAdapter = IntColumnAdapter
+        ),
+        TranslationAdapter = Translation.Adapter(
+            LanguageAdapter = LanguageColumnAdapter
+        ),
+        WorldAdapter = World.Adapter(
+            IdAdapter = WorldIdColumnAdapter,
+            NameAdapter = WorldNameColumnAdapter
+        ),
+        WvwMatchAdapter = WvwMatch.Adapter(
+            IdAdapter = WvwMatchIdColumnAdapter,
+            ModelAdapter = WvwMatchColumnAdapter
+        ),
+        WvwObjectiveAdapter = WvwObjective.Adapter(
+            IdAdapter = WvwObjectiveIdColumnAdapter,
+            ModelAdapter = WvwObjectiveColumnAdapter
+        ),
+        WvwUpgradeAdapter = WvwUpgrade.Adapter(
+            IdAdapter = WvwUpgradeIdColumnAdapter,
+            ModelAdapter = WvwUpgradeColumnAdapter
+        )
+    )
+
     fun libraries(): List<Library> = with(AssetReader) {
         val content = AppResources.assets.aboutlibraries_json.readText()
         Libs.Builder().withJson(content).build().libraries
@@ -187,13 +265,13 @@ class SingletonAppDependencies(
     fun repositoryDependencies(
         clients: Clients,
         configuration: Configuration,
-        database: DB,
+        database: AppDatabase,
         preferences: Preferences,
         scope: CoroutineScope
     ): RepositoryDependencies = object : RepositoryDependencies {
         override val clients: Clients = clients
         override val configuration: Configuration = configuration
-        override val database: DB = database
+        override val database: AppDatabase = database
         override val preferences: Preferences = preferences
         override val scope: CoroutineScope = scope
     }

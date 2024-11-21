@@ -53,12 +53,13 @@ buildkonfig {
         string("VERSION_NAME", libs.versions.woody230.gw2.manager.name.get())
         int("VERSION_CODE", libs.versions.woody230.gw2.manager.code.get().toInt())
         string("PACKAGE_NAME", Metadata.PACKAGE_NAME)
+        string("DATABASE_NAME", Metadata.DATABASE_NAME)
     }
 }
 
 sqldelight {
     databases {
-        create("AppDatabase") {
+        create(Metadata.DATABASE_NAME) {
             packageName.set(Metadata.PACKAGE_NAME)
         }
     }
@@ -72,6 +73,7 @@ multiplatformDependencies {
         api(libs.bundles.woody230.gw2)
         api(libs.bundles.woody230.ktx)
         api(libs.moko.resources)
+        api(libs.sqldelight.adapters)
     }
     androidMain {
         api(libs.android.material)

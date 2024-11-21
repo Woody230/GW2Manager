@@ -1,6 +1,9 @@
 package com.bselzer.gw2.manager.common.dependency
 
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import coil3.PlatformContext
+import com.bselzer.gw2.manager.AppDatabase
 import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
@@ -25,19 +28,11 @@ import kotlin.io.path.Path
 class JvmApp : App(
     scope = CoroutineScope(Dispatchers.Main),
     httpClient = httpClient(),
-    databaseDirectory = databaseDirectory(),
+    sqlDriver = sqlDriver(),
     settings = PreferencesSettings(Preferences.userRoot()).toSuspendSettings(),
     platformContext = PlatformContext.INSTANCE
 ) {
     private companion object {
-        fun databaseDirectory(): String {
-            val directory = Path(System.getenv("APPDATA") + "\\${BuildKonfig.PACKAGE_NAME}")
-            if (Files.notExists(directory)) {
-                Files.createDirectory(directory)
-            }
-            return directory.toString()
-        }
-
         fun okHttpClient(): OkHttpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 var request: Request? = null
@@ -64,6 +59,10 @@ class JvmApp : App(
             HttpResponseValidator {
                 handleResponseExceptionWithRequest { cause, request -> Logger.e(cause) }
             }
+        }
+
+        fun sqlDriver(): SqlDriver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY).also { driver ->
+            AppDatabase.Schema.create(driver)
         }
     }
 }

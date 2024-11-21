@@ -7,8 +7,10 @@ CREATE TABLE IF NOT EXISTS Continent (
     PRIMARY KEY (Id)
 );
 
-getAll:
-SELECT * FROM Continent;
+getById:
+SELECT * FROM Continent
+WHERE Id = :id
+LIMIT 1;
 
 insertOrReplace:
 REPLACE INTO Continent (

@@ -60,6 +60,7 @@ buildkonfig {
 sqldelight {
     databases {
         create(Metadata.DATABASE_NAME) {
+            generateAsync.set(true)
             packageName.set(Metadata.PACKAGE_NAME)
         }
     }

@@ -1,6 +1,8 @@
 package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
+import com.bselzer.gw2.manager.common.database.query.getById
+import com.bselzer.gw2.manager.common.database.query.putMissingById
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
 import com.bselzer.gw2.v2.model.continent.Continent
@@ -8,9 +10,6 @@ import com.bselzer.gw2.v2.model.continent.ContinentId
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.continent.floor.FloorId
 import com.bselzer.gw2.v2.model.map.MapId
-import com.bselzer.ktx.db.operation.getById
-import com.bselzer.ktx.db.operation.putMissingById
-import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.coroutineScope
@@ -36,8 +35,8 @@ class ContinentRepository(
     private val configuredContinentId = ContinentId(configuration.wvw.map.continentId)
     private val configuredFloorId = FloorId(configuration.wvw.map.floorId)
 
-    suspend fun updateContinent(mapId: MapId) = database.transaction().use {
-        val map = getById(
+    suspend fun updateContinent(mapId: MapId) = database.transaction {
+        val map = database.mapQueries.getById(
             id = mapId,
             requestSingle = { clients.gw2.map.map(mapId) },
         )
@@ -65,10 +64,10 @@ class ContinentRepository(
         return _continents[continentId] to _floors[floorId]
     }
 
-    private suspend fun updateContinent(continentId: ContinentId) = database.transaction().use {
+    private suspend fun updateContinent(continentId: ContinentId) = database.transaction {
         Logger.d { "Continent | Updating continent $continentId." }
 
-        val continent = getById(
+        val continent = database.continentQueries.getById(
             id = continentId,
             requestSingle = { clients.gw2.continent.continent(continentId) },
         )
@@ -82,10 +81,10 @@ class ContinentRepository(
         )
     }
 
-    private suspend fun updateFloor(continentId: ContinentId, floorId: FloorId) = database.transaction().use {
+    private suspend fun updateFloor(continentId: ContinentId, floorId: FloorId) = database.transaction {
         Logger.d { "Continent | Updating floor $floorId in continent $continentId." }
 
-        val floor = getById(
+        val floor = database.floorQueries.getById(
             id = floorId,
             requestSingle = { clients.gw2.continent.floor(continentId, floorId) }
         )
@@ -102,10 +101,10 @@ class ContinentRepository(
         updateMaps(mapIds, floorId)
     }
 
-    private suspend fun updateMaps(mapIds: Collection<MapId>, floorId: FloorId) = database.transaction().use {
+    private suspend fun updateMaps(mapIds: Collection<MapId>, floorId: FloorId) = database.transaction {
         Logger.d { "Continent | Updating ${mapIds.size} maps in floor $floorId." }
 
-        val maps = putMissingById(
+        val maps = database.mapQueries.putMissingById(
             requestIds = { mapIds },
             requestById = { missingIds -> clients.gw2.map.maps(missingIds) }
         )

@@ -96,7 +96,7 @@ class SingletonAppDependencies(
     /**
      * The SQL database driver.
      */
-    sqlDriver: SqlDriver,
+    override val sqlDriver: SqlDriver,
 
     /**
      * The HTTP client for making network requests.

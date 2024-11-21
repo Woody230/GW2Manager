@@ -11,15 +11,9 @@ import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearLogic
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearResources
 import com.bselzer.gw2.manager.common.ui.layout.main.model.cache.ClearType
 import com.bselzer.gw2.manager.common.ui.theme.Theme
-import com.bselzer.gw2.v2.db.operation.clearContinent
-import com.bselzer.gw2.v2.db.operation.clearGuild
-import com.bselzer.gw2.v2.db.operation.clearTile
-import com.bselzer.gw2.v2.db.operation.clearTranslation
-import com.bselzer.gw2.v2.db.operation.clearWvw
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.ktx.compose.ui.layout.icon.deleteIconInteractor
 import com.bselzer.ktx.compose.ui.layout.icon.triStateCheckboxIconInteractor
-import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
 import dev.icerock.moko.resources.desc.StringDesc
@@ -64,8 +58,10 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val continentLogic = ClearLogic(type = ClearType.CONTINENT) {
-        clearContinent()
-        clearTile()
+        database.continentQueries.deleteAll()
+        database.floorQueries.deleteAll()
+        database.mapQueries.deleteAll()
+        database.tileQueries.deleteAll()
     }
 
     private val guildResources = ClearResources(
@@ -76,7 +72,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val guildLogic = ClearLogic(type = ClearType.GUILD) {
-        clearGuild()
+        database.guildQueries.deleteAll()
+        database.guildUpgradeQueries.deleteAll()
     }
 
     private val imageResources
@@ -93,7 +90,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         )
 
     private val imageLogic = ClearLogic(type = ClearType.IMAGE) {
-        clearTile()
+        database.tileQueries.deleteAll()
 
         imageLoader.memoryCache?.clear()
         imageLoader.diskCache?.clear()
@@ -107,7 +104,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val translationLogic = ClearLogic(type = ClearType.TRANSLATIONS) {
-        clearTranslation()
+        database.translationQueries.deleteAll()
     }
 
     private val wvwResources = ClearResources(
@@ -118,7 +115,9 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val wvwLogic = ClearLogic(type = ClearType.WVW) {
-        clearWvw()
+        database.wvwObjectiveQueries.deleteAll()
+        database.wvwUpgradeQueries.deleteAll()
+        database.wvwMatchQueries.deleteAll()
     }
 
     val resources
@@ -153,7 +152,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
      * Clears all of the cache [clears].
      */
     private fun clearCaches(clears: Collection<ClearLogic>) = scope.launch {
-        database.transaction().use {
+        database.transaction {
             clears.forEach { clear -> clear.perform(this) }
             Logger.d { "Cache | Clearing ${clears.map { logic -> logic.type }}" }
         }

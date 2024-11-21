@@ -7,8 +7,7 @@ class Migrator(
     dependencies: AppDependencies
 ) {
     private val migrations: Collection<Migration> = listOf(
-        Migrate0To3(dependencies),
-        Migrate3To24(dependencies)
+        Migrate0To24(dependencies)
     ).sorted()
 
     /**

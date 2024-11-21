@@ -1,0 +1,21 @@
+import com.bselzer.gw2.v2.client.model.Token;
+
+CREATE TABLE IF NOT EXISTS Token (
+    Id TEXT AS Token NOT NULL,
+    Name TEXT NOT NULL,
+    PRIMARY KEY (Id)
+);
+
+getById:
+SELECT * FROM Token
+WHERE Id = :id
+LIMIT 1;
+
+insertOrReplace:
+REPLACE INTO Token (
+    Id,
+    Name
+) VALUES :token;
+
+deleteAll:
+DELETE FROM Token;

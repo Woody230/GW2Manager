@@ -1,6 +1,7 @@
 package com.bselzer.gw2.manager.common.preference
 
 import com.bselzer.gw2.manager.common.ui.theme.Theme
+import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.ktx.intl.Locale
 import com.bselzer.ktx.intl.Localizer
 import com.bselzer.ktx.serialization.serializer.LocaleSerializer
@@ -34,9 +35,11 @@ class CommonPreference(settings: SuspendSettings) {
     /**
      * The GW2 API token or api key.
      */
-    val token: Setting<String> = StringSetting(
+    val token: Setting<Token> = SerializableSetting(
         settings = settings,
-        key = "Token"
+        key = "Token",
+        defaultValue = Token(""),
+        serializer = serializer()
     )
 
     /**

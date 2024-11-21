@@ -11,8 +11,6 @@ import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.scope.core.Permission
-import com.bselzer.ktx.db.transaction.transaction
-import com.bselzer.ktx.intent.browser.Browser
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
 import com.bselzer.ktx.settings.nullState
@@ -20,13 +18,11 @@ import com.bselzer.ktx.settings.setting.Setting
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
-import org.kodein.db.asModelSequence
-import org.kodein.db.find
 
 class TokenViewModel(
     context: AppComponentContext,
 ) : ViewModel(context) {
-    private val setting: Setting<String> = preferences.common.token
+    private val setting: Setting<Token> = preferences.common.token
     private val intermediary = mutableStateOf<Token?>(null)
 
     val resources
@@ -43,16 +39,12 @@ class TokenViewModel(
 
     @Composable
     private fun subtitle(): StringDesc {
-        val token = setting.nullState().value
+        val tokenId = setting.nullState().value
         return when {
-            token.isNullOrBlank() -> KtxResources.strings.not_set.desc()
+            tokenId == null || tokenId.value.isBlank() -> KtxResources.strings.not_set.desc()
             else -> {
-                // The token info id is only the first GUID so a startsWith is required.
-                val tokenInfo = database.find<TokenInfo<*>>().all().asModelSequence().firstOrNull { info -> token.startsWith(info.id.value) }
-
-                // Try to use the name first as the most user friendly.
-                // Since the id is not the full token, try to use that as a default otherwise.
-                StringDesc.Raw(tokenInfo?.name ?: tokenInfo?.id?.value ?: "")
+                val tokenInfo = database.tokenQueries.getById(tokenId).executeAsOneOrNull()
+                StringDesc.Raw(tokenInfo?.Name ?: "")
             }
         }
     }
@@ -106,11 +98,16 @@ class TokenViewModel(
         }
 
         // Ensure the token info exists before updating the token so that it will be available for recomposition.
-        database.transaction().use {
-            put(tokenInfo)
+        database.transaction {
+            database.tokenQueries.insertOrReplace(
+                com.bselzer.gw2.manager.Token(
+                    Id = token,
+                    Name = tokenInfo.name
+                )
+            )
         }
 
-        setting.set(token.value)
+        setting.set(token)
         Logger.i { "Set client token to $token" }
 
         preferences.wvw.selectedWorld.initialize(account.world)

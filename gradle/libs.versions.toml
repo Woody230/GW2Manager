@@ -30,6 +30,7 @@ compose-ui-preview = { group = "org.jetbrains.compose.ui", name = "ui-tooling-pr
 compose-ui-util = { group = "org.jetbrains.compose.ui", name = "ui-util", version.ref = "multiplatform-compose" }
 decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
 decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose", version.ref = "decompose" }
+korlibs-io = { group = "com.soywiz", name = "korlibs-io", version = "6.0.1" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
 mapcompose = { group = "ovh.plrapps", name = "mapcompose", version = "2.12.12" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }

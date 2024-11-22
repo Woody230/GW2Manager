@@ -66,6 +66,7 @@ import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.DefaultXmlSerializationPolicy
 import nl.adaptivity.xmlutil.serialization.XML
 
+typealias DatabaseDirectory = String
 typealias IsDebug = Boolean
 
 interface AppDependencies {
@@ -75,6 +76,7 @@ interface AppDependencies {
     val sqlDriver: SqlDriver
     val database: AppDatabase
     val isDebug: IsDebug
+    val databaseDirectory: DatabaseDirectory
     val libraries: List<Library>
     val preferences: Preferences
     val repositories: Repositories
@@ -92,6 +94,11 @@ class SingletonAppDependencies(
      * The scope of the application's lifecycle.
      */
     lifecycleScope: CoroutineScope,
+
+    /**
+     * The location of the database.
+     */
+    override val databaseDirectory: DatabaseDirectory,
 
     /**
      * The SQL database driver.

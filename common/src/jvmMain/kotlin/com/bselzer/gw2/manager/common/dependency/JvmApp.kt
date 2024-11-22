@@ -28,11 +28,20 @@ import kotlin.io.path.Path
 class JvmApp : App(
     scope = CoroutineScope(Dispatchers.Main),
     httpClient = httpClient(),
+    databaseDirectory = databaseDirectory(),
     sqlDriver = sqlDriver(),
     settings = PreferencesSettings(Preferences.userRoot()).toSuspendSettings(),
     platformContext = PlatformContext.INSTANCE
 ) {
     private companion object {
+        fun databaseDirectory(): String {
+            val directory = Path(System.getenv("APPDATA") + "\\${BuildKonfig.PACKAGE_NAME}")
+            if (Files.notExists(directory)) {
+                Files.createDirectory(directory)
+            }
+            return directory.toString()
+        }
+
         fun okHttpClient(): OkHttpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 var request: Request? = null

@@ -32,6 +32,11 @@ abstract class App(
     httpClient: HttpClient,
 
     /**
+     * The location of the database.
+     */
+    databaseDirectory: DatabaseDirectory,
+
+    /**
      * The SQL database driver.
      */
     sqlDriver: SqlDriver,

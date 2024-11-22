@@ -75,6 +75,7 @@ multiplatformDependencies {
         api(libs.bundles.woody230.ktx)
         api(libs.moko.resources)
         api(libs.sqldelight.adapters)
+        api(libs.korlibs.io)
     }
     androidMain {
         api(libs.android.material)

@@ -33,7 +33,12 @@ abstract class App(
     /**
      * The location of the database.
      */
-    databaseDirectory: String,
+    databaseDirectory: DatabaseDirectory,
+
+    /**
+     * The location of the Kodein DB database.
+     */
+    legacyDatabaseDirectory: DatabaseDirectory,
 
     /**
      * The preference settings.
@@ -50,6 +55,7 @@ abstract class App(
         lifecycleScope = scope,
         httpClient = httpClient,
         databaseDirectory = databaseDirectory,
+        legacyDatabaseDirectory = legacyDatabaseDirectory,
         settings = settings,
         platformContext = platformContext
     )

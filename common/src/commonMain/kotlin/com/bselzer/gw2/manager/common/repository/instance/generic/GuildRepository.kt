@@ -8,9 +8,6 @@ import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.GuildId
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
-import com.bselzer.ktx.db.operation.getById
-import com.bselzer.ktx.db.operation.putMissingById
-import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.logging.Logger
 
@@ -28,27 +25,20 @@ class GuildRepository(
     private val _guildUpgrades = mutableStateMapOf<GuildUpgradeId, GuildUpgrade>()
     override val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = _guildUpgrades
 
-    suspend fun updateGuild(guildId: GuildId) = database.transaction().use {
+    suspend fun updateGuild(guildId: GuildId) {
         Logger.d { "Guild | Updating guild $guildId." }
 
-        val guild = getById(
-            id = guildId,
-            requestSingle = { clients.gw2.guild.guild(guildId) }
-        )
-
+        val guild = clients.gw2.guild.guild(guildId)
         _guilds[guild.id] = guild
     }
 
-    suspend fun updateGuildUpgrades(guildUpgradeIds: Collection<GuildUpgradeId>) = database.transaction().use {
+    suspend fun updateGuildUpgrades(guildUpgradeIds: Collection<GuildUpgradeId>) {
         Logger.d { "Guild | Updating ${guildUpgradeIds.size} guild upgrades." }
 
         // Note that some upgrades may not exist so the client defaulting these is preferred.
-        val guildUpgrades = putMissingById(
-            requestIds = { guildUpgradeIds },
-            requestById = { missingIds -> clients.gw2.guild.upgrades(missingIds) },
-        )
-
+        val guildUpgrades = clients.gw2.guild.upgrades().associateBy { upgrade -> upgrade.id }
         guildUpgrades.putInto(_guildUpgrades)
+
         repositories.translation.updateTranslations(
             translator = Gw2Translators.guildUpgrade,
             defaults = guildUpgrades.values,

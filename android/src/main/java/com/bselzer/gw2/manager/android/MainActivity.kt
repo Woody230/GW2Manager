@@ -86,7 +86,8 @@ class MainActivity : AppCompatActivity() {
     private fun release() = try {
         // Close the database so that it isn't locked anymore.
         // Otherwise, an exception will be thrown upon recreation of the activity.
-        dependencies?.database?.close()
+        // TODO close database
+        //dependencies?.database?.close()
     } catch (ex: Exception) {
         Logger.e(ex) { "Failed to close the LevelDB database." }
     } finally {

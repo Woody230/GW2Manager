@@ -11,8 +11,6 @@ import com.bselzer.gw2.v2.client.model.Token
 import com.bselzer.gw2.v2.model.account.token.TokenInfo
 import com.bselzer.gw2.v2.resource.Gw2Resources
 import com.bselzer.gw2.v2.scope.core.Permission
-import com.bselzer.ktx.db.transaction.transaction
-import com.bselzer.ktx.intent.browser.Browser
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.KtxResources
 import com.bselzer.ktx.settings.nullState
@@ -20,8 +18,6 @@ import com.bselzer.ktx.settings.setting.Setting
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
-import org.kodein.db.asModelSequence
-import org.kodein.db.find
 
 class TokenViewModel(
     context: AppComponentContext,
@@ -48,10 +44,14 @@ class TokenViewModel(
             token.isNullOrBlank() -> KtxResources.strings.not_set.desc()
             else -> {
                 // The token info id is only the first GUID so a startsWith is required.
-                val tokenInfo = database.find<TokenInfo<*>>().all().asModelSequence().firstOrNull { info -> token.startsWith(info.id.value) }
+
+                // TODO token info storage
+                // database.find<TokenInfo<*>>().all().asModelSequence().firstOrNull { info -> token.startsWith(info.id.value) }
+                val tokenInfo : TokenInfo<*>? = null
 
                 // Try to use the name first as the most user friendly.
                 // Since the id is not the full token, try to use that as a default otherwise.
+                @Suppress("KotlinConstantConditions")
                 StringDesc.Raw(tokenInfo?.name ?: tokenInfo?.id?.value ?: "")
             }
         }
@@ -106,9 +106,10 @@ class TokenViewModel(
         }
 
         // Ensure the token info exists before updating the token so that it will be available for recomposition.
-        database.transaction().use {
-            put(tokenInfo)
-        }
+        // TODO put token info
+        //database.transaction().use {
+        //    put(tokenInfo)
+        //}
 
         setting.set(token.value)
         Logger.i { "Set client token to $token" }

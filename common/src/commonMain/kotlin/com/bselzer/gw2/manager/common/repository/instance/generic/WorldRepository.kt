@@ -5,8 +5,6 @@ import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
 import com.bselzer.gw2.v2.model.world.World
 import com.bselzer.gw2.v2.model.world.WorldId
-import com.bselzer.ktx.db.operation.findAllOnce
-import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
 
 class WorldRepository(
@@ -20,12 +18,12 @@ class WorldRepository(
     private val _worlds = mutableStateMapOf<WorldId, World>()
     val worlds: Map<WorldId, World> = _worlds
 
-    suspend fun updateWorlds() = database.transaction().use {
+    suspend fun updateWorlds() {
         Logger.d { "World | Updating all worlds." }
 
         // TODO migrate to using new worlds from api
         val worlds = when (configuration.wvw.worlds.hardcoded) {
-            false -> findAllOnce { clients.gw2.world.worlds() }
+            false -> clients.gw2.world.worlds()
             true -> configuration.wvw.worlds.worlds.map { hardcodedWorld ->
                 World(
                     id = hardcodedWorld.id,

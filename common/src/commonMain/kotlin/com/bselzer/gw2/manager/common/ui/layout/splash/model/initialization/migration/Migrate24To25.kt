@@ -12,7 +12,7 @@ class Migrate24To25(dependencies: AppDependencies) : Migration(dependencies) {
     override val reason: String = "Removal of Kodein-DB library."
 
     override suspend fun migrate() {
-        val kodeinDbPath = Path(databaseDirectory, "Gw2Database")
+        val kodeinDbPath = Path(legacyDatabaseDirectory, "Gw2Database")
         val kodeinDbDirectory = localVfs(kodeinDbPath.toString())
         if (kodeinDbDirectory.exists()) {
             Logger.d { "Migration | $from to $to | Kodein DB directory exists." }

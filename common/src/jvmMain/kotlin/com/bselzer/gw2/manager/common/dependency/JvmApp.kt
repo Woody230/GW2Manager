@@ -29,6 +29,7 @@ class JvmApp : App(
     scope = CoroutineScope(Dispatchers.Main),
     httpClient = httpClient(),
     databaseDirectory = databaseDirectory(),
+    legacyDatabaseDirectory = databaseDirectory(),
     sqlDriver = sqlDriver(),
     settings = PreferencesSettings(Preferences.userRoot()).toSuspendSettings(),
     platformContext = PlatformContext.INSTANCE

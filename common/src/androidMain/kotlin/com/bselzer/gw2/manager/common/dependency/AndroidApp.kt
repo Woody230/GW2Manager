@@ -32,7 +32,8 @@ class AndroidApp(
     debugMode = BuildConfig.DEBUG,
     scope = scope,
     httpClient = httpClient(),
-    databaseDirectory = context.filesDir.absolutePath,
+    databaseDirectory = context.getDatabasePath("").absolutePath,
+    legacyDatabaseDirectory = context.filesDir.absolutePath,
     sqlDriver = sqlDriver(context),
     settings = DataStoreSettings(datastore),
     platformContext = context

@@ -76,7 +76,7 @@ interface AppDependencies {
     val sqlDriver: SqlDriver
     val database: AppDatabase
     val isDebug: IsDebug
-    val databaseDirectory: DatabaseDirectory
+    val legacyDatabaseDirectory: DatabaseDirectory
     val libraries: List<Library>
     val preferences: Preferences
     val repositories: Repositories
@@ -98,7 +98,12 @@ class SingletonAppDependencies(
     /**
      * The location of the database.
      */
-    override val databaseDirectory: DatabaseDirectory,
+    databaseDirectory: DatabaseDirectory,
+
+    /**
+     * The location of the Kodein DB database.
+     */
+    override val legacyDatabaseDirectory: DatabaseDirectory,
 
     /**
      * The SQL database driver.

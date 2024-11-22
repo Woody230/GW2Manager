@@ -37,6 +37,11 @@ abstract class App(
     databaseDirectory: DatabaseDirectory,
 
     /**
+     * The location of the Kodein DB database.
+     */
+    legacyDatabaseDirectory: DatabaseDirectory,
+
+    /**
      * The SQL database driver.
      */
     sqlDriver: SqlDriver,
@@ -55,6 +60,8 @@ abstract class App(
         debugMode = debugMode,
         lifecycleScope = scope,
         httpClient = httpClient,
+        databaseDirectory = databaseDirectory,
+        legacyDatabaseDirectory = legacyDatabaseDirectory,
         sqlDriver = sqlDriver,
         settings = settings,
         platformContext = platformContext

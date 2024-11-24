@@ -20,6 +20,7 @@ import com.bselzer.gw2.v2.client.instance.Gw2Client
 import com.bselzer.gw2.v2.client.instance.Gw2ClientConfiguration
 import com.bselzer.gw2.v2.client.instance.TileClient
 import com.bselzer.gw2.v2.emblem.client.EmblemClient
+import com.bselzer.gw2.v2.model.serialization.Modules
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.assets.AssetReader
 import com.bselzer.ktx.serialization.LoggingUnknownChildHandler
@@ -32,6 +33,7 @@ import io.github.irgaly.kottage.KottageEnvironment
 import io.github.irgaly.kottage.platform.KottageLogger
 import io.ktor.client.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.DefaultXmlSerializationPolicy
@@ -53,6 +55,7 @@ interface AppDependencies {
     val imageLoader: ImageLoader
     val scope: CoroutineScope
     val kottage: Kottage
+    val json: Json
 
     fun initialize()
 }
@@ -102,9 +105,10 @@ class SingletonAppDependencies(
     override val scope = lifecycleScope
     override val configuration = configuration()
     override val libraries = libraries()
+    override val json: Json = Modules.JSON
     override val preferences = preferences(settings, configuration)
     override val imageLoader: ImageLoader = SingletonImageLoader.get(coilContext)
-    override val kottage = kottage(databaseDirectory, kottageEnvironment, scope)
+    override val kottage = kottage(databaseDirectory, kottageEnvironment, json, scope)
     override val storage = Storage(kottage)
 
     private val repositoryDependencies = repositoryDependencies(clients, configuration, storage, preferences, scope)
@@ -190,6 +194,7 @@ class SingletonAppDependencies(
     fun kottage(
         databaseDirectory: DatabaseDirectory,
         environment: KottageEnvironment,
+        json: Json,
         scope: CoroutineScope
     ) = Kottage(
         name = "KottageDatabase",
@@ -204,7 +209,8 @@ class SingletonAppDependencies(
                 }
             }
         ),
-        scope = scope
+        scope = scope,
+        json = json
     )
 
     fun libraries(): List<Library> = with(AssetReader) {

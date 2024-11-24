@@ -30,7 +30,9 @@ class AndroidApp(
     debugMode = BuildConfig.DEBUG,
     scope = scope,
     httpClient = httpClient(),
-    databaseDirectory = context.getDatabasePath("").absolutePath,
+
+    // TODO databaseDir extension
+    databaseDirectory = context.getDatabasePath("temp").parent ?: throw Exception("Unable to get the database directory."),
     legacyDatabaseDirectory = context.filesDir.absolutePath,
     settings = DataStoreSettings(datastore),
     coilContext = context,

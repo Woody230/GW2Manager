@@ -10,6 +10,7 @@ androidApplicationExtension {
     namespace.category.set(Metadata.CATEGORY)
     versionName.set(libs.versions.woody230.gw2.manager.name)
     versionCode.set(libs.versions.woody230.gw2.manager.code.get().toInt())
+    minSdk.set(libs.versions.woody230.gw2.android.minSdk.get().toInt())
 }
 
 android {

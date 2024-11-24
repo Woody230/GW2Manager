@@ -9,8 +9,9 @@ multiplatform-compose = "1.7.1"
 multiplatform-settings = "1.1.1"
 woody230-gradle = "1.7.0"
 woody230-gw2 = "3.13.0"
-woody230-gw2-manager-name = "1.8.1"
-woody230-gw2-manager-code = "24"
+woody230-gw2-manager-name = "1.9.0"
+woody230-gw2-manager-code = "25"
+woody230-gw2-android-minSdk = "24"
 woody230-ktx = "7.0.0"
 
 [libraries]
@@ -34,7 +35,7 @@ kodein-db = { group = "org.kodein.db", name = "kodein-db", version.ref = "kodein
 kodein-db-level-windows = { group = "org.kodein.db", name = "kodein-leveldb-jni-jvm-windows", version.ref = "kodein-db" }
 kodein-db-serializer-ktx = { group = "org.kodein.db", name = "kodein-db-serializer-kotlinx", version.ref = "kodein-db" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
-mapcompose = { group = "ovh.plrapps", name = "mapcompose", version = "2.12.12" }
+mapcompose = { group = "ovh.plrapps", name = "mapcompose-mp", version = "0.9.3" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 settings-datastore = { group = "com.russhwolf", name = "multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
 woody230-gradle-internal-aboutlibraries-plugin = { group = "io.github.woody230.gradle.internal", name = "aboutlibraries-plugin", version.ref = "woody230-gradle" }

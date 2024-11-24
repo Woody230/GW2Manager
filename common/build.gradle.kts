@@ -29,6 +29,7 @@ plugins {
 androidLibraryExtension {
     namespace.category.set(Metadata.CATEGORY)
     buildConfig.set(true)
+    minSdk.set(libs.versions.woody230.gw2.android.minSdk.get().toInt())
 }
 
 android {

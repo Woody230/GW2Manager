@@ -6,7 +6,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.DpOffset
 import com.arkivanov.essenty.lifecycle.doOnPause
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.BloodlustViewModel
@@ -19,6 +21,7 @@ import com.bselzer.ktx.compose.ui.unit.toPx
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.safeState
 import kotlinx.coroutines.launch
+import kotlinx.io.asSource
 import ovh.plrapps.mapcompose.api.*
 import ovh.plrapps.mapcompose.core.TileStreamProvider
 import ovh.plrapps.mapcompose.ui.MapUI
@@ -75,6 +78,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         val objectiveWidth = objectiveSize.width.toPx()
         val objectiveHeight = objectiveSize.height.toPx()
         val shouldShowMapLabel = preferences.wvw.showMapLabel.safeState().value
+        val density = LocalDensity.current
 
         fun removeMarkers(prefix: String) {
             val markers = state.markerDerivedState().value.filter { marker -> marker.id.startsWith(prefix) }
@@ -86,7 +90,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
             removeMarkers(DetailedIconViewModel.ID_PREFIX)
 
             Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objective markers." }
-            objectiveIcons.forEach { objective -> Objective(objective, state, objectiveWidth, objectiveHeight) }
+            objectiveIcons.forEach { objective -> Objective(objective, state, objectiveWidth, objectiveHeight, density) }
         }
 
         LaunchedEffect(state, bloodlustIcons) {
@@ -106,7 +110,13 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         }
     }
 
-    private fun ViewerViewModel.Objective(objective: DetailedIconViewModel, state: MapState, width: Float, height: Float) {
+    private fun ViewerViewModel.Objective(
+        objective: DetailedIconViewModel,
+        state: MapState,
+        width: Float,
+        height: Float,
+        density: Density
+    ) {
         val normalized = grid.normalize(objective.position)
         state.addIdentifiableMarker(
             id = objective.id,
@@ -116,7 +126,9 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
             // Displace the coordinates so that it aligns with the center of the image.
             // Not using relative offset because the timer coming in/out of visibility will push the objective.
-            absoluteOffset = Offset(-width / 2f, -height / 2f),
+            absoluteOffset = with (density) {
+                DpOffset((-width / 2f).toDp(), (-height / 2f).toDp())
+            },
         ) {
             objective.Objective(Modifier)
         }
@@ -162,7 +174,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
                 if (tile.content.isEmpty()) {
                     null
                 } else {
-                    ByteArrayInputStream(tile.content)
+                    ByteArrayInputStream(tile.content).asSource()
                 }
             } catch (ex: Exception) {
                 // May be in the process of releasing the database, which will cause an exception to be thrown.
@@ -244,11 +256,9 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         x: Double,
         y: Double,
         relativeOffset: Offset = Offset.Zero,
-        absoluteOffset: Offset = Offset.Zero,
+        absoluteOffset: DpOffset = DpOffset.Zero,
         zIndex: Float = 0f,
         clickable: Boolean = false,
-        clipShape: Shape? = null,
-        isConstrainedInBounds: Boolean = true,
         c: @Composable () -> Unit
     ) = addMarker(
         id = id,
@@ -258,8 +268,6 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         absoluteOffset = absoluteOffset,
         zIndex = zIndex,
         clickable = clickable,
-        clipShape = clipShape,
-        isConstrainedInBounds = isConstrainedInBounds,
         renderingStrategy = RenderingStrategy.LazyLoading(lazyLoaderId),
         c = c,
     )

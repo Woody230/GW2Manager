@@ -8,7 +8,8 @@ import kotlin.reflect.typeOf
 
 class KottageSetStorage<Id, Model> @PublishedApi internal constructor(
     private val kottage: KottageList,
-    private val type: KType
+    private val type: KType,
+    private val idEncoder: IdEncoder<Id, String>
 ): SetStorage<Id, Model> where Id: Any, Model: Any {
     override suspend fun getAll(): Collection<Model> {
         var entry = kottage.getFirst()
@@ -61,30 +62,34 @@ class KottageSetStorage<Id, Model> @PublishedApi internal constructor(
         kottage.removeAll(removeItemFromStorage = true)
     }
 
-    private fun Id.key() = toString()
+    private fun Id.key() = idEncoder.encode(this)
 }
 
 inline fun <Id, reified Model> kottageSetStorage(
-    kottage: KottageList
+    kottage: KottageList,
+    idEncoder: IdEncoder<Id, String>
 ): KottageSetStorage<Id, Model> where Id: Any, Model: Any {
     return KottageSetStorage(
         kottage,
-        typeOf<Model>()
+        typeOf<Model>(),
+        idEncoder
     )
 }
 
 inline fun <Id, reified Model> kottageSetStorage(
     kottage: KottageStorage,
-    name: String
+    name: String,
+    idEncoder: IdEncoder<Id, String>
 ): KottageSetStorage<Id, Model> where Id: Any, Model: Any {
     val list = kottage.list("$name.List")
-    return kottageSetStorage<Id, Model>(list)
+    return kottageSetStorage<Id, Model>(list, idEncoder)
 }
 
 inline fun <Id, reified Model> kottageSetStorage(
     kottage: Kottage,
-    name: String
+    name: String,
+    idEncoder: IdEncoder<Id, String>
 ) : KottageSetStorage<Id, Model> where Id: Any, Model: Any {
     val storage = kottage.storage("$name.Storage")
-    return kottageSetStorage<Id, Model>(storage, name)
+    return kottageSetStorage<Id, Model>(storage, name, idEncoder)
 }

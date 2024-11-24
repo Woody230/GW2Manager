@@ -26,7 +26,19 @@ class KottageSetStorage<Id, Model> @PublishedApi internal constructor(
     }
 
     override suspend fun getOrNull(id: Id): Model? {
-        return kottage.get(id.key())?.value(type)
+        val key = id.key()
+
+        var entry = kottage.getFirst()
+        while (entry != null) {
+            if (entry.itemKey == key) {
+                return entry.value(type)
+            }
+
+            val nextId = entry.nextPositionId
+            entry = if (nextId == null) null else kottage.get(nextId)
+        }
+
+        return null
     }
 
     override suspend fun exists(id: Id): Boolean {

@@ -26,11 +26,11 @@ class KottageSetStorage<Id, Model> @PublishedApi internal constructor(
     }
 
     override suspend fun getOrNull(id: Id): Model? {
-        return kottage.get(id.positionId())?.value(type)
+        return kottage.get(id.key())?.value(type)
     }
 
     override suspend fun exists(id: Id): Boolean {
-        return kottage.get(id.positionId()) != null
+        return kottage.get(id.key()) != null
     }
 
     override suspend fun set(id: Id, model: Model) {
@@ -38,18 +38,18 @@ class KottageSetStorage<Id, Model> @PublishedApi internal constructor(
             remove(id)
         }
 
-        kottage.add(id.positionId(), model, type)
+        kottage.add(id.key(), model, type)
     }
 
     override suspend fun remove(id: Id) {
-        kottage.remove(id.positionId(), removeItemFromStorage = true)
+        kottage.remove(id.key(), removeItemFromStorage = true)
     }
 
     override suspend fun removeAll() {
         kottage.removeAll(removeItemFromStorage = true)
     }
 
-    private fun Id.positionId() = toString()
+    private fun Id.key() = toString()
 }
 
 inline fun <Id, reified Model> kottageSetStorage(

@@ -5,7 +5,7 @@ import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.repository.data.specialized.MapData
 import com.bselzer.gw2.manager.common.repository.instance.generic.ContinentRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.TileRepository
-import com.bselzer.gw2.v2.db.metadata.id
+import com.bselzer.gw2.manager.common.storage.toTileId
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.map.MapId
@@ -81,7 +81,7 @@ class MapRepository(
      */
     override suspend fun request(tile: Tile): Tile {
         val gridRequest = repositories.tile.gridRequests[zoom] ?: return tile
-        val tileRequest = gridRequest.tileRequests.firstOrNull { tileRequest -> tileRequest.id() == tile.id() } ?: return tile
+        val tileRequest = gridRequest.tileRequests.firstOrNull { tileRequest -> tileRequest.toTileId() == tile.toTileId() } ?: return tile
         return repositories.tile.updateTile(tileRequest)
     }
 

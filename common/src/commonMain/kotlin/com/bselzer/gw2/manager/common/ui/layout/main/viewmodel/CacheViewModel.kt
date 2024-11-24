@@ -59,10 +59,10 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val continentLogic = ClearLogic(type = ClearType.CONTINENT) {
         // TODO clear via repository so that snapshot is maintained
-        database.continentQueries.deleteAll()
-        database.floorQueries.deleteAll()
-        database.mapQueries.deleteAll()
-        database.tileQueries.deleteAll()
+        storage.continent.removeAll()
+        storage.floor.removeAll()
+        storage.map.removeAll()
+        storage.tile.removeAll()
     }
 
     private val guildResources = ClearResources(
@@ -74,8 +74,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val guildLogic = ClearLogic(type = ClearType.GUILD) {
         // TODO clear via repository so that snapshot is maintained
-        database.guildQueries.deleteAll()
-        database.guildUpgradeQueries.deleteAll()
+        storage.guild.removeAll()
+        storage.guildUpgrade.removeAll()
     }
 
     private val imageResources
@@ -93,7 +93,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val imageLogic = ClearLogic(type = ClearType.IMAGE) {
         // TODO clear via repository so that snapshot is maintained
-        database.tileQueries.deleteAll()
+        storage.tile.removeAll()
 
         imageLoader.memoryCache?.clear()
         imageLoader.diskCache?.clear()
@@ -108,7 +108,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val translationLogic = ClearLogic(type = ClearType.TRANSLATIONS) {
         // TODO clear via repository so that snapshot is maintained
-        database.translationQueries.deleteAll()
+        storage.translation.removeAll()
     }
 
     private val wvwResources = ClearResources(
@@ -120,9 +120,11 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
 
     private val wvwLogic = ClearLogic(type = ClearType.WVW) {
         // TODO clear via repository so that snapshot is maintained
-        database.wvwObjectiveQueries.deleteAll()
-        database.wvwUpgradeQueries.deleteAll()
-        database.wvwMatchQueries.deleteAll()
+        storage.wvwMatch.removeAll()
+        storage.wvwUpgrade.removeAll()
+        storage.wvwObjective.removeAll()
+        storage.world.removeAll()
+        storage.guildUpgrade.removeAll()
     }
 
     val resources
@@ -157,9 +159,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
      * Clears all of the cache [clears].
      */
     private fun clearCaches(clears: Collection<ClearLogic>) = scope.launch {
-        database.transaction {
-            clears.forEach { clear -> clear.perform(this) }
-            Logger.d { "Cache | Clearing ${clears.map { logic -> logic.type }}" }
-        }
+        // TODO transaction
+        clears.forEach { clear -> clear.perform() }
+        Logger.d { "Cache | Clearing ${clears.map { logic -> logic.type }}" }
     }
 }

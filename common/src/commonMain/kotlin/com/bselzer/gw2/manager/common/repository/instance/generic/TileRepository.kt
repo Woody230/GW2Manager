@@ -2,7 +2,8 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
-import com.bselzer.gw2.v2.db.metadata.id
+import com.bselzer.gw2.manager.common.storage.TileId
+import com.bselzer.gw2.manager.common.storage.toTileId
 import com.bselzer.gw2.v2.model.continent.Continent
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.tile.position.GridPosition
@@ -11,16 +12,13 @@ import com.bselzer.gw2.v2.model.tile.request.TileRequest
 import com.bselzer.gw2.v2.model.tile.response.Tile
 import com.bselzer.gw2.v2.model.tile.response.TileGrid
 import com.bselzer.ktx.coroutine.sync.LockByKey
-import com.bselzer.ktx.db.operation.getById
-import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.logging.Logger
-import org.kodein.db.Value
-import org.kodein.db.getById
+import com.bselzer.ktx.serialization.storage.getOrRequest
 
 class TileRepository(
     dependencies: RepositoryDependencies
 ) : RepositoryDependencies by dependencies {
-    private val lock = LockByKey<Value>()
+    private val lock = LockByKey<TileId>()
 
     /**
      * The zoom level mapped to the request for the grid.
@@ -60,12 +58,13 @@ class TileRepository(
     /**
      * Updates the tile associated with the [TileRequest].
      */
-    suspend fun updateTile(tileRequest: TileRequest) = database.transaction().use {
+    suspend fun updateTile(tileRequest: TileRequest): Tile {
+        // TODO transaction
         Logger.d { "Grid | Updating tile at ${tileRequest.gridPosition} for zoom level ${tileRequest.zoom}." }
-        getById(
-            id = tileRequest.id(),
-            requestSingle = {
-                lock.withLock(tileRequest.id()) {
+        return storage.tile.getOrRequest(
+            id = tileRequest.toTileId(),
+            requestModel = {
+                lock.withLock(tileRequest.toTileId()) {
                     clients.tile.tile(tileRequest)
                 }
             },
@@ -87,17 +86,20 @@ class TileRepository(
     /**
      * Gets the tiles associated with the tile requests on the [gridRequest].
      */
-    suspend fun updateTiles(gridRequest: TileGridRequest) = database.transaction().use {
+    suspend fun updateTiles(gridRequest: TileGridRequest) {
+        // TODO transaction
         Logger.d { "Grid | Updating ${gridRequest.tileRequests.size} tiles." }
 
         val missing = gridRequest.tileRequests.filter { tileRequest ->
-            getById<Tile>(tileRequest.id()) == null
+            val id = tileRequest.toTileId()
+            storage.tile.getOrNull(id) == null
         }
 
         clients.tile.tilesAsync(missing).map { deferred ->
             deferred.await().also { tile ->
                 if (tile.content.isNotEmpty()) {
-                    put(tile)
+                    val id = tile.toTileId()
+                    storage.tile.set(id, tile)
                 }
 
                 // Immediately put the result in case we are awaiting many other tiles such as on initial load.
@@ -106,7 +108,8 @@ class TileRepository(
         }
 
         gridRequest.tileRequests.mapNotNull { tileRequest ->
-            getById<Tile>(tileRequest.id())
+            val id = tileRequest.toTileId()
+            storage.tile.getOrNull(id)
         }.forEach { tile ->
             _tileContent[tile] = tile.content
         }

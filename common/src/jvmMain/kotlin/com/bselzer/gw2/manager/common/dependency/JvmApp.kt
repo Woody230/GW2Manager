@@ -1,14 +1,13 @@
 package com.bselzer.gw2.manager.common.dependency
 
-import app.cash.sqldelight.db.SqlDriver
-import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import coil3.PlatformContext
-import com.bselzer.gw2.manager.AppDatabase
 import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.PreferencesSettings
 import com.russhwolf.settings.coroutines.toSuspendSettings
+import io.github.irgaly.kottage.KottageEnvironment
+import io.github.irgaly.kottage.platform.KottageContext
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.*
@@ -30,9 +29,11 @@ class JvmApp : App(
     httpClient = httpClient(),
     databaseDirectory = databaseDirectory(),
     legacyDatabaseDirectory = databaseDirectory(),
-    sqlDriver = sqlDriver(),
     settings = PreferencesSettings(Preferences.userRoot()).toSuspendSettings(),
-    platformContext = PlatformContext.INSTANCE
+    coilContext = PlatformContext.INSTANCE,
+    kottageEnvironment = KottageEnvironment(
+        context = KottageContext()
+    )
 ) {
     private companion object {
         fun databaseDirectory(): String {
@@ -69,10 +70,6 @@ class JvmApp : App(
             HttpResponseValidator {
                 handleResponseExceptionWithRequest { cause, request -> Logger.e(cause) }
             }
-        }
-
-        fun sqlDriver(): SqlDriver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY).also { driver ->
-            AppDatabase.Schema.create(driver)
         }
     }
 }

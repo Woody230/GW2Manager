@@ -1,45 +1,13 @@
 package com.bselzer.gw2.manager.common.dependency
 
-import app.cash.sqldelight.adapter.primitive.IntColumnAdapter
-import app.cash.sqldelight.db.SqlDriver
 import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader
 import com.bselzer.gw2.asset.cdn.client.AssetCdnClient
-import com.bselzer.gw2.manager.AppDatabase
 import com.bselzer.gw2.manager.BuildKonfig
-import com.bselzer.gw2.manager.Continent
-import com.bselzer.gw2.manager.Floor
-import com.bselzer.gw2.manager.Guild
-import com.bselzer.gw2.manager.GuildUpgrade
-import com.bselzer.gw2.manager.Map
-import com.bselzer.gw2.manager.Tile
-import com.bselzer.gw2.manager.Translation
-import com.bselzer.gw2.manager.World
-import com.bselzer.gw2.manager.WvwMatch
-import com.bselzer.gw2.manager.WvwObjective
-import com.bselzer.gw2.manager.WvwUpgrade
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.configuration.AppConfiguration
 import com.bselzer.gw2.manager.common.configuration.Configuration
-import com.bselzer.gw2.manager.common.database.adapter.continent.ContinentColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.continent.ContinentIdColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.floor.FloorColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.floor.FloorIdColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.guild.GuildIdColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.guild.upgrade.GuildUpgradeIdColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.common.ImageLinkColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.common.LanguageColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.map.MapColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.map.MapIdColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.world.WorldIdColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.world.WorldNameColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.wvw.match.WvwMatchColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.wvw.match.WvwMatchIdColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.wvw.objective.WvwObjectiveColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.wvw.objective.WvwObjectiveIdColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.wvw.upgrade.WvwUpgradeColumnAdapter
-import com.bselzer.gw2.manager.common.database.adapter.wvw.upgrade.WvwUpgradeIdColumnAdapter
 import com.bselzer.gw2.manager.common.preference.CommonPreference
 import com.bselzer.gw2.manager.common.preference.WvwPreference
 import com.bselzer.gw2.manager.common.repository.instance.Repositories
@@ -59,6 +27,9 @@ import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.entity.Library
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
+import io.github.irgaly.kottage.Kottage
+import io.github.irgaly.kottage.KottageEnvironment
+import io.github.irgaly.kottage.platform.KottageLogger
 import io.ktor.client.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.serializer
@@ -73,15 +44,15 @@ interface AppDependencies {
     val build: BuildKonfig
     val clients: Clients
     val configuration: Configuration
-    val sqlDriver: SqlDriver
-    val database: AppDatabase
     val isDebug: IsDebug
     val legacyDatabaseDirectory: DatabaseDirectory
     val libraries: List<Library>
     val preferences: Preferences
+    val storage: Storage
     val repositories: Repositories
     val imageLoader: ImageLoader
     val scope: CoroutineScope
+    val kottage: Kottage
 
     fun initialize()
 }
@@ -106,11 +77,6 @@ class SingletonAppDependencies(
     override val legacyDatabaseDirectory: DatabaseDirectory,
 
     /**
-     * The SQL database driver.
-     */
-    override val sqlDriver: SqlDriver,
-
-    /**
      * The HTTP client for making network requests.
      */
     httpClient: HttpClient,
@@ -123,19 +89,25 @@ class SingletonAppDependencies(
     /**
      * The Coil platform context.
      */
-    platformContext: PlatformContext
+    coilContext: PlatformContext,
+
+    /**
+     * The Kottage environment.
+     */
+    kottageEnvironment: KottageEnvironment,
 ) : AppDependencies {
     override val build = BuildKonfig
     override val isDebug = debugMode || build.DEBUG
     override val clients = clients(httpClient)
     override val scope = lifecycleScope
     override val configuration = configuration()
-    override val database = database(sqlDriver)
     override val libraries = libraries()
     override val preferences = preferences(settings, configuration)
-    override val imageLoader: ImageLoader = SingletonImageLoader.get(platformContext)
+    override val imageLoader: ImageLoader = SingletonImageLoader.get(coilContext)
+    override val kottage = kottage(databaseDirectory, kottageEnvironment, scope)
+    override val storage = Storage(kottage)
 
-    private val repositoryDependencies = repositoryDependencies(clients, configuration, database, preferences, scope)
+    private val repositoryDependencies = repositoryDependencies(clients, configuration, storage, preferences, scope)
     private val colorRepository = ColorRepository(repositoryDependencies)
     private val translationRepository = TranslationRepository(repositoryDependencies)
     private val continentRepository = ContinentRepository(
@@ -215,51 +187,24 @@ class SingletonAppDependencies(
         asset = AssetCdnClient(httpClient)
     )
 
-    fun database(sqlDriver: SqlDriver) = AppDatabase(
-        driver = sqlDriver,
-        ContinentAdapter = Continent.Adapter(
-            IdAdapter = ContinentIdColumnAdapter,
-            ModelAdapter = ContinentColumnAdapter,
+    fun kottage(
+        databaseDirectory: DatabaseDirectory,
+        environment: KottageEnvironment,
+        scope: CoroutineScope
+    ) = Kottage(
+        name = "KottageDatabase",
+        directoryPath = databaseDirectory,
+        environment = environment.copy(
+            logger = object : KottageLogger {
+                override suspend fun debug(message: String) {
+                    Logger.d { "Kottage | $message" }
+                }
+                override suspend fun error(message: String) {
+                    Logger.e { "Kottage | $message" }
+                }
+            }
         ),
-        FloorAdapter = Floor.Adapter(
-            IdAdapter = FloorIdColumnAdapter,
-            ModelAdapter = FloorColumnAdapter
-        ),
-        GuildAdapter = Guild.Adapter(
-            IdAdapter = GuildIdColumnAdapter
-        ),
-        GuildUpgradeAdapter = GuildUpgrade.Adapter(
-            IdAdapter = GuildUpgradeIdColumnAdapter,
-            IconLinkAdapter = ImageLinkColumnAdapter
-        ),
-        MapAdapter = Map.Adapter(
-            IdAdapter = MapIdColumnAdapter,
-            ModelAdapter = MapColumnAdapter
-        ),
-        TileAdapter = Tile.Adapter(
-            ZoomAdapter = IntColumnAdapter,
-            XAdapter = IntColumnAdapter,
-            YAdapter = IntColumnAdapter
-        ),
-        TranslationAdapter = Translation.Adapter(
-            LanguageAdapter = LanguageColumnAdapter
-        ),
-        WorldAdapter = World.Adapter(
-            IdAdapter = WorldIdColumnAdapter,
-            NameAdapter = WorldNameColumnAdapter
-        ),
-        WvwMatchAdapter = WvwMatch.Adapter(
-            IdAdapter = WvwMatchIdColumnAdapter,
-            ModelAdapter = WvwMatchColumnAdapter
-        ),
-        WvwObjectiveAdapter = WvwObjective.Adapter(
-            IdAdapter = WvwObjectiveIdColumnAdapter,
-            ModelAdapter = WvwObjectiveColumnAdapter
-        ),
-        WvwUpgradeAdapter = WvwUpgrade.Adapter(
-            IdAdapter = WvwUpgradeIdColumnAdapter,
-            ModelAdapter = WvwUpgradeColumnAdapter
-        )
+        scope = scope
     )
 
     fun libraries(): List<Library> = with(AssetReader) {
@@ -277,13 +222,13 @@ class SingletonAppDependencies(
     fun repositoryDependencies(
         clients: Clients,
         configuration: Configuration,
-        database: AppDatabase,
+        storage: Storage,
         preferences: Preferences,
         scope: CoroutineScope
     ): RepositoryDependencies = object : RepositoryDependencies {
         override val clients: Clients = clients
         override val configuration: Configuration = configuration
-        override val database: AppDatabase = database
+        override val storage: Storage = storage
         override val preferences: Preferences = preferences
         override val scope: CoroutineScope = scope
     }

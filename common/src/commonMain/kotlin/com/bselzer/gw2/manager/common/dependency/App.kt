@@ -2,7 +2,6 @@ package com.bselzer.gw2.manager.common.dependency
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import app.cash.sqldelight.db.SqlDriver
 import coil3.PlatformContext
 import com.bselzer.gw2.manager.common.ui.theme.AppTheme
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
@@ -11,6 +10,7 @@ import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.settings.safeState
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
+import io.github.irgaly.kottage.KottageEnvironment
 import io.ktor.client.*
 import kotlinx.coroutines.CoroutineScope
 
@@ -42,11 +42,6 @@ abstract class App(
     legacyDatabaseDirectory: DatabaseDirectory,
 
     /**
-     * The SQL database driver.
-     */
-    sqlDriver: SqlDriver,
-
-    /**
      * The preference settings.
      */
     settings: SuspendSettings,
@@ -54,7 +49,12 @@ abstract class App(
     /**
      * The Coil platform context.
      */
-    platformContext: PlatformContext
+    coilContext: PlatformContext,
+
+    /**
+     * The Kottage environment.
+     */
+    kottageEnvironment: KottageEnvironment
 ) {
     val dependencies: AppDependencies = SingletonAppDependencies(
         debugMode = debugMode,
@@ -62,9 +62,9 @@ abstract class App(
         httpClient = httpClient,
         databaseDirectory = databaseDirectory,
         legacyDatabaseDirectory = legacyDatabaseDirectory,
-        sqlDriver = sqlDriver,
         settings = settings,
-        platformContext = platformContext
+        coilContext = coilContext,
+        kottageEnvironment = kottageEnvironment
     )
 
     init {

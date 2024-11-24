@@ -3,9 +3,8 @@ package com.bselzer.gw2.manager.common.repository.instance.generic
 import androidx.compose.runtime.mutableStateMapOf
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.repository.data.generic.TranslateData
-import com.bselzer.gw2.v2.db.operation.putMissingTranslations
+import com.bselzer.gw2.manager.common.storage.getOrRequestMissing
 import com.bselzer.gw2.v2.intl.translation.Translator
-import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.intl.DefaultLocale
 import com.bselzer.ktx.intl.Locale
@@ -95,14 +94,14 @@ class TranslationRepository(
         )
 
         Logger.d { "Translation | Adding missing ${wrapperLanguage.value} translations for ${defaults.size} models." }
-        database.transaction().use {
-            putMissingTranslations(
-                translator = translator,
-                defaults = defaults,
-                language = wrapperLanguage,
-                requestTranslated = requestTranslated
-            ).putInto(_translations)
-        }
+
+        // TODO transaction
+        storage.translation.getOrRequestMissing(
+            translator = translator,
+            defaults = defaults,
+            language = wrapperLanguage,
+            requestTranslated = requestTranslated
+        ).putInto(_translations)
     }
 
     /**

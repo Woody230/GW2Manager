@@ -1,20 +1,17 @@
 package com.bselzer.gw2.manager.common.repository.instance.generic
 
 import androidx.compose.runtime.mutableStateMapOf
-import com.bselzer.gw2.manager.Guild
-import com.bselzer.gw2.manager.GuildUpgrade
-import com.bselzer.gw2.manager.common.database.query.getById
-import com.bselzer.gw2.manager.common.database.query.putMissingById
 import com.bselzer.gw2.manager.common.dependency.RepositoryDependencies
 import com.bselzer.gw2.manager.common.repository.data.generic.GuildData
 import com.bselzer.gw2.v2.intl.translation.Gw2Translators
+import com.bselzer.gw2.v2.model.guild.Guild
 import com.bselzer.gw2.v2.model.guild.GuildId
-import com.bselzer.gw2.v2.model.guild.GuildLevel
-import com.bselzer.gw2.v2.model.guild.upgrade.ClaimableUpgrade
+import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgrade
 import com.bselzer.gw2.v2.model.guild.upgrade.GuildUpgradeId
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.logging.Logger
-import kotlin.time.Duration
+import com.bselzer.ktx.serialization.storage.getOrRequest
+import com.bselzer.ktx.serialization.storage.getOrRequestMissing
 
 class GuildRepository(
     dependencies: RepositoryDependencies,
@@ -30,24 +27,26 @@ class GuildRepository(
     private val _guildUpgrades = mutableStateMapOf<GuildUpgradeId, GuildUpgrade>()
     override val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = _guildUpgrades
 
-    suspend fun updateGuild(guildId: GuildId) = database.transaction {
+    suspend fun updateGuild(guildId: GuildId) {
+        // TODO transaction
         Logger.d { "Guild | Updating guild $guildId." }
 
-        val guild = database.guildQueries.getById(
+        val guild = storage.guild.getOrRequest(
             id = guildId,
-            requestSingle = { clients.gw2.guild.guild(guildId) }
+            requestModel = { clients.gw2.guild.guild(guildId) }
         )
 
-        _guilds[guild.Id] = guild
+        _guilds[guild.id] = guild
     }
 
-    suspend fun updateGuildUpgrades(guildUpgradeIds: Collection<GuildUpgradeId>) = database.transaction {
+    suspend fun updateGuildUpgrades(guildUpgradeIds: Collection<GuildUpgradeId>) {
+        // TODO transaction
         Logger.d { "Guild | Updating ${guildUpgradeIds.size} guild upgrades." }
 
         // Note that some upgrades may not exist so the client defaulting these is preferred.
-        val guildUpgrades = database.guildUpgradeQueries.putMissingById(
+        val guildUpgrades = storage.guildUpgrade.getOrRequestMissing(
             requestIds = { guildUpgradeIds },
-            requestById = { missingIds -> clients.gw2.guild.upgrades(missingIds) },
+            requestModels = { missingIds -> clients.gw2.guild.upgrades(missingIds) },
         )
 
         guildUpgrades.putInto(_guildUpgrades)

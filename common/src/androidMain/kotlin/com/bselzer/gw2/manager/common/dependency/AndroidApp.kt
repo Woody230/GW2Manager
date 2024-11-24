@@ -3,15 +3,13 @@ package com.bselzer.gw2.manager.common.dependency
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import app.cash.sqldelight.db.SqlDriver
-import app.cash.sqldelight.driver.android.AndroidSqliteDriver
-import com.bselzer.gw2.manager.AppDatabase
-import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.gw2.manager.common.BuildConfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.datastore.DataStoreSettings
+import io.github.irgaly.kottage.KottageEnvironment
+import io.github.irgaly.kottage.platform.contextOf
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.HttpResponseValidator
@@ -34,9 +32,11 @@ class AndroidApp(
     httpClient = httpClient(),
     databaseDirectory = context.getDatabasePath("").absolutePath,
     legacyDatabaseDirectory = context.filesDir.absolutePath,
-    sqlDriver = sqlDriver(context),
     settings = DataStoreSettings(datastore),
-    platformContext = context
+    coilContext = context,
+    kottageEnvironment = KottageEnvironment(
+        context = contextOf(context),
+    )
 ) {
 
     private companion object {
@@ -67,11 +67,5 @@ class AndroidApp(
                 handleResponseExceptionWithRequest { cause, request -> Logger.e(cause) }
             }
         }
-
-        fun sqlDriver(context: Context): SqlDriver = AndroidSqliteDriver(
-            AppDatabase.Schema,
-            context,
-            BuildKonfig.DATABASE_NAME
-        )
     }
 }

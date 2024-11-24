@@ -26,10 +26,9 @@ import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgradeId
 import com.bselzer.gw2.v2.resource.strings.stringDesc
-import com.bselzer.ktx.db.operation.putMissingById
-import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.logging.Logger
+import com.bselzer.ktx.serialization.storage.getOrRequestMissing
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 
@@ -106,7 +105,8 @@ class WvwMatchRepository(
     /**
      * Updates the [match]'s [WvwObjective]s for each map and their associated [WvwUpgrade]s and claimable [GuildUpgrade]s.
      */
-    suspend fun updateMatch(match: WvwMatch?) = database.transaction().use {
+    suspend fun updateMatch(match: WvwMatch?) {
+        // TODO transaction
         Logger.d { "Match | Updating match ${match?.id}." }
 
         _match.value = match
@@ -114,13 +114,15 @@ class WvwMatchRepository(
         updateMapGuildUpgrades(match)
     }
 
-    private suspend fun updateMapObjectives(match: WvwMatch?) = database.transaction().use {
+    private suspend fun updateMapObjectives(match: WvwMatch?){
+        // TODO transaction
+
         val objectiveIds = match?.objectiveIds() ?: emptyList()
         Logger.d { "Match | Updating ${objectiveIds.size} objectives in match ${match?.id}." }
 
-        val objectives = putMissingById(
+        val objectives = storage.wvwObjective.getOrRequestMissing(
             requestIds = { objectiveIds },
-            requestById = { missingIds -> clients.gw2.wvw.objectives(missingIds) }
+            requestModels = { missingIds -> clients.gw2.wvw.objectives(missingIds) }
         )
 
         objectives.putInto(_objectives)
@@ -133,14 +135,16 @@ class WvwMatchRepository(
         updateUpgrades(objectives.values)
     }
 
-    private suspend fun updateUpgrades(objectives: Collection<WvwObjective>) = database.transaction().use {
+    private suspend fun updateUpgrades(objectives: Collection<WvwObjective>) {
+        // TODO transaction
+
         val upgradeIds = objectives.map { objective -> objective.upgradeId }
         Logger.d { "Match | Updating ${upgradeIds.size} upgrades for ${objectives.size} objectives." }
 
-        val upgrades = putMissingById(
+        val upgrades = storage.wvwUpgrade.getOrRequestMissing(
             // Note that some upgrades may not exist so the client defaulting these is preferred.
             requestIds = { upgradeIds },
-            requestById = { missingIds -> clients.gw2.wvw.upgrades(missingIds) }
+            requestModels = { missingIds -> clients.gw2.wvw.upgrades(missingIds) }
         )
 
         upgrades.putInto(_upgrades)

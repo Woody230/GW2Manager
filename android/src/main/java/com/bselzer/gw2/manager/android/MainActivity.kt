@@ -16,6 +16,7 @@ import com.bselzer.gw2.manager.common.ui.layout.host.content.HostComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.HostViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.configuration.SplashConfig
 import com.bselzer.ktx.logging.Logger
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private var dependencies: AppDependencies? = null
@@ -86,7 +87,9 @@ class MainActivity : AppCompatActivity() {
     private fun release() = try {
         // Close the database so that it isn't locked anymore.
         // Otherwise, an exception will be thrown upon recreation of the activity.
-        dependencies?.sqlDriver?.close()
+        dependencies?.kottage?.let { kottage ->
+            runBlocking { kottage.close() }
+        }
     } catch (ex: Exception) {
         Logger.e(ex) { "Failed to close the database connection." }
     } finally {

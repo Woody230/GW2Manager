@@ -1,8 +1,12 @@
 package com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import com.bselzer.gw2.manager.TokenPermission
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
@@ -19,6 +23,7 @@ import com.bselzer.ktx.settings.setting.Setting
 import dev.icerock.moko.resources.desc.Raw
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
+import kotlinx.coroutines.launch
 
 class TokenViewModel(
     context: AppComponentContext,
@@ -44,8 +49,13 @@ class TokenViewModel(
         return when {
             tokenId == null || tokenId.value.isBlank() -> KtxResources.strings.not_set.desc()
             else -> {
-                val tokenInfo = database.tokenQueries.getById(tokenId).executeAsOneOrNull()
-                StringDesc.Raw(tokenInfo?.Name ?: "")
+                var tokenName by remember { mutableStateOf("") }
+                LaunchedEffect(tokenId) {
+                    val tokenInfo = storage.tokenInfo.getOrNull(tokenId)
+                    tokenName = tokenInfo?.name ?: ""
+                }
+
+                StringDesc.Raw(tokenName)
             }
         }
     }
@@ -99,24 +109,7 @@ class TokenViewModel(
         }
 
         // Ensure the token info exists before updating the token so that it will be available for recomposition.
-        database.transaction {
-            database.tokenQueries.insertOrReplace(
-                com.bselzer.gw2.manager.Token(
-                    Id = token,
-                    Name = tokenInfo.name
-                )
-            )
-
-            tokenInfo.permissions.forEach { permission ->
-                database.tokenPermissionQueries.deleteByToken(token)
-                database.tokenPermissionQueries.insertOrReplace(
-                    TokenPermission(
-                        TokenId = token,
-                        Name = permission
-                    )
-                )
-            }
-        }
+        storage.tokenInfo.set(token, tokenInfo)
 
         setting.set(token)
         Logger.i { "Set client token to $token" }

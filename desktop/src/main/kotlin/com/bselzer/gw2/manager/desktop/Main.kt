@@ -9,6 +9,7 @@ import com.bselzer.gw2.manager.common.dependency.JvmApp
 import com.bselzer.gw2.manager.common.ui.base.Gw2ComponentContext
 import com.bselzer.gw2.manager.common.ui.layout.host.content.HostComposition
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.HostViewModel
+import kotlinx.coroutines.runBlocking
 
 fun main() {
     // Initialize dependencies before composing since they won't change.
@@ -41,6 +42,6 @@ fun main() {
             }
         }
     } finally {
-        app.dependencies.sqlDriver.close()
+        runBlocking { app.dependencies.kottage.close() }
     }
 }

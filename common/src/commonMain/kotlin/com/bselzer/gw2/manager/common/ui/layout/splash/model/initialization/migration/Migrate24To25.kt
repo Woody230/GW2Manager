@@ -12,6 +12,7 @@ class Migrate24To25(dependencies: AppDependencies) : Migration(dependencies) {
     override val reason: String = "Removal of Kodein-DB library."
 
     override suspend fun migrate() {
+        // TODO kotlinx.io delete recursively https://github.com/Kotlin/kotlinx-io/issues/416
         val kodeinDbPath = Path(legacyDatabaseDirectory, "Gw2Database")
         val kodeinDbDirectory = localVfs(kodeinDbPath.toString())
         if (kodeinDbDirectory.exists()) {

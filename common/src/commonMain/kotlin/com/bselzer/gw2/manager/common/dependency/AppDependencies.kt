@@ -19,6 +19,7 @@ import com.bselzer.gw2.v2.client.instance.ExceptionRecoveryMode
 import com.bselzer.gw2.v2.client.instance.Gw2Client
 import com.bselzer.gw2.v2.client.instance.Gw2ClientConfiguration
 import com.bselzer.gw2.v2.client.instance.TileClient
+import com.bselzer.gw2.v2.client.instance.TileClientConfiguration
 import com.bselzer.gw2.v2.emblem.client.EmblemClient
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.assets.AssetReader
@@ -170,7 +171,14 @@ class SingletonAppDependencies(
             httpClient = httpClient,
             configuration = Gw2ClientConfiguration(exceptionRecoveryMode = ExceptionRecoveryMode.DEFAULT)
         ),
-        tile = TileClient(httpClient),
+        tile = TileClient(
+            httpClient,
+
+            // TODO tiles were changed and aren't scaled as expected through tiles.guildwars2.com anymore
+            TileClientConfiguration(
+                baseUrls = listOf("https://tiles.gw2.ninja")
+            )
+        ),
         emblem = EmblemClient(httpClient),
         asset = AssetCdnClient(httpClient)
     )

@@ -28,6 +28,11 @@ class TileRepository(
     private val _tileContent = mutableStateMapOf<Tile, ByteArray>()
     val tileContent: Map<Tile, ByteArray> = _tileContent
 
+    fun clear() {
+        _gridRequests.clear()
+        _tileContent.clear()
+    }
+
     /**
      * Release the tiles not associated with the given [zoom] level.
      */

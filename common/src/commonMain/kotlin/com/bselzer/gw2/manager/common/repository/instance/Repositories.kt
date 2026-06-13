@@ -9,6 +9,7 @@ import com.bselzer.gw2.manager.common.repository.instance.generic.TileRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.TranslationRepository
 import com.bselzer.gw2.manager.common.repository.instance.generic.WorldRepository
 import com.bselzer.gw2.manager.common.repository.instance.specialized.SelectedWorldRepository
+import com.bselzer.gw2.manager.common.repository.instance.specialized.WvwMatchRepository
 
 interface Repositories {
     val color: ColorRepository
@@ -20,4 +21,5 @@ interface Repositories {
     val translation: TranslationRepository
     val world: WorldRepository
     val selectedWorld: SelectedWorldRepository
+    val matchRepository: WvwMatchRepository
 }

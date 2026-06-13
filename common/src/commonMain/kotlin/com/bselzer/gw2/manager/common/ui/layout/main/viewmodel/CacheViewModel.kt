@@ -20,10 +20,8 @@ import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.launch
 
-class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
+class CacheViewModel(private val context: AppComponentContext) : MainViewModel(context) {
     override val title: StringDesc = KtxResources.strings.cache.desc()
-
-    // TODO translation clearing
 
     private val deleteAction
         get() = GeneralAction(
@@ -58,9 +56,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val continentLogic = ClearLogic(type = ClearType.CONTINENT) {
-        // TODO clear
-        //clearContinent()
-        //clearTile()
+        context.repositories.continent.clear()
+        context.repositories.tile.clear()
     }
 
     private val guildResources = ClearResources(
@@ -71,8 +68,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val guildLogic = ClearLogic(type = ClearType.GUILD) {
-        // TODO clear
-        //clearGuild()
+        context.repositories.guild.clear()
     }
 
     private val imageResources
@@ -89,8 +85,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
         )
 
     private val imageLogic = ClearLogic(type = ClearType.IMAGE) {
-        // TODO clear
-        //clearTile()
+        context.repositories.tile.clear()
 
         imageLoader.memoryCache?.clear()
         imageLoader.diskCache?.clear()
@@ -104,8 +99,7 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val translationLogic = ClearLogic(type = ClearType.TRANSLATIONS) {
-        // TODO clear
-        //clearTranslation()
+        context.repositories.translation.clear()
     }
 
     private val wvwResources = ClearResources(
@@ -116,8 +110,10 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
     )
 
     private val wvwLogic = ClearLogic(type = ClearType.WVW) {
-        // TODO clear
-        //clearWvw()
+        context.repositories.tile.clear()
+        context.repositories.world.clear()
+        context.repositories.guild.clear()
+        context.repositories.matchRepository.clear()
     }
 
     val resources
@@ -152,7 +148,8 @@ class CacheViewModel(context: AppComponentContext) : MainViewModel(context) {
      * Clears all of the cache [clears].
      */
     private fun clearCaches(clears: Collection<ClearLogic>) = scope.launch {
-        clears.forEach { clear -> clear.perform() }
         Logger.d { "Cache | Clearing ${clears.map { logic -> logic.type }}" }
+        clears.forEach { clear -> clear.perform() }
+        context.repositories.selectedWorld.forceRefresh()
     }
 }

@@ -30,6 +30,10 @@ class TranslationRepository(
      */
     override fun String.translated(): String = translations[this] ?: this
 
+    fun clear() {
+        _translations.clear()
+    }
+
     /**
      * Adds a listener to be notified of locale changes.
      */

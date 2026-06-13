@@ -136,7 +136,8 @@ class SingletonAppDependencies(
         tileRepository,
         translationRepository,
         worldRepository,
-        selectedWorldRepository
+        selectedWorldRepository,
+        matchRepository
     )
 
     override fun initialize() {
@@ -217,6 +218,7 @@ class SingletonAppDependencies(
         translation: TranslationRepository,
         world: WorldRepository,
         selectedWorld: SelectedWorldRepository,
+        matchRepository: WvwMatchRepository
     ): Repositories = object : Repositories {
         override val color: ColorRepository = color
         override val continent: ContinentRepository = continent
@@ -227,5 +229,6 @@ class SingletonAppDependencies(
         override val translation: TranslationRepository = translation
         override val world: WorldRepository = world
         override val selectedWorld: SelectedWorldRepository = selectedWorld
+        override val matchRepository: WvwMatchRepository = matchRepository
     }
 }

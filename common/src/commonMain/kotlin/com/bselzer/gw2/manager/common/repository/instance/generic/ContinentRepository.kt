@@ -33,6 +33,12 @@ class ContinentRepository(
     private val configuredContinentId = ContinentId(configuration.wvw.map.continentId)
     private val configuredFloorId = FloorId(configuration.wvw.map.floorId)
 
+    fun clear() {
+        _continents.clear()
+        _floors.clear()
+        _maps.clear()
+    }
+
     suspend fun updateContinent(mapId: MapId) {
         val map = _maps[mapId] ?: clients.gw2.map.map(mapId).also { map -> _maps[mapId] = map }
 

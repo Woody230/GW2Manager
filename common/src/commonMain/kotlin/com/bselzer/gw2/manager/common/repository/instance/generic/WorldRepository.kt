@@ -18,6 +18,10 @@ class WorldRepository(
     private val _worlds = mutableStateMapOf<WorldId, World>()
     val worlds: Map<WorldId, World> = _worlds
 
+    fun clear() {
+        _worlds.clear()
+    }
+
     suspend fun updateWorlds() {
         Logger.d { "World | Updating all worlds." }
 

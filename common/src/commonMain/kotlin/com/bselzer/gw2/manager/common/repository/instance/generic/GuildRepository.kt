@@ -25,6 +25,10 @@ class GuildRepository(
     private val _guildUpgrades = mutableStateMapOf<GuildUpgradeId, GuildUpgrade>()
     override val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = _guildUpgrades
 
+    fun clear() {
+        _guildUpgrades.clear()
+    }
+
     suspend fun updateGuild(guildId: GuildId) {
         if (_guilds.containsKey(guildId)) {
             return

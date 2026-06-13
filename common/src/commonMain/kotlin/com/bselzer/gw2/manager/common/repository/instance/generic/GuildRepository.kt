@@ -26,6 +26,10 @@ class GuildRepository(
     override val guildUpgrades: Map<GuildUpgradeId, GuildUpgrade> = _guildUpgrades
 
     suspend fun updateGuild(guildId: GuildId) {
+        if (_guilds.containsKey(guildId)) {
+            return
+        }
+
         Logger.d { "Guild | Updating guild $guildId." }
 
         val guild = clients.gw2.guild.guild(guildId)
@@ -36,12 +40,15 @@ class GuildRepository(
         Logger.d { "Guild | Updating ${guildUpgradeIds.size} guild upgrades." }
 
         // Note that some upgrades may not exist so the client defaulting these is preferred.
-        val guildUpgrades = clients.gw2.guild.upgrades().associateBy { upgrade -> upgrade.id }
-        guildUpgrades.putInto(_guildUpgrades)
+        val missingIds = guildUpgradeIds - _guildUpgrades.keys
+        val missingGuildUpgrades = clients.gw2.guild.upgrades(missingIds).associateBy { upgrade -> upgrade.id }
+        missingGuildUpgrades.putInto(_guildUpgrades)
+
+        val guildUpgrades = guildUpgradeIds.mapNotNull { id -> _guildUpgrades[id] }
 
         repositories.translation.updateTranslations(
             translator = Gw2Translators.guildUpgrade,
-            defaults = guildUpgrades.values,
+            defaults = guildUpgrades,
             requestTranslated = { missing, language -> clients.gw2.guild.upgrades(missing, language) }
         )
     }

@@ -83,7 +83,12 @@ class TileRepository(
     suspend fun updateTiles(gridRequest: TileGridRequest) {
         Logger.d { "Grid | Updating ${gridRequest.tileRequests.size} tiles." }
 
-        clients.tile.tilesAsync(gridRequest.tileRequests).map { deferred ->
+        val missingTileRequests = gridRequest.tileRequests.filter { tileRequest ->
+            val tile = Tile(tileRequest)
+            _tileContent.getOrDefault(tile, tile.content).isEmpty()
+        }
+
+        clients.tile.tilesAsync(missingTileRequests).map { deferred ->
             deferred.await().also { tile ->
                 // Immediately put the result in case we are awaiting many other tiles such as on initial load.
                 _tileContent[tile] = tile.content

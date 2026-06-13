@@ -23,7 +23,7 @@ class WorldRepository(
 
         // TODO migrate to using new worlds from api
         val worlds = when (configuration.wvw.worlds.hardcoded) {
-            false -> clients.gw2.world.worlds()
+            false -> if (worlds.any()) _worlds.values else clients.gw2.world.worlds()
             true -> configuration.wvw.worlds.worlds.map { hardcodedWorld ->
                 World(
                     id = hardcodedWorld.id,

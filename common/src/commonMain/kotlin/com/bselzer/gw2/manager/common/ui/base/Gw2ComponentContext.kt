@@ -28,7 +28,7 @@ class Gw2ComponentContext(
             key = key,
             handleBackButton = handleBackButton,
         ) { configuration, componentContext ->
-            Logger.d { "Router $key | Configuration ${configuration::class.simpleName}" }
+            Logger.v { "Router $key | Configuration ${configuration::class.simpleName}" }
             childFactory(
                 configuration,
                 Gw2ComponentContext(this, componentContext)

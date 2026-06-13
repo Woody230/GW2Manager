@@ -76,33 +76,72 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         val objectiveHeight = objectiveSize.height.toPx()
         val shouldShowMapLabel = preferences.wvw.showMapLabel.safeState().value
 
-        fun removeMarkers(prefix: String) {
-            val markers = state.markerDerivedState().value.filter { marker -> marker.id.startsWith(prefix) }
-            markers.forEach { marker -> state.removeMarker(marker.id) }
-            Logger.d { "Grid | UI | Removing ${markers.size} $prefix markers." }
-        }
+        fun <T> syncMarkers(
+            prefix: String,
+            currentModels: MutableMap<String, T>,
+            newModels: Collection<T>,
+            getId: (T) -> String,
+            addMarker: (T) -> Unit
+        ) {
+            val newIds = newModels.map(getId).toSet()
 
-        LaunchedEffect(state, objectiveIcons) {
-            removeMarkers(DetailedIconViewModel.ID_PREFIX)
-
-            Logger.d { "Grid | UI | Adding ${objectiveIcons.size} objective markers." }
-            objectiveIcons.forEach { objective -> Objective(objective, state, objectiveWidth, objectiveHeight) }
-        }
-
-        LaunchedEffect(state, bloodlustIcons) {
-            removeMarkers(BloodlustViewModel.ID_PREFIX)
-
-            Logger.d { "Grid | UI | Adding ${bloodlustIcons.size} bloodlust markers." }
-            bloodlustIcons.forEach { bloodlust -> Bloodlust(bloodlust, state) }
-        }
-
-        LaunchedEffect(state, mapLabels) {
-            removeMarkers(MapLabelViewModel.ID_PREFIX)
-
-            if (shouldShowMapLabel) {
-                Logger.d { "Grid | UI | Adding ${mapLabels.size} map label markers." }
-                mapLabels.forEach { label -> MapLabel(label, state) }
+            for (removedId in currentModels.keys - newIds) {
+                Logger.d { "Grid | UI | Removing $prefix marker with id '$removedId'." }
+                state.removeMarker(removedId)
+                currentModels.remove(removedId)
             }
+
+            newModels.forEach { newModel ->
+                val id = getId(newModel)
+                val currentModel = currentModels[id]
+                if (currentModel == newModel) {
+                    return@forEach
+                }
+
+                if (currentModel == null) {
+                    Logger.d { "Grid | UI | Adding $prefix marker with id '$id'." }
+                }
+                else {
+                    Logger.d { "Grid | UI | Replacing $prefix marker with id '$id'." }
+                    state.removeMarker(id)
+                }
+
+                addMarker(newModel)
+                currentModels[id] = newModel
+            }
+        }
+
+        val objectiveMarkerIds = remember { mutableMapOf<String, DetailedIconViewModel>() }
+        LaunchedEffect(state, objectiveIcons) {
+            syncMarkers(
+                prefix = DetailedIconViewModel.ID_PREFIX,
+                currentModels = objectiveMarkerIds,
+                newModels = objectiveIcons,
+                getId = { objective -> objective.id },
+                addMarker = { objective -> Objective(objective, state, objectiveWidth, objectiveHeight) }
+            )
+        }
+
+        val bloodlustMarkerIds = remember { mutableMapOf<String, BloodlustViewModel>() }
+        LaunchedEffect(state, bloodlustIcons) {
+            syncMarkers(
+                prefix = BloodlustViewModel.ID_PREFIX,
+                currentModels = bloodlustMarkerIds,
+                newModels = bloodlustIcons,
+                getId = { bloodlust -> bloodlust.id },
+                addMarker = { bloodlust -> Bloodlust(bloodlust, state) }
+            )
+        }
+
+        val mapLabelMarkerIds = remember { mutableMapOf<String, MapLabelViewModel>() }
+        LaunchedEffect(state, mapLabels, shouldShowMapLabel) {
+            syncMarkers(
+                prefix = MapLabelViewModel.ID_PREFIX,
+                currentModels = mapLabelMarkerIds,
+                newModels = if (shouldShowMapLabel) mapLabels else emptyList(),
+                getId = { label -> label.id },
+                addMarker = { label -> MapLabel(label, state) }
+            )
         }
     }
 

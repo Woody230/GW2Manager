@@ -20,7 +20,7 @@ import dev.icerock.moko.resources.format
 
 class BloodlustViewModel(
     context: AppComponentContext,
-    borderland: WvwMap
+    private val borderland: WvwMap
 ) : ViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
     companion object {
         const val ID_PREFIX = "bloodlust"
@@ -56,4 +56,16 @@ class BloodlustViewModel(
         color = owner.color(),
         description = AppResources.strings.bloodlust_for.format(owner.stringDesc()),
     )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+
+        other as BloodlustViewModel
+
+        return borderland == other.borderland
+    }
+
+    override fun hashCode(): Int {
+        return borderland.hashCode()
+    }
 }

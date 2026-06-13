@@ -10,8 +10,8 @@ import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 class DetailedIconViewModel(
     context: AppComponentContext,
     val objective: WvwObjective,
-    matchObjective: WvwMapObjective,
-    upgrade: WvwUpgrade?,
+    private val matchObjective: WvwMapObjective,
+    private val upgrade: WvwUpgrade?,
     val position: BoundedPosition,
 ) : ViewModel(context) {
     companion object {
@@ -47,4 +47,25 @@ class DetailedIconViewModel(
         context = this,
         matchObjective = matchObjective
     )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+
+        other as DetailedIconViewModel
+
+        if (objective != other.objective) return false
+        if (matchObjective != other.matchObjective) return false
+        if (upgrade != other.upgrade) return false
+        if (position != other.position) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = objective.hashCode()
+        result = 31 * result + matchObjective.hashCode()
+        result = 31 * result + (upgrade?.hashCode() ?: 0)
+        result = 31 * result + position.hashCode()
+        return result
+    }
 }

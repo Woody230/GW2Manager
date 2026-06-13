@@ -18,8 +18,8 @@ import dev.icerock.moko.resources.desc.desc
 
 class MapLabelViewModel(
     context: AppComponentContext,
-    wvwMap: WvwMap,
-    map: Map
+    private val wvwMap: WvwMap,
+    private val map: Map
 ) : ViewModel(context), SelectedWorldData by context.repositories.selectedWorld {
     companion object {
         const val ID_PREFIX = "map label"
@@ -43,5 +43,22 @@ class MapLabelViewModel(
         // Otherwise fall back to the map name.
         type != null -> type.stringDesc()
         else -> map.name.translated().desc()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+
+        other as MapLabelViewModel
+
+        if (wvwMap != other.wvwMap) return false
+        if (map != other.map) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = wvwMap.hashCode()
+        result = 31 * result + map.hashCode()
+        return result
     }
 }

@@ -18,7 +18,7 @@ import dev.icerock.moko.resources.desc.desc
 
 class ObjectiveViewModel(
     context: AppComponentContext,
-    private val id: WvwMapObjectiveId,
+    val id: WvwMapObjectiveId,
     showDialog: (DialogConfig) -> Unit
 ) : MapViewModel(context, showDialog) {
     override val title: StringDesc = Gw2Resources.strings.objective.desc()

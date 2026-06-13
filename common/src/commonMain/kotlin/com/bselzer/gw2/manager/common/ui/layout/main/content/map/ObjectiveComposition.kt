@@ -10,11 +10,15 @@ import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.AbsoluteBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.content.map.objective.ObjectivePagerComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.ObjectiveViewModel
+import com.bselzer.ktx.logging.Logger
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 
 @OptIn(ExperimentalPagerApi::class)
 class ObjectiveComposition(model: ObjectiveViewModel) : ViewModelComposition<ObjectiveViewModel>(model) {
+    init {
+        Logger.d { "Map | ObjectiveComposition | Objective id: ${model.id}"}
+    }
 
     // TODO standardize capitalization of text, particularly for anything from the api -- for example, for French fortified is not capitalized while secured/reinforced are
     @Composable

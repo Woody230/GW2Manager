@@ -55,6 +55,12 @@ class TileRepository(
     suspend fun updateTile(tileRequest: TileRequest): Tile {
         Logger.d { "Grid | Updating tile at ${tileRequest.gridPosition} for zoom level ${tileRequest.zoom}." }
 
+        val existingTile = Tile(tileRequest)
+        val content = _tileContent.getOrDefault(existingTile, existingTile.content)
+        if (content.isNotEmpty()) {
+            return existingTile.copy(content = content)
+        }
+
         val tile = clients.tile.tile(tileRequest)
         _tileContent[tile] = tile.content
         return tile

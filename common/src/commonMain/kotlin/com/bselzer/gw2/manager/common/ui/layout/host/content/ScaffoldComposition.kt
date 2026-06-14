@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
+import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -76,6 +77,7 @@ class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<Scaff
         interactor = scaffoldInteractor.copy(
             contentWindowInsets = WindowInsets.safeContent,
             topBar = TopAppBarInteractor(
+                windowInsets = AppBarDefaults.topAppBarWindowInsets,
                 title = mainComposition.title(),
                 navigation = navigationInteractor(),
                 actions = mainComposition.actions(),

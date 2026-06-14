@@ -1,5 +1,27 @@
 # Whats New
 
+## v1.9.0
+
+### en-US
+* Fixed the rendering of the World vs. World map tiles.
+* Improved the performance of loading the World vs. World map.
+* Removed local database caching because it uses an outdated library. Only in-memory caching is supported now.
+
+### de-DE
+* Die Darstellung der Kartenkacheln der Welt gegen Welt Karte wurde korrigiert.
+* Die Ladeleistung der Welt gegen Welt Karte wurde verbessert.
+* Die lokale Datenbank Zwischenspeicherung wurde entfernt, da sie eine veraltete Bibliothek verwendet. Es wird nun nur noch In-Memory-Caching unterstützt.
+
+### es-ES
+* Se ha corregido la visualización de las teselas del mapa de Mundo contra Mundo.
+* Se ha mejorado el rendimiento de carga del mapa de Mundo contra Mundo.
+* Se ha eliminado el almacenamiento en caché en base de datos local porque utiliza una biblioteca obsoleta. Ahora solo se admite el almacenamiento en caché en memoria.
+
+### fr-FR
+* Correction de l'affichage des tuiles de la carte Monde contre Monde.
+* Amélioration des performances de chargement de la carte Monde contre Monde.
+* La mise en cache dans une base de données locale a été supprimée, car elle utilise une bibliothèque obsolète. Seule la mise en cache en mémoire est désormais prise en charge.
+
 ## v1.8.1
 
 ### en-US

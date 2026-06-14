@@ -96,6 +96,10 @@ class SelectedWorldRepository(
             }
         }
 
+    fun clear() {
+        _worldId.value = null
+    }
+
     /**
      * Updates the grid to the new [zoom] level with the current match's map.
      */

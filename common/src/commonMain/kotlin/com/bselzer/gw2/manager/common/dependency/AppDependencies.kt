@@ -19,14 +19,8 @@ import com.bselzer.gw2.v2.client.instance.ExceptionRecoveryMode
 import com.bselzer.gw2.v2.client.instance.Gw2Client
 import com.bselzer.gw2.v2.client.instance.Gw2ClientConfiguration
 import com.bselzer.gw2.v2.client.instance.TileClient
-import com.bselzer.gw2.v2.db.metadata.TileGridMetadataExtractor
-import com.bselzer.gw2.v2.db.metadata.TileMetadataExtractor
-import com.bselzer.gw2.v2.db.metadata.TranslationMetadataExtractor
-import com.bselzer.gw2.v2.db.type.gw2
+import com.bselzer.gw2.v2.client.instance.TileClientConfiguration
 import com.bselzer.gw2.v2.emblem.client.EmblemClient
-import com.bselzer.gw2.v2.model.serialization.Modules
-import com.bselzer.ktx.db.metadata.IdentifiableMetadataExtractor
-import com.bselzer.ktx.db.value.IdentifierValueConverter
 import com.bselzer.ktx.logging.Logger
 import com.bselzer.ktx.resource.assets.AssetReader
 import com.bselzer.ktx.serialization.LoggingUnknownChildHandler
@@ -40,12 +34,6 @@ import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.DefaultXmlSerializationPolicy
 import nl.adaptivity.xmlutil.serialization.XML
-import org.kodein.db.DB
-import org.kodein.db.TypeTable
-import org.kodein.db.impl.inDir
-import org.kodein.db.kv.FailOnBadClose
-import org.kodein.db.kv.TrackClosableAllocation
-import org.kodein.db.orm.kotlinx.KotlinxSerializer
 
 typealias DatabaseDirectory = String
 typealias IsDebug = Boolean
@@ -54,8 +42,8 @@ interface AppDependencies {
     val build: BuildKonfig
     val clients: Clients
     val configuration: Configuration
-    val database: DB
     val isDebug: IsDebug
+    val legacyDatabaseDirectory: DatabaseDirectory
     val libraries: List<Library>
     val preferences: Preferences
     val repositories: Repositories
@@ -80,6 +68,11 @@ class SingletonAppDependencies(
     databaseDirectory: DatabaseDirectory,
 
     /**
+     * The location of the Kodein DB database.
+     */
+    override val legacyDatabaseDirectory: DatabaseDirectory,
+
+    /**
      * The HTTP client for making network requests.
      */
     httpClient: HttpClient,
@@ -99,12 +92,11 @@ class SingletonAppDependencies(
     override val clients = clients(httpClient)
     override val scope = lifecycleScope
     override val configuration = configuration()
-    override val database = database(databaseDirectory, isDebug)
     override val libraries = libraries()
     override val preferences = preferences(settings, configuration)
     override val imageLoader: ImageLoader = SingletonImageLoader.get(platformContext)
 
-    private val repositoryDependencies = repositoryDependencies(clients, configuration, database, preferences, scope)
+    private val repositoryDependencies = repositoryDependencies(clients, configuration, preferences, scope)
     private val colorRepository = ColorRepository(repositoryDependencies)
     private val translationRepository = TranslationRepository(repositoryDependencies)
     private val continentRepository = ContinentRepository(
@@ -144,7 +136,8 @@ class SingletonAppDependencies(
         tileRepository,
         translationRepository,
         worldRepository,
-        selectedWorldRepository
+        selectedWorldRepository,
+        matchRepository
     )
 
     override fun initialize() {
@@ -179,29 +172,16 @@ class SingletonAppDependencies(
             httpClient = httpClient,
             configuration = Gw2ClientConfiguration(exceptionRecoveryMode = ExceptionRecoveryMode.DEFAULT)
         ),
-        tile = TileClient(httpClient),
+        tile = TileClient(
+            httpClient,
+
+            // TODO tiles were changed and aren't scaled as expected through tiles.guildwars2.com anymore
+            TileClientConfiguration(
+                baseUrls = listOf("https://tiles.gw2.ninja")
+            )
+        ),
         emblem = EmblemClient(httpClient),
         asset = AssetCdnClient(httpClient)
-    )
-
-    fun database(
-        databaseDirectory: DatabaseDirectory,
-        isDebug: IsDebug
-    ): DB = DB.inDir(databaseDirectory).open(
-        path = "Gw2Database",
-
-        // Add options related to GW2 models.
-        KotlinxSerializer(Modules.ALL),
-        IdentifiableMetadataExtractor(),
-        TileMetadataExtractor(),
-        TileGridMetadataExtractor(),
-        TranslationMetadataExtractor(),
-        IdentifierValueConverter(),
-        TypeTable { gw2() },
-
-        // Add general database options.
-        TrackClosableAllocation(isDebug),
-        FailOnBadClose(isDebug),
     )
 
     fun libraries(): List<Library> = with(AssetReader) {
@@ -219,13 +199,11 @@ class SingletonAppDependencies(
     fun repositoryDependencies(
         clients: Clients,
         configuration: Configuration,
-        database: DB,
         preferences: Preferences,
         scope: CoroutineScope
     ): RepositoryDependencies = object : RepositoryDependencies {
         override val clients: Clients = clients
         override val configuration: Configuration = configuration
-        override val database: DB = database
         override val preferences: Preferences = preferences
         override val scope: CoroutineScope = scope
     }
@@ -240,6 +218,7 @@ class SingletonAppDependencies(
         translation: TranslationRepository,
         world: WorldRepository,
         selectedWorld: SelectedWorldRepository,
+        matchRepository: WvwMatchRepository
     ): Repositories = object : Repositories {
         override val color: ColorRepository = color
         override val continent: ContinentRepository = continent
@@ -250,5 +229,6 @@ class SingletonAppDependencies(
         override val translation: TranslationRepository = translation
         override val world: WorldRepository = world
         override val selectedWorld: SelectedWorldRepository = selectedWorld
+        override val matchRepository: WvwMatchRepository = matchRepository
     }
 }

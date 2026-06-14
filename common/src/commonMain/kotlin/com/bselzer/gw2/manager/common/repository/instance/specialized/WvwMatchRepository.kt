@@ -26,8 +26,6 @@ import com.bselzer.gw2.v2.model.wvw.objective.WvwObjective
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgrade
 import com.bselzer.gw2.v2.model.wvw.upgrade.WvwUpgradeId
 import com.bselzer.gw2.v2.resource.strings.stringDesc
-import com.bselzer.ktx.db.operation.putMissingById
-import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.desc.StringDesc
@@ -72,6 +70,12 @@ class WvwMatchRepository(
     private val _upgrades = mutableStateMapOf<WvwUpgradeId, WvwUpgrade>()
     override val upgrades: Map<WvwUpgradeId, WvwUpgrade> = _upgrades
 
+    fun clear() {
+        _objectives.clear()
+        _upgrades.clear()
+        _match.value = null
+    }
+
     /**
      * @return the displayable names for the linked worlds associated with the objective [owner]
      */
@@ -106,7 +110,7 @@ class WvwMatchRepository(
     /**
      * Updates the [match]'s [WvwObjective]s for each map and their associated [WvwUpgrade]s and claimable [GuildUpgrade]s.
      */
-    suspend fun updateMatch(match: WvwMatch?) = database.transaction().use {
+    suspend fun updateMatch(match: WvwMatch?) {
         Logger.d { "Match | Updating match ${match?.id}." }
 
         _match.value = match
@@ -114,39 +118,35 @@ class WvwMatchRepository(
         updateMapGuildUpgrades(match)
     }
 
-    private suspend fun updateMapObjectives(match: WvwMatch?) = database.transaction().use {
-        val objectiveIds = match?.objectiveIds() ?: emptyList()
+    private suspend fun updateMapObjectives(match: WvwMatch?) {
+        val objectiveIds = match?.objectiveIds()?.toSet() ?: emptySet()
         Logger.d { "Match | Updating ${objectiveIds.size} objectives in match ${match?.id}." }
 
-        val objectives = putMissingById(
-            requestIds = { objectiveIds },
-            requestById = { missingIds -> clients.gw2.wvw.objectives(missingIds) }
-        )
+        val missingIds = objectiveIds - _objectives.keys
+        clients.gw2.wvw.objectives(missingIds).associateBy { objective -> objective.id }.putInto(_objectives)
 
-        objectives.putInto(_objectives)
+        val objectives = objectiveIds.mapNotNull { id -> _objectives[id] }
         repositories.translation.updateTranslations(
             translator = Gw2Translators.wvwObjective,
-            defaults = objectives.values,
+            defaults = objectives,
             requestTranslated = { missing, language -> clients.gw2.wvw.objectives(missing, language) }
         )
 
-        updateUpgrades(objectives.values)
+        updateUpgrades(objectives)
     }
 
-    private suspend fun updateUpgrades(objectives: Collection<WvwObjective>) = database.transaction().use {
+    private suspend fun updateUpgrades(objectives: Collection<WvwObjective>) {
         val upgradeIds = objectives.map { objective -> objective.upgradeId }
         Logger.d { "Match | Updating ${upgradeIds.size} upgrades for ${objectives.size} objectives." }
 
-        val upgrades = putMissingById(
-            // Note that some upgrades may not exist so the client defaulting these is preferred.
-            requestIds = { upgradeIds },
-            requestById = { missingIds -> clients.gw2.wvw.upgrades(missingIds) }
-        )
+        // Note that some upgrades may not exist so the client defaulting these is preferred.
+        val missingIds = upgradeIds - _upgrades.keys
+        clients.gw2.wvw.upgrades(missingIds).associateBy { upgrade -> upgrade.id }.putInto(_upgrades)
 
-        upgrades.putInto(_upgrades)
+        val upgrades = upgradeIds.mapNotNull { id -> _upgrades[id] }
         repositories.translation.updateTranslations(
             translator = Gw2Translators.wvwUpgrade,
-            defaults = upgrades.values,
+            defaults = upgrades,
             requestTranslated = { missing, language -> clients.gw2.wvw.upgrades(missing, language) }
         )
     }

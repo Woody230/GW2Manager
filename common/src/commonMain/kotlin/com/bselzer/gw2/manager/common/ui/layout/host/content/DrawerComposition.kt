@@ -1,5 +1,9 @@
 package com.bselzer.gw2.manager.common.ui.layout.host.content
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -15,6 +19,8 @@ import com.bselzer.ktx.compose.ui.layout.drawer.section.DrawerSectionInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.section.DrawerSectionPresenter
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
 import com.bselzer.ktx.compose.ui.layout.modifier.interactable.Clickable
+import com.bselzer.ktx.compose.ui.layout.modifier.interactable.VerticalScroll
+import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularPaddingValues
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
@@ -26,7 +32,9 @@ class DrawerComposition(
 ) {
     @Composable
     fun interactor() = model.run {
+        val scrollState = rememberScrollState()
         ModalDrawerInteractor(
+            modifier = VerticalScroll(scrollState),
             confirmStateChange = confirmStateChange,
             state = state,
             container = ColumnInteractor.Divided,
@@ -36,7 +44,9 @@ class DrawerComposition(
 
     @Composable
     fun presenter() = model.run {
+        val padding = WindowInsets.systemBars.asPaddingValues()
         ModalDrawerPresenter(
+            modifier = ModularPaddingValues(padding),
             section = DrawerSectionPresenter(
                 title = TextPresenter(fontWeight = FontWeight.Bold, color = MaterialTheme.colors.primary)
             )

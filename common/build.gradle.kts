@@ -54,6 +54,7 @@ buildkonfig {
         string("VERSION_NAME", libs.versions.woody230.gw2.manager.name.get())
         int("VERSION_CODE", libs.versions.woody230.gw2.manager.code.get().toInt())
         string("PACKAGE_NAME", Metadata.PACKAGE_NAME)
+        string("DATABASE_NAME", Metadata.DATABASE_NAME)
     }
 }
 
@@ -62,10 +63,10 @@ multiplatformDependencies {
         api(libs.bundles.coil)
         api(libs.bundles.compose)
         api(libs.bundles.decompose)
-        api(libs.bundles.kodein.db)
         api(libs.bundles.woody230.gw2)
         api(libs.bundles.woody230.ktx)
         api(libs.moko.resources)
+        api(libs.korlibs.io)
     }
     androidMain {
         api(libs.android.material)
@@ -81,7 +82,6 @@ multiplatformDependencies {
     /*
     jvmMain {
         api(libs.ktor.client.okhttp)
-        api(libs.kodein.db.level.windows)
     }
      */
 }

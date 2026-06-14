@@ -1,7 +1,11 @@
 package com.bselzer.gw2.manager.common.ui.layout.host.content
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
+import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -71,7 +75,9 @@ class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<Scaff
         mainComposition: MainComposition
     ) = ScaffoldProjector(
         interactor = scaffoldInteractor.copy(
+            contentWindowInsets = WindowInsets.safeContent,
             topBar = TopAppBarInteractor(
+                windowInsets = AppBarDefaults.topAppBarWindowInsets,
                 title = mainComposition.title(),
                 navigation = navigationInteractor(),
                 actions = mainComposition.actions(),
@@ -84,10 +90,16 @@ class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<Scaff
             floatingActionButton = floatingActionButtonPresenter(),
             snackbarHost = snackbarHostPresenter()
         )
-    ).Projection(modifier = Modifier.fillMaxSize().then(modifier)) {
-        mainComposition.Content()
-        DialogComposition().Content()
-        Splash()
+    ).Projection(
+        modifier = Modifier.fillMaxSize().then(modifier)
+    ) { padding ->
+        Box(
+            modifier = Modifier.padding(padding)
+        ) {
+            mainComposition.Content()
+            DialogComposition().Content()
+            Splash()
+        }
     }
 
     @Composable

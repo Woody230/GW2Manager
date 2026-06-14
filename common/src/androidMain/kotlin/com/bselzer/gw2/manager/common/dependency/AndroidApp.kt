@@ -3,6 +3,7 @@ package com.bselzer.gw2.manager.common.dependency
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.bselzer.gw2.manager.BuildKonfig
 import com.bselzer.gw2.manager.common.BuildConfig
 import com.bselzer.ktx.logging.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
@@ -28,7 +29,8 @@ class AndroidApp(
     debugMode = BuildConfig.DEBUG,
     scope = scope,
     httpClient = httpClient(),
-    databaseDirectory = context.filesDir.absolutePath,
+    databaseDirectory = context.getDatabasePath(BuildKonfig.DATABASE_NAME).absolutePath,
+    legacyDatabaseDirectory = context.filesDir.absolutePath,
     settings = DataStoreSettings(datastore),
     platformContext = context
 ) {

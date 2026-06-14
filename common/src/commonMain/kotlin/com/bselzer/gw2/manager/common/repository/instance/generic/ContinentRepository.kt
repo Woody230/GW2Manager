@@ -8,9 +8,6 @@ import com.bselzer.gw2.v2.model.continent.ContinentId
 import com.bselzer.gw2.v2.model.continent.floor.Floor
 import com.bselzer.gw2.v2.model.continent.floor.FloorId
 import com.bselzer.gw2.v2.model.map.MapId
-import com.bselzer.ktx.db.operation.getById
-import com.bselzer.ktx.db.operation.putMissingById
-import com.bselzer.ktx.db.transaction.transaction
 import com.bselzer.ktx.function.collection.putInto
 import com.bselzer.ktx.logging.Logger
 import kotlinx.coroutines.coroutineScope
@@ -36,13 +33,15 @@ class ContinentRepository(
     private val configuredContinentId = ContinentId(configuration.wvw.map.continentId)
     private val configuredFloorId = FloorId(configuration.wvw.map.floorId)
 
-    suspend fun updateContinent(mapId: MapId) = database.transaction().use {
-        val map = getById(
-            id = mapId,
-            requestSingle = { clients.gw2.map.map(mapId) },
-        )
+    fun clear() {
+        _continents.clear()
+        _floors.clear()
+        _maps.clear()
+    }
 
-        _maps[mapId] = map
+    suspend fun updateContinent(mapId: MapId) {
+        val map = _maps[mapId] ?: clients.gw2.map.map(mapId).also { map -> _maps[mapId] = map }
+
         coroutineScope {
             launch { updateContinent(map.continentId) }
             launch { updateFloor(map.continentId, map.defaultFloorId) }
@@ -65,16 +64,10 @@ class ContinentRepository(
         return _continents[continentId] to _floors[floorId]
     }
 
-    private suspend fun updateContinent(continentId: ContinentId) = database.transaction().use {
+    private suspend fun updateContinent(continentId: ContinentId) {
         Logger.d { "Continent | Updating continent $continentId." }
 
-        val continent = getById(
-            id = continentId,
-            requestSingle = { clients.gw2.continent.continent(continentId) },
-        )
-
-        _continents[continent.id] = continent
-
+        val continent = _continents[continentId] ?: clients.gw2.continent.continent(continentId).also { continent -> _continents[continent.id] = continent }
         repositories.translation.updateTranslations(
             translator = Gw2Translators.continent,
             defaults = listOf(continent),
@@ -82,16 +75,10 @@ class ContinentRepository(
         )
     }
 
-    private suspend fun updateFloor(continentId: ContinentId, floorId: FloorId) = database.transaction().use {
+    private suspend fun updateFloor(continentId: ContinentId, floorId: FloorId) {
         Logger.d { "Continent | Updating floor $floorId in continent $continentId." }
 
-        val floor = getById(
-            id = floorId,
-            requestSingle = { clients.gw2.continent.floor(continentId, floorId) }
-        )
-
-        _floors[floor.id] = floor
-
+        val floor = _floors[floorId] ?: clients.gw2.continent.floor(continentId, floorId).also { floor -> _floors[floor.id] = floor }
         repositories.translation.updateTranslations(
             translator = Gw2Translators.floor,
             defaults = listOf(floor),
@@ -102,19 +89,18 @@ class ContinentRepository(
         updateMaps(mapIds, floorId)
     }
 
-    private suspend fun updateMaps(mapIds: Collection<MapId>, floorId: FloorId) = database.transaction().use {
+    private suspend fun updateMaps(mapIds: Collection<MapId>, floorId: FloorId) {
         Logger.d { "Continent | Updating ${mapIds.size} maps in floor $floorId." }
 
-        val maps = putMissingById(
-            requestIds = { mapIds },
-            requestById = { missingIds -> clients.gw2.map.maps(missingIds) }
-        )
+        val missingIds = mapIds - _maps.keys
+        val missingMaps = clients.gw2.map.maps(missingIds).associateBy { map -> map.id }
+        missingMaps.putInto(_maps)
 
-        maps.putInto(_maps)
+        val maps = mapIds.mapNotNull { id -> _maps[id] }
 
         repositories.translation.updateTranslations(
             translator = Gw2Translators.map,
-            defaults = maps.values,
+            defaults = maps,
             requestTranslated = { missing, language -> clients.gw2.map.maps(missing, language) }
         )
     }

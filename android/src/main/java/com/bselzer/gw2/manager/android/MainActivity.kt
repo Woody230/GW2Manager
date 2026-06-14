@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Logger.d { "MainActivity | Lifecycle | Create" }
+        Logger.v { "MainActivity | Lifecycle | Create" }
 
         // Ensure the previous database lock is cleared before recreating in case onDestroy() does not complete.
         release()
@@ -54,39 +54,40 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Logger.d { "MainActivity | Lifecycle | Start" }
+        Logger.v { "MainActivity | Lifecycle | Start" }
     }
 
     override fun onResume() {
         super.onResume()
-        Logger.d { "MainActivity | Lifecycle | Resume" }
+        Logger.v { "MainActivity | Lifecycle | Resume" }
     }
 
     override fun onPause() {
         super.onPause()
-        Logger.d { "MainActivity | Lifecycle | Pause" }
+        Logger.v { "MainActivity | Lifecycle | Pause" }
     }
 
     override fun onRestart() {
         super.onRestart()
-        Logger.d { "MainActivity | Lifecycle | Restart" }
+        Logger.v { "MainActivity | Lifecycle | Restart" }
     }
 
     override fun onStop() {
         super.onStop()
-        Logger.d { "MainActivity | Lifecycle | Stop" }
+        Logger.v { "MainActivity | Lifecycle | Stop" }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Logger.d { "MainActivity | Lifecycle | Destroy" }
+        Logger.v { "MainActivity | Lifecycle | Destroy" }
         release()
     }
 
     private fun release() = try {
         // Close the database so that it isn't locked anymore.
         // Otherwise, an exception will be thrown upon recreation of the activity.
-        dependencies?.database?.close()
+        // TODO close database
+        //dependencies?.database?.close()
     } catch (ex: Exception) {
         Logger.e(ex) { "Failed to close the LevelDB database." }
     } finally {

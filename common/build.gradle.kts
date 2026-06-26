@@ -5,11 +5,10 @@ import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDepende
 
 plugins {
     // Order is important since there are checks on whether plugins exist.
-    id(libs.plugins.woody230.gradle.internal.android.library.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.android.library.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.android.desugar.get().pluginId)
 
     id(libs.plugins.woody230.gradle.internal.multiplatform.asProvider().get().pluginId)
-    id(libs.plugins.woody230.gradle.internal.multiplatform.android.target.get().pluginId)
 
     // TODO re-enable
     //id(libs.plugins.woody230.gradle.internal.multiplatform.jvm.target.get().pluginId)
@@ -26,16 +25,9 @@ plugins {
     alias(libs.plugins.ktx.serialization)
 }
 
-androidLibraryExtension {
+multiplatformAndroidLibraryExtension {
     namespace.category.set(Metadata.CATEGORY)
     buildConfig.set(true)
-}
-
-android {
-    composeOptions {
-        // TODO need to add @NoLiveLiterals for GridComposition https://stackoverflow.com/a/71189923
-        useLiveLiterals = false
-    }
 }
 
 /* TODO re-enable

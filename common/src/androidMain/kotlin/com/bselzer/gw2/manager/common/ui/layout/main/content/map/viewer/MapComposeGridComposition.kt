@@ -6,7 +6,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import com.arkivanov.essenty.lifecycle.doOnPause
 import com.bselzer.gw2.manager.common.ui.layout.custom.indicator.viewmodel.DetailedIconViewModel
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.BloodlustViewModel
@@ -112,13 +113,15 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         }
 
         val objectiveMarkerIds = remember { mutableMapOf<String, DetailedIconViewModel>() }
+        val offsetWidth = (-objectiveWidth / 2f).toDp()
+        val offsetHeight = (-objectiveHeight / 2f).toDp()
         LaunchedEffect(state, objectiveIcons) {
             syncMarkers(
                 prefix = DetailedIconViewModel.ID_PREFIX,
                 currentModels = objectiveMarkerIds,
                 newModels = objectiveIcons,
                 getId = { objective -> objective.id },
-                addMarker = { objective -> Objective(objective, state, objectiveWidth, objectiveHeight) }
+                addMarker = { objective -> Objective(objective, state, offsetWidth, offsetHeight) }
             )
         }
 
@@ -145,7 +148,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         }
     }
 
-    private fun ViewerViewModel.Objective(objective: DetailedIconViewModel, state: MapState, width: Float, height: Float) {
+    private fun ViewerViewModel.Objective(objective: DetailedIconViewModel, state: MapState, offsetWidth: Dp, offsetHeight: Dp) {
         val normalized = grid.normalize(objective.position)
         state.addIdentifiableMarker(
             id = objective.id,
@@ -155,7 +158,7 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
 
             // Displace the coordinates so that it aligns with the center of the image.
             // Not using relative offset because the timer coming in/out of visibility will push the objective.
-            absoluteOffset = Offset(-width / 2f, -height / 2f),
+            absoluteOffset = DpOffset(offsetWidth, offsetHeight)
         ) {
             objective.Objective(Modifier)
         }
@@ -283,10 +286,9 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         x: Double,
         y: Double,
         relativeOffset: Offset = Offset.Zero,
-        absoluteOffset: Offset = Offset.Zero,
+        absoluteOffset: DpOffset = DpOffset.Zero,
         zIndex: Float = 0f,
         clickable: Boolean = false,
-        clipShape: Shape? = null,
         isConstrainedInBounds: Boolean = true,
         c: @Composable () -> Unit
     ) = addMarker(
@@ -297,7 +299,6 @@ class MapComposeGridComposition(model: ViewerViewModel) : GridComposition(model)
         absoluteOffset = absoluteOffset,
         zIndex = zIndex,
         clickable = clickable,
-        clipShape = clipShape,
         isConstrainedInBounds = isConstrainedInBounds,
         renderingStrategy = RenderingStrategy.LazyLoading(lazyLoaderId),
         c = c,

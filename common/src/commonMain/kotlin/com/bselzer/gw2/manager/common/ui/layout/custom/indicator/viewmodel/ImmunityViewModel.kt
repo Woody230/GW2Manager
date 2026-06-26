@@ -5,9 +5,9 @@ import com.bselzer.gw2.manager.common.ui.base.ViewModel
 import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
 import com.bselzer.ktx.datetime.timer.countdown
 import kotlinx.coroutines.flow.Flow
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
 import kotlin.time.Duration
+import kotlin.time.Instant
 
 class ImmunityViewModel(
     context: AppComponentContext,

@@ -8,9 +8,9 @@ import com.bselzer.ktx.serialization.serializer.ColorSerializer
 import com.bselzer.ktx.settings.setting.*
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.SuspendSettings
-import kotlinx.datetime.Instant
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.serializer
+import kotlin.time.Instant
 import kotlin.time.DurationUnit
 
 @OptIn(ExperimentalSettingsApi::class)

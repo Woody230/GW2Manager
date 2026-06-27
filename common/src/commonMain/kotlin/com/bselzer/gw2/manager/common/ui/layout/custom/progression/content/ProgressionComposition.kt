@@ -14,8 +14,8 @@ import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
 import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progress
 import com.bselzer.gw2.manager.common.ui.layout.custom.progression.model.Progression
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.spacer.Spacer
-import com.bselzer.ktx.resource.strings.localized
 
 class ProgressionComposition(
     model: Progression
@@ -40,7 +40,7 @@ class ProgressionComposition(
         Spacer(width = 5.dp)
 
         Text(
-            text = title.localized(),
+            text = title.toLocalizedString(),
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.h6,
         )

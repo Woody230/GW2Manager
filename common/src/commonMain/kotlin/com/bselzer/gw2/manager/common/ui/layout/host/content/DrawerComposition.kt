@@ -11,6 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.bselzer.gw2.manager.common.ui.layout.host.model.drawer.DrawerComponent
 import com.bselzer.gw2.manager.common.ui.layout.host.viewmodel.DrawerViewModel
+import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.column.ColumnInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.component.DrawerComponentInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerInteractor
@@ -24,8 +26,6 @@ import com.bselzer.ktx.compose.ui.layout.modifier.presentable.ModularPaddingValu
 import com.bselzer.ktx.compose.ui.layout.text.TextInteractor
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
-import com.bselzer.ktx.resource.images.painter
-import com.bselzer.ktx.resource.strings.localized
 
 class DrawerComposition(
     private val model: DrawerViewModel
@@ -55,7 +55,7 @@ class DrawerComposition(
 
     @Composable
     private fun DrawerViewModel.wvwSection() = DrawerSectionInteractor(
-        title = TextInteractor(text = wvwTitle.localized()),
+        title = TextInteractor(text = wvwTitle.toLocalizedString()),
         components = listOf(wvwMap.interactor(), wvwMatchContestedAreas.interactor(), wvwMatchOverview.interactor(), wvwMatchStatistics.interactor())
     )
 

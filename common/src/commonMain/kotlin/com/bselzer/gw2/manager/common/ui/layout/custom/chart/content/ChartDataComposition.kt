@@ -17,7 +17,7 @@ import com.bselzer.gw2.manager.common.ui.layout.common.BorderedCard
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.model.ChartData
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.model.ChartDataSet
 import com.bselzer.gw2.manager.common.ui.layout.custom.chart.viewmodel.ChartDataViewModel
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 
 class ChartDataComposition(
     model: ChartDataViewModel
@@ -38,7 +38,7 @@ class ChartDataComposition(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = title.localized(),
+            text = title.toLocalizedString(),
             fontWeight = FontWeight.Bold,
             fontSize = 32.sp,
             textAlign = TextAlign.Center
@@ -54,7 +54,7 @@ class ChartDataComposition(
     @Composable
     private fun ChartData.ChartData() {
         Text(
-            text = owner.localized(),
+            text = owner.toLocalizedString(),
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             color = color,
@@ -62,7 +62,7 @@ class ChartDataComposition(
         )
 
         Text(
-            text = data.localized(),
+            text = data.toLocalizedString(),
             fontSize = 16.sp,
             textAlign = TextAlign.Center
         )

@@ -12,7 +12,7 @@ import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.model.ContestedObjective
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 
 class ObjectiveComposition(
     objective: ContestedObjective
@@ -51,5 +51,5 @@ class ObjectiveComposition(
     private fun ContestedObjective.Icon() = image.Content(size = DpSize(50.dp, 50.dp))
 
     @Composable
-    private fun ContestedObjective.Count() = Text(text = count.localized())
+    private fun ContestedObjective.Count() = Text(text = count.toLocalizedString())
 }

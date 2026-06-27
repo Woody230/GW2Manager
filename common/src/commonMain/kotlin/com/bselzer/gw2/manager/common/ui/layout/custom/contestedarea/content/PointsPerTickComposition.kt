@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.model.ContestedPointsPerTick
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 
 class PointsPerTickComposition(
     pointsPerTick: ContestedPointsPerTick
@@ -16,7 +16,7 @@ class PointsPerTickComposition(
         modifier: Modifier
     ) = Text(
         modifier = modifier,
-        text = ppt.localized(),
+        text = ppt.toLocalizedString(),
         color = color,
         fontSize = 32.sp
     )

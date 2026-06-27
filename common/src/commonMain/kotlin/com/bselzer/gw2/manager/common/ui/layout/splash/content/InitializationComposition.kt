@@ -19,12 +19,12 @@ import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.host.content.LocalSplashRouter
 import com.bselzer.gw2.manager.common.ui.layout.splash.configuration.SplashConfig
 import com.bselzer.gw2.manager.common.ui.layout.splash.viewmodel.InitializationViewModel
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.column.ColumnPresenter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionPresenter
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
 import com.bselzer.ktx.compose.ui.layout.text.TextPresenter
-import com.bselzer.ktx.resource.strings.localized
 
 class InitializationComposition(model: InitializationViewModel) : ViewModelComposition<InitializationViewModel>(model) {
     @Composable
@@ -63,8 +63,8 @@ class InitializationComposition(model: InitializationViewModel) : ViewModelCompo
         ) {
             DescriptionProjector(
                 interactor = DescriptionInteractor(
-                    title = description.value.title.localized(),
-                    subtitle = description.value.subtitle?.localized()
+                    title = description.value.title.toLocalizedString(),
+                    subtitle = description.value.subtitle?.toLocalizedString()
                 ),
                 presenter = DescriptionPresenter(
                     container = ColumnPresenter.CenteredHorizontally,

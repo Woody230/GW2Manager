@@ -4,6 +4,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.gw2.manager.common.AppResources
 import com.bselzer.gw2.manager.common.dependency.JvmApp
 import com.bselzer.gw2.manager.common.ui.base.Gw2ComponentContext
@@ -25,7 +26,7 @@ fun main() {
         val host = HostViewModel(context)
         application {
             Window(
-                title = AppResources.strings.app_name.localized(),
+                title = AppResources.strings.app_name.toLocalizedString(),
                 onCloseRequest = ::exitApplication
             ) {
                 // TODO tailor to desktop

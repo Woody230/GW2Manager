@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.sp
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.map.SelectedLabelViewModel
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 
 class SelectedLabelComposition(
     model: SelectedLabelViewModel
@@ -27,10 +27,10 @@ class SelectedLabelComposition(
     }
 
     @Composable
-    private fun SelectedLabelViewModel.Title() = Text(text = title.localized(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+    private fun SelectedLabelViewModel.Title() = Text(text = title.toLocalizedString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
 
     @Composable
     private fun SelectedLabelViewModel.Subtitle() = subtitle?.let { subtitle ->
-        Text(text = subtitle.localized(), fontSize = 16.sp)
+        Text(text = subtitle.toLocalizedString(), fontSize = 16.sp)
     }
 }

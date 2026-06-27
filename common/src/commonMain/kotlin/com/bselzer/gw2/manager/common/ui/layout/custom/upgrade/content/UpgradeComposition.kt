@@ -18,7 +18,7 @@ import com.bselzer.gw2.manager.common.ui.layout.common.Content
 import com.bselzer.gw2.manager.common.ui.layout.common.ImageImpl
 import com.bselzer.gw2.manager.common.ui.layout.common.ProgressIndication
 import com.bselzer.gw2.manager.common.ui.layout.custom.upgrade.model.Upgrade
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 
 class UpgradeComposition(
     model: Upgrade
@@ -44,7 +44,7 @@ class UpgradeComposition(
 
     @Composable
     private fun Upgrade.Description() = Column {
-        Text(text = name.localized(), style = MaterialTheme.typography.subtitle1)
-        Text(text = description.localized(), style = MaterialTheme.typography.body2)
+        Text(text = name.toLocalizedString(), style = MaterialTheme.typography.subtitle1)
+        Text(text = description.toLocalizedString(), style = MaterialTheme.typography.body2)
     }
 }

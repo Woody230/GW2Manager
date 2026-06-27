@@ -7,9 +7,9 @@ import com.bselzer.gw2.manager.common.ui.base.AppComponentContext
 import com.bselzer.gw2.manager.common.ui.base.ViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.language.LanguageLogic
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.language.LanguageResources
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.intl.Locale
 import com.bselzer.ktx.resource.KtxResources
-import com.bselzer.ktx.resource.strings.localized
 import com.bselzer.ktx.resource.strings.stringResourceOrNull
 import com.bselzer.ktx.settings.safeState
 import com.bselzer.ktx.settings.setting.Setting
@@ -24,7 +24,7 @@ class LanguageViewModel(
     // TODO better way to manage the mixed usages of these labels in composable and non-composable contexts?
     val labels: Map<Locale, String>
         @Composable
-        get() = logic.values.associateWith { locale -> resources.getLabel(locale).localized() }
+        get() = logic.values.associateWith { locale -> resources.getLabel(locale).toLocalizedString() }
 
     val resources: LanguageResources
         @Composable

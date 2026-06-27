@@ -14,6 +14,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.compose.rememberAsyncImagePainter
 import coil3.compose.rememberConstraintsSizeResolver
 import coil3.request.ImageRequest
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.image.ImageInteractor
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.image.ImageProjector
@@ -23,8 +24,7 @@ import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImageStateInteractor
 import com.bselzer.ktx.compose.ui.layout.image.async.AsyncImageStateProjector
 import com.bselzer.ktx.compose.ui.layout.progress.indicator.ProgressIndicatorInteractor
 import com.bselzer.ktx.logging.Logger
-import com.bselzer.ktx.resource.images.painter
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.images.painter
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.desc.image.ImageDesc
@@ -112,7 +112,7 @@ private fun Image.Resource(
     presenter = presenter,
     interactor = ImageInteractor(
         painter = resource.painter(),
-        contentDescription = description?.localized()
+        contentDescription = description?.toLocalizedString()
     )
 ).Projection(modifier = modifier)
 
@@ -146,7 +146,7 @@ private fun Image.Link(
                 else -> AsyncImageResult.Loading
             },
 
-            contentDescription = description?.localized(),
+            contentDescription = description?.toLocalizedString(),
 
             // TODO placeholder drawables for certain images?
             loadingProgress = if (progressIndication == ProgressIndication.ENABLED) ProgressIndicatorInteractor.Default else null,

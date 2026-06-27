@@ -8,11 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.layout.common.RelativeBackgroundImage
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.AboutViewModel
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.column.spacedColumnProjector
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionInteractor
 import com.bselzer.ktx.compose.ui.layout.description.DescriptionProjector
 import com.bselzer.ktx.function.collection.buildArray
-import com.bselzer.ktx.resource.strings.localized
 
 class AboutComposition(model: AboutViewModel) : MainChildComposition<AboutViewModel>(model) {
     @Composable
@@ -40,24 +40,24 @@ class AboutComposition(model: AboutViewModel) : MainChildComposition<AboutViewMo
     @Composable
     private fun AboutViewModel.VersionCode() = DescriptionProjector(
         interactor = DescriptionInteractor(
-            title = versionResources.code.title.localized(),
-            subtitle = versionResources.code.subtitle.localized()
+            title = versionResources.code.title.toLocalizedString(),
+            subtitle = versionResources.code.subtitle.toLocalizedString()
         )
     ).Projection()
 
     @Composable
     private fun AboutViewModel.VersionName() = DescriptionProjector(
         interactor = DescriptionInteractor(
-            title = versionResources.name.title.localized(),
-            subtitle = versionResources.name.subtitle.localized()
+            title = versionResources.name.title.toLocalizedString(),
+            subtitle = versionResources.name.subtitle.toLocalizedString()
         )
     ).Projection()
 
     @Composable
     private fun AboutViewModel.LegalNotice() = DescriptionProjector(
         interactor = DescriptionInteractor(
-            title = noticeResources.title.localized(),
-            subtitle = noticeResources.subtitle.localized()
+            title = noticeResources.title.toLocalizedString(),
+            subtitle = noticeResources.subtitle.toLocalizedString()
         )
     ).Projection()
 }

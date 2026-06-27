@@ -8,9 +8,9 @@ import com.bselzer.gw2.manager.common.ui.base.ViewModel
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.interval.RefreshIntervalLogic
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.interval.RefreshIntervalResources
 import com.bselzer.gw2.v2.resource.Gw2Resources
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.datetime.format.DurationBound
 import com.bselzer.ktx.resource.KtxResources
-import com.bselzer.ktx.resource.strings.localized
 import com.bselzer.ktx.resource.strings.stringResource
 import com.bselzer.ktx.settings.safeState
 import com.bselzer.ktx.settings.setting.InitialDurationSetting
@@ -31,7 +31,7 @@ class RefreshIntervalViewModel(
     // TODO better way to manage the mixed usages of these labels in composable and non-composable contexts?
     val labels: Map<DurationUnit, String>
         @Composable
-        get() = logic.units.associateWith { unit -> resources.label(unit).localized() }
+        get() = logic.units.associateWith { unit -> resources.label(unit).toLocalizedString() }
 
     val logic: RefreshIntervalLogic
         get() = RefreshIntervalLogic(

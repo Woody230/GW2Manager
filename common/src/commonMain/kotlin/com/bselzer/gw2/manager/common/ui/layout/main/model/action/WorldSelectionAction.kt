@@ -5,9 +5,9 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.runtime.Composable
 import com.bselzer.gw2.manager.common.ui.layout.dialog.configuration.DialogConfig
 import com.bselzer.gw2.v2.resource.Gw2Resources
+import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.icon.IconInteractor
-import com.bselzer.ktx.resource.images.painter
-import com.bselzer.ktx.resource.strings.localized
 import dev.icerock.moko.resources.desc.StringDesc
 import kotlinx.coroutines.CoroutineScope
 
@@ -18,7 +18,7 @@ class WorldSelectionAction(
     override val icon: @Composable () -> IconInteractor = {
         IconInteractor(
             painter = Icons.AutoMirrored.Filled.List.painter(),
-            contentDescription = Gw2Resources.strings.world.localized(),
+            contentDescription = Gw2Resources.strings.world.toLocalizedString(),
         )
     }
     override val notification: StringDesc? = null

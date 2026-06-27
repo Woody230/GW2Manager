@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.objective.model.CoreMatchData
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 
 class CoreMatchComposition(
     model: CoreMatchData
@@ -28,20 +28,20 @@ class CoreMatchComposition(
 
     // TODO images alongside the text?
     @Composable
-    private fun CoreMatchData.Name() = Text(text = name.localized(), textAlign = TextAlign.Center)
+    private fun CoreMatchData.Name() = Text(text = name.toLocalizedString(), textAlign = TextAlign.Center)
 
     @Composable
     private fun CoreMatchData.Map() = map?.let { map ->
-        Text(text = map.name.localized(), textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, color = map.color)
+        Text(text = map.name.toLocalizedString(), textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, color = map.color)
     }
 
     @Composable
     private fun CoreMatchData.Owner() = owner?.let { owner ->
-        Text(text = owner.name.localized(), textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, color = owner.color)
+        Text(text = owner.name.toLocalizedString(), textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, color = owner.color)
     }
 
     @Composable
     private fun CoreMatchData.Flipped() = flipped?.let { flipped ->
-        Text(text = flipped.localized(), textAlign = TextAlign.Center)
+        Text(text = flipped.toLocalizedString(), textAlign = TextAlign.Center)
     }
 }

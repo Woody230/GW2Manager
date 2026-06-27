@@ -5,6 +5,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.RefreshIntervalViewModel
+import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
@@ -15,8 +17,6 @@ import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.duration.DurationPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.duration.DurationPreferenceProjector
-import com.bselzer.ktx.resource.images.painter
-import com.bselzer.ktx.resource.strings.localized
 
 class RefreshIntervalComposition(
     model: RefreshIntervalViewModel,
@@ -55,15 +55,15 @@ class RefreshIntervalComposition(
     @Composable
     private fun RefreshIntervalViewModel.preferenceInteractor() = PreferenceInteractor(
         painter = resources.image.painter(),
-        title = resources.title.localized(),
-        subtitle = resources.subtitle.localized()
+        title = resources.title.toLocalizedString(),
+        subtitle = resources.subtitle.toLocalizedString()
     )
 
     @Composable
     private fun RefreshIntervalViewModel.dialogInteractor() = AlertDialogInteractor.Builder(state) {
         logic.clearInput()
     }.triText().build {
-        title = resources.title.localized()
+        title = resources.title.toLocalizedString()
         closeOnPositive { logic.onSave() }
         closeOnNeutral { logic.onReset() }
     }

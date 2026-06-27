@@ -9,7 +9,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.claim.model.Claim
 import com.bselzer.gw2.manager.common.ui.layout.custom.claim.viewmodel.ClaimViewModel
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 
 /**
  * Lays out the guild claiming the objective.
@@ -33,10 +33,10 @@ class ClaimComposition(
     }
 
     @Composable
-    private fun Claim.ClaimedAt() = Text(text = claimedAt.localized(), textAlign = TextAlign.Center)
+    private fun Claim.ClaimedAt() = Text(text = claimedAt.toLocalizedString(), textAlign = TextAlign.Center)
 
     @Composable
-    private fun Claim.ClaimedBy() = Text(text = claimedBy.localized(), textAlign = TextAlign.Center)
+    private fun Claim.ClaimedBy() = Text(text = claimedBy.toLocalizedString(), textAlign = TextAlign.Center)
 
     @Composable
     private fun Claim.Icon() = ClaimImageComposition(icon).Content()

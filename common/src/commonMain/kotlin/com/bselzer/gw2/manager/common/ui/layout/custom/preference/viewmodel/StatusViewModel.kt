@@ -8,7 +8,7 @@ import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.status.S
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.model.status.StatusResources
 import com.bselzer.ktx.resource.KtxResources
 import com.bselzer.ktx.resource.strings.stringResource
-import com.bselzer.ktx.settings.safeState
+import com.bselzer.ktx.compose.settings.safeState
 import com.bselzer.ktx.settings.setting.Setting
 import dev.icerock.moko.resources.desc.desc
 import kotlinx.coroutines.launch

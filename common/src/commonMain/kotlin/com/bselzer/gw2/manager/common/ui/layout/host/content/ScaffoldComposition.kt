@@ -47,7 +47,7 @@ import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostInteractor
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.SnackbarHostPresenter
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.resource.KtxResources
-import com.bselzer.ktx.settings.safeState
+import com.bselzer.ktx.compose.settings.safeState
 import dev.icerock.moko.resources.format
 
 class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<ScaffoldViewModel>(model) {

@@ -12,7 +12,7 @@ import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.datetime.format.DurationBound
 import com.bselzer.ktx.resource.KtxResources
 import com.bselzer.ktx.resource.strings.stringResource
-import com.bselzer.ktx.settings.safeState
+import com.bselzer.ktx.compose.settings.safeState
 import com.bselzer.ktx.settings.setting.InitialDurationSetting
 import dev.icerock.moko.resources.desc.desc
 import kotlin.time.DurationUnit

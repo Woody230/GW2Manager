@@ -18,7 +18,7 @@ import com.bselzer.gw2.v2.model.tile.position.GridPosition
 import com.bselzer.ktx.compose.ui.unit.toDp
 import com.bselzer.ktx.compose.ui.unit.toPx
 import com.bselzer.ktx.logging.Logger
-import com.bselzer.ktx.settings.safeState
+import com.bselzer.ktx.compose.settings.safeState
 import kotlinx.coroutines.launch
 import ovh.plrapps.mapcompose.api.*
 import ovh.plrapps.mapcompose.core.TileStreamProvider

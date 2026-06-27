@@ -10,8 +10,7 @@ plugins {
 
     id(libs.plugins.woody230.gradle.internal.multiplatform.asProvider().get().pluginId)
 
-    // TODO re-enable
-    //id(libs.plugins.woody230.gradle.internal.multiplatform.jvm.target.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.jvm.target.get().pluginId)
 
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
@@ -68,9 +67,7 @@ multiplatformDependencies {
         api(libs.mapcompose)
         api(libs.settings.datastore)
     }
-    /*
     jvmMain {
         api(libs.ktor.client.okhttp)
     }
-     */
 }

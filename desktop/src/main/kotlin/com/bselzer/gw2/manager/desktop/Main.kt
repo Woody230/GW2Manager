@@ -42,6 +42,7 @@ fun main() {
             }
         }
     } finally {
-        app.dependencies.database.close()
+        // TODO close database
+        // app.dependencies.database.close()
     }
 }

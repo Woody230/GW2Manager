@@ -9,7 +9,7 @@ import com.bselzer.ktx.datetime.format.FormatStyleDateTimeFormatter
 import com.bselzer.ktx.datetime.format.PatternDateTimeFormatter
 import dev.icerock.moko.resources.desc.StringDesc
 import dev.icerock.moko.resources.format
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import nl.adaptivity.xmlutil.serialization.XmlSerialName

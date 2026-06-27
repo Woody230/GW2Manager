@@ -27,6 +27,7 @@ import com.bselzer.gw2.manager.common.ui.layout.main.content.MainComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.viewmodel.WvwMatchOverviewViewModel
 import com.bselzer.gw2.manager.common.ui.layout.splash.content.SplashComposition
 import com.bselzer.gw2.v2.model.enumeration.WvwObjectiveOwner
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.intl.LocalLocale
 import com.bselzer.ktx.compose.ui.layout.appbar.top.TopAppBarInteractor
 import com.bselzer.ktx.compose.ui.layout.drawer.modal.ModalDrawerPresenter
@@ -48,7 +49,6 @@ import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.resource.KtxResources
 import com.bselzer.ktx.settings.safeState
 import dev.icerock.moko.resources.format
-import com.bselzer.ktx.resource.strings.localized
 
 class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<ScaffoldViewModel>(model) {
     @Composable
@@ -114,13 +114,13 @@ class ScaffoldComposition(model: ScaffoldViewModel) : ViewModelComposition<Scaff
 
         val status = repositories.status.status.value
         val message = when (status.type) {
-            Gw2ApiStatusType.Available -> AppResources.strings.status_available_description.localized()
-            Gw2ApiStatusType.Unavailable -> AppResources.strings.status_unavailable_description.format(status.message).localized()
+            Gw2ApiStatusType.Available -> AppResources.strings.status_available_description.toLocalizedString()
+            Gw2ApiStatusType.Unavailable -> AppResources.strings.status_unavailable_description.format(status.message).toLocalizedString()
         }
 
         var shouldShowSnackbar by remember { mutableStateOf(false) }
         val host = LocalSnackbarHostState.current
-        val dismiss = KtxResources.strings.dismiss.localized().toUpperCase(LocalLocale.current)
+        val dismiss = KtxResources.strings.dismiss.toLocalizedString().toUpperCase(LocalLocale.current)
         LaunchedEffect(shouldShowSnackbar) {
             if (shouldShowSnackbar) {
                 host.showSnackbar(message, actionLabel = dismiss, duration = SnackbarDuration.Indefinite)

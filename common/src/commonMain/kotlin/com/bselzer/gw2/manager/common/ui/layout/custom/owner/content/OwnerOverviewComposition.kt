@@ -13,9 +13,9 @@ import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.common.Content
 import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.Data
 import com.bselzer.gw2.manager.common.ui.layout.custom.owner.model.OwnerOverview
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.row.spacedRowProjector
 import com.bselzer.ktx.function.collection.buildArray
-import com.bselzer.ktx.resource.strings.localized
 
 /**
  * Lays out the overview for the selected world's match.
@@ -48,7 +48,7 @@ class OwnerOverviewComposition(
 
     @Composable
     private fun OwnerOverview.Name() = Text(
-        text = owner.name.localized(),
+        text = owner.name.toLocalizedString(),
         fontWeight = FontWeight.Bold,
         color = owner.color,
     )
@@ -85,6 +85,6 @@ class OwnerOverviewComposition(
         verticalAlignment = Alignment.CenterVertically
     ) {
         image.Content(size = dataIconSize)
-        Text(text = data.localized())
+        Text(text = data.toLocalizedString())
     }
 }

@@ -10,8 +10,8 @@ import com.bselzer.gw2.v2.model.guild.GuildId
 import com.bselzer.gw2.v2.model.wvw.map.WvwMapObjective
 import com.bselzer.ktx.logging.Logger
 import dev.icerock.moko.resources.format
+import kotlin.time.Instant
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Instant
 
 class ClaimViewModel(
     context: AppComponentContext,

@@ -1,24 +1,25 @@
 [versions]
-coil = "3.0.2"
-decompose = "3.1.0"
-kotlin = "2.0.21"
-ktor = "3.0.1"
-moko-resources = "0.24.3"
-multiplatform-compose = "1.7.1"
-multiplatform-settings = "1.1.1"
-woody230-gradle = "1.8.0"
-woody230-gw2 = "4.0.0"
-woody230-gw2-manager-name = "1.9.0"
-woody230-gw2-manager-code = "25"
-woody230-ktx = "8.0.0"
+coil = "3.5.0"
+coroutine = "1.11.0"
+decompose = "3.5.0"
+kotlin = "2.4.0"
+ktor = "3.5.1"
+moko-resources = "0.26.4"
+multiplatform-compose = "1.11.1"
+multiplatform-settings = "1.3.0"
+woody230-gradle = "2.0.0" # NOTE need to manually update settings.gradle.kts
+woody230-gw2 = "4.1.0"
+woody230-gw2-manager-name = "1.10.0" # NOTE version of this project
+woody230-gw2-manager-code = "26" # NOTE version of this project
+woody230-ktx = "9.0.0"
 
 [libraries]
-android-material = { group = "com.google.android.material", name = "material", version = "1.12.0" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.9.3" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.0" }
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.15.0" }
-androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version = "1.1.1" }
-androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.8.7" }
+android-material = { group = "com.google.android.material", name = "material", version = "1.14.0" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.13.0" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.1" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.19.0" }
+androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version = "1.2.1" }
+androidx-lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version = "2.11.0" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil"}
 compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "multiplatform-compose" }
@@ -29,9 +30,12 @@ compose-ui-preview = { group = "org.jetbrains.compose.ui", name = "ui-tooling-pr
 compose-ui-util = { group = "org.jetbrains.compose.ui", name = "ui-util", version.ref = "multiplatform-compose" }
 decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
 decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose", version.ref = "decompose" }
-korlibs-io = { group = "com.soywiz", name = "korlibs-io", version = "6.0.1" }
+korlibs-io = { group = "com.soywiz", name = "korlibs-io", version = "6.0.2" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
-mapcompose = { group = "ovh.plrapps", name = "mapcompose", version = "2.12.12" }
+ktx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine" }
+ktx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
+ktx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "coroutine" }
+mapcompose = { group = "ovh.plrapps", name = "mapcompose", version = "3.2.8" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 settings-datastore = { group = "com.russhwolf", name = "multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
 woody230-gradle-internal-aboutlibraries-plugin = { group = "io.github.woody230.gradle.internal", name = "aboutlibraries-plugin", version.ref = "woody230-gradle" }
@@ -105,6 +109,7 @@ woody230-gradle-internal-aboutlibraries = { id = "io.github.woody230.gradle.inte
 woody230-gradle-internal-android-application = { id = "io.github.woody230.gradle.internal.android-application", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-desugar = { id = "io.github.woody230.gradle.internal.android-desugar", version.ref = "woody230-gradle" }
 woody230-gradle-internal-android-library = { id = "io.github.woody230.gradle.internal.android-library", version.ref = "woody230-gradle" }
+woody230-gradle-internal-multiplatform-android-library = { id = "io.github.woody230.gradle.internal.multiplatform-android-library", version.ref = "woody230-gradle" }
 woody230-gradle-internal-buildkonfig = { id = "io.github.woody230.gradle.internal.buildkonfig", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-android-target = { id = "io.github.woody230.gradle.internal.multiplatform-android-target", version.ref = "woody230-gradle" }
 woody230-gradle-internal-multiplatform-compose = { id = "io.github.woody230.gradle.internal.multiplatform-compose", version.ref = "woody230-gradle" }

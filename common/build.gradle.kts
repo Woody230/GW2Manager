@@ -5,45 +5,33 @@ import com.bselzer.gradle.multiplatform.configure.sourceset.multiplatformDepende
 
 plugins {
     // Order is important since there are checks on whether plugins exist.
-    id(libs.plugins.woody230.gradle.internal.android.library.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.android.library.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.android.desugar.get().pluginId)
 
     id(libs.plugins.woody230.gradle.internal.multiplatform.asProvider().get().pluginId)
-    id(libs.plugins.woody230.gradle.internal.multiplatform.android.target.get().pluginId)
 
-    // TODO re-enable
-    //id(libs.plugins.woody230.gradle.internal.multiplatform.jvm.target.get().pluginId)
+    id(libs.plugins.woody230.gradle.internal.multiplatform.jvm.target.get().pluginId)
 
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.asProvider().get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.test.get().pluginId)
 
-    // TODO re-enable
-    //alias(libs.plugins.moko.resources)
+    alias(libs.plugins.moko.resources)
     id(libs.plugins.woody230.gradle.internal.buildkonfig.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.aboutlibraries.get().pluginId)
 
     alias(libs.plugins.ktx.serialization)
 }
 
-androidLibraryExtension {
+multiplatformAndroidLibraryExtension {
     namespace.category.set(Metadata.CATEGORY)
     buildConfig.set(true)
 }
 
-android {
-    composeOptions {
-        // TODO need to add @NoLiveLiterals for GridComposition https://stackoverflow.com/a/71189923
-        useLiveLiterals = false
-    }
-}
-
-/* TODO re-enable
 multiplatformResources {
     resourcesPackage.set("${Metadata.PACKAGE_NAME}.common")
     resourcesClassName.set("AppResources")
 }
- */
 
 buildkonfig {
     packageName = Metadata.PACKAGE_NAME
@@ -65,8 +53,9 @@ multiplatformDependencies {
         api(libs.bundles.decompose)
         api(libs.bundles.woody230.gw2)
         api(libs.bundles.woody230.ktx)
-        api(libs.moko.resources)
         api(libs.korlibs.io)
+        api(libs.ktx.coroutines.core)
+        api(libs.moko.resources)
     }
     androidMain {
         api(libs.android.material)
@@ -76,12 +65,12 @@ multiplatformDependencies {
         api(libs.androidx.core.ktx)
         api(libs.androidx.lifecycle.runtime)
         api(libs.ktor.client.okhttp)
+        api(libs.ktx.coroutines.android)
         api(libs.mapcompose)
         api(libs.settings.datastore)
     }
-    /*
     jvmMain {
         api(libs.ktor.client.okhttp)
+        api(libs.ktx.coroutines.swing)
     }
-     */
 }

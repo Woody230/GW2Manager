@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.StatusViewModel
 import com.bselzer.gw2.manager.common.ui.theme.ThemedColorFilter
+import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.image.ImagePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.PreferencePresenter
@@ -12,8 +14,6 @@ import com.bselzer.ktx.compose.ui.layout.preference.switch.SwitchPreferenceInter
 import com.bselzer.ktx.compose.ui.layout.preference.switch.SwitchPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.switch.SwitchPreferenceProjector
 import com.bselzer.ktx.compose.ui.layout.switch.SwitchInteractor
-import com.bselzer.ktx.resource.images.painter
-import com.bselzer.ktx.resource.strings.localized
 
 class StatusComposition(
     model: StatusViewModel
@@ -37,8 +37,8 @@ class StatusComposition(
     @Composable
     private fun StatusViewModel.preferenceInteractor() = PreferenceInteractor(
         painter = resources.image.painter(),
-        title = resources.title.localized(),
-        subtitle = resources.subtitle.localized()
+        title = resources.title.toLocalizedString(),
+        subtitle = resources.subtitle.toLocalizedString()
     )
 
     @Composable

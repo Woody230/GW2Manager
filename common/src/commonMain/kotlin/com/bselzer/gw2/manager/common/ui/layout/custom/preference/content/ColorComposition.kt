@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.ColorViewModel
 import com.bselzer.gw2.manager.common.ui.theme.ThemedColorFilter
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.graphics.color.colorOrNull
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
@@ -24,8 +25,7 @@ import com.bselzer.ktx.compose.ui.layout.preference.textfield.TextFieldPreferenc
 import com.bselzer.ktx.compose.ui.layout.snackbarhost.LocalSnackbarHostState
 import com.bselzer.ktx.compose.ui.layout.text.textInteractor
 import com.bselzer.ktx.compose.ui.layout.textfield.TextFieldInteractor
-import com.bselzer.ktx.resource.images.painter
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.images.painter
 
 class ColorComposition(
     model: ColorViewModel,
@@ -69,7 +69,7 @@ class ColorComposition(
     @Composable
     private fun ColorViewModel.preferenceInteractor() = PreferenceInteractor(
         painter = resources.image.painter(),
-        title = resources.title.localized(),
+        title = resources.title.toLocalizedString(),
         subtitle = resources.subtitle.value
     )
 
@@ -77,7 +77,7 @@ class ColorComposition(
     private fun ColorViewModel.dialogInteractor() = AlertDialogInteractor.Builder(state) {
         logic.clearInput()
     }.triText().build {
-        title = resources.title.localized()
+        title = resources.title.toLocalizedString()
         closeOnNeutral { logic.onReset() }
         positive(scope = this)
     }
@@ -85,7 +85,7 @@ class ColorComposition(
     @Composable
     private fun ColorViewModel.positive(scope: AlertDialogInteractor.Builder) = with(scope) {
         val host = LocalSnackbarHostState.current
-        val failure = resources.failure.localized()
+        val failure = resources.failure.toLocalizedString()
         positiveEnabled = resources.hasValidInput
         closeOnPositive {
             if (!logic.onSave()) {
@@ -96,7 +96,7 @@ class ColorComposition(
 
     @Composable
     private fun ColorViewModel.input() = TextFieldInteractor(
-        value = resources.dialogInput.localized(),
+        value = resources.dialogInput.toLocalizedString(),
         onValueChange = { logic.updateInput(it) }
     )
 }

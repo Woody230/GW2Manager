@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstrainScope
-import androidx.constraintlayout.compose.ConstraintLayoutScope
+import com.bselzer.ktx.constraintlayout.compose.ConstrainScope
+import com.bselzer.ktx.constraintlayout.compose.ConstraintLayoutScope
 import com.bselzer.gw2.manager.common.ui.base.ModelComposition
 import com.bselzer.gw2.manager.common.ui.base.ShouldLayoutHorizontally
 import com.bselzer.gw2.manager.common.ui.layout.custom.contestedarea.viewmodel.ContestedAreasViewModel

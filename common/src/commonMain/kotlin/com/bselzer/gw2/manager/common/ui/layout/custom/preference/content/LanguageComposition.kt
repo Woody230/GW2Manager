@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.LanguageViewModel
 import com.bselzer.gw2.manager.common.ui.theme.ThemedColorFilter
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
@@ -19,8 +20,7 @@ import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPrefe
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferencePresenter
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceProjector
 import com.bselzer.ktx.intl.Locale
-import com.bselzer.ktx.resource.images.painter
-import com.bselzer.ktx.resource.strings.localized
+import com.bselzer.ktx.compose.resource.images.painter
 
 class LanguageComposition(
     model: LanguageViewModel,
@@ -57,15 +57,15 @@ class LanguageComposition(
     @Composable
     private fun LanguageViewModel.preferenceInteractor() = PreferenceInteractor(
         painter = resources.image.painter(),
-        title = resources.title.localized(),
-        subtitle = resources.subtitle.localized()
+        title = resources.title.toLocalizedString(),
+        subtitle = resources.subtitle.toLocalizedString()
     )
 
     @Composable
     private fun LanguageViewModel.dialogInteractor() = AlertDialogInteractor.Builder(state) {
         logic.resetSelection()
     }.triText().build {
-        title = resources.title.localized()
+        title = resources.title.toLocalizedString()
         closeOnPositive { logic.onSave() }
         closeOnNeutral { logic.onReset() }
     }

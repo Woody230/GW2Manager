@@ -8,6 +8,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.custom.preference.viewmodel.ZoomViewModel
+import com.bselzer.ktx.compose.resource.images.painter
+import com.bselzer.ktx.compose.resource.strings.toLocalizedString
 import com.bselzer.ktx.compose.ui.layout.alertdialog.AlertDialogInteractor
 import com.bselzer.ktx.compose.ui.layout.alertdialog.DialogState
 import com.bselzer.ktx.compose.ui.layout.alertdialog.openOnClick
@@ -19,8 +21,6 @@ import com.bselzer.ktx.compose.ui.layout.picker.PickerProjector
 import com.bselzer.ktx.compose.ui.layout.preference.PreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceInteractor
 import com.bselzer.ktx.compose.ui.layout.preference.alertdialog.AlertDialogPreferenceProjector
-import com.bselzer.ktx.resource.images.painter
-import com.bselzer.ktx.resource.strings.localized
 
 class ZoomComposition(
     model: ZoomViewModel,
@@ -46,15 +46,15 @@ class ZoomComposition(
     @Composable
     private fun ZoomViewModel.preferenceInteractor() = PreferenceInteractor(
         painter = resources.image.painter(),
-        title = resources.title.localized(),
-        subtitle = resources.subtitle.localized()
+        title = resources.title.toLocalizedString(),
+        subtitle = resources.subtitle.toLocalizedString()
     )
 
     @Composable
     private fun ZoomViewModel.dialogInteractor() = AlertDialogInteractor.Builder(state) {
         logic.clearInput()
     }.triText().build {
-        title = resources.title.localized()
+        title = resources.title.toLocalizedString()
         closeOnPositive { logic.onSave() }
         closeOnNeutral { logic.onReset() }
     }

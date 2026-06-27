@@ -10,7 +10,7 @@ woody230-gradle = "2.0.0" # NOTE need to manually update settings.gradle.kts
 woody230-gw2 = "4.1.0"
 woody230-gw2-manager-name = "1.10.0" # NOTE version of this project
 woody230-gw2-manager-code = "26" # NOTE version of this project
-woody230-ktx = "8.1.0"
+woody230-ktx = "9.0.0"
 
 [libraries]
 android-material = { group = "com.google.android.material", name = "material", version = "1.14.0" }

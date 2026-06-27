@@ -1,8 +1,8 @@
 package com.bselzer.gw2.manager.common.ui.layout.custom.upgrade.content
 
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayoutScope
-import androidx.constraintlayout.compose.Dimension
+import com.bselzer.ktx.constraintlayout.compose.ConstraintLayoutScope
+import com.bselzer.ktx.constraintlayout.compose.Dimension
 import com.bselzer.gw2.manager.common.ui.layout.common.ConstrainedModifierScope
 
 class UpgradeTierModifiers(override val scope: ConstraintLayoutScope) : ConstrainedModifierScope {

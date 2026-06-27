@@ -1,6 +1,6 @@
 package com.bselzer.gw2.manager.common.ui.layout.custom.indicator.content
 
-import androidx.constraintlayout.compose.ConstraintLayoutScope
+import com.bselzer.ktx.constraintlayout.compose.ConstraintLayoutScope
 import com.bselzer.gw2.manager.common.ui.layout.common.ConstrainedModifierScope
 
 class DetailedIconModifiers(override val scope: ConstraintLayoutScope) : ConstrainedModifierScope {

@@ -3,7 +3,7 @@ package com.bselzer.gw2.manager.common.ui.layout.main.content.map
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.constraintlayout.compose.ConstraintLayout
+import com.bselzer.ktx.constraintlayout.compose.ConstraintLayout
 import com.bselzer.gw2.manager.common.ui.base.ViewModelComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.content.map.viewer.PlatformGridComposition
 import com.bselzer.gw2.manager.common.ui.layout.main.content.map.viewer.SelectedLabelComposition

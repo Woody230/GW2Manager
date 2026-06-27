@@ -17,8 +17,7 @@ plugins {
     id(libs.plugins.woody230.gradle.internal.multiplatform.compose.test.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.multiplatform.test.get().pluginId)
 
-    // TODO re-enable
-    //alias(libs.plugins.moko.resources)
+    alias(libs.plugins.moko.resources)
     id(libs.plugins.woody230.gradle.internal.buildkonfig.get().pluginId)
     id(libs.plugins.woody230.gradle.internal.aboutlibraries.get().pluginId)
 
@@ -30,12 +29,10 @@ multiplatformAndroidLibraryExtension {
     buildConfig.set(true)
 }
 
-/* TODO re-enable
 multiplatformResources {
     resourcesPackage.set("${Metadata.PACKAGE_NAME}.common")
     resourcesClassName.set("AppResources")
 }
- */
 
 buildkonfig {
     packageName = Metadata.PACKAGE_NAME

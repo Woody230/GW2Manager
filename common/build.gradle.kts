@@ -53,8 +53,9 @@ multiplatformDependencies {
         api(libs.bundles.decompose)
         api(libs.bundles.woody230.gw2)
         api(libs.bundles.woody230.ktx)
-        api(libs.moko.resources)
         api(libs.korlibs.io)
+        api(libs.ktx.coroutines.core)
+        api(libs.moko.resources)
     }
     androidMain {
         api(libs.android.material)
@@ -64,10 +65,12 @@ multiplatformDependencies {
         api(libs.androidx.core.ktx)
         api(libs.androidx.lifecycle.runtime)
         api(libs.ktor.client.okhttp)
+        api(libs.ktx.coroutines.android)
         api(libs.mapcompose)
         api(libs.settings.datastore)
     }
     jvmMain {
         api(libs.ktor.client.okhttp)
+        api(libs.ktx.coroutines.swing)
     }
 }

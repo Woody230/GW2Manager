@@ -1,5 +1,6 @@
 [versions]
 coil = "3.5.0"
+coroutine = "1.11.0"
 decompose = "3.5.0"
 kotlin = "2.4.0"
 ktor = "3.5.0"
@@ -31,6 +32,9 @@ decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref
 decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose", version.ref = "decompose" }
 korlibs-io = { group = "com.soywiz", name = "korlibs-io", version = "6.0.2" }
 ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutine" }
+ktx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutine" }
+ktx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "coroutine" }
 mapcompose = { group = "ovh.plrapps", name = "mapcompose", version = "3.2.8" }
 moko-resources = { group = "dev.icerock.moko", name = "resources", version.ref = "moko-resources" }
 settings-datastore = { group = "com.russhwolf", name = "multiplatform-settings-datastore", version.ref = "multiplatform-settings" }
